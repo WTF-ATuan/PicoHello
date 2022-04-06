@@ -10,7 +10,7 @@ using UnityEngine;
 public class PXR_SDKSettingEditor : EditorWindow
 {
     public static PXR_SDKSettingEditor window;
-    public static string assetPath = "Packages/com.unity.xr.picoxr/Assets/Resources/";
+    public static string assetPath = "Assets/Plugins/Pico/Assets/Resources/";
     GUIContent myTitleContent = new GUIContent();
     static Language language = Language.English;
 
