@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using HelloPico2.Hand.Scripts.Event;
+using Project;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace HelloPico2.Menu.Interactable{
@@ -8,8 +11,12 @@ namespace HelloPico2.Menu.Interactable{
 		[SerializeField] private UnityEvent enterLevelViewEvent;
 
 
-		private void OnHandSelected(GameObject selectObject){
-			var instanceID = selectObject.gameObject.GetInstanceID();
+		private void Start(){
+			EventBus.Subscribe<HandSelected>(OnHandSelected);
+		}
+
+		private void OnHandSelected(HandSelected selected){
+			var instanceID = selected.SelectedInstanceID;
 			var isEquals = enterLevelTarget.GetInstanceID().Equals(instanceID);
 			if(isEquals){
 				EnterLevel();
