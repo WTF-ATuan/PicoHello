@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 namespace HelloPico2.Menu.Interactable{
 	public class MenuPresenter : MonoBehaviour{
