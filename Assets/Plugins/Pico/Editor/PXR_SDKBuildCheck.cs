@@ -19,7 +19,7 @@ using Debug = UnityEngine.Debug;
 
 namespace Unity.XR.PXR.Editor
 {
-    [InitializeOnLoad]
+    //[InitializeOnLoad]
     public static class PXR_SDKBuildCheck
     {
         private static bool doNotShowAgain = false;
