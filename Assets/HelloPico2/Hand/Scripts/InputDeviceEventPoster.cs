@@ -1,18 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class InputDeviceEventPoster : MonoBehaviour{
-	private InputDevice currentDevice => _controller.inputDevice;
 	private XRDirectInteractor _interactor;
-	private XRController _controller;
 
 	private void Start(){
 		_interactor = GetComponent<XRDirectInteractor>();
-		_controller = GetComponent<XRController>();
 		RegisterEvent();
 	}
 
