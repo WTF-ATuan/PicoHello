@@ -9,8 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: SetLevel2
   m_Shader: {fileID: 4800000, guid: 22a3ef1fe2521774f88dbbca118e0590, type: 3}
-  m_ShaderKeywords: _EDGECOLORRAMP_USE _EMISSION _GLOSSYREFLECTIONS_OFF _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
-    _SPECULARHIGHLIGHTS_OFF
+  m_ShaderKeywords: _DISSOLVEGLOW_ON _EDGECOLORRAMP_USE _EMISSION _GLOSSYREFLECTIONS_OFF
+    _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A _SPECULARHIGHLIGHTS_OFF
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -49,7 +49,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EdgeColorRamp:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: ae273ff0a9c4d81478ab53ed69606cd8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -90,9 +90,9 @@ Material:
     - _DetailNormalMapScale: 1
     - _DissolveAmount: 0.38
     - _DissolveDelay: 0.1
-    - _DissolveGlow: 0
+    - _DissolveGlow: 1
     - _DissolveGlowFollow: 0
-    - _DissolveGlowIntensity: 0.5
+    - _DissolveGlowIntensity: 0.018
     - _DissolveRampUp: 4.56
     - _DstBlend: 0
     - _EdgeThickness: 0.5
@@ -113,7 +113,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DissolveGlowColor: {r: 0.8867924, g: 0.8867924, b: 0.8867924, a: 1}
+    - _DissolveGlowColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 1.1171654, g: 0.9775197, b: 0.8603976, a: 1}
     - _InnerEdgeColor: {r: 1, g: 1, b: 0, a: 1}
     - _OuterEdgeColor: {r: 1, g: 0, b: 0, a: 1}
