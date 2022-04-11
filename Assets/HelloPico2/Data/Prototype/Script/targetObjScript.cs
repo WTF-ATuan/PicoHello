@@ -5,6 +5,9 @@ using UnityEngine;
 public class targetObjScript : MonoBehaviour
 {
     public float shakeAmount = 0.05f;
+    public AudioClip[] hitAudio;
+    public int targetType=0;
+    AudioSource source;
     bool isShake;
     Vector3 firstPos;
     Vector3 localScale;
@@ -15,6 +18,7 @@ public class targetObjScript : MonoBehaviour
     {
         firstPos = this.transform.localPosition;
         localScale = this.transform.localScale;
+        source = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -25,17 +29,28 @@ public class targetObjScript : MonoBehaviour
         pos.y = transform.localPosition.y;
         transform.localPosition = pos;
         Invoke("ShakeStop", 1.0f);
-        if(this.transform.localScale.z <= localScale.z*0.3f || this.transform.localScale.y<= localScale.z * 0.3f)
+        if (targetType == 0)
         {
-            Destroy(this.gameObject);
+            if (this.transform.localScale.z <= localScale.z * 0.3f || this.transform.localScale.y <= localScale.z * 0.3f)
+            {
+                source.PlayOneShot(hitAudio[1], 1);
+                Destroy(this.gameObject,1);
+
+            }
         }
+        
     }
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag=="ball")
         {
             isShake = true;
-            this.transform.localScale = new Vector3(this.transform.localScale.x* scaleSize, this.transform.localScale.y * scaleSize, this.transform.localScale.z * scaleSize);
+            if (targetType == 0)
+            {
+                this.transform.localScale = new Vector3(this.transform.localScale.x * scaleSize, this.transform.localScale.y * scaleSize, this.transform.localScale.z * scaleSize);
+            }
+            
+            source.PlayOneShot(hitAudio[0],1);
         }
     }
     void ShakeStop()

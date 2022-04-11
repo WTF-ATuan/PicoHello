@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class createBallScript : MonoBehaviour
+public class createScaneBallScript : MonoBehaviour
 {
     public bool isCreate;
     public float timer;
@@ -19,7 +19,8 @@ public class createBallScript : MonoBehaviour
     }
     void CreateObj()
     {
-        Vector3 pos = new Vector3(outPos.transform.localPosition.x + Random.Range(-3.5f, 3.5f), outPos.transform.localPosition.y + Random.Range(-1, 3), outPos.transform.localPosition.z + Random.Range(-1, 2));
+        Vector3 pos = new Vector3(outPos.transform.localPosition.x + Random.Range(-6, 6), outPos.transform.localPosition.y + Random.Range(-1, 5), outPos.transform.localPosition.z + Random.Range(-1, 3));
+
         Instantiate(insObj[Random.Range(0,randRange)], pos,Quaternion.identity);
     }
     // Update is called once per frame

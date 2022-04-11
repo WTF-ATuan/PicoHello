@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class BallGrabScript : MonoBehaviour
 {
+    public GameObject DeletSeat;
     public bool isDestroy = false;
+    
     bool isKinCheck = false;
     // Start is called before the first frame update
     void Start()
     {
+    
         if (isDestroy == true)
         {
-            Destroy(gameObject, 10);
+            Destroy(gameObject, Random.Range(8.0f,16.0f));
         }
         
     }
@@ -25,15 +28,11 @@ public class BallGrabScript : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            ChangeKin();
+            Destroy(DeletSeat);
         }
-        else if(other.tag == "target" || other.tag =="ground")
+        else if (other.tag == "target" || other.tag == "ground")
         {
             Destroy(this.gameObject);
         }
-    }
-    void ChangeKin()
-    {
-        this.GetComponent<Rigidbody>().isKinematic = false;
     }
 }
