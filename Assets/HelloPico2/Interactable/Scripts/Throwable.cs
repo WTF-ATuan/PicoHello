@@ -30,12 +30,7 @@ namespace HelloPico2.Interactable.Scripts{
 		}
 
 		private void OnSelectExited(SelectExitEventArgs obj){
-			if(timer.CanInvoke()){
-				grabInteractable.throwOnDetach = true;
-			}
-			else{
-				grabInteractable.throwOnDetach = false;
-			}
+			grabInteractable.throwOnDetach = !timer.CanInvoke();
 		}
 	}
 }
