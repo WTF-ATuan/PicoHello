@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Game.Project;
+using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
 namespace HelloPico2.Interactable.Scripts{
@@ -12,20 +13,29 @@ namespace HelloPico2.Interactable.Scripts{
 		public Vector3 Velocity => rigidbody.velocity;
 		public float Speed => rigidbody.velocity.magnitude;
 
-		private XRBaseInteractable interactableComponent;
+		private XRGrabInteractable grabInteractable;
 		private new Rigidbody rigidbody;
+		private ColdDownTimer timer;
 
 		private void Start(){
 			rigidbody = GetComponent<Rigidbody>();
-			interactableComponent = GetComponent<XRBaseInteractable>();
-			interactableComponent.selectEntered.AddListener(OnSelectEntered);
-			interactableComponent.selectExited.AddListener(OnSelectExited);
+			grabInteractable = GetComponent<XRGrabInteractable>();
+			timer = new ColdDownTimer(chargeTime);
+			grabInteractable.selectEntered.AddListener(OnSelectEntered);
+			grabInteractable.selectExited.AddListener(OnSelectExited);
+		}
+
+		private void OnSelectEntered(SelectEnterEventArgs obj){
+			timer.Reset();
 		}
 
 		private void OnSelectExited(SelectExitEventArgs obj){
-			
+			if(timer.CanInvoke()){
+				grabInteractable.throwOnDetach = true;
+			}
+			else{
+				grabInteractable.throwOnDetach = false;
+			}
 		}
-
-		private void OnSelectEntered(SelectEnterEventArgs obj){ }
 	}
 }
