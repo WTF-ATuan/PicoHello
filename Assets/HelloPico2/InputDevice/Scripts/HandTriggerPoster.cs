@@ -2,16 +2,16 @@
 using UnityEngine;
 
 namespace HelloPico2.InputDevice.Scripts{
-	[RequireComponent(typeof(InputDevice.Scripts.Hand))]
+	[RequireComponent(typeof(Hand))]
 	//TODO need refactor event poster;
 	public class HandTriggerPoster : MonoBehaviour{
-		private InputDevice.Scripts.Hand hand;
+		private Hand hand;
 
 		//Todo roughTest
 		private Coroutine createCoroutine;
 
 		private void Start(){
-			hand = GetComponent<InputDevice.Scripts.Hand>();
+			hand = GetComponent<Hand>();
 		}
 
 		//TODO need refactor 
