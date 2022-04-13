@@ -10,27 +10,23 @@ namespace HelloPico2.Interactable.Scripts{
 		[SerializeField] private float chargeTime = 2f;
 
 
-		public Vector3 Velocity => rigidbody.velocity;
-		public float Speed => rigidbody.velocity.magnitude;
-
-		private XRGrabInteractable grabInteractable;
-		private new Rigidbody rigidbody;
-		private ColdDownTimer timer;
+		private XRGrabInteractable _grabInteractable;
+		private ColdDownTimer _timer;
 
 		private void Start(){
-			rigidbody = GetComponent<Rigidbody>();
-			grabInteractable = GetComponent<XRGrabInteractable>();
-			timer = new ColdDownTimer(chargeTime);
-			grabInteractable.selectEntered.AddListener(OnSelectEntered);
-			grabInteractable.selectExited.AddListener(OnSelectExited);
+			_grabInteractable = GetComponent<XRGrabInteractable>();
+			_timer = new ColdDownTimer(chargeTime);
+			_grabInteractable.selectEntered.AddListener(OnSelectEntered);
+			_grabInteractable.selectExited.AddListener(OnSelectExited);
+			_grabInteractable.throwVelocityScale *= additionForce;
 		}
 
 		private void OnSelectEntered(SelectEnterEventArgs obj){
-			timer.Reset();
+			_timer.Reset();
 		}
 
 		private void OnSelectExited(SelectExitEventArgs obj){
-			grabInteractable.throwOnDetach = !timer.CanInvoke();
+			_grabInteractable.throwOnDetach = _timer.CanInvoke();
 		}
 	}
 }
