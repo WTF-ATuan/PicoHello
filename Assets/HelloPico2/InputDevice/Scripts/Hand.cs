@@ -5,5 +5,6 @@ namespace HelloPico2.InputDevice.Scripts{
 		[SerializeField] public Transform palmTransform;
 		
 		public Vector3 palmPoint => palmTransform.position;
+
 	}
 }

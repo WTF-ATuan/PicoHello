@@ -7,11 +7,14 @@ namespace HelloPico2.InputDevice.Scripts{
 	public class HandTriggerPoster : MonoBehaviour{
 		private Hand hand;
 
+		public Transform[] InsElement;//Jeremy create Ins
+		int insLength;
 		//Todo roughTest
 		private Coroutine createCoroutine;
 
 		private void Start(){
 			hand = GetComponent<Hand>();
+			insLength = InsElement.Length;
 		}
 
 		//TODO need refactor 
@@ -35,10 +38,15 @@ namespace HelloPico2.InputDevice.Scripts{
 
 		private IEnumerator DelayCreating(float delayTime){
 			yield return new WaitForSeconds(delayTime);
-			var sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+			/*var sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 			sphere.transform.position = hand.palmPoint;
 			sphere.transform.localScale = Vector3.one * 0.2f;
-			sphere.GetComponent<Collider>().enabled = false;
+			sphere.GetComponent<Collider>().enabled = false;*/
+
+			Vector3 insElepos = new Vector3(hand.palmPoint.x, hand.palmPoint.y + 0.2f, hand.palmPoint.z);
+			Instantiate(InsElement[Random.Range(0, insLength)], insElepos, Quaternion.identity);
+			
+			
 		}
 	}
 }
