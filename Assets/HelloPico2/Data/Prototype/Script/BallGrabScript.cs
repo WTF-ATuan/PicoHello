@@ -4,14 +4,26 @@ using UnityEngine;
 
 public class BallGrabScript : MonoBehaviour
 {
-    public GameObject DeletSeat;
+    public float missTime = 0.5f;
+    public float missSpeed = 0.2f;
+    public float defaultSpeed = 1.0f;
+    public float maxSpeed = 10.0f;
+    float speed;
     public bool isDestroy = false;
+    public Animator anim;
+    public AudioClip[] hitAudio;
+    AudioSource source;
+    bool isShoot = false;
+    bool isSel = false;
+    Vector3 localPos;
+    float countTime = 0.0f;
     
-    bool isKinCheck = false;
-    // Start is called before the first frame update
+// Start is called before the first frame update
     void Start()
     {
-    
+        anim = GetComponent<Animator>();
+        source = GetComponent<AudioSource>();
+
         if (isDestroy == true)
         {
             Destroy(gameObject, Random.Range(8.0f,16.0f));
@@ -20,19 +32,64 @@ public class BallGrabScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
+        if (isSel == true)
+        {
+            countTime += Time.deltaTime;
+        }
+
+        if (!isShoot) return;
+
+        if (speed == missSpeed)
+        {
+            transform.Translate(Vector3.up * Time.deltaTime * speed, Space.Self);
+            transform.localScale = new Vector3(transform.localScale.x * 0.3f, transform.localScale.y * 0.3f, transform.localScale.z * 0.3f);
+            Destroy(this.gameObject, 0.8f);
+        }
+        else
+        {
+            
+            transform.Translate(Vector3.forward * Time.deltaTime*speed , Space.Self);
+
+        }
         
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
-        {
-            Destroy(DeletSeat);
-        }
-        else if (other.tag == "target" || other.tag == "ground")
+        if (other.tag == "target" || other.tag == "ground")
         {
             Destroy(this.gameObject);
         }
+    }
+    public void ballSelect()
+    {
+        isSel = true;
+        GetComponent<SphereCollider>().radius = 0.05f;
+    }
+    public void shootBall()
+    {
+        localPos = transform.localPosition;
+        isSel = false;
+        
+        if (countTime < missTime)
+        {
+            source.PlayOneShot(hitAudio[0], 1);
+            anim.SetBool("isClose",true);
+            speed = missSpeed;
+        }
+        else if (0.3f < countTime && countTime < 2.0f)
+        {
+            anim.speed = 0;
+            speed = defaultSpeed;
+            source.PlayOneShot(hitAudio[1], 1);
+        }
+        else if (countTime > 2.0f)
+        {
+            anim.speed = 0;
+            speed = maxSpeed;
+            source.PlayOneShot(hitAudio[2], 1);
+        }
+        isShoot = true;
     }
 }
