@@ -101,13 +101,13 @@ public class BubbleGun : MonoBehaviour
     }
     public void getacBall()
     {
-        m_scollider.radius = 0.001f;
+        //m_scollider.radius = 0.001f;
         isGet = true;
         m_getTime = m_desTime;
     }
     public void disgetacBall()
     {
-        m_scollider.radius = 0.1f;
+        //m_scollider.radius = 0.1f;
         isGet = false;
     }
 }
