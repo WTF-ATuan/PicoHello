@@ -4,19 +4,19 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
 namespace HelloPico2.InputDevice.Scripts{
-	public class InputDeviceEventPoster : MonoBehaviour{
-		private XRBaseInteractor interactor;
+	public class InteractorEventPoster : MonoBehaviour{
+		private XRBaseInteractor _interactor;
 
 		private void Start(){
-			interactor = GetComponent<XRBaseInteractor>();
+			_interactor = GetComponent<XRBaseInteractor>();
 			RegisterEvent();
 		}
 
 		private void RegisterEvent(){
-			interactor.hoverEntered.AddListener(x => HandleHoverEvent(x, true));
-			interactor.hoverExited.AddListener(x => HandleHoverEvent(x, false));
-			interactor.selectEntered.AddListener(x => HandleSelectEvent(x, true));
-			interactor.selectExited.AddListener(x => HandleSelectEvent(x, false));
+			_interactor.hoverEntered.AddListener(x => HandleHoverEvent(x, true));
+			_interactor.hoverExited.AddListener(x => HandleHoverEvent(x, false));
+			_interactor.selectEntered.AddListener(x => HandleSelectEvent(x, true));
+			_interactor.selectExited.AddListener(x => HandleSelectEvent(x, false));
 		}
 
 		private void HandleHoverEvent(BaseInteractionEventArgs eventArgs, bool isEnter){
