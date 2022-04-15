@@ -24,7 +24,7 @@ public class BallGrabScript : MonoBehaviour{
 		anim = GetComponent<Animator>();
 		source = GetComponent<AudioSource>();
 		_rigidbody = GetComponent<Rigidbody>();
-		Invoke("destroyObj", 3);
+		Invoke("destroyObj", Random.Range(3,10));
 	}
 
 	// Update is called once per frame
