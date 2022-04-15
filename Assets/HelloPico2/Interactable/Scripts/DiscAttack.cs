@@ -58,7 +58,6 @@ namespace HelloPico2.Interactable.Scripts{
 
 		private struct InteractData{
 			public bool IsSelected;
-			public bool IsHovered;
 			public XRNode ControllerNode;
 		}
 	}
