@@ -8,7 +8,7 @@ public class BallGrabScript : MonoBehaviour{
 	public float defaultSpeed = 1.0f;
 	public float maxSpeed = 10.0f;
 	float speed;
-	public bool isDestroy = false;
+	public float destroyTime=3f;
 	public Animator anim;
 	public AudioClip[] hitAudio;
 	AudioSource source;
@@ -24,10 +24,7 @@ public class BallGrabScript : MonoBehaviour{
 		anim = GetComponent<Animator>();
 		source = GetComponent<AudioSource>();
 		_rigidbody = GetComponent<Rigidbody>();
-
-		if(isDestroy == true){
-			Destroy(gameObject, Random.Range(8.0f, 16.0f));
-		}
+		Invoke("destroyObj", 3);
 	}
 
 	// Update is called once per frame
@@ -46,9 +43,14 @@ public class BallGrabScript : MonoBehaviour{
 		}
 		else{
 			var velocityMagnitude = _rigidbody.velocity.magnitude;
-			if(velocityMagnitude < 1f){
+			if(velocityMagnitude < 20f){
 				transform.Translate(Vector3.forward * Time.deltaTime * speed, Space.Self);
 			}
+            else
+            {
+				_rigidbody.isKinematic = false;
+				_rigidbody.useGravity = true;
+            }
 		}
 	}
 
@@ -56,6 +58,15 @@ public class BallGrabScript : MonoBehaviour{
 		if(other.tag == "target" || other.tag == "ground"){
 			Destroy(this.gameObject);
 		}
+		if(other.tag == "Player")
+        {
+			CancelInvoke("destroyObj");
+		}
+	}
+	
+	private void destroyObj()
+    {
+		Destroy(gameObject);
 	}
 
 	public void ballSelect(){

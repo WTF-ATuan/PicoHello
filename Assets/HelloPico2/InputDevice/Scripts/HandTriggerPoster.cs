@@ -43,7 +43,7 @@ namespace HelloPico2.InputDevice.Scripts{
 			sphere.transform.localScale = Vector3.one * 0.2f;
 			sphere.GetComponent<Collider>().enabled = false;*/
 
-			Vector3 insElepos = new Vector3(hand.palmPoint.x, hand.palmPoint.y + 0.2f, hand.palmPoint.z);
+			Vector3 insElepos = new Vector3(hand.palmPoint.x, hand.palmPoint.y +0.5f, hand.palmPoint.z);
 			Instantiate(InsElement[Random.Range(0, insLength)], insElepos, Quaternion.identity);
 			
 			
