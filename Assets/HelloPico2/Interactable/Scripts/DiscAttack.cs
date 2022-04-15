@@ -5,15 +5,11 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 namespace HelloPico2.Interactable.Scripts{
 	public class DiscAttack : MonoBehaviour{
-		[SerializeField] private float chargeTime = 2f;
 		private XRGrabInteractable _grabInteractable;
-		private ColdDownTimer _timer;
-
 		private InteractData _interactData;
 
 		private void Start(){
 			_grabInteractable = GetComponent<XRGrabInteractable>();
-			_timer = new ColdDownTimer(chargeTime);
 			_grabInteractable.selectEntered.AddListener(OnSelectEntered);
 			_grabInteractable.selectExited.AddListener(OnSelectExited);
 			_grabInteractable.hoverEntered.AddListener(OnHoverEntered);
