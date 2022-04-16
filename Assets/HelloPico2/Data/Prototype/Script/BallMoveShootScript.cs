@@ -24,7 +24,7 @@ public class BallMoveShootScript : MonoBehaviour
         else
         {
             transform.Translate(Vector3.back * Time.deltaTime * speed, Space.Self);
-            Destroy(gameObject, Random.Range(5,10));
+            Destroy(gameObject, Random.Range(5,8));
         }
  
     }

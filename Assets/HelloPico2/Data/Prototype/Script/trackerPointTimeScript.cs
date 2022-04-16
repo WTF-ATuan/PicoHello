@@ -6,6 +6,8 @@ public class trackerPointTimeScript : MonoBehaviour
 {
     public GameObject TrackerPointL;
     public GameObject TrackerPointR;
+    public int minTime=3 ;
+    public int maxTime=30;
     int showTime;
     bool isWaiting = true;
     float timeCount;
@@ -13,7 +15,7 @@ public class trackerPointTimeScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timeCount = 20;
+        timeCount = 30;
     }
 
     // Update is called once per frame
@@ -31,7 +33,7 @@ public class trackerPointTimeScript : MonoBehaviour
     }
     private void ChangeTime()
     {
-        showTime = Random.Range(3, 30);
+        showTime = Random.Range(minTime, maxTime);
         timeCount = showTime;
     }
 }
