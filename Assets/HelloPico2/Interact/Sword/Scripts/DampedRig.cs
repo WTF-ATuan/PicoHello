@@ -15,8 +15,11 @@ namespace HelloPico2.Interact.Sword.Scripts{
 		public void AddRig(Transform parent, Transform current){
 			var addedObject = Instantiate(new GameObject(), current.position, current.rotation, rig);
 			var dampedComponent = addedObject.AddComponent<DampedTransform>();
-			dampedComponent.data.constrainedObject = parent;
-			dampedComponent.data.sourceObject = current;
+			dampedComponent.data.sourceObject = parent;
+			dampedComponent.data.constrainedObject = current;
+			dampedComponent.data.dampPosition = 0.5f;
+			dampedComponent.data.dampRotation = 0.5f;
+			dampedComponent.data.maintainAim = true;
 			_dampedTransformList.Add(dampedComponent);
 		}
 

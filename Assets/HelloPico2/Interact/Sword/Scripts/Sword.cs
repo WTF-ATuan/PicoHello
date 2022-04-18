@@ -17,10 +17,9 @@ namespace HelloPico2.Interact.Sword.Scripts{
 		}
 
 		public void AddBladeComponent(){
-			//複製一份最後面的 
 			var lastComponent = bladeComponentList.Last();
-			var addedComponent = Instantiate(lastComponent, lastComponent.position, Quaternion.identity, lastComponent);
-			//加上他的Local Position
+			var addedComponent =
+					Instantiate(lastComponent, lastComponent.position, lastComponent.rotation, lastComponent);
 			var lastComponentLocalPosition = lastComponent.localPosition;
 			addedComponent.localPosition = lastComponentLocalPosition;
 			bladeComponentList.Add(addedComponent);
