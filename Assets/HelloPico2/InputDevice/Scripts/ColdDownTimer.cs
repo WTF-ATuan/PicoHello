@@ -24,5 +24,6 @@ namespace Game.Project{
 			var currentTime = Time.time;
 			TrackTime = currentTime + During;
 		}
+
 	}
 }

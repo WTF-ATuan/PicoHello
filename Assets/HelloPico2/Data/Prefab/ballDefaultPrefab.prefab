@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 8676803176363118267}
   - component: {fileID: 2921929531043805292}
   - component: {fileID: 6436005928757619411}
+  - component: {fileID: 661778757236082277}
   m_Layer: 0
   m_Name: ballDefaultPrefab
   m_TagString: ball
@@ -50,7 +51,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -95,34 +96,10 @@ MonoBehaviour:
       m_Calls: []
   m_SelectEntered:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8676803176363118247}
-        m_TargetAssemblyTypeName: BallGrabScript, Assembly-CSharp
-        m_MethodName: ballSelect
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_SelectExited:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8676803176363118247}
-        m_TargetAssemblyTypeName: BallGrabScript, Assembly-CSharp
-        m_MethodName: shootBall
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_Activated:
     m_PersistentCalls:
       m_Calls: []
@@ -228,6 +205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   missTime: 0.5
+  maxTime: 2
   missSpeed: 0.2
   defaultSpeed: 5
   maxSpeed: 15
@@ -237,6 +215,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: bfd7c304f322ff04d9ccfd527a11cc85, type: 3}
   - {fileID: 8300000, guid: 46dd37e7ce511b442bfd27002d8c56db, type: 3}
   - {fileID: 8300000, guid: af94bc75cbd2c29409eb9ca43e92ae82, type: 3}
+  additionForce: 2
+  chargeTime: 2
 --- !u!95 &8676803176363118267
 Animator:
   serializedVersion: 3
@@ -364,6 +344,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0269de19ee04415fa2448b2576ff1341, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &661778757236082277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8676803176363118241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b84cde8c51a14cceb71b6f3d7cd5f5c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  additionForce: 1
+  chargeTime: 2
 --- !u!1001 &4704387603932066258
 PrefabInstance:
   m_ObjectHideFlags: 0

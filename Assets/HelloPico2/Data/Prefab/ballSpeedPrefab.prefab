@@ -49,7 +49,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -94,34 +94,10 @@ MonoBehaviour:
       m_Calls: []
   m_SelectEntered:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2188618980087160404}
-        m_TargetAssemblyTypeName: BallGrabScript, Assembly-CSharp
-        m_MethodName: ballSelect
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_SelectExited:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2188618980087160404}
-        m_TargetAssemblyTypeName: BallGrabScript, Assembly-CSharp
-        m_MethodName: shootBall
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_Activated:
     m_PersistentCalls:
       m_Calls: []
@@ -227,6 +203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   missTime: 0.3
+  maxTime: 2
   missSpeed: 0.3
   defaultSpeed: 10
   maxSpeed: 20
@@ -236,6 +213,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: bfd7c304f322ff04d9ccfd527a11cc85, type: 3}
   - {fileID: 8300000, guid: e505b8de9a680d1469cfb59268d6dd31, type: 3}
   - {fileID: 8300000, guid: 2a80616e4b4873545a22ec4c3fd785cc, type: 3}
+  additionForce: 1
+  chargeTime: 2
 --- !u!95 &2188618980087160392
 Animator:
   serializedVersion: 3
