@@ -1,12 +1,15 @@
-﻿using HelloPico2.Hand.Scripts.Event;
+﻿using System.Collections.Generic;
+using System.Linq;
+using HelloPico2.Hand.Scripts.Event;
 using Project;
 using UnityEngine;
 using UnityEngine.XR;
-using UnityEngine.XR.Interaction.Toolkit;
 
 namespace HelloPico2.InputDevice.Scripts{
 	public class InputDeviceTrigger : MonoBehaviour{
-		private XRController _xrController;
+		[SerializeField] private InputDeviceCharacteristics controllerCharacteristics =
+				InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
+
 		private UnityEngine.XR.InputDevice _inputDevice;
 
 		private IGrip _grip;
@@ -16,8 +19,9 @@ namespace HelloPico2.InputDevice.Scripts{
 		private ISecondaryButton _secondaryButton;
 
 		private void Start(){
-			_xrController = GetComponent<XRController>();
-			_inputDevice = _xrController.inputDevice;
+			var inputDevices = new List<UnityEngine.XR.InputDevice>();
+			InputDevices.GetDevicesWithCharacteristics(controllerCharacteristics, inputDevices);
+			_inputDevice = inputDevices.First();
 			EventBus.Subscribe<HandSelected>(OnHandSelected);
 		}
 
@@ -47,7 +51,6 @@ namespace HelloPico2.InputDevice.Scripts{
 			_inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out var touchPadAxis);
 			_inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out var primaryButtonValue);
 			_inputDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out var secondaryButtonValue);
-
 
 			if(gripValue > 0.1f){
 				_grip?.OnGrip(gripValue);
