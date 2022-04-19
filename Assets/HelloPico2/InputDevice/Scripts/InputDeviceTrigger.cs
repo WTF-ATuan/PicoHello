@@ -1,4 +1,5 @@
 ﻿using HelloPico2.Hand.Scripts.Event;
+using Project;
 using UnityEngine;
 using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -17,12 +18,27 @@ namespace HelloPico2.InputDevice.Scripts{
 		private void Start(){
 			_xrController = GetComponent<XRController>();
 			_inputDevice = _xrController.inputDevice;
+			EventBus.Subscribe<HandSelected>(OnHandSelected);
+		}
 
-			_grip = GetComponent<IGrip>();
-			_trigger = GetComponent<ITrigger>();
-			_touchPad = GetComponent<ITouchPad>();
-			_primaryButton = GetComponent<IPrimaryButton>();
-			_secondaryButton = GetComponent<ISecondaryButton>();
+		//Demo First refactor Todo
+		private void OnHandSelected(HandSelected obj){
+			var isEnter = obj.IsEnter;
+			if(isEnter){
+				var selectedObject = obj.SelectedObject;
+				_grip = selectedObject.GetComponent<IGrip>();
+				_trigger = selectedObject.GetComponent<ITrigger>();
+				_touchPad = selectedObject.GetComponent<ITouchPad>();
+				_primaryButton = selectedObject.GetComponent<IPrimaryButton>();
+				_secondaryButton = selectedObject.GetComponent<ISecondaryButton>();
+			}
+			else{
+				_grip = null;
+				_trigger = null;
+				_touchPad = null;
+				_primaryButton = null;
+				_secondaryButton = null;
+			}
 		}
 
 		private void Update(){
