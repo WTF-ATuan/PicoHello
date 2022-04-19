@@ -23,8 +23,8 @@ namespace HelloPico2.InputDevice.Scripts{
 			_inputDevice.TryGetFeatureValue(CommonUsages.trigger, out var triggerValue);
 			_inputDevice.TryGetFeatureValue(CommonUsages.grip, out var gripValue);
 			_inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out var touchPadAxis);
-			_inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out bool primaryButtonValue);
-			_inputDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out bool secondaryButtonValue);
+			_inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out var primaryButtonValue);
+			_inputDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out var secondaryButtonValue);
 
 			
 			if (triggerValue > 0.1f)
@@ -42,14 +42,14 @@ namespace HelloPico2.InputDevice.Scripts{
 				OnTouchPad(touchPadAxis);
 			}
 
-			if (primaryButtonValue == true)
+			if (primaryButtonValue)
 			{
-				OnPrimayBtn(primaryButtonValue);
+				OnPrimayBtn(true);
 			}
 
-			if (secondaryButtonValue == true)
+			if (secondaryButtonValue)
 			{
-				OnSecondBtn(secondaryButtonValue);
+				OnSecondBtn(true);
 			}
 			
 		}
