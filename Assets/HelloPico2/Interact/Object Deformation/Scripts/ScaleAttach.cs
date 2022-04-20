@@ -13,11 +13,11 @@ namespace HelloPico2.Interact.Object_Deformation.Scripts{
 		}
 
 		private void OnSelectEnter(SelectEnterEventArgs arg0){
-			transform.localScale *= 2;
+			transform.localScale /= 2;
 		}
 
 		private void OnSelectExited(SelectExitEventArgs arg0){
-			transform.localScale /= 2;
+			transform.localScale *= 2;
 		}
 	}
 }
