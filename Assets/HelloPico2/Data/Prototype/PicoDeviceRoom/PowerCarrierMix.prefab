@@ -15,8 +15,9 @@ GameObject:
   - component: {fileID: 1551483034001454109}
   - component: {fileID: 451444242240567391}
   - component: {fileID: -6786063862408623921}
+  - component: {fileID: -6141342527590464859}
   m_Layer: 0
-  m_Name: PowerCarrier
+  m_Name: PowerCarrierMix
   m_TagString: ball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,7 +66,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.4
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0, z: -0.1}
 --- !u!114 &239157792992893832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,6 +204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 8836909549559709212, guid: aa2726d7441167c43a76d62bdcdf3bd3, type: 3}
+  _shootTime: 0.3
 --- !u!114 &451444242240567391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,6 +232,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _strength: 0.8
   _time: 100
+--- !u!114 &-6141342527590464859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 239157792992893836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d21ea25d31967b94da76bbea6d2cf41e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2498753411566048236
 PrefabInstance:
   m_ObjectHideFlags: 0

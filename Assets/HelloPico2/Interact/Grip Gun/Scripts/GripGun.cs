@@ -8,7 +8,7 @@ namespace HelloPico2.Interact.Grip_Gun{
 		private XRBaseInteractable _interactable;
 		private PowerCarrier _powerCarrier;
 		[SerializeField] private GameObject bulletPrefab;
-
+		[SerializeField] float _shootTime;
 		private ColdDownTimer _timer;
 
 
@@ -21,7 +21,7 @@ namespace HelloPico2.Interact.Grip_Gun{
 			_interactable.selectEntered.AddListener(x => { _isSelect = true; });
 			_interactable.selectExited.AddListener(x => { _isSelect = false; });
 
-			_timer = new ColdDownTimer(2f);
+			_timer = new ColdDownTimer(_shootTime);
 		}
 
 		public void OnTrigger(float triggerValue){
