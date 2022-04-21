@@ -142,8 +142,8 @@ namespace HelloPico2.Interact.SpineCreator{
 			}
 
 			if(bigRadiusVariationWaver != 0f){
-				_bigDotsWaver.timeSpeed = waverSpeed;
-				bigRadD = _bigDotsWaver.GetValue() * bigRadiusVariationWaver;
+				_bigRadiusWaver.timeSpeed = waverSpeed;
+				bigRadD = _bigRadiusWaver.GetValue() * bigRadiusVariationWaver;
 			}
 
 			if(sinusMultiplierWaver != 0f){
@@ -156,27 +156,30 @@ namespace HelloPico2.Interact.SpineCreator{
 				cosD = _cosinusWaver.GetValue() * cosinusMultiplierWaver;
 			}
 
-			// Rotating all dots in one transform
-			if(_bigDotsContainer) _bigDotsContainer.Rotate(0f, 0f, Time.unscaledDeltaTime * rotationSpeed);
+			RotatingDots(smallD);
+			AnimatingDots(cosD, bigD, bigRadD, sinD);
+		}
 
-			if(_smallDotsContainer){
-				_smallDotsContainer.Rotate(0f, 0f, Time.unscaledDeltaTime * -rotationSpeed * 1.5f);
-				if(smallDotsRadiusWaver != 0f)
-					foreach(var smallDot in _smallDotsGameObjects)
-						smallDot.transform.localPosition = new Vector3(0f, 0f, smallDotsRadius + smallD);
-			}
-
-			// Animating each dot separately for special animation
+		private void AnimatingDots(float cosD, float bigD, float bigRadD, float sinD){
 			for(var i = 0; i < _bigDotsGameObjects.Count; i++){
 				_bigDotsGameObjects[i].transform.localPosition =
 						new Vector3(
-							(
-								Mathf.Cos(_time * 5.5f + (float)i * iterationOffset)) * (cosinusMultiplier + cosD)
-							, 0,
-							((bigDotsRadius + bigD) + (Mathf.Sin(_time * 5.5f + (float)i * bigDotsRadius) *
-													   (bigRadiusVariation + bigRadD))) * (sinusMultiplier + sinD)
+							Mathf.Cos(_time * 5.5f + i * iterationOffset) * (cosinusMultiplier + cosD)
+							,
+							(bigDotsRadius + bigD + Mathf.Sin(_time * 5.5f + i * bigDotsRadius) *
+								(bigRadiusVariation + bigRadD)) * (sinusMultiplier + sinD)
 						);
 			}
+		}
+
+		private void RotatingDots(float smallD){
+			if(_bigDotsContainer) _bigDotsContainer.Rotate(0f, 0f, Time.unscaledDeltaTime * rotationSpeed);
+
+			if(!_smallDotsContainer) return;
+			_smallDotsContainer.Rotate(0f, 0f, Time.unscaledDeltaTime * -rotationSpeed * 1.5f);
+			if(smallDotsRadiusWaver == 0f) return;
+			foreach(var smallDot in _smallDotsGameObjects)
+				smallDot.transform.localPosition = new Vector3(0f, smallDotsRadius + smallD, 0f);
 		}
 	}
 }
