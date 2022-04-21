@@ -27,17 +27,10 @@ namespace FIMSpace
             filter = new ContactFilter2D();
             filter.useTriggers = false;
             filter.useDepth = false;
-
-#if UNITY_2019_1_OR_NEWER
             r = new RaycastHit2D[1];
-#endif
-
         }
 
-#if UNITY_2019_1_OR_NEWER
         private RaycastHit2D[] r;
-#endif
-
         public override bool PushIfInside(ref Vector3 segmentPosition, float segmentRadius, Vector3 segmentOffset)
         {
             if (Is2D == false)
