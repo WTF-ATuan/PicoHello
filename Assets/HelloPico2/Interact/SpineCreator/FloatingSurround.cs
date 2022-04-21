@@ -179,9 +179,8 @@ namespace HelloPico2.Interact.SpineCreator{
 			if(!_smallDotsContainer) return;
 			_smallDotsContainer.Rotate(0f, 0f, Time.unscaledDeltaTime * -rotationSpeed * 1.5f);
 			if(smallDotsRadiusWaver == 0f) return;
-			for(var index = 0; index < _smallDotsGameObjects.Count; index++){
-				var smallDot = _smallDotsGameObjects[index];
-				smallDot.transform.localPosition = Vector3.one * (smallDotsRadius + smallD);
+			foreach(var smallDot in _smallDotsGameObjects){
+				smallDot.transform.localPosition = new Vector3(0, smallDotsRadius + smallD);
 			}
 		}
 	}
