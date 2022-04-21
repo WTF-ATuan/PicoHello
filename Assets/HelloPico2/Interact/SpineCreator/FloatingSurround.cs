@@ -70,7 +70,7 @@ namespace HelloPico2.Interact.SpineCreator{
 						var o = Instantiate(bigDotPrefab, _bigDotsContainer);
 						o.transform.rotation = Quaternion.Euler(0f, 0f, i * step);
 						o.transform.localPosition = Vector3.zero;
-						_bigDotsGameObjects.Add(o);
+						_bigDotsGameObjects.Add(o.transform.GetChild(0).gameObject);
 					}
 				}
 			}
@@ -83,10 +83,14 @@ namespace HelloPico2.Interact.SpineCreator{
 						var o = Instantiate(smallDotPrefab, _smallDotsContainer);
 						o.transform.rotation = Quaternion.Euler(0f, 0f, i * step);
 						o.transform.localPosition = Vector3.zero;
-						_smallDotsGameObjects.Add(o);
+						_smallDotsGameObjects.Add(o.transform.GetChild(0).gameObject);
 					}
 				}
 			}
+
+			foreach(var smallDot in _smallDotsGameObjects)
+				smallDot.transform.localPosition = new Vector2(0f, smallDotsRadius);
+
 
 			_time = Random.Range(-Mathf.PI, Mathf.PI);
 		}
@@ -162,13 +166,10 @@ namespace HelloPico2.Interact.SpineCreator{
 
 		private void AnimatingDots(float cosD, float bigD, float bigRadD, float sinD){
 			for(var i = 0; i < _bigDotsGameObjects.Count; i++){
-				_bigDotsGameObjects[i].transform.localPosition =
-						new Vector3(
-							Mathf.Cos(_time * 5.5f + i * iterationOffset) * (cosinusMultiplier + cosD)
-							,
-							(bigDotsRadius + bigD + Mathf.Sin(_time * 5.5f + i * bigDotsRadius) *
-								(bigRadiusVariation + bigRadD)) * (sinusMultiplier + sinD)
-						);
+				var cos = Mathf.Cos(_time * 5.5f + i * iterationOffset) * (cosinusMultiplier + cosD);
+				var sin = (bigDotsRadius + bigD + Mathf.Sin(_time * 5.5f + i * bigDotsRadius) *
+					(bigRadiusVariation + bigRadD)) * (sinusMultiplier + sinD);
+				_bigDotsGameObjects[i].transform.localPosition = new Vector3(cos, sin, 0);
 			}
 		}
 
@@ -178,8 +179,10 @@ namespace HelloPico2.Interact.SpineCreator{
 			if(!_smallDotsContainer) return;
 			_smallDotsContainer.Rotate(0f, 0f, Time.unscaledDeltaTime * -rotationSpeed * 1.5f);
 			if(smallDotsRadiusWaver == 0f) return;
-			foreach(var smallDot in _smallDotsGameObjects)
-				smallDot.transform.localPosition = new Vector3(0f, smallDotsRadius + smallD, 0f);
+			for(var index = 0; index < _smallDotsGameObjects.Count; index++){
+				var smallDot = _smallDotsGameObjects[index];
+				smallDot.transform.localPosition = Vector3.one * (smallDotsRadius + smallD);
+			}
 		}
 	}
 }
