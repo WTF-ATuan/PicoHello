@@ -6,8 +6,11 @@ using UnityEngine.XR.Interaction.Toolkit;
 namespace HelloPico2.InputDevice.Scripts{
 	public class InteractorEventPoster : MonoBehaviour{
 		private XRBaseInteractor _interactor;
+		private XRController _controller;
+		private UnityEngine.XR.InputDevice inputDevice => _controller.inputDevice;
 
 		private void Start(){
+			_controller = GetComponent<XRController>();
 			_interactor = GetComponent<XRBaseInteractor>();
 			RegisterEvent();
 		}
@@ -24,16 +27,14 @@ namespace HelloPico2.InputDevice.Scripts{
 				var hoverEnterEventArgs = (HoverEnterEventArgs)eventArgs;
 				var interactable = hoverEnterEventArgs.interactableObject;
 				var hoverObject = interactable.transform.gameObject;
-				var interactorObject = hoverEnterEventArgs.interactorObject;
-				var handHoveredEvent = new HandHovered(hoverObject, interactorObject, true);
+				var handHoveredEvent = new HandHovered(hoverObject,inputDevice , true);
 				EventBus.Post(handHoveredEvent);
 			}
 			else{
 				var hoverExitEventArgs = (HoverExitEventArgs)eventArgs;
 				var interactable = hoverExitEventArgs.interactableObject;
 				var hoverObject = interactable.transform.gameObject;
-				var interactorObject = hoverExitEventArgs.interactorObject;
-				var handHoveredEvent = new HandHovered(hoverObject, interactorObject, false);
+				var handHoveredEvent = new HandHovered(hoverObject,inputDevice ,false);
 				EventBus.Post(handHoveredEvent);
 			}
 		}
@@ -43,16 +44,14 @@ namespace HelloPico2.InputDevice.Scripts{
 				var enterEventArgs = (SelectEnterEventArgs)eventArgs;
 				var interactable = enterEventArgs.interactableObject;
 				var selectObject = interactable.transform.gameObject;
-				var interactorObject = enterEventArgs.interactorObject;
-				var selectedEvent = new HandSelected(selectObject, interactorObject, true);
+				var selectedEvent = new HandSelected(selectObject,inputDevice ,true);
 				EventBus.Post(selectedEvent);
 			}
 			else{
 				var exitEventArgs = (SelectExitEventArgs)eventArgs;
 				var interactable = exitEventArgs.interactableObject;
 				var selectObject = interactable.transform.gameObject;
-				var interactorObject = exitEventArgs.interactorObject;
-				var selectedEvent = new HandSelected(selectObject, interactorObject, false);
+				var selectedEvent = new HandSelected(selectObject,inputDevice ,false);
 				EventBus.Post(selectedEvent);
 			}
 		}
