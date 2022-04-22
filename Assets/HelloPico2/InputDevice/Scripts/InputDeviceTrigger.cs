@@ -4,11 +4,11 @@ using HelloPico2.Hand.Scripts.Event;
 using Project;
 using UnityEngine;
 using UnityEngine.XR;
+using UnityEngine.XR.Interaction.Toolkit;
 
 namespace HelloPico2.InputDevice.Scripts{
 	public class InputDeviceTrigger : MonoBehaviour{
-		[SerializeField] private InputDeviceCharacteristics controllerCharacteristics =
-				InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
+		private XRController _controller;
 
 		private UnityEngine.XR.InputDevice _inputDevice;
 
@@ -19,19 +19,18 @@ namespace HelloPico2.InputDevice.Scripts{
 		private ISecondaryButton _secondaryButton;
 
 		private void Start(){
-			var inputDevices = new List<UnityEngine.XR.InputDevice>();
-			InputDevices.GetDevicesWithCharacteristics(controllerCharacteristics, inputDevices);
-			_inputDevice = inputDevices.First();
+			_controller = GetComponent<XRController>();
+			_inputDevice = _controller.inputDevice;
 			EventBus.Subscribe<HandSelected>(OnHandSelected);
 		}
 
 		//Demo First refactor Todo
 		private void OnHandSelected(HandSelected obj){
 			var isEnter = obj.IsEnter;
-			var interactor = obj.selectInteractor;
 			var selectedObject = obj.SelectedObject;
-			var hasSelection = interactor.hasSelection;
-			if(isEnter && hasSelection){
+			var inputDevice = obj.inputDevice;
+			var isEqual = inputDevice.Equals(_inputDevice);
+			if(isEnter && isEqual){
 				_grip = selectedObject.GetComponent<IGrip>();
 				_trigger = selectedObject.GetComponent<ITrigger>();
 				_touchPad = selectedObject.GetComponent<ITouchPad>();
