@@ -28,8 +28,10 @@ namespace HelloPico2.InputDevice.Scripts{
 		//Demo First refactor Todo
 		private void OnHandSelected(HandSelected obj){
 			var isEnter = obj.IsEnter;
-			if(isEnter){
-				var selectedObject = obj.SelectedObject;
+			var interactor = obj.selectInteractor;
+			var selectedObject = obj.SelectedObject;
+			var hasSelection = interactor.hasSelection;
+			if(isEnter && hasSelection){
 				_grip = selectedObject.GetComponent<IGrip>();
 				_trigger = selectedObject.GetComponent<ITrigger>();
 				_touchPad = selectedObject.GetComponent<ITouchPad>();

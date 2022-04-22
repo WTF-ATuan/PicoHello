@@ -24,14 +24,16 @@ namespace HelloPico2.InputDevice.Scripts{
 				var hoverEnterEventArgs = (HoverEnterEventArgs)eventArgs;
 				var interactable = hoverEnterEventArgs.interactableObject;
 				var hoverObject = interactable.transform.gameObject;
-				var handHoveredEvent = new HandHovered(hoverObject, true);
+				var interactorObject = hoverEnterEventArgs.interactorObject;
+				var handHoveredEvent = new HandHovered(hoverObject, interactorObject, true);
 				EventBus.Post(handHoveredEvent);
 			}
 			else{
 				var hoverExitEventArgs = (HoverExitEventArgs)eventArgs;
 				var interactable = hoverExitEventArgs.interactableObject;
 				var hoverObject = interactable.transform.gameObject;
-				var handHoveredEvent = new HandHovered(hoverObject, false);
+				var interactorObject = hoverExitEventArgs.interactorObject;
+				var handHoveredEvent = new HandHovered(hoverObject, interactorObject, false);
 				EventBus.Post(handHoveredEvent);
 			}
 		}
@@ -41,14 +43,16 @@ namespace HelloPico2.InputDevice.Scripts{
 				var enterEventArgs = (SelectEnterEventArgs)eventArgs;
 				var interactable = enterEventArgs.interactableObject;
 				var selectObject = interactable.transform.gameObject;
-				var selectedEvent = new HandSelected(selectObject , true);
+				var interactorObject = enterEventArgs.interactorObject;
+				var selectedEvent = new HandSelected(selectObject, interactorObject, true);
 				EventBus.Post(selectedEvent);
 			}
 			else{
 				var exitEventArgs = (SelectExitEventArgs)eventArgs;
 				var interactable = exitEventArgs.interactableObject;
 				var selectObject = interactable.transform.gameObject;
-				var selectedEvent = new HandSelected(selectObject , false);
+				var interactorObject = exitEventArgs.interactorObject;
+				var selectedEvent = new HandSelected(selectObject, interactorObject, false);
 				EventBus.Post(selectedEvent);
 			}
 		}
