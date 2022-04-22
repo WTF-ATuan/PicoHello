@@ -29,7 +29,7 @@ namespace Unity.XR.PXR.Editor
             ObjectFactory.componentWasAdded += ComponentWasAdded;
             BuildPlayerWindow.RegisterBuildPlayerHandler(OnBuild);
             doNotShowAgain = GetDoNotShowBuildWarning();
-            Debug.Log("PXRLog [Build Check]RegisterBuildPlayerHandler,Already Do not show: " + doNotShowAgain);
+            // Debug.Log("PXRLog [Build Check]RegisterBuildPlayerHandler,Already Do not show: " + doNotShowAgain);
         }
         static void ComponentWasAdded(Component com)
         {
