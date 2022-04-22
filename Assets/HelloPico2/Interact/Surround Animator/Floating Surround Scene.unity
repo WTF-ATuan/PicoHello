@@ -283,6 +283,8 @@ RectTransform:
   - {fileID: 312238158}
   - {fileID: 506185157}
   - {fileID: 960986583}
+  - {fileID: 1421778820}
+  - {fileID: 1068873552}
   m_Father: {fileID: 1213616407}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1450,6 +1452,74 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &163686598
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 163686599}
+  - component: {fileID: 163686600}
+  m_Layer: 0
+  m_Name: Live Preview For PR_Spinner_Example
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &163686599
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163686598}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 798881914}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &163686600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163686598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae8b99ebe38f63c429608da5087883e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BigDotPrefab: {fileID: 0}
+  SmallDotPrefab: {fileID: 0}
+  BigDots: 12
+  SmallDots: 8
+  RotationSpeed: 50
+  BigDotsRadius: 50
+  SmallDotsRadius: 10
+  AnimationSpeed: 1
+  BigRadiusVariation: 10
+  IterationOffset: 1
+  SinusMultiplier: 1
+  CosinusMultiplier: 1
+  WaversSpeed: 1
+  BigDotsRadiusWaver: 0
+  SmallDotsRadiusWaver: 0
+  BigRadiusVariationWaver: 0
+  SinusMultiplierWaver: 0
+  CosinusMultiplierWaver: 0
+  Parent: {fileID: 798881915}
+  RemoveMe: 0
 --- !u!1 &173889060
 GameObject:
   m_ObjectHideFlags: 0
@@ -1910,6 +1980,67 @@ MonoBehaviour:
   CosinusMultiplierWaver: 0
   Parent: {fileID: 1454422842}
   RemoveMe: 0
+--- !u!1 &214996804
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 214996805}
+  - component: {fileID: 214996806}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &214996805
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 214996804}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 494395106}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &214996806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 214996804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 021489a3d1ad483ab3499b93f67db724, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bigDotPrefab: {fileID: 7837366069905365294, guid: aabaa1799e1adbf4d8b896cecfb09446, type: 3}
+  smallDotPrefab: {fileID: 1764629904138257441, guid: 417a9d7095cea044baa388c69c629c3b, type: 3}
+  bigDots: 8
+  smallDots: 4
+  rotationSpeed: 50
+  bigDotsRadius: 15
+  smallDotsRadius: 5
+  animationSpeed: 1
+  bigRadiusVariation: 1
+  iterationOffset: 1
+  sinusMultiplier: 1
+  cosinusMultiplier: 1
+  waverSpeed: 1
+  bigDotsRadiusWaver: 0
+  smallDotsRadiusWaver: 1
+  bigRadiusVariationWaver: 0
+  sinusMultiplierWaver: 0
+  cosinusMultiplierWaver: 0
 --- !u!1 &243507287
 GameObject:
   m_ObjectHideFlags: 0
@@ -3191,6 +3322,88 @@ MonoBehaviour:
   CosinusMultiplierWaver: 0
   Parent: {fileID: 1454422842}
   RemoveMe: 0
+--- !u!1 &494395103
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 494395106}
+  - component: {fileID: 494395105}
+  - component: {fileID: 494395104}
+  m_Layer: 0
+  m_Name: Shield (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!23 &494395104
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 494395103}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: cc52ce3f73e070d45ab0aacb478eaa57, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &494395105
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 494395103}
+  m_Mesh: {fileID: 6715973248629890746, guid: 74c8effd35652dd43b27c80655e9701b, type: 3}
+--- !u!4 &494395106
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 494395103}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.25, y: 2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 214996805}
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &504273283
 GameObject:
   m_ObjectHideFlags: 0
@@ -3407,6 +3620,7 @@ GameObject:
   m_Component:
   - component: {fileID: 518227783}
   - component: {fileID: 518227784}
+  - component: {fileID: 518227785}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -3422,7 +3636,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 518227782}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1542093791899951578}
@@ -3444,20 +3658,33 @@ MonoBehaviour:
   smallDotPrefab: {fileID: 1764629904138257441, guid: 417a9d7095cea044baa388c69c629c3b, type: 3}
   bigDots: 8
   smallDots: 4
-  rotationSpeed: 50
-  bigDotsRadius: 15
-  smallDotsRadius: 5
+  rotationSpeed: 100
+  bigDotsRadius: 8
+  smallDotsRadius: 4
   animationSpeed: 1
-  bigRadiusVariation: 1
-  iterationOffset: 1
+  bigRadiusVariation: 0
+  iterationOffset: 0
   sinusMultiplier: 1
   cosinusMultiplier: 1
-  waverSpeed: 1
+  waverSpeed: 0
   bigDotsRadiusWaver: 0
-  smallDotsRadiusWaver: 1
+  smallDotsRadiusWaver: 0
   bigRadiusVariationWaver: 0
   sinusMultiplierWaver: 0
   cosinusMultiplierWaver: 0
+--- !u!65 &518227785
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 518227782}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.9851651, z: 0.07872267}
+  m_Center: {x: 0, y: 0.0074174404, z: -0.038216166}
 --- !u!1 &537925848
 GameObject:
   m_ObjectHideFlags: 0
@@ -4022,6 +4249,74 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 622100637}
   m_CullTransparentMesh: 0
+--- !u!1 &623099745
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 623099746}
+  - component: {fileID: 623099747}
+  m_Layer: 0
+  m_Name: Live Preview For PR_Spinner_Example Eye
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &623099746
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623099745}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 97607349}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &623099747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623099745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae8b99ebe38f63c429608da5087883e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BigDotPrefab: {fileID: 0}
+  SmallDotPrefab: {fileID: 0}
+  BigDots: 12
+  SmallDots: 8
+  RotationSpeed: 50
+  BigDotsRadius: 50
+  SmallDotsRadius: 10
+  AnimationSpeed: 1
+  BigRadiusVariation: 10
+  IterationOffset: 1
+  SinusMultiplier: 1
+  CosinusMultiplier: 1
+  WaversSpeed: 1
+  BigDotsRadiusWaver: 0
+  SmallDotsRadiusWaver: 0
+  BigRadiusVariationWaver: 0
+  SinusMultiplierWaver: 0
+  CosinusMultiplierWaver: 0
+  Parent: {fileID: 2023436131}
+  RemoveMe: 0
 --- !u!1 &625504936
 GameObject:
   m_ObjectHideFlags: 0
@@ -4480,6 +4775,74 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 685344725}
   m_CullTransparentMesh: 0
+--- !u!1 &696155781
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 696155782}
+  - component: {fileID: 696155783}
+  m_Layer: 0
+  m_Name: Live Preview For PR_Spinner_Example
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &696155782
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696155781}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1454422841}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &696155783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696155781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae8b99ebe38f63c429608da5087883e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BigDotPrefab: {fileID: 0}
+  SmallDotPrefab: {fileID: 0}
+  BigDots: 12
+  SmallDots: 8
+  RotationSpeed: 50
+  BigDotsRadius: 50
+  SmallDotsRadius: 10
+  AnimationSpeed: 1
+  BigRadiusVariation: 10
+  IterationOffset: 1
+  SinusMultiplier: 1
+  CosinusMultiplier: 1
+  WaversSpeed: 1
+  BigDotsRadiusWaver: 0
+  SmallDotsRadiusWaver: 0
+  BigRadiusVariationWaver: 0
+  SinusMultiplierWaver: 0
+  CosinusMultiplierWaver: 0
+  Parent: {fileID: 1454422842}
+  RemoveMe: 0
 --- !u!1 &720410994
 GameObject:
   m_ObjectHideFlags: 0
@@ -5189,6 +5552,8 @@ RectTransform:
   - {fileID: 1577483147}
   - {fileID: 908475429}
   - {fileID: 263498860}
+  - {fileID: 1650115861}
+  - {fileID: 163686599}
   m_Father: {fileID: 1213616407}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6763,6 +7128,74 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1067710473}
   m_CullTransparentMesh: 0
+--- !u!1 &1068873551
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1068873552}
+  - component: {fileID: 1068873553}
+  m_Layer: 0
+  m_Name: Live Preview For PR_Spinner_Example
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1068873552
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068873551}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 27673935}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1068873553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068873551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae8b99ebe38f63c429608da5087883e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BigDotPrefab: {fileID: 0}
+  SmallDotPrefab: {fileID: 0}
+  BigDots: 12
+  SmallDots: 8
+  RotationSpeed: 50
+  BigDotsRadius: 50
+  SmallDotsRadius: 10
+  AnimationSpeed: 1
+  BigRadiusVariation: 10
+  IterationOffset: 1
+  SinusMultiplier: 1
+  CosinusMultiplier: 1
+  WaversSpeed: 1
+  BigDotsRadiusWaver: 0
+  SmallDotsRadiusWaver: 0
+  BigRadiusVariationWaver: 0
+  SinusMultiplierWaver: 0
+  CosinusMultiplierWaver: 0
+  Parent: {fileID: 27673936}
+  RemoveMe: 0
 --- !u!1 &1075920335
 GameObject:
   m_ObjectHideFlags: 0
@@ -8260,6 +8693,74 @@ MonoBehaviour:
   CosinusMultiplierWaver: 0
   Parent: {fileID: 2023436131}
   RemoveMe: 0
+--- !u!1 &1246174464
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1246174465}
+  - component: {fileID: 1246174466}
+  m_Layer: 0
+  m_Name: Live Preview For PR_Spinner_Example Eye
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1246174465
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246174464}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 97607349}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1246174466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246174464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae8b99ebe38f63c429608da5087883e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BigDotPrefab: {fileID: 0}
+  SmallDotPrefab: {fileID: 0}
+  BigDots: 12
+  SmallDots: 8
+  RotationSpeed: 50
+  BigDotsRadius: 50
+  SmallDotsRadius: 10
+  AnimationSpeed: 1
+  BigRadiusVariation: 10
+  IterationOffset: 1
+  SinusMultiplier: 1
+  CosinusMultiplier: 1
+  WaversSpeed: 1
+  BigDotsRadiusWaver: 0
+  SmallDotsRadiusWaver: 0
+  BigRadiusVariationWaver: 0
+  SinusMultiplierWaver: 0
+  CosinusMultiplierWaver: 0
+  Parent: {fileID: 2023436131}
+  RemoveMe: 0
 --- !u!1 &1277710229
 GameObject:
   m_ObjectHideFlags: 0
@@ -9375,6 +9876,74 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1416748913}
   m_CullTransparentMesh: 0
+--- !u!1 &1421778819
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1421778820}
+  - component: {fileID: 1421778821}
+  m_Layer: 0
+  m_Name: Live Preview For PR_Spinner_Example
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1421778820
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1421778819}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 27673935}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1421778821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1421778819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae8b99ebe38f63c429608da5087883e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BigDotPrefab: {fileID: 0}
+  SmallDotPrefab: {fileID: 0}
+  BigDots: 12
+  SmallDots: 8
+  RotationSpeed: 50
+  BigDotsRadius: 50
+  SmallDotsRadius: 10
+  AnimationSpeed: 1
+  BigRadiusVariation: 10
+  IterationOffset: 1
+  SinusMultiplier: 1
+  CosinusMultiplier: 1
+  WaversSpeed: 1
+  BigDotsRadiusWaver: 0
+  SmallDotsRadiusWaver: 0
+  BigRadiusVariationWaver: 0
+  SinusMultiplierWaver: 0
+  CosinusMultiplierWaver: 0
+  Parent: {fileID: 27673936}
+  RemoveMe: 0
 --- !u!1 &1430448393
 GameObject:
   m_ObjectHideFlags: 0
@@ -9542,6 +10111,8 @@ RectTransform:
   - {fileID: 599462985}
   - {fileID: 207416107}
   - {fileID: 2039773264}
+  - {fileID: 1817561323}
+  - {fileID: 696155782}
   m_Father: {fileID: 1213616407}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10803,6 +11374,74 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1645952908}
   m_CullTransparentMesh: 0
+--- !u!1 &1650115860
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1650115861}
+  - component: {fileID: 1650115862}
+  m_Layer: 0
+  m_Name: Live Preview For PR_Spinner_Example
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1650115861
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650115860}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 798881914}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1650115862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650115860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae8b99ebe38f63c429608da5087883e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BigDotPrefab: {fileID: 0}
+  SmallDotPrefab: {fileID: 0}
+  BigDots: 12
+  SmallDots: 8
+  RotationSpeed: 50
+  BigDotsRadius: 50
+  SmallDotsRadius: 10
+  AnimationSpeed: 1
+  BigRadiusVariation: 10
+  IterationOffset: 1
+  SinusMultiplier: 1
+  CosinusMultiplier: 1
+  WaversSpeed: 1
+  BigDotsRadiusWaver: 0
+  SmallDotsRadiusWaver: 0
+  BigRadiusVariationWaver: 0
+  SinusMultiplierWaver: 0
+  CosinusMultiplierWaver: 0
+  Parent: {fileID: 798881915}
+  RemoveMe: 0
 --- !u!1 &1660335174
 GameObject:
   m_ObjectHideFlags: 0
@@ -11510,6 +12149,74 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1802078603}
   m_CullTransparentMesh: 0
+--- !u!1 &1817561322
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1817561323}
+  - component: {fileID: 1817561324}
+  m_Layer: 0
+  m_Name: Live Preview For PR_Spinner_Example
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1817561323
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1817561322}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1454422841}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1817561324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1817561322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae8b99ebe38f63c429608da5087883e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BigDotPrefab: {fileID: 0}
+  SmallDotPrefab: {fileID: 0}
+  BigDots: 12
+  SmallDots: 8
+  RotationSpeed: 50
+  BigDotsRadius: 50
+  SmallDotsRadius: 10
+  AnimationSpeed: 1
+  BigRadiusVariation: 10
+  IterationOffset: 1
+  SinusMultiplier: 1
+  CosinusMultiplier: 1
+  WaversSpeed: 1
+  BigDotsRadiusWaver: 0
+  SmallDotsRadiusWaver: 0
+  BigRadiusVariationWaver: 0
+  SinusMultiplierWaver: 0
+  CosinusMultiplierWaver: 0
+  Parent: {fileID: 1454422842}
+  RemoveMe: 0
 --- !u!1 &1825617354
 GameObject:
   m_ObjectHideFlags: 0
@@ -13693,7 +14400,7 @@ GameObject:
   - component: {fileID: 2506611321542749823}
   - component: {fileID: 373151150424709813}
   m_Layer: 0
-  m_Name: PropArmLPrefab
+  m_Name: Shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
