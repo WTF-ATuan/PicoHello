@@ -1,3 +1,4 @@
+using Game.Project;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,8 +12,16 @@ public class usePicoHaptic : MonoBehaviour
     public float _strength;
     public int _time;
     hapticType _hapticType;
+    [SerializeField] float _hapticTime;
+    private ColdDownTimer _timer;
     
+    float coldTime=3.0f;
+    bool isSelect=false;
 
+    private void Start()
+    {
+        _timer = new ColdDownTimer(_hapticTime);
+    }
 
     private void hapticList(bool hapticHand)
     {
@@ -40,10 +49,12 @@ public class usePicoHaptic : MonoBehaviour
         if (touchHand)
         {
             PXR_Input.SetControllerVibration(strength, time, PXR_Input.Controller.RightController);
+            isSelect = false;
         }
         else
         {
             PXR_Input.SetControllerVibration(strength, time, PXR_Input.Controller.LeftController);
+            isSelect = false;
         }
     }
 
@@ -59,7 +70,7 @@ public class usePicoHaptic : MonoBehaviour
         //Debug.Log("OnTrigger:" + other.name);
         if (other.tag == "Player")
         {
-            
+            if (!_timer.CanInvoke()) return;
             //var getController = other.GetComponent<XRController>().controllerNode;
             if (other.name == "RightHand Controller")
             {
@@ -69,7 +80,7 @@ public class usePicoHaptic : MonoBehaviour
             {
                 hapticList(false);
             }
-
+            _timer.Reset();
         }
         else if (other.tag == "reticle")
         {
@@ -101,7 +112,8 @@ public class usePicoHaptic : MonoBehaviour
     {
         if ( collision.gameObject.tag  == "Player")
         {
-            Debug.Log("collision:" + collision.gameObject.name);
+            if (!_timer.CanInvoke()) return;
+            //Debug.Log("collision:" + collision.gameObject.name);
             //var getController = other.GetComponent<XRController>().controllerNode;
             if (collision.gameObject.name == "PropArmLPrefab")
             {
@@ -111,7 +123,10 @@ public class usePicoHaptic : MonoBehaviour
             {
                 hapticList(false);
             }
+            _timer.Reset();
 
         }
     }
+
+
 }

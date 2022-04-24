@@ -9,13 +9,12 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: caBallBMat
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _ALPHAPREMULTIPLY_ON _DISSOLVEGLOW_ON _EDGECOLORRAMP_USE _EMISSION
+  m_ShaderKeywords: _DISSOLVEGLOW_ON _EDGECOLORRAMP_USE _EMISSION
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
-  stringTagMap:
-    RenderType: Transparent
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -54,11 +53,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 2800000, guid: 33a85327eb11f9c4c98282f06cfd683a, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 0.05, y: 0.5}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 0.05, y: 0.5}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
@@ -96,7 +95,7 @@ Material:
     - _DistortionEnabled: 0
     - _DistortionStrength: 1
     - _DistortionStrengthScaled: 0
-    - _DstBlend: 10
+    - _DstBlend: 0
     - _EdgeThickness: 0.121
     - _EmissionEnabled: 0
     - _FlipbookMode: 0
@@ -105,7 +104,7 @@ Material:
     - _GlossyReflections: 1
     - _LightingEnabled: 0
     - _Metallic: 0
-    - _Mode: 3
+    - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
@@ -118,13 +117,13 @@ Material:
     - _TilingY: 4
     - _UVSec: 0
     - _UseEdgeColorRamp: 1
-    - _ZWrite: 0
+    - _ZWrite: 1
     m_Colors:
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
-    - _Color: {r: 1, g: 0.9238702, b: 0, a: 0.30588236}
+    - _Color: {r: 0.4528302, g: 0.4528302, b: 0.4528302, a: 0.30588236}
     - _ColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
     - _DissolveGlowColor: {r: 1, g: 0.5, b: 0, a: 1}
-    - _EmissionColor: {r: 3.3962264, g: 2.9462547, b: 0.33641866, a: 1}
+    - _EmissionColor: {r: 1.216786, g: 1.0575209, b: 0.12104154, a: 1}
     - _InnerEdgeColor: {r: 0, g: 0.8793845, b: 1, a: 1}
     - _OuterEdgeColor: {r: 0.21560161, g: 0.8962264, b: 0.57826495, a: 1}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}

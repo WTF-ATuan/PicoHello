@@ -12,8 +12,8 @@ public class targetObjScript : MonoBehaviour
     bool isShake;
     Vector3 firstPos;
     Vector3 localScale;
-    float scaleSize = 0.6f;
-    string getName;
+    float scaleSize = 0.8f;
+    int count=3;
 
     // Start is called before the first frame update
     void Start()
@@ -27,26 +27,20 @@ public class targetObjScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (count < 0 )
+        {
+            //source.PlayOneShot(hitAudio[1], 1);
+            Destroy(gameObject);
+        }
         if (!isShake) return;
         Vector3 pos = firstPos + Random.insideUnitSphere * shakeAmount;
         pos.y = transform.localPosition.y;
         transform.localPosition = pos;
-        var particle = showEffect.GetComponent<ParticleSystem>();
-        particle.Play();
-        Invoke("ShakeStop", 1.0f);
-        if (targetType == 0)
-        {
-
-            if (this.transform.localScale.z <= localScale.z * 0.3f || this.transform.localScale.y <= localScale.z * 0.3f)
-            {
-                source.PlayOneShot(hitAudio[1], 1);
-                
-                Destroy(this.gameObject,1);
-
-            }
-        }
         
+        Invoke("ShakeStop", 1.0f);
+
+   
+
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -56,13 +50,17 @@ public class targetObjScript : MonoBehaviour
             if (targetType == 0)
             {
                 this.transform.localScale = new Vector3(this.transform.localScale.x * scaleSize, this.transform.localScale.y * scaleSize, this.transform.localScale.z * scaleSize);
+                Instantiate(showEffect, transform.position, transform.rotation);
+                source.PlayOneShot(hitAudio[0], 1);
+
             }
-            source.PlayOneShot(hitAudio[0],1);
- 
+
+            
         }
     }
     void ShakeStop()
     {
+        count -= 1;
         isShake = false;
         firstPos.y = transform.localPosition.y;
         transform.localPosition = firstPos;
