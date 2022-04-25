@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace HelloPico2.Interact.SpineCreator{
@@ -17,11 +19,13 @@ namespace HelloPico2.Interact.SpineCreator{
 		private List<GameObject> _bigDotsGameObjects;
 		private List<GameObject> _smallDotsGameObjects;
 
-		[Tooltip("Big dots count which each is animated separately")] [Range(0, 24)]
-		public int bigDots = 12;
+		[FormerlySerializedAs("bigDots")] [Tooltip("Big dots count which each is animated separately")] [Range(0, 24)]
+		public int bigDotCount = 12;
 
-		[Tooltip("Small dots count which are only rotated in one transform")] [Range(0, 24)]
-		public int smallDots = 8;
+		[FormerlySerializedAs("smallDots")]
+		[Tooltip("Small dots count which are only rotated in one transform")]
+		[Range(0, 24)]
+		public int smallDotCount = 8;
 
 		[Header("Placement Parameters")] public float rotationSpeed = 50f;
 		public float bigDotsRadius = 50.0f;
@@ -57,16 +61,34 @@ namespace HelloPico2.Interact.SpineCreator{
 			_bigDotsGameObjects = new List<GameObject>();
 			_smallDotsGameObjects = new List<GameObject>();
 			SetupWaveCreator();
-			ClearPreviousObject();
+			ClearPreviousObjects();
+			CreateDotObjects();
+		}
+
+		[BoxGroup]
+		[Button(ButtonSizes.Large)]
+		public void ModifyBigDotCount(int amount){
+			if(!bigDotPrefab) return;
+			bigDotCount = amount;
+			ClearPreviousObjects();
+			CreateDotObjects();
+		}
+
+		[BoxGroup]
+		[Button(ButtonSizes.Large)]
+		public void ModifySmallDotCount(int amount){
+			if(!smallDotPrefab) return;
+			smallDotCount = amount;
+			ClearPreviousObjects();
 			CreateDotObjects();
 		}
 
 		private void CreateDotObjects(){
 			if(bigDotPrefab){
-				if(bigDots > 0){
-					float step = 360 / bigDots;
+				if(bigDotCount > 0){
+					float step = 360 / bigDotCount;
 
-					for(var i = 0; i < bigDots; i++){
+					for(var i = 0; i < bigDotCount; i++){
 						var o = Instantiate(bigDotPrefab, _bigDotsContainer);
 						o.transform.rotation = Quaternion.Euler(0f, 0f, i * step);
 						o.transform.localPosition = Vector3.zero;
@@ -76,10 +98,10 @@ namespace HelloPico2.Interact.SpineCreator{
 			}
 
 			if(smallDotPrefab){
-				if(smallDots > 0){
-					float step = 360 / smallDots;
+				if(smallDotCount > 0){
+					float step = 360 / smallDotCount;
 
-					for(var i = 0; i < bigDots; i++){
+					for(var i = 0; i < bigDotCount; i++){
 						var o = Instantiate(smallDotPrefab, _smallDotsContainer);
 						o.transform.rotation = Quaternion.Euler(0f, 0f, i * step);
 						o.transform.localPosition = Vector3.zero;
@@ -95,7 +117,7 @@ namespace HelloPico2.Interact.SpineCreator{
 			_time = Random.Range(-Mathf.PI, Mathf.PI);
 		}
 
-		private void ClearPreviousObject(){
+		private void ClearPreviousObjects(){
 			_bigDotsGameObjects.ForEach(x => Destroy(x.gameObject));
 			_bigDotsGameObjects.Clear();
 			_smallDotsGameObjects.ForEach(x => Destroy(x.gameObject));
