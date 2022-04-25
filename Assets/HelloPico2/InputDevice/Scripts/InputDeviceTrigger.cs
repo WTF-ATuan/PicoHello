@@ -25,7 +25,7 @@ namespace HelloPico2.InputDevice.Scripts{
 		}
 
 		//Demo First refactor Todo
-		private void OnHandSelected(HandSelected obj){
+		public void OnHandSelected(HandSelected obj){
 			var isEnter = obj.IsEnter;
 			var selectedObject = obj.SelectedObject;
 			var inputDevice = obj.inputDevice;
@@ -46,31 +46,36 @@ namespace HelloPico2.InputDevice.Scripts{
 			}
 		}
 
-		private void Update(){
+		public void Update(){
 			_inputDevice.TryGetFeatureValue(CommonUsages.trigger, out var triggerValue);
 			_inputDevice.TryGetFeatureValue(CommonUsages.grip, out var gripValue);
 			_inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out var touchPadAxis);
 			_inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out var primaryButtonValue);
 			_inputDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out var secondaryButtonValue);
-
-			if(gripValue > 0.1f){
+            
+			if (gripValue > 0.1f){
 				_grip?.OnGrip(gripValue);
+				Debug.Log(GetComponent<XRController>().controllerNode);
 			}
 
 			if(triggerValue > 0.1f){
 				_trigger?.OnTrigger(triggerValue);
+				Debug.Log(GetComponent<XRController>().controllerNode);
 			}
 
 			if(touchPadAxis.magnitude > 0.1f){
 				_touchPad?.OnTouchPad(touchPadAxis);
+				Debug.Log(GetComponent<XRController>().controllerNode);
 			}
 
 			if(primaryButtonValue){
 				_primaryButton?.OnPrimaryButtonClick();
+				Debug.Log(GetComponent<XRController>().controllerNode);
 			}
 
 			if(secondaryButtonValue){
 				_secondaryButton?.OnSecondaryButtonClick();
+				Debug.Log(GetComponent<XRController>().controllerNode);
 			}
 		}
 	}

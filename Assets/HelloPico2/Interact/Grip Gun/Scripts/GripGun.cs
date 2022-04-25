@@ -1,4 +1,4 @@
-﻿using Game.Project;
+using Game.Project;
 using HelloPico2.Hand.Scripts.Event;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
