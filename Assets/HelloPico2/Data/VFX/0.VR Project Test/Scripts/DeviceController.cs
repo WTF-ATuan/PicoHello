@@ -32,7 +32,7 @@ namespace HelloPico2.Data.VFX._0.VR_Project_Test.Scripts{
 			_inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out var touchpadAxis);
 			if(touchpadAxis.magnitude < 0.1f) return;
 			var axisX = touchpadAxis.x;
-			adjuster.ModifyVelocity(axisX);
+			adjuster.ModifyVelocity(axisX * 0.1f);
 		}
 
 		private bool _primaryButtonDownFlag;
@@ -61,7 +61,7 @@ namespace HelloPico2.Data.VFX._0.VR_Project_Test.Scripts{
 		private void ChangeShaderColor(){
 			_inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out var touchpadAxis);
 			if(touchpadAxis.magnitude < 0.1f) return;
-			var axisX = touchpadAxis.x;
+			var axisX = touchpadAxis.x * 0.01f;
 			switch(_rgbIndex){
 				case 0:
 					adjuster.ModifyColor(axisX, 0, 0);
