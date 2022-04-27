@@ -43,6 +43,7 @@ namespace HelloPico2.Data.VFX._0.VR_Project_Test.Scripts{
 			_inputDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out var secondaryButtonValue);
 			if(primaryButtonValue && !_primaryButtonDownFlag){
 				_rgbIndex++;
+				if(_rgbIndex > 2) _rgbIndex = 0;
 				_primaryButtonDownFlag = true;
 			}
 			else{
@@ -50,7 +51,8 @@ namespace HelloPico2.Data.VFX._0.VR_Project_Test.Scripts{
 			}
 
 			if(secondaryButtonValue && !_secondaryButtonDownFlag){
-				_rgbIndex++;
+				_rgbIndex--;
+				if(_rgbIndex < 0) _rgbIndex = 2;
 				_secondaryButtonDownFlag = true;
 			}
 			else{

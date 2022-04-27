@@ -33,8 +33,8 @@ public class ParticleAdjuster : MonoBehaviour{
 			var renderMaterial = render.material;
 			var tintColor = renderMaterial.GetColor($"_Color");
 			var shadowColor = renderMaterial.GetColor($"_ShadowColor");
-			var tintColorModified = tintColor + new Color(r, g, b);
-			var shadowColorModified = shadowColor + new Color(r, g, b);
+			var tintColorModified = tintColor + new Color(r, g, b, 0);
+			var shadowColorModified = shadowColor + new Color(r, g, b, 0);
 			_currentColor = tintColorModified;
 			renderMaterial.SetColor($"_Color", tintColorModified);
 			renderMaterial.SetColor($"_ShadowColor", shadowColorModified);
