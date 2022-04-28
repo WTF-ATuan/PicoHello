@@ -17,6 +17,7 @@ namespace HelloPico2.InputDevice.Scripts{
 			_controller = GetComponent<XRController>();
 			_interactor = GetComponent<XRBaseInteractor>();
 			_interactor.selectEntered.AddListener(x => { _interactableTransform = x.interactableObject.transform; });
+			_interactor.selectExited.AddListener(x => { _interactableTransform = null; });
 		}
 
 		private void Update(){
