@@ -1,5 +1,4 @@
-﻿using System;
-using Project;
+﻿using Project;
 using UnityEngine;
 
 namespace HelloPico2.InputDevice.Scripts{
@@ -10,12 +9,15 @@ namespace HelloPico2.InputDevice.Scripts{
 
 		private void OnDeviceInputDetected(DeviceInputDetected obj){
 			var isSameObject = obj.IsSameObject(gameObject);
-			if(isSameObject) return;
+			if(!isSameObject) return;
 			var isGrip = obj.IsGrip;
 			var isPrimary = obj.IsPrimary;
 			var padAxis = obj.TouchPadAxis;
 			if(isGrip){
 				OnSelect();
+			}
+			else{
+				OnDrop();
 			}
 
 			if(isPrimary){
@@ -27,7 +29,15 @@ namespace HelloPico2.InputDevice.Scripts{
 			}
 		}
 
-		private void OnSelect(){ }
+		private void OnDrop(){
+			var meshRenderer = GetComponent<MeshRenderer>();
+			meshRenderer.material.color = Color.white;
+		}
+
+		private void OnSelect(){
+			var meshRenderer = GetComponent<MeshRenderer>();
+			meshRenderer.material.color = Color.red;
+		}
 
 		private void OnXOrAButton(){ }
 
@@ -35,17 +45,17 @@ namespace HelloPico2.InputDevice.Scripts{
 			var axisX = axis.x;
 			var axisY = axis.y;
 			if(axisX > 0.1f){
-				//變長
+				transform.localScale += Vector3.up * 0.01f;
 			}
 			else{
-				//變短
+				transform.localScale -= Vector3.up * 0.01f;
 			}
 
 			if(axisY > 0.1f){
-				//變硬
+				transform.localScale += Vector3.forward * 0.01f;
 			}
 			else{
-				//變軟
+				transform.localScale -= Vector3.forward * 0.01f;
 			}
 		}
 	}
