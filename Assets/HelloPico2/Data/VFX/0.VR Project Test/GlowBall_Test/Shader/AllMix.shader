@@ -3,7 +3,7 @@
 	Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
-		[HDR]_Color("Color",Color)=(1,1,1,1)
+		_HDR("HDR",Range(0,30))=5
 	}
 	SubShader
 	{
@@ -26,6 +26,7 @@
 				float4 vertex : POSITION;
 				float2 uv : TEXCOORD0;
 				float3 normal : NORMAL;
+				float4 color : COLOR;
 			};
 
 			struct v2f
@@ -34,12 +35,13 @@
 				float4 vertex : SV_POSITION;
 				float3 worldNormal : TEXCOORD1;
 				float3 worldPos : TEXCOORD2;
+				float4 color : COLOR;
 			};
 
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
 
-			float4 _Color;
+			float _HDR;
 			
 			v2f vert (appdata v)
 			{
@@ -51,6 +53,7 @@
 				
 				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 
+				o.color = v.color;
 
 				return o;
 			}
@@ -68,10 +71,10 @@
 				float Rim = 1-saturate(pow(dot(worldNormal,worldViewDir)+0.05,0.5));
 
 				
-				float Rim2 = saturate(pow(dot(worldNormal,worldViewDir)+0.25,20));
+				float Rim2 = saturate(pow(dot(worldNormal,worldViewDir)+0.3,20));
 
 				
-				return Rim2*Rim*col*_Color;
+				return Rim2*Rim*col*i.color*i.color.a*_HDR;
 			}
 			ENDCG
 		}

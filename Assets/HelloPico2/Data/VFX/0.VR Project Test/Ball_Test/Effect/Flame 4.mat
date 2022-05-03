@@ -7,13 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: New Material
-  m_Shader: {fileID: 4800000, guid: 0885acf25f41b80428519f4e6be53b67, type: 3}
-  m_ShaderKeywords: 
+  m_Name: Flame 4
+  m_Shader: {fileID: 4800000, guid: c7eba09c9919bd24db356e6b416305a7, type: 3}
+  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -40,11 +40,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 4aa589095d815504c8ea82ff53834f0b, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6b9a74bad3a10fa48aac71009b947a99, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 2800000, guid: fb8e25dd81dab72498ae330c609980d5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -56,24 +60,33 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _Angle: 0
+    - _Blend: 1
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _FadeOut: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _HDR: 30
+    - _Intensity: 0.26
+    - _LengthScale: 3.51
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _RadialScale: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
+    - _XSpeed: -30
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1.0429275, g: 9.625948, b: 31.585785, a: 1}
+    - _Color: {r: 1, g: 0.7156648, b: 0.6179246, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _MainColor: {r: 1, g: 0.53187275, b: 0.3820755, a: 1}
+    - _NoiseCenterOffset: {r: 0.5, g: 0.45, b: 0, a: 1}
+    - _TintColor: {r: 6.2194476, g: 7.9072, b: 18.570744, a: 1}
   m_BuildTextureStacks: []
