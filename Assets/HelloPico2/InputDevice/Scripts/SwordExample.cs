@@ -1,5 +1,6 @@
 ﻿using Project;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 namespace HelloPico2.InputDevice.Scripts{
 	public class SwordExample : MonoBehaviour{
@@ -13,6 +14,8 @@ namespace HelloPico2.InputDevice.Scripts{
 			var isGrip = obj.IsGrip;
 			var isPrimary = obj.IsPrimary;
 			var padAxis = obj.TouchPadAxis;
+			var isSecondary = obj.IsSecondary;
+			var selector = obj.Selector;
 			if(isGrip){
 				OnSelect();
 			}
@@ -22,6 +25,11 @@ namespace HelloPico2.InputDevice.Scripts{
 
 			if(isPrimary){
 				OnXOrAButton();
+			}
+
+			if(isSecondary){
+				var selectInteractable = GetComponent<IXRSelectInteractable>();
+				selector.CancelSelect(selectInteractable);
 			}
 
 			if(padAxis.magnitude > 0.1f){
