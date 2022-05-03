@@ -6,7 +6,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 namespace HelloPico2.InputDevice.Scripts{
 	[RequireComponent(typeof(XRBaseInteractor))]
 	[RequireComponent(typeof(XRController))]
-	public class Interactor : MonoBehaviour{
+	public class Interactor : MonoBehaviour , ISelector{
 		private XRController _controller;
 		private XRBaseInteractor _interactor;
 
@@ -39,9 +39,17 @@ namespace HelloPico2.InputDevice.Scripts{
 				IsGrip = isGrip,
 				IsPrimary = isPrimary,
 				IsSecondary = isSecondary,
-				TouchPadAxis = touchPadAxis
+				TouchPadAxis = touchPadAxis,
+				Selector = this,
 			};
 			EventBus.Post(inputDetected);
+		}
+
+		public void CancelSelect(IXRSelectInteractable selectable){
+			var hasSelection = _interactor.hasSelection;
+			if(!hasSelection) return;
+			var interactionManager = _interactor.interactionManager;
+			interactionManager.SelectExit(_interactor , selectable);
 		}
 	}
 }
