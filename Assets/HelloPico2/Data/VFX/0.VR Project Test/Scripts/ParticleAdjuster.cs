@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ParticleAdjuster : MonoBehaviour{
 	private List<ParticleSystem> _particleSystems;
@@ -11,9 +12,16 @@ public class ParticleAdjuster : MonoBehaviour{
 	private float _currentVelocity;
 	private Color _currentColor;
 
+	//get text
+	public GameObject speedTextObj;
+	public GameObject colorTextObj;
+
 	private void Start(){
 		_particleSystems = GetComponentsInChildren<ParticleSystem>().ToList();
 		_particleSystems.RemoveAt(0);
+
+		speedTextObj = GameObject.Find("speedText");
+		colorTextObj = GameObject.Find("colorText");
 	}
 
 	[Button]
@@ -44,5 +52,10 @@ public class ParticleAdjuster : MonoBehaviour{
 	private void OnGUI(){
 		GUI.Label(new Rect(10, 10, 100, 20), _currentVelocity.ToString(CultureInfo.InvariantCulture));
 		GUI.Label(new Rect(10, 30, 200, 20), _currentColor.ToString());
+	}
+    public void Update()
+    {
+		colorTextObj.GetComponent<Text>().text = System.String.Format("Color: {0:N3}", _currentColor);
+		speedTextObj.GetComponent<Text>().text = System.String.Format("Speed: {0:N1}", _currentVelocity);
 	}
 }

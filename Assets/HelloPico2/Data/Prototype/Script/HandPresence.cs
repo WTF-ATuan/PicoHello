@@ -8,12 +8,13 @@ public class HandPresence : MonoBehaviour
     public InputDeviceCharacteristics controllerCharacteristics;
     //public List<GameObject> controllerPrefabs;
     private InputDevice targetDevice;
-    
-    public Animator handAnimator;
-    
-    private GameObject spawnedController;
-    private GameObject spawnedHandModel;
 
+    public Animator handAnimator;
+
+
+    public GameObject spawnedHandModel;
+    public GameObject spawnedController;
+    
     public bool showController = false;
     // Start is called before the first frame update
     void Start()
@@ -26,35 +27,86 @@ public class HandPresence : MonoBehaviour
         {
             Debug.Log(item.name + item.characteristics);
         }*/
-        
+        if(devices.Count > 0)
+        {
+            targetDevice = devices[0];
+        }
         handAnimator = handAnimator.GetComponent<Animator>();
+
     }
 
     void UpdateHandAnimation()
     {
+        if (!showController) return;
         if(targetDevice.TryGetFeatureValue(CommonUsages.trigger,out float triggetValue))
         {
-            Debug.Log(triggetValue);
+            handAnimator.SetFloat("Trigger", triggetValue);
         }
+        else
+        {
+            handAnimator.SetFloat("Trigger", 0);
+        }
+        
+        if (targetDevice.TryGetFeatureValue(CommonUsages.grip, out float gripValue))
+        {
+            handAnimator.SetFloat("Grip", gripValue);
+        }
+        else
+        {
+            handAnimator.SetFloat("Grip", 0);
+        }
+
+        if (targetDevice.TryGetFeatureValue(CommonUsages.primaryButton, out bool primaryButtonValue))
+        {
+            handAnimator.SetBool("PrimaryBtn", primaryButtonValue);
+        }
+        else
+        {
+            handAnimator.SetBool("PrimaryBtn", false);
+        }
+        if (targetDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out bool secondaryButtonValue))
+        {
+            handAnimator.SetBool("SecondBtn", secondaryButtonValue);
+        }
+        else
+        {
+            handAnimator.SetBool("SecondBtn", false);
+        }
+        
+        if (targetDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 primary2DAxisValue))
+        {
+            handAnimator.SetFloat("yAxis", primary2DAxisValue.y);
+            handAnimator.SetFloat("xAxis", primary2DAxisValue.x);
+        }
+        else
+        {
+            handAnimator.SetFloat("yAxis", 0);
+            handAnimator.SetFloat("xAxis", 0);
+        }
+        
+
     }
     // Update is called once per frame
     void Update()
     {
+        UpdateHandAnimation();
+        if (showController)
+        {
+            spawnedHandModel.SetActive(false);
+            spawnedController.SetActive(true);
+        }
+        else
+        {
+            spawnedHandModel.SetActive(true);
+            spawnedController.SetActive(false);
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "handTargetType")
+        {
+            showController = true;
+        }
 
-
-        if (targetDevice.TryGetFeatureValue(CommonUsages.primaryButton, out bool primaryButtonValue) && primaryButtonValue)
-            Debug.Log("Primary");
-        /*
-        if (targetDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out bool secondaryButtonValue) && secondaryButtonValue)
-            Debug.Log("secondaryButtonValue");
-        if (targetDevice.TryGetFeatureValue(CommonUsages.trigger, out float triggerValue) && triggerValue>0.1f)
-            Debug.Log("triggerValue");
-        if (targetDevice.TryGetFeatureValue(CommonUsages.grip, out float gripValue) && gripValue>0.1f)
-            Debug.Log("gripValue");
-        if (targetDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 primmary2DAxisValue) && primmary2DAxisValue != Vector2.zero)
-            Debug.Log("primary2DAxis");
-        if (targetDevice.TryGetFeatureValue(CommonUsages.secondary2DAxis, out Vector2 secondary2DAxisValue) && secondary2DAxisValue != Vector2.zero)
-            Debug.Log("secondary2DAxisValue");
-        */
     }
 }
