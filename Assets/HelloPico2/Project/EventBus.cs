@@ -7,10 +7,7 @@ namespace Project{
 	public class EventBus : MonoBehaviour{
 		private static readonly Dictionary<Type, List<Action<object>>> NonCallbackActions =
 				new Dictionary<Type, List<Action<object>>>();
-
-		private static readonly Dictionary<Type, List<object>> PostBuffer =
-				new Dictionary<Type, List<object>>();
-
+		
 		private static readonly Dictionary<Type, List<Func<object, object>>> CallbackActions =
 				new Dictionary<Type, List<Func<object, object>>>();
 
@@ -26,18 +23,6 @@ namespace Project{
 				NonCallbackActions.Add(type, actions);
 			}
 		}
-
-		public static void ExecutePostBuffer<T>(Action<T> callback){
-			var type = typeof(T);
-			var containsKey = PostBuffer.ContainsKey(type);
-			if(!containsKey) return;
-			var bufferDataList = PostBuffer[type];
-			foreach(var data in bufferDataList.Cast<T>()){
-				callback.Invoke(data);
-			}
-			PostBuffer[type].Clear();
-		}
-
 		public static void Subscribe<T, TResult>(Func<T, TResult> callback){
 			var type = typeof(T);
 			var containsKey = CallbackActions.ContainsKey(type);
@@ -61,26 +46,6 @@ namespace Project{
 			else{
 				var fullName = type.Name;
 				Debug.Log($" Event {fullName}  is no subscriber");
-			}
-		}
-
-		public static void DynamicPost<T>(T obj){
-			var type = typeof(T);
-			var containsKey = NonCallbackActions.ContainsKey(type);
-			if(containsKey){
-				var actions = NonCallbackActions[type];
-				actions.ForEach(o => o.Invoke(obj));
-			}
-			else{
-				var bufferContain = PostBuffer.ContainsKey(type);
-				if(bufferContain){
-					var postObject = PostBuffer[type];
-					postObject.Add(obj);
-				}
-				else{
-					var postList = new List<object>{ obj };
-					PostBuffer.Add(type, postList);
-				}
 			}
 		}
 

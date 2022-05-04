@@ -9,16 +9,12 @@ namespace HelloPico2.InputDevice.Scripts{
 		public bool IsSecondary;
 		public Vector2 TouchPadAxis;
 		public ISelector Selector;
-		private readonly int _instanceID;
-
-
-		public DeviceInputDetected(int instanceID){
-			_instanceID = instanceID;
-		}
+		public int InstanceID;
 
 		public bool IsSameObject(GameObject gameObject){
+			if(InstanceID.Equals(0)) return false;
 			var instanceID = gameObject.GetInstanceID();
-			return instanceID.Equals(_instanceID);
+			return instanceID.Equals(InstanceID);
 		}
 	}
 }
