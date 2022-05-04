@@ -7,7 +7,7 @@ namespace Project{
 	public class EventBus : MonoBehaviour{
 		private static readonly Dictionary<Type, List<Action<object>>> NonCallbackActions =
 				new Dictionary<Type, List<Action<object>>>();
-		
+
 		private static readonly Dictionary<Type, List<Func<object, object>>> CallbackActions =
 				new Dictionary<Type, List<Func<object, object>>>();
 
@@ -23,6 +23,17 @@ namespace Project{
 				NonCallbackActions.Add(type, actions);
 			}
 		}
+
+		public static void UnSubscribe<T>(Action<T> callback){
+			var type = typeof(T);
+			var containsKey = NonCallbackActions.ContainsKey(type);
+			if(containsKey){
+				var callbackActions = NonCallbackActions[type];
+				var action = new Action<object>(o => callback((T)o));
+				callbackActions.Remove(action);
+			}
+		}
+
 		public static void Subscribe<T, TResult>(Func<T, TResult> callback){
 			var type = typeof(T);
 			var containsKey = CallbackActions.ContainsKey(type);
