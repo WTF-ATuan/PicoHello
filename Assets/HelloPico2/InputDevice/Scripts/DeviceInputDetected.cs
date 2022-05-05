@@ -9,6 +9,7 @@ namespace HelloPico2.InputDevice.Scripts{
 		public bool IsSecondary;
 		public Vector2 TouchPadAxis;
 		public ISelector Selector;
+		public GameObject InteractableObject;
 		public int InstanceID;
 
 		public bool IsSameObject(GameObject gameObject){

@@ -34,6 +34,7 @@ namespace HelloPico2.InputDevice.Scripts{
 			inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out var touchPadAxis);
 			inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out var isPrimary);
 			inputDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out var isSecondary);
+			var interactableObject = _interactableTransform.gameObject;
 			var inputDetected = new DeviceInputDetected{
 				IsTrigger = isTrigger,
 				IsGrip = isGrip,
@@ -41,7 +42,8 @@ namespace HelloPico2.InputDevice.Scripts{
 				IsSecondary = isSecondary,
 				TouchPadAxis = touchPadAxis,
 				Selector = this,
-				InstanceID = _interactableTransform.gameObject.GetInstanceID()
+				InstanceID = interactableObject.GetInstanceID(),
+				InteractableObject = interactableObject
 			};
 			EventBus.Post(inputDetected);
 		}
