@@ -34,13 +34,14 @@ namespace HelloPico2.InputDevice.Scripts{
 			inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out var touchPadAxis);
 			inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out var isPrimary);
 			inputDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out var isSecondary);
-			var inputDetected = new DeviceInputDetected(_interactableTransform.gameObject.GetInstanceID()){
+			var inputDetected = new DeviceInputDetected{
 				IsTrigger = isTrigger,
 				IsGrip = isGrip,
 				IsPrimary = isPrimary,
 				IsSecondary = isSecondary,
 				TouchPadAxis = touchPadAxis,
 				Selector = this,
+				InstanceID = _interactableTransform.gameObject.GetInstanceID()
 			};
 			EventBus.Post(inputDetected);
 		}
