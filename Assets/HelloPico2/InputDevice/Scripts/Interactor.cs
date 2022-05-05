@@ -21,9 +21,9 @@ namespace HelloPico2.InputDevice.Scripts{
 		}
 
 		private void Update(){
-			var hasSelection = _interactor.hasSelection;
-			var isEmpty = _interactableTransform == null;
-			if(!hasSelection || isEmpty) return;
+			// var hasSelection = _interactor.hasSelection;
+			// var isEmpty = _interactableTransform == null;
+			// if(!hasSelection || isEmpty) return;
 			DetectInput();
 		}
 
@@ -34,7 +34,7 @@ namespace HelloPico2.InputDevice.Scripts{
 			inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out var touchPadAxis);
 			inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out var isPrimary);
 			inputDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out var isSecondary);
-			var interactableObject = _interactableTransform.gameObject;
+			var interactableObject = _interactableTransform ? _interactableTransform.gameObject : null;
 			var inputDetected = new DeviceInputDetected{
 				IsTrigger = isTrigger,
 				IsGrip = isGrip,
@@ -42,7 +42,7 @@ namespace HelloPico2.InputDevice.Scripts{
 				IsSecondary = isSecondary,
 				TouchPadAxis = touchPadAxis,
 				Selector = this,
-				InstanceID = interactableObject.GetInstanceID(),
+				InstanceID = interactableObject ? interactableObject.GetInstanceID() : 0,
 				InteractableObject = interactableObject
 			};
 			EventBus.Post(inputDetected);
