@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace HelloPico2.InputDevice.Scripts{
 	public class DeviceInputDetected{
@@ -9,13 +8,16 @@ namespace HelloPico2.InputDevice.Scripts{
 		public bool IsSecondary;
 		public Vector2 TouchPadAxis;
 		public ISelector Selector;
-		public GameObject InteractableObject;
-		public int InstanceID;
 
 		public bool IsSameObject(GameObject gameObject){
-			if(InstanceID.Equals(0)) return false;
+			var selectableObject = Selector.SelectableObject;
+			if(selectableObject == null){
+				return false;
+			}
+
+			var selectableID = selectableObject.GetInstanceID();
 			var instanceID = gameObject.GetInstanceID();
-			return instanceID.Equals(InstanceID);
+			return instanceID.Equals(selectableID);
 		}
 	}
 }

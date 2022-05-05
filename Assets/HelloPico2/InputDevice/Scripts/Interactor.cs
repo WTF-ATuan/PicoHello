@@ -9,21 +9,20 @@ namespace HelloPico2.InputDevice.Scripts{
 	public class Interactor : MonoBehaviour, ISelector{
 		private XRController _controller;
 		private XRBaseInteractor _interactor;
-
-
-		private Transform _interactableTransform;
+		private Transform _selectableTransform;
+		
+		public bool HasSelection => _interactor.hasSelection;
+		public GameObject SelectableObject => _selectableTransform ? _selectableTransform.gameObject : null;
+		public Transform SelectorTransform => _interactor.attachTransform;
 
 		private void Start(){
 			_controller = GetComponent<XRController>();
 			_interactor = GetComponent<XRBaseInteractor>();
-			_interactor.selectEntered.AddListener(x => { _interactableTransform = x.interactableObject.transform; });
-			_interactor.selectExited.AddListener(x => { _interactableTransform = null; });
+			_interactor.selectEntered.AddListener(x => { _selectableTransform = x.interactableObject.transform; });
+			_interactor.selectExited.AddListener(x => { _selectableTransform = null; });
 		}
 
 		private void Update(){
-			// var hasSelection = _interactor.hasSelection;
-			// var isEmpty = _interactableTransform == null;
-			// if(!hasSelection || isEmpty) return;
 			DetectInput();
 		}
 
@@ -34,7 +33,6 @@ namespace HelloPico2.InputDevice.Scripts{
 			inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out var touchPadAxis);
 			inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out var isPrimary);
 			inputDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out var isSecondary);
-			var interactableObject = _interactableTransform ? _interactableTransform.gameObject : null;
 			var inputDetected = new DeviceInputDetected{
 				IsTrigger = isTrigger,
 				IsGrip = isGrip,
@@ -42,8 +40,6 @@ namespace HelloPico2.InputDevice.Scripts{
 				IsSecondary = isSecondary,
 				TouchPadAxis = touchPadAxis,
 				Selector = this,
-				InstanceID = interactableObject ? interactableObject.GetInstanceID() : 0,
-				InteractableObject = interactableObject
 			};
 			EventBus.Post(inputDetected);
 		}
