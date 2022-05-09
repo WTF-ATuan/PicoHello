@@ -22,7 +22,8 @@ namespace HelloPico2.InteractableObjects{
 				var rig = _rigs[i];
 				var rigTransform = rig.transform;
 				var addPosition = rigTransform.InverseTransformVector(rigTransform.forward * multiplyValue);
-				rigTransform.DOLocalMove(addPosition, multiplyValue);
+				var finalPosition = rigTransform.localPosition + addPosition;
+				rigTransform.DOLocalMove(finalPosition, Mathf.Abs(multiplyValue));
 			}
 		}
 
@@ -36,6 +37,7 @@ namespace HelloPico2.InteractableObjects{
 			}
 		}
 
+		[Button]
 		public void SetControlIndex(int value){
 			var overLimit = value > _rigs.Count;
 			if(overLimit){
