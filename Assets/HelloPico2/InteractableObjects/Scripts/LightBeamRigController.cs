@@ -11,9 +11,27 @@ namespace HelloPico2.InteractableObjects{
 		private List<Transform> _rigs;
 		private int _currentControlIndex = 5;
 
+		public bool IsLenghtUpdating{ get; private set; }
+
 		private void Start(){
 			_rigs = rigRoot.GetComponentsInChildren<Transform>().ToList();
 			_rigs.RemoveAt(0);
+		}
+
+		public float GetAllRigLenght(){
+			float lenght = 0;
+			for(var i = 0; i < _currentControlIndex; i++){
+				var rig = _rigs[i];
+				var localPosition = rig.transform.localPosition;
+				lenght += localPosition.z;
+			}
+
+			return lenght;
+		}
+
+		public float GetSingleRigLenght(){
+			var first = _rigs.First();
+			return first.position.z;
 		}
 
 		[Button]
@@ -23,17 +41,9 @@ namespace HelloPico2.InteractableObjects{
 				var rigTransform = rig.transform;
 				var addPosition = rigTransform.InverseTransformVector(rigTransform.forward * multiplyValue);
 				var finalPosition = rigTransform.localPosition + addPosition;
-				rigTransform.DOLocalMove(finalPosition, Mathf.Abs(multiplyValue));
-			}
-		}
-
-		[Button]
-		public void DynamicScale(){
-			for(var i = 0; i < _currentControlIndex; i++){
-				var rig = _rigs[i];
-				var rigTransform = rig.transform;
-				rigTransform.DOScale(Vector3.one * 2, i)
-						.OnComplete(() => { rigTransform.DOScale(Vector3.one, _currentControlIndex - i); });
+				IsLenghtUpdating = true;
+				rigTransform.DOLocalMove(finalPosition, Mathf.Abs(multiplyValue))
+						.OnComplete(() => { IsLenghtUpdating = false; });
 			}
 		}
 
