@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using Sirenix.OdinInspector;
@@ -42,8 +41,19 @@ namespace HelloPico2.InteractableObjects{
 				var addPosition = rigTransform.InverseTransformVector(rigTransform.forward * multiplyValue);
 				var finalPosition = rigTransform.localPosition + addPosition;
 				IsLenghtUpdating = true;
-				rigTransform.DOLocalMove(finalPosition, Mathf.Abs(multiplyValue))
-						.OnComplete(() => { IsLenghtUpdating = false; });
+				rigTransform.localPosition = finalPosition;
+			}
+
+			IsLenghtUpdating = false;
+		}
+
+		public void SetPositionLenghtByPercent(float multiplyValue, float value){
+			for(var i = 0; i < _currentControlIndex; i++){
+				var rig = _rigs[i];
+				var rigTransform = rig.transform;
+				var targetPosition = rigTransform.InverseTransformVector(rigTransform.forward * multiplyValue);
+				var lerpPosition = Vector3.Lerp(Vector3.zero, targetPosition, value);
+				rigTransform.localPosition = lerpPosition;
 			}
 		}
 
