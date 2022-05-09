@@ -57,5 +57,7 @@ namespace HelloPico2.InputDevice.Scripts{
 			var interactionManager = _interactor.interactionManager;
 			interactionManager.SelectEnter(_interactor, selectable);
 		}
+
+		public void SetHaptic(){ }
 	}
 }
