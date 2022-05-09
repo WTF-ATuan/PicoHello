@@ -27,12 +27,12 @@ namespace HelloPico2.InteractableObjects{
 		}
 
 		[Button]
-		public void ModifyScaleSize(float multiplyValue){
+		public void DynamicScale(){
 			for(var i = 0; i < _currentControlIndex; i++){
 				var rig = _rigs[i];
 				var rigTransform = rig.transform;
-				var addScale = rigTransform.localScale * multiplyValue;
-				rigTransform.DOScale(addScale, multiplyValue);
+				rigTransform.DOScale(Vector3.one * 2, i)
+						.OnComplete(() => { rigTransform.DOScale(Vector3.one, _currentControlIndex - i); });
 			}
 		}
 
