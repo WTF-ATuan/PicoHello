@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using DG.Tweening;
+using Project;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace HelloPico2.InteractableObjects{
 	public class LightBeamRigController : MonoBehaviour{
 		[SerializeField] [Required] private Transform rigRoot;
 		[SerializeField] [MinValue(0.1f)] private float maxRigDistance = 0.25f;
-		private List<Transform> _rigs;
 		[SerializeField] private int currentControlIndex = 5;
+		private List<Transform> _rigs;
 
 		private void Start(){
 			_rigs = rigRoot.GetComponentsInChildren<Transform>().ToList();
@@ -20,18 +18,28 @@ namespace HelloPico2.InteractableObjects{
 
 		private LightBeamLenghtUpdated GetDefaultUpdatedEvent(){
 			var lenghtUpdated = new LightBeamLenghtUpdated();
+			var totalOffset = _rigs.Aggregate(Vector3.zero, (current, rig) => current + rig.localPosition);
+			var singleOffset = _rigs.First().localPosition;
+			lenghtUpdated.TotalLenght = totalOffset.magnitude;
+			lenghtUpdated.SingleLenght = singleOffset.magnitude;
 			return lenghtUpdated;
 		}
 
 		[Button]
 		public void ModifyControlRigLenght(float rigLenght){
+			var lenghtUpdated = GetDefaultUpdatedEvent();
 			for(var i = 0; i < currentControlIndex; i++){
 				var rig = _rigs[i];
 				var rigTransform = rig.transform;
 				var addPosition = rigTransform.InverseTransformVector(rigTransform.forward * rigLenght);
 				var finalPosition = rigTransform.localPosition + addPosition;
 				rigTransform.localPosition = finalPosition;
+				lenghtUpdated.IsUpdating = true;
+				EventBus.Post(lenghtUpdated);
 			}
+
+			lenghtUpdated.IsUpdating = false;
+			EventBus.Post(lenghtUpdated);
 		}
 
 		[Button]
@@ -56,11 +64,5 @@ namespace HelloPico2.InteractableObjects{
 				rigTransform.localPosition = lerpPosition;
 			}
 		}
-	}
-
-	public class LightBeamLenghtUpdated{
-		public float TotalLenght;
-		public float SingleLenght;
-		public bool IsUpdating;
 	}
 }
