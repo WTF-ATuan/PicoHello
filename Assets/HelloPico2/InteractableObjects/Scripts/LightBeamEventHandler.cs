@@ -1,6 +1,7 @@
 ﻿using System;
 using HelloPico2.InputDevice.Scripts;
 using Project;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace HelloPico2.InteractableObjects{
@@ -25,6 +26,16 @@ namespace HelloPico2.InteractableObjects{
 			var axisY = touchPadAxis.y;
 			if(!percentMode) _rigController.ModifyPositionLenght(axisY * 0.01f);
 			else _rigController.SetPositionLenghtByPercent(1, axisY);
+		}
+
+		[Button]
+		private void BuildSword(float lenght){
+			
+		}
+
+		[Button]
+		private void BuildShield(){
+			
 		}
 	}
 }
