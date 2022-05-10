@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Project;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -16,30 +15,28 @@ namespace HelloPico2.InteractableObjects{
 			_rigs.RemoveAt(0);
 		}
 
-		private LightBeamLenghtUpdated GetDefaultUpdatedEvent(){
+		private void PostLenghtUpdatedEvent(int updateState){
 			var lenghtUpdated = new LightBeamLenghtUpdated();
 			var totalOffset = _rigs.Aggregate(Vector3.zero, (current, rig) => current + rig.localPosition);
 			var singleOffset = _rigs.First().localPosition;
 			lenghtUpdated.TotalLenght = totalOffset.magnitude;
 			lenghtUpdated.SingleLenght = singleOffset.magnitude;
-			return lenghtUpdated;
+			lenghtUpdated.UpdateState = updateState;
 		}
 
 		[Button]
 		public void ModifyControlRigLenght(float rigLenght){
-			var lenghtUpdated = GetDefaultUpdatedEvent();
+			PostLenghtUpdatedEvent(0);
 			for(var i = 0; i < currentControlIndex; i++){
 				var rig = _rigs[i];
 				var rigTransform = rig.transform;
 				var addPosition = rigTransform.InverseTransformVector(rigTransform.forward * rigLenght);
 				var finalPosition = rigTransform.localPosition + addPosition;
 				rigTransform.localPosition = finalPosition;
-				lenghtUpdated.IsUpdating = true;
-				EventBus.Post(lenghtUpdated);
+				PostLenghtUpdatedEvent(1);
 			}
 
-			lenghtUpdated.IsUpdating = false;
-			EventBus.Post(lenghtUpdated);
+			PostLenghtUpdatedEvent(2);
 		}
 
 		[Button]
@@ -56,13 +53,17 @@ namespace HelloPico2.InteractableObjects{
 		}
 
 		public void SetPositionLenghtByPercent(float multiplyValue, float value){
+			PostLenghtUpdatedEvent(0);
 			for(var i = 0; i < currentControlIndex; i++){
 				var rig = _rigs[i];
 				var rigTransform = rig.transform;
 				var targetPosition = rigTransform.InverseTransformVector(rigTransform.forward * multiplyValue);
 				var lerpPosition = Vector3.Lerp(Vector3.zero, targetPosition, value);
 				rigTransform.localPosition = lerpPosition;
+				PostLenghtUpdatedEvent(1);
 			}
+
+			PostLenghtUpdatedEvent(2);
 		}
 	}
 }
