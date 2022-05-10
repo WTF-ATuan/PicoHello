@@ -56,17 +56,5 @@ namespace HelloPico2.InteractableObjects{
 				rigTransform.localPosition = lerpPosition;
 			}
 		}
-
-		[Button]
-		public void SetControlIndex(int value){
-			var overLimit = value > _rigs.Count;
-			if(overLimit){
-				value = _rigs.Count;
-				_currentControlIndex = value;
-			}
-			else{
-				_currentControlIndex = value;
-			}
-		}
 	}
 }
