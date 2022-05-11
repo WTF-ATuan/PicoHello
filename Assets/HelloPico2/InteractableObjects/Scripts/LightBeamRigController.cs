@@ -39,19 +39,6 @@ namespace HelloPico2.InteractableObjects{
 			PostLenghtUpdatedEvent(2);
 		}
 
-		[Button]
-		public void ModifyRigTotalLength(float totalLength){
-			var totalOffset = rigRoot.forward * totalLength;
-			var rigCount = Mathf.FloorToInt(totalOffset.z / maxRigDistance);
-			var addedOffset = totalOffset / rigCount;
-			for(var i = 0; i < rigCount; i++){
-				var rig = _rigs[i];
-				var rigTransform = rig.transform;
-				var finalPosition = rigTransform.InverseTransformVector(addedOffset);
-				rigTransform.localPosition = finalPosition;
-			}
-		}
-
 		public void SetPositionLenghtByPercent(float multiplyValue, float value){
 			PostLenghtUpdatedEvent(0);
 			for(var i = 0; i < currentControlIndex; i++){
@@ -65,5 +52,30 @@ namespace HelloPico2.InteractableObjects{
 
 			PostLenghtUpdatedEvent(2);
 		}
+
+		[Button]
+		public void ModifyRigTotalLength(float totalLength){
+			var totalOffset = rigRoot.forward * totalLength;
+			var rigCount = Mathf.FloorToInt(totalOffset.z / maxRigDistance);
+			var addedOffset = totalOffset / rigCount;
+			for(var i = 0; i < rigCount; i++){
+				var rig = _rigs[i];
+				var rigTransform = rig.transform;
+				var finalPosition = rigTransform.InverseTransformVector(addedOffset);
+				rigTransform.localPosition = finalPosition;
+			}
+		}
+		#if UNITY_EDITOR
+
+		[Button]
+		public void ResetRigPosition(){
+			var rigs = rigRoot.GetComponentsInChildren<Transform>().ToList();
+			rigs.RemoveAt(0);
+			foreach(var rig in rigs){
+				rig.localPosition = Vector3.zero;
+			}
+		}
+
+		#endif
 	}
 }
