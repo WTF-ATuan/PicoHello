@@ -7,7 +7,6 @@ namespace HelloPico2.InteractableObjects{
 	public class LightBeamRigController : MonoBehaviour{
 		[SerializeField] [Required] private Transform rigRoot;
 		[SerializeField] [MinValue(0.1f)] private float maxRigDistance = 0.25f;
-		[SerializeField] private int controlRigCount = 5;
 		private List<Transform> _rigs;
 
 		private void Start(){
@@ -27,11 +26,15 @@ namespace HelloPico2.InteractableObjects{
 		[Button]
 		public void ModifyControlRigLenght(float rigLenght){
 			PostLenghtUpdatedEvent(0);
-			for(var i = 0; i < controlRigCount; i++){
+			var totalOffset = rigRoot.forward * rigLenght;
+			var rigCount = GetRigCountByTotalLength(totalOffset);
+			if(rigCount == 0) SetRigTotalLength(0);
+			var offset = totalOffset / rigCount;
+			for(var i = 0; i < rigCount; i++){
 				var rig = _rigs[i];
 				var rigTransform = rig.transform;
-				var addPosition = rigTransform.InverseTransformVector(rigTransform.forward * rigLenght);
-				var finalPosition = rigTransform.localPosition + addPosition;
+				var modifiedPosition = rigTransform.InverseTransformVector(offset);
+				var finalPosition = rigTransform.localPosition + modifiedPosition;
 				rigTransform.localPosition = finalPosition;
 				PostLenghtUpdatedEvent(1);
 			}
@@ -42,9 +45,17 @@ namespace HelloPico2.InteractableObjects{
 		[Button]
 		public void SetRigTotalLength(float offsetMultiplier){
 			var totalOffset = rigRoot.forward * offsetMultiplier;
-			var rigCount = GetRigCountByTotalLength(totalOffset);
-			var offset = totalOffset / rigCount;
-			SetRigLength(rigCount, offset);
+
+			if(offsetMultiplier > 0){
+				var rigCount = Mathf.FloorToInt(totalOffset.z / maxRigDistance);
+				var addedOffset = totalOffset / rigCount;
+				SetRigLength(rigCount, addedOffset);
+			}
+			else{
+				var rigCount = GetRigCountByTotalLength(Vector3.zero);
+				var decreaseOffset = totalOffset / rigCount;
+				SetRigLength(rigCount, decreaseOffset);
+			}
 		}
 
 		private void SetRigLength(int rigCount, Vector3 rigOffset){
@@ -58,22 +69,27 @@ namespace HelloPico2.InteractableObjects{
 			}
 
 			PostLenghtUpdatedEvent(2);
-			controlRigCount = rigCount;
 		}
 
+		[Button]
 		private int GetRigCountByTotalLength(Vector3 addedOffset){
-			var totalOffset = _rigs.Aggregate(Vector3.zero, (current, rig) => current + rig.position);
-			var targetOffset = totalOffset + addedOffset;
+			var maxLength = _rigs.Max(x => x.position.magnitude);
+			var maxOffset = _rigs.Find(x => x.position.magnitude >= maxLength).position;
+			var targetOffset = maxOffset + addedOffset;
 			var rigCount = Mathf.Abs(Mathf.FloorToInt(targetOffset.z / maxRigDistance));
 			return rigCount;
 		}
 
 		public void SetPositionLenghtByPercent(float multiplyValue, float value){
 			PostLenghtUpdatedEvent(0);
-			for(var i = 0; i < controlRigCount; i++){
+			var totalOffset = rigRoot.forward * multiplyValue;
+			var rigCount = GetRigCountByTotalLength(totalOffset);
+			if(rigCount == 0) SetRigTotalLength(0);
+			var offset = totalOffset / rigCount;
+			for(var i = 0; i < rigCount; i++){
 				var rig = _rigs[i];
 				var rigTransform = rig.transform;
-				var targetPosition = rigTransform.InverseTransformVector(rigTransform.forward * multiplyValue);
+				var targetPosition = rigTransform.InverseTransformVector(offset);
 				var lerpPosition = Vector3.Lerp(Vector3.zero, targetPosition, value);
 				rigTransform.localPosition = lerpPosition;
 				PostLenghtUpdatedEvent(1);
@@ -81,17 +97,5 @@ namespace HelloPico2.InteractableObjects{
 
 			PostLenghtUpdatedEvent(2);
 		}
-
-		#if UNITY_EDITOR
-		[Button]
-		public void ResetRigPosition(){
-			var rigs = rigRoot.GetComponentsInChildren<Transform>().ToList();
-			rigs.RemoveAt(0);
-			foreach(var rig in rigs){
-				rig.localPosition = Vector3.zero;
-			}
-		}
-
-		#endif
 	}
 }
