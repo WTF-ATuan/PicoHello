@@ -42,17 +42,9 @@ namespace HelloPico2.InteractableObjects{
 		[Button]
 		public void SetRigTotalLength(float offsetMultiplier){
 			var totalOffset = rigRoot.forward * offsetMultiplier;
-
-			if(offsetMultiplier > 0){
-				var rigCount = Mathf.FloorToInt(totalOffset.z / maxRigDistance);
-				var addedOffset = totalOffset / rigCount;
-				SetRigLength(rigCount, addedOffset);
-			}
-			else{
-				var rigCount = controlRigCount;
-				var decreaseOffset = totalOffset / rigCount;
-				SetRigLength(rigCount, decreaseOffset);
-			}
+			var rigCount = GetRigCountByTotalLength(totalOffset);
+			var offset = totalOffset / rigCount;
+			SetRigLength(rigCount, offset);
 		}
 
 		private void SetRigLength(int rigCount, Vector3 rigOffset){
@@ -67,6 +59,13 @@ namespace HelloPico2.InteractableObjects{
 
 			PostLenghtUpdatedEvent(2);
 			controlRigCount = rigCount;
+		}
+
+		private int GetRigCountByTotalLength(Vector3 addedOffset){
+			var totalOffset = _rigs.Aggregate(Vector3.zero, (current, rig) => current + rig.position);
+			var targetOffset = totalOffset + addedOffset;
+			var rigCount = Mathf.Abs(Mathf.FloorToInt(targetOffset.z / maxRigDistance));
+			return rigCount;
 		}
 
 		public void SetPositionLenghtByPercent(float multiplyValue, float value){
