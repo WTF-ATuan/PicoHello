@@ -10,6 +10,7 @@ namespace HelloPico2.InteractableObjects
     public class InteractablePower : InteractableBase
     {
         [SerializeField] private float _Energy = 20;
+             
         bool used { get; set; }
         public override void OnSelect(DeviceInputDetected obj)
         {
@@ -22,6 +23,10 @@ namespace HelloPico2.InteractableObjects
 
             GetComponent<Collider>().enabled = false;
             used = true;
+        }
+        private void OnDisable()
+        {
+            
         }
     }
 }

@@ -6,12 +6,19 @@ namespace HelloPico2.InteractableObjects
 {
     public class InteractableBase : MonoBehaviour
     {
+		public delegate void InteractableDel(InteractableBase interactable);
+		public InteractableDel OnInteractableDisable;
+
 		protected virtual void Start()
 		{
 			
 		}
+        private void OnDestroy()
+        {
+			OnInteractableDisable?.Invoke(this);
+        }
 
-		public virtual void OnDrop()
+        public virtual void OnDrop()
 		{
 			var meshRenderer = GetComponent<MeshRenderer>();
 			meshRenderer.material.color = Color.white;

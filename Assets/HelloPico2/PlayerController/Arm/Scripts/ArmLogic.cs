@@ -4,6 +4,7 @@ using UnityEngine;
 using Project;
 using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
+using DG.Tweening;
 using HelloPico2.InteractableObjects;
 using HelloPico2.InputDevice.Scripts;
 
@@ -13,7 +14,7 @@ namespace HelloPico2.PlayerController.Arm
     public class ArmLogic : MonoBehaviour
     {
         private ArmData _data;
-        private ArmData data { 
+        public ArmData data { 
             get {
                 if (_data == null)
                     _data = GetComponent<ArmData>();
@@ -30,9 +31,10 @@ namespace HelloPico2.PlayerController.Arm
 		public ValueAction OnEnergyChanged;
 		public ValueAction OnGripUp;
 		public ValueAction OnTriggerDown;
-		public AxisAction OnPadInput;
+		public ValueAction OnPrimaryAxisTouchUp;
+		public ValueAction OnPrimaryAxisClick;
+		public AxisAction OnPrimaryAxisInput;
 
-		public bool _shoot;
 		public GameObject test;
 		
 		private void Start()
@@ -51,14 +53,11 @@ namespace HelloPico2.PlayerController.Arm
 		}
         private void Update()
         {
-			if (_shoot)
-			{
-				//sOnTriggerDown(data);
-				//OnGripUp?.Invoke(data);
-			}
-
 			_controller.inputDevice.TryGetFeatureValue(CommonUsages.triggerButton, out var isTrigger);
 			_controller.inputDevice.TryGetFeatureValue(CommonUsages.gripButton, out var isGrip);
+			_controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxisTouch, out var padAxisTouch);
+			_controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxisClick, out var padAxisClick);
+			_controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out var padAxis);
 
 			if (isTrigger)
 			{
@@ -69,7 +68,22 @@ namespace HelloPico2.PlayerController.Arm
 				// Use all energy to shoot
 				OnGripUp?.Invoke(data);
 			}
+			if (!padAxisTouch)
+			{
+				test.SetActive(true);
+				OnPrimaryAxisTouchUp(data);
+			}
+			if (padAxisClick)
+			{
+				test.SetActive(false);
+				OnPrimaryAxisClick(data);
+			}
+			if (padAxis.magnitude >= 0.1f && padAxisTouch) {
+				OnPrimaryAxisInput(padAxis);
+			}
 		}
+
+		// Not in use
         public void OnDeviceInputDetected(DeviceInputDetected obj)
         {
 			if (obj.Selector.SelectableObject == null) return;
@@ -79,8 +93,6 @@ namespace HelloPico2.PlayerController.Arm
             var isPrimary = obj.IsPrimary;
 			var isTrigger = obj.IsTrigger;
             var padAxis = obj.TouchPadAxis;
-
-            CheckSummon(padAxis, isPrimary);
 
 			if (isGrip)
 			{
@@ -100,23 +112,15 @@ namespace HelloPico2.PlayerController.Arm
 
 			if (isTrigger)
 			{
-				print("isTriggered");
-				test.SetActive(false);
 				OnTriggerDown(data);
 			}
 
 			if (padAxis.magnitude > .1f)
 			{
 				interactable.OnTouchPad(padAxis);
-				OnPadInput(padAxis);
+				OnPrimaryAxisInput(padAxis);
 			}
 
-		}
-        
-        private void CheckSummon(Vector2 touchPadAxis, bool isTrigger) {
-			if (touchPadAxis.y > 0 && isTrigger) {
-				Summon(InteractableSettings.InteractableType.Sword);
-			}
 		}
 		
 		public void ChargeEnergy(float amount, IXRSelectInteractable interactable, DeviceInputDetected obj) {
@@ -125,10 +129,16 @@ namespace HelloPico2.PlayerController.Arm
 
 			controllerInteractor.CancelSelect(interactable);
 
-			OnEnergyChanged?.Invoke(data);
 
-			Destroy(interactable.transform.gameObject,2f);
+			interactable.transform.DOMove(_controller.transform.position, data.GrabEasingDuration).OnComplete(() =>
+			{
+				OnEnergyChanged?.Invoke(data);
+
+				Destroy(interactable.transform.gameObject);
+			});
 		}
+
+		// Not in use
 		public void Summon(InteractableSettings.InteractableType type) {
 
 			if (data.currentWeapon != null) return;
