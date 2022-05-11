@@ -70,13 +70,6 @@ namespace HelloPico2.InteractableObjects{
 			controlRigCount = rigCount;
 		}
 
-		private int GetRigCountByTotalLength(Vector3 addedOffset){
-			var totalOffset = _rigs.Aggregate(Vector3.zero, (current, rig) => current + rig.position);
-			var targetOffset = totalOffset + addedOffset;
-			var rigCount = Mathf.Abs(Mathf.FloorToInt(targetOffset.z / maxRigDistance));
-			return rigCount;
-		}
-
 		public void SetPositionLenghtByPercent(float multiplyValue, float value){
 			PostLenghtUpdatedEvent(0);
 			for(var i = 0; i < controlRigCount; i++){
@@ -90,17 +83,5 @@ namespace HelloPico2.InteractableObjects{
 
 			PostLenghtUpdatedEvent(2);
 		}
-
-		#if UNITY_EDITOR
-		[Button]
-		public void ResetRigPosition(){
-			var rigs = rigRoot.GetComponentsInChildren<Transform>().ToList();
-			rigs.RemoveAt(0);
-			foreach(var rig in rigs){
-				rig.localPosition = Vector3.zero;
-			}
-		}
-
-		#endif
 	}
 }
