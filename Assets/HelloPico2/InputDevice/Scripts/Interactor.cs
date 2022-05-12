@@ -1,4 +1,5 @@
-﻿using Project;
+﻿using System;
+using Project;
 using UnityEngine;
 using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -7,11 +8,12 @@ namespace HelloPico2.InputDevice.Scripts{
 	[RequireComponent(typeof(XRBaseInteractor))]
 	[RequireComponent(typeof(XRController))]
 	public class Interactor : MonoBehaviour, ISelector{
+		private XRController _controller;
 		private XRBaseInteractor _interactor;
 		private Transform _selectableTransform;
 
 		private void Start(){
-			Controller = GetComponent<XRController>();
+			_controller = GetComponent<XRController>();
 			_interactor = GetComponent<XRBaseInteractor>();
 			_interactor.selectEntered.AddListener(x => { _selectableTransform = x.interactableObject.transform; });
 			_interactor.selectExited.AddListener(x => { _selectableTransform = null; });
@@ -24,7 +26,16 @@ namespace HelloPico2.InputDevice.Scripts{
 		public bool HasSelection => _interactor.hasSelection;
 		public GameObject SelectableObject => _selectableTransform ? _selectableTransform.gameObject : null;
 		public Transform SelectorTransform => _interactor.attachTransform;
-		public XRController Controller{ get; private set; }
+
+		public HandType HandType{
+			get{
+				if(_controller.controllerNode == XRNode.LeftHand) return HandType.Left;
+
+				if(_controller.controllerNode == XRNode.RightHand) return HandType.Right;
+
+				throw new ArgumentException($"{_controller.controllerNode} is not handType");
+			}
+		}
 
 		public void CancelSelect(IXRSelectInteractable selectable){
 			var hasSelection = _interactor.hasSelection;
@@ -41,7 +52,7 @@ namespace HelloPico2.InputDevice.Scripts{
 		}
 
 		private void DetectInput(){
-			var inputDevice = Controller.inputDevice;
+			var inputDevice = _controller.inputDevice;
 			inputDevice.TryGetFeatureValue(CommonUsages.triggerButton, out var isTrigger);
 			inputDevice.TryGetFeatureValue(CommonUsages.gripButton, out var isGrip);
 			inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out var touchPadAxis);
@@ -59,5 +70,10 @@ namespace HelloPico2.InputDevice.Scripts{
 		}
 
 		public void SetHaptic(){ }
+	}
+
+	public enum HandType{
+		Left,
+		Right
 	}
 }

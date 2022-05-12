@@ -6,7 +6,7 @@ namespace HelloPico2.InputDevice.Scripts{
 		bool HasSelection{ get; }
 		GameObject SelectableObject{ get; }
 		Transform SelectorTransform{ get; }
-		XRController Controller{ get; }
+		HandType HandType{ get; }
 		void CancelSelect(IXRSelectInteractable selectable);
 		void StartSelect(IXRSelectInteractable selectable);
 	}
