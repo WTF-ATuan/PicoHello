@@ -32,6 +32,7 @@ namespace HelloPico2.PlayerController.Arm
         [SerializeField] private GameObject _Whip;
         [SerializeField] private GameObject _Shield;
         private SwordBehavior swordBehavior;
+        private ShieldBehavior shieldBehavior;
 
         [Header("Debug")]
         public bool _Debug;
@@ -99,8 +100,10 @@ namespace HelloPico2.PlayerController.Arm
             var chargeScale = _EnergyProjectile.transform.localScale + Vector3.one * (data.Energy / data.MaxEnergy);
             GenerateProjectile(true, chargeScale.y);
             data.Energy = 0;
+            armLogic.OnEnergyChanged?.Invoke(data);
 
             UpdateScale(data);
+
         }
         [Button]
         private void ShootEnergyProjectile(ArmData data)
@@ -108,6 +111,7 @@ namespace HelloPico2.PlayerController.Arm
             if (data.Energy <= 0 || ShootCoolDownProcess != null) return;
 
             data.Energy -= _CostEnergy;
+            armLogic.OnEnergyChanged?.Invoke(data);
             GenerateProjectile(false);
 
             UpdateScale(data);
@@ -149,11 +153,6 @@ namespace HelloPico2.PlayerController.Arm
         private void ExitShapeControlling(ArmData data) {
 
             isShapeConfirmed = false;
-            //StartCoroutine(Delayer(.5f));
-        }
-        private IEnumerator Delayer(float duration) {
-            yield return new WaitForSeconds(duration);
-            isShapeConfirmed = false;
         }
         private void UpdateShape(Vector2 axis) {
             if (isShapeConfirmed) return;
@@ -170,6 +169,9 @@ namespace HelloPico2.PlayerController.Arm
                 // Hard and Short
                 // Shield
                 ActivateWeapon(_Shield);
+
+                shieldBehavior = GetComponent<ShieldBehavior>();
+                shieldBehavior.Activate(armLogic, armLogic.data, _Shield);
             }
             if (axis.x < 0 && axis.y < 0) {
                 // Soft and short
