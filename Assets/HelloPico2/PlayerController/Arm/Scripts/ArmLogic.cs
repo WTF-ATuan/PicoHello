@@ -124,11 +124,11 @@ namespace HelloPico2.PlayerController.Arm
 		}
 		
 		public void ChargeEnergy(float amount, IXRSelectInteractable interactable, DeviceInputDetected obj) {
+			if (obj.Selector.HandType != data.HandType) return;
 
 			data.Energy += amount;
 
 			controllerInteractor.CancelSelect(interactable);
-
 
 			interactable.transform.DOMove(_controller.transform.position, data.GrabEasingDuration).OnComplete(() =>
 			{
