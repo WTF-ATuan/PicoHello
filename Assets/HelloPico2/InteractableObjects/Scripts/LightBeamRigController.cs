@@ -7,10 +7,16 @@ namespace HelloPico2.InteractableObjects{
 	public class LightBeamRigController : MonoBehaviour{
 		[SerializeField] [Required] private Transform rigRoot;
 		[SerializeField] [MinValue(0.1f)] private float maxRigDistance = 0.25f;
-		[SerializeField] [ReadOnly] private int controlRigCount = 5;
+
+		[SerializeField] [MinValue(5)] [MaxValue(20)]
+		private int controlRigCount = 5;
+
 		private List<Transform> _rigs;
 
+		private DynamicBone _dynamicBone;
+
 		private void Start(){
+			_dynamicBone = GetComponent<DynamicBone>();
 			_rigs = rigRoot.GetComponentsInChildren<Transform>().ToList();
 			_rigs.RemoveAt(0);
 		}
@@ -82,6 +88,13 @@ namespace HelloPico2.InteractableObjects{
 			}
 
 			PostLenghtUpdatedEvent(2);
+		}
+
+		public void ModifyInert(float amount){
+			var currentInert = _dynamicBone.m_Inert;
+			var nextInert = Mathf.Clamp01(currentInert + amount);
+			_dynamicBone.m_Inert = nextInert;
+			_dynamicBone.UpdateParameters();
 		}
 	}
 }
