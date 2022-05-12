@@ -12,10 +12,11 @@ namespace HelloPico2.PlayerController.Arm
         //LightBeamRigController lightBeamRigController;
         GameObject shield { get; set; }
         ArmLogic armLogic { get; set; }
-        public void Activate(ArmLogic Logic, ArmData data, GameObject shield)
+        public void Activate(ArmLogic Logic, ArmData data, GameObject shieldObj)
         {
             armLogic = Logic;
             //lightBeamRigController = lightBeam.GetComponent<LightBeamRigController>();
+            shield = shieldObj;
             UpdateShieldScale(data);
             armLogic.OnEnergyChanged += UpdateShieldScale;
         }
