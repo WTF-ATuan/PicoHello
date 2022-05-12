@@ -33733,13 +33733,10 @@ GameObject:
   - component: {fileID: 9192008309198353997}
   - component: {fileID: 2205063859274300994}
   - component: {fileID: 4204407751213216452}
-  - component: {fileID: 7211247271712635570}
   - component: {fileID: 7057524778773142620}
   - component: {fileID: 9089362310086525930}
-  - component: {fileID: 1713234173332303121}
-  - component: {fileID: 8411436784322823387}
   m_Layer: 0
-  m_Name: Ball_Prefabe
+  m_Name: Guide_CrBall
   m_TagString: ball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33753,8 +33750,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5312130270629915579}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.766, z: -28.335844}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.766, z: -27.537535}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 5312130272171975205}
   - {fileID: 1360630226394242967}
@@ -33980,18 +33977,6 @@ MonoBehaviour:
   m_FirstSelectEntered:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7211247271712635570}
-        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 4204407751213216452}
         m_TargetAssemblyTypeName: UnityEngine.SphereCollider, UnityEngine
         m_MethodName: set_radius
@@ -34118,20 +34103,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.8
+  m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7211247271712635570
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5312130270629915579}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e0cf853b121f9d4187e92cf60673c5e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7057524778773142620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34147,33 +34120,6 @@ MonoBehaviour:
   speed: 50
   Hitting_Effect: {fileID: 7914992017776608554}
 --- !u!114 &9089362310086525930
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5312130270629915579}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8bbdb71c16d93e44a4fbced4750bab3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _strength: 0
-  _time: 0
-  _hapticTime: 0
---- !u!114 &1713234173332303121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5312130270629915579}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f612601201644fdca4d77f6c48adb2c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8411436784322823387
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

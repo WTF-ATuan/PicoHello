@@ -2,62 +2,74 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum CommandToGuide { ATTACK, ASSIST, CHECK, CHEER, GET }
 public class TargetItemCheckScript : MonoBehaviour
 {
+    public bool isAssist;
+    public bool isCheer;
+    public bool isAttack;
+    public bool isDead;
     public int itemHeldCheck;
-    public CommandToGuide _commandToGuide;
+    
     public TargetItem_SO _targetItem;
-    public GameObject showTarget;
-    public Animator _animator;
+    public GuideSys_SO _guideSys;
+
+    public bool isNext;
+    public GameObject ShowNext;
     public float coldTime;
     float timer;
     // Start is called before the first frame update
     void Start()
     {
-        _animator = _animator.GetComponent<Animator>();
+        
         timer = coldTime;
+        _targetItem.targetItemHeld = 0;
     }
     
     // Update is called once per frame
     void Update()
     {
-        if(_targetItem.targetItemHeld== itemHeldCheck)
+        if (isDead)
         {
             timer -= Time.deltaTime;
-            
+            _guideSys.guidesType = 5;
             if (timer < 0)
             {
-                _commandToGuide = CommandToGuide.GET;
+                _guideSys.guidesType = 0;
             }
         }
-        switchContronl();
-    }
-    void switchContronl()
-    {
-        switch (_commandToGuide)
+        if (isAttack)
         {
-            case CommandToGuide.CHECK:
-                break;
-
-            case CommandToGuide.GET:
-                _animator.SetBool("isCheer", false);
-                _animator.SetBool("isAssist", false);
-                showTarget.SetActive(true);
-                _targetItem.targetItemHeld = 0;
-                this.gameObject.SetActive(false);
-
-                break;
-            case CommandToGuide.ASSIST:
-                _animator.SetBool("isAssist",true);
-                break;
-
-            case CommandToGuide.CHEER:
-                _animator.speed = 2.0f;
-                _animator.SetBool("isCheer", true);
-                break;
+            timer -= Time.deltaTime;
+            _guideSys.guidesType = 2;
+            if(timer < 0)
+            {
+                _guideSys.guidesType = 0;
+            }
         }
-            
+        if(isAssist)
+        {
+            //timer -= Time.deltaTime;
+            _guideSys.guidesType = 3;
+            /*
+            if (timer < 0)
+            {
+                _guideSys.guidesType = 0;
+                //this.gameObject.SetActive(false);
+            }*/
+        }
+        if(isCheer && _targetItem.targetItemHeld == itemHeldCheck)
+        {
+            timer -= Time.deltaTime;
+            _guideSys.guidesType = 4;
+
+            if (timer < 0)
+            {
+                _targetItem.targetItemHeld = 2;
+                _guideSys.guidesType = 0;
+                ShowNext.SetActive(true);
+                this.gameObject.SetActive(false);
+            }
+        }
 
     }
 }
