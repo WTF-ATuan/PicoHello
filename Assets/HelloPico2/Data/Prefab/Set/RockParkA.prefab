@@ -91,7 +91,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6055725057157499813}
   - component: {fileID: 7237444192664628837}
-  - component: {fileID: 5849837974080974743}
+  - component: {fileID: -7342382943575108238}
+  - component: {fileID: 3579130303103826364}
   m_Layer: 0
   m_Name: RockParkA
   m_TagString: target
@@ -108,7 +109,7 @@ Transform:
   m_GameObject: {fileID: 6055725057157499818}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children:
   - {fileID: 6055725056469042205}
   m_Father: {fileID: 0}
@@ -127,13 +128,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shakeAmount: 0.05
-  hitAudio:
-  - {fileID: 8300000, guid: bbb7f787365e7e947b61bb075cee5805, type: 3}
-  - {fileID: 8300000, guid: 46dd37e7ce511b442bfd27002d8c56db, type: 3}
+  hitAudio: {fileID: 8300000, guid: bbb7f787365e7e947b61bb075cee5805, type: 3}
   targetType: 0
   showEffect: {fileID: 1040608886635896, guid: a97415c6b57076f41a6621a7b51d63a3, type: 3}
---- !u!65 &5849837974080974743
-BoxCollider:
+  count: 0
+--- !u!114 &-7342382943575108238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6055725057157499818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 334f1b467fcb0b54c9b46576c8022667, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0.001
+  desTime: 30
+  moveAxis: 1
+--- !u!135 &3579130303103826364
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -143,5 +158,5 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 7.3317337, y: 4.5609913, z: 11.881195}
-  m_Center: {x: 0, y: -0.0000009536743, z: 0}
+  m_Radius: 4.81
+  m_Center: {x: 0, y: 0, z: 0}

@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6184825152284348512}
   - component: {fileID: 2701289579161946833}
-  - component: {fileID: 1325196632853185769}
+  - component: {fileID: -759749289089396511}
+  - component: {fileID: 8699379659519968660}
   m_Layer: 0
   m_Name: RockParkD
   m_TagString: target
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 6184825152284348513}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children:
   - {fileID: 6184825152938602986}
   m_Father: {fileID: 0}
@@ -46,13 +47,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shakeAmount: 0.05
-  hitAudio:
-  - {fileID: 8300000, guid: bbb7f787365e7e947b61bb075cee5805, type: 3}
-  - {fileID: 8300000, guid: 46dd37e7ce511b442bfd27002d8c56db, type: 3}
+  hitAudio: {fileID: 8300000, guid: bbb7f787365e7e947b61bb075cee5805, type: 3}
   targetType: 0
   showEffect: {fileID: 1040608886635896, guid: a97415c6b57076f41a6621a7b51d63a3, type: 3}
---- !u!65 &1325196632853185769
-BoxCollider:
+  count: 1
+--- !u!114 &-759749289089396511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6184825152284348513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 334f1b467fcb0b54c9b46576c8022667, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0.001
+  desTime: 30
+  moveAxis: 1
+--- !u!135 &8699379659519968660
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -62,8 +77,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 5.8180037, y: 6.0900593, z: 7.518471}
-  m_Center: {x: -0.00000047683716, y: -0.0000009536743, z: -0.0000038146973}
+  m_Radius: 4.2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6184825152938602997
 GameObject:
   m_ObjectHideFlags: 0
