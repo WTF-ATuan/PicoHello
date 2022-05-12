@@ -24,18 +24,10 @@ namespace HelloPico2.InteractableObjects{
 
 		private void OnTouchPadAxis(Vector2 touchPadAxis){
 			var axisY = touchPadAxis.y;
+			var axisX = touchPadAxis.x;
 			if(!percentMode) _rigController.ModifyControlRigLenght(axisY * 0.1f);
 			else _rigController.SetPositionLenghtByPercent(10, axisY);
-		}
-
-		[Button]
-		private void BuildSword(float lenght){
-			
-		}
-
-		[Button]
-		private void BuildShield(){
-			
+			_rigController.ModifyInert(axisX * 0.1f);
 		}
 	}
 }
