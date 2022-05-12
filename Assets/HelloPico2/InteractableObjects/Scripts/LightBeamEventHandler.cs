@@ -1,7 +1,5 @@
-﻿using System;
-using HelloPico2.InputDevice.Scripts;
+﻿using HelloPico2.InputDevice.Scripts;
 using Project;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace HelloPico2.InteractableObjects{
@@ -19,6 +17,7 @@ namespace HelloPico2.InteractableObjects{
 			var isSameObject = obj.IsSameObject(_rigController.gameObject);
 			if(!isSameObject) return;
 			var touchPadAxis = obj.TouchPadAxis;
+			if(touchPadAxis.magnitude < 0.1f) return;
 			OnTouchPadAxis(touchPadAxis);
 		}
 
@@ -27,7 +26,7 @@ namespace HelloPico2.InteractableObjects{
 			var axisX = touchPadAxis.x;
 			if(!percentMode) _rigController.ModifyControlRigLenght(axisY * 0.1f);
 			else _rigController.SetPositionLenghtByPercent(10, axisY);
-			_rigController.ModifyInert(axisX * 0.1f);
+			_rigController.ModifyInert(axisX * 0.005f);
 		}
 	}
 }
