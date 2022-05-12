@@ -7,9 +7,9 @@ using UnityEngine;
 namespace HelloPico2.InteractableObjects{
 	public class LightBeamRigController : MonoBehaviour{
 		[SerializeField] [Required] private Transform rigRoot;
-		[SerializeField] [MinValue(0.1f)] private float maxRigDistance = 0.25f;
 
-		[SerializeField] [MaxValue(20)] private int controlRigCount = 5;
+		[SerializeField] [ProgressBar(1, 25)] [MaxValue(50)]
+		private int controlRigCount = 5;
 
 		private List<Transform> _rigs;
 
@@ -19,6 +19,7 @@ namespace HelloPico2.InteractableObjects{
 			_dynamicBone = GetComponent<DynamicBone>();
 			_rigs = rigRoot.GetComponentsInChildren<Transform>().ToList();
 			_rigs.RemoveAt(0);
+			_rigs[controlRigCount + 1].gameObject.SetActive(false);
 		}
 
 		private void PostLenghtUpdatedEvent(int updateState){
@@ -71,16 +72,9 @@ namespace HelloPico2.InteractableObjects{
 		[Button]
 		public void SetRigTotalLength(float offsetMultiplier){
 			var totalOffset = rigRoot.forward * offsetMultiplier;
-			if(offsetMultiplier > 0){
-				var rigCount = Mathf.FloorToInt(totalOffset.z / maxRigDistance);
-				var addedOffset = totalOffset / rigCount;
-				SetRigLength(rigCount, addedOffset);
-			}
-			else{
-				var rigCount = controlRigCount;
-				var decreaseOffset = totalOffset / rigCount;
-				SetRigLength(rigCount, decreaseOffset);
-			}
+			var rigCount = controlRigCount;
+			var rigOffset = totalOffset / rigCount;
+			SetRigLength(rigCount, rigOffset);
 		}
 
 		private void SetRigLength(int rigCount, Vector3 rigOffset){
@@ -94,7 +88,6 @@ namespace HelloPico2.InteractableObjects{
 			}
 
 			PostLenghtUpdatedEvent(2);
-			controlRigCount = rigCount;
 		}
 
 		public void SetPositionLenghtByPercent(float multiplyValue, float value){
