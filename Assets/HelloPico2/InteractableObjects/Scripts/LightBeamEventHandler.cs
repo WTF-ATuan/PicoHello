@@ -24,8 +24,8 @@ namespace HelloPico2.InteractableObjects{
 
 		private void OnTouchPadAxis(Vector2 touchPadAxis){
 			var axisY = touchPadAxis.y;
-			if(!percentMode) _rigController.ModifyControlRigLenght(axisY * 0.01f);
-			else _rigController.SetPositionLenghtByPercent(1, axisY);
+			if(!percentMode) _rigController.ModifyControlRigLenght(axisY * 0.1f);
+			else _rigController.SetPositionLenghtByPercent(10, axisY);
 		}
 
 		[Button]
