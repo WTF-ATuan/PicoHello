@@ -1,5 +1,6 @@
 ﻿using System;
 using Project;
+using Unity.XR.PXR;
 using UnityEngine;
 using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -69,7 +70,18 @@ namespace HelloPico2.InputDevice.Scripts{
 			EventBus.Post(inputDetected);
 		}
 
-		public void SetHaptic(){ }
+		public void SetHaptic(float strength, int time){
+			switch(HandType){
+				case HandType.Left:
+					PXR_Input.SetControllerVibration(strength, time, PXR_Input.Controller.LeftController);
+					break;
+				case HandType.Right:
+					PXR_Input.SetControllerVibration(strength, time, PXR_Input.Controller.RightController);
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+		}
 	}
 
 	public enum HandType{

@@ -9,5 +9,6 @@ namespace HelloPico2.InputDevice.Scripts{
 		HandType HandType{ get; }
 		void CancelSelect(IXRSelectInteractable selectable);
 		void StartSelect(IXRSelectInteractable selectable);
+		void SetHaptic(float strength, int time);
 	}
 }
