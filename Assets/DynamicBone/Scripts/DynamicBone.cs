@@ -4,9 +4,10 @@
 #define ENABLE_MULTITHREAD
 #endif
 
-using UnityEngine;
+using System;
 using System.Collections.Generic;
 using System.Threading;
+using UnityEngine;
 
 [AddComponentMenu("Dynamic Bone/Dynamic Bone")]
 public class DynamicBone : MonoBehaviour
@@ -392,6 +393,16 @@ public class DynamicBone : MonoBehaviour
             {
                 UpdateParameters();
             }
+        }
+    }
+
+    public void UpdateRoot(){
+        if(IsRootChanged()){
+            InitTransforms();
+            SetupParticles();
+        }
+        else{
+            UpdateParameters();
         }
     }
 
@@ -1089,7 +1100,7 @@ public class DynamicBone : MonoBehaviour
         s_AllWorksDoneEvent = new AutoResetEvent(false);
         s_WorkQueueSemaphore = new Semaphore(0, int.MaxValue);
 
-        int threadCount = System.Environment.ProcessorCount;
+        int threadCount = Environment.ProcessorCount;
 
         for (int i = 0; i < threadCount; ++i)
         {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -8,8 +9,7 @@ namespace HelloPico2.InteractableObjects{
 		[SerializeField] [Required] private Transform rigRoot;
 		[SerializeField] [MinValue(0.1f)] private float maxRigDistance = 0.25f;
 
-		[SerializeField] [MinValue(5)] [MaxValue(20)]
-		private int controlRigCount = 5;
+		[SerializeField] [MaxValue(20)] private int controlRigCount = 5;
 
 		private List<Transform> _rigs;
 
@@ -28,6 +28,27 @@ namespace HelloPico2.InteractableObjects{
 			lenghtUpdated.TotalLenght = totalOffset.magnitude;
 			lenghtUpdated.SingleLenght = singleOffset.magnitude;
 			lenghtUpdated.UpdateState = updateState;
+			if(updateState == 0) EnableDynamicBone(false);
+
+			if(updateState == 2) EnableDynamicBone(true);
+		}
+
+		private void EnableDynamicBone(bool enable){
+			if(!enable){
+				_dynamicBone.m_Root = null;
+				_dynamicBone.UpdateRoot();
+			}
+			else{
+				StopAllCoroutines();
+				StartCoroutine(DelayChangeRoot());
+			}
+		}
+
+		private IEnumerator DelayChangeRoot(){
+			yield return new WaitForFixedUpdate();
+			_dynamicBone.m_Root = rigRoot;
+			_dynamicBone.UpdateRoot();
+			_dynamicBone.UpdateParameters();
 		}
 
 		[Button]
