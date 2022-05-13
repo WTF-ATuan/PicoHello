@@ -1,7 +1,8 @@
-Shader "Unlit/PointGlow"
+Shader "Unlit/Additive"
 {
     Properties
     {
+		_MainTex ("Texture", 2D) = "white" {}
     }
     SubShader
     {
@@ -31,29 +32,23 @@ Shader "Unlit/PointGlow"
                 fixed4 vertex : SV_POSITION;
                 fixed4 color : COLOR;
             };
-
+			
+			sampler2D _MainTex;
+			float4 _MainTex_ST;
             v2f vert (appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = v.uv;
+				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				o.color = v.color;
                 return o;
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
-				//中心距離場
-				fixed D =1- distance(fixed2(i.uv.x,i.uv.y),fixed2(0.5,0.5));
+				fixed4 col = tex2D(_MainTex, i.uv)*i.color*i.color.a;
 
-				//漸層度
-				fixed D2 = smoothstep(0.75,1.5,D)*8;
-
-				D = D2+smoothstep(0.5,1.5,D)*1.5;
-
-				i.color = lerp(i.color*i.color,i.color,D);
-
-                return i.color*D*i.color.a;
+                return col;
             }
             ENDCG
         }

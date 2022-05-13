@@ -1,15 +1,14 @@
-Shader "Unlit/PointGlow"
+Shader "Unlit/NoiseTex"
 {
     Properties
     {
+        _Noise ("Noise", Range(-1.1,1)) = 0.75
     }
     SubShader
     {
-        Tags { "RenderType"="Transparent" }
+        Tags { "RenderType"="Opaque" }
         LOD 100
 
-		Blend One One
-		Zwrite Off
         Pass
         {
             CGPROGRAM
@@ -20,16 +19,15 @@ Shader "Unlit/PointGlow"
 
             struct appdata
             {
-                fixed4 vertex : POSITION;
-                fixed2 uv : TEXCOORD0;
-                fixed4 color : COLOR;
+                float4 vertex : POSITION;
+                float2 uv : TEXCOORD0;
             };
 
             struct v2f
             {
-                fixed2 uv : TEXCOORD0;
-                fixed4 vertex : SV_POSITION;
-                fixed4 color : COLOR;
+                float2 uv : TEXCOORD0;
+
+                float4 vertex : SV_POSITION;
             };
 
             v2f vert (appdata v)
@@ -37,23 +35,17 @@ Shader "Unlit/PointGlow"
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
-				o.color = v.color;
                 return o;
             }
 
+			half _Noise;
+
             fixed4 frag (v2f i) : SV_Target
             {
-				//中心距離場
-				fixed D =1- distance(fixed2(i.uv.x,i.uv.y),fixed2(0.5,0.5));
+				half2 NoiseUV = i.uv*sin(100) * 143758.5453;
+				half  NoiseTex = (saturate( sin(NoiseUV.x*100)*cos(NoiseUV.y*100)-_Noise)*2);
 
-				//漸層度
-				fixed D2 = smoothstep(0.75,1.5,D)*8;
-
-				D = D2+smoothstep(0.5,1.5,D)*1.5;
-
-				i.color = lerp(i.color*i.color,i.color,D);
-
-                return i.color*D*i.color.a;
+                return NoiseTex;
             }
             ENDCG
         }
