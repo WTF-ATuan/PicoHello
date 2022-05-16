@@ -28,10 +28,14 @@ namespace HelloPico2.InteractableObjects{
 			var singleOffset = _rigs.First().localPosition;
 			lenghtUpdated.TotalLenght = totalOffset.magnitude;
 			lenghtUpdated.SingleLenght = singleOffset.magnitude;
+			lenghtUpdated.TotalOffset = totalOffset;
 			lenghtUpdated.UpdateState = updateState;
 			if(updateState == 0) EnableDynamicBone(false);
 
-			if(updateState == 2) EnableDynamicBone(true);
+			if(updateState == 2){
+				UpdateBoneCollider(lenghtUpdated);
+				EnableDynamicBone(true);
+			}
 		}
 
 		private void EnableDynamicBone(bool enable){
@@ -43,6 +47,13 @@ namespace HelloPico2.InteractableObjects{
 				StopAllCoroutines();
 				StartCoroutine(DelayChangeRoot());
 			}
+		}
+
+		private void UpdateBoneCollider(LightBeamLenghtUpdated lenghtUpdated){
+			var totalOffset = lenghtUpdated.TotalOffset;
+			var centerOfCollider = totalOffset / 2;
+			var capsuleCollider = GetComponent<CapsuleCollider>();
+			capsuleCollider.center = centerOfCollider;
 		}
 
 		private IEnumerator DelayChangeRoot(){
