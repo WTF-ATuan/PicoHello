@@ -1013,9 +1013,9 @@ GameObject:
   - component: {fileID: 3470537204594784260}
   - component: {fileID: 4278986580361110195}
   - component: {fileID: 4278986580361110194}
-  - component: {fileID: 4278986580361110193}
   - component: {fileID: 4278986580361110207}
   - component: {fileID: 4278986580361110197}
+  - component: {fileID: 7032376509307550882}
   m_Layer: 0
   m_Name: LightBeamChainDynamic
   m_TagString: Untagged
@@ -1170,19 +1170,6 @@ MonoBehaviour:
   m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 1
   m_AttachPointCompatibilityMode: 0
---- !u!135 &4278986580361110193
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4278986580361110206}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.01
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4278986580361110207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1267,6 +1254,20 @@ MonoBehaviour:
   m_ReferenceObject: {fileID: 0}
   m_DistanceToObject: 20
   m_Multithread: 1
+--- !u!136 &7032376509307550882
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4278986580361110206}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.01
+  m_Height: 0
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4460007296264240595
 GameObject:
   m_ObjectHideFlags: 0

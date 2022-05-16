@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
@@ -51,9 +52,16 @@ namespace HelloPico2.InteractableObjects{
 
 		private void UpdateBoneCollider(LightBeamLenghtUpdated lenghtUpdated){
 			var totalOffset = lenghtUpdated.TotalOffset;
+			var totalLenght = lenghtUpdated.TotalLenght;
 			var centerOfCollider = totalOffset / 2;
 			var capsuleCollider = GetComponent<CapsuleCollider>();
 			capsuleCollider.center = centerOfCollider;
+			capsuleCollider.height = totalLenght;
+		}
+
+		private void OnTriggerEnter(Collider other){
+			var collide = other.gameObject.GetComponent<IBeamCollide>();
+			collide?.OnCollide();
 		}
 
 		private IEnumerator DelayChangeRoot(){
