@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
@@ -12,9 +11,22 @@ namespace HelloPico2.InteractableObjects{
 		[SerializeField] [ProgressBar(1, 25)] [MaxValue(50)]
 		private int controlRigCount = 5;
 
+		[SerializeField] [ProgressBar(0.1, 1)] [MaxValue(1)] [MinValue(0.1)]
+		private float thickness = 1;
+
 		private List<Transform> _rigs;
 
 		private DynamicBone _dynamicBone;
+
+
+		private void OnValidate(){
+			var isPlaying = Application.isPlaying;
+			if(!isPlaying) return;
+			var localScale = transform.localScale;
+			localScale.x = Mathf.Lerp(1, 10, thickness);
+			localScale.y = Mathf.Lerp(1, 10, thickness);
+			transform.localScale = localScale;
+		}
 
 		private void Start(){
 			_dynamicBone = GetComponent<DynamicBone>();
