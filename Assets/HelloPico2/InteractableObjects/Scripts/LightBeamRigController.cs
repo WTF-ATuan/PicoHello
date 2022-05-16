@@ -11,9 +11,22 @@ namespace HelloPico2.InteractableObjects{
 		[SerializeField] [ProgressBar(1, 25)] [MaxValue(50)]
 		private int controlRigCount = 5;
 
+		[SerializeField] [ProgressBar(0.1, 1)] [MaxValue(1)] [MinValue(0.1)]
+		private float thickness = 1;
+
 		private List<Transform> _rigs;
 
 		private DynamicBone _dynamicBone;
+
+
+		private void OnValidate(){
+			var isPlaying = Application.isPlaying;
+			if(!isPlaying) return;
+			var localScale = transform.localScale;
+			localScale.x = Mathf.Lerp(1, 10, thickness);
+			localScale.y = Mathf.Lerp(1, 10, thickness);
+			transform.localScale = localScale;
+		}
 
 		private void Start(){
 			_dynamicBone = GetComponent<DynamicBone>();
@@ -28,10 +41,14 @@ namespace HelloPico2.InteractableObjects{
 			var singleOffset = _rigs.First().localPosition;
 			lenghtUpdated.TotalLenght = totalOffset.magnitude;
 			lenghtUpdated.SingleLenght = singleOffset.magnitude;
+			lenghtUpdated.TotalOffset = totalOffset;
 			lenghtUpdated.UpdateState = updateState;
 			if(updateState == 0) EnableDynamicBone(false);
 
-			if(updateState == 2) EnableDynamicBone(true);
+			if(updateState == 2){
+				UpdateBoneCollider(lenghtUpdated);
+				EnableDynamicBone(true);
+			}
 		}
 
 		private void EnableDynamicBone(bool enable){
@@ -43,6 +60,20 @@ namespace HelloPico2.InteractableObjects{
 				StopAllCoroutines();
 				StartCoroutine(DelayChangeRoot());
 			}
+		}
+
+		private void UpdateBoneCollider(LightBeamLenghtUpdated lenghtUpdated){
+			var totalOffset = lenghtUpdated.TotalOffset;
+			var totalLenght = lenghtUpdated.TotalLenght;
+			var centerOfCollider = totalOffset / 2;
+			var capsuleCollider = GetComponent<CapsuleCollider>();
+			capsuleCollider.center = centerOfCollider;
+			capsuleCollider.height = totalLenght;
+		}
+
+		private void OnTriggerEnter(Collider other){
+			var collide = other.gameObject.GetComponent<IBeamCollide>();
+			collide?.OnCollide();
 		}
 
 		private IEnumerator DelayChangeRoot(){
