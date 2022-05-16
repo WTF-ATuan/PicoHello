@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 using DG.Tweening;
 
 namespace HelloPico2.PlayerController.Arm
@@ -10,8 +11,10 @@ namespace HelloPico2.PlayerController.Arm
         private Rigidbody _rigidbody;
         private float _speed;
         private float _duration;
-        [SerializeField] private float _homingSensativeness;
-        [SerializeField] private float _homingDuration;
+        [SerializeField] private float _Lifetime = 10;
+        [SerializeField] private bool _ActivateHoming = false;
+        [ShowIf("_ActivateHoming")][SerializeField] private float _homingSensativeness;
+        [ShowIf("_ActivateHoming")][SerializeField] private float _homingDuration;
 
 
         float _step;
@@ -23,6 +26,7 @@ namespace HelloPico2.PlayerController.Arm
             _rigidbody = GetComponent<Rigidbody>();
             _speed = speed;
             _duration = duration;
+            Destroy(gameObject, _Lifetime);
         }
         private void Update()
         {
@@ -32,11 +36,15 @@ namespace HelloPico2.PlayerController.Arm
             {
                 _rigidbody.velocity = Vector3.Lerp(Vector3.zero, transform.forward * _speed, _step / _duration);
             }
-            if(_target != null && _step <= _homingDuration)
+
+            if (!_ActivateHoming)
             {
-                dir = (_target.position - transform.position).normalized;
-                dir = Vector3.Lerp(transform.forward, dir, _step / (1 / _homingSensativeness));
-                _rigidbody.velocity = dir * _speed;
+                if (_target != null && _step <= _homingDuration)
+                {
+                    dir = (_target.position - transform.position).normalized;
+                    dir = Vector3.Lerp(transform.forward, dir, _step / (1 / _homingSensativeness));
+                    _rigidbody.velocity = dir * _speed;
+                }
             }
         }
     }

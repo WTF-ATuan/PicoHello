@@ -5,9 +5,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 using HelloPico2.InputDevice.Scripts;
 using HelloPico2.InteractableObjects;
 using Sirenix.OdinInspector;
-using UnityEngine.InputSystem;
 using DG.Tweening;
-using System;
 
 namespace HelloPico2.PlayerController.Arm
 {
@@ -16,6 +14,7 @@ namespace HelloPico2.PlayerController.Arm
     {
         public XRController _controller;
         [SerializeField] private GameObject _EnergyBall;
+        [SerializeField] private Vector3 _EnergyBallOffset = new Vector3(0,0,0);
         [SerializeField] private Vector2 _ScaleRange;
         [SerializeField] private float _ScalingSpeed;
 
@@ -33,15 +32,13 @@ namespace HelloPico2.PlayerController.Arm
         [SerializeField] private GameObject _Shield;
         private SwordBehavior swordBehavior;
         private ShieldBehavior shieldBehavior;
-
-        [Header("Debug")]
-        public bool _Debug;
-        public Vector2 axis;
-        public Transform target;
+                
+        [FoldoutGroup("Debug")] public bool _Debug;
+        [FoldoutGroup("Debug")] public Vector2 axis;
+        [FoldoutGroup("Debug")] public Transform target;
 
         public Coroutine ShootCoolDownProcess { get; set; }
 
-        [SerializeField] private float _ShapingMultiplier;
         private ArmLogic _ArmLogic;
         ArmLogic armLogic { 
             get { 
@@ -104,6 +101,7 @@ namespace HelloPico2.PlayerController.Arm
 
             UpdateScale(data);
 
+            data.WhenShootChargedProjectile?.Invoke();
         }
         [Button]
         private void ShootEnergyProjectile(ArmData data)
@@ -115,6 +113,8 @@ namespace HelloPico2.PlayerController.Arm
             GenerateProjectile(false);
 
             UpdateScale(data);
+
+            data.WhenShootProjectile?.Invoke();
         }
         private void GenerateProjectile(bool overwriteScale, float scale = 1)
         {
@@ -123,12 +123,7 @@ namespace HelloPico2.PlayerController.Arm
             clone.transform.forward = _controller.transform.forward;
             if (overwriteScale) clone.transform.localScale *= scale;
 
-            var rigidbody = clone.GetComponent<Rigidbody>();
-            //rigidbody.AddForce(_ShootSpeed * clone.transform.forward, ForceMode.VelocityChange);
-
             clone.GetComponent<ProjectileController>().ProjectileSetUp(_ShootSpeed, _SpeedBufferDuration, target);
-
-            Destroy(clone.gameObject, 10);
             
             ShootCoolDownProcess = StartCoroutine(CoolDown(_ShootCoolDown));
         }
@@ -139,7 +134,7 @@ namespace HelloPico2.PlayerController.Arm
             if (currentEnergyBall == null)
             {
                 currentEnergyBall = Instantiate(_EnergyBall, obj.Selector.SelectorTransform);
-                currentEnergyBall.transform.localPosition = Vector3.zero;
+                currentEnergyBall.transform.localPosition = _EnergyBallOffset;
             }
         }
         private void UpdateScale(ArmData data) {

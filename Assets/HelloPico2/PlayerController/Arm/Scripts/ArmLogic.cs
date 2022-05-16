@@ -26,7 +26,8 @@ namespace HelloPico2.PlayerController.Arm
 		public XRController _controller;
 		public Interactor controllerInteractor { get; set; }
 
-		public delegate void ValueAction (ArmData data);
+        #region Delegate
+        public delegate void ValueAction (ArmData data);
 		public delegate void AxisAction (Vector2 data);
 		public ValueAction OnEnergyChanged;
 		public ValueAction OnGripUp;
@@ -34,12 +35,18 @@ namespace HelloPico2.PlayerController.Arm
 		public ValueAction OnPrimaryAxisTouchUp;
 		public ValueAction OnPrimaryAxisClick;
 		public AxisAction OnPrimaryAxisInput;
+		#endregion
 
-		public GameObject test;
-		
 		private void Start()
 		{
 			controllerInteractor = _controller.GetComponent<Interactor>();
+
+			data.WhenGainEnergy.AddListener(() =>
+			Audio.AudioPlayer.PlayAudio(data.GainEnergyBallClipName, data.AudioSource));
+			data.WhenShootProjectile.AddListener(() =>
+			Audio.AudioPlayer.PlayAudio(data.ShootEnergyBallClipName, data.AudioSource));
+			data.WhenShootChargedProjectile.AddListener(() =>
+			Audio.AudioPlayer.PlayAudio(data.ShootChargedEnergyBallClipName, data.AudioSource));
 		}
 		private void OnEnable()
 		{
@@ -54,28 +61,35 @@ namespace HelloPico2.PlayerController.Arm
         private void Update()
         {
 			_controller.inputDevice.TryGetFeatureValue(CommonUsages.triggerButton, out var isTrigger);
+			_controller.inputDevice.TryGetFeatureValue(CommonUsages.trigger, out var isTriggerTouch);
 			_controller.inputDevice.TryGetFeatureValue(CommonUsages.gripButton, out var isGrip);
+			_controller.inputDevice.TryGetFeatureValue(CommonUsages.grip, out var isGripTouch);
 			_controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxisTouch, out var padAxisTouch);
 			_controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxisClick, out var padAxisClick);
 			_controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out var padAxis);
 
 			if (isTrigger)
 			{
-				test.SetActive(false);
 				OnTriggerDown(data);
 			}
+
+			if (isTriggerTouch > 0 || isGripTouch > 0) {
+				data.WhenTouchTriggerOrGrip?.Invoke();
+			}
+			if (isTriggerTouch < 0.1f && isGripTouch < 0.1f) { 
+				data.WhenNotTouchTriggerAndGrip?.Invoke();
+			}
+
 			if (!isGrip) {
 				// Use all energy to shoot
 				OnGripUp?.Invoke(data);
 			}
 			if (!padAxisTouch)
 			{
-				test.SetActive(true);
 				OnPrimaryAxisTouchUp(data);
 			}
 			if (padAxisClick)
 			{
-				test.SetActive(false);
 				OnPrimaryAxisClick(data);
 			}
 			if (padAxis.magnitude >= 0.1f && padAxisTouch) {
@@ -130,9 +144,13 @@ namespace HelloPico2.PlayerController.Arm
 
 			controllerInteractor.CancelSelect(interactable);
 
-			interactable.transform.DOMove(_controller.transform.position, data.GrabEasingDuration).OnComplete(() =>
+			var targetPos = _controller.transform.TransformPoint(data.GrabEnergyOffset);
+
+			interactable.transform.DOMove(targetPos, data.GrabEasingDuration).OnComplete(() =>
 			{
 				OnEnergyChanged?.Invoke(data);
+
+				data.WhenGainEnergy?.Invoke();
 
 				Destroy(interactable.transform.gameObject);
 			});
