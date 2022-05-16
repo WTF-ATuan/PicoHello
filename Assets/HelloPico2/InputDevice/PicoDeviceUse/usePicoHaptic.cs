@@ -101,9 +101,9 @@ public class usePicoHaptic : MonoBehaviour
             }
         
         }
-        else if (other.tag == "reticle")
+        else if (other.tag == "reticle")//Reticle
         {
-            if(other.name == "reticleRPrefab")
+            if(other.name == "Reticle_R")
             {
                 PicoHaptic(true,0.3f,100);
             }
@@ -113,26 +113,13 @@ public class usePicoHaptic : MonoBehaviour
             }
         }
     }
-    public void OnTriggerStay(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            if (other.name == "RHand(Clone)")
-            {
-                hapticList(true);
-            }
-            else
-            {
-                hapticList(false);
-            }
-        }
-    }
+
     public void OnCollisionEnter(Collision collision)
     {
         if ( collision.gameObject.tag  == "Player")
         {
     
-            if (collision.gameObject.name == "PropArmLPrefab")
+            if (collision.gameObject.name == "ArmConAnimRPrefab")
             {
                 hapticList(true);
             }

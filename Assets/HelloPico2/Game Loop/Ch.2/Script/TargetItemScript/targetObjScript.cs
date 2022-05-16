@@ -18,6 +18,11 @@ public class targetObjScript : MonoBehaviour
     float timer;
     float coldTime = 3.0f;
 
+    public EnemyScore_SO _enemySO;
+    public bool isTargetCounter;
+    public int setTarget;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +35,7 @@ public class targetObjScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (isHit == true && timer==coldTime)
         {
             showHit();
@@ -43,8 +49,29 @@ public class targetObjScript : MonoBehaviour
         
         Invoke("ShakeStop", 0.5f);
 
-   
-
+        if(isTargetCounter)
+        {
+            isTargetCount();
+        }
+    }
+    void isTargetCount()
+    {
+        if(_enemySO.stepCounter > 5)
+        {
+            _enemySO.getStepHit = 1;
+            if(setTarget== _enemySO.getStepHit)
+            {
+                Destroy(gameObject);
+            }
+        }
+        if(_enemySO.stepCounter > 10)
+        {
+            _enemySO.getStepHit = 2;
+            if (setTarget == _enemySO.getStepHit)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -56,7 +83,15 @@ public class targetObjScript : MonoBehaviour
             if (targetType == 0)
             {
                 //this.transform.localScale = new Vector3(this.transform.localScale.x * scaleSize, this.transform.localScale.y * scaleSize, this.transform.localScale.z * scaleSize);
-                gameObject.GetComponent<SphereCollider>().radius = 0.1f;
+                if (!isTargetCounter)
+                {
+                    gameObject.GetComponent<SphereCollider>().radius = 0.1f;
+                }
+                
+            }
+            if (isTargetCounter)
+            {
+                _enemySO.stepCounter += 1;
             }
         }
     }
@@ -72,6 +107,12 @@ public class targetObjScript : MonoBehaviour
     void showHit()
     {
         count -= 1;
+        if (!isTargetCounter)
+        {
+            _enemySO.getHit += 1;
+        }
+        
+
         Instantiate(showEffect, transform.position, transform.rotation);
         _audioSource.enabled = true;
         isHit = false;

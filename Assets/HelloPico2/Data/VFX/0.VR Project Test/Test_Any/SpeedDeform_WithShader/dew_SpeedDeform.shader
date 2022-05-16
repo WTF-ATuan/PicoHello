@@ -154,6 +154,8 @@
 
 				i.CameraDistance/=15;
 
+				i.CameraDistance = smoothstep(-40,10,i.CameraDistance);
+
 				scruv = (scruv+0.5*(i.CameraDistance-1))/i.CameraDistance;
 
 				half4 refrCol = tex2D(_BackTex, scruv +(1-Rim)/50) ;
@@ -161,7 +163,7 @@
 
 				FinalColor = lerp(FinalColor,refrCol*_ShadowColor,1-FinalColor.a);
 
-				return FinalColor + Rim*_RimColor;
+				return saturate( saturate (FinalColor)+ Rim*_RimColor);
 			}
 			ENDCG
 		}

@@ -23,21 +23,21 @@ Shader "GGDog/SkyBox/Sky_Color"
 
             struct appdata
             {
-                fixed4 vertex : POSITION;
-                fixed2 uv : TEXCOORD0;
+                float4 vertex : POSITION;
+                float2 uv : TEXCOORD0;
             };
 
             struct v2f
             {
-                fixed2 uv : TEXCOORD0;
-                fixed4 vertex : SV_POSITION;
+                float2 uv : TEXCOORD0;
+                float4 vertex : SV_POSITION;
             };
 
-            fixed4 _SkyColor;
-            fixed4 _HorizonColor;
+            float4 _SkyColor;
+            float4 _HorizonColor;
 
-            fixed _SmoothStepMin;
-            fixed _SmoothStepMax;
+            float _SmoothStepMin;
+            float _SmoothStepMax;
             v2f vert (appdata v)
             {
                 v2f o;
@@ -46,9 +46,9 @@ Shader "GGDog/SkyBox/Sky_Color"
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            float4 frag (v2f i) : SV_Target
             {
-				fixed4 col = lerp(_HorizonColor,_SkyColor,smoothstep(_SmoothStepMin,_SmoothStepMax,i.uv.y));
+				float4 col = lerp(_HorizonColor,_SkyColor,smoothstep(_SmoothStepMin,_SmoothStepMax,i.uv.y));
 
                 return col;
             }
