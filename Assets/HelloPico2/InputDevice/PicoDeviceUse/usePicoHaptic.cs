@@ -87,7 +87,6 @@ public class usePicoHaptic : MonoBehaviour
         //Debug.Log("OnTrigger:" + other.name);
         //Debug.Log(this.name);
 
-   
         if (isReticle)
         {
             if (this.name == "Reticle_R")
@@ -110,7 +109,7 @@ public class usePicoHaptic : MonoBehaviour
                 PicoHaptic(true, _strength, _time);
 
             }
-            else
+            else //(other.tag == "LeftHand Controller")
             {
                 PicoHaptic(false, _strength, _time);
                 //Debug.Log(other.tag);

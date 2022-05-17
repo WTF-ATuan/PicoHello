@@ -123,30 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &26272448 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2081237868754251384, guid: 71cc0c42eed50734895c3b15f20b984d, type: 3}
-  m_PrefabInstance: {fileID: 151646732}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &26272449
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 26272448}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b1fa5c7bf478b284081d2fe004f719ef, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &65030383
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1130,7 +1106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4decb014bb7192b458f2f68c819800ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRight: 0
+  sightRadius: 0.1
 --- !u!114 &133384415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6166,11 +6142,6 @@ Transform:
   m_Father: {fileID: 711133910}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &144175883 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 68063356587639153, guid: 71cc0c42eed50734895c3b15f20b984d, type: 3}
-  m_PrefabInstance: {fileID: 151646732}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &146145604
 GameObject:
   m_ObjectHideFlags: 0
@@ -7081,11 +7052,6 @@ MonoBehaviour:
   m_MoveObjectIn: 14
   m_MoveObjectOut: 15
   m_PoseProvider: {fileID: 0}
---- !u!95 &166330409 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 7715397707008146337, guid: 71cc0c42eed50734895c3b15f20b984d, type: 3}
-  m_PrefabInstance: {fileID: 151646732}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &168829705
 GameObject:
   m_ObjectHideFlags: 0
@@ -53157,7 +53123,6 @@ GameObject:
   - component: {fileID: 1130711104}
   - component: {fileID: 1130711103}
   - component: {fileID: 1130711102}
-  - component: {fileID: 1130711105}
   m_Layer: 0
   m_Name: LeftHand Controller
   m_TagString: LeftHand Controller
@@ -53381,7 +53346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4decb014bb7192b458f2f68c819800ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRight: 0
+  sightRadius: 0.1
 --- !u!114 &1130711103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53582,33 +53547,6 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
---- !u!114 &1130711105
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1130711096}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5c418e513c40c44eb62e00af5a9d1cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _controller: {fileID: 1130711100}
-  _handAnimator: {fileID: 166330409}
-  _getItme: {fileID: 11400000, guid: 340ddfff419abb14f9dad278e4a93c75, type: 2}
-  _getGuideSys: {fileID: 11400000, guid: 81bf371500d2bb4469a3f4d484de9b25, type: 2}
-  spawnedController: {fileID: 26272448}
-  showController: 1
-  tipButtonAll: {fileID: 144175883}
-  tipButton:
-  - {fileID: 1903118505}
-  - {fileID: 1139930741}
---- !u!1 &1139930741 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5529212655661124953, guid: 71cc0c42eed50734895c3b15f20b984d, type: 3}
-  m_PrefabInstance: {fileID: 151646732}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1169042004
 GameObject:
   m_ObjectHideFlags: 0
@@ -87819,8 +87757,8 @@ GameObject:
   - component: {fileID: 1654049714}
   - component: {fileID: 1654049713}
   m_Layer: 0
-  m_Name: GainEnergyBall_L
-  m_TagString: LeftHand Controller
+  m_Name: GainEnergyBall (1)
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -88033,6 +87971,18 @@ MonoBehaviour:
   m_SelectEntered:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1654049721}
+        m_TargetAssemblyTypeName: UnityEngine.Component, UnityEngine
+        m_MethodName: set_tag
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: RightHand Controller
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1654049715}
         m_TargetAssemblyTypeName: UnityEngine.SphereCollider, UnityEngine
         m_MethodName: set_radius
@@ -88061,6 +88011,18 @@ MonoBehaviour:
   m_SelectExited:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1654049721}
+        m_TargetAssemblyTypeName: UnityEngine.Component, UnityEngine
+        m_MethodName: set_tag
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Untagged
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1654049715}
         m_TargetAssemblyTypeName: UnityEngine.SphereCollider, UnityEngine
         m_MethodName: set_radius
@@ -89924,11 +89886,6 @@ MonoBehaviour:
   condiForm: 0
   note: 
   noteId: 
---- !u!1 &1903118505 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7159936537736304546, guid: 71cc0c42eed50734895c3b15f20b984d, type: 3}
-  m_PrefabInstance: {fileID: 151646732}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1910198517
 GameObject:
   m_ObjectHideFlags: 0
@@ -109418,6 +109375,18 @@ MonoBehaviour:
   m_SelectEntered:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 3470537205438546643}
+        m_TargetAssemblyTypeName: UnityEngine.Component, UnityEngine
+        m_MethodName: set_tag
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: RightHand Controller
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 7816197504477696438}
         m_TargetAssemblyTypeName: UnityEngine.SphereCollider, UnityEngine
         m_MethodName: set_radius
@@ -109442,10 +109411,22 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 1
+        m_CallState: 2
   m_SelectExited:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 3470537205438546643}
+        m_TargetAssemblyTypeName: UnityEngine.Component, UnityEngine
+        m_MethodName: set_tag
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Untagged
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 7816197504477696438}
         m_TargetAssemblyTypeName: UnityEngine.SphereCollider, UnityEngine
         m_MethodName: set_radius
@@ -109575,7 +109556,7 @@ GameObject:
   - component: {fileID: 928892775}
   m_Layer: 0
   m_Name: GainEnergyBall
-  m_TagString: RightHand Controller
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
