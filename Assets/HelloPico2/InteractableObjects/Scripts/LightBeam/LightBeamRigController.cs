@@ -32,6 +32,14 @@ namespace HelloPico2.InteractableObjects{
 			transform.localScale = localScale;
 		}
 
+		private void ModifyThickness(float percent){
+			var localScale = transform.localScale;
+			thickness = percent;
+			localScale.x = Mathf.Lerp(1, 10, thickness);
+			localScale.y = Mathf.Lerp(1, 10, thickness);
+			transform.localScale = localScale;
+		}
+
 		private void Start(){
 			_dynamicBone = GetComponent<DynamicBone>();
 			_capsuleCollider = GetComponent<CapsuleCollider>();
@@ -52,6 +60,7 @@ namespace HelloPico2.InteractableObjects{
 
 			if(updateState == 2){
 				UpdateBoneCollider(lenghtUpdated);
+				UpdateBeamThickness(lenghtUpdated);
 				EnableDynamicBone(true);
 			}
 		}
@@ -76,6 +85,13 @@ namespace HelloPico2.InteractableObjects{
 				StopAllCoroutines();
 				StartCoroutine(DelayChangeRoot());
 			}
+		}
+
+		private void UpdateBeamThickness(LightBeamLenghtUpdated lenghtUpdated){
+			var totalOffset = lenghtUpdated.TotalOffset;
+			var totalLenght = rigRoot.TransformVector(totalOffset).magnitude;
+			var finalPercent = 1 - totalLenght * 0.1f + 0.1f;
+			ModifyThickness(finalPercent);
 		}
 
 		private void UpdateBoneCollider(LightBeamLenghtUpdated lenghtUpdated){
