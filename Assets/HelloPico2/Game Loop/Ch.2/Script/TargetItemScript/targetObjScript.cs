@@ -95,6 +95,8 @@ public class targetObjScript : MonoBehaviour
             }
         }
     }
+
+    
     void ShakeStop()
     {
         count -= 1;

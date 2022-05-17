@@ -87,24 +87,27 @@ public class usePicoHaptic : MonoBehaviour
     {
         //Debug.Log("OnTrigger:" + other.name);
         
-        if (other.tag == "Player")
+        if (this.tag == "RightHand Controller")
         {
-        
+            Debug.Log("getRight");
+            PicoHaptic(true, _strength,_time);
             //var getController = other.GetComponent<XRController>().controllerNode;
-            if (other.name == "RightHand Controller")
-            {
+            //if (other.name == "RightHand Controller")
+
+            /*{
                 hapticList(true);
             }
             else
             {
                 hapticList(false);
-            }
-        
+            }*/
         }
         else if (other.tag == "reticle")//Reticle
         {
-            if(other.name == "Reticle_R")
+            if(this.name == "Reticle_R")
             {
+                Debug.Log("Right");
+
                 PicoHaptic(true,0.3f,100);
             }
             else
@@ -112,8 +115,13 @@ public class usePicoHaptic : MonoBehaviour
                 PicoHaptic(false, 0.3f, 100);
             }
         }
+        else
+        {
+            PicoHaptic(false, _strength, _time);
+            Debug.Log("getL");
+        }
     }
-
+    /*
     public void OnCollisionEnter(Collision collision)
     {
         if ( collision.gameObject.tag  == "Player")
@@ -129,7 +137,8 @@ public class usePicoHaptic : MonoBehaviour
             }
 
         }
-    }
+    }*/
+}
     
 
 }

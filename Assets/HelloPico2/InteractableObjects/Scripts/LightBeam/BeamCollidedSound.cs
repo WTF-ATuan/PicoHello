@@ -8,6 +8,7 @@ namespace HelloPico2.InteractableObjects{
 
 		public void OnCollide(){
 			audioSource.PlayOneShot(soundEffect);
+			
 		}
 	}
 }
