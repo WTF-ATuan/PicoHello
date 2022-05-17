@@ -19,7 +19,8 @@ namespace HelloPico2.PlayerController.Arm
         }
         public void Deactivate()
         {
-            armLogic.OnEnergyChanged -= UpdateSwordLength;
+            if (armLogic != null)
+                armLogic.OnEnergyChanged -= UpdateSwordLength;
         }
         private void OnDisable()
         {

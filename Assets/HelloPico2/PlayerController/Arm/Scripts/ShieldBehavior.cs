@@ -22,7 +22,8 @@ namespace HelloPico2.PlayerController.Arm
         }
         public void Deactivate()
         {
-            armLogic.OnEnergyChanged -= UpdateShieldScale;
+            if (armLogic != null) 
+                armLogic.OnEnergyChanged -= UpdateShieldScale;
         }
         private void OnDisable()
         {

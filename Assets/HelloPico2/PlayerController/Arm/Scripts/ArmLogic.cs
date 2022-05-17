@@ -50,13 +50,12 @@ namespace HelloPico2.PlayerController.Arm
 		}
 		private void OnEnable()
 		{
-			ArmEventHandler.OnChargeEnergy += ChargeEnergy;
-
 			EventBus.Subscribe<DeviceInputDetected>(OnDeviceInputDetected);
+			EventBus.Subscribe<GainEnergyEventData>(ChargeEnergy);
 		}
 		private void OnDisable()
 		{
-			ArmEventHandler.OnChargeEnergy -= ChargeEnergy;
+
 		}
         private void Update()
         {
@@ -110,7 +109,7 @@ namespace HelloPico2.PlayerController.Arm
 
 			if (isGrip)
 			{
-				interactable.OnSelect(obj);
+				interactable.OnSelect(obj);				
 			}
 			else
 			{
@@ -136,26 +135,24 @@ namespace HelloPico2.PlayerController.Arm
 			}
 
 		}
-		
-		public void ChargeEnergy(float amount, IXRSelectInteractable interactable, DeviceInputDetected obj) {
-			if (obj.Selector.HandType != data.HandType) return;
+		private void ChargeEnergy(GainEnergyEventData eventData) {
+			if (eventData.InputReceiver.Selector.HandType != data.HandType) return;
 
-			data.Energy += amount;
+			data.Energy += eventData.Energy;
 
-			controllerInteractor.CancelSelect(interactable);
+			controllerInteractor.CancelSelect(eventData.Interactable);
 
 			var targetPos = _controller.transform.TransformPoint(data.GrabEnergyOffset);
 
-			interactable.transform.DOMove(targetPos, data.GrabEasingDuration).OnComplete(() =>
+			eventData.Interactable.transform.DOMove(targetPos, data.GrabEasingDuration).OnComplete(() =>
 			{
 				OnEnergyChanged?.Invoke(data);
 
 				data.WhenGainEnergy?.Invoke();
 
-				Destroy(interactable.transform.gameObject);
+				Destroy(eventData.Interactable.transform.gameObject);
 			});
-		}
-
+		}		
 		// Not in use
 		public void Summon(InteractableSettings.InteractableType type) {
 

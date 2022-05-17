@@ -52,10 +52,12 @@ namespace HelloPico2.PlayerController.Arm
         private GameObject currentEnergyBall;
         private GameObject currentShape;
         private bool isShapeConfirmed = false;
-       
+        private void Start()
+        {
+            Project.EventBus.Subscribe<GainEnergyEventData>(ChargeEnergyBall);
+        }
         private void OnEnable()
         {
-            ArmEventHandler.OnChargeEnergy += ChargeEnergyBall;
             armLogic.OnEnergyChanged += UpdateScale;
 
             armLogic.OnGripUp += ShootChargedProjectile;
@@ -75,7 +77,6 @@ namespace HelloPico2.PlayerController.Arm
         }
         private void OnDisable()
         {
-            ArmEventHandler.OnChargeEnergy -= ChargeEnergyBall;
             armLogic.OnEnergyChanged -= UpdateScale;
 
             armLogic.OnGripUp -= ShootChargedProjectile;
@@ -127,13 +128,13 @@ namespace HelloPico2.PlayerController.Arm
             
             ShootCoolDownProcess = StartCoroutine(CoolDown(_ShootCoolDown));
         }
-
-        private void ChargeEnergyBall(float amount, IXRSelectInteractable interactable, DeviceInputDetected obj) {
+        private void ChargeEnergyBall(GainEnergyEventData eventData) {
             // Check same arm
+            if (armLogic.data.HandType != eventData.InputReceiver.Selector.HandType) return;
 
             if (currentEnergyBall == null)
             {
-                currentEnergyBall = Instantiate(_EnergyBall, obj.Selector.SelectorTransform);
+                currentEnergyBall = Instantiate(_EnergyBall, eventData.InputReceiver.Selector.SelectorTransform);
                 currentEnergyBall.transform.localPosition = _EnergyBallOffset;
             }
         }

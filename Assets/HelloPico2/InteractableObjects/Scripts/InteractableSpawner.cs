@@ -22,6 +22,12 @@ namespace HelloPico2.InteractableObjects
                 _Clonelist.Add(clone);
             }
         }
+        private void OnDisable()
+        {
+            foreach (var obj in _Clonelist) {
+                obj.GetComponent<InteractableBase>().OnInteractableDisable -= UpdateWhenDestroy;
+            }
+        }
         public GameObject SpawnObject(Vector3 spawnPos) {
             var clone = Instantiate(_SpwanThis, transform);
 

@@ -19,7 +19,12 @@ namespace HelloPico2.InteractableObjects
 
             // Charge Energy            
             TryGetComponent<IXRSelectInteractable>(out var Interactable);
-            ArmEventHandler.OnChargeEnergy?.Invoke(_Energy, Interactable, obj);
+
+            GainEnergyEventData eventDate = new GainEnergyEventData();
+            eventDate.Energy = _Energy;
+            eventDate.Interactable = Interactable;
+            eventDate.InputReceiver = obj;
+            Project.EventBus.Post(eventDate);
 
             GetComponent<Collider>().enabled = false;
             used = true;
