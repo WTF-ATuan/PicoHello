@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Project;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using UnityEngine;
 
 namespace HelloPico2.InteractableObjects{
@@ -18,6 +20,8 @@ namespace HelloPico2.InteractableObjects{
 
 		private DynamicBone _dynamicBone;
 
+		private CapsuleCollider _capsuleCollider;
+
 
 		private void OnValidate(){
 			var isPlaying = Application.isPlaying;
@@ -30,6 +34,7 @@ namespace HelloPico2.InteractableObjects{
 
 		private void Start(){
 			_dynamicBone = GetComponent<DynamicBone>();
+			_capsuleCollider = GetComponent<CapsuleCollider>();
 			_rigs = rigRoot.GetComponentsInChildren<Transform>().ToList();
 			_rigs.RemoveAt(0);
 			_rigs[controlRigCount + 1].gameObject.SetActive(false);
@@ -51,6 +56,17 @@ namespace HelloPico2.InteractableObjects{
 			}
 		}
 
+		private LightBeamLenghtUpdated GetUpdateState(){
+			var lenghtUpdated = new LightBeamLenghtUpdated();
+			var totalOffset = _rigs.Aggregate(Vector3.zero, (current, rig) => current + rig.localPosition);
+			var singleOffset = _rigs.First().localPosition;
+			lenghtUpdated.TotalLenght = totalOffset.magnitude;
+			lenghtUpdated.SingleLenght = singleOffset.magnitude;
+			lenghtUpdated.TotalOffset = totalOffset;
+			lenghtUpdated.UpdateState = 0;
+			return lenghtUpdated;
+		}
+
 		private void EnableDynamicBone(bool enable){
 			if(!enable){
 				_dynamicBone.m_Root = null;
@@ -66,14 +82,13 @@ namespace HelloPico2.InteractableObjects{
 			var totalOffset = lenghtUpdated.TotalOffset;
 			var totalLenght = lenghtUpdated.TotalLenght;
 			var centerOfCollider = totalOffset / 2;
-			var capsuleCollider = GetComponent<CapsuleCollider>();
-			capsuleCollider.center = centerOfCollider;
-			capsuleCollider.height = totalLenght;
+			_capsuleCollider.center = centerOfCollider;
+			_capsuleCollider.height = totalLenght;
 		}
 
 		private void OnTriggerEnter(Collider other){
-			var collide = other.gameObject.GetComponent<IBeamCollide>();
-			collide?.OnCollide();
+			var collides = other.gameObject.GetComponents<IBeamCollide>();
+			collides.ForEach(c => c?.OnCollide());
 		}
 
 		private IEnumerator DelayChangeRoot(){
@@ -86,8 +101,9 @@ namespace HelloPico2.InteractableObjects{
 		[Button]
 		public void ModifyControlRigLenght(float rigLenght){
 			PostLenghtUpdatedEvent(0);
-			var totalOffset = rigRoot.forward * rigLenght;
-			var rigOffset = totalOffset / controlRigCount;
+			var addOffset = rigRoot.forward * rigLenght;
+			if(IsLenghtLessThanZero(addOffset)) return;
+			var rigOffset = addOffset / controlRigCount;
 			for(var i = 0; i < controlRigCount; i++){
 				var rig = _rigs[i];
 				var rigTransform = rig.transform;
@@ -98,6 +114,14 @@ namespace HelloPico2.InteractableObjects{
 			}
 
 			PostLenghtUpdatedEvent(2);
+		}
+
+		private bool IsLenghtLessThanZero(Vector3 addOffset){
+			var lenghtUpdated = GetUpdateState();
+			var currentOffset = rigRoot.TransformVector(lenghtUpdated.TotalOffset);
+			if((currentOffset + addOffset).IsLesserOrEqual(Vector3.zero)) return true;
+
+			return false;
 		}
 
 		[Button]
