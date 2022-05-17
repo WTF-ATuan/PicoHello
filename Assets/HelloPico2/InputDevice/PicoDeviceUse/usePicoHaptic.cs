@@ -1,6 +1,5 @@
 using HelloPico2.InputDevice.Scripts;
 using Project;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using Unity.XR.PXR;
 
@@ -139,6 +138,4 @@ public class usePicoHaptic : MonoBehaviour
         }
     }*/
 }
-    
 
-}
