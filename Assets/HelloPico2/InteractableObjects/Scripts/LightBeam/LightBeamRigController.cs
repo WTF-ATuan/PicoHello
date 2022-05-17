@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using Project;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
@@ -30,6 +31,17 @@ namespace HelloPico2.InteractableObjects{
 			localScale.x = Mathf.Lerp(1, 10, thickness);
 			localScale.y = Mathf.Lerp(1, 10, thickness);
 			transform.localScale = localScale;
+		}
+		[Button]
+		public void Floating(bool enable){
+			if(enable){
+				var rigTransform = transform;
+				var targetPosition = rigTransform.position + rigTransform.up * 0.5f;
+				rigTransform.DOMove(targetPosition, 0.5f).SetLoops(-1, LoopType.Yoyo);
+			}
+			else{
+				transform.DOKill(true);
+			}
 		}
 
 		private void ModifyThickness(float percent){
