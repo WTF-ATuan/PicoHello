@@ -12,11 +12,11 @@ public class usePicoHaptic : MonoBehaviour
     public float _strength;
     public int _time;
     hapticType _hapticType;
-    [SerializeField] float _hapticTime;
+    //[SerializeField] float _hapticTime;
     //private ColdDownTimer _timer;
-    
+    bool isSelect = false;
     float coldTime=3.0f;
-    bool isSelect=false;
+    public bool isReticle;
     
     /*private void Start()
     {
@@ -85,40 +85,39 @@ public class usePicoHaptic : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         //Debug.Log("OnTrigger:" + other.name);
-        
-        if (this.tag == "RightHand Controller")
-        {
-            Debug.Log("getRight");
-            PicoHaptic(true, _strength,_time);
-            //var getController = other.GetComponent<XRController>().controllerNode;
-            //if (other.name == "RightHand Controller")
+        //Debug.Log(this.name);
 
-            /*{
-                hapticList(true);
-            }
-            else
-            {
-                hapticList(false);
-            }*/
-        }
-        else if (other.tag == "reticle")//Reticle
+   
+        if (isReticle)
         {
-            if(this.name == "Reticle_R")
+            if (this.name == "Reticle_R")
             {
-                Debug.Log("Right");
+                //Debug.Log("Reticle_R");
 
-                PicoHaptic(true,0.3f,100);
+                PicoHaptic(true, 0.3f, 100);
             }
-            else
+            else 
             {
                 PicoHaptic(false, 0.3f, 100);
+                //Debug.Log("Reticle_L");
             }
         }
         else
         {
-            PicoHaptic(false, _strength, _time);
-            Debug.Log("getL");
+            if (other.tag == "RightHand Controller")
+            {
+                //Debug.Log("getRight");
+                PicoHaptic(true, _strength, _time);
+
+            }
+            else
+            {
+                PicoHaptic(false, _strength, _time);
+                //Debug.Log(other.tag);
+            }
         }
+
+        
     }
     /*
     public void OnCollisionEnter(Collision collision)
@@ -134,8 +133,6 @@ public class usePicoHaptic : MonoBehaviour
             {
                 hapticList(false);
             }
-
         }
     }*/
 }
-

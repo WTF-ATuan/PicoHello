@@ -30,7 +30,7 @@ namespace HelloPico2.InteractableObjects{
 			}
 
 			if(Mathf.Abs(axisX) > 0.1f){
-				_rigController.ModifyInert(axisX * 0.005f);
+				_rigController.ModifyInert(axisX * 0.1f);
 			}
 		}
 	}

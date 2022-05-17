@@ -36,8 +36,8 @@ namespace HelloPico2.InteractableObjects{
 		public void Floating(bool enable){
 			if(enable){
 				var rigTransform = transform;
-				var targetPosition = rigTransform.position + rigTransform.up * 0.5f;
-				rigTransform.DOMove(targetPosition, 0.5f).SetLoops(-1, LoopType.Yoyo);
+				var targetPosition = rigTransform.position + rigTransform.up * 0.1f;
+				rigTransform.DOMove(targetPosition, 1f).SetLoops(-1, LoopType.Yoyo);
 			}
 			else{
 				transform.DOKill(true);

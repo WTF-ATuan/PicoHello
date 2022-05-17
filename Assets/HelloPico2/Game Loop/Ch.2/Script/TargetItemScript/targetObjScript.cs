@@ -26,16 +26,18 @@ public class targetObjScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        /*
         localScale = this.transform.localScale;
         _audioSource = GetComponent<AudioSource>();
         _audioSource.clip = hitAudio;
         timer = coldTime;
+        */
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        /*
         if (isHit == true && timer==coldTime)
         {
             showHit();
@@ -48,8 +50,8 @@ public class targetObjScript : MonoBehaviour
         transform.localPosition = pos;
         
         Invoke("ShakeStop", 0.5f);
-
-        if(isTargetCounter)
+        */
+        if (isTargetCounter)
         {
             isTargetCount();
         }
@@ -73,8 +75,33 @@ public class targetObjScript : MonoBehaviour
             }
         }
     }
-    private void OnTriggerEnter(Collider other)
+    void hitGet()
     {
+        if (isTargetCounter)
+        {
+            _enemySO.stepCounter += 1;
+            Destroy(gameObject,1);
+        }
+        else
+        {
+            count -= 1;
+            if(count < 0)
+            {
+                Destroy(gameObject, 1);
+            }
+        }
+   
+    }
+    
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("hit");
+        hitGet();
+    }
+    private void OnTriggerEnter(Collider other)
+    {   
+
+        /*
         if(other.tag=="ballAttack")
         {
             isHit = true;
@@ -93,10 +120,12 @@ public class targetObjScript : MonoBehaviour
             {
                 _enemySO.stepCounter += 1;
             }
-        }
+
+        }*/
+
     }
 
-    
+
     void ShakeStop()
     {
         count -= 1;
