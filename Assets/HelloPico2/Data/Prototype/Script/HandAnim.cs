@@ -20,11 +20,12 @@ public class HandAnim : MonoBehaviour
 	public GameObject tipButtonAll;
 	public GameObject[] tipButton;
 
+	public GameObject[] audioList;
 	bool isGetGripTip;
 	bool isGetTriggetpTip;
 	
 	int showArmTipCounter;
-
+	public bool firstTouch;
 
 	// Start is called before the first frame update
 	private void Start()
@@ -33,9 +34,9 @@ public class HandAnim : MonoBehaviour
 		_handAnimator = _handAnimator.GetComponent<Animator>();
 		
 	}
-	void staffCheck()
+	public void staffCheck()
     {
-		showController = true;
+		//showController = true;
 		spawnedController.SetActive(true);
 	}
     // Update is called once per frame
@@ -142,6 +143,22 @@ public class HandAnim : MonoBehaviour
 				_handAnimator.SetFloat("yAxis", primary2DAxisValue.y);
 				_handAnimator.SetFloat("xAxis", primary2DAxisValue.x);
 			}
+			if (primary2DAxisValue.y > 0)
+			{
+                if (firstTouch)
+                {
+					audioList[0].SetActive(true);
+					Invoke("closeAudio", 2);
+					firstTouch = false;
+				}
+                else
+                {
+					audioList[1].SetActive(true);
+					Invoke("closeAudio", 2);
+				}
+				
+			}
+
 			if (secondaryButtonValue)
 			{
 				_handAnimator.SetBool("SecondBtn", secondaryButtonValue);
@@ -165,6 +182,19 @@ public class HandAnim : MonoBehaviour
 		}
 		//ShowTip();
 		
+	}
+	public void getfirst()
+    {
+		firstTouch = true;
+	}
+	public void touchFalse()
+	{
+		firstTouch = false;
+	}
+	void closeAudio()
+    {
+		audioList[0].SetActive(false);
+		audioList[1].SetActive(false);
 	}
 	void ShowTip()
     {

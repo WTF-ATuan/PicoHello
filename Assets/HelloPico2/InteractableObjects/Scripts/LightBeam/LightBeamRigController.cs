@@ -24,19 +24,22 @@ namespace HelloPico2.InteractableObjects{
 		private CapsuleCollider _capsuleCollider;
 
 
-		private void OnValidate(){
+
+	
+        private void OnValidate(){
 			var isPlaying = Application.isPlaying;
 			if(!isPlaying) return;
 			var localScale = transform.localScale;
 			localScale.x = Mathf.Lerp(1, 10, thickness);
 			localScale.y = Mathf.Lerp(1, 10, thickness);
 			transform.localScale = localScale;
+
 		}
 		[Button]
 		public void Floating(bool enable){
 			if(enable){
 				var rigTransform = transform;
-				var targetPosition = rigTransform.position + rigTransform.up * 0.1f;
+				var targetPosition = rigTransform.position + rigTransform.right * 0.2f + rigTransform.forward*0.2f + rigTransform.up * 0.5f;
 				rigTransform.DOMove(targetPosition, 1f).SetLoops(-1, LoopType.Yoyo);
 			}
 			else{
