@@ -66,8 +66,12 @@ public class TargetItemCheckScript : MonoBehaviour
             {
                 _targetItem.targetItemHeld = 2;
                 _guideSys.guidesType = 0;
-                ShowNext.SetActive(true);
+                
                 this.gameObject.SetActive(false);
+                if (isNext)
+                {
+                    ShowNext.SetActive(true);
+                }
             }
         }
 

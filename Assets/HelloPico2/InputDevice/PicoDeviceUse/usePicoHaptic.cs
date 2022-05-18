@@ -105,14 +105,16 @@ public class usePicoHaptic : MonoBehaviour
         {
             if (other.tag == "RightHand Controller")
             {
-                //Debug.Log("getRight");
-                PicoHaptic(true, _strength, _time);
+                Debug.Log("getRight");
+                //PicoHaptic(true, _strength, _time);
+                PicoHaptic(true, 0.3f, 100);
 
             }
-            else //(other.tag == "LeftHand Controller")
+            if(other.tag == "LeftHand Controller")
             {
-                PicoHaptic(false, _strength, _time);
-                //Debug.Log(other.tag);
+                PicoHaptic(false, 0.3f, 100);
+                //PicoHaptic(false, _strength, _time);
+                Debug.Log("LeftHand Controller");
             }
         }
 

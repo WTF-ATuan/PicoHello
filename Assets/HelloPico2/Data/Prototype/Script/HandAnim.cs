@@ -58,8 +58,9 @@ public class HandAnim : MonoBehaviour
 			_controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxisClick, out var padAxisClick);
 			_controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 primary2DAxisValue);
 			_controller.inputDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out bool secondaryButtonValue);
+			_controller.inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out bool primaryButtonValue);
 
-
+			/* find right left Tip
 			if (isTrigger && isGetGripTip && !isGetTriggetpTip)
 			{
 				if(_getItme.isTipL || _getItme.isTipR)
@@ -103,8 +104,15 @@ public class HandAnim : MonoBehaviour
 					_getItme.isTipArm = true;
 				}
 				
+			}*/
+			if (isTrigger)
+            {
+				tipButton[1].SetActive(true);
 			}
-
+            else
+            {
+				tipButton[1].SetActive(false);
+			}
 			if (triggetValue >= 0)
             {
 				_handAnimator.SetFloat("Trigger", triggetValue);
@@ -112,6 +120,14 @@ public class HandAnim : MonoBehaviour
 			if (gripValue >= 0)
 			{
 				_handAnimator.SetFloat("Grip", gripValue);
+			}
+            if (isGrip)
+            {
+				tipButton[0].SetActive(true);
+			}
+            else
+            {
+				tipButton[0].SetActive(false);
 			}
 			if (!padAxisTouch)
 			{
@@ -129,13 +145,25 @@ public class HandAnim : MonoBehaviour
 			if (secondaryButtonValue)
 			{
 				_handAnimator.SetBool("SecondBtn", secondaryButtonValue);
+				tipButton[3].SetActive(true);
 			}
 			else
 			{
 				_handAnimator.SetBool("SecondBtn", false);
+				tipButton[3].SetActive(false);
+			}
+            if (primaryButtonValue)
+            {
+				_handAnimator.SetBool("PrimaryBtn", primaryButtonValue);
+				tipButton[2].SetActive(true);
+			}
+            else
+            {
+				_handAnimator.SetBool("PrimaryBtn", false);
+				tipButton[2].SetActive(false);
 			}
 		}
-		ShowTip();
+		//ShowTip();
 		
 	}
 	void ShowTip()
