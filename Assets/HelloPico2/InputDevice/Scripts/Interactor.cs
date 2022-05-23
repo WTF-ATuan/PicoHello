@@ -12,6 +12,7 @@ namespace HelloPico2.InputDevice.Scripts{
 		private XRController _controller;
 		private XRBaseInteractor _interactor;
 		private Transform _selectableTransform;
+		private Vector3 _previousPosition = Vector3.zero;
 
 		private void Start(){
 			_controller = GetComponent<XRController>();
@@ -24,9 +25,22 @@ namespace HelloPico2.InputDevice.Scripts{
 			DetectInput();
 		}
 
+		private void FixedUpdate(){
+			DetectVelocity();
+		}
+
+		private void DetectVelocity(){
+			var currentPosition = transform.position;
+			var currentOffset = currentPosition - _previousPosition;
+			var speed = currentOffset.magnitude / Time.fixedDeltaTime;
+			_previousPosition = currentPosition;
+			Speed = speed;
+		}
+
 		public bool HasSelection => _interactor.hasSelection;
 		public GameObject SelectableObject => _selectableTransform ? _selectableTransform.gameObject : null;
 		public Transform SelectorTransform => _interactor.attachTransform;
+		public float Speed{ get; private set; }
 
 		public HandType HandType{
 			get{

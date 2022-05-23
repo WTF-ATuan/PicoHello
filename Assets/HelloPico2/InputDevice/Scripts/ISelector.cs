@@ -7,6 +7,7 @@ namespace HelloPico2.InputDevice.Scripts{
 		GameObject SelectableObject{ get; }
 		Transform SelectorTransform{ get; }
 		HandType HandType{ get; }
+		float Speed{ get; }
 		void CancelSelect(IXRSelectInteractable selectable);
 		void StartSelect(IXRSelectInteractable selectable);
 		void SetHaptic(float strength, int time);
