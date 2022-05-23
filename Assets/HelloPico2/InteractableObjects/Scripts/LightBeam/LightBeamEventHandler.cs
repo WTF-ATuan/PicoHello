@@ -26,7 +26,7 @@ namespace HelloPico2.InteractableObjects{
 			var axisX = touchPadAxis.x;
 			if(Mathf.Abs(axisY) > 0.1f){
 				if(!percentMode) _rigController.ModifyControlRigLenght(axisY * 0.1f);
-				else _rigController.SetPositionLenghtByPercent(10, axisY);
+				else _rigController.SetPositionLenghtByPercent(1, axisY);
 			}
 
 			if(Mathf.Abs(axisX) > 0.1f){

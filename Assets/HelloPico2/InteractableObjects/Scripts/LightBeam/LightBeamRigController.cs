@@ -24,17 +24,15 @@ namespace HelloPico2.InteractableObjects{
 		private CapsuleCollider _capsuleCollider;
 
 
-
-	
-        private void OnValidate(){
+		private void OnValidate(){
 			var isPlaying = Application.isPlaying;
 			if(!isPlaying) return;
 			var localScale = transform.localScale;
 			localScale.x = Mathf.Lerp(1, 10, thickness);
 			localScale.y = Mathf.Lerp(1, 10, thickness);
 			transform.localScale = localScale;
-
 		}
+
 		[Button]
 		public void Floating(bool enable){
 			if(enable){
@@ -97,8 +95,9 @@ namespace HelloPico2.InteractableObjects{
 				_dynamicBone.UpdateRoot();
 			}
 			else{
-				StopAllCoroutines();
-				StartCoroutine(DelayChangeRoot());
+				_dynamicBone.m_Root = rigRoot;
+				_dynamicBone.UpdateRoot();
+				_dynamicBone.UpdateParameters();
 			}
 		}
 
@@ -120,13 +119,6 @@ namespace HelloPico2.InteractableObjects{
 		private void OnTriggerEnter(Collider other){
 			var collides = other.gameObject.GetComponents<IBeamCollide>();
 			collides.ForEach(c => c?.OnCollide());
-		}
-
-		private IEnumerator DelayChangeRoot(){
-			yield return new WaitForFixedUpdate();
-			_dynamicBone.m_Root = rigRoot;
-			_dynamicBone.UpdateRoot();
-			_dynamicBone.UpdateParameters();
 		}
 
 		[Button]
