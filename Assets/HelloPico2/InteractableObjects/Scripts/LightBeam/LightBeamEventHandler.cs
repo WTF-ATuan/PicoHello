@@ -1,12 +1,14 @@
-﻿using HelloPico2.InputDevice.Scripts;
+﻿using DG.Tweening;
+using HelloPico2.InputDevice.Scripts;
 using Project;
 using UnityEngine;
 
 namespace HelloPico2.InteractableObjects{
 	public class LightBeamEventHandler : MonoBehaviour{
 		private LightBeamRigController _rigController;
+		[SerializeField] private float speedLimit;
+		[SerializeField] private float returnDuring;
 
-		public bool percentMode;
 
 		private void Start(){
 			_rigController = GetComponent<LightBeamRigController>();
@@ -16,21 +18,36 @@ namespace HelloPico2.InteractableObjects{
 		private void OnDeviceInputDetected(DeviceInputDetected obj){
 			var isSameObject = obj.IsSameObject(_rigController.gameObject);
 			if(!isSameObject) return;
+			SetBlendWeight(obj.Selector.Speed);
 			var touchPadAxis = obj.TouchPadAxis;
 			if(touchPadAxis.magnitude < 0.1f) return;
 			OnTouchPadAxis(touchPadAxis);
+		}
+
+		private float _timer;
+
+		private void SetBlendWeight(float speed){
+			if(speed > speedLimit){
+				_rigController.ModifyBlendWeight(0.01f);
+				_timer = 0;
+			}
+			else{
+				_timer += Time.fixedDeltaTime;
+				if(_timer > returnDuring){
+					_rigController.ModifyBlendWeight(-0.01f);
+				}
+			}
 		}
 
 		private void OnTouchPadAxis(Vector2 touchPadAxis){
 			var axisY = touchPadAxis.y;
 			var axisX = touchPadAxis.x;
 			if(Mathf.Abs(axisY) > 0.1f){
-				if(!percentMode) _rigController.ModifyControlRigLenght(axisY * 0.1f);
-				else _rigController.SetPositionLenghtByPercent(1, axisY);
+				_rigController.ModifyControlRigLenght(axisY * 0.1f);
 			}
 
 			if(Mathf.Abs(axisX) > 0.1f){
-				_rigController.ModifyInert(axisX * 0.1f);
+				_rigController.ModifyBlendWeight(axisX * 0.1f);
 			}
 		}
 	}
