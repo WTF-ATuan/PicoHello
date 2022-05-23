@@ -41,13 +41,8 @@ namespace HelloPico2.InteractableObjects{
 
 		private void OnTouchPadAxis(Vector2 touchPadAxis){
 			var axisY = touchPadAxis.y;
-			var axisX = touchPadAxis.x;
 			if(Mathf.Abs(axisY) > 0.1f){
 				_rigController.ModifyControlRigLenght(axisY * 0.1f);
-			}
-
-			if(Mathf.Abs(axisX) > 0.1f){
-				_rigController.ModifyBlendWeight(axisX * 0.1f);
 			}
 		}
 	}

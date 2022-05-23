@@ -17,6 +17,8 @@ namespace HelloPico2.InteractableObjects{
 		[SerializeField] [ProgressBar(0.1, 1)] [MaxValue(1)] [MinValue(0.1)]
 		private float thickness = 1;
 
+		[SerializeField] private AnimationCurve weightControlCurve;
+
 		private List<Transform> _rigs;
 
 		private DynamicBone _dynamicBone;
@@ -184,6 +186,7 @@ namespace HelloPico2.InteractableObjects{
 		public void ModifyBlendWeight(float amount){
 			var currentBlendWeight = _dynamicBone.m_BlendWeight;
 			var nextBlendWeight = Mathf.Clamp01(currentBlendWeight + amount);
+			var curveBlendWeight = weightControlCurve.Evaluate(nextBlendWeight);
 			_dynamicBone.m_BlendWeight = nextBlendWeight;
 			_dynamicBone.UpdateRoot();
 			_dynamicBone.UpdateParameters();
