@@ -33,7 +33,6 @@ namespace HelloPico2.InteractableObjects{
 			transform.localScale = localScale;
 		}
 
-		[Button]
 		public void Floating(bool enable){
 			if(enable){
 				var rigTransform = transform;
@@ -182,10 +181,11 @@ namespace HelloPico2.InteractableObjects{
 			PostLenghtUpdatedEvent(2);
 		}
 
-		public void ModifyInert(float amount){
-			var currentInert = _dynamicBone.m_Inert;
-			var nextInert = Mathf.Clamp01(currentInert + amount);
-			_dynamicBone.m_Inert = nextInert;
+		public void ModifyBlendWeight(float amount){
+			var currentBlendWeight = _dynamicBone.m_BlendWeight;
+			var nextBlendWeight = Mathf.Clamp01(currentBlendWeight + amount);
+			_dynamicBone.m_BlendWeight = nextBlendWeight;
+			_dynamicBone.UpdateRoot();
 			_dynamicBone.UpdateParameters();
 		}
 	}
