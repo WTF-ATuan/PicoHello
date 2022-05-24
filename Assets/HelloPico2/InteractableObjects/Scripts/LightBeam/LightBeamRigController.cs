@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
-using Project;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -13,6 +11,8 @@ namespace HelloPico2.InteractableObjects{
 
 		[SerializeField] [ProgressBar(1, 25)] [MaxValue(50)]
 		private int controlRigCount = 5;
+
+		[SerializeField] [ProgressBar(1, 10)] private int lengthLimit = 5;
 
 		[SerializeField] [ProgressBar(0.1, 1)] [MaxValue(1)] [MinValue(0.1)]
 		private float thickness = 1;
@@ -25,16 +25,6 @@ namespace HelloPico2.InteractableObjects{
 
 		private CapsuleCollider _capsuleCollider;
 
-
-		private void OnValidate(){
-			var isPlaying = Application.isPlaying;
-			if(!isPlaying) return;
-			var localScale = transform.localScale;
-			localScale.x = Mathf.Lerp(1, 10, thickness);
-			localScale.y = Mathf.Lerp(1, 10, thickness);
-			transform.localScale = localScale;
-		}
-
 		public void Floating(bool enable){
 			if(enable){
 				var rigTransform = transform;
@@ -44,6 +34,44 @@ namespace HelloPico2.InteractableObjects{
 			else{
 				transform.DOKill(true);
 			}
+		}
+
+		[Button]
+		public void ModifyControlRigLength(float rigLength){
+			var totalAddOffset = rigRoot.forward * rigLength;
+			if(IsLengthLessThanZero(totalAddOffset)){
+				SetRigTotalLength(0);
+				return;
+			}
+
+			if(IsLengthGreaterThanLimit(totalAddOffset) && rigLength > 0) return;
+			var rigOffset = totalAddOffset / controlRigCount;
+			var rigLocalOffset = rigRoot.InverseTransformVector(rigOffset);
+			SetRigLength(controlRigCount, rigLocalOffset, true);
+		}
+
+		public void SetPositionLengthByPercent(float rigLength, float value){
+			PostLengthUpdatedEvent(0);
+			var targetPosition = rigRoot.forward * rigLength;
+			var lerpPosition = Vector3.Lerp(Vector3.zero, targetPosition, value);
+			var rigOffset = lerpPosition / controlRigCount;
+			for(var i = 0; i < controlRigCount; i++){
+				var rig = _rigs[i];
+				var rigTransform = rig.transform;
+				var addOffset = rigTransform.InverseTransformVector(rigOffset);
+				rigTransform.localPosition = addOffset;
+			}
+
+			PostLengthUpdatedEvent(2);
+		}
+
+		[Button]
+		public void SetRigTotalLength(float offsetMultiplier){
+			var totalOffset = rigRoot.forward * offsetMultiplier;
+			var rigCount = controlRigCount;
+			var rigOffset = totalOffset / rigCount;
+			var rigLocalOffset = rigRoot.InverseTransformVector(rigOffset);
+			SetRigLength(rigCount, rigLocalOffset);
 		}
 
 		private void ModifyThickness(float percent){
@@ -62,35 +90,30 @@ namespace HelloPico2.InteractableObjects{
 			_rigs[controlRigCount + 1].gameObject.SetActive(false);
 		}
 
-		private void PostLenghtUpdatedEvent(int updateState){
-			var lenghtUpdated = new LightBeamLenghtUpdated();
-			var totalOffset = _rigs.Aggregate(Vector3.zero, (current, rig) => current + rig.localPosition);
-			var singleOffset = _rigs.First().localPosition;
-			lenghtUpdated.TotalLenght = totalOffset.magnitude;
-			lenghtUpdated.SingleLenght = singleOffset.magnitude;
-			lenghtUpdated.TotalOffset = totalOffset;
-			lenghtUpdated.UpdateState = updateState;
-			if(updateState == 0) EnableDynamicBone(false);
+		private void PostLengthUpdatedEvent(int updateState){
+			var lengthUpdated = GetUpdateState();
+			lengthUpdated.UpdateState = updateState;
+			if(updateState == 0) SetDynamicBoneActive(false);
 
 			if(updateState == 2){
-				UpdateBoneCollider(lenghtUpdated);
-				UpdateBeamThickness(lenghtUpdated);
-				EnableDynamicBone(true);
+				UpdateBoneCollider(lengthUpdated);
+				UpdateBeamThickness(lengthUpdated);
+				SetDynamicBoneActive(true);
 			}
 		}
 
-		private LightBeamLenghtUpdated GetUpdateState(){
-			var lenghtUpdated = new LightBeamLenghtUpdated();
+		private LightBeamLengthUpdated GetUpdateState(){
+			var lengthUpdated = new LightBeamLengthUpdated();
 			var totalOffset = _rigs.Aggregate(Vector3.zero, (current, rig) => current + rig.localPosition);
 			var singleOffset = _rigs.First().localPosition;
-			lenghtUpdated.TotalLenght = totalOffset.magnitude;
-			lenghtUpdated.SingleLenght = singleOffset.magnitude;
-			lenghtUpdated.TotalOffset = totalOffset;
-			lenghtUpdated.UpdateState = 0;
-			return lenghtUpdated;
+			lengthUpdated.TotalLength = totalOffset.magnitude;
+			lengthUpdated.SingleLength = singleOffset.magnitude;
+			lengthUpdated.TotalOffset = totalOffset;
+			lengthUpdated.UpdateState = 0;
+			return lengthUpdated;
 		}
 
-		private void EnableDynamicBone(bool enable){
+		private void SetDynamicBoneActive(bool enable){
 			if(!enable){
 				_dynamicBone.m_Root = null;
 				_dynamicBone.UpdateRoot();
@@ -102,19 +125,19 @@ namespace HelloPico2.InteractableObjects{
 			}
 		}
 
-		private void UpdateBeamThickness(LightBeamLenghtUpdated lenghtUpdated){
-			var totalOffset = lenghtUpdated.TotalOffset;
-			var totalLenght = rigRoot.TransformVector(totalOffset).magnitude;
-			var finalPercent = 1 - totalLenght * 0.1f + 0.1f;
+		private void UpdateBeamThickness(LightBeamLengthUpdated lengthUpdated){
+			var totalOffset = lengthUpdated.TotalOffset;
+			var totalLength = rigRoot.TransformVector(totalOffset).magnitude;
+			var finalPercent = 1 - totalLength * 0.1f + 0.1f;
 			ModifyThickness(finalPercent);
 		}
 
-		private void UpdateBoneCollider(LightBeamLenghtUpdated lenghtUpdated){
-			var totalOffset = lenghtUpdated.TotalOffset;
-			var totalLenght = lenghtUpdated.TotalLenght;
+		private void UpdateBoneCollider(LightBeamLengthUpdated lengthUpdated){
+			var totalOffset = lengthUpdated.TotalOffset;
+			var totalLength = lengthUpdated.TotalLength;
 			var centerOfCollider = totalOffset / 2;
 			_capsuleCollider.center = centerOfCollider;
-			_capsuleCollider.height = totalLenght;
+			_capsuleCollider.height = totalLength;
 		}
 
 		private void OnTriggerEnter(Collider other){
@@ -122,71 +145,43 @@ namespace HelloPico2.InteractableObjects{
 			collides.ForEach(c => c?.OnCollide());
 		}
 
-		[Button]
-		public void ModifyControlRigLenght(float rigLenght){
-			PostLenghtUpdatedEvent(0);
-			var addOffset = rigRoot.forward * rigLenght;
-			if(IsLenghtLessThanZero(addOffset)) return;
-			var rigOffset = addOffset / controlRigCount;
-			for(var i = 0; i < controlRigCount; i++){
-				var rig = _rigs[i];
-				var rigTransform = rig.transform;
-				var addPosition = rigTransform.InverseTransformVector(rigOffset);
-				var finalPosition = rigTransform.localPosition + addPosition;
-				rigTransform.localPosition = finalPosition;
-				PostLenghtUpdatedEvent(1);
-			}
-
-			PostLenghtUpdatedEvent(2);
+		private bool IsLengthLessThanZero(Vector3 addOffset){
+			var lengthUpdated = GetUpdateState();
+			var localAddOffset = rigRoot.InverseTransformVector(addOffset);
+			var totalOffset = lengthUpdated.TotalOffset;
+			return (totalOffset + localAddOffset).z < 0;
 		}
 
-		private bool IsLenghtLessThanZero(Vector3 addOffset){
-			var lenghtUpdated = GetUpdateState();
-			var currentOffset = rigRoot.TransformVector(lenghtUpdated.TotalOffset);
-			if((currentOffset + addOffset).IsLesserOrEqual(Vector3.zero)) return true;
-
-			return false;
+		private bool IsLengthGreaterThanLimit(Vector3 addOffset){
+			var lengthUpdated = GetUpdateState();
+			var localAddOffset = rigRoot.InverseTransformVector(addOffset);
+			var totalOffset = lengthUpdated.TotalOffset;
+			var limitOffset = rigRoot.forward * lengthLimit;
+			var localLimitOffset = rigRoot.InverseTransformVector(limitOffset);
+			return (totalOffset + localAddOffset).z > localLimitOffset.z;
 		}
 
-		[Button]
-		public void SetRigTotalLength(float offsetMultiplier){
-			var totalOffset = rigRoot.forward * offsetMultiplier;
-			var rigCount = controlRigCount;
-			var rigOffset = totalOffset / rigCount;
-			SetRigLength(rigCount, rigOffset);
-		}
-
-		private void SetRigLength(int rigCount, Vector3 rigOffset){
-			PostLenghtUpdatedEvent(0);
+		private void SetRigLength(int rigCount, Vector3 rigOffset, bool isAdd = false){
+			PostLengthUpdatedEvent(0);
 			for(var i = 0; i < rigCount; i++){
 				var rig = _rigs[i];
 				var rigTransform = rig.transform;
-				var finalPosition = rigTransform.InverseTransformVector(rigOffset);
-				rigTransform.localPosition = finalPosition;
-				PostLenghtUpdatedEvent(1);
+				if(isAdd){
+					rigTransform.localPosition += rigOffset;
+				}
+				else{
+					rigTransform.localPosition = rigOffset;
+				}
+
+				PostLengthUpdatedEvent(1);
 			}
 
-			PostLenghtUpdatedEvent(2);
-		}
-
-		public void SetPositionLenghtByPercent(float multiplyValue, float value){
-			PostLenghtUpdatedEvent(0);
-			for(var i = 0; i < controlRigCount; i++){
-				var rig = _rigs[i];
-				var rigTransform = rig.transform;
-				var targetPosition = rigTransform.InverseTransformVector(rigTransform.forward * multiplyValue);
-				var lerpPosition = Vector3.Lerp(Vector3.zero, targetPosition, value);
-				rigTransform.localPosition = lerpPosition;
-				PostLenghtUpdatedEvent(1);
-			}
-
-			PostLenghtUpdatedEvent(2);
+			PostLengthUpdatedEvent(2);
 		}
 
 		public void ModifyBlendWeight(float amount){
 			var currentBlendWeight = _dynamicBone.m_BlendWeight;
 			var nextBlendWeight = Mathf.Clamp01(currentBlendWeight + amount);
-			var curveBlendWeight = weightControlCurve.Evaluate(nextBlendWeight);
 			_dynamicBone.m_BlendWeight = nextBlendWeight;
 			_dynamicBone.UpdateRoot();
 			_dynamicBone.UpdateParameters();

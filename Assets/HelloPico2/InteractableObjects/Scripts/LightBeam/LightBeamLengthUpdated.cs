@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
 namespace HelloPico2.InteractableObjects{
-	public class LightBeamLenghtUpdated{
-		public float SingleLenght;
-		public float TotalLenght;
+	public class LightBeamLengthUpdated{
+		public float SingleLength;
+		public float TotalLength;
 
 		public Vector3 TotalOffset;
 
