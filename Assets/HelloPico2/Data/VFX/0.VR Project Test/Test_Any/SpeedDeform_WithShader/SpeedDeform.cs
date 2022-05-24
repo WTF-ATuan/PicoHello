@@ -11,10 +11,12 @@ public class SpeedDeform : MonoBehaviour
     Vector3 deltaPos;
     Vector3 lastPos = new Vector3();
 
+    
+    /*
     private void OnEnable()
     {
         _m = GetComponent<Renderer>().materials[0];
-    }
+    }*/
 
     void Update()
     {
@@ -28,6 +30,6 @@ public class SpeedDeform : MonoBehaviour
         //正規化速度
         deltaPos = Vector3.ClampMagnitude(deltaPos, 0.75f);
 
-        _m.SetVector("_SpeedDir", deltaPos);
+        //_m.SetVector("_SpeedDir", deltaPos);
     }
 }
