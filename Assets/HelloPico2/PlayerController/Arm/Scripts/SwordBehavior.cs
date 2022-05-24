@@ -29,7 +29,7 @@ namespace HelloPico2.PlayerController.Arm
         private void UpdateSwordLength(ArmData data) {
             var targetLength = Mathf.Lerp(_LengthRange.x, _LengthRange.y, data.Energy / data.MaxEnergy);
             if (data.Energy == 0) targetLength = 0;
-            lightBeamRigController.SetPositionLenghtByPercent(_LengthRange.y, data.Energy / data.MaxEnergy);
+            lightBeamRigController.SetPositionLengthByPercent(_LengthRange.y, data.Energy / data.MaxEnergy);
         }
     }
 }

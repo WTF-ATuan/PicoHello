@@ -12,7 +12,7 @@ namespace HelloPico2.InteractableObjects{
 		[SerializeField] [ProgressBar(1, 25)] [MaxValue(50)]
 		private int controlRigCount = 5;
 
-		[SerializeField] [ProgressBar(1, 10)] private int lenghtLimit = 5;
+		[SerializeField] [ProgressBar(1, 10)] private int lengthLimit = 5;
 
 		[SerializeField] [ProgressBar(0.1, 1)] [MaxValue(1)] [MinValue(0.1)]
 		private float thickness = 1;
@@ -37,23 +37,23 @@ namespace HelloPico2.InteractableObjects{
 		}
 
 		[Button]
-		public void ModifyControlRigLenght(float rigLenght){
-			var totalAddOffset = rigRoot.forward * rigLenght;
-			if(IsLenghtLessThanZero(totalAddOffset)){
+		public void ModifyControlRigLength(float rigLength){
+			var totalAddOffset = rigRoot.forward * rigLength;
+			if(IsLengthLessThanZero(totalAddOffset)){
 				SetRigTotalLength(0);
 				return;
 			}
 
-			if(IsLenghtGreaterThanLimit(totalAddOffset)) return;
+			if(IsLengthGreaterThanLimit(totalAddOffset)) return;
 			var rigOffset = totalAddOffset / controlRigCount;
 			var rigLocalOffset = rigRoot.InverseTransformVector(rigOffset);
 			var rigFinalOffset = _rigs.First().localPosition + rigLocalOffset;
 			SetRigLength(controlRigCount, rigFinalOffset);
 		}
 
-		public void SetPositionLenghtByPercent(float rigLenght, float value){
-			PostLenghtUpdatedEvent(0);
-			var targetPosition = rigRoot.forward * rigLenght;
+		public void SetPositionLengthByPercent(float rigLength, float value){
+			PostLengthUpdatedEvent(0);
+			var targetPosition = rigRoot.forward * rigLength;
 			var lerpPosition = Vector3.Lerp(Vector3.zero, targetPosition, value);
 			var rigOffset = lerpPosition / controlRigCount;
 			for(var i = 0; i < controlRigCount; i++){
@@ -63,7 +63,7 @@ namespace HelloPico2.InteractableObjects{
 				rigTransform.localPosition = addOffset;
 			}
 
-			PostLenghtUpdatedEvent(2);
+			PostLengthUpdatedEvent(2);
 		}
 
 		[Button]
@@ -91,27 +91,27 @@ namespace HelloPico2.InteractableObjects{
 			_rigs[controlRigCount + 1].gameObject.SetActive(false);
 		}
 
-		private void PostLenghtUpdatedEvent(int updateState){
-			var lenghtUpdated = GetUpdateState();
-			lenghtUpdated.UpdateState = updateState;
+		private void PostLengthUpdatedEvent(int updateState){
+			var lengthUpdated = GetUpdateState();
+			lengthUpdated.UpdateState = updateState;
 			if(updateState == 0) SetDynamicBoneActive(false);
 
 			if(updateState == 2){
-				UpdateBoneCollider(lenghtUpdated);
-				UpdateBeamThickness(lenghtUpdated);
+				UpdateBoneCollider(lengthUpdated);
+				UpdateBeamThickness(lengthUpdated);
 				SetDynamicBoneActive(true);
 			}
 		}
 
-		private LightBeamLenghtUpdated GetUpdateState(){
-			var lenghtUpdated = new LightBeamLenghtUpdated();
+		private LightBeamLengthUpdated GetUpdateState(){
+			var lengthUpdated = new LightBeamLengthUpdated();
 			var totalOffset = _rigs.Aggregate(Vector3.zero, (current, rig) => current + rig.localPosition);
 			var singleOffset = _rigs.First().localPosition;
-			lenghtUpdated.TotalLenght = totalOffset.magnitude;
-			lenghtUpdated.SingleLenght = singleOffset.magnitude;
-			lenghtUpdated.TotalOffset = totalOffset;
-			lenghtUpdated.UpdateState = 0;
-			return lenghtUpdated;
+			lengthUpdated.TotalLength = totalOffset.magnitude;
+			lengthUpdated.SingleLength = singleOffset.magnitude;
+			lengthUpdated.TotalOffset = totalOffset;
+			lengthUpdated.UpdateState = 0;
+			return lengthUpdated;
 		}
 
 		private void SetDynamicBoneActive(bool enable){
@@ -125,19 +125,19 @@ namespace HelloPico2.InteractableObjects{
 			}
 		}
 
-		private void UpdateBeamThickness(LightBeamLenghtUpdated lenghtUpdated){
-			var totalOffset = lenghtUpdated.TotalOffset;
-			var totalLenght = rigRoot.TransformVector(totalOffset).magnitude;
-			var finalPercent = 1 - totalLenght * 0.1f + 0.1f;
+		private void UpdateBeamThickness(LightBeamLengthUpdated lengthUpdated){
+			var totalOffset = lengthUpdated.TotalOffset;
+			var totalLength = rigRoot.TransformVector(totalOffset).magnitude;
+			var finalPercent = 1 - totalLength * 0.1f + 0.1f;
 			ModifyThickness(finalPercent);
 		}
 
-		private void UpdateBoneCollider(LightBeamLenghtUpdated lenghtUpdated){
-			var totalOffset = lenghtUpdated.TotalOffset;
-			var totalLenght = lenghtUpdated.TotalLenght;
+		private void UpdateBoneCollider(LightBeamLengthUpdated lengthUpdated){
+			var totalOffset = lengthUpdated.TotalOffset;
+			var totalLength = lengthUpdated.TotalLength;
 			var centerOfCollider = totalOffset / 2;
 			_capsuleCollider.center = centerOfCollider;
-			_capsuleCollider.height = totalLenght;
+			_capsuleCollider.height = totalLength;
 		}
 
 		private void OnTriggerEnter(Collider other){
@@ -145,32 +145,32 @@ namespace HelloPico2.InteractableObjects{
 			collides.ForEach(c => c?.OnCollide());
 		}
 
-		private bool IsLenghtLessThanZero(Vector3 addOffset){
-			var lenghtUpdated = GetUpdateState();
+		private bool IsLengthLessThanZero(Vector3 addOffset){
+			var lengthUpdated = GetUpdateState();
 			var localAddOffset = rigRoot.InverseTransformVector(addOffset);
-			var totalOffset = lenghtUpdated.TotalOffset;
+			var totalOffset = lengthUpdated.TotalOffset;
 			return (totalOffset + localAddOffset).z < 0;
 		}
 
-		private bool IsLenghtGreaterThanLimit(Vector3 addOffset){
-			var lenghtUpdated = GetUpdateState();
+		private bool IsLengthGreaterThanLimit(Vector3 addOffset){
+			var lengthUpdated = GetUpdateState();
 			var localAddOffset = rigRoot.InverseTransformVector(addOffset);
-			var totalOffset = lenghtUpdated.TotalOffset;
-			var limitOffset = rigRoot.forward * lenghtLimit;
+			var totalOffset = lengthUpdated.TotalOffset;
+			var limitOffset = rigRoot.forward * lengthLimit;
 			var localLimitOffset = rigRoot.InverseTransformVector(limitOffset);
 			return (totalOffset + localAddOffset).z > localLimitOffset.z;
 		}
 
 		private void SetRigLength(int rigCount, Vector3 rigOffset){
-			PostLenghtUpdatedEvent(0);
+			PostLengthUpdatedEvent(0);
 			for(var i = 0; i < rigCount; i++){
 				var rig = _rigs[i];
 				var rigTransform = rig.transform;
 				rigTransform.localPosition = rigOffset;
-				PostLenghtUpdatedEvent(1);
+				PostLengthUpdatedEvent(1);
 			}
 
-			PostLenghtUpdatedEvent(2);
+			PostLengthUpdatedEvent(2);
 		}
 
 		public void ModifyBlendWeight(float amount){

@@ -46,10 +46,10 @@ namespace HelloPico2.InteractableObjects{
 		private void OnTouchPadAxis(Vector2 touchPadAxis){
 			var axisY = touchPadAxis.y;
 			if(axisY > 0.5f){
-				_rigController.ModifyControlRigLenght(+0.1f);
+				_rigController.ModifyControlRigLength(+0.1f);
 			}
 			else{
-				_rigController.ModifyControlRigLenght(-0.1f);
+				_rigController.ModifyControlRigLength(-0.1f);
 			}
 		}
 	}
