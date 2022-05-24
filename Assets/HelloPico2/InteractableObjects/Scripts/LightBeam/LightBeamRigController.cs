@@ -44,7 +44,7 @@ namespace HelloPico2.InteractableObjects{
 				return;
 			}
 
-			if(IsLengthGreaterThanLimit(totalAddOffset)) return;
+			if(IsLengthGreaterThanLimit(totalAddOffset) && rigLength > 0) return;
 			var rigOffset = totalAddOffset / controlRigCount;
 			var rigLocalOffset = rigRoot.InverseTransformVector(rigOffset);
 			var rigFinalOffset = _rigs.First().localPosition + rigLocalOffset;
@@ -122,6 +122,7 @@ namespace HelloPico2.InteractableObjects{
 			else{
 				_dynamicBone.m_Root = rigRoot;
 				_dynamicBone.UpdateRoot();
+				_dynamicBone.UpdateParameters();
 			}
 		}
 
