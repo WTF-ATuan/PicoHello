@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using Project;
@@ -13,6 +12,8 @@ namespace HelloPico2.InteractableObjects{
 
 		[SerializeField] [ProgressBar(1, 25)] [MaxValue(50)]
 		private int controlRigCount = 5;
+
+		[SerializeField] [ProgressBar(1, 10)] private int lenghtLimit = 5;
 
 		[SerializeField] [ProgressBar(0.1, 1)] [MaxValue(1)] [MinValue(0.1)]
 		private float thickness = 1;
@@ -124,9 +125,9 @@ namespace HelloPico2.InteractableObjects{
 
 		[Button]
 		public void ModifyControlRigLenght(float rigLenght){
-			PostLenghtUpdatedEvent(0);
 			var addOffset = rigRoot.forward * rigLenght;
-			if(IsLenghtLessThanZero(addOffset)) return;
+			if(IsLenghtLessThanZero(addOffset) || IsLenghtGreaterThanLimit(addOffset)) return;
+			PostLenghtUpdatedEvent(0);
 			var rigOffset = addOffset / controlRigCount;
 			for(var i = 0; i < controlRigCount; i++){
 				var rig = _rigs[i];
@@ -140,12 +141,35 @@ namespace HelloPico2.InteractableObjects{
 			PostLenghtUpdatedEvent(2);
 		}
 
+		public void SetPositionLenghtByPercent(float rigLenght, float value){
+			PostLenghtUpdatedEvent(0);
+			var targetPosition = rigRoot.forward * rigLenght;
+			var lerpPosition = Vector3.Lerp(Vector3.zero, targetPosition, value);
+			var rigOffset = lerpPosition / controlRigCount;
+			for(var i = 0; i < controlRigCount; i++){
+				var rig = _rigs[i];
+				var rigTransform = rig.transform;
+				var addOffset = rigTransform.InverseTransformVector(rigOffset);
+				rigTransform.localPosition = addOffset;
+			}
+
+			PostLenghtUpdatedEvent(2);
+		}
+
 		private bool IsLenghtLessThanZero(Vector3 addOffset){
 			var lenghtUpdated = GetUpdateState();
-			var currentOffset = rigRoot.TransformVector(lenghtUpdated.TotalOffset);
-			if((currentOffset + addOffset).IsLesserOrEqual(Vector3.zero)) return true;
+			var localAddOffset = rigRoot.InverseTransformVector(addOffset);
+			var totalOffset = lenghtUpdated.TotalOffset;
+			return (totalOffset + localAddOffset).z < 0;
+		}
 
-			return false;
+		private bool IsLenghtGreaterThanLimit(Vector3 addOffset){
+			var lenghtUpdated = GetUpdateState();
+			var localAddOffset = rigRoot.InverseTransformVector(addOffset);
+			var totalOffset = lenghtUpdated.TotalOffset;
+			var limitOffset = rigRoot.forward * lenghtLimit;
+			var localLimitOffset = rigRoot.InverseTransformVector(limitOffset);
+			return (totalOffset + localAddOffset).z > localLimitOffset.z;
 		}
 
 		[Button]
@@ -169,24 +193,9 @@ namespace HelloPico2.InteractableObjects{
 			PostLenghtUpdatedEvent(2);
 		}
 
-		public void SetPositionLenghtByPercent(float multiplyValue, float value){
-			PostLenghtUpdatedEvent(0);
-			for(var i = 0; i < controlRigCount; i++){
-				var rig = _rigs[i];
-				var rigTransform = rig.transform;
-				var targetPosition = rigTransform.InverseTransformVector(rigTransform.forward * multiplyValue);
-				var lerpPosition = Vector3.Lerp(Vector3.zero, targetPosition, value);
-				rigTransform.localPosition = lerpPosition;
-				PostLenghtUpdatedEvent(1);
-			}
-
-			PostLenghtUpdatedEvent(2);
-		}
-
 		public void ModifyBlendWeight(float amount){
 			var currentBlendWeight = _dynamicBone.m_BlendWeight;
 			var nextBlendWeight = Mathf.Clamp01(currentBlendWeight + amount);
-			var curveBlendWeight = weightControlCurve.Evaluate(nextBlendWeight);
 			_dynamicBone.m_BlendWeight = nextBlendWeight;
 			_dynamicBone.UpdateRoot();
 			_dynamicBone.UpdateParameters();
