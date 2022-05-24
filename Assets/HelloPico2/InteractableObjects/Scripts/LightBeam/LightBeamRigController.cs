@@ -47,8 +47,7 @@ namespace HelloPico2.InteractableObjects{
 			if(IsLengthGreaterThanLimit(totalAddOffset) && rigLength > 0) return;
 			var rigOffset = totalAddOffset / controlRigCount;
 			var rigLocalOffset = rigRoot.InverseTransformVector(rigOffset);
-			var rigFinalOffset = _rigs.First().localPosition + rigLocalOffset;
-			SetRigLength(controlRigCount, rigFinalOffset);
+			SetRigLength(controlRigCount, rigLocalOffset, true);
 		}
 
 		public void SetPositionLengthByPercent(float rigLength, float value){
@@ -162,12 +161,18 @@ namespace HelloPico2.InteractableObjects{
 			return (totalOffset + localAddOffset).z > localLimitOffset.z;
 		}
 
-		private void SetRigLength(int rigCount, Vector3 rigOffset){
+		private void SetRigLength(int rigCount, Vector3 rigOffset, bool isAdd = false){
 			PostLengthUpdatedEvent(0);
 			for(var i = 0; i < rigCount; i++){
 				var rig = _rigs[i];
 				var rigTransform = rig.transform;
-				rigTransform.localPosition = rigOffset;
+				if(isAdd){
+					rigTransform.localPosition += rigOffset;
+				}
+				else{
+					rigTransform.localPosition = rigOffset;
+				}
+
 				PostLengthUpdatedEvent(1);
 			}
 
