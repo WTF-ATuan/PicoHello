@@ -36,6 +36,45 @@ namespace HelloPico2.InteractableObjects{
 			}
 		}
 
+		[Button]
+		public void ModifyControlRigLenght(float rigLenght){
+			var totalAddOffset = rigRoot.forward * rigLenght;
+			if(IsLenghtLessThanZero(totalAddOffset)){
+				SetRigTotalLength(0);
+				return;
+			}
+
+			if(IsLenghtGreaterThanLimit(totalAddOffset)) return;
+			var rigOffset = totalAddOffset / controlRigCount;
+			var rigLocalOffset = rigRoot.InverseTransformVector(rigOffset);
+			var rigFinalOffset = _rigs.First().localPosition + rigLocalOffset;
+			SetRigLength(controlRigCount, rigFinalOffset);
+		}
+
+		public void SetPositionLenghtByPercent(float rigLenght, float value){
+			PostLenghtUpdatedEvent(0);
+			var targetPosition = rigRoot.forward * rigLenght;
+			var lerpPosition = Vector3.Lerp(Vector3.zero, targetPosition, value);
+			var rigOffset = lerpPosition / controlRigCount;
+			for(var i = 0; i < controlRigCount; i++){
+				var rig = _rigs[i];
+				var rigTransform = rig.transform;
+				var addOffset = rigTransform.InverseTransformVector(rigOffset);
+				rigTransform.localPosition = addOffset;
+			}
+
+			PostLenghtUpdatedEvent(2);
+		}
+
+		[Button]
+		public void SetRigTotalLength(float offsetMultiplier){
+			var totalOffset = rigRoot.forward * offsetMultiplier;
+			var rigCount = controlRigCount;
+			var rigOffset = totalOffset / rigCount;
+			var rigLocalOffset = rigRoot.InverseTransformVector(rigOffset);
+			SetRigLength(rigCount, rigLocalOffset);
+		}
+
 		private void ModifyThickness(float percent){
 			var localScale = transform.localScale;
 			thickness = percent;
@@ -106,31 +145,6 @@ namespace HelloPico2.InteractableObjects{
 			collides.ForEach(c => c?.OnCollide());
 		}
 
-		[Button]
-		public void ModifyControlRigLenght(float rigLenght){
-			var totalAddOffset = rigRoot.forward * rigLenght;
-			if(IsLenghtLessThanZero(totalAddOffset) || IsLenghtGreaterThanLimit(totalAddOffset)) return;
-			var rigOffset = totalAddOffset / controlRigCount;
-			var rigLocalOffset = rigRoot.InverseTransformVector(rigOffset);
-			var rigFinalOffset = _rigs.First().localPosition + rigLocalOffset;
-			SetRigLength(controlRigCount, rigFinalOffset);
-		}
-
-		public void SetPositionLenghtByPercent(float rigLenght, float value){
-			PostLenghtUpdatedEvent(0);
-			var targetPosition = rigRoot.forward * rigLenght;
-			var lerpPosition = Vector3.Lerp(Vector3.zero, targetPosition, value);
-			var rigOffset = lerpPosition / controlRigCount;
-			for(var i = 0; i < controlRigCount; i++){
-				var rig = _rigs[i];
-				var rigTransform = rig.transform;
-				var addOffset = rigTransform.InverseTransformVector(rigOffset);
-				rigTransform.localPosition = addOffset;
-			}
-
-			PostLenghtUpdatedEvent(2);
-		}
-
 		private bool IsLenghtLessThanZero(Vector3 addOffset){
 			var lenghtUpdated = GetUpdateState();
 			var localAddOffset = rigRoot.InverseTransformVector(addOffset);
@@ -145,15 +159,6 @@ namespace HelloPico2.InteractableObjects{
 			var limitOffset = rigRoot.forward * lenghtLimit;
 			var localLimitOffset = rigRoot.InverseTransformVector(limitOffset);
 			return (totalOffset + localAddOffset).z > localLimitOffset.z;
-		}
-
-		[Button]
-		public void SetRigTotalLength(float offsetMultiplier){
-			var totalOffset = rigRoot.forward * offsetMultiplier;
-			var rigCount = controlRigCount;
-			var rigOffset = totalOffset / rigCount;
-			var rigLocalOffset = rigRoot.InverseTransformVector(rigOffset);
-			SetRigLength(rigCount, rigLocalOffset);
 		}
 
 		private void SetRigLength(int rigCount, Vector3 rigOffset){
