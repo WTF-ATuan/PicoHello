@@ -51,125 +51,89 @@ namespace HelloPico2.PlayerController.Arm
 		private void OnEnable()
 		{
 			EventBus.Subscribe<DeviceInputDetected>(OnDeviceInputDetected);
-			EventBus.Subscribe<GainEnergyEventData>(ChargeEnergy);
 		}
 		private void OnDisable()
 		{
 
 		}
         private void Update()
-        {
-			_controller.inputDevice.TryGetFeatureValue(CommonUsages.triggerButton, out var isTrigger);
-			_controller.inputDevice.TryGetFeatureValue(CommonUsages.trigger, out var isTriggerTouch);
-			_controller.inputDevice.TryGetFeatureValue(CommonUsages.gripButton, out var isGrip);
-			_controller.inputDevice.TryGetFeatureValue(CommonUsages.grip, out var isGripTouch);
-			_controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxisTouch, out var padAxisTouch);
-			_controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxisClick, out var padAxisClick);
-			_controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out var padAxis);
+		{
+            CheckInput();
+        }
+        private void CheckInput() {
+            _controller.inputDevice.TryGetFeatureValue(CommonUsages.triggerButton, out var isTrigger);
+            _controller.inputDevice.TryGetFeatureValue(CommonUsages.trigger, out var isTriggerTouch);
+            _controller.inputDevice.TryGetFeatureValue(CommonUsages.gripButton, out var isGrip);
+            _controller.inputDevice.TryGetFeatureValue(CommonUsages.grip, out var isGripTouch);
+            _controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxisTouch, out var padAxisTouch);
+            _controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxisClick, out var padAxisClick);
+            _controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out var padAxis);
 
-			if (isTrigger)
-			{
-				OnTriggerDown(data);
-			}
+            if (isTrigger)
+            {
+                OnTriggerDown(data);
+            }
 
-			if (isTriggerTouch > 0 || isGripTouch > 0) {
-				data.WhenTouchTriggerOrGrip?.Invoke();
-			}
-			if (isTriggerTouch < 0.1f && isGripTouch < 0.1f) { 
-				data.WhenNotTouchTriggerAndGrip?.Invoke();
-			}
+            if (isTriggerTouch > 0 || isGripTouch > 0)
+            {
+                data.WhenTouchTriggerOrGrip?.Invoke();
+            }
+            if (isTriggerTouch < 0.1f && isGripTouch < 0.1f)
+            {
+                data.WhenNotTouchTriggerAndGrip?.Invoke();
+            }
 
-			if (!isGrip) {
-				// Use all energy to shoot
-				OnGripUp?.Invoke(data);
-			}
-			if (!padAxisTouch)
-			{
-				OnPrimaryAxisTouchUp(data);
-			}
-			if (padAxisClick)
-			{
-				OnPrimaryAxisClick(data);
-			}
-			if (padAxis.magnitude >= 0.1f && padAxisTouch) {
-				OnPrimaryAxisInput(padAxis);
-			}
-		}
-
-		// Not in use
-        public void OnDeviceInputDetected(DeviceInputDetected obj)
+            if (!isGrip)
+            {
+                OnGripUp?.Invoke(data);
+            }
+            if (!padAxisTouch)
+            {
+                OnPrimaryAxisTouchUp(data);
+            }
+            if (padAxisClick)
+            {
+                OnPrimaryAxisClick(data);
+            }
+            if (padAxis.magnitude >= 0.1f && padAxisTouch)
+            {
+                OnPrimaryAxisInput(padAxis);
+            }
+        }
+        private void OnDeviceInputDetected(DeviceInputDetected obj)
         {
 			if (obj.Selector.SelectableObject == null) return;
 
 			var interactable = obj.Selector.SelectableObject.GetComponent<InteractableBase>();
+			var isTrigger = obj.IsTrigger;			
+			var isTriggerTouch = obj.TouchValue;			
             var isGrip = obj.IsGrip;
+            var isGripTouch = obj.GripValue;
+            var padAxisTouch = obj.IsPadTouch;
+            var padAxisClick = obj.IsPadClick;
             var isPrimary = obj.IsPrimary;
-			var isTrigger = obj.IsTrigger;
             var padAxis = obj.TouchPadAxis;
 
-			if (isGrip)
-			{
-				interactable.OnSelect(obj);				
-			}
-			else
-			{
-				interactable.OnDrop();
-				// Use all energy to shoot
-				OnGripUp?.Invoke(data);
-			}
+            #region Updat Object events
+            if (isGrip)
+            {
+                interactable.OnSelect(obj);
+            }
+            else
+            {
+                interactable.OnDrop();
+            }
 
-			if (isPrimary)
+            if (isPrimary)
 			{
 				interactable.OnXOrAButton();
-			}
-
-			if (isTrigger)
-			{
-				OnTriggerDown(data);
 			}
 
 			if (padAxis.magnitude > .1f)
 			{
 				interactable.OnTouchPad(padAxis);
-				OnPrimaryAxisInput(padAxis);
 			}
-
+			#endregion
 		}
-		private void ChargeEnergy(GainEnergyEventData eventData) {
-			if (eventData.InputReceiver.Selector.HandType != data.HandType) return;
-
-			data.Energy += eventData.Energy;
-
-			controllerInteractor.CancelSelect(eventData.Interactable);
-
-			var targetPos = _controller.transform.TransformPoint(data.GrabEnergyOffset);
-
-			eventData.Interactable.transform.DOMove(targetPos, data.GrabEasingDuration).OnComplete(() =>
-			{
-				OnEnergyChanged?.Invoke(data);
-
-				data.WhenGainEnergy?.Invoke();
-
-				Destroy(eventData.Interactable.transform.gameObject);
-			});
-		}		
-		// Not in use
-		public void Summon(InteractableSettings.InteractableType type) {
-
-			if (data.currentWeapon != null) return;
-
-			var objData = data.InteractableSettings.GetInteractableObject(type);
-
-			// Check energy cost
-			if (data.Energy < objData.energyCost) return;
-
-			data.Energy -= objData.energyCost;
-
-            data.currentWeapon = Instantiate(objData.prefab, data.SummonPoint);
-
-            // select
-			
-        }
-		
     }
 }

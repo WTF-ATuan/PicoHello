@@ -12,10 +12,12 @@ namespace HelloPico2.PlayerController.Arm
     [RequireComponent(typeof(ArmLogic))]
     public class EnergyBallBehavior : MonoBehaviour
     {
-        public XRController _controller;
-        [SerializeField] private GameObject _EnergyBall;
-        [SerializeField] private Vector3 _EnergyBallOffset = new Vector3(0,0,0);
+        [Header("Charging Energyball Position Settings")]
+        [SerializeField] private Transform _Pivot;
+        [SerializeField] private GameObject _ChargingEnergyBall;
+        [SerializeField] private Vector3 _DefaultOffset = new Vector3(0,0,0);
         [SerializeField] private Vector2 _ScaleRange;
+        [SerializeField] private Vector2 _OffsetRange;
         [SerializeField] private float _ScalingSpeed;
 
         [Header("Projectile Settings")]
@@ -54,6 +56,7 @@ namespace HelloPico2.PlayerController.Arm
         private bool isShapeConfirmed = false;
         private void Start()
         {
+            Project.EventBus.Subscribe<GainEnergyEventData>(ChargeEnergy);
             Project.EventBus.Subscribe<GainEnergyEventData>(ChargeEnergyBall);
         }
         private void OnEnable()
@@ -68,12 +71,9 @@ namespace HelloPico2.PlayerController.Arm
 
             armLogic.OnTriggerDown += ShootEnergyProjectile;
 
-            if (currentEnergyBall == null)
-            {
-                currentEnergyBall = Instantiate(_EnergyBall, _controller.transform);
-                currentEnergyBall.transform.localPosition = Vector3.zero;
-            }
             currentShape = _Sword;
+
+            GenerateChargingEnergyBall();
         }
         private void OnDisable()
         {
@@ -89,6 +89,25 @@ namespace HelloPico2.PlayerController.Arm
         }
         private void Update(){
             if(_Debug) UpdateShape(axis);
+        }
+        private void ChargeEnergy(GainEnergyEventData eventData)
+        {
+            if (eventData.InputReceiver.Selector.HandType != armLogic.data.HandType) return;
+
+            armLogic.data.Energy += eventData.Energy;
+
+            armLogic.controllerInteractor.CancelSelect(eventData.Interactable);
+
+            var targetPos = currentEnergyBall.transform.position;
+
+            eventData.Interactable.transform.DOMove(targetPos, armLogic.data.GrabEasingDuration).OnComplete(() =>
+            {
+                armLogic.OnEnergyChanged?.Invoke(armLogic.data);
+
+                armLogic.data.WhenGainEnergy?.Invoke();
+
+                Destroy(eventData.Interactable.transform.gameObject);
+            });
         }
         [Button]
         private void ShootChargedProjectile(ArmData data) {
@@ -120,28 +139,37 @@ namespace HelloPico2.PlayerController.Arm
         private void GenerateProjectile(bool overwriteScale, float scale = 1)
         {
             var clone = Instantiate(_EnergyProjectile, transform.root);
-            clone.transform.position = _controller.transform.position + (_controller.transform.forward * _SpawnOffset);
-            clone.transform.forward = _controller.transform.forward;
+            clone.transform.position = currentEnergyBall.transform.position + (currentEnergyBall.transform.forward * _SpawnOffset);
+            clone.transform.forward = armLogic.data.Controller.transform.forward;
             if (overwriteScale) clone.transform.localScale *= scale;
 
             clone.GetComponent<ProjectileController>().ProjectileSetUp(_ShootSpeed, _SpeedBufferDuration, target);
-            
+                        
             ShootCoolDownProcess = StartCoroutine(CoolDown(_ShootCoolDown));
         }
         private void ChargeEnergyBall(GainEnergyEventData eventData) {
             // Check same arm
             if (armLogic.data.HandType != eventData.InputReceiver.Selector.HandType) return;
 
+            GenerateChargingEnergyBall();
+        }
+        private void GenerateChargingEnergyBall() {
             if (currentEnergyBall == null)
             {
-                currentEnergyBall = Instantiate(_EnergyBall, eventData.InputReceiver.Selector.SelectorTransform);
-                currentEnergyBall.transform.localPosition = _EnergyBallOffset;
+                currentEnergyBall = Instantiate(_ChargingEnergyBall, _Pivot);
+                currentEnergyBall.transform.localPosition = _DefaultOffset;
             }
         }
         private void UpdateScale(ArmData data) {
             var targetScale = Vector3.one * Mathf.Lerp(_ScaleRange.x, _ScaleRange.y, data.Energy / data.MaxEnergy) ;
             if (data.Energy == 0) targetScale = Vector3.zero;
             currentEnergyBall.transform.DOScale(targetScale, 1/_ScalingSpeed);
+            var ratio = (targetScale.x - _ScaleRange.x) / (_ScaleRange.y - _ScaleRange.x);
+            currentEnergyBall.transform.DOLocalMove(
+                _DefaultOffset +
+                new Vector3(0, 0,
+                _OffsetRange.x + ((_OffsetRange.y - _OffsetRange.x) * ratio)),
+                1/_ScalingSpeed);
         }
         private void ConfirmShape(ArmData data) {
             isShapeConfirmed = true;
@@ -186,7 +214,7 @@ namespace HelloPico2.PlayerController.Arm
             currentShape.SetActive(false);
             weapon.SetActive(true);
             weapon.transform.position = currentEnergyBall.transform.position;
-            weapon.transform.forward = _controller.transform.forward;
+            weapon.transform.forward = armLogic.data.Controller.transform.forward;
             weapon.transform.SetParent(currentEnergyBall.transform.parent);
             currentShape = weapon;
         }

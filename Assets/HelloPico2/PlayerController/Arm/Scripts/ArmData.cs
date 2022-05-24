@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 using Sirenix.OdinInspector;
 using HelloPico2.InteractableObjects;
 using HelloPico2.InputDevice.Scripts;
@@ -10,10 +11,10 @@ namespace HelloPico2.PlayerController.Arm
     public class ArmData : MonoBehaviour
     {
         [SerializeField] private HandType _HandType;
+        [SerializeField] private XRController _Controller;
         [SerializeField] private float _Energy;
         [SerializeField] private float _MaxEnergy;
         [SerializeField] private float _GrabEasingDuration;
-        [SerializeField] private Vector3 _GrabEnergyOffset;
         [SerializeField] private InteractableSettings _InteractableSettings;
         [SerializeField] private Transform _SummonPoint;
         [FoldoutGroup("Audio Settings")][SerializeField] private AudioSource _AudioSource;
@@ -27,10 +28,10 @@ namespace HelloPico2.PlayerController.Arm
         [FoldoutGroup("Events Settings")] public UnityEngine.Events.UnityEvent WhenShootProjectile;
         [FoldoutGroup("Events Settings")] public UnityEngine.Events.UnityEvent WhenShootChargedProjectile;
         public HandType HandType { get { return _HandType; } }
+        public XRController Controller { get { return _Controller; } }
         public float Energy { get { return _Energy; } set { _Energy = value; } }
         public float MaxEnergy { get { return _MaxEnergy; } }
         public float GrabEasingDuration { get { return _GrabEasingDuration; } }
-        public Vector3 GrabEnergyOffset { get { return _GrabEnergyOffset; } }
         public InteractableSettings InteractableSettings { get { return _InteractableSettings; } }
         public Transform SummonPoint { get { return _SummonPoint; } }
         public AudioSource AudioSource { get { return _AudioSource; } }
