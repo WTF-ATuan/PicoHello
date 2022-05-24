@@ -140,6 +140,22 @@ namespace HelloPico2.InteractableObjects{
 			PostLenghtUpdatedEvent(2);
 		}
 
+		[Button]
+		public void SetPositionLenghtByPercent(float rigLenght, float value){
+			PostLenghtUpdatedEvent(0);
+			var targetPosition = rigRoot.forward * rigLenght;
+			var lerpPosition = Vector3.Lerp(Vector3.zero, targetPosition, value);
+			var rigOffset = lerpPosition / controlRigCount;
+			for(var i = 0; i < controlRigCount; i++){
+				var rig = _rigs[i];
+				var rigTransform = rig.transform;
+				var addOffset = rigTransform.InverseTransformVector(rigOffset);
+				rigTransform.localPosition = addOffset;
+			}
+
+			PostLenghtUpdatedEvent(2);
+		}
+
 		private bool IsLenghtLessThanZero(Vector3 addOffset){
 			var lenghtUpdated = GetUpdateState();
 			var currentOffset = rigRoot.TransformVector(lenghtUpdated.TotalOffset);
@@ -163,20 +179,6 @@ namespace HelloPico2.InteractableObjects{
 				var rigTransform = rig.transform;
 				var finalPosition = rigTransform.InverseTransformVector(rigOffset);
 				rigTransform.localPosition = finalPosition;
-				PostLenghtUpdatedEvent(1);
-			}
-
-			PostLenghtUpdatedEvent(2);
-		}
-
-		public void SetPositionLenghtByPercent(float multiplyValue, float value){
-			PostLenghtUpdatedEvent(0);
-			for(var i = 0; i < controlRigCount; i++){
-				var rig = _rigs[i];
-				var rigTransform = rig.transform;
-				var targetPosition = rigTransform.InverseTransformVector(rigTransform.forward * multiplyValue);
-				var lerpPosition = Vector3.Lerp(Vector3.zero, targetPosition, value);
-				rigTransform.localPosition = lerpPosition;
 				PostLenghtUpdatedEvent(1);
 			}
 
