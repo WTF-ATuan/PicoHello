@@ -8,6 +8,8 @@ namespace HelloPico2.InteractableObjects{
 		private LightBeamRigController _rigController;
 		[SerializeField] private float speedLimit;
 		[SerializeField] private float returnDuring;
+		[SerializeField] private bool blendWeightwithSpeed;
+		
 
 
 		private void Start(){
@@ -18,9 +20,11 @@ namespace HelloPico2.InteractableObjects{
 		private void OnDeviceInputDetected(DeviceInputDetected obj){
 			var isSameObject = obj.IsSameObject(_rigController.gameObject);
 			if(!isSameObject) return;
-			SetBlendWeight(obj.Selector.Speed);
+			if(blendWeightwithSpeed){
+				SetBlendWeight(obj.Selector.Speed);
+			}
 			var touchPadAxis = obj.TouchPadAxis;
-			if(touchPadAxis.magnitude < 0.1f) return;
+			if(touchPadAxis.y < 0) return;
 			OnTouchPadAxis(touchPadAxis);
 		}
 
@@ -41,8 +45,11 @@ namespace HelloPico2.InteractableObjects{
 
 		private void OnTouchPadAxis(Vector2 touchPadAxis){
 			var axisY = touchPadAxis.y;
-			if(Mathf.Abs(axisY) > 0.1f){
-				_rigController.ModifyControlRigLenght(axisY * 0.1f);
+			if(axisY > 0.5f){
+				_rigController.ModifyControlRigLenght(+0.1f);
+			}
+			else{
+				_rigController.ModifyControlRigLenght(-0.1f);
 			}
 		}
 	}

@@ -126,7 +126,7 @@ namespace HelloPico2.InteractableObjects{
 		[Button]
 		public void ModifyControlRigLenght(float rigLenght){
 			var addOffset = rigRoot.forward * rigLenght;
-			if(IsLenghtLessThanZero(addOffset) || IsGreaterThanLimit(addOffset)) return;
+			if(IsLenghtLessThanZero(addOffset) || IsLenghtGreaterThanLimit(addOffset)) return;
 			PostLenghtUpdatedEvent(0);
 			var rigOffset = addOffset / controlRigCount;
 			for(var i = 0; i < controlRigCount; i++){
@@ -158,14 +158,18 @@ namespace HelloPico2.InteractableObjects{
 
 		private bool IsLenghtLessThanZero(Vector3 addOffset){
 			var lenghtUpdated = GetUpdateState();
-			var currentOffset = rigRoot.TransformVector(lenghtUpdated.TotalOffset);
-			return (currentOffset + addOffset).IsLesserOrEqual(Vector3.zero);
+			var localAddOffset = rigRoot.InverseTransformVector(addOffset);
+			var totalOffset = lenghtUpdated.TotalOffset;
+			return (totalOffset + localAddOffset).z < 0;
 		}
 
-		private bool IsGreaterThanLimit(Vector3 addOffset){
+		private bool IsLenghtGreaterThanLimit(Vector3 addOffset){
 			var lenghtUpdated = GetUpdateState();
-			var currentOffset = rigRoot.TransformVector(lenghtUpdated.TotalOffset);
-			return (currentOffset + addOffset).IsGreaterOrEqual(rigRoot.forward * lenghtLimit);
+			var localAddOffset = rigRoot.InverseTransformVector(addOffset);
+			var totalOffset = lenghtUpdated.TotalOffset;
+			var limitOffset = rigRoot.forward * lenghtLimit;
+			var localLimitOffset = rigRoot.InverseTransformVector(limitOffset);
+			return (totalOffset + localAddOffset).z > localLimitOffset.z;
 		}
 
 		[Button]
