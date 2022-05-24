@@ -8,7 +8,7 @@ namespace HelloPico2.InteractableObjects{
 		private LightBeamRigController _rigController;
 		[SerializeField] private float speedLimit;
 		[SerializeField] private float returnDuring;
-		[SerializeField] private bool blendWeightwithSpeed;
+		[SerializeField] private bool blendWeightWithSpeed;
 		
 
 
@@ -20,7 +20,7 @@ namespace HelloPico2.InteractableObjects{
 		private void OnDeviceInputDetected(DeviceInputDetected obj){
 			var isSameObject = obj.IsSameObject(_rigController.gameObject);
 			if(!isSameObject) return;
-			if(blendWeightwithSpeed){
+			if(blendWeightWithSpeed){
 				SetBlendWeight(obj.Selector.Speed);
 			}
 			var touchPadAxis = obj.TouchPadAxis;
