@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using Project;
@@ -13,6 +12,8 @@ namespace HelloPico2.InteractableObjects{
 
 		[SerializeField] [ProgressBar(1, 25)] [MaxValue(50)]
 		private int controlRigCount = 5;
+
+		[SerializeField] [ProgressBar(1, 10)] private int lenghtLimit = 5;
 
 		[SerializeField] [ProgressBar(0.1, 1)] [MaxValue(1)] [MinValue(0.1)]
 		private float thickness = 1;
@@ -124,9 +125,9 @@ namespace HelloPico2.InteractableObjects{
 
 		[Button]
 		public void ModifyControlRigLenght(float rigLenght){
-			PostLenghtUpdatedEvent(0);
 			var addOffset = rigRoot.forward * rigLenght;
-			if(IsLenghtLessThanZero(addOffset)) return;
+			if(IsLenghtLessThanZero(addOffset) || IsGreaterThanLimit(addOffset)) return;
+			PostLenghtUpdatedEvent(0);
 			var rigOffset = addOffset / controlRigCount;
 			for(var i = 0; i < controlRigCount; i++){
 				var rig = _rigs[i];
@@ -140,7 +141,6 @@ namespace HelloPico2.InteractableObjects{
 			PostLenghtUpdatedEvent(2);
 		}
 
-		[Button]
 		public void SetPositionLenghtByPercent(float rigLenght, float value){
 			PostLenghtUpdatedEvent(0);
 			var targetPosition = rigRoot.forward * rigLenght;
@@ -159,9 +159,13 @@ namespace HelloPico2.InteractableObjects{
 		private bool IsLenghtLessThanZero(Vector3 addOffset){
 			var lenghtUpdated = GetUpdateState();
 			var currentOffset = rigRoot.TransformVector(lenghtUpdated.TotalOffset);
-			if((currentOffset + addOffset).IsLesserOrEqual(Vector3.zero)) return true;
+			return (currentOffset + addOffset).IsLesserOrEqual(Vector3.zero);
+		}
 
-			return false;
+		private bool IsGreaterThanLimit(Vector3 addOffset){
+			var lenghtUpdated = GetUpdateState();
+			var currentOffset = rigRoot.TransformVector(lenghtUpdated.TotalOffset);
+			return (currentOffset + addOffset).IsGreaterOrEqual(rigRoot.forward * lenghtLimit);
 		}
 
 		[Button]
@@ -188,7 +192,6 @@ namespace HelloPico2.InteractableObjects{
 		public void ModifyBlendWeight(float amount){
 			var currentBlendWeight = _dynamicBone.m_BlendWeight;
 			var nextBlendWeight = Mathf.Clamp01(currentBlendWeight + amount);
-			var curveBlendWeight = weightControlCurve.Evaluate(nextBlendWeight);
 			_dynamicBone.m_BlendWeight = nextBlendWeight;
 			_dynamicBone.UpdateRoot();
 			_dynamicBone.UpdateParameters();
