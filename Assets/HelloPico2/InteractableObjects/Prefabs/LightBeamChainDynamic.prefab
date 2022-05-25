@@ -1017,6 +1017,7 @@ GameObject:
   - component: {fileID: 4278986580361110197}
   - component: {fileID: 7032376509307550882}
   - component: {fileID: 7816197503105575777}
+  - component: {fileID: 8045840928086999199}
   m_Layer: 0
   m_Name: LightBeamChainDynamic
   m_TagString: Untagged
@@ -1185,7 +1186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigRoot: {fileID: 7729548658868913015}
   controlRigCount: 10
-  lenghtLimit: 4
+  lengthLimit: 5
   thickness: 1
   weightControlCurve:
     serializedVersion: 2
@@ -1288,8 +1289,23 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.1
+  m_Radius: 0.05
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8045840928086999199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4278986580361110206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95f9e942a17f4716808f90ce3f805da6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedLimit: 0.5
+  returnDuring: 4
+  blendWeightWithSpeed: 1
 --- !u!1 &4460007296264240595
 GameObject:
   m_ObjectHideFlags: 0
