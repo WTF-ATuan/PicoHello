@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -19,6 +20,10 @@ namespace HelloPico2{
 
 		public T FindEventData<T>(string id) where T : ViewEventData{
 			var viewEventData = viewEventDataList.Find(x => x.identity.Equals(id));
+			if(viewEventData == null){
+				throw new NullReferenceException($"Can,t Not Find {id}");
+			}
+
 			return viewEventData as T;
 		}
 
