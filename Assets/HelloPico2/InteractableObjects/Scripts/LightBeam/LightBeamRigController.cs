@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using Sirenix.OdinInspector;
@@ -12,7 +13,7 @@ namespace HelloPico2.InteractableObjects{
 		[SerializeField] [ProgressBar(1, 25)] [MaxValue(50)]
 		private int controlRigCount = 5;
 
-		[SerializeField] [ProgressBar(1, 10)] private int lengthLimit = 5;
+		[SerializeField] [ProgressBar(1, 10)] private float lengthLimit = 5;
 
 		[SerializeField] [ProgressBar(0.1, 1)] [MaxValue(1)] [MinValue(0.1)]
 		private float thickness = 1;
@@ -24,6 +25,15 @@ namespace HelloPico2.InteractableObjects{
 		private DynamicBone _dynamicBone;
 
 		private CapsuleCollider _capsuleCollider;
+
+		public void SetLengthLimit(float percentage){
+			if(percentage > 1){
+				throw new Exception($"inputValue is greater than 1 {percentage}");
+			}
+
+			var lerpValue = Mathf.Lerp(1, 10, percentage);
+			lengthLimit = lerpValue;
+		}
 
 		public void Floating(bool enable){
 			if(enable){
