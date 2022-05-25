@@ -12901,7 +12901,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 8baff4ac27095c2449a9e1a5abe1533e, type: 3}
 --- !u!4 &398846458 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8baff4ac27095c2449a9e1a5abe1533e, type: 3}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 398846457}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &403147255
@@ -13428,14 +13428,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _controller: {fileID: 437860336}
   _handAnimator: {fileID: 151646734}
-  _getItme: {fileID: 11400000, guid: 340ddfff419abb14f9dad278e4a93c75, type: 2}
-  _getGuideSys: {fileID: 11400000, guid: 81bf371500d2bb4469a3f4d484de9b25, type: 2}
+  _getItme: {fileID: 0}
+  _getGuideSys: {fileID: 0}
   spawnedController: {fileID: 151646735}
   showController: 1
   tipButtonAll: {fileID: 311005847}
   tipButton:
   - {fileID: 1644703676}
   - {fileID: 1314191609}
+  audioList: []
+  firstTouch: 0
 --- !u!114 &437860327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13675,9 +13677,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 389464356a06a1a4a8d24333cbf0aee8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _controller: {fileID: 437860336}
-  _EnergyBall: {fileID: 7744332965651290996, guid: da0f00e0ef2cf0c4d8d5b221615cec50, type: 3}
+  _Pivot: {fileID: 0}
+  _ChargingEnergyBall: {fileID: 0}
+  _DefaultOffset: {x: 0, y: 0, z: 0}
   _ScaleRange: {x: 0.02, y: 0.8}
+  _OffsetRange: {x: 0, y: 0}
   _ScalingSpeed: 1
   _EnergyProjectile: {fileID: 209317907826756382, guid: 1c0c93807ed150246ab8bba96783c335, type: 3}
   _SpawnOffset: 0
@@ -13691,7 +13695,6 @@ MonoBehaviour:
   _Debug: 0
   axis: {x: 1, y: 1}
   target: {fileID: 0}
-  _ShapingMultiplier: 0
 --- !u!114 &437860332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13705,7 +13708,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _controller: {fileID: 437860336}
-  test: {fileID: 61026057}
 --- !u!114 &437860333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13719,11 +13721,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _HandType: 0
+  _Controller: {fileID: 0}
   _Energy: 200
   _MaxEnergy: 300
   _GrabEasingDuration: 0.15
   _InteractableSettings: {fileID: 11400000, guid: ecdbec69f2c020441bd07a6377b457bd, type: 2}
   _SummonPoint: {fileID: 437860325}
+  _AudioSource: {fileID: 0}
+  _GainEnergyBallClipName: 
+  _ShootEnergyBallClipName: 
+  _ShootChargedEnergyBallClipName: 
+  WhenGainEnergy:
+    m_PersistentCalls:
+      m_Calls: []
+  WhenTouchTriggerOrGrip:
+    m_PersistentCalls:
+      m_Calls: []
+  WhenNotTouchTriggerAndGrip:
+    m_PersistentCalls:
+      m_Calls: []
+  WhenShootProjectile:
+    m_PersistentCalls:
+      m_Calls: []
+  WhenShootChargedProjectile:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &437860334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14614,14 +14636,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _controller: {fileID: 1519051090}
   _handAnimator: {fileID: 711088204}
-  _getItme: {fileID: 11400000, guid: 340ddfff419abb14f9dad278e4a93c75, type: 2}
-  _getGuideSys: {fileID: 11400000, guid: 81bf371500d2bb4469a3f4d484de9b25, type: 2}
+  _getItme: {fileID: 0}
+  _getGuideSys: {fileID: 0}
   spawnedController: {fileID: 711088205}
   showController: 1
   tipButtonAll: {fileID: 693660650}
   tipButton:
   - {fileID: 1372751058}
   - {fileID: 1282035016}
+  audioList: []
+  firstTouch: 0
 --- !u!1 &530444592
 GameObject:
   m_ObjectHideFlags: 0
@@ -39238,7 +39262,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _strength: 0.3
   _time: 100
-  _hapticTime: 0
+  isReticle: 0
 --- !u!135 &1097792708
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -61820,9 +61844,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 389464356a06a1a4a8d24333cbf0aee8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _controller: {fileID: 1519051090}
-  _EnergyBall: {fileID: 7744332965651290996, guid: da0f00e0ef2cf0c4d8d5b221615cec50, type: 3}
+  _Pivot: {fileID: 0}
+  _ChargingEnergyBall: {fileID: 0}
+  _DefaultOffset: {x: 0, y: 0, z: 0}
   _ScaleRange: {x: 0.02, y: 0.8}
+  _OffsetRange: {x: 0, y: 0}
   _ScalingSpeed: 1
   _EnergyProjectile: {fileID: 209317907826756382, guid: 1c0c93807ed150246ab8bba96783c335, type: 3}
   _SpawnOffset: 0
@@ -61836,7 +61862,6 @@ MonoBehaviour:
   _Debug: 0
   axis: {x: 1, y: 1}
   target: {fileID: 0}
-  _ShapingMultiplier: 0
 --- !u!114 &1519051086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61850,7 +61875,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _controller: {fileID: 1519051090}
-  test: {fileID: 61026057}
 --- !u!114 &1519051087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61864,11 +61888,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _HandType: 1
+  _Controller: {fileID: 0}
   _Energy: 200
   _MaxEnergy: 300
   _GrabEasingDuration: 0.15
   _InteractableSettings: {fileID: 11400000, guid: ecdbec69f2c020441bd07a6377b457bd, type: 2}
   _SummonPoint: {fileID: 1519051080}
+  _AudioSource: {fileID: 0}
+  _GainEnergyBallClipName: 
+  _ShootEnergyBallClipName: 
+  _ShootChargedEnergyBallClipName: 
+  WhenGainEnergy:
+    m_PersistentCalls:
+      m_Calls: []
+  WhenTouchTriggerOrGrip:
+    m_PersistentCalls:
+      m_Calls: []
+  WhenNotTouchTriggerAndGrip:
+    m_PersistentCalls:
+      m_Calls: []
+  WhenShootProjectile:
+    m_PersistentCalls:
+      m_Calls: []
+  WhenShootChargedProjectile:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1519051088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72610,7 +72654,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _strength: 0.3
   _time: 100
-  _hapticTime: 0
+  isReticle: 0
 --- !u!135 &1815149253
 SphereCollider:
   m_ObjectHideFlags: 0
