@@ -1,5 +1,4 @@
-﻿using System;
-using Project;
+﻿using Project;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +13,7 @@ namespace HelloPico2{
 
 		private void OnButtonClick(){
 			var inputFieldText = inputField.text;
-			EventBus.Post(new AudioEventPosted(inputFieldText, transform.position));
+			EventBus.Post(new AudioEventRequested(inputFieldText, transform.position));
 		}
 	}
 }
