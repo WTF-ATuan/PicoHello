@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace HelloPico2{
 	public class VFXEventRequested{
-		public string VfxID{ get; }
-		public bool IsBinding{ get; }
-		public float During{ get; }
-		public Transform AttachPoint{ get; }
-		public Vector3 SpawnPosition{ get; }
+		public string VfxID{ get; } //ID
+		public bool IsBinding{ get; } //是否要綁定
+		public float During{ get; } //持續時間
+		public Transform AttachPoint{ get; } //綁定狀態的情境下的父物件
+		public Vector3 SpawnPosition{ get; } //無綁定狀態下的生成位置
 
 		public VFXEventRequested(string vfxID, bool isBinding, float during,
 			Transform attachPoint = null,

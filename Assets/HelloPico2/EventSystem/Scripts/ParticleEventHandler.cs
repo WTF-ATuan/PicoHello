@@ -14,6 +14,7 @@ namespace HelloPico2{
 			var vfxID = obj.VfxID;
 			var spawnPosition = obj.SpawnPosition;
 			var attachPoint = obj.AttachPoint;
+			var during = obj.During;
 			var isBinding = obj.IsBinding;
 			var particleData = dataOverview.FindEventData<ParticleData>(vfxID);
 			if(isBinding){
@@ -26,6 +27,7 @@ namespace HelloPico2{
 				var particle = particleData.particle;
 				var particleObject = Instantiate(particle, spawnPosition, Quaternion.identity);
 				particleObject.name = $"VFX{vfxID} (Temporary)";
+				Destroy(particleObject.gameObject, during);
 				return null;
 			}
 		}
