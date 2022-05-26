@@ -14,14 +14,6 @@ namespace HelloPico2{
 			var audioEvent = new AudioData();
 			viewEventDataList.Add(audioEvent);
 		}
-
-		[Button]
-		[PropertyOrder(0)]
-		public void CreateAnimationEvent(){
-			var animationData = new AnimationData();
-			viewEventDataList.Add(animationData);
-		}
-
 		[Button]
 		[PropertyOrder(0)]
 		public void CreateParticleEvent(){
