@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
 namespace HelloPico2{
-	public class AudioEventPosted{
+	public class AudioEventRequested{
 		public string AudioID{ get; }
 		public Vector3 PlayPosition{ get; }
 
-		public AudioEventPosted(string audioID, Vector3 playPosition){
+		public AudioEventRequested(string audioID, Vector3 playPosition){
 			AudioID = audioID;
 			PlayPosition = playPosition;
 		}

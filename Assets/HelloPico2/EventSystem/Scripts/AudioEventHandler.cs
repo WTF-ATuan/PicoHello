@@ -10,11 +10,11 @@ namespace HelloPico2{
 		private AudioSource _audioSource;
 
 		private void Start(){
-			EventBus.Subscribe<AudioEventPosted>(OnAudioEventPosted);
+			EventBus.Subscribe<AudioEventRequested>(OnAudioEventPosted);
 			_audioSource = GetComponent<AudioSource>();
 		}
 
-		private void OnAudioEventPosted(AudioEventPosted obj){
+		private void OnAudioEventPosted(AudioEventRequested obj){
 			var audioID = obj.AudioID;
 			var position = obj.PlayPosition;
 			var audioData = dataOverview.FindEventData<AudioData>(audioID);
