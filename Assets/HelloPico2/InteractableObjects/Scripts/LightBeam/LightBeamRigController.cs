@@ -100,6 +100,14 @@ namespace HelloPico2.InteractableObjects{
 			return lengthUpdated;
 		}
 
+		public void Init(){
+			_dynamicBone = GetComponent<DynamicBone>();
+			_capsuleCollider = GetComponent<CapsuleCollider>();
+			_rigs = rigRoot.GetComponentsInChildren<Transform>().ToList();
+			_rigs.RemoveAt(0);
+			_rigs[controlRigCount + 1].gameObject.SetActive(false);
+		}
+
 		private void ModifyThickness(float percent){
 			var localScale = transform.localScale;
 			thickness = percent;
@@ -109,11 +117,7 @@ namespace HelloPico2.InteractableObjects{
 		}
 
 		private void Start(){
-			_dynamicBone = GetComponent<DynamicBone>();
-			_capsuleCollider = GetComponent<CapsuleCollider>();
-			_rigs = rigRoot.GetComponentsInChildren<Transform>().ToList();
-			_rigs.RemoveAt(0);
-			_rigs[controlRigCount + 1].gameObject.SetActive(false);
+			Init();
 		}
 
 		private void PostLengthUpdatedEvent(int updateState){
