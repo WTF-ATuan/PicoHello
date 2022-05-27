@@ -53,6 +53,7 @@ namespace HelloPico2.PlayerController.Arm
 
         private GameObject currentEnergyBall;
         private GameObject currentShape;
+        private WeaponBehavior currentWeaponBehavior;
         private bool isShapeConfirmed = false;
         private void Start()
         {
@@ -62,6 +63,7 @@ namespace HelloPico2.PlayerController.Arm
         private void OnEnable()
         {
             armLogic.OnEnergyChanged += UpdateScale;
+            armLogic.OnEnergyChanged += CheckEnableGrip;
 
             armLogic.OnGripUp += ShootChargedProjectile;
 
@@ -71,13 +73,14 @@ namespace HelloPico2.PlayerController.Arm
 
             armLogic.OnTriggerDown += ShootEnergyProjectile;
 
-            currentShape = _Sword;
+            currentShape = currentEnergyBall;
 
             GenerateChargingEnergyBall();
         }
         private void OnDisable()
         {
             armLogic.OnEnergyChanged -= UpdateScale;
+            armLogic.OnEnergyChanged -= CheckEnableGrip;
 
             armLogic.OnGripUp -= ShootChargedProjectile;
 
@@ -87,14 +90,13 @@ namespace HelloPico2.PlayerController.Arm
 
             armLogic.OnTriggerDown -= ShootEnergyProjectile;
         }
-        private void Update(){
-            if(_Debug) UpdateShape(axis);
+        private void CheckEnableGrip(ArmData data) {
+            armLogic.data.Controller.selectUsage = (data.Energy < data.MaxEnergy)? InputHelpers.Button.Grip : InputHelpers.Button.None;
         }
         private void ChargeEnergy(GainEnergyEventData eventData)
         {
             if (eventData.InputReceiver.Selector.HandType != armLogic.data.HandType) return;
 
-            armLogic.data.Energy += eventData.Energy;
 
             armLogic.controllerInteractor.CancelSelect(eventData.Interactable);
 
@@ -102,11 +104,16 @@ namespace HelloPico2.PlayerController.Arm
 
             eventData.Interactable.transform.DOMove(targetPos, armLogic.data.GrabEasingDuration).OnComplete(() =>
             {
-                armLogic.OnEnergyChanged?.Invoke(armLogic.data);
+                armLogic.data.Energy += eventData.Energy;
+                               
+                armLogic.data.Energy = Mathf.Clamp(armLogic.data.Energy, 0, armLogic.data.MaxEnergy);
 
                 armLogic.data.WhenGainEnergy?.Invoke();
 
-                Destroy(eventData.Interactable.transform.gameObject);
+                Destroy(eventData.Interactable.transform.gameObject); 
+                
+                armLogic.OnEnergyChanged?.Invoke(armLogic.data);
+
             });
         }
         [Button]
@@ -175,43 +182,55 @@ namespace HelloPico2.PlayerController.Arm
             isShapeConfirmed = true;
         }
         private void ExitShapeControlling(ArmData data) {
-
             isShapeConfirmed = false;
         }
         private void UpdateShape(Vector2 axis) {
-            if (isShapeConfirmed) return;
+            //if (isShapeConfirmed) return;
 
-            if (axis.x > 0 && axis.y > 0) {
-                // Hard and long
-                // Sword
+            if (Mathf.Abs(axis.y) <= 0.1f)
+            {
+                if (currentShape == currentEnergyBall) return;
+
+                // Ball
+                ActivateWeapon(currentEnergyBall);
+                currentWeaponBehavior = null;
+            }
+
+            if (!armLogic.CheckHasEnergy()) return;
+
+            if (axis.y > 0.1f) {
+                if (swordBehavior == null)
+                    swordBehavior = GetComponent<SwordBehavior>();
+
+                if (currentShape == _Sword) return;
+
                 ActivateWeapon(_Sword);
 
-                swordBehavior = GetComponent<SwordBehavior>();
-                swordBehavior.Activate(armLogic, armLogic.data, _Sword.GetComponent<LightBeamRigController>());
+                swordBehavior.Activate(armLogic, armLogic.data, _Sword);
+                currentWeaponBehavior = swordBehavior;
             }
-            if (axis.x > 0 && axis.y <= 0) {
-                // Hard and Short
-                // Shield
-                ActivateWeapon(_Shield);
+            if (axis.y < -0.1f) {
+                if (shieldBehavior == null)
+                    shieldBehavior = GetComponent<ShieldBehavior>();
 
-                shieldBehavior = GetComponent<ShieldBehavior>();
+                if (currentShape == _Shield) return;
+
+                ActivateWeapon(_Shield);                
+
                 shieldBehavior.Activate(armLogic, armLogic.data, _Shield);
+                currentWeaponBehavior = shieldBehavior;
             }
-            if (axis.x < 0 && axis.y < 0) {
-                // Soft and short
-                // Ball
-                currentEnergyBall.GetComponent<MeshRenderer>().enabled = true;
-                currentShape.SetActive(false);
-            }
-            if (axis.x <= 0 && axis.y > 0) {
-                // Soft and Long
-                // Whip
-                ActivateWeapon(_Whip);
-            }
+            
         }
         private void ActivateWeapon(GameObject weapon) {
-            currentEnergyBall.GetComponent<MeshRenderer>().enabled = false;
-            currentShape.SetActive(false);
+            if (currentShape)
+            {
+                if (currentWeaponBehavior)                
+                    currentWeaponBehavior.Deactivate(currentShape);                
+                else
+                    currentShape?.SetActive(false);
+            }
+
             weapon.SetActive(true);
             weapon.transform.position = currentEnergyBall.transform.position;
             weapon.transform.forward = armLogic.data.Controller.transform.forward;
@@ -220,7 +239,10 @@ namespace HelloPico2.PlayerController.Arm
         }
         private IEnumerator CoolDown (float duration) {
             yield return new WaitForSeconds(duration);
-            StopCoroutine(ShootCoolDownProcess);
+            
+            if(ShootCoolDownProcess != null)
+                StopCoroutine(ShootCoolDownProcess);
+
             ShootCoolDownProcess = null;
         }
     }
