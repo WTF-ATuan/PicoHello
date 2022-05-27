@@ -14,11 +14,19 @@ namespace HelloPico2{
 			var audioEvent = new AudioData();
 			viewEventDataList.Add(audioEvent);
 		}
+
 		[Button]
 		[PropertyOrder(0)]
 		public void CreateParticleEvent(){
 			var particleData = new ParticleData();
 			viewEventDataList.Add(particleData);
+		}
+
+		[Button]
+		[PropertyOrder(0)]
+		public void CreateModuleModelEvent(){
+			var moduleModel = new ModuleModel();
+			viewEventDataList.Add(moduleModel);
 		}
 
 		[SerializeReference] [PropertyOrder(100)]
@@ -32,6 +40,5 @@ namespace HelloPico2{
 
 			return viewEventData as T;
 		}
-
 	}
 }
