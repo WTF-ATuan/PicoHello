@@ -7,7 +7,6 @@ namespace HelloPico2{
 	public class VFXPosterExample : MonoBehaviour{
 		[SerializeField] private Button bindingVFX;
 		[SerializeField] private Button nonBindingVFX;
-
 		[SerializeField] private Transform bindingTransform;
 
 		private void Start(){

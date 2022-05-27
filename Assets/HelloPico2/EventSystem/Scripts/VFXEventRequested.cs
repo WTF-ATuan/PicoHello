@@ -21,7 +21,7 @@ namespace HelloPico2{
 		}
 
 		public VFXEventRequested(string vfxID, bool isBinding, float during,
-			Vector3 spawnPosition = default,
+			Vector3 spawnPosition,
 			Transform attachPoint = null){
 			VfxID = vfxID;
 			IsBinding = isBinding;
