@@ -5,6 +5,7 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace HelloPico2.InteractableObjects{
 	public class LightBeamRigController : MonoBehaviour{
@@ -13,12 +14,13 @@ namespace HelloPico2.InteractableObjects{
 		[SerializeField] [ProgressBar(1, 25)] [MaxValue(50)]
 		private int controlRigCount = 5;
 
-		[SerializeField] [ProgressBar(1, 10)] private float lengthLimit = 5;
+		[FormerlySerializedAs("maxMinLenghtLimit")] [SerializeField] [MinMaxSlider(0, 20)]
+		public Vector2Int minMaxLenghtLimit;
+
+		[SerializeField] [ReadOnly] private float currentLengthLimit = 5;
 
 		[SerializeField] [ProgressBar(0.1, 1)] [MaxValue(1)] [MinValue(0.1)]
 		private float thickness = 1;
-
-		[SerializeField] private AnimationCurve weightControlCurve;
 
 		private List<Transform> _rigs;
 
@@ -31,8 +33,8 @@ namespace HelloPico2.InteractableObjects{
 				throw new Exception($"inputValue is greater than 1 {percentage}");
 			}
 
-			var lerpValue = Mathf.Lerp(1, 10, percentage);
-			lengthLimit = lerpValue;
+			var lerpValue = Mathf.Lerp(minMaxLenghtLimit.x, minMaxLenghtLimit.y, percentage);
+			currentLengthLimit = lerpValue;
 		}
 
 		public void Floating(bool enable){
@@ -84,6 +86,20 @@ namespace HelloPico2.InteractableObjects{
 			SetRigLength(rigCount, rigLocalOffset);
 		}
 
+		public LightBeamLengthUpdated GetUpdateState(){
+			var lengthUpdated = new LightBeamLengthUpdated();
+			var totalOffset = _rigs.Aggregate(Vector3.zero, (current, rig) => current + rig.localPosition);
+			var singleOffset = _rigs.First().localPosition;
+			lengthUpdated.TotalLength = totalOffset.magnitude;
+			lengthUpdated.SingleLength = singleOffset.magnitude;
+			lengthUpdated.TotalOffset = totalOffset;
+			lengthUpdated.UpdateState = 0;
+			lengthUpdated.CurrentLengthLimit = currentLengthLimit;
+			lengthUpdated.MaxLengthLimit = minMaxLenghtLimit.y;
+			lengthUpdated.MinLengthLimit = minMaxLenghtLimit.x;
+			return lengthUpdated;
+		}
+
 		private void ModifyThickness(float percent){
 			var localScale = transform.localScale;
 			thickness = percent;
@@ -110,17 +126,6 @@ namespace HelloPico2.InteractableObjects{
 				UpdateBeamThickness(lengthUpdated);
 				SetDynamicBoneActive(true);
 			}
-		}
-
-		private LightBeamLengthUpdated GetUpdateState(){
-			var lengthUpdated = new LightBeamLengthUpdated();
-			var totalOffset = _rigs.Aggregate(Vector3.zero, (current, rig) => current + rig.localPosition);
-			var singleOffset = _rigs.First().localPosition;
-			lengthUpdated.TotalLength = totalOffset.magnitude;
-			lengthUpdated.SingleLength = singleOffset.magnitude;
-			lengthUpdated.TotalOffset = totalOffset;
-			lengthUpdated.UpdateState = 0;
-			return lengthUpdated;
 		}
 
 		private void SetDynamicBoneActive(bool enable){
@@ -166,7 +171,7 @@ namespace HelloPico2.InteractableObjects{
 			var lengthUpdated = GetUpdateState();
 			var localAddOffset = rigRoot.InverseTransformVector(addOffset);
 			var totalOffset = lengthUpdated.TotalOffset;
-			var limitOffset = rigRoot.forward * lengthLimit;
+			var limitOffset = rigRoot.forward * currentLengthLimit;
 			var localLimitOffset = rigRoot.InverseTransformVector(limitOffset);
 			return (totalOffset + localAddOffset).z > localLimitOffset.z;
 		}

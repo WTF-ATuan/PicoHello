@@ -13,5 +13,9 @@ namespace HelloPico2.InteractableObjects{
 		///     2 => After Update
 		/// </summary>
 		public int UpdateState;
+
+		public float CurrentLengthLimit{ get; set; }
+		public int MaxLengthLimit{ get; set; }
+		public int MinLengthLimit{ get; set; }
 	}
 }
