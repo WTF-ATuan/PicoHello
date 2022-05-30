@@ -17,7 +17,6 @@ namespace HelloPico2.PlayerController.Arm
         [SerializeField] private float _GrabEasingDuration;
         [SerializeField] private InteractableSettings _InteractableSettings;
         [SerializeField] private Transform _SummonPoint;
-        [FoldoutGroup("Audio Settings")][SerializeField] private AudioSource _AudioSource;
         [FoldoutGroup("Audio Settings")][SerializeField] private string _GainEnergyBallClipName;
         [FoldoutGroup("Audio Settings")][SerializeField] private string _ShootEnergyBallClipName;
         [FoldoutGroup("Audio Settings")][SerializeField] private string _ShootChargedEnergyBallClipName;
@@ -34,7 +33,6 @@ namespace HelloPico2.PlayerController.Arm
         public float GrabEasingDuration { get { return _GrabEasingDuration; } }
         public InteractableSettings InteractableSettings { get { return _InteractableSettings; } }
         public Transform SummonPoint { get { return _SummonPoint; } }
-        public AudioSource AudioSource { get { return _AudioSource; } }
         public string GainEnergyBallClipName { get { return _GainEnergyBallClipName; } }
         public string ShootEnergyBallClipName { get { return _ShootEnergyBallClipName; } }
         public string ShootChargedEnergyBallClipName{get{ return _ShootChargedEnergyBallClipName; }}

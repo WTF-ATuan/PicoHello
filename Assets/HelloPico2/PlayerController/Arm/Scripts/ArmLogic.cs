@@ -29,25 +29,27 @@ namespace HelloPico2.PlayerController.Arm
         #region Delegate
         public delegate void ValueAction (ArmData data);
 		public delegate void AxisAction (Vector2 data);
+		public delegate void InputAction (DeviceInputDetected obj);
 		public ValueAction OnEnergyChanged;
 		public ValueAction OnGripUp;
 		public ValueAction OnTriggerDown;
 		public ValueAction OnPrimaryAxisTouchUp;
 		public ValueAction OnPrimaryAxisClick;
 		public AxisAction OnPrimaryAxisInput;
+        public InputAction OnUpdateInput;
 		#endregion
 
 		private void Start()
 		{
 			controllerInteractor = _controller.GetComponent<Interactor>();
 
-			data.WhenGainEnergy.AddListener(() =>
-			Audio.AudioPlayer.PlayAudio(data.GainEnergyBallClipName, data.AudioSource));
-			data.WhenShootProjectile.AddListener(() =>
-			Audio.AudioPlayer.PlayAudio(data.ShootEnergyBallClipName, data.AudioSource));
-			data.WhenShootChargedProjectile.AddListener(() =>
-			Audio.AudioPlayer.PlayAudio(data.ShootChargedEnergyBallClipName, data.AudioSource));
-		}
+            data.WhenGainEnergy.AddListener(() =>
+            EventBus.Post(new AudioEventRequested(data.GainEnergyBallClipName, _controller.transform.position)));
+            data.WhenShootProjectile.AddListener(() =>
+            EventBus.Post(new AudioEventRequested(data.ShootEnergyBallClipName, _controller.transform.position)));
+            data.WhenShootChargedProjectile.AddListener(() =>
+            EventBus.Post(new AudioEventRequested(data.ShootChargedEnergyBallClipName, _controller.transform.position)));
+        }
 		private void OnEnable()
 		{
 			EventBus.Subscribe<DeviceInputDetected>(OnDeviceInputDetected);
@@ -95,13 +97,16 @@ namespace HelloPico2.PlayerController.Arm
             {
                 OnPrimaryAxisClick(data);
             }
-            if (padAxis.magnitude >= 0.1f && padAxisTouch)
-            {
-                OnPrimaryAxisInput(padAxis);
-            }
+            //if (padAxis.magnitude >= 0.1f && padAxisTouch)
+            //{
+            //    OnPrimaryAxisInput(padAxis);
+            //}
+            OnPrimaryAxisInput(padAxis);
         }
         private void OnDeviceInputDetected(DeviceInputDetected obj)
         {
+            OnUpdateInput?.Invoke(obj);
+
 			if (obj.Selector.SelectableObject == null) return;
 
 			var interactable = obj.Selector.SelectableObject.GetComponent<InteractableBase>();
@@ -135,5 +140,8 @@ namespace HelloPico2.PlayerController.Arm
 			}
 			#endregion
 		}
+        public bool CheckHasEnergy() {
+            return data.Energy > 0;
+        }
     }
 }

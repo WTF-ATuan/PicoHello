@@ -5,29 +5,37 @@ using DG.Tweening;
 namespace HelloPico2.PlayerController.Arm
 {
     [RequireComponent(typeof(ArmLogic))]
-    public class ShieldBehavior : MonoBehaviour
+    public class ShieldBehavior : WeaponBehavior
     {
         [SerializeField] private Vector2 _ScaleRange;
         [SerializeField] private float _ScalingDuration;
         //LightBeamRigController lightBeamRigController;
         GameObject shield { get; set; }
         ArmLogic armLogic { get; set; }
-        public void Activate(ArmLogic Logic, ArmData data, GameObject shieldObj)
+        public override void Activate(ArmLogic Logic, ArmData data, GameObject shieldObj)
         {
             armLogic = Logic;
             //lightBeamRigController = lightBeam.GetComponent<LightBeamRigController>();
             shield = shieldObj;
             UpdateShieldScale(data);
             armLogic.OnEnergyChanged += UpdateShieldScale;
+
+            base.Activate(Logic, data, shieldObj);
         }
-        public void Deactivate()
+        public override void Deactivate(GameObject obj)
         {
             if (armLogic != null) 
                 armLogic.OnEnergyChanged -= UpdateShieldScale;
+
+            // TODO: Transition here
+            obj.SetActive(false);
+
+            base.Deactivate(obj);
         }
         private void OnDisable()
         {
-            Deactivate();
+            //Deactivate();
+            StopAllCoroutines();
         }
         private void UpdateShieldScale(ArmData data)
         {
