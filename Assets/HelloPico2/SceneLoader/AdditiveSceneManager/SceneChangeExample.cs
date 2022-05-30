@@ -1,5 +1,4 @@
-﻿using System;
-using Sirenix.OdinInspector;
+﻿using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,13 +21,13 @@ namespace Project.AdditiveSceneManager{
 
 		private void OnClick(){
 			if(isActivate){
-				controller.UnloadLevels(_text.text);
+				controller.UnloadScene(_text.text);
 				isActivate = false;
 				stateText.text = "Deactivate";
 				stateText.color = Color.red;
 			}
 			else{
-				controller.LoadLevel(_text.text);
+				controller.LoadScene(_text.text);
 				isActivate = true;
 				stateText.text = "Activate";
 				stateText.color = Color.green;

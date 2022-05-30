@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
-using UnityEngine.SceneManagement;
+﻿using UnityEditor;
 using UnityEditor.SceneManagement;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public partial class SceneControllerInspector
 {
@@ -25,7 +23,7 @@ public partial class SceneControllerInspector
     {        
         if (Application.isPlaying)
         {
-            sceneController.LoadLevel(sceneName, true);
+            sceneController.LoadScene(sceneName, true);
         }
         else
         {

@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEditor;
 using UnityEngine;
-using UnityEditor;
 using UnityEngine.SceneManagement;
-using UnityEditor.SceneManagement;
 
 public partial class SceneControllerInspector
 {
@@ -29,7 +26,6 @@ public partial class SceneControllerInspector
             inspectorSceneCount++;
         }
         GUI.backgroundColor = defaultBackgroundColor;
-        RenderLoadScene();
         EditorGUILayout.Space();
         //if (sceneController.asyncOperations.Count > 0) Repaint();
         if (inspectorSceneCount != sceneController.fullyLoadedScenes.Count) Repaint();
@@ -54,10 +50,10 @@ public partial class SceneControllerInspector
         bool showActivateToggle = false;
         bool showUnloadButton = true;
         float progress = 1.0f;
-        if (sceneController.asyncOperations.ContainsKey(scene.name)) {
+        if(sceneController.AsyncOperations.ContainsKey(scene.name)){
             showActivateToggle = true;
             showUnloadButton = false;
-            progress = sceneController.asyncOperations[scene.name].progress;
+            progress = sceneController.AsyncOperations[scene.name].progress;
         }
         if (progress < 0.9f) {
             GUI.backgroundColor = currentlyLoadedSceneColors[0];
@@ -82,8 +78,9 @@ public partial class SceneControllerInspector
             }
         }
         if (showActivateToggle) {
-            allowSceneActivation = sceneController.asyncOperations[scene.name].allowSceneActivation;
-            sceneController.asyncOperations[scene.name].allowSceneActivation = GUILayout.Toggle(allowSceneActivation, new GUIContent("", "Allow Scene Activation"), GUILayout.Width(20));
+            allowSceneActivation = sceneController.AsyncOperations[scene.name].allowSceneActivation;
+            sceneController.AsyncOperations[scene.name].allowSceneActivation = GUILayout.Toggle(allowSceneActivation,
+                new GUIContent("", "Allow Scene Activation"), GUILayout.Width(20));
         }
 
         if (position == 0) EditorGUI.EndDisabledGroup();
