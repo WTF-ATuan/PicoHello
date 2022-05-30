@@ -8,14 +8,21 @@ namespace HelloPico2.PlayerController.Arm
     [RequireComponent(typeof(ArmLogic))]
     public class SwordBehavior : WeaponBehavior
     {
-        [SerializeField] private float _unitDuration = 0.01f;
-        [SerializeField] private float _turnOffUnitDuration = 0.001f;
-        [SerializeField] private float _speedLimit;
-        [SerializeField] private float _returnDuring;
+        [Header("Stretching Setttings")]
+        /// <summary>
+        /// The unit length for ModifyControllingRigLength func
+        /// </summary>
+        [SerializeField] private float _ModifyLengthStep = 0.3f;
+        [SerializeField] private float _TurnOnDuration = 0.01f;
+        [SerializeField] private float _TurnOffDuration = 0.01f;
+        [Header("Sword & Whip Transform Settings")]
+        [SerializeField] private float _SpeedLimit;
+        [SerializeField] private float _ReturnDuring;
         private LightBeamRigController lightBeamRigController;
 
         private float timer;
         private ArmLogic armLogic { get; set; }        
+        Coroutine TurnOffProcess;
         Coroutine stretchProcess;
         public override void Activate(ArmLogic Logic, ArmData data, GameObject lightBeam)
         {
@@ -24,7 +31,7 @@ namespace HelloPico2.PlayerController.Arm
             if(lightBeamRigController == null) 
                 lightBeamRigController = lightBeam.GetComponent<LightBeamRigController>();            
 
-            UpdateSwordLength(data, _unitDuration);
+            UpdateSwordLength(data, _TurnOnDuration);
 
             armLogic.OnEnergyChanged += UpdateSwordLength;
             armLogic.OnUpdateInput += SetBlendWeight;
@@ -39,8 +46,10 @@ namespace HelloPico2.PlayerController.Arm
                 armLogic.OnUpdateInput -= SetBlendWeight;
             }
 
-            if (stretchProcess != null) StopCoroutine(stretchProcess);
-            stretchProcess = StartCoroutine(TurnOffSwordSequence(obj));
+            if (TurnOffProcess != null) { StopCoroutine(TurnOffProcess); }
+            if (stretchProcess != null) { StopCoroutine(stretchProcess); }
+            
+            TurnOffProcess = StartCoroutine(TurnOffSwordSequence(obj));
 
             base.Deactivate(obj);
         }
@@ -52,7 +61,7 @@ namespace HelloPico2.PlayerController.Arm
         #region LightBeamController
         private void SetBlendWeight(DeviceInputDetected obj)
         {
-            if (obj.Selector.Speed > _speedLimit)
+            if (obj.Selector.Speed > _SpeedLimit)
             {
                 lightBeamRigController.ModifyBlendWeight(0.01f);
                 timer = 0;
@@ -60,27 +69,30 @@ namespace HelloPico2.PlayerController.Arm
             else
             {
                 timer += Time.fixedDeltaTime;
-                if (timer > _returnDuring)
+                if (timer > _ReturnDuring)
                 {
                     lightBeamRigController.ModifyBlendWeight(-0.01f);
                 }
             }
         }
         private void UpdateSwordLength(ArmData data) => UpdateSwordLength(data, 0);        
-        private void UpdateSwordLength(ArmData data, float unitDuration = 0) {
+        private void UpdateSwordLength(ArmData data, float duration = 0) {
             float energyPercentage = data.Energy / data.MaxEnergy;
-            float dir = (energyPercentage > lightBeamRigController.GetUpdateState().TotalLength) ? 0.1f : -0.1f;
+            float dir = (energyPercentage > lightBeamRigController.GetUpdateState().TotalLength) ? _ModifyLengthStep : -_ModifyLengthStep;
             
             //print(energyPercentage +"?: "+ lightBeamRigController.GetUpdateState().TotalLength + " : \n" + dir);
                         
             lightBeamRigController.SetLengthLimit(data.Energy / data.MaxEnergy);
 
             if(stretchProcess != null) StopCoroutine(stretchProcess); 
-            stretchProcess = StartCoroutine(StretchSword(dir, unitDuration));
+            
+            stretchProcess = StartCoroutine(StretchSword(dir, duration));
 
         }
-        private IEnumerator StretchSword(float dir, float unitDuration) {
-            while (Mathf.Abs(lightBeamRigController.GetUpdateState().TotalLength - GetLengthLimitPercentage()) > 0.1f)
+        private IEnumerator StretchSword(float dir, float duration) {
+            var unitDuration = duration * _ModifyLengthStep / (GetlightBeamData().MaxLengthLimit * GetLengthLimitPercentage());
+
+            while (Mathf.Abs(lightBeamRigController.GetUpdateState().TotalLength - GetLengthLimitPercentage()) > _ModifyLengthStep)
             {
                 lightBeamRigController.ModifyControlRigLength(dir);
 
@@ -91,7 +103,7 @@ namespace HelloPico2.PlayerController.Arm
             {
                 while (lightBeamRigController.GetUpdateState().TotalLength != 0)
                 {
-                    lightBeamRigController.ModifyControlRigLength(-0.1f);
+                    lightBeamRigController.ModifyControlRigLength(-_ModifyLengthStep);
 
                     yield return new WaitForSeconds(unitDuration);
                 }
@@ -99,15 +111,19 @@ namespace HelloPico2.PlayerController.Arm
 
             lightBeamRigController.SetRigTotalLength(GetlightBeamData().MaxLengthLimit * GetLengthLimitPercentage());
         }
-        private IEnumerator TurnOffSwordSequence(GameObject obj) { 
-            yield return StartCoroutine(TurnOffSword(_turnOffUnitDuration));
+        private IEnumerator TurnOffSwordSequence(GameObject obj) {
+            stretchProcess = StartCoroutine(TurnOffSword(_TurnOffDuration));
+            yield return stretchProcess;
             obj.SetActive(false);
+            _FinishedDeactivate?.Invoke();
         }
-        private IEnumerator TurnOffSword(float unitDuration)
+        private IEnumerator TurnOffSword(float duration)
         {
+            var unitDuration = duration * _ModifyLengthStep / lightBeamRigController.GetUpdateState().TotalLength;
+
             while (lightBeamRigController.GetUpdateState().TotalLength != 0)
             {
-                lightBeamRigController.ModifyControlRigLength(-0.1f);
+                lightBeamRigController.ModifyControlRigLength(-_ModifyLengthStep);
 
                 yield return new WaitForSeconds(unitDuration);
             }

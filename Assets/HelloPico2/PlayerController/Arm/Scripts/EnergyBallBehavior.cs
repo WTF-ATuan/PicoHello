@@ -222,16 +222,21 @@ namespace HelloPico2.PlayerController.Arm
             }
             
         }
-        private void ActivateWeapon(GameObject weapon) {
+        private void ActivateWeapon(GameObject weapon) {            
             if (currentShape)
             {
-                if (currentWeaponBehavior)                
-                    currentWeaponBehavior.Deactivate(currentShape);                
+                if (currentWeaponBehavior)
+                { 
+                    currentWeaponBehavior._FinishedDeactivate = delegate () { weapon.SetActive(true);print("Deactivate"); };
+                    currentWeaponBehavior.Deactivate(currentShape); 
+                }
                 else
+                {
                     currentShape?.SetActive(false);
+                    weapon.SetActive(true);
+                }
             }
 
-            weapon.SetActive(true);
             weapon.transform.position = currentEnergyBall.transform.position;
             weapon.transform.forward = armLogic.data.Controller.transform.forward;
             weapon.transform.SetParent(currentEnergyBall.transform.parent);
