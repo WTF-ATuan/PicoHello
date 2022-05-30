@@ -7,9 +7,6 @@ using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
 {
-    // Make a static reference to this gamecontroller
-    public static SceneController control;
-
     // Settings file
     [SerializeField]
     public SceneControllerSettingsObject settings;
@@ -20,20 +17,6 @@ public class SceneController : MonoBehaviour
     // All scenes which are currently loaded
     public List<Scene> fullyLoadedScenes = new List<Scene>();
 
-    // Awake and ensure this gameobject is persisent and the only gamecontroller
-    void Awake()
-    {        
-        if (control == null)
-        {
-            DontDestroyOnLoad(gameObject);
-            control = this;
-        }
-        else if (control != this)
-        {
-            Destroy(gameObject);
-        }
-    }
-    
     void Start()
     {
         //Application.targetFrameRate = 60;
