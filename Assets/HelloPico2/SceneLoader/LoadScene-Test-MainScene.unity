@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 69543830}
   - component: {fileID: 69543829}
   - component: {fileID: 69543828}
+  - component: {fileID: 69543831}
   m_Layer: 5
   m_Name: Test 2
   m_TagString: Untagged
@@ -160,7 +161,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -18.66, y: 91.39}
+  m_AnchoredPosition: {x: 0, y: 91.39}
   m_SizeDelta: {x: 125, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &69543828
@@ -206,19 +207,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 69543829}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1935749796}
-        m_TargetAssemblyTypeName: Project.SceneLoader, Assembly-CSharp
-        m_MethodName: LoadScene
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Test-Scene-2
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &69543829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,6 +246,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 69543826}
   m_CullTransparentMesh: 1
+--- !u!114 &69543831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 69543826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5fd48f18fcf4fc0bd8e753a404b0767, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isActivate: 0
+  controller: {fileID: 1935749796}
+  stateText: {fileID: 343692882}
 --- !u!1 &269232633
 GameObject:
   m_ObjectHideFlags: 0
@@ -474,7 +478,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 30
+    m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -485,7 +489,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Test -3
+  m_Text: Test-Scene-3
 --- !u!222 &351480884
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -506,6 +510,7 @@ GameObject:
   - component: {fileID: 673037609}
   - component: {fileID: 673037608}
   - component: {fileID: 673037607}
+  - component: {fileID: 673037610}
   m_Layer: 5
   m_Name: Test 3
   m_TagString: Untagged
@@ -531,7 +536,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 181.34, y: 91.39}
+  m_AnchoredPosition: {x: 200, y: 91.39}
   m_SizeDelta: {x: 125, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &673037607
@@ -577,19 +582,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 673037608}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1935749796}
-        m_TargetAssemblyTypeName: Project.SceneLoader, Assembly-CSharp
-        m_MethodName: LoadScene
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 123
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &673037608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -628,6 +621,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 673037605}
   m_CullTransparentMesh: 1
+--- !u!114 &673037610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 673037605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5fd48f18fcf4fc0bd8e753a404b0767, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isActivate: 0
+  controller: {fileID: 1935749796}
+  stateText: {fileID: 269232635}
 --- !u!1 &684184135
 GameObject:
   m_ObjectHideFlags: 0
@@ -989,6 +997,7 @@ GameObject:
   - component: {fileID: 1310243494}
   - component: {fileID: 1310243493}
   - component: {fileID: 1310243492}
+  - component: {fileID: 1310243495}
   m_Layer: 5
   m_Name: 'Test 1 '
   m_TagString: Untagged
@@ -1014,7 +1023,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -218.66, y: 91.39}
+  m_AnchoredPosition: {x: -200, y: 91.39}
   m_SizeDelta: {x: 125, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1310243492
@@ -1060,19 +1069,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1310243493}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1935749796}
-        m_TargetAssemblyTypeName: Project.SceneLoader, Assembly-CSharp
-        m_MethodName: LoadScene
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Test-Scene-1
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1310243493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1111,6 +1108,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1310243490}
   m_CullTransparentMesh: 1
+--- !u!114 &1310243495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1310243490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5fd48f18fcf4fc0bd8e753a404b0767, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isActivate: 0
+  controller: {fileID: 1935749796}
+  stateText: {fileID: 1247939856}
 --- !u!1 &1435240016
 GameObject:
   m_ObjectHideFlags: 0
@@ -1170,7 +1182,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 30
+    m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -1181,7 +1193,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Test-1
+  m_Text: Test-Scene-1
 --- !u!222 &1435240019
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1332,7 +1344,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 30
+    m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -1343,7 +1355,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Test-2
+  m_Text: Test-Scene-2
 --- !u!222 &1893951516
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1378,9 +1390,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1935749795}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c02935938c0c441dbc7d888b5dbf0bb3, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a4f72e5dd0612a468b21cbea85c1645, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settings: {fileID: 11400000, guid: 3b12809631bab73469dcc2fdcdb6b36f, type: 2}
+  fullyLoadedScenes: []
 --- !u!4 &1935749797
 Transform:
   m_ObjectHideFlags: 0
