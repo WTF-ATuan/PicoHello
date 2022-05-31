@@ -8,6 +8,7 @@ using UnityEditor;
 [Serializable]
 [SuppressMessage("ReSharper", "CheckNamespace")]
 public class SceneObject{
+	// ReSharper disable once InconsistentNaming
 	[SerializeField] private string m_SceneName;
 
 	public static implicit operator string(SceneObject sceneObject){

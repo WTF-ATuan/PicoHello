@@ -8,155 +8,71 @@ using UnityEngine.SceneManagement;
 public class SceneController : MonoBehaviour{
 	[SerializeField] public SceneControllerSettingsObject settings;
 
-	public readonly Dictionary<string, AsyncOperation> AsyncOperations = new Dictionary<string, AsyncOperation>();
+	public readonly Dictionary<string, AsyncOperation> SceneLoadingList = new Dictionary<string, AsyncOperation>();
 
 	public List<Scene> fullyLoadedScenes = new List<Scene>();
 
 	private void Start(){
 		Application.backgroundLoadingPriority = ThreadPriority.Low;
-		foreach(var sceneName in settings.loadAtStartScenes) LoadScene(sceneName, true);
+		foreach(var sceneName in settings.loadAtStartScenes) LoadScene(sceneName);
+	}
+
+	//如果有效能瓶頸 在來管控 Coroutine;
+	public void LoadScene(string sceneName){
+		StartCoroutine(LoadingScene(sceneName, true));
+	}
+
+	public void UnloadScene(string sceneName){
+		StartCoroutine(UnloadingScene(sceneName));
+	}
+
+	public void BackGroundLoadScene(string sceneName){
+		StartCoroutine(LoadingScene(sceneName));
+	}
+
+	public void ActiveBackgroundScene(string sceneName){
+		var containsKey = SceneLoadingList.ContainsKey(sceneName);
+		if(!containsKey) throw new Exception($"{sceneName} scene is not Loading");
+		var asyncOperation = SceneLoadingList[sceneName];
+		if(asyncOperation.progress < 0.9f){
+			Debug.Log($"{sceneName} loading progress = {asyncOperation.progress}");
+		}
+		else{
+			asyncOperation.allowSceneActivation = true;
+		}
 	}
 
 	public bool Exists(string sceneName){
 		return settings.scenes.Contains(sceneName, StringComparer.OrdinalIgnoreCase);
 	}
 
-	public void LoadScene(string sceneName){
-		StartCoroutine(LoadingScene(sceneName));
-	}
-
-	private IEnumerator LoadingScene(string sceneName){
-		for(var i = 0; i < SceneManager.sceneCount; i++) // If the scene we are trying to load is already open
-			if(sceneName == SceneManager.GetSceneAt(i).name) // Stop now
-				yield break;
-
-		// Load the new scene additively
-		var async = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-		// Set the async allowSceneActivation bool to bool passed into this function
-		async.allowSceneActivation = true;
-		// Add this async operation to the list of current operations (manages loading multiple levels simultaneously)
-		AsyncOperations.Add(sceneName, async);
-		// Yield the async operation;
-		yield return async;
-		// Scene is now fully loaded
-		SceneLoaded(sceneName);
-	}
-
-	public void LoadScene(string sceneName, bool allowSceneActivation){
-		StartCoroutine(LoadingScene(sceneName, allowSceneActivation));
-	}
-
-	private IEnumerator LoadingScene(string sceneName, bool allowSceneActivation){
-		// Wait until the end of the current frame
-		yield return new WaitForEndOfFrame();
-		// Look at all currently opened scenes
-		for(var i = 0; i < SceneManager.sceneCount; i++) // If the scene we are trying to load is already open
-			if(sceneName == SceneManager.GetSceneAt(i).name) // Stop now
-				yield break;
-
-		// Load the new scene additively
-		var async = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-		// Set the async allowSceneActivation bool to bool passed into this function
-		async.allowSceneActivation = allowSceneActivation;
-		// Add this async operation to the list of current operations (manages loading multiple levels simultaneously)
-		AsyncOperations.Add(sceneName, async);
-		// Yield the async operation;
-		yield return async;
-		// Scene is now fully loaded
-		SceneLoaded(sceneName);
-	}
-
-	private void SceneLoaded(string sceneName){
-		AsyncOperations[sceneName] = null;
-		AsyncOperations.Remove(sceneName);
+	private void SceneFullyLoaded(string sceneName){
+		SceneLoadingList.Remove(sceneName);
 		fullyLoadedScenes.Add(SceneManager.GetSceneByName(sceneName));
 	}
 
-	//****************************************************************
-	// Unload Levels() Persistent Scenes will not be unloaded
-	//****************************************************************
-	public void UnloadScene(){
-		StartCoroutine(UnloadingScene());
+	private IEnumerator LoadingScene(string sceneName, bool autoActivation = false){
+		for(var i = 0; i < SceneManager.sceneCount; i++)
+			if(sceneName == SceneManager.GetSceneAt(i).name) // If the scene we are trying to load is already open stop
+				yield break;
+
+		var async = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+		async.allowSceneActivation = autoActivation;
+		SceneLoadingList.Add(sceneName, async);
+		yield return async;
+		SceneFullyLoaded(sceneName);
 	}
 
-	private IEnumerator UnloadingScene(){
-		// Wait until the end of the frame
-		yield return new WaitForEndOfFrame();
-		// Scenes marked to be unloaded
-		var scenesToUnload = new List<string>();
-		// For all of the currently loaded scenes
-		for(var i = 0; i < SceneManager.sceneCount; i++) // Make sure the scene is not a persistent scene
-			if(settings.persistentScenes.Contains(SceneManager.GetSceneAt(i).name) ==
-			   false) // Add this scene's name to a list of scenes to be unloaded (or index 'i' will change during this for loop)
-				scenesToUnload.Add(SceneManager.GetSceneAt(i).name);
 
-		// Now that we're done iterating through each of the Scenes, we can safely unload all the levels
-		if(scenesToUnload.Count != 0)
-			foreach(var sceneName in scenesToUnload){
-				// Remove the scene from 'Fully Loaded Scenes' list
-				fullyLoadedScenes.Remove(SceneManager.GetSceneByName(sceneName));
-				// Tell SceneManager to unload the scene
-				SceneManager.UnloadScene(sceneName);
-			}
-	}
-
-	//****************************************************************
-	// Unload Levels (string excpetion) Exceptions will not be unloaded
-	//****************************************************************
-	public void UnloadScene(string exception){
-		StartCoroutine(UnloadingScene(exception));
-	}
-
-	private IEnumerator UnloadingScene(string exception){
-		// Wait until the end of the frame
-		yield return new WaitForEndOfFrame();
-		// Scenes marked to be unloaded
-		var scenesToUnload = new List<string>();
-		// For all of the currently loaded scenes
-		for(var i = 0; i < SceneManager.sceneCount; i++) // Make sure the scene is not a persistent scene
-			if(settings.persistentScenes.Contains(SceneManager.GetSceneAt(i).name) ==
-			   false) // Make sure this scene is not in our list of exceptions
-				if(exception != SceneManager.GetSceneAt(i).name ==
-				   false) // Add this scene's name to a list of scenes to be unloaded (or index 'i' will change during this for loop)
-					scenesToUnload.Add(SceneManager.GetSceneAt(i).name);
-
-		// Now that we're done iterating through each of the Scenes, we can safely unload all the levels
-		if(scenesToUnload.Count != 0)
-			foreach(var sceneName in scenesToUnload){
-				// Remove the scene from 'Fully Loaded Scenes' list
-				fullyLoadedScenes.Remove(SceneManager.GetSceneByName(sceneName));
-				// Tell SceneManager to unload the scene
-				SceneManager.UnloadScene(sceneName);
-			}
-	}
-
-	//****************************************************************
-	// Unload Levels (string[] excpetions) Exceptions will not be unloaded
-	//****************************************************************
-	public void UnloadScene(string[] exceptions){
-		StartCoroutine(UnloadingScene(exceptions));
-	}
-
-	private IEnumerator UnloadingScene(string[] exceptions){
-		// Wait until the end of the frame
-		yield return new WaitForEndOfFrame();
-		// Scenes marked to be unloaded
-		var scenesToUnload = new List<string>();
-		// For all of the currently loaded scenes
-		for(var i = 0; i < SceneManager.sceneCount; i++) // Make sure the scene is not a persistent scene
-			if(settings.persistentScenes.Contains(SceneManager.GetSceneAt(i).name) ==
-			   false) // Make sure this scene is not in our list of exceptions
-				if(exceptions.Contains(SceneManager.GetSceneAt(i).name) ==
-				   false) // Add this scene's name to a list of scenes to be unloaded (or index 'i' will change during this for loop)
-					scenesToUnload.Add(SceneManager.GetSceneAt(i).name);
-
-		// Now that we're done iterating through each of the Scenes, we can safely unload all the levels
-		if(scenesToUnload.Count != 0)
-			foreach(var sceneName in scenesToUnload){
-				// Remove the scene from 'Fully Loaded Scenes' list
-				fullyLoadedScenes.Remove(SceneManager.GetSceneByName(sceneName));
-				// Tell SceneManager to unload the scene
-				SceneManager.UnloadScene(sceneName);
-			}
+	private IEnumerator UnloadingScene(string sceneName){
+		var exists = false;
+		for(var i = 0; i < SceneManager.sceneCount; i++)
+			if(sceneName == SceneManager.GetSceneAt(i).name)
+				exists = true;
+		if(!exists) yield break;
+		var scene = SceneManager.GetSceneByName(sceneName);
+		var async = SceneManager.UnloadSceneAsync(scene);
+		yield return async;
+		fullyLoadedScenes.Remove(scene);
 	}
 }
