@@ -30,6 +30,18 @@ public class SceneController : MonoBehaviour{
 		StartCoroutine(LoadingScene(sceneName));
 	}
 
+	public void ActiveBackgroundScene(string sceneName){
+		var containsKey = SceneLoadingList.ContainsKey(sceneName);
+		if(!containsKey) throw new Exception($"{sceneName} scene is not Loading");
+		var asyncOperation = SceneLoadingList[sceneName];
+		if(asyncOperation.progress < 0.9f){
+			Debug.Log($"{sceneName} loading progress = {asyncOperation.progress}");
+		}
+		else{
+			asyncOperation.allowSceneActivation = true;
+		}
+	}
+
 	public bool Exists(string sceneName){
 		return settings.scenes.Contains(sceneName, StringComparer.OrdinalIgnoreCase);
 	}
