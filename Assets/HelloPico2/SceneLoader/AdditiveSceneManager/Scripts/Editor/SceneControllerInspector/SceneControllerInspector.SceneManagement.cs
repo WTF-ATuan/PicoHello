@@ -23,7 +23,7 @@ public partial class SceneControllerInspector
     {        
         if (Application.isPlaying)
         {
-            sceneController.LoadScene(sceneName, true);
+            sceneController.LoadScene(sceneName);
         }
         else
         {

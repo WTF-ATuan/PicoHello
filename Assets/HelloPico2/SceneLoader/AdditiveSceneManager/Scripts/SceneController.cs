@@ -8,25 +8,29 @@ using UnityEngine.SceneManagement;
 public class SceneController : MonoBehaviour{
 	[SerializeField] public SceneControllerSettingsObject settings;
 
-	public readonly Dictionary<string, AsyncOperation> AsyncOperations = new Dictionary<string, AsyncOperation>();
+	public readonly Dictionary<string, AsyncOperation> SceneLoadingList = new Dictionary<string, AsyncOperation>();
 
 	public List<Scene> fullyLoadedScenes = new List<Scene>();
 
 	private void Start(){
 		Application.backgroundLoadingPriority = ThreadPriority.Low;
-		foreach(var sceneName in settings.loadAtStartScenes) LoadScene(sceneName, true);
-	}
-
-	public bool Exists(string sceneName){
-		return settings.scenes.Contains(sceneName, StringComparer.OrdinalIgnoreCase);
+		foreach(var sceneName in settings.loadAtStartScenes) LoadScene(sceneName);
 	}
 
 	public void LoadScene(string sceneName){
 		StartCoroutine(LoadingScene(sceneName, true));
 	}
 
-	public void LoadScene(string sceneName, bool allowSceneActivation){
-		StartCoroutine(LoadingScene(sceneName, allowSceneActivation));
+	public void BackGroundLoadScene(string sceneName){
+		StartCoroutine(LoadingScene(sceneName));
+	}
+
+	public void UnloadScene(string sceneName){
+		StartCoroutine(UnloadingScene(sceneName));
+	}
+
+	public bool Exists(string sceneName){
+		return settings.scenes.Contains(sceneName, StringComparer.OrdinalIgnoreCase);
 	}
 
 	private IEnumerator LoadingScene(string sceneName, bool autoActivation = false){
@@ -36,21 +40,11 @@ public class SceneController : MonoBehaviour{
 
 		var async = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 		async.allowSceneActivation = autoActivation;
-		AsyncOperations.Add(sceneName, async);
+		SceneLoadingList.Add(sceneName, async);
 		yield return async;
-		SceneLoaded(sceneName);
+		SceneFullyLoaded(sceneName);
 	}
 
-
-	private void SceneLoaded(string sceneName){
-		AsyncOperations[sceneName] = null;
-		AsyncOperations.Remove(sceneName);
-		fullyLoadedScenes.Add(SceneManager.GetSceneByName(sceneName));
-	}
-
-	public void UnloadScene(string exception){
-		StartCoroutine(UnloadingScene(exception));
-	}
 
 	private IEnumerator UnloadingScene(string exception){
 		// Wait until the end of the frame
@@ -73,5 +67,10 @@ public class SceneController : MonoBehaviour{
 				// Tell SceneManager to unload the scene
 				SceneManager.UnloadScene(sceneName);
 			}
+	}
+
+	private void SceneFullyLoaded(string sceneName){
+		SceneLoadingList.Remove(sceneName);
+		fullyLoadedScenes.Add(SceneManager.GetSceneByName(sceneName));
 	}
 }

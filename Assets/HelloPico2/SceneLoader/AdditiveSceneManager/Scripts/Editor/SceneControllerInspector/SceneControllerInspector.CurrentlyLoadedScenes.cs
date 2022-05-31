@@ -50,10 +50,10 @@ public partial class SceneControllerInspector
         bool showActivateToggle = false;
         bool showUnloadButton = true;
         float progress = 1.0f;
-        if(sceneController.AsyncOperations.ContainsKey(scene.name)){
+        if(sceneController.SceneLoadingList.ContainsKey(scene.name)){
             showActivateToggle = true;
             showUnloadButton = false;
-            progress = sceneController.AsyncOperations[scene.name].progress;
+            progress = sceneController.SceneLoadingList[scene.name].progress;
         }
         if (progress < 0.9f) {
             GUI.backgroundColor = currentlyLoadedSceneColors[0];
@@ -78,8 +78,8 @@ public partial class SceneControllerInspector
             }
         }
         if (showActivateToggle) {
-            allowSceneActivation = sceneController.AsyncOperations[scene.name].allowSceneActivation;
-            sceneController.AsyncOperations[scene.name].allowSceneActivation = GUILayout.Toggle(allowSceneActivation,
+            allowSceneActivation = sceneController.SceneLoadingList[scene.name].allowSceneActivation;
+            sceneController.SceneLoadingList[scene.name].allowSceneActivation = GUILayout.Toggle(allowSceneActivation,
                 new GUIContent("", "Allow Scene Activation"), GUILayout.Width(20));
         }
 
