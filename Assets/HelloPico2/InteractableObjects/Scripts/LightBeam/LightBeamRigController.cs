@@ -161,7 +161,7 @@ namespace HelloPico2.InteractableObjects{
 
 		private void OnTriggerEnter(Collider other){
 			var collides = other.gameObject.GetComponents<IInteractCollide>();
-			collides.ForEach(c => c?.OnCollide());
+			collides.ForEach(c => c?.OnCollide(InteractType.Beam));
 		}
 
 		private bool IsLengthLessThanZero(Vector3 addOffset){

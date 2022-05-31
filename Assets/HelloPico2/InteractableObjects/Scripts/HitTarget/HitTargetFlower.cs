@@ -1,15 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using UnityEngine.Events;
 
 namespace HelloPico2.InteractableObjects
 {
     public class HitTargetFlower : HitTargetBase
     {
-        public UnityEngine.Events.UnityEvent WhenCollide;
-        public override void OnCollide()
+        public UnityEvent WhenCollide;
+
+        public override void OnCollide(InteractType type)
         {
-            base.OnCollide();
+            base.OnCollide(type);
             WhenCollide?.Invoke();
         }
     }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace HelloPico2.InteractableObjects{
 	public class InteractCollideExample : MonoBehaviour, IInteractCollide{
-		public void OnCollide(){
+		public void OnCollide(InteractType type){
 			transform.DOPunchScale(Vector3.one * 0.1f, 0.5f);
 		}
 	}

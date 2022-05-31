@@ -10,7 +10,7 @@ namespace HelloPico2.InteractableObjects{
 		public HandType type;
 
 
-		public void OnCollide(){
+		public void OnCollide(InteractType type1){
 			switch(type){
 				case HandType.Left:
 					PXR_Input.SetControllerVibration(strength, time, PXR_Input.Controller.LeftController);
