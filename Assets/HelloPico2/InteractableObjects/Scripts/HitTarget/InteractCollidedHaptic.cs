@@ -4,13 +4,13 @@ using Unity.XR.PXR;
 using UnityEngine;
 
 namespace HelloPico2.InteractableObjects{
-	public class BeamCollidedHaptic : MonoBehaviour, IBeamCollide{
+	public class InteractCollidedHaptic : MonoBehaviour, IInteractCollide{
 		public float strength;
 		public int time;
 		public HandType type;
 
 
-		public void OnCollide(){
+		public void OnCollide(InteractType type1){
 			switch(type){
 				case HandType.Left:
 					PXR_Input.SetControllerVibration(strength, time, PXR_Input.Controller.LeftController);
