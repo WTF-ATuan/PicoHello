@@ -32,8 +32,10 @@ namespace Project.AdditiveSceneManager.Scripts{
 
 					break;
 				case MultiSceneRequested.LoadOptions.UnLoad:
+					foreach(var scene in sceneObjects) _sceneController.UnloadScene(scene);
+					break;
+				case MultiSceneRequested.LoadOptions.UnLoadSelf:
 					_sceneController.UnloadScene(sceneObject);
-
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();

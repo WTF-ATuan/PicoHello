@@ -12,7 +12,8 @@
 			Load,
 			BackgroundLoad,
 			ActiveBackground,
-			UnLoad
+			UnLoad,
+			UnLoadSelf
 		}
 	}
 }
