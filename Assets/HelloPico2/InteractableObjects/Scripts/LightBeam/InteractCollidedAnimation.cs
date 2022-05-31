@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace HelloPico2.InteractableObjects{
 	[RequireComponent(typeof(Animator))]
-	public class BeamCollidedAnimation : MonoBehaviour, IBeamCollide{
+	public class InteractCollidedAnimation : MonoBehaviour, IInteractCollide{
 		private Animator _animator;
 		[Required] [SerializeField] private AnimationClip animationClip;
 

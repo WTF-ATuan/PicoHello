@@ -1,5 +1,5 @@
 ﻿namespace HelloPico2.InteractableObjects{
-	public interface IBeamCollide{
+	public interface IInteractCollide{
 		void OnCollide();
 	}
 }

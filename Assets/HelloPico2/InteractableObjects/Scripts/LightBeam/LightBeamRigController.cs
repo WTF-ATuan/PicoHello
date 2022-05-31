@@ -160,7 +160,7 @@ namespace HelloPico2.InteractableObjects{
 		}
 
 		private void OnTriggerEnter(Collider other){
-			var collides = other.gameObject.GetComponents<IBeamCollide>();
+			var collides = other.gameObject.GetComponents<IInteractCollide>();
 			collides.ForEach(c => c?.OnCollide());
 		}
 

@@ -4,7 +4,7 @@ using Unity.XR.PXR;
 using UnityEngine;
 
 namespace HelloPico2.InteractableObjects{
-	public class BeamCollidedHaptic : MonoBehaviour, IBeamCollide{
+	public class InteractCollidedHaptic : MonoBehaviour, IInteractCollide{
 		public float strength;
 		public int time;
 		public HandType type;
