@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using AV.Inspector.Runtime;
 using Sirenix.OdinInspector;
@@ -34,7 +34,7 @@ namespace HelloPico2{
 				return;
 
 			foreach(Transform child in obj.transform){
-				if(null == child || !child.gameObject.activeSelf)
+				if(null == child)
 					continue;
 				var childGameObject = child.gameObject;
 				var childWrapper = new ChildWrapper{
