@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using UnityEditor;
 using UnityEngine;
 
 namespace HelloPico2{
+	#if UNITY_EDITOR
+	#endif
 	[Serializable]
 	public class ModuleModel : ViewEventData{
 		[Required] [OnValueChanged("OnModelRootChange")]
@@ -17,6 +20,10 @@ namespace HelloPico2{
 				return;
 			}
 
+			var path = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(modelRoot);
+			var assetGameObject = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+			if(assetGameObject == null) throw new Exception("this is not prefab");
+			modelRoot = assetGameObject;
 			GetChildRecursive(modelRoot);
 		}
 
