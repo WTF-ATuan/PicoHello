@@ -22,9 +22,10 @@ public class targetScript : MonoBehaviour
     private void Update()
     {
         if (!isCheckSel) return;
-            if (showObj[0] == null || showObj[1] == null)
+            if (showObj[0] == null || showObj[1] == null || showObj[2] == null || showObj[3] == null)
             {
-                 DestroyGet();
+            transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, 1.0f);
+            Destroy(gameObject,1);
             }
             
     }
