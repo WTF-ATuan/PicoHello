@@ -17,6 +17,8 @@ public class HandAnim : MonoBehaviour
 	public GuideSys_SO _getGuideSys;
 	public GameObject spawnedController;
 	public bool showController = false;
+	public GameObject ShowBall;
+	string HandGet;
 	public GameObject tipButtonAll;
 	public GameObject[] tipButton;
 
@@ -39,12 +41,13 @@ public class HandAnim : MonoBehaviour
 		//showController = true;
 		spawnedController.SetActive(true);
 	}
+
     // Update is called once per frame
     void Update()
     {
 
 		/*
-		if(_getStaff.targetItemHeld==2)
+		if(_getItme.targetItemHeld==1)
         {
 			staffCheck();
 		}*/
@@ -162,22 +165,22 @@ public class HandAnim : MonoBehaviour
 			if (secondaryButtonValue)
 			{
 				_handAnimator.SetBool("SecondBtn", secondaryButtonValue);
-				tipButton[3].SetActive(true);
+				//tipButton[3].SetActive(true);
 			}
 			else
 			{
 				_handAnimator.SetBool("SecondBtn", false);
-				tipButton[3].SetActive(false);
+				//tipButton[3].SetActive(false);
 			}
             if (primaryButtonValue)
             {
 				_handAnimator.SetBool("PrimaryBtn", primaryButtonValue);
-				tipButton[2].SetActive(true);
+				//tipButton[2].SetActive(true);
 			}
             else
             {
 				_handAnimator.SetBool("PrimaryBtn", false);
-				tipButton[2].SetActive(false);
+				//tipButton[2].SetActive(false);
 			}
 		}
 		//ShowTip();
