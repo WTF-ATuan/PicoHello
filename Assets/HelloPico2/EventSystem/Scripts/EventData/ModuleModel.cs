@@ -1,16 +1,19 @@
 using System;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
-using UnityEditor;
 using UnityEngine;
 
 namespace HelloPico2{
 	[Serializable]
 	public class ModuleModel : ViewEventData{
-		[Required] [OnValueChanged("OnModelRootChange")] [PreviewField]
+		[LabelWidth(200)]
+		[Required]
+		[OnValueChanged("OnModelRootChange")]
+		[PreviewField(150, ObjectFieldAlignment.Left)]
 		public GameObject modelRoot;
 
 		public List<ChildWrapper> modelComponent = new List<ChildWrapper>();
+		private List<ChildWrapper> _sceneObjectModelBuffer = new List<ChildWrapper>();
 
 		#if UNITY_EDITOR
 		private void OnModelRootChange(){
@@ -19,17 +22,19 @@ namespace HelloPico2{
 				return;
 			}
 
+			modelComponent.Clear();
+			_sceneObjectModelBuffer.Clear();
 			var path = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(modelRoot);
 			var assetGameObject = AssetDatabase.LoadAssetAtPath<GameObject>(path);
 			if(assetGameObject == null) throw new Exception("this is not prefab");
-			modelRoot = assetGameObject;
 			GetChildRecursive(modelRoot);
+			ComparePrefabChild(assetGameObject);
+			modelRoot = assetGameObject;
 		}
 
 		private void GetChildRecursive(GameObject obj){
 			if(null == obj)
 				return;
-
 			foreach(Transform child in obj.transform){
 				if(null == child)
 					continue;
@@ -39,8 +44,27 @@ namespace HelloPico2{
 					parent = child.parent,
 					active = childGameObject.activeSelf
 				};
+				_sceneObjectModelBuffer.Add(childWrapper);
+				GetChildRecursive(childGameObject);
+			}
+		}
+
+		private void ComparePrefabChild(GameObject pre){
+			if(null == pre)
+				return;
+			foreach(Transform child in pre.transform){
+				if(!child) continue;
+				var childGameObject = child.gameObject;
+				var findWrapper = _sceneObjectModelBuffer.Find(x => x.value.name.Equals(childGameObject.name));
+				var isActive = findWrapper.active && findWrapper.parent.gameObject.activeSelf;
+				if(!isActive) continue;
+				var childWrapper = new ChildWrapper{
+					value = childGameObject,
+					parent = child.parent,
+					active = true
+				};
 				modelComponent.Add(childWrapper);
-				GetChildRecursive(child.gameObject);
+				ComparePrefabChild(childGameObject);
 			}
 		}
 
