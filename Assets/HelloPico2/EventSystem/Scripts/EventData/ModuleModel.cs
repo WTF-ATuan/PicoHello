@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
-using AV.Inspector.Runtime;
 using Sirenix.OdinInspector;
-using Sirenix.OdinInspector.Editor.Drawers;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace HelloPico2{
 	[Serializable]
