@@ -105,7 +105,6 @@ namespace HelloPico2.InteractableObjects{
 			_capsuleCollider = GetComponent<CapsuleCollider>();
 			_rigs = rigRoot.GetComponentsInChildren<Transform>().ToList();
 			_rigs.RemoveAt(0);
-			_rigs[controlRigCount + 1].gameObject.SetActive(false);
 		}
 
 		private void ModifyThickness(float percent){
