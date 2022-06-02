@@ -27,9 +27,13 @@ namespace HelloPico2.PlayerController.Arm
         public override void Activate(ArmLogic Logic, ArmData data, GameObject lightBeam)
         {
             armLogic = Logic;
-            
-            if(lightBeamRigController == null) 
-                lightBeamRigController = lightBeam.GetComponent<LightBeamRigController>();            
+
+            // Initiate LightBeam
+            if (lightBeamRigController == null)
+            { 
+                lightBeamRigController = lightBeam.GetComponent<LightBeamRigController>(); 
+                lightBeamRigController.Init();
+            }
 
             UpdateSwordLength(data, _TurnOnDuration);
 
