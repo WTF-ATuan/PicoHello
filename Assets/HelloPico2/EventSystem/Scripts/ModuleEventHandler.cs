@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Project;
 using UnityEngine;
 
@@ -21,10 +22,22 @@ namespace HelloPico2{
 		}
 
 		private void SpawnModel(GameObject root, List<ChildWrapper> childList, Vector3 position){
-					
-			
-			
-			
+			var rootClone = Instantiate(root, position, Quaternion.identity);
+			RemoveUnMatchChild(rootClone, childList);
+		}
+
+		private void RemoveUnMatchChild(GameObject pre, List<ChildWrapper> childList){
+			if(null == pre)
+				return;
+			var referenceNameList = childList.Select(x => x.value.name).ToList();
+			foreach(Transform child in pre.transform){
+				var childGameObject = child.gameObject;
+				var contains = referenceNameList.Contains(childGameObject.name);
+				if(!contains){
+					Destroy(childGameObject);
+				}
+				RemoveUnMatchChild(childGameObject, childList);
+			}
 		}
 	}
 }
