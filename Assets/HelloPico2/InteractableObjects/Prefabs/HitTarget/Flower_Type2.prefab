@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 9133854490873715873}
   - component: {fileID: 9133854490873715874}
   - component: {fileID: 1291713887907915243}
+  - component: {fileID: 785536400233046614}
   m_Layer: 0
   m_Name: Flower_Type2
   m_TagString: Untagged
@@ -181,8 +182,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.2
+  m_Center: {x: 0, y: 0.06, z: 0}
 --- !u!114 &9133854490873715873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,6 +350,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1291713887907915247}
+        m_TargetAssemblyTypeName: UnityEngine.Collider, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1291713887907915243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -368,6 +381,55 @@ MonoBehaviour:
   ReverseX: 0
   ReverseY: 0
   ReverseZ: 0
+--- !u!114 &785536400233046614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291713887907915246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcb3b64e911e1034b9b64fff4871882d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _MovingObject: {fileID: 1291713887907915246}
+  _Offset: {x: 0, y: 0.1, z: 0}
+  _Duration: 5
+  _EasingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 0.14643827
+      inSlope: -0.0023100823
+      outSlope: -0.0023100823
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.99077606
+      value: 0.00043401608
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _TriggerWhenEnable: 1
 --- !u!1 &1948897408523265540
 GameObject:
   m_ObjectHideFlags: 0
