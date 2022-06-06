@@ -28,6 +28,9 @@ namespace HelloPico2.InteractableObjects{
 
 		private CapsuleCollider _capsuleCollider;
 
+		[SerializeField] private AnimationCurve lengthChangedCurve;
+
+
 		public void SetLengthLimit(float percentage){
 			if(percentage > 1){
 				throw new Exception($"inputValue is greater than 1 {percentage}");
@@ -98,6 +101,15 @@ namespace HelloPico2.InteractableObjects{
 			lengthUpdated.MaxLengthLimit = minMaxLenghtLimit.y;
 			lengthUpdated.MinLengthLimit = minMaxLenghtLimit.x;
 			return lengthUpdated;
+		}
+
+		public float GetCurveSpeed(){
+			var lightBeamLengthUpdated = GetUpdateState();
+			var totalLength = lightBeamLengthUpdated.TotalLength;
+			var lengthLimit = lightBeamLengthUpdated.CurrentLengthLimit;
+			var progress = totalLength / lengthLimit;
+			var curveValue = lengthChangedCurve.Evaluate(progress);
+			return curveValue;
 		}
 
 		public void Init(){
