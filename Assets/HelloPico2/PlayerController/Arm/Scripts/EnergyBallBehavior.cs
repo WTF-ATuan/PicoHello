@@ -34,7 +34,11 @@ namespace HelloPico2.PlayerController.Arm
         [SerializeField] private GameObject _Shield;
         private SwordBehavior swordBehavior;
         private ShieldBehavior shieldBehavior;
-                
+        [Header("Transition Settings")]
+        [SerializeField] private float _TransitionDuration = .5f;
+        [SerializeField] private Vector3 _SwordFromScale;
+        [SerializeField] private Ease _TrasitionEaseCurve;
+
         [FoldoutGroup("Debug")] public bool _Debug;
         [FoldoutGroup("Debug")] public Vector2 axis;
         [FoldoutGroup("Debug")] public Transform target;
@@ -55,6 +59,7 @@ namespace HelloPico2.PlayerController.Arm
         private GameObject currentShape;
         private WeaponBehavior currentWeaponBehavior;
         private bool isShapeConfirmed = false;
+
         private void Start()
         {
             Project.EventBus.Subscribe<GainEnergyEventData>(ChargeEnergy);
@@ -226,8 +231,15 @@ namespace HelloPico2.PlayerController.Arm
             if (currentShape)
             {
                 if (currentWeaponBehavior)
-                { 
-                    currentWeaponBehavior._FinishedDeactivate = delegate () { weapon.SetActive(true);print("Deactivate"); };
+                {
+                    Vector3 scalingFrom = currentShape.transform.localScale;
+                    currentWeaponBehavior._FinishedDeactivate = delegate ()
+                    {
+                        weapon.SetActive(true);                        
+                        weapon.transform.DOScale(weapon.transform.localScale, _TransitionDuration).From(_SwordFromScale).SetEase(_TrasitionEaseCurve);
+                        //print("Deactivate");
+                    };
+
                     currentWeaponBehavior.Deactivate(currentShape); 
                 }
                 else
