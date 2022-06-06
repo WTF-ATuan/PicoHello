@@ -58,11 +58,12 @@ namespace HelloPico2.InteractableObjects{
 
 		private void OnTouchPadAxis(Vector2 touchPadAxis){
 			var axisY = touchPadAxis.y;
+			var curveSpeed = _rigController.GetCurveSpeed();
 			if(axisY > 0.5f){
-				_rigController.ModifyControlRigLength(+0.1f);
+				_rigController.ModifyControlRigLength(+curveSpeed);
 			}
 			else{
-				_rigController.ModifyControlRigLength(-0.1f);
+				_rigController.ModifyControlRigLength(-curveSpeed);
 			}
 		}
 	}
