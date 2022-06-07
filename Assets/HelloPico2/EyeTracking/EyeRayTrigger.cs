@@ -1,14 +1,22 @@
-﻿using HelloPico2.InteractableObjects;
+﻿using DG.Tweening;
+using HelloPico2.InteractableObjects;
 using Unity.XR.PXR;
 using UnityEngine;
+using UnityEngine.XR;
 
 namespace HelloPico2.EyeTracking{
 	public class EyeRayTrigger : MonoBehaviour{
 		[SerializeField] private float rayCastMaxDistance = 100;
-		public readonly HitTargetData TargetData = new HitTargetData();
+		[SerializeField] private Transform signObject;
+
 
 		private void Update(){
 			TrackEye();
+			InputDevices.GetDeviceAtXRNode(XRNode.LeftHand)
+					.TryGetFeatureValue(CommonUsages.menuButton, out var isLMenuButton);
+			InputDevices.GetDeviceAtXRNode(XRNode.RightHand)
+					.TryGetFeatureValue(CommonUsages.menuButton, out var isRMenuButton);
+			if(isLMenuButton || isRMenuButton) CalibrationEyeTracker();
 		}
 
 		private void TrackEye(){
@@ -21,10 +29,14 @@ namespace HelloPico2.EyeTracking{
 			var directionOffset = matrix4X4.MultiplyVector(direction);
 			var ray = new Ray(originOffset, directionOffset);
 			if(!Physics.Raycast(ray, out var hit, rayCastMaxDistance)) return;
-			TargetData.TargetObject = hit.collider.gameObject;
-			TargetData.HitPoint = hit.point;
+			signObject.DOMove(hit.point, 1 / Time.deltaTime).SetEase(Ease.Linear);
 			var collide = hit.collider.GetComponent<IInteractCollide>();
 			collide?.OnCollide(InteractType.Eye);
+		}
+
+		public void CalibrationEyeTracker(){
+			OpenPackage("com.tobii.usercalibration.pico");
+			OpenPackage("com.tobii.usercalibration.neo3");
 		}
 
 		private void OpenPackage(string pkgName){
@@ -34,10 +46,5 @@ namespace HelloPico2.EyeTracking{
 			using var joIntent = joPackageManager.Call<AndroidJavaObject>("getLaunchIntentForPackage", pkgName);
 			if(null != joIntent) joActivity.Call("startActivity", joIntent);
 		}
-	}
-
-	public class HitTargetData{
-		public GameObject TargetObject;
-		public Vector3 HitPoint;
 	}
 }
