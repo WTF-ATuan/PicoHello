@@ -8,6 +8,10 @@ namespace HelloPico2.EyeTracking{
 		public readonly HitTargetData TargetData = new HitTargetData();
 
 		private void Update(){
+			TrackEye();
+		}
+
+		private void TrackEye(){
 			if(!Camera.main) return;
 			var cameraTransform = Camera.main.transform;
 			var matrix4X4 = Matrix4x4.TRS(cameraTransform.position, cameraTransform.rotation, Vector3.one);
@@ -21,6 +25,14 @@ namespace HelloPico2.EyeTracking{
 			TargetData.HitPoint = hit.point;
 			var collide = hit.collider.GetComponent<IInteractCollide>();
 			collide?.OnCollide(InteractType.Eye);
+		}
+
+		private void OpenPackage(string pkgName){
+			using var jcPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+			using var joActivity = jcPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+			using var joPackageManager = joActivity.Call<AndroidJavaObject>("getPackageManager");
+			using var joIntent = joPackageManager.Call<AndroidJavaObject>("getLaunchIntentForPackage", pkgName);
+			if(null != joIntent) joActivity.Call("startActivity", joIntent);
 		}
 	}
 
