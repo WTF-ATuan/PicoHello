@@ -9,26 +9,28 @@ namespace HelloPico2.PlayerController.Arm
     {
         [SerializeField] private Vector2 _ScaleRange;
         [SerializeField] private float _ScalingDuration;
-        //LightBeamRigController lightBeamRigController;
+
         GameObject shield { get; set; }
         ArmLogic armLogic { get; set; }
-        public override void Activate(ArmLogic Logic, ArmData data, GameObject shieldObj)
+        public override void Activate(ArmLogic Logic, ArmData data, GameObject shieldObj, Vector3 fromScale)
         {
             armLogic = Logic;
-            //lightBeamRigController = lightBeam.GetComponent<LightBeamRigController>();
+
             shield = shieldObj;
             UpdateShieldScale(data);
             armLogic.OnEnergyChanged += UpdateShieldScale;
 
-            base.Activate(Logic, data, shieldObj);
+            base.Activate(Logic, data, shieldObj, fromScale);
         }
         public override void Deactivate(GameObject obj)
         {
             if (armLogic != null) 
                 armLogic.OnEnergyChanged -= UpdateShieldScale;
 
-            // TODO: Transition here
-            obj.SetActive(false);
+            shield.transform.DOScale(new Vector3(0, 0, shield.transform.localScale.z), _DeactiveDuration).OnComplete(() => { 
+                obj.SetActive(false);
+                _FinishedDeactivate?.Invoke();
+            });
 
             base.Deactivate(obj);
         }

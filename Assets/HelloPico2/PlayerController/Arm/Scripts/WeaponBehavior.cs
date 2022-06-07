@@ -10,7 +10,7 @@ namespace HelloPico2.PlayerController.Arm
         public float _DeactiveDuration;
         public delegate void FinishedDeactivate();
         public FinishedDeactivate _FinishedDeactivate;
-        public virtual void Activate(ArmLogic Logic, ArmData data, GameObject Obj) { 
+        public virtual void Activate(ArmLogic Logic, ArmData data, GameObject Obj, Vector3 fromScale) { 
         
         }
         public virtual void Deactivate(GameObject obj) {

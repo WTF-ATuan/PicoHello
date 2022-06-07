@@ -22,6 +22,7 @@ namespace HelloPico2.InteractableObjects
 
         public override void OnCollide(InteractType type)
         {
+            WhenCollide?.Invoke();
             base.OnCollide(type);
         }
         private void OnEnable()
@@ -35,7 +36,7 @@ namespace HelloPico2.InteractableObjects
             //OnBeamInteract -= ChargeBloom;            
         }
         private void ChargeBloom() {             
-            WhenCollide?.Invoke();
+            //WhenCollide?.Invoke();
 
             if (bloomed) return;
 

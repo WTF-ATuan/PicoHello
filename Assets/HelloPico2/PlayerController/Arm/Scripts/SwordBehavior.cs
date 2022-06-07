@@ -35,14 +35,14 @@ namespace HelloPico2.PlayerController.Arm
         Coroutine TurnOffProcess;
         Coroutine stretchProcess;
 
-        public override void Activate(ArmLogic Logic, ArmData data, GameObject lightBeam)
+        public override void Activate(ArmLogic Logic, ArmData data, GameObject lightBeam, Vector3 fromScale)
         {
             armLogic = Logic;
 
             // Initiate LightBeam
             if (lightBeamRigController == null)
             { 
-                lightBeamRigController = lightBeam.GetComponent<LightBeamRigController>();
+                lightBeamRigController = lightBeam.GetComponentInChildren<LightBeamRigController>();
                 _beamMesh = lightBeamRigController.GetComponentInChildren<SkinnedMeshRenderer>();
                 lightBeamRigController.Init();
             }
@@ -51,8 +51,8 @@ namespace HelloPico2.PlayerController.Arm
 
             armLogic.OnEnergyChanged += UpdateSwordLength;
             armLogic.OnUpdateInput += SetBlendWeight;
-
-            base.Activate(Logic, data, lightBeam);
+            
+            base.Activate(Logic, data, lightBeam, fromScale);
         }
         public override void Deactivate(GameObject obj)
         {

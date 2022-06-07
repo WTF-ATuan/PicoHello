@@ -10,7 +10,7 @@ using DG.Tweening;
 namespace HelloPico2.PlayerController.Arm
 {
     [RequireComponent(typeof(ArmLogic))]
-    public class EnergyBallBehavior : MonoBehaviour
+    public class EnergyBallBehavior : WeaponBehavior
     {
         [Header("Charging Energyball Position Settings")]
         [SerializeField] private Transform _Pivot;
@@ -32,11 +32,12 @@ namespace HelloPico2.PlayerController.Arm
         [SerializeField] private GameObject _Sword;
         [SerializeField] private GameObject _Whip;
         [SerializeField] private GameObject _Shield;
+        private EnergyBallBehavior energyBehavior;
         private SwordBehavior swordBehavior;
         private ShieldBehavior shieldBehavior;
         [Header("Transition Settings")]
         [SerializeField] private float _TransitionDuration = .5f;
-        [SerializeField] private Vector3 _SwordFromScale;
+        [SerializeField] private Vector3 _SwordFromScale;        
         [SerializeField] private Ease _TrasitionEaseCurve;
 
         [FoldoutGroup("Debug")] public bool _Debug;
@@ -194,11 +195,18 @@ namespace HelloPico2.PlayerController.Arm
 
             if (Mathf.Abs(axis.y) <= 0.1f)
             {
+                if (energyBehavior == null)
+                    energyBehavior = GetComponent<EnergyBallBehavior>();
+
                 if (currentShape == currentEnergyBall) return;
+
+                var fromScale = (currentShape)? currentShape.transform.localScale: Vector3.zero;
 
                 // Ball
                 ActivateWeapon(currentEnergyBall);
-                currentWeaponBehavior = null;
+
+                energyBehavior.Activate(armLogic, armLogic.data, currentEnergyBall, fromScale);
+                currentWeaponBehavior = energyBehavior;
             }
 
             if (!armLogic.CheckHasEnergy()) return;
@@ -209,9 +217,11 @@ namespace HelloPico2.PlayerController.Arm
 
                 if (currentShape == _Sword) return;
 
+                var fromScale = (currentShape) ? currentShape.transform.localScale : Vector3.zero;
+
                 ActivateWeapon(_Sword);
 
-                swordBehavior.Activate(armLogic, armLogic.data, _Sword);
+                swordBehavior.Activate(armLogic, armLogic.data, _Sword, fromScale);
                 currentWeaponBehavior = swordBehavior;
             }
             if (axis.y < -0.1f) {
@@ -220,9 +230,11 @@ namespace HelloPico2.PlayerController.Arm
 
                 if (currentShape == _Shield) return;
 
+                var fromScale = (currentShape) ? currentShape.transform.localScale : Vector3.zero;
+
                 ActivateWeapon(_Shield);                
 
-                shieldBehavior.Activate(armLogic, armLogic.data, _Shield);
+                shieldBehavior.Activate(armLogic, armLogic.data, _Shield, fromScale);
                 currentWeaponBehavior = shieldBehavior;
             }
             
@@ -232,23 +244,23 @@ namespace HelloPico2.PlayerController.Arm
             {
                 if (currentWeaponBehavior)
                 {
-                    Vector3 scalingFrom = currentShape.transform.localScale;
+                    // Setting up the events that will run after deactivate the current weapon
                     currentWeaponBehavior._FinishedDeactivate = delegate ()
                     {
                         weapon.SetActive(true);                        
-                        weapon.transform.DOScale(weapon.transform.localScale, _TransitionDuration).From(_SwordFromScale).SetEase(_TrasitionEaseCurve);
-                        //print("Deactivate");
                     };
 
                     currentWeaponBehavior.Deactivate(currentShape); 
                 }
                 else
                 {
+                    // For those behavior not yet fully implemented
                     currentShape?.SetActive(false);
                     weapon.SetActive(true);
                 }
             }
-
+            
+            // Positioning the weapon
             weapon.transform.position = currentEnergyBall.transform.position;
             weapon.transform.forward = armLogic.data.Controller.transform.forward;
             weapon.transform.SetParent(currentEnergyBall.transform.parent);
@@ -262,5 +274,32 @@ namespace HelloPico2.PlayerController.Arm
 
             ShootCoolDownProcess = null;
         }
+        #region WeaponBehavior
+        public override void Activate(ArmLogic Logic, ArmData data, GameObject Obj, Vector3 fromScale)
+        {
+            base.Activate(Logic, data, Obj, fromScale);
+
+            if (currentWeaponBehavior == null) return;
+
+            currentWeaponBehavior._FinishedDeactivate = delegate ()
+            {
+                Obj.SetActive(true);
+                //  TODO: Scaling control
+                Obj.transform.DOScale(Obj.transform.localScale, _TransitionDuration).From(_SwordFromScale).SetEase(_TrasitionEaseCurve);
+                //Obj.transform.DOScale(Obj.transform.localScale, _TransitionDuration).From(Vector3.one * fromScale.x).SetEase(_TrasitionEaseCurve);
+                //print("Energyball Deactivate");
+            };
+        }
+        public override void Deactivate(GameObject obj)
+        {
+            base.Deactivate(obj);
+            var originalScale = obj.transform.localScale;
+            obj.transform.DOScale(_SwordFromScale, _TransitionDuration).SetEase(_TrasitionEaseCurve).OnComplete(() => {
+                obj.SetActive(false);   
+                obj.transform.localScale = originalScale;   
+                _FinishedDeactivate?.Invoke();
+            });
+        }        
+        #endregion
     }
 }
