@@ -4,6 +4,7 @@
 		Whip,
 		EnergyBall,
 		Shield,
-		Energy
+		Energy,
+		Eye
 	}
 }
