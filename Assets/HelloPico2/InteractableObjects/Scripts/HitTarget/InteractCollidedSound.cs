@@ -6,7 +6,7 @@ namespace HelloPico2.InteractableObjects{
 		[Required] [SerializeField] private AudioClip soundEffect;
 		[Required] [SerializeField] private AudioSource audioSource;
 
-		public void OnCollide(InteractType type){
+		public void OnCollide(InteractType type, Collider selfCollider){
 			audioSource.PlayOneShot(soundEffect);
 			
 		}

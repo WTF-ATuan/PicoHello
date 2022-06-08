@@ -1,6 +1,6 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
-using Sirenix.OdinInspector;
 
 namespace HelloPico2.InteractableObjects
 {
@@ -16,7 +16,7 @@ namespace HelloPico2.InteractableObjects
 
         public UnityEvent WhenCollide;
 
-        public virtual void OnCollide(InteractType type){
+        public virtual void OnCollide(InteractType type, Collider selfCollider){
             CheckInteractType(type);
         }
         private void CheckInteractType(InteractType type) {

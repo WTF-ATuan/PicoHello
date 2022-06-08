@@ -100,6 +100,7 @@ namespace HelloPico2.InteractableObjects{
 			lengthUpdated.CurrentLengthLimit = currentLengthLimit;
 			lengthUpdated.MaxLengthLimit = minMaxLenghtLimit.y;
 			lengthUpdated.MinLengthLimit = minMaxLenghtLimit.x;
+			lengthUpdated.BlendWeight = _dynamicBone.m_BlendWeight;
 			return lengthUpdated;
 		}
 
@@ -172,7 +173,7 @@ namespace HelloPico2.InteractableObjects{
 
 		private void OnTriggerEnter(Collider other){
 			var collides = other.gameObject.GetComponents<IInteractCollide>();
-			collides.ForEach(c => c?.OnCollide(InteractType.Beam));
+			collides.ForEach(c => c?.OnCollide(InteractType.Beam, _capsuleCollider));
 		}
 
 		private bool IsLengthLessThanZero(Vector3 addOffset){

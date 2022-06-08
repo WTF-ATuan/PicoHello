@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Project;
 using UnityEngine;
 
 namespace HelloPico2.InteractableObjects
@@ -10,13 +7,13 @@ namespace HelloPico2.InteractableObjects
         [SerializeField] private float _Force;
         [SerializeField] private Transform _ForceOrigin;
         [SerializeField] private Rigidbody _Rigidbody;
-        
-        public override void OnCollide(InteractType type)
+
+        public override void OnCollide(InteractType type, Collider selfCollider)
         {
-            base.OnCollide(type);
+            base.OnCollide(type, selfCollider);
         }
-        private void OnEnable()
-        {
+
+        private void OnEnable(){
             OnEnergyBallInteract += BellActivate;
             OnBeamInteract += BellActivate;            
         }
