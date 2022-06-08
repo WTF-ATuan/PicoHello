@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Sirenix.OdinInspector;
-using DG.Tweening;
 using HelloPico2.InteractableObjects;
+using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace HelloPico2.PlayerController.Arm
 {
@@ -52,7 +49,7 @@ namespace HelloPico2.PlayerController.Arm
         private void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent<IInteractCollide>(out var interact)) {
-                interact.OnCollide(_InteractType);
+                interact.OnCollide(_InteractType, null);
                 Destroy(gameObject);
             }
         }

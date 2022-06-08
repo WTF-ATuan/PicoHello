@@ -1,7 +1,7 @@
-using UnityEngine;
-using UnityEngine.Events;
 using Project;
 using Sirenix.OdinInspector;
+using UnityEngine;
+using UnityEngine.Events;
 
 namespace HelloPico2.InteractableObjects
 {
@@ -20,10 +20,10 @@ namespace HelloPico2.InteractableObjects
         private bool bloomed;
         private float currentChargedEnergy;
 
-        public override void OnCollide(InteractType type)
+        public override void OnCollide(InteractType type, Collider selfCollider)
         {
             WhenCollide?.Invoke();
-            base.OnCollide(type);
+            base.OnCollide(type, selfCollider);
         }
         private void OnEnable()
         {

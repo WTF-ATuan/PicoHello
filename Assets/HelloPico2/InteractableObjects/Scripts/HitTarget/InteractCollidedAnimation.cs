@@ -11,7 +11,7 @@ namespace HelloPico2.InteractableObjects{
 			_animator = GetComponent<Animator>();
 		}
 
-		public void OnCollide(InteractType type){
+		public void OnCollide(InteractType type, Collider selfCollider){
 			_animator.Play(animationClip.name);
 		}
 	}

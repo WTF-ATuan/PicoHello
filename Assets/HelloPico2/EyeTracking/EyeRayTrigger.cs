@@ -31,7 +31,7 @@ namespace HelloPico2.EyeTracking{
 			if(!Physics.Raycast(ray, out var hit, rayCastMaxDistance)) return;
 			signObject.DOMove(hit.point, 1 / Time.deltaTime).SetEase(Ease.Linear);
 			var collide = hit.collider.GetComponent<IInteractCollide>();
-			collide?.OnCollide(InteractType.Eye);
+			collide?.OnCollide(InteractType.Eye, null);
 		}
 
 		public void CalibrationEyeTracker(){
