@@ -22,8 +22,10 @@ namespace HelloPico2.PlayerController.Arm
 
         [Header("Projectile Settings")]
         [SerializeField] private GameObject _EnergyProjectile;
+        [SerializeField] private GameObject _ChargedEnergyProjectile;
         [SerializeField] private float _SpawnOffset;
         [SerializeField] private float _ShootSpeed;
+        [SerializeField] private float _ChargeShootSpeed;
         [SerializeField] private float _ShootCoolDown;
         [SerializeField] private float _CostEnergy;
         [SerializeField] private float _SpeedBufferDuration;
@@ -128,7 +130,7 @@ namespace HelloPico2.PlayerController.Arm
             if (data.Energy <= 0) return;
 
             var chargeScale = _EnergyProjectile.transform.localScale + Vector3.one * (data.Energy / data.MaxEnergy);
-            GenerateProjectile(true, chargeScale.y);
+            GenerateProjectile(true, _ChargedEnergyProjectile, _ChargeShootSpeed, chargeScale.y);
             data.Energy = 0;
             armLogic.OnEnergyChanged?.Invoke(data);
 
@@ -143,20 +145,20 @@ namespace HelloPico2.PlayerController.Arm
 
             data.Energy -= _CostEnergy;
             armLogic.OnEnergyChanged?.Invoke(data);
-            GenerateProjectile(false);
+            GenerateProjectile(false, _EnergyProjectile, _ShootSpeed);
 
             UpdateScale(data);
 
             data.WhenShootProjectile?.Invoke();
         }
-        private void GenerateProjectile(bool overwriteScale, float scale = 1)
+        private void GenerateProjectile(bool overwriteScale, GameObject prefab, float speed, float scale = 1)
         {
-            var clone = Instantiate(_EnergyProjectile, transform.root);
+            var clone = Instantiate(prefab, transform.root);
             clone.transform.position = currentEnergyBall.transform.position + (currentEnergyBall.transform.forward * _SpawnOffset);
             clone.transform.forward = armLogic.data.Controller.transform.forward;
             if (overwriteScale) clone.transform.localScale *= scale;
 
-            clone.GetComponent<ProjectileController>().ProjectileSetUp(_ShootSpeed, _SpeedBufferDuration, target);
+            clone.GetComponent<ProjectileController>().ProjectileSetUp(speed, _SpeedBufferDuration, target);
                         
             ShootCoolDownProcess = StartCoroutine(CoolDown(_ShootCoolDown));
         }
