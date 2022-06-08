@@ -27,17 +27,13 @@ namespace HelloPico2.InteractableObjects
         }
         private void OnEnable()
         {
-            OnEnergyBallInteract += ChargeBloom;            
-            //OnBeamInteract += ChargeBloom;            
+            OnEnergyBallInteract += ChargeBloom;          
         }
         private void OnDisable()
         {
-            OnEnergyBallInteract -= ChargeBloom;            
-            //OnBeamInteract -= ChargeBloom;            
+            OnEnergyBallInteract -= ChargeBloom;          
         }
-        private void ChargeBloom() {             
-            //WhenCollide?.Invoke();
-
+        private void ChargeBloom() {   
             if (bloomed) return;
 
             currentChargedEnergy += 20;
