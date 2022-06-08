@@ -58,7 +58,7 @@ namespace HelloPico2.InteractableObjects{
 
 		private void OnTouchPadAxis(Vector2 touchPadAxis){
 			var axisY = touchPadAxis.y;
-			var curveSpeed = _rigController.GetCurveSpeed();
+			var curveSpeed = _rigController.GetLengthModifiedCurveSpeed();
 			if(axisY > 0.5f){
 				_rigController.ModifyControlRigLength(+curveSpeed);
 			}

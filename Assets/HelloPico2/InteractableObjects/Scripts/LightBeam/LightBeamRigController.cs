@@ -103,7 +103,7 @@ namespace HelloPico2.InteractableObjects{
 			return lengthUpdated;
 		}
 
-		public float GetCurveSpeed(){
+		public float GetLengthModifiedCurveSpeed(){
 			var lightBeamLengthUpdated = GetUpdateState();
 			var totalLength = lightBeamLengthUpdated.TotalLength;
 			var lengthLimit = lightBeamLengthUpdated.CurrentLengthLimit;
