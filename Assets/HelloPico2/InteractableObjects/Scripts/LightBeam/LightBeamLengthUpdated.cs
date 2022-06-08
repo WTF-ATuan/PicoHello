@@ -17,5 +17,6 @@ namespace HelloPico2.InteractableObjects{
 		public float CurrentLengthLimit{ get; set; }
 		public int MaxLengthLimit{ get; set; }
 		public int MinLengthLimit{ get; set; }
+		public float BlendWeight{ get; set; }
 	}
 }

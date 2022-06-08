@@ -100,6 +100,7 @@ namespace HelloPico2.InteractableObjects{
 			lengthUpdated.CurrentLengthLimit = currentLengthLimit;
 			lengthUpdated.MaxLengthLimit = minMaxLenghtLimit.y;
 			lengthUpdated.MinLengthLimit = minMaxLenghtLimit.x;
+			lengthUpdated.BlendWeight = _dynamicBone.m_BlendWeight;
 			return lengthUpdated;
 		}
 
