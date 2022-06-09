@@ -8,8 +8,8 @@ using UnityEngine.Rendering.PostProcessing;
 namespace HelloPico2.InteractableObjects{
 	public class LightBeamEventHandler : MonoBehaviour{
 		private LightBeamRigController _rigController;
-		[SerializeField] private float speedLimit;
-		[SerializeField] private float returnDuring;
+		[SerializeField] public float speedLimit;
+		[SerializeField] public float returnDuring;
 		[SerializeField] private bool blendWeightWithSpeed;
 
 		private SkinnedMeshRenderer _beamMesh;
