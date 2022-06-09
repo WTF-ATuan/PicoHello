@@ -5,8 +5,8 @@ namespace HelloPico2.InteractableObjects
     public class HitTargetBell : HitTargetBase
     {
         [SerializeField] private float _Force;
-        [SerializeField] private Transform _ForceOrigin;
         [SerializeField] private Rigidbody _Rigidbody;
+        public GameObject DebugSphere;
 
         public override void OnCollide(InteractType type, Collider selfCollider)
         {
@@ -21,26 +21,37 @@ namespace HelloPico2.InteractableObjects
         {
             OnEnergyBallInteract -= BellActivate;
             OnBeamInteract -= BellActivate;            
-        }
-        private void BellActivate()
+        }        
+       
+        private void BellActivate(Collider selfCollider)
         {
             WhenCollide?.Invoke();
 
-            PlayAudio();
+            PlayRandomAudio();
 
-            var dir = (_ForceOrigin.position - _Rigidbody.transform.position).normalized;
+            RaycastHit hitInfo = GetContactPoint(selfCollider);
+
+            var dir = (_Rigidbody.transform.position - selfCollider.transform.position).normalized;
+
+            if(hitInfo.point != null)
+                dir = (_Rigidbody.transform.position - hitInfo.point).normalized;
+                        
             _Rigidbody.AddForce(_Force * dir, ForceMode.VelocityChange);
         }
-        private void PlayAudio()
-        {
-            //var value = Random.Range(0, 2);
-            //string result = "";
-            //if (value == 0)
-            //    result = _ChargeBloomClipName0;
-            //else
-            //    result = _ChargeBloomClipName1;
+        public LayerMask _LayerMask;
+        private RaycastHit GetContactPoint(Collider selfCollider) {
+            RaycastHit hitInfo = new RaycastHit();
 
-            //EventBus.Post(new AudioEventRequested(result, transform.position));
+            if (selfCollider == null) return hitInfo;
+
+            Ray ray = new Ray(selfCollider.transform.position, selfCollider.transform.forward);
+
+            if (Physics.Raycast(ray, out hitInfo, 1000, _LayerMask)) {
+                var clone = Instantiate(DebugSphere, hitInfo.point, Quaternion.identity, transform.parent);
+                Destroy(clone, 1.5f);
+            }
+
+            return hitInfo;
         }
     }
 }

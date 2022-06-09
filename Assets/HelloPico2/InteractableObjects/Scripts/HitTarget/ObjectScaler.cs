@@ -9,6 +9,7 @@ namespace HelloPico2.InteractableObjects
     {
         public enum ControlMode { BounceSequence, SingleBurst, BurstAndStay }
         [SerializeField] private ControlMode _ControlMode = ControlMode.BounceSequence;
+        [SerializeField]private bool _RunOnEnable = false;
         [SerializeField] private GameObject _ScalingObject;
         [SerializeField] private Vector3 _From;
         [SerializeField] private Vector3 _To;
@@ -22,6 +23,14 @@ namespace HelloPico2.InteractableObjects
         private void Start()
         {
             defaultScale = _ScalingObject.transform.localScale;
+        }
+        private void OnEnable()
+        {
+            if(_RunOnEnable) StartScaling();
+        }
+        [Button]
+        public void GetSelfAsScalingObj() {
+            _ScalingObject = gameObject;
         }
         [Button]
         public void StartScaling(float rate)

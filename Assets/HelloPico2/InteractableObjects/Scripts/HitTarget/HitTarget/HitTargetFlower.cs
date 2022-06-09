@@ -33,7 +33,7 @@ namespace HelloPico2.InteractableObjects
         {
             OnEnergyBallInteract -= ChargeBloom;          
         }
-        private void ChargeBloom() {   
+        private void ChargeBloom(Collider selfCollider) {   
             if (bloomed) return;
 
             currentChargedEnergy += 20;
