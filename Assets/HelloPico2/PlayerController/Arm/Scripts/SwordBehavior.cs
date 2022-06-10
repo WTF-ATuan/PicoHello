@@ -110,13 +110,15 @@ namespace HelloPico2.PlayerController.Arm
                         
             lightBeamRigController.SetLengthLimit(data.Energy / data.MaxEnergy);
 
-            if(stretchProcess != null) StopCoroutine(stretchProcess); 
-            
-            stretchProcess = StartCoroutine(StretchSword(dir, duration));
+            if(stretchProcess != null) StopCoroutine(stretchProcess);
 
+            stretchProcess = StartCoroutine(StretchSword(dir, duration));
         }
         private IEnumerator StretchSword(float dir, float duration) {
-            var unitDuration = duration * _ModifyLengthStep / (GetlightBeamData().MaxLengthLimit * GetLengthLimitPercentage());
+            float totalLengthPercentage = GetlightBeamData().MaxLengthLimit * GetLengthLimitPercentage();
+            float unitDuration = duration * _ModifyLengthStep / totalLengthPercentage;
+
+            if ( totalLengthPercentage == 0) unitDuration = 0;
 
             while (Mathf.Abs(lightBeamRigController.GetUpdateState().TotalLength - GetLengthLimitPercentage()) > _ModifyLengthStep)
             {
