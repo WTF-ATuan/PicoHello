@@ -22,5 +22,7 @@ namespace HelloPico2.InteractableObjects{
 					throw new ArgumentOutOfRangeException();
 			}
 		}
+
+		public Action<InteractType, Collider> ColliderEvent{ get; }
 	}
 }

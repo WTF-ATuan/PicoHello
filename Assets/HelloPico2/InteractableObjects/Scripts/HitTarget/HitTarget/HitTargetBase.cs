@@ -1,7 +1,9 @@
+using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 using Project;
+using Random = UnityEngine.Random;
 
 namespace HelloPico2.InteractableObjects
 {
@@ -20,6 +22,9 @@ namespace HelloPico2.InteractableObjects
         public virtual void OnCollide(InteractType type, Collider selfCollider){
             CheckInteractType(type, selfCollider);
         }
+
+        public Action<InteractType, Collider> ColliderEvent{ get; }
+
         private void CheckInteractType(InteractType type, Collider selfCollider) {
             switch (type) {
                 case InteractType.Beam:

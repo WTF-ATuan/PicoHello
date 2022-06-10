@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace HelloPico2.InteractableObjects{
@@ -14,5 +15,7 @@ namespace HelloPico2.InteractableObjects{
 		public void OnCollide(InteractType type, Collider selfCollider){
 			_animator.Play(animationClip.name);
 		}
+
+		public Action<InteractType, Collider> ColliderEvent{ get; }
 	}
 }

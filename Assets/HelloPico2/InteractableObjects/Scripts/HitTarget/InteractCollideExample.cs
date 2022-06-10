@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using UnityEngine;
 
 namespace HelloPico2.InteractableObjects{
@@ -6,5 +7,7 @@ namespace HelloPico2.InteractableObjects{
 		public void OnCollide(InteractType type, Collider selfCollider){
 			transform.DOPunchScale(Vector3.one * 0.1f, 0.5f);
 		}
+
+		public Action<InteractType, Collider> ColliderEvent{ get; }
 	}
 }

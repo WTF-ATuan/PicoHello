@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace HelloPico2.InteractableObjects{
@@ -10,5 +11,7 @@ namespace HelloPico2.InteractableObjects{
 			audioSource.PlayOneShot(soundEffect);
 			
 		}
+
+		public Action<InteractType, Collider> ColliderEvent{ get; }
 	}
 }
