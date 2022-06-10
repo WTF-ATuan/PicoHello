@@ -26,10 +26,12 @@ public class targetObjScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        /*
-        localScale = this.transform.localScale;
         _audioSource = GetComponent<AudioSource>();
         _audioSource.clip = hitAudio;
+        _audioSource.enabled = false;
+        /*
+        localScale = this.transform.localScale;
+        
         timer = coldTime;
         */
     }
@@ -37,12 +39,14 @@ public class targetObjScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*
-        if (isHit == true && timer==coldTime)
+        
+        if(isHit)
         {
+            ScaleObj();
             showHit();
-            timer -= Time.deltaTime;
+            //timer -= Time.deltaTime;
         }
+        /*
         localPos = this.transform.localPosition;
         if (!isShake) return;
 
@@ -50,12 +54,14 @@ public class targetObjScript : MonoBehaviour
         transform.localPosition = pos;
         
         Invoke("ShakeStop", 0.5f);
-        */
+        
+        
         if (isTargetCounter)
         {
             isTargetCount();
-        }
+        }*/
     }
+    /*
     void isTargetCount()
     {
         if(_enemySO.stepCounter > 5)
@@ -74,58 +80,24 @@ public class targetObjScript : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-    }
-    void hitGet()
+    }*/
+
+    private void OnTriggerEnter(Collider other)
     {
+        isHit = true;
+
+        /*
         if (isTargetCounter)
         {
             _enemySO.stepCounter += 1;
-            Destroy(gameObject,1);
-        }
-        else
-        {
-            count -= 1;
-            if(count < 0)
-            {
-                Destroy(gameObject, 1);
-            }
-        }
-   
-    }
-    
-    private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log("hit");
-        hitGet();
-    }
-    private void OnTriggerEnter(Collider other)
-    {   
-
-        /*
-        if(other.tag=="ballAttack")
-        {
-            isHit = true;
-
-            isShake = true;
-            if (targetType == 0)
-            {
-                //this.transform.localScale = new Vector3(this.transform.localScale.x * scaleSize, this.transform.localScale.y * scaleSize, this.transform.localScale.z * scaleSize);
-                if (!isTargetCounter)
-                {
-                    gameObject.GetComponent<SphereCollider>().radius = 0.1f;
-                }
-                
-            }
-            if (isTargetCounter)
-            {
-                _enemySO.stepCounter += 1;
-            }
-
         }*/
-
     }
 
-
+    void ScaleObj()
+    {
+        this.transform.localScale = new Vector3(this.transform.localScale.x * scaleSize, this.transform.localScale.y * scaleSize, this.transform.localScale.z * scaleSize);
+        Destroy(gameObject,3);
+    }
     void ShakeStop()
     {
         count -= 1;
@@ -137,19 +109,18 @@ public class targetObjScript : MonoBehaviour
     }
     void showHit()
     {
+        /*
         count -= 1;
         if (!isTargetCounter)
         {
             _enemySO.getHit += 1;
-        }
-        
-
-        Instantiate(showEffect, transform.position, transform.rotation);
-        _audioSource.enabled = true;
-        isHit = false;
-        if (timer < 0)
+        }*/
+        if(isHit == true && timer == coldTime)
         {
-            timer = coldTime;
+            Instantiate(showEffect, transform.position, transform.rotation);
+            _audioSource.enabled = true;
+            timer -= Time.deltaTime;
         }
+
     }
 }

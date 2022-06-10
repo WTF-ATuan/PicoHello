@@ -16,13 +16,13 @@ public class HandAnim : MonoBehaviour
 	public TargetItem_SO _getItme;
 	public GuideSys_SO _getGuideSys;
 	public GameObject spawnedController;
+	public int checkItemHeld;
 	public bool showController = false;
 	public GameObject ShowBall;
 	string HandGet;
 	public GameObject tipButtonAll;
 	public GameObject[] tipButton;
 
-	public GameObject[] audioList;
 	bool isGetGripTip;
 	bool isGetTriggetpTip;
 	
@@ -38,19 +38,19 @@ public class HandAnim : MonoBehaviour
 	}
 	public void staffCheck()
     {
-		//showController = true;
 		spawnedController.SetActive(true);
+		showController = true;
 	}
 
     // Update is called once per frame
     void Update()
     {
 
-		/*
-		if(_getItme.targetItemHeld==1)
+		
+		if(_getItme.targetItemHeld== checkItemHeld)
         {
 			staffCheck();
-		}*/
+		}
 
 		if (showController)
         {
@@ -150,13 +150,11 @@ public class HandAnim : MonoBehaviour
 			{
                 if (firstTouch)
                 {
-					audioList[0].SetActive(true);
 					Invoke("closeAudio", 2);
 					firstTouch = false;
 				}
                 else
                 {
-					audioList[1].SetActive(true);
 					Invoke("closeAudio", 2);
 				}
 				
@@ -194,11 +192,7 @@ public class HandAnim : MonoBehaviour
 	{
 		firstTouch = false;
 	}
-	void closeAudio()
-    {
-		audioList[0].SetActive(false);
-		audioList[1].SetActive(false);
-	}
+
 	void ShowTip()
     {
         if (_getItme.isTipOpen)

@@ -6,13 +6,18 @@ using UnityEngine;
 public class targetScript : MonoBehaviour
 {
     public GameObject tragetObj;
+    public TargetItem_SO menuCheck;
+    public GameObject hideObj;
     public GameObject[] showObj;
-    public bool isDestroy;
-    public bool isSetActive;
+    public int checkHeld;
+    public bool isOnTrigget;
+    public bool isTimeLine;
+    TimeLineControlScript _timeLineControl;
     
     int showLength;
 
     public bool isCheckSel;
+    
     
     // Start is called before the first frame update
     void Start()
@@ -22,44 +27,35 @@ public class targetScript : MonoBehaviour
     private void Update()
     {
         if (!isCheckSel) return;
-            if (showObj[0] == null || showObj[1] == null || showObj[2] == null || showObj[3] == null)
-            {
-                transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, 1.0f);
-                Destroy(gameObject,1);
-            }
             
+        if(menuCheck.targetItemHeld == checkHeld)
+        {
+                transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, 0.1f);
+            if (isTimeLine)
+            {
+                showObj[0].SetActive(true);
+                hideObj.SetActive(false);
+            }
+            Destroy(gameObject, 3); 
+        }
+    }
+    
+    public void AddItemHeld()
+    {
+        menuCheck.targetItemHeld += 1;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        
-        if(tragetObj.name== other.name && isDestroy)
-        {
-            DestroyGet();
-        }
-        if (tragetObj.name == other.name && isSetActive)
-        {
-            StartCoroutine(setActiveObj());
-        }
-    }
     IEnumerator setActiveObj()
     {
-        for(int i = 0;i< showLength;i++)
+        yield return new WaitForSeconds(3);
+        Destroy(gameObject, 1);
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player") && isOnTrigget)
         {
-            showObj[i].gameObject.SetActive(true);
-            yield return new WaitForSeconds(1);
+            menuCheck.targetItemHeld += 1;
+            isCheckSel = true;
         }
-        DestroyGet();
-
-
-    }
-    public void setActiveShow()
-    {
-        StartCoroutine(setActiveObj());
-    }
-
-    public void DestroyGet()
-    {
-        Destroy(gameObject);
     }
 }

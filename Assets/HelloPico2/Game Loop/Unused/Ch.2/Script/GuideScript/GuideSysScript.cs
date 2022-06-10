@@ -7,14 +7,12 @@ public class GuideSysScript : MonoBehaviour
 {
     public GuideSys_SO _guideSys;
     public guidType _guidType;
-    public GameObject[] guideList;
+    
     int getRandom;
     public AudioClip[] _AudioClip;
     AudioSource _AudioSource;
     public Animator _guideAnimator;
-    public Animator _energyAnimator;
-    public GameObject energryPrefab;
-    public GameObject createEnergyPos;
+    
     public float coldTime;
     public GameObject[]  effectList;
     float timer=0;
@@ -28,12 +26,10 @@ public class GuideSysScript : MonoBehaviour
     {
         ballPool = GameObject.Find("ballPool");
         
-        //Random Guide
-        getRandom = Random.Range(0, guideList.Length);
-        guideList[getRandom].SetActive(true);
+        
 
         _guideAnimator = _guideAnimator.GetComponent<Animator>();
-        _energyAnimator = _energyAnimator.GetComponent<Animator>();
+        
         
         _AudioSource = this.GetComponent<AudioSource>();
     }
@@ -42,7 +38,7 @@ public class GuideSysScript : MonoBehaviour
         switch (_guidType)
         {
             case guidType.LOOP:
-                _energyAnimator.SetBool("isAttack", false);
+        
 
                 _guideAnimator.SetBool("isLook", true);
                 _guideAnimator.SetBool("isAttack", false);
@@ -61,7 +57,7 @@ public class GuideSysScript : MonoBehaviour
             case guidType.ATTACK:
                 _guideAnimator.SetBool("isLook", false);
                 _guideAnimator.SetBool("isAttack", true);
-                _energyAnimator.SetBool("isAttack", true);
+                
                 coldTime = 1;
                 isTimer = true;
                 AudioPlayer(0);
@@ -95,7 +91,7 @@ public class GuideSysScript : MonoBehaviour
                 break;
 
             case guidType.SHOCK:
-                //_guideAnimator.SetBool("isLook", false);
+                //effectList[2].SetActive(true);
                 _guideAnimator.SetBool("isShock", true);
                 isTimer = true;
                 break;
@@ -119,7 +115,6 @@ public class GuideSysScript : MonoBehaviour
             if (timer > coldTime && isCreate)
             {
 
-                Instantiate(energryPrefab, createEnergyPos.transform.position, Quaternion.identity, ballPool.transform);
                 AudioPlayer(1);
                 isCreate = false;
                 isTimer = false;
@@ -165,5 +160,16 @@ public class GuideSysScript : MonoBehaviour
             _guidType = guidType.SHOCK;
         }
     }
- }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag ("target"))
+        {
+            _guideSys.guidesType = 5;
+        }
+        else
+        {
+            _guideSys.guidesType = 6;
+        }
+    }
+}
 
