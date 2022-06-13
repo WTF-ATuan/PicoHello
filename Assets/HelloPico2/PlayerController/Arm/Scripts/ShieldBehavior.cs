@@ -62,13 +62,18 @@ namespace HelloPico2.PlayerController.Arm{
 
 		private void DetectDeviceSpeed(DeviceInputDetected inputDetected){
 			var selectorSpeed = inputDetected.Selector.Speed;
-			if(!(selectorSpeed > speedLimit)) return;
+			if(selectorSpeed > speedLimit){
+				timer += Time.fixedDeltaTime;
+				if(timer > speedDuring){
+					// ReSharper disable once Unity.PreferNonAllocApi
+					var raycastHits = Physics.SphereCastAll(shield.transform.position, range, shield.transform.forward);
+					foreach(var hit in raycastHits){
+						var interactablePower = hit.transform.GetComponent<InteractablePower>();
+						interactablePower?.OnSelect(inputDetected);
+					}
 
-			// ReSharper disable once Unity.PreferNonAllocApi
-			var raycastHits = Physics.SphereCastAll(shield.transform.position, range, shield.transform.forward);
-			foreach(var hit in raycastHits){
-				var interactablePower = hit.transform.GetComponent<InteractablePower>();
-				interactablePower?.OnSelect(inputDetected);
+					timer = 0;
+				}
 			}
 		}
 
