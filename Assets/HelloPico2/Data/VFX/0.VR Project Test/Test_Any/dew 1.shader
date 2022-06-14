@@ -1,4 +1,4 @@
-﻿Shader "GGDog/dew"
+﻿Shader "GGDog/dew 1"
 {
 	Properties
 	{
@@ -17,12 +17,11 @@
 	}
 	SubShader
 	{
-        GrabPass { "_BackTex" }
+        GrabPass { "_BackTex123" }
 
 		Pass
 		{	
 			Tags { "LightMode"="ForwardBase" "RenderType" = "Opaque" "Queue" = "Geometry+1"}
-
 			CGPROGRAM
             #include "Lighting.cginc"
 			#pragma vertex vert
@@ -73,7 +72,7 @@
 				half4 Noise1 = tex2Dlod(_NoiseTex, half4( scruv*_NoiseTex_ST.xy +_Time.y*(0.25,-0.25)*2 ,0,0));
 				half4 Noise2 = tex2Dlod(_NoiseTex, half4( scruv*_NoiseTex_ST.xy +_Time.y*(-0.25,0.25)*2 ,0,0));
 
-				half4 Noise3 = tex2Dlod(_NoiseTex, half4( v.uv*_NoiseTex_ST.xy +_Time.y*(-0.3,-0.3)*2 ,0,0));
+				half4 Noise3 = tex2Dlod(_NoiseTex, half4( 0.55*v.vertex*_NoiseTex_ST.xy +_Time.y*(-0.3,-0.3)*2 ,0,0));
 				half uvdis = (smoothstep(0,1,v.uv.y)+smoothstep(0,1,1-v.uv.y))/2;
 
 				o.vertex = UnityObjectToClipPos(v.vertex + v.normal * pow((Noise1+Noise2+Noise3)*uvdis/2,2) );
@@ -85,7 +84,7 @@
 			
 			half3 _Vector;
 
-            sampler2D _BackTex;
+            sampler2D _BackTex123;
 
 			half4 frag (v2f i) : SV_Target
 			{
@@ -146,13 +145,14 @@
 				//內容底背景
 
 				half2 scruv = i.scrPos.xy/i.scrPos.w;
-
+				/*
 				i.CameraDistance/=15;
 
 				scruv = (scruv+0.5*(i.CameraDistance-1))/i.CameraDistance;
-
-				half4 refrCol = tex2D(_BackTex, scruv +(1-Rim)/50) ;
-
+				
+				half4 refrCol = tex2D(_BackTex123, scruv +(1-Rim)/50) ;
+				*/
+				half4 refrCol = tex2D(_BackTex123, scruv) ;
 
 				FinalColor = lerp(FinalColor,refrCol*_ShadowColor,1-FinalColor.a);
 
