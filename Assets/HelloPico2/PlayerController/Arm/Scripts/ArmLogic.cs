@@ -140,6 +140,10 @@ namespace HelloPico2.PlayerController.Arm
 			}
 			#endregion
 		}
+        public void SpentEnergy(float amount) {
+            if (data.Energy - amount > 0)
+                data.Energy -= amount;
+        }
         public bool CheckHasEnergy() {
             return data.Energy > 0;
         }

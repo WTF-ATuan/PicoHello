@@ -25,6 +25,8 @@ namespace HelloPico2.InteractableObjects
        
         private void BellActivate(Collider selfCollider)
         {
+            if (selfCollider == null) return;
+
             WhenCollide?.Invoke();
 
             PlayRandomAudio();

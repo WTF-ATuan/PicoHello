@@ -28,7 +28,8 @@ namespace HelloPico2.PlayerController.Arm
         [SerializeField] private float _ChargeShootSpeed;
         [SerializeField] private float _ShootCoolDown;
         [SerializeField] private float _CostEnergy;
-        [SerializeField] private float _SpeedBufferDuration;
+        [Tooltip("Projectile Initial Speed Buffer")][Min(0.05f)][SerializeField] private float _SpeedBufferDuration;
+        [SerializeField] private AnimationCurve _SpeedBufferEasingCurve;
 
         [Header("Shape Settings")]
         [SerializeField] private GameObject _Sword;
@@ -158,7 +159,7 @@ namespace HelloPico2.PlayerController.Arm
             clone.transform.forward = armLogic.data.Controller.transform.forward;
             if (overwriteScale) clone.transform.localScale *= scale;
 
-            clone.GetComponent<ProjectileController>().ProjectileSetUp(speed, _SpeedBufferDuration, target);
+            clone.GetComponent<ProjectileController>().ProjectileSetUp(speed, _SpeedBufferDuration, _SpeedBufferEasingCurve, target);
                         
             ShootCoolDownProcess = StartCoroutine(CoolDown(_ShootCoolDown));
         }
@@ -167,12 +168,19 @@ namespace HelloPico2.PlayerController.Arm
             if (armLogic.data.HandType != eventData.InputReceiver.Selector.HandType) return;
 
             GenerateChargingEnergyBall();
+
+            if (!armLogic.CheckHasEnergy() && !currentEnergyBall.activeSelf)
+                currentEnergyBall.SetActive(true);
         }
         private void GenerateChargingEnergyBall() {
             if (currentEnergyBall == null)
             {
                 currentEnergyBall = Instantiate(_ChargingEnergyBall, _Pivot);
-                currentEnergyBall.transform.localPosition = _DefaultOffset;
+                currentEnergyBall.transform.localPosition = _DefaultOffset +
+                new Vector3(0, 0, _OffsetRange.x);
+
+                if (!armLogic.CheckHasEnergy())
+                    currentEnergyBall.SetActive(false);
             }
         }
         private void UpdateScale(ArmData data) {

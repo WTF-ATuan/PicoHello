@@ -30,6 +30,8 @@ namespace HelloPico2.InteractableObjects{
 
 		[SerializeField] private AnimationCurve lengthChangedCurve;
 
+		public delegate void OnCollisionDel (InteractType interactType , Collider other);
+		public OnCollisionDel OnCollision;
 
 		public void SetLengthLimit(float percentage){
 			if(percentage > 1){
@@ -174,6 +176,14 @@ namespace HelloPico2.InteractableObjects{
 		private void OnTriggerEnter(Collider other){
 			var collides = other.gameObject.GetComponents<IInteractCollide>();
 			collides.ForEach(c => c?.OnCollide(InteractType.Beam, _capsuleCollider));
+
+            foreach (var item in collides)
+            {
+				if (item != null) { 
+					print("Collide " + other.name);
+					OnCollision?.Invoke(InteractType.Beam, _capsuleCollider);
+				}
+            }
 		}
 
 		private bool IsLengthLessThanZero(Vector3 addOffset){
