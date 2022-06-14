@@ -147,5 +147,9 @@ namespace HelloPico2.PlayerController.Arm
         public bool CheckHasEnergy() {
             return data.Energy > 0;
         }
+        public bool CheckFullEnergy()
+        {
+            return data.Energy >= data.MaxEnergy;
+        }
     }
 }

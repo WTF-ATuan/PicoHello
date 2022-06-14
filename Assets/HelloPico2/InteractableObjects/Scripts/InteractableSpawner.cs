@@ -9,20 +9,39 @@ namespace HelloPico2.InteractableObjects
         public GameObject _SpawnThis;
         public Transform _SpawnPosition;
         public float _SpawnOffset;
+        public Vector3 _SpawnRotation;
         public int _MaxAmount = 5;
         public float _RefillDelayDuration;
         public List<GameObject> _Clonelist = new List<GameObject>();
+
+        [Header("Loop Settings")]
+        [Min(1)]public int _SpawnWavesAmount = 1;
+        public float _WaveDelayDuration = 5f;
 
         [Header("Gizmos Settings")]
         public Color _DrawColor;
 
         private void Start()
         {
+            SpawnSingleWave();
+            
+            if(_SpawnWavesAmount > 1)
+                StartCoroutine(WaveControl());
+        }
+        private void SpawnSingleWave() {
             for (int i = 0; i < _MaxAmount; i++)
             {
                 var pos = _SpawnPosition.position + _SpawnPosition.transform.right * i * _SpawnOffset;
                 var clone = SpawnObject(pos);
+                clone.transform.eulerAngles = _SpawnRotation;
                 _Clonelist.Add(clone);
+            }
+        }
+        private IEnumerator WaveControl() {
+            for (int j = 0; j < _SpawnWavesAmount; j++)
+            {
+                SpawnSingleWave();
+                yield return new WaitForSeconds(_WaveDelayDuration);
             }
         }
         private void OnDisable()
@@ -72,7 +91,8 @@ namespace HelloPico2.InteractableObjects
                 
                 Gizmos.color = _DrawColor;
                 //Gizmos.DrawWireSphere(pos, _SpawnThis.transform.localScale.x);
-                Gizmos.DrawWireMesh(_SpawnThis.GetComponent<MeshFilter>().sharedMesh, pos, Quaternion.identity, _SpawnThis.transform.localScale);
+                
+                Gizmos.DrawWireMesh(_SpawnThis.GetComponent<MeshFilter>().sharedMesh, pos, Quaternion.Euler(_SpawnRotation), _SpawnThis.transform.localScale);
             }
         }
     }
