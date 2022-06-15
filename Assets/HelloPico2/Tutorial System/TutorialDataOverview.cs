@@ -1,42 +1,35 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using Sirenix.OdinInspector;
-using Sirenix.Serialization;
 using UnityEngine;
 
 namespace HelloPico2.TutorialSystem{
 	[CreateAssetMenu(fileName = "ProcessDataOverview", menuName = "HelloPico2/ScriptableObject/ ProcessDataOverview")]
 	public class ProcessDataOverview : ScriptableObject{
-		[Required]
-		[LabelText("Condition: ")]
-		[BoxGroup("BehaviorCondition")]
-		[PropertyOrder(1)]
-		[TypeFilter("GetBehaviorBase")]
-		[SerializeReference]
-		[HideReferenceObjectPicker]
-		[OdinSerialize]
-		public ConditionBase condition;
-		
+		[BoxGroup("Tracked Area")] public GameObject trackedPrefab;
 
-		[BoxGroup("BehaviorCondition")]
-		[PropertyOrder(1)]
-		[TypeFilter("GetBehaviorBase")]
-		[SerializeReference]
-		[HideReferenceObjectPicker]
-		[OdinSerialize]
-		public List<ConditionBase> conditions;
+		[BoxGroup("Tracked Area")] [ShowIf("trackedPrefab")] [ValueDropdown("GetComponentTypes")] [SerializeReference]
+		public Component trackedComponent;
 
-		[UsedImplicitly]
-		private IEnumerable GetBehaviorBase(){
-			var b = typeof(ConditionBase).Assembly
+		[BoxGroup("Tracked Area")] [ShowIf("trackedPrefab")] [TypeFilter("GetConditionTypes")] [SerializeReference] [HideReferenceObjectPicker]
+		public AbstractCondition condition;
+
+
+		private IEnumerable GetComponentTypes(){
+			var components = trackedPrefab.GetComponents(typeof(Component)).ToList();
+			var valueDropdownItems = components.Select(x => new ValueDropdownItem(x.GetType().Name, x)).ToList();
+			valueDropdownItems.Insert(0, new ValueDropdownItem("None", null));
+			return valueDropdownItems;
+		}	
+		private IEnumerable<Type> GetConditionTypes(){
+			var conditionType = typeof(AbstractCondition).Assembly
 					.GetTypes()
-					.Where(x => x.IsAbstract == false)
-					.Where(x => x.IsGenericTypeDefinition == false)
-					.Where(x => typeof(ConditionBase).IsAssignableFrom(x))
-					.Select(x => new ValueDropdownItem(x.Name, x));
-			return b;
+					.Where(x => !x.IsAbstract)                                          
+					.Where(x => !x.IsGenericTypeDefinition)                            
+					.Where(x => typeof(AbstractCondition).IsAssignableFrom(x));
+			return conditionType;
 		}
 	}
 }
