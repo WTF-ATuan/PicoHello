@@ -7,6 +7,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 using DG.Tweening;
 using HelloPico2.InteractableObjects;
 using HelloPico2.InputDevice.Scripts;
+using HelloPico2.PlayerController.Player;
 
 namespace HelloPico2.PlayerController.Arm
 {
@@ -53,7 +54,8 @@ namespace HelloPico2.PlayerController.Arm
 		private void OnEnable()
 		{
 			EventBus.Subscribe<DeviceInputDetected>(OnDeviceInputDetected);
-		}
+            EventBus.Subscribe<ReceiveDamageData>(ReceiveDamage);
+        }
 		private void OnDisable()
 		{
 
@@ -140,6 +142,11 @@ namespace HelloPico2.PlayerController.Arm
 			}
 			#endregion
 		}
+        private void ReceiveDamage(ReceiveDamageData data)
+        {            
+            // Has 2 hands so split into half
+            SpentEnergy(data.DamageAmount / 2);
+        }
         public void SpentEnergy(float amount) {
             if (data.Energy - amount > 0)
                 data.Energy -= amount;

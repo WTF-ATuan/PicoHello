@@ -31,7 +31,7 @@ namespace HelloPico2.PlayerController
         {            
             if (other.tag == m_Tag || 1 << other.gameObject.layer == m_TargetLayer)
             {
-                print(other.name);
+                //print(other.name);
                 WhenTriggerEnter.Invoke();
                 TriggerEnter?.Invoke(other);
 

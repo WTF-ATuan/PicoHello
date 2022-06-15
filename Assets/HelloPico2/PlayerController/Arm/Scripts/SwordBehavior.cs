@@ -27,6 +27,9 @@ namespace HelloPico2.PlayerController.Arm
         [SerializeField] private float _ReturnDuring;
         private LightBeamRigController lightBeamRigController;
 
+        [Header("Collider Setting")]
+        [SerializeField] private int _SpentEnergyWhenCollide = 30;
+
         private float timer;
         private SkinnedMeshRenderer _beamMesh;
         [MaxValue(1)][MinValue(0)] private float _colorValue;
@@ -81,7 +84,7 @@ namespace HelloPico2.PlayerController.Arm
         private void OnBeamCollide(InteractType interactType, Collider selfCollider) {
             if (!armLogic.CheckHasEnergy()) return;
             // Spend Energy            
-            armLogic.SpentEnergy(30);
+            armLogic.SpentEnergy(_SpentEnergyWhenCollide);
             // Shorten Sword
             UpdateSwordLength(armLogic.data);
         }

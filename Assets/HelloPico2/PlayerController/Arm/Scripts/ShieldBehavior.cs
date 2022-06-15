@@ -11,6 +11,7 @@ namespace HelloPico2.PlayerController.Arm{
 		[SerializeField] private float _ScalingDuration;
 		[SerializeField] private float _AbsorbCoolDownDuration = .5f;
 		[SerializeField] private float _AbsorbInterpolateDuration = 0.1f;
+		[SerializeField] private int _SpentEnergyWhenCollide = 30;
 
 		[Header("Special Skill")] [SerializeField]
 		private float speedLimit;
@@ -21,6 +22,7 @@ namespace HelloPico2.PlayerController.Arm{
 		
 		private float timer;
 		private Collider _shieldCollider;
+		private ShieldController _shieldController;
 
 		GameObject shield{ get; set; }
 		ArmLogic armLogic{ get; set; }		
@@ -34,9 +36,11 @@ namespace HelloPico2.PlayerController.Arm{
 			armLogic = Logic;
 			shield = shieldObj;
 			_shieldCollider = shieldObj.GetComponentInChildren<Collider>();
+			_shieldController = shieldObj.GetComponentInChildren<ShieldController>();
 			UpdateShieldScale(data);
 			armLogic.OnEnergyChanged += UpdateShieldScale;
 			armLogic.OnUpdateInput += DetectDeviceSpeed;
+			_shieldController.OnCollision += OnShieldCollide;
 
 			base.Activate(Logic, data, shieldObj, fromScale);
 		}
@@ -46,6 +50,8 @@ namespace HelloPico2.PlayerController.Arm{
 				armLogic.OnEnergyChanged -= UpdateShieldScale;
 				armLogic.OnUpdateInput -= DetectDeviceSpeed;
 			}
+
+			if(_shieldController) _shieldController.OnCollision -= OnShieldCollide;
 
 			shield.transform.DOScale(new Vector3(0, 0, shield.transform.localScale.z), _DeactiveDuration).OnComplete(
 				() => {
@@ -87,6 +93,14 @@ namespace HelloPico2.PlayerController.Arm{
 					timer = 0;
 				}
 			}
+		}
+		private void OnShieldCollide(InteractType interactType, Collider selfCollider)
+		{
+			if (!armLogic.CheckHasEnergy()) return;
+			// Spend Energy            
+			armLogic.SpentEnergy(_SpentEnergyWhenCollide);
+			// Shorten Sword
+			UpdateShieldScale(armLogic.data);
 		}
 		private IEnumerator Absorb(DeviceInputDetected inputDetected) {
 			absorbCooldown.Reset();
