@@ -20,14 +20,12 @@ namespace HelloPico2.InteractableObjects
 
         public virtual void OnDrop()
 		{
-			var meshRenderer = GetComponent<MeshRenderer>();
-			meshRenderer.material.color = Color.white;
+			
 		}
 
 		public virtual void OnSelect(DeviceInputDetected obj)
 		{
-			var meshRenderer = GetComponent<MeshRenderer>();
-			meshRenderer.material.color = Color.red;
+			
 		}
 
 		public virtual void OnXOrAButton() { }

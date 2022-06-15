@@ -45,6 +45,7 @@ namespace HelloPico2.PlayerController.Arm
                 lightBeamRigController = lightBeam.GetComponentInChildren<LightBeamRigController>();
                 _beamMesh = lightBeamRigController.GetComponentInChildren<SkinnedMeshRenderer>();
                 lightBeamRigController.Init();
+                lightBeamRigController.OnCollision += OnBeamCollide;
             }
 
             UpdateSwordLength(data, _TurnOnDuration);
@@ -62,10 +63,13 @@ namespace HelloPico2.PlayerController.Arm
                 armLogic.OnUpdateInput -= SetBlendWeight;
             }
 
+            if(lightBeamRigController) lightBeamRigController.OnCollision -= OnBeamCollide;
+
             if (TurnOffProcess != null) { StopCoroutine(TurnOffProcess); }
             if (stretchProcess != null) { StopCoroutine(stretchProcess); }
             
             TurnOffProcess = StartCoroutine(TurnOffSwordSequence(obj));
+            
 
             base.Deactivate(obj);
         }
@@ -73,6 +77,13 @@ namespace HelloPico2.PlayerController.Arm
         {
             //Deactivate(); 
             StopAllCoroutines();
+        }
+        private void OnBeamCollide(InteractType interactType, Collider selfCollider) {
+            if (!armLogic.CheckHasEnergy()) return;
+            // Spend Energy            
+            armLogic.SpentEnergy(30);
+            // Shorten Sword
+            UpdateSwordLength(armLogic.data);
         }
         #region LightBeamController
         private void SetBlendWeight(DeviceInputDetected obj)

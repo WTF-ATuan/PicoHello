@@ -1,6 +1,7 @@
 using DG.Tweening;
 using HelloPico2.InputDevice.Scripts;
 using HelloPico2.InteractableObjects;
+using System.Collections;
 using UnityEngine;
 
 namespace HelloPico2.PlayerController.Arm{
@@ -8,6 +9,8 @@ namespace HelloPico2.PlayerController.Arm{
 	public class ShieldBehavior : WeaponBehavior{
 		[SerializeField] private Vector2 _ScaleRange;
 		[SerializeField] private float _ScalingDuration;
+		[SerializeField] private float _AbsorbCoolDownDuration = .5f;
+		[SerializeField] private float _AbsorbInterpolateDuration = 0.1f;
 
 		[Header("Special Skill")] [SerializeField]
 		private float speedLimit;
@@ -15,14 +18,19 @@ namespace HelloPico2.PlayerController.Arm{
 		[SerializeField] private float speedDuring;
 		[SerializeField] private float range;
 
-
+		
 		private float timer;
 		private Collider _shieldCollider;
 
 		GameObject shield{ get; set; }
-		ArmLogic armLogic{ get; set; }
-
-		public override void Activate(ArmLogic Logic, ArmData data, GameObject shieldObj, Vector3 fromScale){
+		ArmLogic armLogic{ get; set; }		
+		Game.Project.ColdDownTimer absorbCooldown { get; set; }
+		Coroutine absorbProcess { get; set; }
+        private void Start()
+        {
+			absorbCooldown = new Game.Project.ColdDownTimer(_AbsorbCoolDownDuration);
+		}
+        public override void Activate(ArmLogic Logic, ArmData data, GameObject shieldObj, Vector3 fromScale){
 			armLogic = Logic;
 			shield = shieldObj;
 			_shieldCollider = shieldObj.GetComponentInChildren<Collider>();
@@ -61,22 +69,37 @@ namespace HelloPico2.PlayerController.Arm{
 		}
 
 		private void DetectDeviceSpeed(DeviceInputDetected inputDetected){
+			if (armLogic.CheckFullEnergy()) return;
+			if (absorbCooldown != null)
+			{
+				//print(absorbCooldown.CanInvoke());
+				if (!absorbCooldown.CanInvoke()) return;
+			}
+
 			var selectorSpeed = inputDetected.Selector.Speed;
 			if(selectorSpeed > speedLimit){
 				timer += Time.fixedDeltaTime;
 				if(timer > speedDuring){
-					// ReSharper disable once Unity.PreferNonAllocApi
-					var raycastHits = Physics.SphereCastAll(shield.transform.position, range, shield.transform.forward);
-					foreach(var hit in raycastHits){
-						var interactablePower = hit.transform.GetComponent<InteractablePower>();
-						interactablePower?.OnSelect(inputDetected);
-					}
+					if (absorbProcess != null) return;
+
+					StartCoroutine(Absorb(inputDetected));
 
 					timer = 0;
 				}
 			}
 		}
+		private IEnumerator Absorb(DeviceInputDetected inputDetected) {
+			absorbCooldown.Reset();
 
+			// ReSharper disable once Unity.PreferNonAllocApi
+			var raycastHits = Physics.SphereCastAll(shield.transform.position, range, shield.transform.forward);
+			foreach (var hit in raycastHits)
+			{
+				var interactablePower = hit.transform.GetComponent<InteractablePower>();
+				interactablePower?.OnSelect(inputDetected);
+				yield return new WaitForSeconds(_AbsorbInterpolateDuration);
+			}
+		}
 		private void OnDrawGizmos(){
 			if(_shieldCollider == null) return;
 
