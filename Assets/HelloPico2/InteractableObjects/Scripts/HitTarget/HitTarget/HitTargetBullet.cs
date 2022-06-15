@@ -10,7 +10,7 @@ namespace HelloPico2.InteractableObjects
         [SerializeField] private string _HitEffectID = "";
         public override void OnCollide(InteractType type, Collider selfCollider)
         {
-            print("Collide");
+            //print("Collide");
             WhenCollide?.Invoke();
             base.OnCollide(type, selfCollider);
         }
