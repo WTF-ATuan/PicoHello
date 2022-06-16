@@ -1,23 +1,21 @@
 using DG.Tweening;
 using HelloPico2.InputDevice.Scripts;
 using HelloPico2.InteractableObjects;
+using Sirenix.OdinInspector;
 using System.Collections;
 using UnityEngine;
 
 namespace HelloPico2.PlayerController.Arm{
 	[RequireComponent(typeof(ArmLogic))]
-	public class ShieldBehavior : WeaponBehavior{
-		[SerializeField] private Vector2 _ScaleRange;
-		[SerializeField] private float _ScalingDuration;
-		[SerializeField] private float _AbsorbCoolDownDuration = .5f;
-		[SerializeField] private float _AbsorbInterpolateDuration = 0.1f;
-		[SerializeField] private int _SpentEnergyWhenCollide = 30;
-
-		[Header("Special Skill")] [SerializeField]
-		private float speedLimit;
-
-		[SerializeField] private float speedDuring;
-		[SerializeField] private float range;
+	public class ShieldBehavior : WeaponBehavior{		
+		[FoldoutGroup("Shield Scale")][SerializeField] private Vector2 _ScaleRange;
+		[FoldoutGroup("Shield Scale")][SerializeField] private float _ScalingDuration;
+		[FoldoutGroup("Interaction")][SerializeField] private int _SpentEnergyWhenCollide = 30;
+		[FoldoutGroup("Special Skill")][SerializeField] private float _AbsorbCoolDownDuration = .5f;
+		[FoldoutGroup("Special Skill")][SerializeField] private float _AbsorbInterpolateDuration = 0.1f;
+		[FoldoutGroup("Special Skill")][SerializeField] private float range;
+		[FoldoutGroup("Velocity Detection Settings")][SerializeField] private float speedLimit;
+		[FoldoutGroup("Velocity Detection Settings")][SerializeField] private float speedDuring;
 
 		
 		private float timer;
@@ -37,15 +35,17 @@ namespace HelloPico2.PlayerController.Arm{
 			shield = shieldObj;
 			_shieldCollider = shieldObj.GetComponentInChildren<Collider>();
 			_shieldController = shieldObj.GetComponentInChildren<ShieldController>();
-			UpdateShieldScale(data);
+			UpdateShieldScale(data); 
+			UpdateShieldPosition(data);
+
 			armLogic.OnEnergyChanged += UpdateShieldScale;
+			armLogic.OnEnergyChanged += UpdateShieldPosition;
 			armLogic.OnUpdateInput += DetectDeviceSpeed;
 			_shieldController.OnCollision += OnShieldCollide;
 
 			base.Activate(Logic, data, shieldObj, fromScale);
 		}
-
-		public override void Deactivate(GameObject obj){
+        public override void Deactivate(GameObject obj){
 			if(armLogic != null){
 				armLogic.OnEnergyChanged -= UpdateShieldScale;
 				armLogic.OnUpdateInput -= DetectDeviceSpeed;
@@ -73,7 +73,11 @@ namespace HelloPico2.PlayerController.Arm{
 			shield.transform.DOScale(new Vector3(targetScale, targetScale, shield.transform.localScale.z),
 				_ScalingDuration);
 		}
-
+		private void UpdateShieldPosition(ArmData data)
+		{
+			shield.transform.localPosition = _DefaultOffset +
+				new Vector3(0, 0, _OffsetRange.x);
+		}
 		private void DetectDeviceSpeed(DeviceInputDetected inputDetected){
 			if (armLogic.CheckFullEnergy()) return;
 			if (absorbCooldown != null)

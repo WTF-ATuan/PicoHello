@@ -9,27 +9,23 @@ namespace HelloPico2.PlayerController.Arm
     [RequireComponent(typeof(ArmLogic))]
     public class SwordBehavior : WeaponBehavior
     {
-        [Header("Stretching Setttings")]
         /// <summary>
         /// The unit length for ModifyControllingRigLength func
         /// </summary>
-        [SerializeField] private float _ModifyLengthStep = 0.3f;
-        [SerializeField] private float _TurnOnDuration = 0.01f;
-        [SerializeField] private float _TurnOffDuration = 0.01f;
+        [FoldoutGroup("Stretching")][SerializeField] private float _ModifyLengthStep = 0.3f;
+        [FoldoutGroup("Stretching")][SerializeField] private float _TurnOnDuration = 0.01f;
+        [FoldoutGroup("Stretching")][SerializeField] private float _TurnOffDuration = 0.01f;
 
-        [Header("Blend Weight Color Settings")]
-        [SerializeField] private string _ColorName = "_BaseColor";
-        [SerializeField][ColorUsage(true,true)] private Color _ColorSword;
-        [SerializeField][ColorUsage(true, true)] private Color _ColorWhip;
+        [FoldoutGroup("Interaction")][SerializeField] private int _SpentEnergyWhenCollide = 30;
 
-        [Header("Sword & Whip Transform Settings")]
-        [SerializeField] private float _SpeedLimit;
-        [SerializeField] private float _ReturnDuring;
+        [FoldoutGroup("Blend Weight Color")][SerializeField] private string _ColorName = "_BaseColor";
+        [FoldoutGroup("Blend Weight Color")][SerializeField][ColorUsage(true,true)] private Color _ColorSword;
+        [FoldoutGroup("Blend Weight Color")][SerializeField][ColorUsage(true, true)] private Color _ColorWhip;
+
+        [FoldoutGroup("Velocity Detection Settings")][SerializeField] private float _SpeedLimit;
+        [FoldoutGroup("Velocity Detection Settings")][SerializeField] private float _ReturnDuring;
+
         private LightBeamRigController lightBeamRigController;
-
-        [Header("Collider Setting")]
-        [SerializeField] private int _SpentEnergyWhenCollide = 30;
-
         private float timer;
         private SkinnedMeshRenderer _beamMesh;
         [MaxValue(1)][MinValue(0)] private float _colorValue;
@@ -53,12 +49,15 @@ namespace HelloPico2.PlayerController.Arm
             if (lightBeamRigController) lightBeamRigController.OnCollision += OnBeamCollide;
 
             UpdateSwordLength(data, _TurnOnDuration);
+            UpdateSwordPosition(data);
 
             armLogic.OnEnergyChanged += UpdateSwordLength;
+            armLogic.OnEnergyChanged += UpdateSwordPosition;
             armLogic.OnUpdateInput += SetBlendWeight;
             
             base.Activate(Logic, data, lightBeam, fromScale);
         }
+
         public override void Deactivate(GameObject obj)
         {
             if (armLogic != null)
@@ -130,6 +129,11 @@ namespace HelloPico2.PlayerController.Arm
             if(stretchProcess != null) StopCoroutine(stretchProcess);
 
             stretchProcess = StartCoroutine(StretchSword(dir, duration));
+        }
+        private void UpdateSwordPosition(ArmData data)
+        {
+            lightBeamRigController.transform.localPosition = _DefaultOffset +
+            new Vector3(0, 0, _OffsetRange.x);
         }
         private IEnumerator StretchSword(float dir, float duration) {
             float totalLengthPercentage = GetlightBeamData().MaxLengthLimit * GetLengthLimitPercentage();

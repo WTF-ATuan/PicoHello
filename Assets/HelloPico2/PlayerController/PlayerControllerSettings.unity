@@ -21491,11 +21491,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ActiveDuration: 0
   _DeactiveDuration: 0
+  _DefaultOffset: {x: 0, y: 0, z: 0}
+  _OffsetRange: {x: -0.08, y: -0.45}
   _Pivot: {fileID: 826650822}
   _ChargingEnergyBall: {fileID: 7744332965651290996, guid: 1c06fa9c5595173459a4157ebf0670d7, type: 3}
-  _DefaultOffset: {x: 0, y: 0, z: 0}
   _ScaleRange: {x: 0.02, y: 0.7}
-  _OffsetRange: {x: -0.08, y: -0.45}
   _ScalingSpeed: 1
   _EnergyProjectile: {fileID: 209317907826756382, guid: 61e8c76fbcbd043d3ae195d9012185cf, type: 3}
   _ChargedEnergyProjectile: {fileID: 209317907826756382, guid: 2a0734da97bc69341b0ab035936a17d8, type: 3}
@@ -21840,15 +21840,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ActiveDuration: 0.5
   _DeactiveDuration: 0.3
+  _DefaultOffset: {x: 0, y: 0, z: 0}
+  _OffsetRange: {x: -0.15, y: 0}
   _ModifyLengthStep: 0.3
   _TurnOnDuration: 0.01
   _TurnOffDuration: 0.01
+  _SpentEnergyWhenCollide: 30
   _ColorName: _RimColor
   _ColorSword: {r: 0.31764707, g: 0.5764706, b: 1, a: 1}
   _ColorWhip: {r: 1, g: 0.3176471, b: 0.3176471, a: 1}
   _SpeedLimit: 0.5
   _ReturnDuring: 0.4
-  _SpentEnergyWhenCollide: 30
 --- !u!114 &523402692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21863,14 +21865,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ActiveDuration: 0.5
   _DeactiveDuration: 0.3
-  _ScaleRange: {x: 0.01, y: 0.7}
+  _DefaultOffset: {x: 0, y: 0, z: 0}
+  _OffsetRange: {x: -0.2, y: 0}
+  _ScaleRange: {x: 0.1, y: 0.45}
   _ScalingDuration: 0.5
+  _SpentEnergyWhenCollide: 30
   _AbsorbCoolDownDuration: 0.5
   _AbsorbInterpolateDuration: 0.1
-  _SpentEnergyWhenCollide: 30
+  range: 4
   speedLimit: 0.3
   speedDuring: 0.05
-  range: 4
 --- !u!82 &523402693
 AudioSource:
   m_ObjectHideFlags: 0
@@ -22326,9 +22330,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1364763113}
     m_Modifications:
+    - target: {fileID: 1753586965, guid: 4a9d37b5f8ef09e438e669c7f25fe99d, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1753586966, guid: 4a9d37b5f8ef09e438e669c7f25fe99d, type: 3}
       propertyPath: _ForceAmount
-      value: 100
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 527352447618693211, guid: 4a9d37b5f8ef09e438e669c7f25fe99d, type: 3}
       propertyPath: m_Controller
@@ -28570,7 +28578,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1753586966, guid: 4a9d37b5f8ef09e438e669c7f25fe99d, type: 3}
       propertyPath: _ForceAmount
-      value: 100
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4885783875371593022, guid: 4a9d37b5f8ef09e438e669c7f25fe99d, type: 3}
       propertyPath: m_RootOrder
@@ -43127,7 +43135,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224257298987235572, guid: b523385d76947fe4dbfc509ebdd3b890, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 224257298987235572, guid: b523385d76947fe4dbfc509ebdd3b890, type: 3}
       propertyPath: m_AnchorMax.x
@@ -49720,7 +49728,7 @@ Transform:
   - {fileID: 460449479}
   - {fileID: 1364763113}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!114 &1833865351
 MonoBehaviour:
@@ -51191,15 +51199,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ActiveDuration: 0.5
   _DeactiveDuration: 0.3
+  _DefaultOffset: {x: 0, y: 0, z: 0}
+  _OffsetRange: {x: -0.15, y: 0}
   _ModifyLengthStep: 0.3
   _TurnOnDuration: 0.01
   _TurnOffDuration: 0.01
+  _SpentEnergyWhenCollide: 30
   _ColorName: _RimColor
   _ColorSword: {r: 0.31764707, g: 0.5764706, b: 1, a: 1}
   _ColorWhip: {r: 1, g: 0.3176471, b: 0.3176471, a: 1}
   _SpeedLimit: 0.5
   _ReturnDuring: 0.4
-  _SpentEnergyWhenCollide: 30
 --- !u!114 &2098583259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51414,11 +51424,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ActiveDuration: 0
   _DeactiveDuration: 0
+  _DefaultOffset: {x: 0, y: 0, z: 0}
+  _OffsetRange: {x: -0.08, y: -0.45}
   _Pivot: {fileID: 878960990}
   _ChargingEnergyBall: {fileID: 7744332965651290996, guid: 1c06fa9c5595173459a4157ebf0670d7, type: 3}
-  _DefaultOffset: {x: 0, y: 0, z: 0}
   _ScaleRange: {x: 0.02, y: 0.7}
-  _OffsetRange: {x: -0.08, y: -0.45}
   _ScalingSpeed: 1
   _EnergyProjectile: {fileID: 209317907826756382, guid: 61e8c76fbcbd043d3ae195d9012185cf, type: 3}
   _ChargedEnergyProjectile: {fileID: 209317907826756382, guid: 2a0734da97bc69341b0ab035936a17d8, type: 3}
@@ -51563,14 +51573,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ActiveDuration: 0.5
   _DeactiveDuration: 0.3
-  _ScaleRange: {x: 0.01, y: 0.7}
+  _DefaultOffset: {x: 0, y: 0, z: 0}
+  _OffsetRange: {x: -0.2, y: 0}
+  _ScaleRange: {x: 0.1, y: 0.45}
   _ScalingDuration: 0.5
+  _SpentEnergyWhenCollide: 30
   _AbsorbCoolDownDuration: 0.5
   _AbsorbInterpolateDuration: 0.1
-  _SpentEnergyWhenCollide: 30
+  range: 4
   speedLimit: 0.3
   speedDuring: 0.05
-  range: 4
 --- !u!82 &2098583265
 AudioSource:
   m_ObjectHideFlags: 0

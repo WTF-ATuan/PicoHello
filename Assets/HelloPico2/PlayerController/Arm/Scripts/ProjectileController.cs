@@ -12,6 +12,8 @@ namespace HelloPico2.PlayerController.Arm
         [ShowIf("_ActivateHoming")][SerializeField] private float _homingSensativeness;
         [ShowIf("_ActivateHoming")][SerializeField] private float _homingDuration;
 
+        public UnityEngine.Events.UnityEvent WhenShoot;
+
         private Rigidbody _rigidbody;
         private float _speed;
         private float _duration;
@@ -27,6 +29,7 @@ namespace HelloPico2.PlayerController.Arm
             _duration = duration;
             _easingCurve = easingCurve;
             Destroy(gameObject, _Lifetime);
+            WhenShoot?.Invoke();
         }
         private void Update()
         {
