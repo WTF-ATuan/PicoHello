@@ -42,6 +42,7 @@ namespace HelloPico2.PlayerController.Arm
         [FoldoutGroup("Debug")] public Vector2 axis;
         [FoldoutGroup("Debug")] public Transform target;
 
+        [FoldoutGroup("Transition")][ReadOnly][SerializeField] private bool hasTransformProcess;
         public Coroutine ShootCoolDownProcess { get; set; }
 
         private ArmLogic _ArmLogic;
@@ -116,7 +117,6 @@ namespace HelloPico2.PlayerController.Arm
                 Destroy(eventData.Interactable.transform.gameObject); 
                 
                 armLogic.OnEnergyChanged?.Invoke(armLogic.data);
-
             });
         }
         [Button]
@@ -197,6 +197,8 @@ namespace HelloPico2.PlayerController.Arm
         private void UpdateShape(Vector2 axis) {
             //if (isShapeConfirmed) return;
             
+            if (hasTransformProcess) return;
+
             // Force activate Energy ball when player has no energy
             if (Mathf.Abs(axis.y) <= 0.1f || !armLogic.CheckHasEnergy())
             {
@@ -206,6 +208,7 @@ namespace HelloPico2.PlayerController.Arm
                 if (currentShape == currentEnergyBall) return;
 
                 var fromScale = (currentShape)? currentShape.transform.localScale: Vector3.zero;
+                if(!armLogic.CheckHasEnergy()) currentEnergyBall.transform.localScale = Vector3.zero;
 
                 // Ball
                 ActivateWeapon(currentEnergyBall);
@@ -247,12 +250,16 @@ namespace HelloPico2.PlayerController.Arm
         private void ActivateWeapon(GameObject weapon) {            
             if (currentShape)
             {
+                hasTransformProcess = true;
+
                 if (currentWeaponBehavior)
                 {
                     // Setting up the events that will run after deactivate the current weapon
                     currentWeaponBehavior._FinishedDeactivate = delegate ()
                     {
-                        weapon.SetActive(true);                        
+                        weapon.SetActive(true);
+
+                        hasTransformProcess = false;
                     };
 
                     currentWeaponBehavior.Deactivate(currentShape); 
@@ -262,6 +269,8 @@ namespace HelloPico2.PlayerController.Arm
                     // For those behavior not yet fully implemented
                     currentShape?.SetActive(false);
                     weapon.SetActive(true);
+
+                    hasTransformProcess = false;
                 }
             }
             
@@ -293,6 +302,8 @@ namespace HelloPico2.PlayerController.Arm
                 Obj.transform.DOScale(Obj.transform.localScale, _TransitionDuration).From(_SwordFromScale).SetEase(_TrasitionEaseCurve);
                 //Obj.transform.DOScale(Obj.transform.localScale, _TransitionDuration).From(Vector3.one * fromScale.x).SetEase(_TrasitionEaseCurve);
                 //print("Energyball Deactivate");
+
+                hasTransformProcess = false;
             };
         }
         public override void Deactivate(GameObject obj)
@@ -305,6 +316,6 @@ namespace HelloPico2.PlayerController.Arm
                 _FinishedDeactivate?.Invoke();
             });
         }        
-        #endregion
+        #endregion        
     }
 }

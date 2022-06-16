@@ -16,8 +16,7 @@ namespace HelloPico2.PlayerController.Arm{
 		[FoldoutGroup("Special Skill")][SerializeField] private float range;
 		[FoldoutGroup("Velocity Detection Settings")][SerializeField] private float speedLimit;
 		[FoldoutGroup("Velocity Detection Settings")][SerializeField] private float speedDuring;
-
-		
+				
 		private float timer;
 		private Collider _shieldCollider;
 		private ShieldController _shieldController;
@@ -42,6 +41,9 @@ namespace HelloPico2.PlayerController.Arm{
 			armLogic.OnEnergyChanged += UpdateShieldPosition;
 			armLogic.OnUpdateInput += DetectDeviceSpeed;
 			_shieldController.OnCollision += OnShieldCollide;
+
+			// Hard fix Shield position issue
+			shieldObj.transform.GetChild(0).transform.localPosition = Vector3.zero;
 
 			base.Activate(Logic, data, shieldObj, fromScale);
 		}

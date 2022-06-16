@@ -87,8 +87,6 @@ namespace HelloPico2.PlayerController.Arm
             armLogic.SpentEnergy(_SpentEnergyWhenCollide);
             // Shorten Sword
             UpdateSwordLength(armLogic.data);
-
-            print("Spend energy");
         }
         #region LightBeamController
         private void SetBlendWeight(DeviceInputDetected obj)
