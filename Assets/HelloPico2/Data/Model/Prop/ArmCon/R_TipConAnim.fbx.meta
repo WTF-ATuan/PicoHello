@@ -1,32 +1,37 @@
 fileFormatVersion: 2
-guid: 31bb9cc6ca264b148bebf79a0e89ae35
+guid: 9ab08ff753cc1db4da74a3396a5e0e07
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
   - first:
       74: 1827226128182048838
-    second: In_HavePoint
+    second: TipOpen
   - first:
-      74: -5775696249989322343
-    second: IdleLoop
+      74: -3592414486478994245
+    second: TipGrip
   - first:
-      74: -6045046744412599465
-    second: Out
+      74: 7927002442033315683
+    second: TipTrigget
   - first:
-      74: 7223148266438987442
-    second: NullLoop
+      74: -2762530958744107988
+    second: TipSword
   - first:
-      74: -2512586984292080508
-    second: In_Null
+      74: -6559579789973449062
+    second: TipShield
   - first:
-      74: 1988102577495993113
-    second: Out_Null
+      74: 4838349981607389490
+    second: TipClose
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: TalkSimpleRigRef_TalkMat
-    second: {fileID: 2100000, guid: 8fde34708b67b0e4fb831d9c65d8e443, type: 2}
+      name: JoystickMAT
+    second: {fileID: 2100000, guid: f306159c60c388442a74eddb9d7a62ba, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TipMat
+    second: {fileID: 2100000, guid: 7e042abdb30e05a45b8580f0396d5e2c, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -55,11 +60,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: In_HavePoint
+      name: TipOpen
       takeName: Take 001
       internalID: 0
       firstFrame: 1
-      lastFrame: 23
+      lastFrame: 20
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -82,42 +87,13 @@ ModelImporter:
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 1
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: IdleLoop
+      name: TipGrip
       takeName: Take 001
       internalID: 0
-      firstFrame: 24
-      lastFrame: 48
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 1
-    - serializedVersion: 16
-      name: Out
-      takeName: Take 001
-      internalID: 0
-      firstFrame: 49
-      lastFrame: 66
+      firstFrame: 21
+      lastFrame: 270
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -140,42 +116,13 @@ ModelImporter:
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 1
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: NullLoop
+      name: TipTrigget
       takeName: Take 001
       internalID: 0
-      firstFrame: 7
-      lastFrame: 17
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 1
-    - serializedVersion: 16
-      name: In_Null
-      takeName: Take 001
-      internalID: 0
-      firstFrame: 1
-      lastFrame: 17
+      firstFrame: 271
+      lastFrame: 480
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -198,13 +145,13 @@ ModelImporter:
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 1
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Out_Null
+      name: TipSword
       takeName: Take 001
       internalID: 0
-      firstFrame: 59
-      lastFrame: 66
+      firstFrame: 481
+      lastFrame: 680
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -227,11 +174,69 @@ ModelImporter:
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 1
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: TipShield
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 681
+      lastFrame: 900
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: TipClose
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 901
+      lastFrame: 930
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 10
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -282,7 +287,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 10
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
