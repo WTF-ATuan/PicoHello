@@ -81,6 +81,7 @@ namespace HelloPico2.PlayerController.Arm{
 				new Vector3(0, 0, _OffsetRange.x);
 		}
 		private void DetectDeviceSpeed(DeviceInputDetected inputDetected){
+			if(inputDetected.Selector.HandType != armLogic.data.HandType) return;
 			if (armLogic.CheckFullEnergy()) return;
 			if (absorbCooldown != null)
 			{

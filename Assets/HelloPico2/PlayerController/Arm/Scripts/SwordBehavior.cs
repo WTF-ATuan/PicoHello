@@ -91,6 +91,8 @@ namespace HelloPico2.PlayerController.Arm
         #region LightBeamController
         private void SetBlendWeight(DeviceInputDetected obj)
         {
+            if (obj.Selector.HandType != armLogic.data.HandType) return;
+
             if (obj.Selector.Speed > _SpeedLimit)
             {
                 lightBeamRigController.ModifyBlendWeight(0.01f); 
