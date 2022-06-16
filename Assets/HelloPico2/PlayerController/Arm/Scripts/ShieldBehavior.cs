@@ -113,7 +113,9 @@ namespace HelloPico2.PlayerController.Arm{
 			var raycastHits = Physics.SphereCastAll(shield.transform.position, range, shield.transform.forward);
 			foreach (var hit in raycastHits)
 			{
-				var interactablePower = hit.transform.GetComponent<InteractablePower>();
+				if (hit.collider == null || !hit.collider.transform.TryGetComponent<InteractablePower>(out var interactablePower)) continue;
+
+				//var interactablePower = hit.transform.GetComponent<InteractablePower>();
 				interactablePower?.OnSelect(inputDetected);
 				yield return new WaitForSeconds(_AbsorbInterpolateDuration);
 			}

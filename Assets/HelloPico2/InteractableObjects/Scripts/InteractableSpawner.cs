@@ -47,9 +47,9 @@ namespace HelloPico2.InteractableObjects
         private void OnDisable()
         {
             foreach (var obj in _Clonelist) {
-                if (obj.TryGetComponent<InteractableBase>(out var interactable)) {
-                    interactable.OnInteractableDisable -= UpdateWhenDestroy; 
-                }
+                if (obj == null || !obj.TryGetComponent<InteractableBase>(out var interactable)) continue;
+                    
+                interactable.OnInteractableDisable -= UpdateWhenDestroy;                 
             }
         }
         public GameObject SpawnObject(Vector3 spawnPos) {
