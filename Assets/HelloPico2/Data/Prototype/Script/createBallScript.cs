@@ -46,7 +46,7 @@ public class createBallScript : MonoBehaviour
         {
             GameObject parentName = GameObject.Find("EnemyPool");
             Vector3 pos = new Vector3(insCreatePos.x + Random.Range(rangSize[0][0], rangSize[1][0]), insCreatePos.y + Random.Range(rangSize[0][1], rangSize[1][1]), insCreatePos.z + Random.Range(rangSize[0][2], rangSize[1][2]));
-            Instantiate(insObj[Random.Range(0, randRange)], pos, Quaternion.identity, parentName.transform);
+            Instantiate(insObj[Random.Range(0, randRange)], pos, insObj[0].transform.localRotation, parentName.transform);
         }
             
 

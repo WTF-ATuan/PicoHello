@@ -45,8 +45,7 @@ public class HandAnim : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-		
+				
 		if(_getItme.targetItemHeld== checkItemHeld)
         {
 			staffCheck();

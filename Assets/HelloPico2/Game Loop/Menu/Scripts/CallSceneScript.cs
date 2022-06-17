@@ -9,7 +9,7 @@ public class CallSceneScript : MonoBehaviour
     public int sceneInt;
     public float coldTimer;
     float countTime;
-    bool isCount;
+    public bool isCollider;
     public void callScene()
     {
         StartCoroutine(LoadNext());
@@ -21,5 +21,13 @@ public class CallSceneScript : MonoBehaviour
         GameObject go = Instantiate(fabeObj);
         go.GetComponent<AsyncLoading>().TargetSceneName = sceneInt;
         yield return null;
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (isCollider)
+        {
+            StartCoroutine(LoadNext());
+            isCollider = false;
+        }
     }
 }
