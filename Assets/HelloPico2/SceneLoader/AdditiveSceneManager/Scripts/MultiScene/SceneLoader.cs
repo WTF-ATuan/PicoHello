@@ -20,6 +20,11 @@ namespace HelloPico2.SceneLoader.AdditiveSceneManager.Scripts.MultiScene{
 			_sceneController = GetComponent<SceneController>();
 		}
 
+		public void EventHandle(CrossEvent loadedEvent){
+			var sceneLoaded = (SceneLoaded)loadedEvent;
+			Debug.Log($"{sceneLoaded.delayTime}");
+		}
+
 		[Button]
 		public async void Invoke(){
 			if(delayTime != 0){
