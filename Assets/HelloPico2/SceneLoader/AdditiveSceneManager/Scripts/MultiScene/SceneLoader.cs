@@ -21,6 +21,8 @@ namespace HelloPico2.SceneLoader.AdditiveSceneManager.Scripts.MultiScene{
 		}
 
 		public void EventHandle(CrossEvent loadedEvent){
+			var sceneLoaded = (SceneLoaded)loadedEvent;
+			Debug.Log($"{sceneLoaded.delayTime}");
 		}
 
 		[Button]

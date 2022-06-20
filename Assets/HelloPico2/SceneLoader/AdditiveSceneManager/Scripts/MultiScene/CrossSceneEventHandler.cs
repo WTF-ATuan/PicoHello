@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Linq;
+using Project;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
@@ -21,6 +23,18 @@ namespace HelloPico2.SceneLoader.AdditiveSceneManager.Scripts.MultiScene{
 		[BoxGroup("Test")]
 		public void InvokeTest(){
 			crossUnityEvent?.Invoke(testEventArg);
+		}
+
+		private void Start(){
+			EventBus.Subscribe<CrossEventPosted>(OnCrossEventPosted);
+		}
+
+		private void OnCrossEventPosted(CrossEventPosted obj){
+			var postedType = obj.EventType;
+			var catchType = catchEventType.GetType();
+			if(postedType != catchType) return;
+			var crossEvent = obj.CrossEvent;
+			crossUnityEvent?.Invoke(crossEvent);
 		}
 
 		private IEnumerable GetCrossEventType(){
