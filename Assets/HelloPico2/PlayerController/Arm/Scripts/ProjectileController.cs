@@ -7,25 +7,29 @@ namespace HelloPico2.PlayerController.Arm
     public class ProjectileController : MonoBehaviour
     {
         [SerializeField] private InteractType _InteractType = InteractType.EnergyBall;
-        private Rigidbody _rigidbody;
-        private float _speed;
-        private float _duration;
         [SerializeField] private float _Lifetime = 10;
         [SerializeField] private bool _ActivateHoming = false;
         [ShowIf("_ActivateHoming")][SerializeField] private float _homingSensativeness;
         [ShowIf("_ActivateHoming")][SerializeField] private float _homingDuration;
 
+        public UnityEngine.Events.UnityEvent WhenShoot;
 
+        private Rigidbody _rigidbody;
+        private float _speed;
+        private float _duration;
+        private AnimationCurve _easingCurve;
         float _step;
         Transform _target;
         Vector3 dir;
 
-        public void ProjectileSetUp(float speed, float duration, Transform target = null) {
+        public void ProjectileSetUp(float speed, float duration, AnimationCurve easingCurve, Transform target = null) {
             if (target) _target = target;
             _rigidbody = GetComponent<Rigidbody>();
             _speed = speed;
             _duration = duration;
+            _easingCurve = easingCurve;
             Destroy(gameObject, _Lifetime);
+            WhenShoot?.Invoke();
         }
         private void Update()
         {
@@ -33,7 +37,7 @@ namespace HelloPico2.PlayerController.Arm
 
             if (_step / _duration <= 1)
             {
-                _rigidbody.velocity = Vector3.Lerp(Vector3.zero, transform.forward * _speed, _step / _duration);
+                _rigidbody.velocity = Vector3.Lerp(Vector3.zero, transform.forward * _speed, _easingCurve.Evaluate(_step / _duration));
             }
 
             if (!_ActivateHoming)

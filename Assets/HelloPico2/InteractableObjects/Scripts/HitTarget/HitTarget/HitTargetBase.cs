@@ -10,6 +10,12 @@ namespace HelloPico2.InteractableObjects
     public class HitTargetBase : MonoBehaviour, IInteractCollide{
 
         [FoldoutGroup("Audio Settings")][SerializeField] private string[] _CollideClipName;
+        [SerializeField] private int _DamageAmount = 0;
+        [SerializeField] private InteractType _InteractType = InteractType.Energy;
+
+        public int damageAmount { get { return _DamageAmount; } }
+        public InteractType interactType { get { return _InteractType; } }
+
         public delegate void InteractDel(Collider selfCollider);
         public InteractDel OnBeamInteract;
         public InteractDel OnWhipInteract;
