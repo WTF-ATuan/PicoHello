@@ -9,6 +9,7 @@ namespace HelloPico2.SceneLoader.AdditiveSceneManager.Scripts.MultiScene{
 	[Serializable]
 	public class SceneLoaded : CrossEvent{
 		public SceneObject sceneObject;
+		public LoadOptions options;
 		public float delayTime;
 	}
 

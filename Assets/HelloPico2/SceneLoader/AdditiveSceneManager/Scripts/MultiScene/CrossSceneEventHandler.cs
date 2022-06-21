@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Linq;
 using Project;
 using Sirenix.OdinInspector;
-using Sirenix.Serialization;
 using UnityEngine;
 
 namespace HelloPico2.SceneLoader.AdditiveSceneManager.Scripts.MultiScene{
 	public class CrossSceneEventHandler : MonoBehaviour{
-		[TypeFilter("GetCrossEventType")] [OdinSerialize]
+		[TypeFilter("GetCrossEventType")] [SerializeReference] 
 		public CrossEvent catchEventType;
 
 		public CrossUnityEvent crossUnityEvent;
