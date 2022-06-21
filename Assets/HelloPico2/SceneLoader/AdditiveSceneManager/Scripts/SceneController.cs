@@ -56,7 +56,8 @@ public class SceneController : MonoBehaviour{
 			if(sceneName == SceneManager.GetSceneAt(i).name) // If the scene we are trying to load is already open stop
 				yield break;
 
-		var async = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+		var mode = autoActivation ? LoadSceneMode.Single : LoadSceneMode.Additive;
+		var async = SceneManager.LoadSceneAsync(sceneName, mode);
 		async.allowSceneActivation = autoActivation;
 		SceneLoadingList.Add(sceneName, async);
 		yield return async;
