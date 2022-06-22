@@ -38,6 +38,7 @@ namespace HelloPico2.PlayerController.Arm
         [FoldoutGroup("Transition")][SerializeField] private Vector3 _SwordFromScale;
         [FoldoutGroup("Transition")][SerializeField] private Ease _TrasitionEaseCurve;
 
+        [FoldoutGroup("Debug")] public bool _OnlyShootProjectileOnEnergyBallState = true;
         [FoldoutGroup("Debug")] public bool _Debug;
         [FoldoutGroup("Debug")] public Vector2 axis;
         [FoldoutGroup("Debug")] public Transform target;
@@ -137,6 +138,7 @@ namespace HelloPico2.PlayerController.Arm
         private void ShootEnergyProjectile(ArmData data)
         {
             if (data.Energy <= 0 || ShootCoolDownProcess != null) return;
+            if (_OnlyShootProjectileOnEnergyBallState && currentShape != currentEnergyBall) return;
 
             data.Energy -= _CostEnergy;
             armLogic.OnEnergyChanged?.Invoke(data);
