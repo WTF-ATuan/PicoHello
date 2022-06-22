@@ -6,11 +6,15 @@ namespace HelloPico2.TutorialSystem{
 	[Serializable]
 	public abstract class AbstractCondition{
 		[ReadOnly] public bool pass;
-		public abstract void ConditionTrackedData(BehaviorTrackedData trackedData);
+		public abstract void EnterTrackedData(BehaviorTrackedData trackedData);
+
+		public void Reset(){
+			pass = false;
+		}
 	}
 
 	public class IsGripCondition : AbstractCondition{
-		public override void ConditionTrackedData(BehaviorTrackedData trackedData){
+		public override void EnterTrackedData(BehaviorTrackedData trackedData){
 			var trackedDataIsGrip = trackedData.IsGrip;
 			if(trackedDataIsGrip){
 				pass = true;
@@ -22,7 +26,7 @@ namespace HelloPico2.TutorialSystem{
 	public class SwordCondition : AbstractCondition{
 		[SerializeField] private float minimumYOffset;
 
-		public override void ConditionTrackedData(BehaviorTrackedData trackedData){
+		public override void EnterTrackedData(BehaviorTrackedData trackedData){
 			var yValue = trackedData.TouchPadAxis.y;
 			if(yValue > minimumYOffset){
 				pass = true;
