@@ -1,7 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 using Sirenix.OdinInspector;
-
+using UnityEngine.Events;
 
 namespace HelloPico2.InteractableObjects
 {
@@ -9,7 +9,7 @@ namespace HelloPico2.InteractableObjects
     {
         public enum ControlMode { BounceSequence, SingleBurst, BurstAndStay }
         [SerializeField] private ControlMode _ControlMode = ControlMode.BounceSequence;
-        [SerializeField]private bool _RunOnEnable = false;
+        [SerializeField] private bool _RunOnEnable = false;
         [SerializeField] private GameObject _ScalingObject;
         [SerializeField] private Vector3 _From;
         [SerializeField] private Vector3 _To;
@@ -17,8 +17,31 @@ namespace HelloPico2.InteractableObjects
         [SerializeField] private int _Loop;
         [SerializeField] private AnimationCurve _EaseCurve;
         //[SerializeField] private Ease _EaseCurve;
+        public ControlMode controlMode { get { return _ControlMode; } set { _ControlMode = value; } }
+        public bool runOnEnable { get { return _RunOnEnable; } set { _RunOnEnable = value; } }
+        public GameObject scalingObject { get { return _ScalingObject; } set { _ScalingObject = value; } }
+        public Vector3 from { get { return _From; } set { _From = value; } }
+        public Vector3 to { get { return _To; } set { _To = value; } }
+        public float duration { get { return _Duration; } set { _Duration = value; } }
+        public int loop { get { return _Loop; } set { _Loop = value; } }
+        public AnimationCurve easeCurve { get { return _EaseCurve; } set { _EaseCurve = value; } }
+
+        public UnityEvent WhenStart;
+        public UnityEvent WhenFinished;
+
+        public System.Action<GameObject> OnStarted;
+        public System.Action<GameObject> OnFinished;
 
         private Vector3 defaultScale;
+        
+        public ObjectScaler (ControlMode controlMode, Vector3 from, Vector3 to, float duration, int loop, AnimationCurve easecurve) {
+            _ControlMode = controlMode;
+            _From = from;
+            _To = to;
+            _Duration = duration;
+            _Loop = loop;
+            _EaseCurve = easecurve;                
+        }  
 
         private void Start()
         {
@@ -73,8 +96,8 @@ namespace HelloPico2.InteractableObjects
                 default:
                     break;
             }
-
-            seq.Play();
+            WhenStart?.Invoke(); OnStarted?.Invoke(gameObject);
+            seq.Play().OnComplete(() => { WhenFinished?.Invoke(); OnFinished?.Invoke(gameObject); });
         }
     }
 }
