@@ -113,7 +113,7 @@ namespace HelloPico2.PlayerController.Arm
 
 			var interactable = obj.Selector.SelectableObject.GetComponent<InteractableBase>();
 			var isTrigger = obj.IsTrigger;			
-			var isTriggerTouch = obj.TouchValue;			
+			var isTriggerTouch = obj.TriggerValue;			
             var isGrip = obj.IsGrip;
             var isGripTouch = obj.GripValue;
             var padAxisTouch = obj.IsPadTouch;

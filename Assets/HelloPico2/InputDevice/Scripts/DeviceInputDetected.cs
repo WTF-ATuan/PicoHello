@@ -6,11 +6,12 @@ namespace HelloPico2.InputDevice.Scripts{
 		public bool IsGrip{ get; set; }
 		public bool IsPrimary{ get; set; }
 		public bool IsSecondary{ get; set; }
-		public Vector2 TouchPadAxis{ get; set; }
-		public float TouchValue{ get; set; }
-		public float GripValue{ get; set; }
 		public bool IsPadTouch{ get; set; }
 		public bool IsPadClick{ get; set; }
+		public Vector2 TouchPadAxis{ get; set; }
+		public float TriggerValue{ get; set; }
+		public float GripValue{ get; set; }
+
 		public ISelector Selector;
 
 		public bool IsSameObject(GameObject gameObject){

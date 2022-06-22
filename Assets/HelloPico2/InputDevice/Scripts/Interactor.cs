@@ -69,7 +69,7 @@ namespace HelloPico2.InputDevice.Scripts{
 		private void DetectInput(){
 			var inputDevice = _controller.inputDevice;
 			inputDevice.TryGetFeatureValue(CommonUsages.triggerButton, out var isTrigger);
-			inputDevice.TryGetFeatureValue(CommonUsages.trigger, out var touchValue);
+			inputDevice.TryGetFeatureValue(CommonUsages.trigger, out var triggerValue);
 			inputDevice.TryGetFeatureValue(CommonUsages.gripButton, out var isGrip);
 			inputDevice.TryGetFeatureValue(CommonUsages.grip, out var gripValue);
 			inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out var touchPadAxis);
@@ -79,7 +79,7 @@ namespace HelloPico2.InputDevice.Scripts{
 			inputDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out var isSecondary);
 			var inputDetected = new DeviceInputDetected{
 				IsTrigger = isTrigger,
-				TouchValue = touchValue,
+				TriggerValue = triggerValue,
 				IsGrip = isGrip,
 				GripValue = gripValue,
 				IsPrimary = isPrimary,
