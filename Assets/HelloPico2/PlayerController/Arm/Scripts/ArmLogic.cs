@@ -33,6 +33,7 @@ namespace HelloPico2.PlayerController.Arm
 		public delegate void InputAction (DeviceInputDetected obj);
 		public ValueAction OnEnergyChanged;
 		public ValueAction OnGripUp;
+		public ValueAction OnTriggerUp;
 		public ValueAction OnTriggerDown;
 		public ValueAction OnPrimaryAxisTouchUp;
 		public ValueAction OnPrimaryAxisClick;
@@ -75,7 +76,11 @@ namespace HelloPico2.PlayerController.Arm
 
             if (isTrigger)
             {
-                OnTriggerDown(data);
+                OnTriggerDown?.Invoke(data);
+            }
+            else
+            { 
+                OnTriggerUp?.Invoke(data);
             }
 
             if (isTriggerTouch > 0 || isGripTouch > 0)
@@ -93,17 +98,17 @@ namespace HelloPico2.PlayerController.Arm
             }
             if (!padAxisTouch)
             {
-                OnPrimaryAxisTouchUp(data);
+                OnPrimaryAxisTouchUp?.Invoke(data);
             }
             if (padAxisClick)
             {
-                OnPrimaryAxisClick(data);
+                OnPrimaryAxisClick?.Invoke(data);
             }
             //if (padAxis.magnitude >= 0.1f && padAxisTouch)
             //{
             //    OnPrimaryAxisInput(padAxis);
             //}
-            OnPrimaryAxisInput(padAxis);
+            OnPrimaryAxisInput?.Invoke(padAxis);
         }
         private void OnDeviceInputDetected(DeviceInputDetected obj)
         {

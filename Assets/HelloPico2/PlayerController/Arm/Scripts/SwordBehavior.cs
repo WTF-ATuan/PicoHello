@@ -25,15 +25,19 @@ namespace HelloPico2.PlayerController.Arm
         [FoldoutGroup("Velocity Detection Settings")][SerializeField] private float _SpeedLimit;
         [FoldoutGroup("Velocity Detection Settings")][SerializeField] private float _ReturnDuring;
 
+        public enum State { sword, whip}
+        [FoldoutGroup("Debug")][ReadOnly][SerializeField] private State _State = State.whip;
         private LightBeamRigController lightBeamRigController;
         private float timer;
         private SkinnedMeshRenderer _beamMesh;
         [MaxValue(1)][MinValue(0)] private float _colorValue;
 
+        public bool _TriggerControlBlendWeight = false;
+
         private ArmLogic armLogic { get; set; }        
         Coroutine TurnOffProcess;
         Coroutine stretchProcess;
-
+        
         public override void Activate(ArmLogic Logic, ArmData data, GameObject lightBeam, Vector3 fromScale)
         {
             armLogic = Logic;
@@ -53,8 +57,15 @@ namespace HelloPico2.PlayerController.Arm
 
             armLogic.OnEnergyChanged += UpdateSwordLength;
             armLogic.OnEnergyChanged += UpdateSwordPosition;
-            armLogic.OnUpdateInput += SetBlendWeight;
             
+            if (!_TriggerControlBlendWeight)
+                armLogic.OnUpdateInput += SetBlendWeight;
+            else
+            {
+                armLogic.OnTriggerUp += ActivateWhip;
+                armLogic.OnTriggerDown += ActivateSword;
+            }
+
             base.Activate(Logic, data, lightBeam, fromScale);
         }
 
@@ -63,7 +74,14 @@ namespace HelloPico2.PlayerController.Arm
             if (armLogic != null)
             {
                 armLogic.OnEnergyChanged -= UpdateSwordLength;
-                armLogic.OnUpdateInput -= SetBlendWeight;
+
+                if (!_TriggerControlBlendWeight)
+                    armLogic.OnUpdateInput -= SetBlendWeight;
+                else
+                { 
+                    armLogic.OnTriggerUp -= ActivateWhip; 
+                    armLogic.OnTriggerDown -= ActivateSword; 
+                }
             }
 
             if(lightBeamRigController) lightBeamRigController.OnCollision -= OnBeamCollide;
@@ -89,6 +107,34 @@ namespace HelloPico2.PlayerController.Arm
             UpdateSwordLength(armLogic.data);
         }
         #region LightBeamController
+        private void ActivateSword(ArmData data) 
+        {
+            print("Active Sword");
+            //if (_State == State.sword) return;
+
+            lightBeamRigController.ModifyBlendWeight(-0.01f);
+
+            _colorValue -= 0.01f;
+            _colorValue = Mathf.Clamp(_colorValue, 0, 1);
+            var lerpColor = Color.Lerp(_ColorSword, _ColorWhip, _colorValue);
+            _beamMesh.material.SetColor(_ColorName, lerpColor);
+
+            _State = State.sword;
+        }
+        private void ActivateWhip(ArmData data)
+        {
+            //if(_State == State.whip) return;
+
+            lightBeamRigController.ModifyBlendWeight(0.01f);
+
+            _colorValue += 0.01f;
+            _colorValue = Mathf.Clamp(_colorValue, 0, 1);
+            var lerpColor = Color.Lerp(_ColorSword, _ColorWhip, _colorValue);
+            _beamMesh.material.SetColor(_ColorName, lerpColor);
+            timer = 0;
+
+            _State = State.whip;
+        }
         private void SetBlendWeight(DeviceInputDetected obj)
         {
             if (obj.Selector.HandType != armLogic.data.HandType) return;
