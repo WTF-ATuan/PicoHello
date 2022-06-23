@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -8,25 +10,24 @@ namespace HelloPico2{
 		menuName = "HelloPico2/ScriptableObject/ ViewEventData Overview",
 		order = 0)]
 	public class ViewEventDataOverview : ScriptableObject{
-		[Button]
-		[PropertyOrder(0)]
-		public void CreateAudioEvent(){
-			var audioEvent = new AudioData();
-			viewEventDataList.Add(audioEvent);
+		[TypeFilter("GetEventType")] [HideReferenceObjectPicker] [InlineButton("CreateEvent")]
+		public ViewEventData eventData;
+
+		private IEnumerable GetEventType(){
+			var eventType = typeof(ViewEventData).Assembly
+					.GetTypes()
+					.Where(x => !x.IsAbstract)
+					.Where(x => !x.IsGenericTypeDefinition)
+					.Where(x => typeof(ViewEventData).IsAssignableFrom(x));
+			return eventType;
 		}
 
-		[Button]
-		[PropertyOrder(0)]
-		public void CreateParticleEvent(){
-			var particleData = new ParticleData();
-			viewEventDataList.Add(particleData);
-		}
-
-		[Button]
-		[PropertyOrder(0)]
-		public void CreateModuleModelEvent(){
-			var moduleModel = new ModuleModel();
-			viewEventDataList.Add(moduleModel);
+		private void CreateEvent(){
+			var type = eventData.GetType();
+			if(type == typeof(ViewEventData)) Debug.Log($"Choose else Event");
+			var instance = Activator.CreateInstance(type);
+			var data = (ViewEventData)instance;
+			viewEventDataList.Add(data);
 		}
 
 		[SerializeReference] [PropertyOrder(100)]
