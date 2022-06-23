@@ -4,30 +4,33 @@ using UnityEngine;
 
 public class CallSceneScript : MonoBehaviour
 {
-    public GameObject[] checkList;
-    public GameObject fabeObj;
-    public int sceneInt;
-    public float coldTimer;
-    float countTime;
-    public bool isCollider;
-    public void callScene()
+    public GameObject[] showList;
+    public GameObject[] hideList;
+    
+
+    public bool isCheck;
+    
+    public void Update()
     {
-        StartCoroutine(LoadNext());
+        if (!isCheck) return;
+        foreach (GameObject showObjElement in showList)
+        {
+            showObjElement.SetActive(true);
+        }
+        foreach (GameObject hideObjElement in hideList)
+        {
+            hideObjElement.SetActive(false);
+        }
+        isCheck = false;
     }
     
+    /*
     IEnumerator LoadNext()
     {
         yield return new WaitForSeconds(coldTimer);
         GameObject go = Instantiate(fabeObj);
         go.GetComponent<AsyncLoading>().TargetSceneName = sceneInt;
         yield return null;
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (isCollider)
-        {
-            StartCoroutine(LoadNext());
-            isCollider = false;
-        }
-    }
+    }*/
+
 }
