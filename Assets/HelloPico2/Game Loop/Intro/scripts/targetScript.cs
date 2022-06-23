@@ -5,36 +5,49 @@ using UnityEngine;
 
 public class targetScript : MonoBehaviour
 {
-    public GameObject tragetObj;
     public TargetItem_SO menuCheck;
-    public GameObject hideObj;
     public GameObject[] showObj;
-    public int checkHeld;
-    public bool isOnTrigget;
-    public bool isTimeLine;
-    TimeLineControlScript _timeLineControl;
-    
-    int showLength;
+    public GameObject[] hideList;
 
+    public int checkHeld;
     public bool isCheckSel;
+    public bool isTrigger;
+    bool isShowList;
+    bool isHideList;
     
-    
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        showLength = showObj.Length;
+        if (showObj.Length != 0)
+        {
+            isShowList = true;
+        }
+        if (hideList.Length != 0)
+        {
+            isHideList = true;
+        }
     }
     private void Update()
     {
         if (!isCheckSel) return;
-            
-        if(menuCheck.targetItemHeld == checkHeld)
+
+        
+        if (menuCheck.targetItemHeld == checkHeld)
         {
-                transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, 0.1f);
-            if (isTimeLine)
+            transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, 0.1f);
+
+            if (isShowList)
             {
-                showObj[0].SetActive(true);
-                hideObj.SetActive(false);
+                foreach (GameObject showObjElement in showObj)
+                {
+                    showObjElement.SetActive(true);
+                }
+            }
+            if(isHideList)
+            {
+                foreach (GameObject hideObjElement in hideList)
+                {
+                    hideObjElement.SetActive(false);
+                }
             }
             Destroy(gameObject, 3); 
         }
@@ -42,19 +55,15 @@ public class targetScript : MonoBehaviour
     
     public void AddItemHeld()
     {
-        menuCheck.targetItemHeld += 1;
+        menuCheck.targetItemHeld = checkHeld;
+        isCheckSel = true;
     }
-
-    IEnumerator setActiveObj()
-    {
-        yield return new WaitForSeconds(3);
-        Destroy(gameObject, 1);
-    }
+   
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && isOnTrigget)
+        if (isTrigger)
         {
-            menuCheck.targetItemHeld += 1;
+            menuCheck.targetItemHeld = checkHeld;
             isCheckSel = true;
         }
     }
