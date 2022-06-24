@@ -6415,9 +6415,12 @@ MonoBehaviour:
   _SpawnThis: {fileID: 6525888332042859794, guid: c56cb066b2767b74fb10c69b3b760375, type: 3}
   _SpawnPosition: {fileID: 1250231790}
   _SpawnOffset: 0.28
+  _SpawnRotation: {x: 0, y: 0, z: 0}
   _MaxAmount: 5
   _RefillDelayDuration: 1
   _Clonelist: []
+  _SpawnWavesAmount: 1
+  _WaveDelayDuration: 5
   _DrawColor: {r: 0, g: 1, b: 0.22601199, a: 0.011764706}
 --- !u!1 &460449478
 GameObject:
@@ -6660,11 +6663,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ActiveDuration: 0
   _DeactiveDuration: 0
+  _DefaultOffset: {x: 0, y: 0, z: 0}
+  _OffsetRange: {x: -0.08, y: -0.45}
   _Pivot: {fileID: 826650822}
   _ChargingEnergyBall: {fileID: 7744332965651290996, guid: 1c06fa9c5595173459a4157ebf0670d7, type: 3}
-  _DefaultOffset: {x: 0, y: 0, z: 0}
   _ScaleRange: {x: 0.02, y: 0.7}
-  _OffsetRange: {x: -0.08, y: -0.45}
   _ScalingSpeed: 1
   _EnergyProjectile: {fileID: 209317907826756382, guid: 1c0c93807ed150246ab8bba96783c335, type: 3}
   _ChargedEnergyProjectile: {fileID: 209317907826756382, guid: ca5317955f142e242a16cc4f2e36a3c6, type: 3}
@@ -6674,15 +6677,23 @@ MonoBehaviour:
   _ShootCoolDown: 0.2
   _CostEnergy: 10
   _SpeedBufferDuration: 1
+  _SpeedBufferEasingCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _Sword: {fileID: 1756181232}
   _Whip: {fileID: 1756181232}
   _Shield: {fileID: 1430635831}
   _TransitionDuration: 0.3
   _SwordFromScale: {x: 0.2, y: 0.2, z: 0.2}
   _TrasitionEaseCurve: 1
+  _OnlyShootProjectileOnEnergyBallState: 1
   _Debug: 0
   axis: {x: 1, y: 1}
   target: {fileID: 0}
+  hasTransformProcess: 0
 --- !u!114 &523402687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6985,14 +6996,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ActiveDuration: 0.5
   _DeactiveDuration: 0.3
+  _DefaultOffset: {x: 0, y: 0, z: 0}
+  _OffsetRange: {x: 0, y: 0}
   _ModifyLengthStep: 0.3
   _TurnOnDuration: 0.01
   _TurnOffDuration: 0.01
+  _SpentEnergyWhenCollide: 30
   _ColorName: _RimColor
   _ColorSword: {r: 0.31764707, g: 0.5764706, b: 1, a: 1}
   _ColorWhip: {r: 1, g: 0.3176471, b: 0.3176471, a: 1}
   _SpeedLimit: 0.5
   _ReturnDuring: 0.4
+  _State: 1
+  _TriggerControlBlendWeight: 0
 --- !u!114 &523402692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7007,8 +7023,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ActiveDuration: 0.5
   _DeactiveDuration: 0.3
+  _DefaultOffset: {x: 0, y: 0, z: 0}
+  _OffsetRange: {x: 0, y: 0}
   _ScaleRange: {x: 0.01, y: 0.7}
   _ScalingDuration: 0.5
+  _SpentEnergyWhenCollide: 30
+  _AbsorbCoolDownDuration: 0.5
+  _AbsorbInterpolateDuration: 0.1
+  range: 0
+  speedLimit: 0
+  speedDuring: 0
 --- !u!82 &523402693
 AudioSource:
   m_ObjectHideFlags: 0
@@ -12481,9 +12505,12 @@ MonoBehaviour:
   _SpawnThis: {fileID: 8011040258393240782, guid: 3dfe3f9d62946c2459b0dab2dab93623, type: 3}
   _SpawnPosition: {fileID: 439208650}
   _SpawnOffset: 5.6
+  _SpawnRotation: {x: 0, y: 0, z: 0}
   _MaxAmount: 3
   _RefillDelayDuration: 1
   _Clonelist: []
+  _SpawnWavesAmount: 1
+  _WaveDelayDuration: 5
   _DrawColor: {r: 0, g: 1, b: 0.22601199, a: 0.011764706}
 --- !u!1 &727378812
 GameObject:
@@ -28970,9 +28997,12 @@ MonoBehaviour:
   _SpawnThis: {fileID: 1291713887907915246, guid: c273fc1298127d444afbe0b860528cb8, type: 3}
   _SpawnPosition: {fileID: 773277921}
   _SpawnOffset: 5.6
+  _SpawnRotation: {x: 0, y: 0, z: 0}
   _MaxAmount: 3
   _RefillDelayDuration: 1
   _Clonelist: []
+  _SpawnWavesAmount: 1
+  _WaveDelayDuration: 5
   _DrawColor: {r: 0, g: 1, b: 0.22601199, a: 0.011764706}
 --- !u!1 &1086968292
 GameObject:
@@ -43986,7 +44016,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1291459426
 Transform:
   m_ObjectHideFlags: 0
@@ -49459,7 +49489,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1441840087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49538,6 +49568,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _CollideClipName: []
+  _DamageAmount: 0
+  _InteractType: 4
   WhenCollide:
     m_PersistentCalls:
       m_Calls: []
@@ -49842,6 +49874,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8233d90336aea43098adf6dbabd606a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_MeshFormatVersion: 0
+  m_Faces: []
+  m_SharedVertices: []
+  m_SharedTextures: []
+  m_Positions: []
+  m_Textures0: []
+  m_Textures2: []
+  m_Textures3: []
+  m_Tangents: []
+  m_Colors: []
+  m_UnwrapParameters:
+    m_HardAngle: 88
+    m_PackMargin: 20
+    m_AngleError: 8
+    m_AreaError: 15
+  m_PreserveMeshAssetOnDestroy: 0
+  assetGuid: 
+  m_Mesh: {fileID: 0}
+  m_IsSelectable: 1
+  m_SelectedFaces: 
+  m_SelectedEdges: []
+  m_SelectedVertices: 
 --- !u!1001 &1710781668
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56659,14 +56713,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ActiveDuration: 0.5
   _DeactiveDuration: 0.3
+  _DefaultOffset: {x: 0, y: 0, z: 0}
+  _OffsetRange: {x: 0, y: 0}
   _ModifyLengthStep: 0.3
   _TurnOnDuration: 0.01
   _TurnOffDuration: 0.01
+  _SpentEnergyWhenCollide: 30
   _ColorName: _RimColor
   _ColorSword: {r: 0.31764707, g: 0.5764706, b: 1, a: 1}
   _ColorWhip: {r: 1, g: 0.3176471, b: 0.3176471, a: 1}
   _SpeedLimit: 0.5
   _ReturnDuring: 0.4
+  _State: 1
+  _TriggerControlBlendWeight: 0
 --- !u!114 &2098583259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56881,11 +56940,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ActiveDuration: 0
   _DeactiveDuration: 0
+  _DefaultOffset: {x: 0, y: 0, z: 0}
+  _OffsetRange: {x: -0.08, y: -0.45}
   _Pivot: {fileID: 878960990}
   _ChargingEnergyBall: {fileID: 7744332965651290996, guid: 1c06fa9c5595173459a4157ebf0670d7, type: 3}
-  _DefaultOffset: {x: 0, y: 0, z: 0}
   _ScaleRange: {x: 0.02, y: 0.7}
-  _OffsetRange: {x: -0.08, y: -0.45}
   _ScalingSpeed: 1
   _EnergyProjectile: {fileID: 209317907826756382, guid: 1c0c93807ed150246ab8bba96783c335, type: 3}
   _ChargedEnergyProjectile: {fileID: 209317907826756382, guid: ca5317955f142e242a16cc4f2e36a3c6, type: 3}
@@ -56895,15 +56954,23 @@ MonoBehaviour:
   _ShootCoolDown: 0.2
   _CostEnergy: 10
   _SpeedBufferDuration: 1
+  _SpeedBufferEasingCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _Sword: {fileID: 566212393}
   _Whip: {fileID: 566212393}
   _Shield: {fileID: 628363523}
   _TransitionDuration: 0.3
   _SwordFromScale: {x: 0.2, y: 0.2, z: 0.2}
   _TrasitionEaseCurve: 1
+  _OnlyShootProjectileOnEnergyBallState: 1
   _Debug: 0
   axis: {x: 1, y: 1}
   target: {fileID: 0}
+  hasTransformProcess: 0
 --- !u!114 &2098583262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57006,8 +57073,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ActiveDuration: 0.5
   _DeactiveDuration: 0.3
+  _DefaultOffset: {x: 0, y: 0, z: 0}
+  _OffsetRange: {x: 0, y: 0}
   _ScaleRange: {x: 0.01, y: 0.7}
   _ScalingDuration: 0.5
+  _SpentEnergyWhenCollide: 30
+  _AbsorbCoolDownDuration: 0.5
+  _AbsorbInterpolateDuration: 0.1
+  range: 0
+  speedLimit: 0
+  speedDuring: 0
 --- !u!82 &2098583265
 AudioSource:
   m_ObjectHideFlags: 0
@@ -57303,6 +57378,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8233d90336aea43098adf6dbabd606a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_MeshFormatVersion: 0
+  m_Faces: []
+  m_SharedVertices: []
+  m_SharedTextures: []
+  m_Positions: []
+  m_Textures0: []
+  m_Textures2: []
+  m_Textures3: []
+  m_Tangents: []
+  m_Colors: []
+  m_UnwrapParameters:
+    m_HardAngle: 88
+    m_PackMargin: 20
+    m_AngleError: 8
+    m_AreaError: 15
+  m_PreserveMeshAssetOnDestroy: 0
+  assetGuid: 
+  m_Mesh: {fileID: 0}
+  m_IsSelectable: 1
+  m_SelectedFaces: 
+  m_SelectedEdges: []
+  m_SelectedVertices: 
 --- !u!1 &2134002810
 GameObject:
   m_ObjectHideFlags: 0
