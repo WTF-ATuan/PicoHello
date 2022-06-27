@@ -4,25 +4,38 @@ using System.IO;
 using Melanchall.DryWetMidi.Core;
 using Melanchall.DryWetMidi.Interaction;
 using Sirenix.OdinInspector;
+using Sirenix.OdinInspector.Editor;
+using UnityEditor;
 using UnityEngine;
 
-namespace HelloPico2.RhythmCreate.Scripts{
-	public class MidiFileGenBuilder : MonoBehaviour{
-		[FilePath] public string readPath;
+namespace HelloPico2.RhythmCreate.Scripts.Editor{
+	public class MidiFileEditor : OdinEditorWindow{
+		[MenuItem("Tools/Pico/MidiFileEditor")]
+		private static void OpenWindow(){
+			GetWindow<MidiFileEditor>().Show();
+		}
 
-		[EnumPaging] [InlineButton("Read")] public Melanchall.DryWetMidi.MusicTheory.NoteName noteRestriction;
+		[Title("Read Data")] [Required] [BoxGroup] [Sirenix.OdinInspector.FilePath]
+		public string readPath;
 
-		[HideLabel] [FolderPath] [HorizontalGroup("Save")]
+		[EnumPaging] [InlineButton("Read")] [BoxGroup]
+		public Melanchall.DryWetMidi.MusicTheory.NoteName noteRestriction;
+
+		[HideLabel] [FolderPath] [HorizontalGroup("Save")] [PropertyOrder(2)] [Title("Save Data")]
 		public string savePath;
 
-		[HideLabel] [InlineButton("Save")] [HorizontalGroup("Save")]
+		[HideLabel] [InlineButton("Save")] [HorizontalGroup("Save")] [PropertyOrder(2)] [Title("Save Data")]
 		public string fileName;
 
-		[ReadOnly] public List<double> timeStamps = new List<double>();
+		[ReadOnly] [BoxGroup] public List<double> timeStamps = new List<double>();
+
+		[AssetList(Path = "/Resources/RhythmCreateData/")] [PropertyOrder(3)]
+		public List<TextAsset> dataFileList;
 
 
 		private void Read(){
 			if(readPath.Length < 1) return;
+			timeStamps.Clear();
 			var midiFile = MidiFile.Read(readPath);
 			var midiFileNotes = midiFile.GetNotes();
 			var notes = new Melanchall.DryWetMidi.Interaction.Note[midiFileNotes.Count];
@@ -50,6 +63,7 @@ namespace HelloPico2.RhythmCreate.Scripts{
 			writer.Close();
 			fileStream.Close();
 			Debug.Log("Write <color=#00FF00>Complete</color>;");
+			AssetDatabase.Refresh();
 		}
 	}
 }

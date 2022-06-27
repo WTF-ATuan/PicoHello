@@ -11,7 +11,9 @@ public partial class SceneControllerInspector
         if (Application.isPlaying)
         {
             sceneController.fullyLoadedScenes.Remove(scene);
+            #pragma warning disable CS0618
             SceneManager.UnloadScene(sceneName);
+            #pragma warning restore CS0618
         }
         else
         {
