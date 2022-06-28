@@ -43,20 +43,18 @@ namespace HelloPico2.RhythmCreate.Scripts{
 				}
 			}
 
-			if(_inputIndex < timeStamps.Count){
-				var timeStamp = timeStamps[_inputIndex];
-				var marginOfError = SongManager.Instance.marginOfError;
-				var audioTime = SongManager.GetAudioSourceTime() -
-								(SongManager.Instance.inputDelayInMilliseconds / 1000.0);
+			if(_inputIndex >= timeStamps.Count) return;
+			var timeStamp = timeStamps[_inputIndex];
+			var marginOfError = SongManager.Instance.marginOfError;
+			var audioTime = SongManager.GetAudioSourceTime() - SongManager.Instance.inputDelayInMilliseconds / 1000.0;
+			
+			if(Math.Abs(audioTime - timeStamp) < marginOfError){
+				Destroy(_notes[_inputIndex].gameObject);
+				_inputIndex++;
+			}
 
-				if(Math.Abs(audioTime - timeStamp) < marginOfError){
-					Destroy(_notes[_inputIndex].gameObject);
-					_inputIndex++;
-				}
-
-				if(timeStamp + marginOfError <= audioTime){
-					_inputIndex++;
-				}
+			if(timeStamp + marginOfError <= audioTime){
+				_inputIndex++;
 			}
 		}
 	}

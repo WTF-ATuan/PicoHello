@@ -1,11 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Melanchall.DryWetMidi.Core;
 using Melanchall.DryWetMidi.Interaction;
-using System.IO;
-using UnityEngine.Networking;
-using System;
 
 public class SongManager : MonoBehaviour
 {
@@ -22,13 +17,7 @@ public class SongManager : MonoBehaviour
     public float noteTime;
     public float noteSpawnY;
     public float noteTapY;
-    public float noteDespawnY
-    {
-        get
-        {
-            return noteTapY - (noteSpawnY - noteTapY);
-        }
-    }
+    public float noteDespawnY => noteTapY - (noteSpawnY - noteTapY);
 
     public static MidiFile midiFile;
     // Start is called before the first frame update
@@ -64,8 +53,4 @@ public class SongManager : MonoBehaviour
         return (double)Instance.audioSource.timeSamples / Instance.audioSource.clip.frequency;
     }
 
-    void Update()
-    {
-        
-    }
 }
