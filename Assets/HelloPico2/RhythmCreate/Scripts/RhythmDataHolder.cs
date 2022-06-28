@@ -6,18 +6,30 @@ using UnityEngine;
 
 namespace HelloPico2.RhythmCreate.Scripts{
 	[RequireComponent(typeof(AudioSource))]
-	public class RhythmDataHolder : MonoBehaviour{
+	public class RhythmDataHolder : MonoBehaviour, IRhythmTime{
 		private AudioSource _audioSource;
-		[SerializeField] private List<LaneByRead> laneList;
+		[SerializeField] private List<LaneSpawner> laneList;
 
 		[SerializeField] [Required] [FilePath(ParentFolder = "Assets/Resources", Extensions = "txt , json")]
 		private string fileName;
 
 		private void Start(){
 			_audioSource = GetComponent<AudioSource>();
+			// ReadMidiFile();
+			InitLaneSpawner();
+		}
+
+		private void InitLaneSpawner(){
+			foreach(var laneSpawner in laneList){
+				laneSpawner.Init(this);
+			}
+		}
+
+		private void ReadMidiFile(){
 			var dotIndex = fileName.IndexOf('.');
 			var targetFileName = fileName.Remove(dotIndex);
 			var dataText = Resources.Load<TextAsset>(targetFileName);
+			//TODO DataHolder will translate the dataText to timeStamps;
 		}
 
 		private void Play(){
@@ -25,7 +37,12 @@ namespace HelloPico2.RhythmCreate.Scripts{
 		}
 
 		public double GetAudioSourceTime(){
+			if(!_audioSource.clip) throw new Exception("Clip is Not Assign");
 			return (double)_audioSource.timeSamples / _audioSource.clip.frequency;
 		}
+	}
+
+	public interface IRhythmTime{
+		public double GetAudioSourceTime();
 	}
 }
