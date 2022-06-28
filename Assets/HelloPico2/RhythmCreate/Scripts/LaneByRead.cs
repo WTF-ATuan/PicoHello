@@ -17,11 +17,14 @@ namespace HelloPico2.RhythmCreate.Scripts{
 		private int _inputIndex = 0;
 
 		// Start is called before the first frame update
+		public void Init(string dataPath){
+			
+		}
+
 		private void Start(){
 			_randomPrefabCountLimit = notePrefab.Length;
 			SetTimeStamps();
 		}
-
 		private void SetTimeStamps(){
 			var reader = new StreamReader(fileName);
 			Debug.Log($"{reader.EndOfStream}");
