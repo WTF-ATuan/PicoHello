@@ -55795,7 +55795,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1787680573}
-  - component: {fileID: 1787680572}
   - component: {fileID: 1787680575}
   - component: {fileID: 1787680574}
   m_Layer: 0
@@ -55805,31 +55804,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1787680572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1787680571}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 381b25e402e568245ac0630b975b1342, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 159419516}
-  lanes:
-  - {fileID: 2073587298}
-  - {fileID: 1856990796}
-  - {fileID: 1441840087}
-  - {fileID: 633316277}
-  songDelayInSeconds: 0
-  marginOfError: 0.07
-  inputDelayInMilliseconds: 0
-  fileLocation: ch2.mid
-  noteTime: 20
-  noteSpawnY: 50
-  noteTapY: -10
 --- !u!4 &1787680573
 Transform:
   m_ObjectHideFlags: 0
@@ -55858,7 +55832,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   laneList:
   - {fileID: 2073587300}
-  fileName: 
+  fileName: RhythmCreateData/test.txt
 --- !u!82 &1787680575
 AudioSource:
   m_ObjectHideFlags: 0
@@ -56491,7 +56465,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2073587299}
-  - component: {fileID: 2073587298}
   - component: {fileID: 2073587300}
   m_Layer: 0
   m_Name: EnemyLaneC
@@ -56500,22 +56473,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2073587298
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2073587297}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01e14d6414030f54c8c1c6667d220fe5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  noteRestriction: 0
-  notePrefab:
-  - {fileID: 7915292002236223560, guid: 4dda94a14c859354eb3be2d9dadc73ab, type: 3}
-  timeStamps: []
 --- !u!4 &2073587299
 Transform:
   m_ObjectHideFlags: 0
@@ -56542,10 +56499,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faf71e99459347829c946c7ca4597df6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fileName: Assets/Resources/RhythmCreateData/ch2 note C.txt
   prefabList:
   - {fileID: 7915292002236223560, guid: 4dda94a14c859354eb3be2d9dadc73ab, type: 3}
-  timeStamps: []
+  laneNote: 9
+  timeStamps:
+  - 6.857
+  - 17.142
+  - 23.999
+  - 35.999
+  - 44.571
+  - 61.714
+  - 71.999
+  - 77.142
+  - 83.999
+  - 101.142
+  - 107.999
+  - 118.285
 --- !u!21 &2075224637
 Material:
   serializedVersion: 6

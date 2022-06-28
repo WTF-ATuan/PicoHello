@@ -15,17 +15,17 @@ namespace HelloPico2.RhythmCreate.Scripts{
 		private void ReadTextData(string original){
 			var lines = original.Split(new[]{ Environment.NewLine }, StringSplitOptions.None);
 			for(var i = 0; i < lines.Length; i += 2){
+				var j = i + 1;
+				if(j >= lines.Length) return;
 				var noteName = lines[i];
 				Enum.TryParse<NoteName>(noteName, out var note);
 				var timeStampList = new List<double>();
-				for(var j = 1; j < lines.Length; j += 2){
-					var timeStampData = lines[j].Split(',');
-					foreach(var timeStamp in timeStampData)
-						if(double.TryParse(timeStamp, out var stamp))
-							timeStampList.Add(stamp);
-				}
+				var timeStampData = lines[j].Split(',');
+				foreach(var timeStamp in timeStampData)
+					if(double.TryParse(timeStamp, out var stamp))
+						timeStampList.Add(stamp);
 
-				if(!StampDictionary.ContainsKey(note)) StampDictionary.Add(note, timeStampList);
+				StampDictionary.Add(note, timeStampList);
 			}
 		}
 	}
