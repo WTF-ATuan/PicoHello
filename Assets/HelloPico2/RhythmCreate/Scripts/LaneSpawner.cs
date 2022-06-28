@@ -6,7 +6,7 @@ using UnityEngine;
 namespace HelloPico2.RhythmCreate.Scripts{
 	public class LaneSpawner : MonoBehaviour{
 		public GameObject[] prefabList;
-		[SerializeField] private NoteName laneNote;
+		[SerializeField] [EnumPaging] private NoteName laneNote;
 		private int _randomPrefabCountLimit;
 		private readonly List<GameObject> _objectPool = new List<GameObject>();
 		[ReadOnly] public List<double> timeStamps = new List<double>();
