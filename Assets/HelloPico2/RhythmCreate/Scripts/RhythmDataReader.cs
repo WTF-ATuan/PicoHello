@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Melanchall.DryWetMidi.MusicTheory;
 using UnityEngine;
 
@@ -15,17 +14,18 @@ namespace HelloPico2.RhythmCreate.Scripts{
 
 		private void ReadTextData(string original){
 			var lines = original.Split(new[]{ Environment.NewLine }, StringSplitOptions.None);
-			var lineLength = lines.Length / 2;
-			for(var i = 0; i < lineLength; i += 2){
+			for(var i = 0; i < lines.Length; i += 2){
 				var noteName = lines[i];
 				Enum.TryParse<NoteName>(noteName, out var note);
 				var timeStampList = new List<double>();
-				for(var j = 1; j < lineLength; j += 2){
+				for(var j = 1; j < lines.Length; j += 2){
 					var timeStampData = lines[j].Split(',');
-					timeStampList.AddRange(timeStampData.Select(double.Parse));
+					foreach(var timeStamp in timeStampData)
+						if(double.TryParse(timeStamp, out var stamp))
+							timeStampList.Add(stamp);
 				}
 
-				StampDictionary.Add(note, timeStampList);
+				if(!StampDictionary.ContainsKey(note)) StampDictionary.Add(note, timeStampList);
 			}
 		}
 	}

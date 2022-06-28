@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Melanchall.DryWetMidi.MusicTheory;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -15,7 +14,7 @@ namespace HelloPico2.RhythmCreate.Scripts{
 
 		private void Start(){
 			_audioSource = GetComponent<AudioSource>();
-			// ReadMidiFile();
+			ReadMidiFile();
 			InitLaneSpawner();
 		}
 
@@ -25,11 +24,12 @@ namespace HelloPico2.RhythmCreate.Scripts{
 			}
 		}
 
+		[Button]
 		private void ReadMidiFile(){
 			var dotIndex = fileName.IndexOf('.');
 			var targetFileName = fileName.Remove(dotIndex);
 			var dataText = Resources.Load<TextAsset>(targetFileName);
-			//TODO DataHolder will translate the dataText to timeStamps;
+			var rhythmDataReader = new RhythmDataReader(dataText);
 		}
 
 		private void Play(){
