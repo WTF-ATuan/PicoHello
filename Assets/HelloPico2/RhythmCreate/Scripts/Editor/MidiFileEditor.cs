@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using Melanchall.DryWetMidi.Core;
@@ -25,8 +26,6 @@ namespace HelloPico2.RhythmCreate.Scripts.Editor{
 
 		[HideLabel] [InlineButton("Save")] [HorizontalGroup("Save")] [PropertyOrder(2)] [Title("Save Data")]
 		public string fileName;
-
-		[ReadOnly] [BoxGroup] public List<double> timeStamps = new List<double>();
 
 		[OdinSerialize]
 		[BoxGroup]
@@ -70,8 +69,13 @@ namespace HelloPico2.RhythmCreate.Scripts.Editor{
 			var filePath = savePath + $"/{fileName}.txt";
 			var fileStream = File.Create(filePath);
 			var writer = new StreamWriter(fileStream);
-			foreach(var timeStamp in timeStamps){
-				writer.WriteLine(timeStamp.ToString(CultureInfo.InvariantCulture));
+			foreach(var noteStamps in noteStampDictionary){
+				var noteName = noteStamps.Key;
+				writer.Write(noteName + Environment.NewLine);
+				foreach(var timeStamp in noteStamps.Value)
+					writer.Write(timeStamp.ToString(CultureInfo.InvariantCulture) + ",");
+
+				writer.Write(Environment.NewLine);
 			}
 
 			writer.Close();
