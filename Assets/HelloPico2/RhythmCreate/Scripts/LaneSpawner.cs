@@ -1,36 +1,29 @@
 ﻿using System.Collections.Generic;
-using System.IO;
+using Melanchall.DryWetMidi.MusicTheory;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace HelloPico2.RhythmCreate.Scripts{
 	public class LaneSpawner : MonoBehaviour{
-		[SerializeField] [FilePath] [Required] private string fileName;
 		public GameObject[] prefabList;
+		[SerializeField] private NoteName laneNote;
 		private int _randomPrefabCountLimit;
 		private readonly List<GameObject> _objectPool = new List<GameObject>();
 		[ReadOnly] public List<double> timeStamps = new List<double>();
 
 		private int _spawnIndex = 0;
 		private IRhythmTime _rhythmTime;
-		
-		public void Init(IRhythmTime rhythmTime){
-			_rhythmTime = rhythmTime;
-			_randomPrefabCountLimit = prefabList.Length;
-			SetTimeStamps();
+
+		public NoteName GetLaneNote(){
+			return laneNote;
 		}
 
-		private void SetTimeStamps(){
-			var reader = new StreamReader(fileName);
-			Debug.Log($"{reader.EndOfStream}");
-			while(!reader.EndOfStream){
-				var readData = reader.ReadLine();
-				if(readData == null) continue;
-				var doubleValue = double.Parse(readData);
-				timeStamps.Add(doubleValue);
-			}
+		public void Init(IRhythmTime rhythmTime, List<double> timeStampList){
+			_rhythmTime = rhythmTime;
+			_randomPrefabCountLimit = prefabList.Length;
+			timeStamps = timeStampList;
 		}
+
 
 		private void Update(){
 			Spawn();

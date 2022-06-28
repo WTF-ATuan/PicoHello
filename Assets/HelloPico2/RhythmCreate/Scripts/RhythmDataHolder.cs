@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Melanchall.DryWetMidi.MusicTheory;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -13,15 +12,21 @@ namespace HelloPico2.RhythmCreate.Scripts{
 		[SerializeField] [Required] [FilePath(ParentFolder = "Assets/Resources", Extensions = "txt , json")]
 		private string fileName;
 
+		private RhythmDataReader _dataReader;
+
 		private void Start(){
 			_audioSource = GetComponent<AudioSource>();
-			// ReadMidiFile();
+			ReadMidiFile();
 			InitLaneSpawner();
 		}
 
 		private void InitLaneSpawner(){
 			foreach(var laneSpawner in laneList){
-				laneSpawner.Init(this);
+				var stampDictionary = _dataReader.StampDictionary;
+				var containsKey = stampDictionary.ContainsKey(laneSpawner.GetLaneNote());
+				if(!containsKey) throw new Exception($"{laneSpawner.GetLaneNote()} is not found in {fileName}");
+				var timeStamps = stampDictionary[laneSpawner.GetLaneNote()];
+				laneSpawner.Init(this, timeStamps);
 			}
 		}
 
@@ -29,7 +34,7 @@ namespace HelloPico2.RhythmCreate.Scripts{
 			var dotIndex = fileName.IndexOf('.');
 			var targetFileName = fileName.Remove(dotIndex);
 			var dataText = Resources.Load<TextAsset>(targetFileName);
-			//TODO DataHolder will translate the dataText to timeStamps;
+			_dataReader = new RhythmDataReader(dataText);
 		}
 
 		private void Play(){
