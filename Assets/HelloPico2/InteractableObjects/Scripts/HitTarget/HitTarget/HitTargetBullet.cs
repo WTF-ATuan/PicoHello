@@ -42,6 +42,9 @@ namespace HelloPico2.InteractableObjects
                 transform.position));
             PlayRandomAudio();
 
+            if(TryGetComponent<MoveObject>(out var moveObj))
+                moveObj.speed = 0;
+
             Destroy(gameObject, _DestroyDelayDuration);             
         }
     }

@@ -14,6 +14,8 @@ namespace HelloPico2.RhythmCreate.Scripts{
 		private int _spawnIndex = 0;
 		private IRhythmTime _rhythmTime;
 
+		public System.Action<GameObject> OnSpawn { get; set; }
+
 		public NoteName GetLaneNote(){
 			return laneNote;
 		}
@@ -35,6 +37,8 @@ namespace HelloPico2.RhythmCreate.Scripts{
 					var instance = Instantiate(prefabList[Random.Range(0, _randomPrefabCountLimit)], transform);
 					_objectPool.Add(instance);
 					_spawnIndex++;
+
+					OnSpawn?.Invoke(instance);
 				}
 			}
 		}

@@ -34,6 +34,9 @@ namespace HelloPico2.PlayerController.Player
         {
             playerData.receiveDamageFeedback.PlayFeedbacks();
 
+            var collide = other.GetComponent<IInteractCollide>();
+            collide?.OnCollide(InteractType.Eye, null);
+
             ReceiveDamageData eventDate = new ReceiveDamageData();
             var hitTarget = other.GetComponentInChildren<HitTargetBase>();
             eventDate.DamageAmount = hitTarget.damageAmount;
