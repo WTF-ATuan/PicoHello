@@ -29,7 +29,7 @@ namespace HelloPico2.EyeTracking{
 			var directionOffset = matrix4X4.MultiplyVector(direction);
 			var ray = new Ray(originOffset, directionOffset);
 			if(!Physics.Raycast(ray, out var hit, rayCastMaxDistance)) return;
-			signObject.DOMove(hit.point, 1 / Time.deltaTime).SetEase(Ease.Linear);
+			signObject.position = hit.point;
 			var collide = hit.collider.GetComponent<IInteractCollide>();
 			collide?.OnCollide(InteractType.Eye, null);
 		}
