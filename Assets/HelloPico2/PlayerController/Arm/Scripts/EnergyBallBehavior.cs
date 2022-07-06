@@ -121,9 +121,11 @@ namespace HelloPico2.PlayerController.Arm
             });
         }
         [Button]
-        private void ShootChargedProjectile(ArmData data) {
+        private void ShootChargedProjectile(ArmData data)
+        {
             if (_Debug) return;
             if (data.Energy <= 0) return;
+            if (hasTransformProcess) return;
 
             var chargeScale = _EnergyProjectile.transform.localScale + Vector3.one * (data.Energy / data.MaxEnergy);
             GenerateProjectile(true, _ChargedEnergyProjectile, _ChargeShootSpeed, chargeScale.y);
@@ -139,6 +141,7 @@ namespace HelloPico2.PlayerController.Arm
         {
             if (data.Energy <= 0 || ShootCoolDownProcess != null) return;
             if (_OnlyShootProjectileOnEnergyBallState && currentShape != currentEnergyBall) return;
+            if (hasTransformProcess) return;
 
             data.Energy -= _CostEnergy;
             armLogic.OnEnergyChanged?.Invoke(data);

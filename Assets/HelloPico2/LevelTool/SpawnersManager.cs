@@ -44,6 +44,7 @@ namespace HelloPico2.LevelTool
         }
         public List<InteractableInfo> _InteractableLibrary = new List<InteractableInfo>();
         public Transform _Player;
+        public Transform _SpawnObjContainer;
         public int _CurrentSpawnersSet;
         public int CurrentSpawnersSet { get { return _CurrentSpawnersSet; }set { _CurrentSpawnersSet = value; } }
 
@@ -133,7 +134,7 @@ namespace HelloPico2.LevelTool
             var dir = GetDirection(dirType, spawner);
 
             var clone = Instantiate(prefab, spawner.transform.position, Quaternion.LookRotation(dir));
-            clone.transform.SetParent(spawner.transform);
+            clone.transform.SetParent(_SpawnObjContainer);
             clone.SetUpMoveBehavior(dir, speed);
             Destroy(clone.gameObject, 90f);
         }
@@ -142,7 +143,7 @@ namespace HelloPico2.LevelTool
             var dir = GetDirection(dirType, spawner);
 
             var clone = Instantiate(prefab, spawner.transform.position, Quaternion.LookRotation(dir));
-            clone.transform.SetParent(spawner.transform);
+            clone.transform.SetParent(_SpawnObjContainer);
             clone.SetUpMoveBehavior(dir, speed);
             Destroy(clone.gameObject, 90f);
         }

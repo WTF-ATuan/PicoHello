@@ -12,20 +12,11 @@ public class targetScript : MonoBehaviour
     public int checkHeld;
     public bool isCheckSel;
     public bool isTrigger;
-    bool isShowList;
-    bool isHideList;
+    public int coldTime;
+    float countTimer;
     
-    private void Start()
-    {
-        if (showObj.Length != 0)
-        {
-            isShowList = true;
-        }
-        if (hideList.Length != 0)
-        {
-            isHideList = true;
-        }
-    }
+    
+
     private void Update()
     {
         if (!isCheckSel) return;
@@ -35,20 +26,17 @@ public class targetScript : MonoBehaviour
         {
             transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, 0.1f);
 
-            if (isShowList)
+
+            for (int i=0; i < showObj.Length; i++)
             {
-                foreach (GameObject showObjElement in showObj)
-                {
-                    showObjElement.SetActive(true);
-                }
+                showObj[i].SetActive(true);
             }
-            if(isHideList)
+
+            for (int i = 0; i < hideList.Length; i++)
             {
-                foreach (GameObject hideObjElement in hideList)
-                {
-                    hideObjElement.SetActive(false);
-                }
+                hideList[i].SetActive(false);
             }
+
             Destroy(gameObject, 3); 
         }
     }
@@ -61,10 +49,25 @@ public class targetScript : MonoBehaviour
    
     private void OnTriggerEnter(Collider other)
     {
-        if (isTrigger)
-        {
+        if (isTrigger && other.CompareTag("Player")&&coldTime==0)
+        {   
             menuCheck.targetItemHeld = checkHeld;
             isCheckSel = true;
+            countTimer = 0;
+        }
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (isTrigger && other.CompareTag("Player"))
+        {
+            countTimer += Time.deltaTime;
+            
+            if (countTimer > coldTime)
+            {
+                menuCheck.targetItemHeld = checkHeld;
+                isCheckSel = true;
+                countTimer = 0;
+            }
         }
     }
 }
