@@ -26,6 +26,9 @@ namespace HelloPico2.LevelTool
 
             var start = Mathf.FloorToInt(_SpawnerDatas.Count / 2) * _LaneOffset;
 
+            // even
+            if (_SpawnerDatas.Count % 2 == 0) start -= _LaneOffset / 2;
+
             for (int i = 0; i < _SpawnerDatas.Count; i++)
             {
                 if(_SpawnerDatas[i].HitTargetSpawner == null) continue;
@@ -41,6 +44,9 @@ namespace HelloPico2.LevelTool
             Gizmos.DrawWireCube(_Player.transform.position, Vector3.one * 1f);
 
             var start = Mathf.FloorToInt(_SpawnerDatas.Count / 2) * _LaneOffset;
+
+            // even
+            if (_SpawnerDatas.Count % 2 == 0) start -= _LaneOffset / 2;
             
             // Draw note line
             for (int i = 0; i < _SpawnerDatas.Count; i++)            
@@ -66,8 +72,7 @@ namespace HelloPico2.LevelTool
 
             // Draw Spawner
             for (int i = 0; i < _SpawnerDatas.Count; i++)
-            {
-                
+            {                
 
                 switch (_SpawnerDatas[i].HitTargetSpawner._SpawnDirection)
                 {

@@ -249,7 +249,11 @@ public class EmissionRaise : MonoBehaviour
     private IEnumerator RaiseValue(Renderer[] targets)
     {
         int counter = 2;
-        var Origin = targets[0].material.GetFloat(m_ControlValueName);
+        float Origin = 0;
+        
+        if(targets[0].material.HasProperty(m_ControlValueName))
+            Origin = targets[0].material.GetFloat(m_ControlValueName);
+
         var Target = m_ValueTarget;
 
         while (counter > 0)

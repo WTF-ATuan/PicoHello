@@ -7,5 +7,9 @@ namespace HelloPico2.InteractableObjects {
         public float Energy;
         public IXRSelectInteractable Interactable;
         public DeviceInputDetected InputReceiver;
-    } 
+    }
+    public class NeedEnergyEventData { 
+        public float Energy;
+        public HandType HandType;
+    }
 }

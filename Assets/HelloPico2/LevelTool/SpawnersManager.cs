@@ -43,10 +43,30 @@ namespace HelloPico2.LevelTool
             public InteractableBase Prefab;
         }
         public List<InteractableInfo> _InteractableLibrary = new List<InteractableInfo>();
+        
+        [FoldoutGroup("Help Player When Running out of Power")]
+        private bool _StartHelping = false;
+        [FoldoutGroup("Help Player When Running out of Power")]        
+        public string _HelpObjectName; 
+        [FoldoutGroup("Help Player When Running out of Power")]
+        public SpawnDirection _HelpObjectDir; 
+        [FoldoutGroup("Help Player When Running out of Power")]
+        public float _HelpObjectSpeed; 
+        [FoldoutGroup("Help Player When Running out of Power")]
+        public int _HelpObjectAmount;
+        [FoldoutGroup("Help Player When Running out of Power")]
+        public float _HelpObjectInterpolate;
+        [FoldoutGroup("Help Player When Running out of Power")]
+        public float _HelpObjectCoolDown;
+        [FoldoutGroup("Help Player When Running out of Power")]
+        public List<BaseSpawner> _HelpObjectSpawnPoints;
+
         public Transform _Player;
         public Transform _SpawnObjContainer;
         public int _CurrentSpawnersSet;
         public int CurrentSpawnersSet { get { return _CurrentSpawnersSet; }set { _CurrentSpawnersSet = value; } }
+
+        Coroutine _SpawnHelpObjectProcess;
 
         #region Singleton
         public static SpawnersManager _instance;
@@ -59,7 +79,6 @@ namespace HelloPico2.LevelTool
                 return _instance;
             }
         }
-
         #endregion
 
         [Button]
@@ -150,6 +169,30 @@ namespace HelloPico2.LevelTool
         private void Start()
         {
             _Player = GameObject.FindGameObjectWithTag("Player").transform;
+
+            Project.EventBus.Subscribe<NeedEnergyEventData>(SpawnEnergy);
         }
+
+        #region Help Player
+        public void UseHelping(bool value) { 
+            _StartHelping = value;
+        }
+        private void SpawnEnergy(NeedEnergyEventData eventData) {
+            if (!_StartHelping || eventData.Energy > 0) return;
+
+            if(_SpawnHelpObjectProcess == null)
+                _SpawnHelpObjectProcess = StartCoroutine(SpawnProcess());
+        }
+        private IEnumerator SpawnProcess() {
+            for (int i = 0; i < _HelpObjectAmount; i++)
+            {
+                var pick = _HelpObjectSpawnPoints[Random.Range(0, _HelpObjectSpawnPoints.Count)];
+                SpawnInteractable(pick, _HelpObjectDir, _HelpObjectName, _HelpObjectSpeed);
+                yield return new WaitForSeconds(_HelpObjectInterpolate);
+            }
+            yield return new WaitForSeconds(_HelpObjectCoolDown);
+            _SpawnHelpObjectProcess = null;
+        }
+        #endregion
     }
 }

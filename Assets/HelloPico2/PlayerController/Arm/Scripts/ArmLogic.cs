@@ -56,11 +56,13 @@ namespace HelloPico2.PlayerController.Arm
 		{
 			EventBus.Subscribe<DeviceInputDetected>(OnDeviceInputDetected);
             EventBus.Subscribe<ReceiveDamageData>(ReceiveDamage);
-        }
-		private void OnDisable()
-		{
 
-		}
+            OnEnergyChanged += BroadCastEnergyAmount;
+        }
+        private void OnDisable()
+		{
+            OnEnergyChanged -= BroadCastEnergyAmount;
+        }
         private void Update()
 		{
             CheckInput();
@@ -164,6 +166,15 @@ namespace HelloPico2.PlayerController.Arm
         public bool CheckFullEnergy()
         {
             return data.Energy >= data.MaxEnergy;
+        }
+
+        private void BroadCastEnergyAmount(ArmData data)
+        {
+            NeedEnergyEventData needEnergyEventData = new NeedEnergyEventData();
+            needEnergyEventData.Energy = data.Energy;
+            needEnergyEventData.HandType = data.HandType;
+
+            EventBus.Post(needEnergyEventData);
         }
     }
 }

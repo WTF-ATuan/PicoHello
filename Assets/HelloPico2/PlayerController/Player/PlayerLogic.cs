@@ -43,6 +43,9 @@ namespace HelloPico2.PlayerController.Player
             eventDate.InteractType = hitTarget.interactType;
 
             EventBus.Post(eventDate);
+
+            playerData.armLogic_L.OnEnergyChanged?.Invoke(playerData.armLogic_L.data);
+            playerData.armLogic_R.OnEnergyChanged?.Invoke(playerData.armLogic_R.data);
         }
     }
 }
