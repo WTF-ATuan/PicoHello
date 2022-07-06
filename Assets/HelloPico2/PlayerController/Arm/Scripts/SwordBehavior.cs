@@ -15,6 +15,7 @@ namespace HelloPico2.PlayerController.Arm
         [FoldoutGroup("Stretching")][SerializeField] private float _ModifyLengthStep = 0.3f;
         [FoldoutGroup("Stretching")][SerializeField] private float _TurnOnDuration = 0.01f;
         [FoldoutGroup("Stretching")][SerializeField] private float _TurnOffDuration = 0.01f;
+        [FoldoutGroup("Stretching")][SerializeField] private float _SwitchTypeSpeed = 0.01f;
 
         [FoldoutGroup("Interaction")][SerializeField] private int _SpentEnergyWhenCollide = 30;
 
@@ -112,9 +113,9 @@ namespace HelloPico2.PlayerController.Arm
             print("Active Sword");
             //if (_State == State.sword) return;
 
-            lightBeamRigController.ModifyBlendWeight(-0.01f);
+            lightBeamRigController.ModifyBlendWeight(-_SwitchTypeSpeed);
 
-            _colorValue -= 0.01f;
+            _colorValue -= _SwitchTypeSpeed;
             _colorValue = Mathf.Clamp(_colorValue, 0, 1);
             var lerpColor = Color.Lerp(_ColorSword, _ColorWhip, _colorValue);
             _beamMesh.material.SetColor(_ColorName, lerpColor);
@@ -125,9 +126,9 @@ namespace HelloPico2.PlayerController.Arm
         {
             //if(_State == State.whip) return;
 
-            lightBeamRigController.ModifyBlendWeight(0.01f);
+            lightBeamRigController.ModifyBlendWeight(_SwitchTypeSpeed);
 
-            _colorValue += 0.01f;
+            _colorValue += _SwitchTypeSpeed;
             _colorValue = Mathf.Clamp(_colorValue, 0, 1);
             var lerpColor = Color.Lerp(_ColorSword, _ColorWhip, _colorValue);
             _beamMesh.material.SetColor(_ColorName, lerpColor);
