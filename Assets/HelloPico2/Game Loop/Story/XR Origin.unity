@@ -2658,6 +2658,8 @@ MonoBehaviour:
   _ColorWhip: {r: 1, g: 0.3176471, b: 0.3176471, a: 1}
   _SpeedLimit: 0.5
   _ReturnDuring: 0.4
+  _State: 1
+  _TriggerControlBlendWeight: 0
 --- !u!114 &657122609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2716,6 +2718,7 @@ MonoBehaviour:
   _TransitionDuration: 0.3
   _SwordFromScale: {x: 0.2, y: 0.2, z: 0.2}
   _TrasitionEaseCurve: 1
+  _OnlyShootProjectileOnEnergyBallState: 1
   _Debug: 0
   axis: {x: 1, y: 1}
   target: {fileID: 0}
@@ -3635,7 +3638,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.01
-  far clip plane: 1000
+  far clip plane: 2000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -4633,6 +4636,8 @@ MonoBehaviour:
   _ColorWhip: {r: 0, g: 0, b: 0, a: 0}
   _SpeedLimit: 0.5
   _ReturnDuring: 0.4
+  _State: 1
+  _TriggerControlBlendWeight: 0
 --- !u!114 &839562117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4673,6 +4678,7 @@ MonoBehaviour:
   _TransitionDuration: 0.5
   _SwordFromScale: {x: 0, y: 0, z: 0}
   _TrasitionEaseCurve: 0
+  _OnlyShootProjectileOnEnergyBallState: 1
   _Debug: 0
   axis: {x: 1, y: 1}
   target: {fileID: 0}
@@ -6971,11 +6977,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ac798acf56cc22f40b3597aca930c35e, type: 3}
   m_PrefabInstance: {fileID: 1217689436}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1217689438 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -4418294081905421737, guid: ac798acf56cc22f40b3597aca930c35e, type: 3}
-  m_PrefabInstance: {fileID: 1217689436}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1217689439 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8675816510300018362, guid: ac798acf56cc22f40b3597aca930c35e, type: 3}
@@ -6999,16 +7000,6 @@ GameObject:
 --- !u!1 &1217689443 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1954083534256700623, guid: ac798acf56cc22f40b3597aca930c35e, type: 3}
-  m_PrefabInstance: {fileID: 1217689436}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1217689444 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -2599384459282495010, guid: ac798acf56cc22f40b3597aca930c35e, type: 3}
-  m_PrefabInstance: {fileID: 1217689436}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1217689445 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1500937377208012460, guid: ac798acf56cc22f40b3597aca930c35e, type: 3}
   m_PrefabInstance: {fileID: 1217689436}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1217689446 stripped
@@ -7059,6 +7050,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  WhenStart:
+    m_PersistentCalls:
+      m_Calls: []
+  WhenFinished:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1217689448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7102,6 +7099,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  WhenStart:
+    m_PersistentCalls:
+      m_Calls: []
+  WhenFinished:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1217689449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7145,6 +7148,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  WhenStart:
+    m_PersistentCalls:
+      m_Calls: []
+  WhenFinished:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1217689450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7188,6 +7197,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  WhenStart:
+    m_PersistentCalls:
+      m_Calls: []
+  WhenFinished:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1217689451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7231,6 +7246,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  WhenStart:
+    m_PersistentCalls:
+      m_Calls: []
+  WhenFinished:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1217689452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7243,13 +7264,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6b81442dc710cc4e9ecafa296f6ddb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ArmorActivationSettings:
-  - healthPercentage: 0.4
-    armor: {fileID: 1217689444}
-  - healthPercentage: 0.6
-    armor: {fileID: 1217689445}
-  - healthPercentage: 0.8
-    armor: {fileID: 1217689438}
+  _ArmorGroupSettings: []
+  _ArmorHealthStatus: []
+  _EasingDuration: 0.5
+  _EnergyIncreaseEvent:
+    _PersistentCalls: []
   _ArmLogic: {fileID: 657122614}
 --- !u!1 &1283722605 stripped
 GameObject:
@@ -9511,6 +9530,8 @@ MonoBehaviour:
   _ColorWhip: {r: 0, g: 0, b: 0, a: 0}
   _SpeedLimit: 0.5
   _ReturnDuring: 0.4
+  _State: 1
+  _TriggerControlBlendWeight: 0
 --- !u!114 &1688013062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9551,6 +9572,7 @@ MonoBehaviour:
   _TransitionDuration: 0.5
   _SwordFromScale: {x: 0, y: 0, z: 0}
   _TrasitionEaseCurve: 0
+  _OnlyShootProjectileOnEnergyBallState: 1
   _Debug: 0
   axis: {x: 1, y: 1}
   target: {fileID: 0}
@@ -10947,6 +10969,8 @@ MonoBehaviour:
   _ColorWhip: {r: 1, g: 0.3176471, b: 0.3176471, a: 1}
   _SpeedLimit: 0.5
   _ReturnDuring: 0.4
+  _State: 1
+  _TriggerControlBlendWeight: 0
 --- !u!114 &2035608340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11005,6 +11029,7 @@ MonoBehaviour:
   _TransitionDuration: 0.3
   _SwordFromScale: {x: 0.2, y: 0.2, z: 0.2}
   _TrasitionEaseCurve: 1
+  _OnlyShootProjectileOnEnergyBallState: 1
   _Debug: 0
   axis: {x: 1, y: 1}
   target: {fileID: 0}
