@@ -4,6 +4,7 @@ using System.Linq;
 using Project;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace HelloPico2{
 	public class ModuleEventHandler : MonoBehaviour{
@@ -12,6 +13,18 @@ namespace HelloPico2{
 		[Button]
 		public void Spawn(string identity, Vector3 position){
 			var moduleModel = overview.FindEventData<ModuleModel>(identity);
+			var rootModel = moduleModel.modelRoot;
+			var activeMesh = moduleModel.activeMesh;
+			var clone = GetClone(rootModel, position);
+			RemoveUnUseObject(clone, activeMesh.name);
+		}
+
+		[Button]
+		public void RandomSpawn(Vector3 position){
+			var modelDataList = overview.FindAllEvent<ModuleModel>();
+			var dataCount = modelDataList.Count;
+			var randomIndex = Random.Range(0, dataCount);
+			var moduleModel = modelDataList[randomIndex];
 			var rootModel = moduleModel.modelRoot;
 			var activeMesh = moduleModel.activeMesh;
 			var clone = GetClone(rootModel, position);
