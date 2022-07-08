@@ -22,6 +22,20 @@ public class SceneController : MonoBehaviour{
 		StartCoroutine(LoadingScene(sceneName, true));
 	}
 
+	public void SingleLoadScene(string sceneName){
+		StartCoroutine(LoadingScene(sceneName, true, true));
+	}
+
+	public void ActiveToMainScene(string sceneName){
+		var exists = false;
+		for(var i = 0; i < SceneManager.sceneCount; i++)
+			if(sceneName == SceneManager.GetSceneAt(i).name)
+				exists = true;
+		if(!exists) throw new Exception($"{sceneName} is not Exists");
+		var needActiveScene = SceneManager.GetSceneByName(sceneName);
+		SceneManager.SetActiveScene(needActiveScene);
+	}
+
 	public void UnloadScene(string sceneName){
 		StartCoroutine(UnloadingScene(sceneName));
 	}
@@ -51,12 +65,12 @@ public class SceneController : MonoBehaviour{
 		fullyLoadedScenes.Add(SceneManager.GetSceneByName(sceneName));
 	}
 
-	private IEnumerator LoadingScene(string sceneName, bool autoActivation = false){
+	private IEnumerator LoadingScene(string sceneName, bool autoActivation = false, bool singleLoading = false){
 		for(var i = 0; i < SceneManager.sceneCount; i++)
 			if(sceneName == SceneManager.GetSceneAt(i).name) // If the scene we are trying to load is already open stop
 				yield break;
 
-		var mode = autoActivation ? LoadSceneMode.Single : LoadSceneMode.Additive;
+		var mode = singleLoading ? LoadSceneMode.Single : LoadSceneMode.Additive;
 		var async = SceneManager.LoadSceneAsync(sceneName, mode);
 		async.allowSceneActivation = autoActivation;
 		SceneLoadingList.Add(sceneName, async);

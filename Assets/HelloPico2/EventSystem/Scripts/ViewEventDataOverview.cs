@@ -41,5 +41,11 @@ namespace HelloPico2{
 
 			return viewEventData as T;
 		}
+
+		public List<T> FindAllEvent<T>() where T : ViewEventData{
+			var type = typeof(T);
+			var foundDataList = viewEventDataList.FindAll(x => x.GetType() == type);
+			return foundDataList.Cast<T>().ToList();
+		}
 	}
 }

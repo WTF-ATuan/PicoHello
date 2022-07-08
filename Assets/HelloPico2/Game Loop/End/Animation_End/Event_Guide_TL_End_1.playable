@@ -239,7 +239,7 @@ MonoBehaviour:
     m_Start: 2.933333333333333
     m_ClipIn: 0
     m_Asset: {fileID: 3650946069543883389}
-    m_Duration: 26.366666666666735
+    m_Duration: 12.666666666666668
     m_TimeScale: 2
     m_ParentTrack: {fileID: -7462564496620453139}
     m_EaseInDuration: 0
@@ -353,7 +353,7 @@ MonoBehaviour:
     m_Start: 0
     m_ClipIn: 0
     m_Asset: {fileID: 3769467237239422198}
-    m_Duration: 10
+    m_Duration: 6
     m_TimeScale: 1
     m_ParentTrack: {fileID: -5402915515888671241}
     m_EaseInDuration: 0
@@ -401,10 +401,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: Guide_End_1_Pos1
   - m_Version: 1
-    m_Start: 20
+    m_Start: 8
     m_ClipIn: 0
     m_Asset: {fileID: 4808588717122191707}
-    m_Duration: 9.300000000000068
+    m_Duration: 7.600000000000001
     m_TimeScale: 1
     m_ParentTrack: {fileID: -5402915515888671241}
     m_EaseInDuration: 0
@@ -433,6 +433,75 @@ MonoBehaviour:
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
     m_DisplayName: Guide_End_1_Pos2
+  - m_Version: 1
+    m_Start: 6
+    m_ClipIn: 0
+    m_Asset: {fileID: 7161756211714039276}
+    m_Duration: 2
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: -5402915515888671241}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: -1
+    m_BlendOutDuration: -1
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: Guide_End_1_Pos1
   m_Markers:
     m_Objects: []
 --- !u!114 &-4789910794427196893
@@ -1379,7 +1448,7 @@ MonoBehaviour:
     m_Start: 0
     m_ClipIn: 0
     m_Asset: {fileID: 7418978380450304076}
-    m_Duration: 29.300000000000068
+    m_Duration: 15.600000000000001
     m_TimeScale: 1
     m_ParentTrack: {fileID: 3833197530964470920}
     m_EaseInDuration: 0
@@ -1541,6 +1610,56 @@ MonoBehaviour:
   m_Loop: 0
   m_Version: 1
   m_Rotation: {x: 0, y: 0, z: 0, w: 1}
+--- !u!114 &7161756211714039276
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f28fb04ff66f85e40af453230799042c, type: 3}
+  m_Name: TransformTweenClip(Clone)(Clone)
+  m_EditorClassIdentifier: 
+  template:
+    startLocation: {fileID: 0}
+    endLocation: {fileID: 0}
+    tweenPosition: 1
+    tweenRotation: 1
+    tweenType: 1
+    customCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 1
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    startingPosition: {x: 0, y: 0, z: 0}
+    startingRotation: {x: 0, y: 0, z: 0, w: 1}
+  startLocation:
+    exposedName: 80b1ec502fd2cc74f8ab8b66ab006330
+    defaultValue: {fileID: 0}
+  endLocation:
+    exposedName: 7ce51212f99ffe443b152cf0501c6299
+    defaultValue: {fileID: 0}
 --- !u!114 &7418978380450304076
 MonoBehaviour:
   m_ObjectHideFlags: 1

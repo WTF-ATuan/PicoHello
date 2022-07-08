@@ -2,11 +2,35 @@
 using System.Collections.Generic;
 using System.Linq;
 using Project;
+using Sirenix.OdinInspector;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace HelloPico2{
 	public class ModuleEventHandler : MonoBehaviour{
 		[SerializeField] private ViewEventDataOverview overview;
+
+		[Button]
+		public void Spawn(string identity, Vector3 position){
+			var moduleModel = overview.FindEventData<ModuleModel>(identity);
+			var rootModel = moduleModel.modelRoot;
+			var activeMesh = moduleModel.activeMesh;
+			var clone = GetClone(rootModel, position);
+			RemoveUnUseObject(clone, activeMesh.name);
+		}
+
+		[Button]
+		public void RandomSpawn(Vector3 position){
+			var modelDataList = overview.FindAllEvent<ModuleModel>();
+			var dataCount = modelDataList.Count;
+			var randomIndex = Random.Range(0, dataCount);
+			var moduleModel = modelDataList[randomIndex];
+			var rootModel = moduleModel.modelRoot;
+			var activeMesh = moduleModel.activeMesh;
+			var clone = GetClone(rootModel, position);
+			RemoveUnUseObject(clone, activeMesh.name);
+		}
+
 
 		private void Start(){
 			EventBus.Subscribe<ModuleModelEventRequested>(OnModuleEventRequested);
@@ -14,29 +38,26 @@ namespace HelloPico2{
 
 		private void OnModuleEventRequested(ModuleModelEventRequested obj){
 			var modelID = obj.ModelID;
-			var moduleModel = overview.FindEventData<ModuleModel>(modelID);
 			var position = obj.Position;
-			var modelRoot = moduleModel.modelRoot;
-			var childWrappers = moduleModel.modelComponent;
-			SpawnModel(modelRoot, childWrappers, position);
+			Spawn(modelID, position);
 		}
 
-		private void SpawnModel(GameObject root, List<ChildWrapper> childList, Vector3 position){
+		private GameObject GetClone(GameObject root, Vector3 position){
 			var rootClone = Instantiate(root, position, Quaternion.identity);
-			RemoveUnMatchChild(rootClone, childList);
+			rootClone.name = root.name + "(Spawn)";
+			return rootClone;
 		}
 
-		private void RemoveUnMatchChild(GameObject pre, List<ChildWrapper> childList){
-			if(null == pre)
-				return;
-			var referenceNameList = childList.Select(x => x.value.name).ToList();
-			foreach(Transform child in pre.transform){
-				var childGameObject = child.gameObject;
-				var contains = referenceNameList.Contains(childGameObject.name);
-				if(!contains){
-					Destroy(childGameObject);
-				}
-				RemoveUnMatchChild(childGameObject, childList);
+		private void RemoveUnUseObject(GameObject clone, string selectMeshName){
+			var childList = clone.GetComponentsInChildren<Transform>().ToList();
+			var animationRoot = childList.Find(x => x.name.Equals("Char_Guide_Anim"));
+			if(!animationRoot) throw new Exception("Can,t find 'Char_Guide_Anim'");
+			var foundMeshList = childList.FindAll(x => x.name.Contains("Mesh"));
+			foreach(var mesh in from mesh in foundMeshList
+					let equalsName = mesh.name.Equals(selectMeshName)
+					where !equalsName
+					select mesh){
+				Destroy(mesh.gameObject);
 			}
 		}
 	}
