@@ -21,7 +21,8 @@ namespace HelloPico2.PlayerController.Arm
         float _step;
         Transform _target;
         Vector3 dir;
-
+        public Vector3 velocity;
+        public bool finishedVelocityBuffer;
         public void ProjectileSetUp(float speed, float duration, AnimationCurve easingCurve, Transform target = null) {
             if (target) _target = target;
             _rigidbody = GetComponent<Rigidbody>();
@@ -33,11 +34,20 @@ namespace HelloPico2.PlayerController.Arm
         }
         private void Update()
         {
-            _step += Time.deltaTime;
-
-            if (_step / _duration <= 1)
+            if (!finishedVelocityBuffer)
             {
-                _rigidbody.velocity = Vector3.Lerp(Vector3.zero, transform.forward * _speed, _easingCurve.Evaluate(_step / _duration));
+                _step += Time.deltaTime;
+
+                if (_step / _duration <= 1)
+                {
+                    _rigidbody.velocity = Vector3.Lerp(Vector3.zero, transform.forward * _speed, _easingCurve.Evaluate(_step / _duration));
+                    velocity = _rigidbody.velocity;
+                }
+                else
+                {
+                    _rigidbody.velocity = transform.forward * _speed;
+                    finishedVelocityBuffer = true;
+                }
             }
 
             if (!_ActivateHoming)

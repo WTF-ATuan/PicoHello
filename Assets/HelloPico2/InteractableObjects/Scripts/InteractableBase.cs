@@ -8,11 +8,13 @@ namespace HelloPico2.InteractableObjects
     {
 		public delegate void InteractableDel(InteractableBase interactable);
 		public InteractableDel OnInteractableDisable;
-		public void SetUpMoveBehavior(Vector3 dir, float speed)
+		public void SetUpMoveBehavior(Vector3 dir, float speed, bool useGravity, float gravity)
 		{
 			var mover = gameObject.AddComponent<HelloPico2.LevelTool.MoveLevelObject>();
 			mover.speed = speed;
-			mover.dir = dir;
+			mover.dir = dir;			
+			mover.useGravity = useGravity;
+			mover.gravity = gravity;
 		}
 		protected virtual void Start()
 		{

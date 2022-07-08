@@ -9,7 +9,8 @@ namespace HelloPico2.LevelTool
     public class SpawnersManager : MonoBehaviour
     {
         public enum SpawnDirection { 
-            useSpawnerForward,
+            SpawnerForward,
+            PlayerCentered,
             AimPlayer
         }
         [System.Serializable]
@@ -122,7 +123,9 @@ namespace HelloPico2.LevelTool
         private Vector3 GetDirection(SpawnDirection dirType, BaseSpawner spawner) {
             switch (dirType)
             {
-                case SpawnDirection.useSpawnerForward: 
+                case SpawnDirection.SpawnerForward:
+                    return spawner.transform.forward;
+                case SpawnDirection.PlayerCentered: 
                     return spawner.transform.forward;
                 case SpawnDirection.AimPlayer:
                     return (_Player.transform.position - spawner.transform.position).normalized;
@@ -139,31 +142,31 @@ namespace HelloPico2.LevelTool
                 switch (spawner._SpawnType)
                 {
                     case BaseSpawner.SpawnType.Interactable:
-                        SpawnInteractable(spawner, spawner._SpawnDirection, spawner._InteractableType, spawner._Speed);
+                        SpawnInteractable(spawner, spawner._SpawnDirection, spawner._InteractableType, spawner._Speed, spawner._UseGravity, spawner._Gravity);
                         break;
                     case BaseSpawner.SpawnType.HitTarget:
-                        SpawnHitTarget(spawner, spawner._SpawnDirection, spawner._HitTargetType, spawner._Speed);
+                        SpawnHitTarget(spawner, spawner._SpawnDirection, spawner._HitTargetType, spawner._Speed, spawner._UseGravity, spawner._Gravity);
                         break;
                 }
             }
         }
-        public void SpawnInteractable(BaseSpawner spawner, SpawnDirection dirType, string InteractableName, float speed)
+        public void SpawnInteractable(BaseSpawner spawner, SpawnDirection dirType, string InteractableName, float speed, bool useGravity = false, float gravity = 0)
         {
             var prefab = GetInteractable(InteractableName);
             var dir = GetDirection(dirType, spawner);
 
             var clone = Instantiate(prefab, spawner.transform.position, Quaternion.LookRotation(dir));
             clone.transform.SetParent(_SpawnObjContainer);
-            clone.SetUpMoveBehavior(dir, speed);
+            clone.SetUpMoveBehavior(dir, speed, useGravity, gravity);
             Destroy(clone.gameObject, 90f);
         }
-        public void SpawnHitTarget(BaseSpawner spawner, SpawnDirection dirType, string hitTargetName, float speed) { 
+        public void SpawnHitTarget(BaseSpawner spawner, SpawnDirection dirType, string hitTargetName, float speed, bool useGravity = false, float gravity = 0) { 
             var prefab = GetHitTarget(hitTargetName);
             var dir = GetDirection(dirType, spawner);
 
             var clone = Instantiate(prefab, spawner.transform.position, Quaternion.LookRotation(dir));
             clone.transform.SetParent(_SpawnObjContainer);
-            clone.SetUpMoveBehavior(dir, speed);
+            clone.SetUpMoveBehavior(dir, speed, useGravity, gravity);
             Destroy(clone.gameObject, 90f);
         }
         private void Start()

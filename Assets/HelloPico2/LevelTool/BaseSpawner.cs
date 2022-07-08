@@ -13,5 +13,7 @@ namespace HelloPico2.LevelTool
         [ShowIf("_SpawnType", SpawnType.Interactable)]public string _InteractableType;
         [ShowIf("_SpawnType", SpawnType.HitTarget)] public string _HitTargetType;
         public float _Speed;   
+        public bool _UseGravity = false;   
+        public float _Gravity = 0;   
     }
 }

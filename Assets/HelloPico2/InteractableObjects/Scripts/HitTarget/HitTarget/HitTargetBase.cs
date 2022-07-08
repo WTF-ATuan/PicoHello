@@ -24,10 +24,12 @@ namespace HelloPico2.InteractableObjects
         public InteractDel OnEnergyInteract;
 
         public UnityEvent WhenCollide;
-        public void SetUpMoveBehavior(Vector3 dir, float speed) {
+        public void SetUpMoveBehavior(Vector3 dir, float speed, bool useGravity, float gravity) {
             var mover = gameObject.AddComponent<HelloPico2.LevelTool.MoveLevelObject>();
             mover.speed = speed;
             mover.dir = dir;
+            mover.useGravity = useGravity;
+            mover.gravity = gravity;
         }
         public virtual void OnCollide(InteractType type, Collider selfCollider){
             CheckInteractType(type, selfCollider);

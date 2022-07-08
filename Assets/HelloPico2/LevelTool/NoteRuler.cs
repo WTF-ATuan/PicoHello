@@ -55,7 +55,12 @@ namespace HelloPico2.LevelTool
 
                 switch (_SpawnerDatas[i].HitTargetSpawner._SpawnDirection)
                 {
-                    case SpawnersManager.SpawnDirection.useSpawnerForward:
+                    case SpawnersManager.SpawnDirection.SpawnerForward:
+                        Gizmos.DrawLine(
+                        _SpawnerDatas[i].HitTargetSpawner.transform.position,
+                        _SpawnerDatas[i].HitTargetSpawner.transform.position + _SpawnerDatas[i].HitTargetSpawner.transform.forward * _Depth);
+                        break;
+                    case SpawnersManager.SpawnDirection.PlayerCentered:
                         Gizmos.DrawLine(
                         _Player.position + _Player.up * _PlayerHight + _Player.right * start - _Player.right * _LaneOffset * i,
                         _Player.position + _Player.up * _PlayerHight + _Player.right * start - _Player.right * _LaneOffset * i + _Player.forward * _Depth);
@@ -76,7 +81,10 @@ namespace HelloPico2.LevelTool
 
                 switch (_SpawnerDatas[i].HitTargetSpawner._SpawnDirection)
                 {
-                    case SpawnersManager.SpawnDirection.useSpawnerForward:
+                    case SpawnersManager.SpawnDirection.SpawnerForward:
+                        
+                        break;
+                    case SpawnersManager.SpawnDirection.PlayerCentered:
                         var spawnerPos = _Player.position + _Player.up * _PlayerHight + _Player.right * start - _Player.right * _LaneOffset * i + _Player.forward * _Depth;
                         Gizmos.color = Color.green;
                         Gizmos.DrawWireSphere(spawnerPos, _SpawnerRadius);

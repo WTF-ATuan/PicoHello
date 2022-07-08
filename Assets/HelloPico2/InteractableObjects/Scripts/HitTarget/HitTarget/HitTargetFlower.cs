@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using Project;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
+using DG.Tweening;
 
 namespace HelloPico2.InteractableObjects
 {
@@ -10,6 +12,10 @@ namespace HelloPico2.InteractableObjects
         [FoldoutGroup("Audio Settings")][SerializeField] private string _ChargeBloomClipName0;
         [FoldoutGroup("Audio Settings")][SerializeField] private string _ChargeBloomClipName1;
         [SerializeField] private float _RequireEnergy;
+        [SerializeField] private GameObject _SpawnThisWhenBloomed;
+        [SerializeField] private int _SpawnAmount;
+        [SerializeField] private FollowParticle _SpawnObjectControl;
+        [SerializeField] private ParticleSystem _FollowVFXPosition;
 
         public UnityEvent WhenCharged1;
         public UnityEvent WhenCharged2;
@@ -56,6 +62,7 @@ namespace HelloPico2.InteractableObjects
             if (currentChargedEnergy >= _RequireEnergy && !bloomed) 
             { 
                 WhenFullyCharged?.Invoke();
+                SpawnEnergy();
                 bloomed = true;
             }
         }
@@ -68,6 +75,20 @@ namespace HelloPico2.InteractableObjects
                 result = _ChargeBloomClipName1;
 
             EventBus.Post(new AudioEventRequested(result, transform.position));
+        }
+        public void SpawnEnergy() {
+            List<GameObject> cloneList = new List<GameObject>();
+            for (int i = 0; i < _SpawnAmount; i++)
+            {
+                var clone = Instantiate(_SpawnThisWhenBloomed, transform.position, Quaternion.identity);
+                clone.transform.SetParent(transform.parent, false);                
+                cloneList.Add(clone);
+            }
+
+            _SpawnObjectControl.m_Follower = cloneList.ToArray();
+            _SpawnObjectControl.m_FollowThis = _FollowVFXPosition;
+            _SpawnObjectControl.Activate = true;
+            _FollowVFXPosition.Play();
         }
     }
 }
