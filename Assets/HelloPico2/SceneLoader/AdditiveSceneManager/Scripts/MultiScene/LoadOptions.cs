@@ -4,5 +4,6 @@
 		BackgroundLoad,
 		ActiveBackground,
 		UnLoad,
+		SetMainScene
 	}
 }
