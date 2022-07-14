@@ -1,21 +1,9 @@
 ﻿// Copyright © 2015-2021 Pico Technology Co., Ltd. All Rights Reserved.
 
 using System;
-using System.Diagnostics;
 using System.IO;
-using System.Xml;
-using System.Xml.Linq;
 using UnityEditor;
-using UnityEditor.Build;
-using UnityEditor.Callbacks;
 using UnityEngine;
-using UnityEngine.Rendering;
-using System.Linq;
-
-using System.Runtime.InteropServices;
-using Unity.XR.PXR;
-using UnityEngine.Networking.Types;
-using Debug = UnityEngine.Debug;
 
 namespace Unity.XR.PXR.Editor
 {
@@ -29,7 +17,7 @@ namespace Unity.XR.PXR.Editor
             ObjectFactory.componentWasAdded += ComponentWasAdded;
             BuildPlayerWindow.RegisterBuildPlayerHandler(OnBuild);
             doNotShowAgain = GetDoNotShowBuildWarning();
-            Debug.Log("PXRLog [Build Check]RegisterBuildPlayerHandler,Already Do not show: " + doNotShowAgain);
+            // Debug.Log("PXRLog [Build Check]RegisterBuildPlayerHandler,Already Do not show: " + doNotShowAgain);
         }
         static void ComponentWasAdded(Component com)
         {
@@ -91,7 +79,7 @@ namespace Unity.XR.PXR.Editor
                         // ok
                         case 0:
                             PXR_PlatformSettingEditor.Edit();
-                            throw new System.OperationCanceledException("Build was canceled by the user.");
+                            throw new OperationCanceledException("Build was canceled by the user.");
                         //cancel
                         case 1:
                             Debug.LogWarning("PXRLog Warning: EntitlementCheck is highly recommended which can protect the copyright of app. You can enable it when App start-up in the Inspector of \"Menu/PXR_SDK/PlatformSettings\" and Enter your APPID. If you want to call the APIs as needed, please refer to the development Document.");

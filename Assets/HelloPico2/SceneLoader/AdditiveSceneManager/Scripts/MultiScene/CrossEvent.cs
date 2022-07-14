@@ -3,7 +3,9 @@ using UnityEngine.Events;
 
 namespace HelloPico2.SceneLoader.AdditiveSceneManager.Scripts.MultiScene{
 	[Serializable]
-	public class CrossEvent{ }
+	public class CrossEvent{
+		public string eventID;
+	}
 
 
 	[Serializable]
@@ -12,6 +14,9 @@ namespace HelloPico2.SceneLoader.AdditiveSceneManager.Scripts.MultiScene{
 		public LoadOptions options;
 		public float delayTime;
 	}
+
+	[Serializable]
+	public class TimelineChanged : CrossEvent{ }
 
 	[Serializable]
 	public class CrossUnityEvent : UnityEvent<CrossEvent>{ }
