@@ -13,7 +13,13 @@ namespace HelloPico2.LevelTool
         [ShowIf("_SpawnType", SpawnType.Interactable)]public string _InteractableType;
         [ShowIf("_SpawnType", SpawnType.HitTarget)] public string _HitTargetType;
         public float _Speed;   
-        public bool _UseGravity = false;   
-        public float _Gravity = 0;   
+        public bool _UseExternalForce = false;   
+        [ShowIf("_UseExternalForce")] public Vector3 _ForceDir = Vector3.zero;
+        [ShowIf("_UseExternalForce")] public float _Force = 0; 
+        public System.Action<BaseSpawner> Notify;
+        private void OnValidate()
+        {
+            Notify?.Invoke(this);
+        }
     }
 }

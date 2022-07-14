@@ -9,6 +9,7 @@ namespace HelloPico2.InteractableObjects
         [SerializeField] private float _Lifetime = 90f;        
         [SerializeField] private float _DestroyDelayDuration = 3;        
         [SerializeField] private string _HitEffectID = "";
+
         private void OnEnable()
         {
             Destroy(gameObject, _Lifetime);

@@ -4,32 +4,47 @@ using UnityEngine;
 
 namespace HelloPico2.LevelTool
 {
-    public class MoveLevelObject : MonoBehaviour
+    public class MoveLevelObject : MonoBehaviour, ITrackInteractableState
     {
         public Vector3 dir { get; set; }
         public float speed { get; set; }
-        public bool useGravity = false;
-        public float gravity = 0;
+        public bool useExternalForce = false;
+        public Vector3 forceDir = Vector3.up;
+        public float force = 0;
         private float time { get; set; }
-        public MoveLevelObject(Vector3 _dir, float _speed, bool _useGravity = false, float _gravity = -9.8f) { 
+        public void SetUpMoveLevelObject(Vector3 _dir, float _speed, bool _useExternalForce = false, Vector3 _forceDir = default, float _Force = -9.8f) { 
             dir = _dir;
             speed = _speed;
 
-            if (_useGravity) { 
-                useGravity = _useGravity;
-                gravity = _gravity;
+            if (_useExternalForce) { 
+                useExternalForce = _useExternalForce;
+                forceDir = (_forceDir == default) ?  Vector3.up : _forceDir;
+                force = _Force;
             }
         }
         private void Update()
         {
-            transform.Translate(dir * speed * Time.deltaTime, Space.World);
-
-            if (useGravity)
+            if (!useExternalForce) 
+            { 
+                transform.Translate(dir * speed * Time.fixedDeltaTime, Space.World); 
+            }
+            else
             {
-                time += Time.deltaTime;
-                var speed1 = gravity * Mathf.Pow(time, 2);
-                transform.Translate(transform.up * speed1 * Time.deltaTime, Space.World);
+                time += Time.fixedDeltaTime;
+                
+                var Move = dir * speed * Time.fixedDeltaTime;
+
+                Move += forceDir * force / 2 * Mathf.Pow(time, 1);
+
+                transform.Translate(Move, Space.World);
             }
         }
+        public void WhenCollideWith(HelloPico2.InteractableObjects.InteractType type)
+        {
+            speed = 0;
+        }
+    }
+    public interface ITrackInteractableState {
+        public void WhenCollideWith(HelloPico2.InteractableObjects.InteractType type);
     }
 }
