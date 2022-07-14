@@ -16,5 +16,8 @@ namespace HelloPico2.SceneLoader.AdditiveSceneManager.Scripts.MultiScene{
 	}
 
 	[Serializable]
+	public class TimelineChanged : CrossEvent{ }
+
+	[Serializable]
 	public class CrossUnityEvent : UnityEvent<CrossEvent>{ }
 }
