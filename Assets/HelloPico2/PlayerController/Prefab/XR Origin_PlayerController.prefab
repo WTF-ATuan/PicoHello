@@ -1597,8 +1597,8 @@ MonoBehaviour:
   m_ControlPointDistance: 10
   m_ControlPointHeight: 5
   m_SampleFrequency: 20
-  m_HitDetectionType: 0
-  m_SphereCastRadius: 0.1
+  m_HitDetectionType: 1
+  m_SphereCastRadius: 0.25
   m_RaycastMask:
     serializedVersion: 2
     m_Bits: 241
@@ -1640,6 +1640,8 @@ MonoBehaviour:
   _Controller: {fileID: 4939205608762558284}
   _Energy: 0
   _MaxEnergy: 300
+  _GrabDetectionRadius: 0.6
+  _GrabDistance: 30
   _GrabEasingDuration: 0.15
   _InteractableSettings: {fileID: 11400000, guid: ecdbec69f2c020441bd07a6377b457bd, type: 2}
   _SummonPoint: {fileID: 4939205608762558283}
@@ -1712,6 +1714,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _controller: {fileID: 4939205608762558284}
+  rayInteractor: {fileID: 0}
 --- !u!114 &4939205608762558287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27217,8 +27220,8 @@ MonoBehaviour:
   m_ControlPointDistance: 10
   m_ControlPointHeight: 5
   m_SampleFrequency: 20
-  m_HitDetectionType: 0
-  m_SphereCastRadius: 0.1
+  m_HitDetectionType: 1
+  m_SphereCastRadius: 0.25
   m_RaycastMask:
     serializedVersion: 2
     m_Bits: 241
@@ -27260,6 +27263,8 @@ MonoBehaviour:
   _Controller: {fileID: 4939205610337954856}
   _Energy: 0
   _MaxEnergy: 300
+  _GrabDetectionRadius: 0.6
+  _GrabDistance: 30
   _GrabEasingDuration: 0.15
   _InteractableSettings: {fileID: 11400000, guid: ecdbec69f2c020441bd07a6377b457bd, type: 2}
   _SummonPoint: {fileID: 4939205610337954855}
@@ -27332,6 +27337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _controller: {fileID: 4939205610337954856}
+  rayInteractor: {fileID: 0}
 --- !u!114 &4939205610337954860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36045,6 +36051,10 @@ PrefabInstance:
       value: LightBeamChainDynamic
       objectReference: {fileID: 0}
     - target: {fileID: 4278986580361110206, guid: e98baec5a97b4ce4394bbbb51cc6a0ca, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278986580361110206, guid: e98baec5a97b4ce4394bbbb51cc6a0ca, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -36138,6 +36148,10 @@ PrefabInstance:
     - target: {fileID: 4278986580361110206, guid: e98baec5a97b4ce4394bbbb51cc6a0ca, type: 3}
       propertyPath: m_Name
       value: LightBeamChainDynamic
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278986580361110206, guid: e98baec5a97b4ce4394bbbb51cc6a0ca, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4278986580361110206, guid: e98baec5a97b4ce4394bbbb51cc6a0ca, type: 3}
       propertyPath: m_IsActive

@@ -14,6 +14,8 @@ namespace HelloPico2.PlayerController.Arm
         [SerializeField] private XRController _Controller;
         [SerializeField] private float _Energy;
         [SerializeField] private float _MaxEnergy;
+        [SerializeField][Range(0.01f,3f)] private float _GrabDetectionRadius = 1;
+        [SerializeField][Min(0.01f)] private float _GrabDistance = 30;
         [SerializeField] private float _GrabEasingDuration;
         [SerializeField] private InteractableSettings _InteractableSettings;
         [SerializeField] private Transform _SummonPoint;
@@ -30,6 +32,8 @@ namespace HelloPico2.PlayerController.Arm
         public XRController Controller { get { return _Controller; } }
         public float Energy { get { return _Energy; } set { _Energy = value; } }
         public float MaxEnergy { get { return _MaxEnergy; } }
+        public float GrabDetectionRadius { get { return _GrabDetectionRadius; } }
+        public float GrabDistance { get { return _GrabDistance; } }
         public float GrabEasingDuration { get { return _GrabEasingDuration; } }
         public InteractableSettings InteractableSettings { get { return _InteractableSettings; } }
         public Transform SummonPoint { get { return _SummonPoint; } }

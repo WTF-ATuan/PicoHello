@@ -74,36 +74,32 @@ namespace HelloPico2.LevelTool
                         break;
                 }                
             }
-
+            Vector3 spawnerPos;
+            Vector3 arrowTip;
+            Vector3 dirL;
+            Vector3 dirR;
             // Draw Spawner
             for (int i = 0; i < _SpawnerDatas.Count; i++)
-            {                
+            {
+                spawnerPos = _SpawnerDatas[i].HitTargetSpawner.transform.position;
+                DrawSpawner(_SpawnerDatas[i], spawnerPos);
 
+                // Draw Arrow                
                 switch (_SpawnerDatas[i].HitTargetSpawner._SpawnDirection)
                 {
                     case SpawnersManager.SpawnDirection.SpawnerForward:
                         
                         break;
-                    case SpawnersManager.SpawnDirection.PlayerCentered:
-                        var spawnerPos = _Player.position + _Player.up * _PlayerHight + _Player.right * start - _Player.right * _LaneOffset * i + _Player.forward * _Depth;
-                        Gizmos.color = Color.green;
-                        Gizmos.DrawWireSphere(spawnerPos, _SpawnerRadius);
-
-                        // Draw Arrow                
-                        var arrowTip = spawnerPos + _SpawnerDatas[i].HitTargetSpawner.transform.forward * 2;
+                    case SpawnersManager.SpawnDirection.PlayerCentered:                        
+                        arrowTip = spawnerPos + _SpawnerDatas[i].HitTargetSpawner.transform.forward * 2;
                         Gizmos.DrawLine(spawnerPos, arrowTip);
 
-                        var dirL = Quaternion.Euler(0, -30, 0) * (-_SpawnerDatas[i].HitTargetSpawner.transform.forward);
-                        var dirR = Quaternion.Euler(0, 30, 0) * (-_SpawnerDatas[i].HitTargetSpawner.transform.forward);
+                        dirL = Quaternion.Euler(0, -30, 0) * (-_SpawnerDatas[i].HitTargetSpawner.transform.forward);
+                        dirR = Quaternion.Euler(0, 30, 0) * (-_SpawnerDatas[i].HitTargetSpawner.transform.forward);
                         Gizmos.DrawLine(arrowTip, arrowTip + dirL * 1.3f);
                         Gizmos.DrawLine(arrowTip, arrowTip + dirR * 1.3f);
                         break;
-                    case SpawnersManager.SpawnDirection.AimPlayer:
-                        spawnerPos = _SpawnerDatas[i].HitTargetSpawner.transform.position;
-                        Gizmos.color = Color.green;
-                        Gizmos.DrawWireSphere(spawnerPos, _SpawnerRadius);
-
-                        // Draw Arrow                
+                    case SpawnersManager.SpawnDirection.AimPlayer:             
                         var playerDir = (_Player.transform.position - _SpawnerDatas[i].HitTargetSpawner.transform.position).normalized;
                         arrowTip = spawnerPos + playerDir * 2;
                         Gizmos.DrawLine(spawnerPos, arrowTip);
@@ -117,6 +113,10 @@ namespace HelloPico2.LevelTool
                         break;
                 }
             }
+        }
+        private void DrawSpawner(SpawnerData data, Vector3 spawnerPos) {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(spawnerPos, _SpawnerRadius);    
         }
     }
 }

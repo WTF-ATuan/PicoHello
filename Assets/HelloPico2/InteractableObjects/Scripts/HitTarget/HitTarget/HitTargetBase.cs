@@ -28,11 +28,12 @@ namespace HelloPico2.InteractableObjects
             var mover = gameObject.AddComponent<HelloPico2.LevelTool.MoveLevelObject>();
             mover.speed = speed;
             mover.dir = dir;
-            mover.useGravity = useGravity;
-            mover.gravity = gravity;
+            mover.useExternalForce = useGravity;
+            mover.force = gravity;
         }
         public virtual void OnCollide(InteractType type, Collider selfCollider){
             CheckInteractType(type, selfCollider);
+            NotifyTracker(type);
         }
 
         public Action<InteractType, Collider> ColliderEvent{ get; }
@@ -59,6 +60,11 @@ namespace HelloPico2.InteractableObjects
                     break;
             }
         }
+        private void NotifyTracker(InteractType type) {
+            if (TryGetComponent<HelloPico2.LevelTool.ITrackInteractableState>(out var tracker))
+                tracker.WhenCollideWith(type);
+        }
+
         protected void PlayRandomAudio()
         {
             var value = Random.Range(0, _CollideClipName.Length);

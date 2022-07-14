@@ -31,6 +31,8 @@ namespace HelloPico2.InteractableObjects
             {
                 if (i < m_Follower.Length)
                 {
+                    if (m_Follower[i] == null) continue;
+
                     m_Follower[i].transform.position = m_Particles[i].position + m_FollowThis.transform.position;
                     m_Follower[i].transform.forward = m_Particles[i].animatedVelocity.normalized;
 

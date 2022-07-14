@@ -138,35 +138,38 @@ namespace HelloPico2.LevelTool
             var spawners = GetSpawners(spawnerName);
 
             foreach (var spawner in spawners)
-            {
+            {                
                 switch (spawner._SpawnType)
                 {
                     case BaseSpawner.SpawnType.Interactable:
-                        SpawnInteractable(spawner, spawner._SpawnDirection, spawner._InteractableType, spawner._Speed, spawner._UseGravity, spawner._Gravity);
+                        SpawnInteractable(spawner, spawner._InteractableType);
                         break;
                     case BaseSpawner.SpawnType.HitTarget:
-                        SpawnHitTarget(spawner, spawner._SpawnDirection, spawner._HitTargetType, spawner._Speed, spawner._UseGravity, spawner._Gravity);
+                        SpawnHitTarget(spawner, spawner._HitTargetType);
                         break;
                 }
             }
         }
-        public void SpawnInteractable(BaseSpawner spawner, SpawnDirection dirType, string InteractableName, float speed, bool useGravity = false, float gravity = 0)
+        public void SpawnInteractable(BaseSpawner spawner, string InteractableName)
         {
             var prefab = GetInteractable(InteractableName);
-            var dir = GetDirection(dirType, spawner);
 
-            var clone = Instantiate(prefab, spawner.transform.position, Quaternion.LookRotation(dir));
-            clone.transform.SetParent(_SpawnObjContainer);
-            clone.SetUpMoveBehavior(dir, speed, useGravity, gravity);
-            Destroy(clone.gameObject, 90f);
+            Spawn(spawner, prefab.gameObject);
         }
-        public void SpawnHitTarget(BaseSpawner spawner, SpawnDirection dirType, string hitTargetName, float speed, bool useGravity = false, float gravity = 0) { 
+        public void SpawnHitTarget(BaseSpawner spawner, string hitTargetName)
+        {
             var prefab = GetHitTarget(hitTargetName);
-            var dir = GetDirection(dirType, spawner);
+
+            Spawn(spawner, prefab.gameObject);
+        }
+        private void Spawn(BaseSpawner spawner, GameObject prefab) {
+            var dir = GetDirection(spawner._SpawnDirection, spawner);
 
             var clone = Instantiate(prefab, spawner.transform.position, Quaternion.LookRotation(dir));
             clone.transform.SetParent(_SpawnObjContainer);
-            clone.SetUpMoveBehavior(dir, speed, useGravity, gravity);
+
+            clone.gameObject.AddComponent<MoveLevelObject>().SetUpMoveLevelObject(dir, spawner._Speed, spawner._UseExternalForce, spawner._ForceDir, spawner._Force);
+
             Destroy(clone.gameObject, 90f);
         }
         private void Start()
@@ -190,7 +193,7 @@ namespace HelloPico2.LevelTool
             for (int i = 0; i < _HelpObjectAmount; i++)
             {
                 var pick = _HelpObjectSpawnPoints[Random.Range(0, _HelpObjectSpawnPoints.Count)];
-                SpawnInteractable(pick, _HelpObjectDir, _HelpObjectName, _HelpObjectSpeed);
+                SpawnInteractable(pick, _HelpObjectName);
                 yield return new WaitForSeconds(_HelpObjectInterpolate);
             }
             yield return new WaitForSeconds(_HelpObjectCoolDown);

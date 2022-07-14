@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using Project;
 using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -25,7 +26,8 @@ namespace HelloPico2.PlayerController.Arm
         }
 
 		public XRController _controller;
-		public Interactor controllerInteractor { get; set; }
+        public XRRayInteractor rayInteractor;
+        public Interactor controllerInteractor { get; set; }
 
         #region Delegate
         public delegate void ValueAction (ArmData data);
@@ -43,6 +45,8 @@ namespace HelloPico2.PlayerController.Arm
 
 		private void Start()
 		{
+            SetUpXR();
+            
 			controllerInteractor = _controller.GetComponent<Interactor>();
 
             data.WhenGainEnergy.AddListener(() =>
@@ -51,6 +55,15 @@ namespace HelloPico2.PlayerController.Arm
             EventBus.Post(new AudioEventRequested(data.ShootEnergyBallClipName, _controller.transform.position)));
             data.WhenShootChargedProjectile.AddListener(() =>
             EventBus.Post(new AudioEventRequested(data.ShootChargedEnergyBallClipName, _controller.transform.position)));
+        }
+        private void SetUpXR() {
+            if (TryGetComponent<XRRayInteractor>(out rayInteractor))
+            { 
+                rayInteractor.sphereCastRadius = data.GrabDetectionRadius; 
+                rayInteractor.maxRaycastDistance = data.GrabDistance; 
+            }
+            else
+                throw new System.Exception("missing XRRayIneractor");
         }
 		private void OnEnable()
 		{
@@ -175,6 +188,26 @@ namespace HelloPico2.PlayerController.Arm
             needEnergyEventData.HandType = data.HandType;
 
             EventBus.Post(needEnergyEventData);
+        }   
+    }
+
+    public class ArmGizmoDrawer
+    {
+        [DrawGizmo(GizmoType.Selected | GizmoType.NonSelected)]
+        static void DrawGizmoForArmSettings(ArmLogic arm, GizmoType gizmoType)
+        {
+            Gizmos.color = new Color(1, 1, 0, .1f);
+
+            Vector3 startDir, next;
+
+            int rayAmount = Mathf.Clamp(Mathf.FloorToInt(100 * arm.data.GrabDetectionRadius / 3), 10, 100);
+            float angle = 360f / rayAmount;
+            for (int i = 0; i < rayAmount; i++)
+            {
+                startDir = arm.transform.position + arm.transform.right * arm.data.GrabDetectionRadius;
+                next = arm.transform.position + Quaternion.Euler(0, 0, angle * i) * startDir * arm.data.GrabDetectionRadius;
+                Gizmos.DrawRay(next, arm.transform.forward * arm.data.GrabDistance);
+            }
         }
     }
 }
