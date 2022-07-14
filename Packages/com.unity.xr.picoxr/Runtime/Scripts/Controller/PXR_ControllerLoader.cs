@@ -19,6 +19,8 @@ namespace Unity.XR.PXR
         public GameObject neo2R;
         public GameObject neo3L;
         public GameObject neo3R;
+        public GameObject neo3PxL;
+        public GameObject neo3PxR;
 
         public Material mobileMaterial;
         public Material standardMaterial;
@@ -37,6 +39,7 @@ namespace Unity.XR.PXR
         private const string g2TexBasePath = "Controller/G2/controller3";
         private const string neo2TexBasePath = "Controller/Neo2/controller4";
         private const string neo3TexBasePath = "Controller/Neo3/controller5";
+        private const string neo3PhoenixTexBasePath = "Controller/Neo3_Phoenix/controller6";
 
         private bool leftControllerState = false;
         private bool rightControllerState = false;
@@ -92,9 +95,9 @@ namespace Unity.XR.PXR
 
         void Start()
         {
-            controllerType = PXR_Plugin.Controller.UPxr_GetControllerType();
             if (!customModel)
             {
+                controllerType = PXR_Plugin.Controller.UPxr_GetControllerType();
 #if UNITY_ANDROID && !UNITY_EDITOR
                 LoadResFromJson();
 #endif
@@ -263,6 +266,10 @@ namespace Unity.XR.PXR
                     var neo3Comp = neo3Go.AddComponent<PXR_ControllerKeyEffects>();
                     neo3Comp.hand = hand;
                     LoadTexture(neo3Comp, neo3TexBasePath, true);
+                    loadModelSuccess = true;
+                    break;
+                case 6:
+                    var neo3PxGo = Instantiate(hand == PXR_Input.Controller.LeftController ? neo3PxL : neo3PxR, transform, false);
                     loadModelSuccess = true;
                     break;
                 default:

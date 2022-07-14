@@ -9,13 +9,9 @@ namespace Unity.XR.PXR
 {
     public class PLog
     {
-        //   7--all print, 6--info to fatal, 5--warning to fatal,
-        //   4--error to fatal, 3--only fatal print
-        //   0--not print
-        public static LogLevel logLevel = LogLevel.LogVerbose;
-        public enum LogLevel
+        public static LogPriority logPriority = LogPriority.LogVerbose;
+        public enum LogPriority
         {
-            LogClose = 0,
             LogVerbose = 2,
             LogDebug,
             LogInfo,
@@ -26,38 +22,50 @@ namespace Unity.XR.PXR
 
         public static void v(string tag, string message)
         {
-            if (9 - LogLevel.LogVerbose < logLevel)
+#if UNITY_ANDROID && !UNITY_EDITOR
+            if (logPriority >= LogPriority.LogVerbose)
                 Debug.Log(string.Format("{0} FrameID={1}>>>>>>{2}", tag, Time.frameCount, message));
+#endif
         }
 
         public static void d(string tag, string message)
         {
-            if (9 - LogLevel.LogDebug < logLevel)
+#if UNITY_ANDROID && !UNITY_EDITOR
+            if (logPriority >= LogPriority.LogDebug)
                 Debug.Log(string.Format("{0} FrameID={1}>>>>>>{2}", tag, Time.frameCount, message));
+#endif
         }
 
         public static void i(string tag, string message)
         {
-            if (9 - LogLevel.LogInfo < logLevel)
+#if UNITY_ANDROID && !UNITY_EDITOR
+            if (logPriority >= LogPriority.LogInfo)
                 Debug.Log(string.Format("{0} FrameID={1}>>>>>>{2}", tag, Time.frameCount, message));
+#endif
         }
 
         public static void w(string tag, string message)
         {
-            if (9 - LogLevel.LogWarn < logLevel)
+#if UNITY_ANDROID && !UNITY_EDITOR
+            if (logPriority >= LogPriority.LogWarn)
                 Debug.LogWarning(string.Format("{0} FrameID={1}>>>>>>{2}", tag, Time.frameCount, message));
+#endif
         }
 
         public static void e(string tag, string message)
         {
-            if (9 - LogLevel.LogError < logLevel)
+#if UNITY_ANDROID && !UNITY_EDITOR
+            if (logPriority >= LogPriority.LogError)
                 Debug.LogError(string.Format("{0} FrameID={1}>>>>>>{2}", tag, Time.frameCount, message));
+#endif
         }
 
         public static void f(string tag, string message)
         {
-            if (9 - LogLevel.LogFatal < logLevel)
+#if UNITY_ANDROID && !UNITY_EDITOR
+            if (logPriority >= LogPriority.LogFatal)
                 Debug.LogError(string.Format("{0} FrameID={1}>>>>>>{2}", tag, Time.frameCount, message));
+#endif
         }
     }
 }

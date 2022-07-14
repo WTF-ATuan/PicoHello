@@ -94,12 +94,6 @@ namespace Unity.XR.PXR
             Instances.Remove(this);
             PXR_Plugin.Render.UPxr_DestroyLayerByRender(layerIndex);
         }
-        
-        public void DestroyLayer()
-        {
-            DestroyLayerTextures();
-            PXR_Plugin.Render.UPxr_DestroyLayerByRender(layerIndex);
-        }
 
         public void RefreshCamera(Camera cam)
         {

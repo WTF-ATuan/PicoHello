@@ -382,6 +382,9 @@ namespace Unity.XR.PXR
                     {
                         IntPtr ptr = IntPtr.Zero;
                         PXR_Plugin.Render.UPxr_GetLayerImagePtr(9999, EyeType.EyeRight, j, ref ptr);
+
+                        Debug.Log("LLRR: UPxr_GetLayerImagePtr " + ptr.ToString());
+
                         if (ptr == IntPtr.Zero)
                         {
                             continue;

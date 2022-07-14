@@ -13,6 +13,7 @@ namespace Unity.XR.PXR
             G2 = 3,
             Neo2,
             Neo3,
+            Neo3_Phoenix,
             NewController = 10
         }
 
@@ -117,6 +118,76 @@ namespace Unity.XR.PXR
                 pxrControllerTracking.localControllerPose.pose.position.x, 
                 pxrControllerTracking.localControllerPose.pose.position.y,
                 pxrControllerTracking.localControllerPose.pose.position.z);
+        }
+
+        /// <summary>
+        /// Set the controller vibrate.
+        /// </summary>
+        /// <param name="hand">0-Left 1-Right</param>
+        /// <param name="frequency">30-500</param>
+        /// <param name="strength">0-1</param>
+        /// <param name="time">0-65535ms</param>
+        /// <returns></returns>
+        public static int SetControllerVibrationEvent(UInt32 hand, int frequency, float strength, int time) {
+            return PXR_Plugin.Controller.UPxr_SetControllerVibrationEvent(hand, frequency, strength, time);
+        }
+
+        /// <summary>
+        /// Stop sound vibration
+        /// </summary>
+        /// <param name="id">The default is 0</param>
+        /// <returns></returns>
+        public static int StopControllerVCMotor(int id) {
+            return PXR_Plugin.Controller.UPxr_StopControllerVCMotor(id);
+        }
+
+        /// <summary>
+        /// Start sound vibration
+        /// </summary>
+        /// <param name="file">Audio file path</param>
+        /// <param name="slot">0-No 1-Left 2-Right 3-Left And Right</param>
+        /// <param name="slotconfig">0-Reversal 1-No Reversal</param>
+        /// <returns></returns>
+        public static int StartControllerVCMotor(string file, int slot, int slotconfig) {
+            return PXR_Plugin.Controller.UPxr_StartControllerVCMotor(file, slot, slotconfig);
+        }
+
+        /// <summary>
+        /// Set vibration intensity
+        /// </summary>
+        /// <param name="mode">0-2</param>
+        /// <returns></returns>
+        public static int SetControllerAmp(float mode) {
+            return PXR_Plugin.Controller.UPxr_SetControllerAmp(mode);
+        }
+
+        /// <summary>
+        /// Start sound vibration
+        /// </summary>
+        /// <param name="audioClip"></param>
+        /// <param name="slot"></param>
+        /// <returns></returns>
+        public static int StartVibrateBySharem(AudioClip audioClip, int slot, int slotconfig) {
+            float[] data = new float[audioClip.samples * audioClip.channels];
+            int buffersize = audioClip.samples * audioClip.channels;
+            audioClip.GetData(data, 0);
+            int sampleRate = audioClip.frequency;
+            int channelMask = audioClip.channels;
+            return PXR_Plugin.Controller.UPxr_StartVibrateBySharem(data, slot, buffersize, sampleRate, channelMask, 32, slotconfig);
+        }
+
+        /// <summary>
+        /// Start sound vibration
+        /// </summary>
+        /// <param name="data">PCM Data</param>
+        /// <param name="slot">0-No 1-Left 2-Right 3-Left And Right</param>
+        /// <param name="buffersize">buffersize</param>
+        /// <param name="sampleRate">frequency</param>
+        /// <param name="channelMask">channels</param>
+        /// <returns></returns>
+        public static int StartVibrateBySharem(float[] data, int slot, int buffersize, int frequency, int channelMask, int slotconfig)
+        {
+            return PXR_Plugin.Controller.UPxr_StartVibrateBySharem(data, slot, buffersize, frequency, channelMask, 32, slotconfig);
         }
     }
 }

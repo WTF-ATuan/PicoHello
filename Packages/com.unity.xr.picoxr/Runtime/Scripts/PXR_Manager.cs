@@ -86,7 +86,7 @@ namespace Unity.XR.PXR
             //log level
             int logLevel = PXR_Plugin.System.UPxr_GetConfigInt(ConfigType.UnityLogLevel);
             Debug.Log("PXRLog XR Platform----SDK logLevel:" + logLevel);
-            PLog.logLevel = (PLog.LogLevel)logLevel;
+            PLog.logPriority = (PLog.LogPriority)logLevel;
 
             int recommendedAntiAliasingLevel = 0;
             recommendedAntiAliasingLevel = PXR_Plugin.System.UPxr_GetConfigInt(ConfigType.AntiAliasingLevelRecommended);
@@ -174,6 +174,7 @@ namespace Unity.XR.PXR
 #if UNITY_EDITOR
             Application.targetFrameRate = 72;
 #endif
+            PXR_Plugin.Controller.UPxr_SetControllerDelay();
         }
         
         void Update()

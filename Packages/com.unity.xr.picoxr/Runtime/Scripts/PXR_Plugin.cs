@@ -313,7 +313,8 @@ namespace Unity.XR.PXR
     {
         PxrInputG2 = 3,
         PxrInputNeo2 = 4,
-        PxrInputNeo3 = 5
+        PxrInputNeo3 = 5,
+        PxrInputNeo3Phoenix = 6
     }
 
     public enum PxrControllerDof
@@ -449,9 +450,22 @@ namespace Unity.XR.PXR
         public float lowerVerticalAngle;
     };
 
+    [StructLayout(LayoutKind.Sequential)]
+    public struct AudioClipData
+    {
+        public uint delaytag;
+        public uint slot;
+        public uint buffersize;
+        public uint sampleRate;
+        public uint channelMask;
+        public uint bitrate;
+        public uint slotconfig;
+        public uint datatype;
+    };
+
     public static class PXR_Plugin
     {
-        private const string PXR_SDK_Version = "2.0.4.3";
+        private const string PXR_SDK_Version = "2.2.0.1";
         private const string PXR_PLATFORM_DLL = "PxrPlatform";
         public const string PXR_API_DLL = "pxr_api";
 
@@ -638,7 +652,29 @@ namespace Unity.XR.PXR
         private static extern int Pxr_SetControllerVibration(UInt32 deviceID, float strength, int time);
 
         [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
+        private static extern int Pxr_SetControllerVibrationEvent(UInt32 deviceID, int frequency, float strength, int time);
+
+        [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
         private static extern int Pxr_GetControllerCapabilities(UInt32 deviceID, ref PxrControllerCapability capability);
+
+        [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
+        private static extern int Pxr_StopControllerVCMotor(int clientId);
+
+        [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
+        private static extern int Pxr_StartControllerVCMotor(string file, int slot, int slotconfig);
+
+        [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
+        private static extern int Pxr_SetControllerAmp(float mode);
+
+        [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
+        private static extern int Pxr_SetControllerDelay(int delay);
+
+        [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
+        private static extern string Pxr_GetVibrateDelayTime(ref int length);
+
+        [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
+        private static extern int Pxr_StartVibrateBySharemF(float[] data,ref AudioClipData parameter);
+
 
         //Large Space
         [DllImport(PXR_PLATFORM_DLL, CallingConvention = CallingConvention.Cdecl)]
@@ -2646,6 +2682,18 @@ namespace Unity.XR.PXR
 #endif
             }
 
+            public static int UPxr_SetControllerVibrationEvent(UInt32 hand, int frequency, float strength, int time) 
+            {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                Debug.Log("[Phoenix_VCMotor_SDK] UPxr_SetControllerVibrationEvent " + hand + " frequency: " + frequency.ToString() + " strength:" + strength.ToString() + " time:" + time.ToString());
+                return Pxr_SetControllerVibrationEvent(hand, frequency,strength, time);
+#else
+                return 0;
+#endif
+
+            }
+
+
             public static int UPxr_GetControllerType()
             {
                 var type = 0;
@@ -2656,6 +2704,79 @@ namespace Unity.XR.PXR
 #endif
                 PLog.i(TAG, "UPxr_GetControllerType()" + type);
                 return type;
+            }
+
+            //Pxr_StopControllerVCMotor
+
+            public static int UPxr_StopControllerVCMotor(int id) {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                Debug.Log("[Phoenix_VCMotor_SDK] StopControllerVCMotor :" + id.ToString());
+                return Pxr_StopControllerVCMotor(id);
+#endif
+                return 0;
+            }
+
+            public static int UPxr_StartControllerVCMotor(string file, int slot, int slotconfig) {
+                //0-Left And Right 1-Left 2-Right 3-Left And Right
+                //0-Reversal 1-No Reversal
+#if UNITY_ANDROID && !UNITY_EDITOR
+                Debug.Log("[Phoenix_VCMotor_SDK] StartControllerVCMotor " + file + " slot: " + slot.ToString() + " slotconfig:" + slotconfig.ToString());
+                return Pxr_StartControllerVCMotor(file,slot,slotconfig);
+#endif
+                return 0;
+            }
+
+            public static int UPxr_SetControllerAmp(float mode) {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                return Pxr_SetControllerAmp(mode);
+#endif
+                return 0;
+            }
+
+            public static int UPxr_SetControllerDelay() {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                int delay = 3;
+                int Length;
+                int num;
+                AudioSettings.GetDSPBufferSize(out Length, out num);
+                if (Length == 256)
+                {
+                    delay = 1;
+                }
+                else if (Length == 512) {
+                    delay = 2;
+                } else if (Length == 1024) {
+                    delay = 3;
+                }
+                Debug.Log("[Phoenix_VCMotor_SDK] UPxr_SetControllerDelay " + delay.ToString());
+                return Pxr_SetControllerDelay(delay);
+#endif
+                return 0;
+
+            }
+
+            public static string UPxr_GetVibrateDelayTime(ref int x) {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                return Pxr_GetVibrateDelayTime(ref x);
+#endif
+                return " ";
+            }
+
+            public static int UPxr_StartVibrateBySharem(float[] data, int slot, int buffersize, int sampleRate, int channelMask, int bitrate, int slotconfig) {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                AudioClipData audioClipData = new AudioClipData();
+                audioClipData.delaytag = 0;
+                audioClipData.slot = (uint)slot;
+                audioClipData.buffersize = (uint)buffersize;
+                audioClipData.sampleRate = (uint)sampleRate;
+                audioClipData.channelMask = (uint)channelMask;
+                audioClipData.bitrate = (uint)bitrate;
+                audioClipData.slotconfig = (uint)slotconfig;
+                audioClipData.datatype = 0;
+                Debug.Log("[Phoenix_VCMotor_SDK] Pxr_StartVibrateBySharem " + " slot: " + audioClipData.slot.ToString() + " buffersize:" + audioClipData.buffersize.ToString() + " sampleRate" + audioClipData.sampleRate.ToString() + " channelMask:" + audioClipData.channelMask.ToString()+" bitrate:" + audioClipData.bitrate.ToString());
+                return Pxr_StartVibrateBySharemF(data, ref audioClipData);
+#endif
+                return 0;
             }
 
             public static int UPxr_SetControllerMainInputHandle(UInt32 hand)

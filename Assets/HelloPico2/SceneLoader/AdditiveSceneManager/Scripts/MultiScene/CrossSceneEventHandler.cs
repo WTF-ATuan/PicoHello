@@ -2,14 +2,18 @@
 using System.Linq;
 using Project;
 using Sirenix.OdinInspector;
+using UltEvents;
 using UnityEngine;
 
 namespace HelloPico2.SceneLoader.AdditiveSceneManager.Scripts.MultiScene{
 	public class CrossSceneEventHandler : MonoBehaviour{
-		[TypeFilter("GetCrossEventType")] [SerializeReference] 
+		[TypeFilter("GetCrossEventType")] [SerializeReference] [HorizontalGroup("Event")]
 		public CrossEvent catchEventType;
 
-		public CrossUnityEvent crossUnityEvent;
+		[HorizontalGroup("Event")] [LabelText("ID")] [LabelWidth(30)]
+		public string eventID;
+
+		public UltEvent<CrossEvent> crossUnityEvent;
 
 		[SerializeField] private bool testing;
 
