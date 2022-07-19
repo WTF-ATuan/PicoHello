@@ -1,7 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
 using Project;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEditor;
 using UnityEngine.Events;
 using DG.Tweening;
 
@@ -12,38 +14,58 @@ namespace HelloPico2.InteractableObjects
         [FoldoutGroup("Audio Settings")][SerializeField] private string _ChargeBloomClipName0;
         [FoldoutGroup("Audio Settings")][SerializeField] private string _ChargeBloomClipName1;
         [SerializeField] private float _RequireEnergy;
-        [SerializeField] private GameObject _SpawnThisWhenBloomed;
-        [SerializeField] private int _SpawnAmount;
-        [SerializeField] private FollowParticle _SpawnObjectControl;
-        [SerializeField] private ParticleSystem _FollowVFXPosition;
+        [FoldoutGroup("Spawn Energy")][SerializeField] private GameObject _SpawnThisWhenBloomed;
+        [FoldoutGroup("Spawn Energy")][SerializeField] private bool _SpawnEnergyFromAnimationEvent = false;
+        [FoldoutGroup("Spawn Energy")][SerializeField] private int _SpawnAmount;
+        [FoldoutGroup("Spawn Energy")][SerializeField] private float _DelayToActivate = .5f;
+        [FoldoutGroup("Spawn Energy")][SerializeField] private FollowParticle _SpawnObjectControl;
+        [FoldoutGroup("Spawn Energy")][SerializeField] private ParticleSystem _FollowVFXPosition;
+        [FoldoutGroup("Spawn Energy")][SerializeField] private float _DelayToDestroy = 3f;        
 
+        public UltEvents.UltEvent WhenCharge;
         public UnityEvent WhenCharged1;
         public UnityEvent WhenCharged2;
         public UnityEvent WhenFullyCharged;
+        public UnityEvent WhenFinishedBloom;
 
         private bool charged1;
         private bool charged2;
         private bool bloomed;
         private float currentChargedEnergy;
-
-        public override void OnCollide(InteractType type, Collider selfCollider)
-        {
-            WhenCollide?.Invoke();
+        
+        public override void OnCollide(InteractType type, Collider selfCollider){
             base.OnCollide(type, selfCollider);
         }
-        private void OnEnable()
-        {
+        private void OnEnable(){
             OnEnergyBallInteract += ChargeBloom;          
+            OnBeamInteract += PlayHitEffect;          
+            OnWhipInteract += PlayHitEffect;              
+            OnShieldInteract += PlayHitEffect;              
+            OnEnergyInteract += PlayHitEffect;              
         }
-        private void OnDisable()
-        {
-            OnEnergyBallInteract -= ChargeBloom;          
+        private void OnDisable(){
+            OnEnergyBallInteract -= ChargeBloom;
+            OnBeamInteract -= PlayHitEffect;
+            OnWhipInteract -= PlayHitEffect;
+            OnShieldInteract -= PlayHitEffect;
+            OnEnergyInteract -= PlayHitEffect;
         }
-        private void ChargeBloom(Collider selfCollider) {   
+        private void PlayHitEffect(Collider selfCollider){
+            if (!_timer.CanInvoke()) return;
             if (bloomed) return;
 
-            currentChargedEnergy += 20;
+            WhenCollide?.Invoke();
+            WhenCollideUlt?.Invoke(); 
+            PushBackFeedback(selfCollider);
+        }
+        private void ChargeBloom(Collider selfCollider) {
+            if (!_timer.CanInvoke()) return;
+            if (bloomed) return;
 
+            WhenCharge?.Invoke();
+            PushBackFeedback(selfCollider);
+
+            currentChargedEnergy += 20;
             CheckChargedEnergy();
 
             PlayAudio();
@@ -62,7 +84,7 @@ namespace HelloPico2.InteractableObjects
             if (currentChargedEnergy >= _RequireEnergy && !bloomed) 
             { 
                 WhenFullyCharged?.Invoke();
-                SpawnEnergy();
+                if(!_SpawnEnergyFromAnimationEvent) SpawnEnergy();
                 bloomed = true;
             }
         }
@@ -80,15 +102,52 @@ namespace HelloPico2.InteractableObjects
             List<GameObject> cloneList = new List<GameObject>();
             for (int i = 0; i < _SpawnAmount; i++)
             {
-                var clone = Instantiate(_SpawnThisWhenBloomed, transform.position, Quaternion.identity);
-                clone.transform.SetParent(transform.parent, false);                
+                var clone = Instantiate(_SpawnThisWhenBloomed, _FollowVFXPosition.transform.position, Quaternion.identity);
+                clone.transform.SetParent(transform.parent);
+                clone.transform.position = _FollowVFXPosition.transform.position;
                 cloneList.Add(clone);
+                clone.transform.DOScale(clone.transform.localScale, _DelayToActivate);
             }
+
+            StartCoroutine(EnergyActivition(cloneList));
+            
 
             _SpawnObjectControl.m_Follower = cloneList.ToArray();
             _SpawnObjectControl.m_FollowThis = _FollowVFXPosition;
             _SpawnObjectControl.Activate = true;
             _FollowVFXPosition.Play();
+        }
+        private IEnumerator EnergyActivition(List<GameObject> objs) {            
+            for (int i = 0; i < objs.Count; i++)
+            {
+                objs[i].GetComponent<Collider>().enabled = false;
+            }
+            yield return new WaitForSeconds(_DelayToActivate);
+            for (int i = 0; i < objs.Count; i++)
+            {
+                objs[i].GetComponent<Collider>().enabled = true;
+            }
+            WhenFinishedBloom?.Invoke(); 
+            transform.DOScale(Vector3.zero, _DelayToDestroy);
+            Destroy(gameObject, _DelayToDestroy);
+        }
+        protected override void PushBackFeedback(Collider hitCol)
+        {
+            base.PushBackFeedback(hitCol);
+
+            var targetPos = transform.position + hitCol.transform.forward * _PushBackDist;
+
+            transform.DOMove(targetPos, _PushBackDuration).SetEase(_PushBackEasingCureve);
+        }
+        private void OnDrawGizmosSelected()
+        {
+            if (_UsephPushBackFeedback)
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawRay(transform.position, transform.forward * _PushBackDist);
+                GUI.color = Color.red;
+                Handles.Label(transform.position + transform.forward * _PushBackDist / 2, "Pushback Distance");
+            }
         }
     }
 }

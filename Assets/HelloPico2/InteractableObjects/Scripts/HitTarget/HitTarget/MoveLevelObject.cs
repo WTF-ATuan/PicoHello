@@ -43,8 +43,5 @@ namespace HelloPico2.LevelTool
         {
             speed = 0;
         }
-    }
-    public interface ITrackInteractableState {
-        public void WhenCollideWith(HelloPico2.InteractableObjects.InteractType type);
-    }
+    }    
 }

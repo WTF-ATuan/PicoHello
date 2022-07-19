@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using UnityEngine.XR.Interaction.Toolkit;
 using HelloPico2.InputDevice.Scripts;
 using HelloPico2.InteractableObjects;
@@ -11,14 +12,21 @@ namespace HelloPico2.PlayerController.Arm
 {
     [RequireComponent(typeof(ArmLogic))]
     public class EnergyBallBehavior : WeaponBehavior
-    {        
+    {
+        #region Variables
         [FoldoutGroup("Charging Energyball Position")][SerializeField] private Transform _Pivot;
         [FoldoutGroup("Charging Energyball Position")][SerializeField] private GameObject _ChargingEnergyBall;
         [FoldoutGroup("Charging Energyball Position")][SerializeField] private Vector2 _ScaleRange;
         [FoldoutGroup("Charging Energyball Position")][SerializeField] private float _ScalingSpeed;
 
+        [FoldoutGroup("Lock On Target")][SerializeField] private float _CheckSphererRadius;
+        [FoldoutGroup("Lock On Target")][SerializeField] private float _Distance;
+        [FoldoutGroup("Lock On Target")][SerializeField] private LayerMask _LayerMask;
+
         [FoldoutGroup("Projectile")][SerializeField] private GameObject _EnergyProjectile;
         [FoldoutGroup("Projectile")][SerializeField] private GameObject _ChargedEnergyProjectile;
+        [FoldoutGroup("Projectile")][SerializeField] private bool _Homing;
+        [FoldoutGroup("Projectile")][SerializeField] private Transform _TestTarget;
         [FoldoutGroup("Projectile")][SerializeField] private float _SpawnOffset;
         [FoldoutGroup("Projectile")][SerializeField] private float _ShootSpeed;
         [FoldoutGroup("Projectile")][SerializeField] private float _ChargeShootSpeed;
@@ -39,10 +47,7 @@ namespace HelloPico2.PlayerController.Arm
         [FoldoutGroup("Transition")][SerializeField] private Ease _TrasitionEaseCurve;
 
         [FoldoutGroup("Debug")] public bool _OnlyShootProjectileOnEnergyBallState = true;
-        [FoldoutGroup("Debug")] public bool _Debug;
-        [FoldoutGroup("Debug")] public Vector2 axis;
-        [FoldoutGroup("Debug")] public Transform target;
-
+        
         [FoldoutGroup("Transition")][ReadOnly][SerializeField] private bool hasTransformProcess;
         public Coroutine ShootCoolDownProcess { get; set; }
 
@@ -60,11 +65,16 @@ namespace HelloPico2.PlayerController.Arm
         private GameObject currentShape;
         private WeaponBehavior currentWeaponBehavior;
         private bool isShapeConfirmed = false;
-
+        #endregion
         private void Start()
         {
             Project.EventBus.Subscribe<GainEnergyEventData>(ChargeEnergy);
             Project.EventBus.Subscribe<GainEnergyEventData>(ChargeEnergyBall);
+        }
+        private void Update()
+        {
+            //if(CheckTarget())
+            //    CheckTarget().gameObject.SetActive(false);
         }
         private void OnEnable()
         {
@@ -120,10 +130,19 @@ namespace HelloPico2.PlayerController.Arm
                 armLogic.OnEnergyChanged?.Invoke(armLogic.data);
             });
         }
-        [Button]
+        private Transform CheckTarget() {
+            Ray ray = new Ray();   
+            ray.origin = currentEnergyBall.transform.position + (currentEnergyBall.transform.forward * _SpawnOffset);
+            ray.direction = armLogic.data.Controller.transform.forward;
+            RaycastHit[] hitInfos = new RaycastHit[3];
+
+            if (Physics.SphereCastNonAlloc(ray, _CheckSphererRadius, hitInfos, _Distance, _LayerMask) > 0) {
+                return hitInfos[0].transform;
+            }
+            return null;
+        }
         private void ShootChargedProjectile(ArmData data)
         {
-            if (_Debug) return;
             if (data.Energy <= 0) return;
             if (hasTransformProcess) return;
 
@@ -136,7 +155,6 @@ namespace HelloPico2.PlayerController.Arm
 
             data.WhenShootChargedProjectile?.Invoke();
         }
-        [Button]
         private void ShootEnergyProjectile(ArmData data)
         {
             if (data.Energy <= 0 || ShootCoolDownProcess != null) return;
@@ -145,20 +163,27 @@ namespace HelloPico2.PlayerController.Arm
 
             data.Energy -= _CostEnergy;
             armLogic.OnEnergyChanged?.Invoke(data);
-            GenerateProjectile(false, _EnergyProjectile, _ShootSpeed);
+            GenerateProjectile(false, _EnergyProjectile, _ShootSpeed, 1, _Homing);
 
             UpdateScale(data);
 
             data.WhenShootProjectile?.Invoke();
         }
-        private void GenerateProjectile(bool overwriteScale, GameObject prefab, float speed, float scale = 1)
+        private void GenerateProjectile(bool overwriteScale, GameObject prefab, float speed, float scale = 1, bool homing = false)
         {
             var clone = Instantiate(prefab, transform.root);
             clone.transform.position = currentEnergyBall.transform.position + (currentEnergyBall.transform.forward * _SpawnOffset);
             clone.transform.forward = armLogic.data.Controller.transform.forward;
             if (overwriteScale) clone.transform.localScale *= scale;
+            
+            if (homing) {
+                var target = CheckTarget();
+                if (target != null) {
+                    _TestTarget = target;
+                }
+            }
 
-            clone.GetComponent<ProjectileController>().ProjectileSetUp(speed, _SpeedBufferDuration, _SpeedBufferEasingCurve, target);
+            clone.GetComponent<ProjectileController>().ProjectileSetUp(speed, _SpeedBufferDuration, _SpeedBufferEasingCurve, _TestTarget, homing);
                         
             ShootCoolDownProcess = StartCoroutine(CoolDown(_ShootCoolDown));
         }
@@ -320,7 +345,29 @@ namespace HelloPico2.PlayerController.Arm
                 obj.transform.localScale = originalScale;   
                 _FinishedDeactivate?.Invoke();
             });
-        }        
-        #endregion        
+        }
+        #endregion
+        #region Gizmos
+        private void OnDrawGizmosSelected()
+        {
+            Color col = new Color(1, 0, 0, 0.3f);
+            Gizmos.color = col; 
+            Gizmos.DrawWireSphere(transform.position, _CheckSphererRadius);    
+            Gizmos.DrawWireSphere(transform.position + transform.forward * _Distance, _CheckSphererRadius);
+
+            GUI.color = col;
+            Handles.Label(transform.position + transform.forward * _Distance / 2, "Homing Target Range");
+
+            Vector3 startDir, next;
+            int rayAmount = Mathf.Clamp(Mathf.FloorToInt(50 * _CheckSphererRadius / 3), 10, 100);
+            float angle = 360f / rayAmount;
+            for (int i = 0; i < rayAmount; i++)
+            {
+                startDir = transform.right;
+                next = transform.position + Quaternion.Euler(0, 0, angle * i) * startDir * _CheckSphererRadius;
+                Gizmos.DrawRay(next, transform.forward * _Distance);
+            }
+        }
+        #endregion
     }
 }

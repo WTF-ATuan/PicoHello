@@ -3,14 +3,21 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 using Project;
+using DG.Tweening;
 using Random = UnityEngine.Random;
 
 namespace HelloPico2.InteractableObjects
 {
     public class HitTargetBase : MonoBehaviour, IInteractCollide{
 
+        [FoldoutGroup("PushBack Feedback")][SerializeField] protected bool _UsephPushBackFeedback = false;
+        [FoldoutGroup("PushBack Feedback")][ShowIf("_UsephPushBackFeedback")][SerializeField] protected float _PushBackDuration = .3f;
+        [FoldoutGroup("PushBack Feedback")][ShowIf("_UsephPushBackFeedback")][SerializeField] protected float _PushBackDist = 3f;
+        [FoldoutGroup("PushBack Feedback")][ShowIf("_UsephPushBackFeedback")][SerializeField] protected AnimationCurve _PushBackEasingCureve;
+
         [FoldoutGroup("Audio Settings")][SerializeField] private string[] _CollideClipName;
         [SerializeField] private int _DamageAmount = 0;
+        [SerializeField] private float _HitCDDuration = .05f;
         [SerializeField] private InteractType _InteractType = InteractType.Energy;
 
         public int damageAmount { get { return _DamageAmount; } }
@@ -24,6 +31,12 @@ namespace HelloPico2.InteractableObjects
         public InteractDel OnEnergyInteract;
 
         public UnityEvent WhenCollide;
+        public UltEvents.UltEvent WhenCollideUlt;
+        protected Game.Project.ColdDownTimer _timer;
+        private void Start()
+        {
+            _timer = new Game.Project.ColdDownTimer(_HitCDDuration);
+        }
         public void SetUpMoveBehavior(Vector3 dir, float speed, bool useGravity, float gravity) {
             var mover = gameObject.AddComponent<HelloPico2.LevelTool.MoveLevelObject>();
             mover.speed = speed;
@@ -32,13 +45,16 @@ namespace HelloPico2.InteractableObjects
             mover.force = gravity;
         }
         public virtual void OnCollide(InteractType type, Collider selfCollider){
+            if (!_timer.CanInvoke()) return;
+
             CheckInteractType(type, selfCollider);
             NotifyTracker(type);
+            _timer.Reset();
         }
 
         public Action<InteractType, Collider> ColliderEvent{ get; }
 
-        private void CheckInteractType(InteractType type, Collider selfCollider) {
+        private void CheckInteractType(InteractType type, Collider selfCollider) {            
             switch (type) {
                 case InteractType.Beam:
                     OnBeamInteract?.Invoke(selfCollider);
@@ -57,6 +73,7 @@ namespace HelloPico2.InteractableObjects
                     break;
                 default:
                     WhenCollide?.Invoke();
+                    WhenCollideUlt?.Invoke();
                     break;
             }
         }
@@ -70,6 +87,10 @@ namespace HelloPico2.InteractableObjects
             var value = Random.Range(0, _CollideClipName.Length);
 
             EventBus.Post(new AudioEventRequested(_CollideClipName[value], transform.position));
+        }
+
+        protected virtual void PushBackFeedback(Collider hitCol) {
+            if (!_UsephPushBackFeedback) return;
         }
     }
 }
