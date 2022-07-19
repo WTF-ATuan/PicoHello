@@ -350,6 +350,7 @@ namespace HelloPico2.PlayerController.Arm
         #region Gizmos
         private void OnDrawGizmosSelected()
         {
+            #if UNITY_EDITOR
             Color col = new Color(1, 0, 0, 0.3f);
             Gizmos.color = col; 
             Gizmos.DrawWireSphere(transform.position, _CheckSphererRadius);    
@@ -367,6 +368,7 @@ namespace HelloPico2.PlayerController.Arm
                 next = transform.position + Quaternion.Euler(0, 0, angle * i) * startDir * _CheckSphererRadius;
                 Gizmos.DrawRay(next, transform.forward * _Distance);
             }
+            #endif
         }
         #endregion
     }

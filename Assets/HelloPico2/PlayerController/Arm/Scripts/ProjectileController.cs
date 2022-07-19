@@ -93,6 +93,7 @@ namespace HelloPico2.PlayerController.Arm
         }
         private void OnDrawGizmosSelected()
         {
+            #if UNITY_EDITOR
             GUI.color = Color.green;
             Handles.Label(transform.position + transform.up * _DistanceLimit, "Distance Limit");
             Gizmos.color = Color.green;
@@ -103,7 +104,7 @@ namespace HelloPico2.PlayerController.Arm
             Gizmos.color = Color.yellow;
             Gizmos.DrawRay(transform.position, transform.forward * _DistanceLimit);
             Gizmos.DrawRay(transform.position, Quaternion.Euler(_AngleLimit, 0, 0) * transform.forward * _DistanceLimit);
-
+            #endif
         }
     }
 }

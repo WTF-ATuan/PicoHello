@@ -141,6 +141,7 @@ namespace HelloPico2.InteractableObjects
         }
         private void OnDrawGizmosSelected()
         {
+            #if UNITY_EDITOR
             if (_UsephPushBackFeedback)
             {
                 Gizmos.color = Color.red;
@@ -148,6 +149,7 @@ namespace HelloPico2.InteractableObjects
                 GUI.color = Color.red;
                 Handles.Label(transform.position + transform.forward * _PushBackDist / 2, "Pushback Distance");
             }
+            #endif
         }
     }
 }
