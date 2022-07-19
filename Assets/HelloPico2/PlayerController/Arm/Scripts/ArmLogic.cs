@@ -26,7 +26,7 @@ namespace HelloPico2.PlayerController.Arm
         }
 
 		public XRController _controller;
-        public XRRayInteractor rayInteractor;
+        private XRRayInteractor rayInteractor;
         public Interactor controllerInteractor { get; set; }
 
         #region Delegate
@@ -193,7 +193,8 @@ namespace HelloPico2.PlayerController.Arm
 
     public class ArmGizmoDrawer
     {
-        [DrawGizmo(GizmoType.Selected | GizmoType.NonSelected)]
+        #if UNITY_EDITOR
+        [DrawGizmo(GizmoType.Selected)]
         static void DrawGizmoForArmSettings(ArmLogic arm, GizmoType gizmoType)
         {
             Gizmos.color = new Color(1, 1, 0, .1f);
@@ -204,10 +205,11 @@ namespace HelloPico2.PlayerController.Arm
             float angle = 360f / rayAmount;
             for (int i = 0; i < rayAmount; i++)
             {
-                startDir = arm.transform.position + arm.transform.right * arm.data.GrabDetectionRadius;
+                startDir = arm.transform.right;
                 next = arm.transform.position + Quaternion.Euler(0, 0, angle * i) * startDir * arm.data.GrabDetectionRadius;
                 Gizmos.DrawRay(next, arm.transform.forward * arm.data.GrabDistance);
             }
         }
+        #endif
     }
 }
