@@ -1,12 +1,15 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace HelloPico2.StateMachine{
 	public class StateLoopExecutor : MonoBehaviour{
-		[SerializeReference] public AbstractState beginState;
+		[Required] public StateOverview stateOverview;
 		private IState _currentState;
 
 		private void Start(){
-			_currentState = beginState;
+			var allSetupState = stateOverview.GetAllSetupState();
+			_currentState = allSetupState.First();
 			_currentState.Begin();
 		}
 

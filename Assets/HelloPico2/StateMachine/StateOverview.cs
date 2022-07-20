@@ -9,8 +9,8 @@ namespace HelloPico2.StateMachine{
 	public class StateOverview : ScriptableObject{
 		[SerializeField] private List<StateWrapper> stateWrapperList;
 
-		public List<AbstractState> GetAllSetupState(){
-			var stateList = stateWrapperList.Select(x => x.settingState).ToList();
+		public IEnumerable<AbstractState> GetAllSetupState(){
+			var stateList = stateWrapperList.Select(x => x.settingState);
 			return stateList;
 		}
 	}
