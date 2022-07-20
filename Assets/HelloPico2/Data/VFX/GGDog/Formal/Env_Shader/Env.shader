@@ -2,7 +2,6 @@ Shader "GGDog/Space_Test/Env"
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
 		[HDR]_Color("Color",Color) = (1,1,1,1)
 		_ShadowColor("Shadow Color",Color) = (1,1,1,1)
 		_SkyColor("Sky Color",Color) = (1,1,1,1)
@@ -12,24 +11,23 @@ Shader "GGDog/Space_Test/Env"
         _FogPos ("Fog Pos", Range(-200,200)) = 77
 		
 		_Rim("Rim",Range(0.01,10)) = 5
+		_LOD_LowColor("LOD LowColor",Color) = (1,1,1,1)
+		
     }
     SubShader
     {
-
+		LOD 100 
         Pass
         {
-            Tags { "LightMode"="ForwardBase" }
- 
-            Cull Back
- 
+			Tags { "LightMode"="ForwardBase" "RenderType" = "Opaque" "Queue" = "Geometry"}
             CGPROGRAM
+            #include "Lighting.cginc"
             #pragma vertex vert
             #pragma fragment frag
 			
 			#pragma target 3.0
             #pragma multi_compile_instancing
             #include "UnityCG.cginc"
-            #include "Lighting.cginc"
 
             struct appdata
             {
@@ -49,9 +47,6 @@ Shader "GGDog/Space_Test/Env"
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
-
             v2f vert (appdata v)
             {
                 v2f o;
@@ -60,7 +55,7 @@ Shader "GGDog/Space_Test/Env"
                 UNITY_TRANSFER_INSTANCE_ID(v, o);
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.uv = v.uv;
 
 				o.CameraDistance = length(mul(UNITY_MATRIX_MV,v.vertex).xyz);
 
@@ -106,12 +101,92 @@ Shader "GGDog/Space_Test/Env"
 				Rim*=smoothstep(300,700,i.CameraDistance);
 				
 
-                float4 col = tex2D(_MainTex, i.uv)* float4(FinalColor,1);
+                float4 col = float4(FinalColor,1);
 
 				col += Rim*_SkyColor;
 
 				col = lerp(col,_FarColor,saturate(smoothstep(0,1000,i.CameraDistance)));
 				
+
+				col = lerp(col,_SkyColor,saturate(smoothstep(850,1000,i.worldPos.z)));
+				
+
+				col = lerp(col,_FogColor,(1-saturate(smoothstep(-100,300,i.worldPos.y+_FogPos))) *smoothstep(0,1000,i.CameraDistance)  );
+				
+
+				col = lerp(col,_BackFogColor,1-saturate(smoothstep(-700,1000,i.worldPos.z)));
+				
+
+                return col ;
+            }
+            ENDCG
+        }
+    }
+
+
+	
+    SubShader
+    {
+		LOD 0 
+        Pass
+        {
+			Tags { "RenderType"="Opaque" }
+ 
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+			
+			#pragma target 3.0
+            #pragma multi_compile_instancing
+            #include "UnityCG.cginc"
+            #include "Lighting.cginc"
+
+            struct appdata
+            {
+                float4 vertex : POSITION;
+                float2 uv : TEXCOORD0;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+            };
+
+            struct v2f
+            {
+                float2 uv : TEXCOORD0;
+                float4 vertex : SV_POSITION;
+				float CameraDistance : TEXCOORD1;
+				float3 worldPos : TEXCOORD2;
+
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+            };
+
+            v2f vert (appdata v)
+            {
+                v2f o;
+
+                UNITY_SETUP_INSTANCE_ID(v);
+                UNITY_TRANSFER_INSTANCE_ID(v, o);
+
+                o.vertex = UnityObjectToClipPos(v.vertex);
+                o.uv = v.uv;
+
+				o.CameraDistance = length(mul(UNITY_MATRIX_MV,v.vertex).xyz);
+
+				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+				
+                return o;
+            }
+            float4 _LOD_LowColor;
+            float4 _SkyColor;
+			
+            float4 _BackFogColor;
+            float4 _FogColor;
+
+            float _FogPos;
+
+            float4 frag (v2f i) : SV_Target
+            {
+                UNITY_SETUP_INSTANCE_ID(i);
+
+                float4 col = _LOD_LowColor;
 
 				col = lerp(col,_SkyColor,saturate(smoothstep(850,1000,i.worldPos.z)));
 				

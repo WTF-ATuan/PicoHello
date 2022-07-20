@@ -172,18 +172,22 @@ Shader "Unlit/CameraDistance_Test"
 
 			// return frac(sin(dot(i.uv, float2(12.9898, 78.233)))*43758.5453);
 
+
 			 float Out;
 			 float Cells;
 
-			// Unity_Voronoi_float(i.uv,_Time.y,10,Out,Cells);
+			 //Unity_Voronoi_float(i.uv+_Time.y*float2(1,0),_Time.y*5,5,Out,Cells);
+			 //return Out;
              
 
-			 Unity_GradientNoise_float(i.uv,10,Out);
+
+			// Unity_GradientNoise_float(i.uv,10,Out);
+			// return Out;
 
 
-			 float f = saturate(snoise(i.uv*3+_Time.y*float2(0.5,0.2)) + snoise(i.uv*5-_Time.y*float2(1,0.52)));
+
+			 return saturate(snoise(i.uv*3+_Time.y*float2(0.5,0.2)) + snoise(i.uv*5-_Time.y*float2(1,0.52)));
 			 
-			 return f;
             }
 
 

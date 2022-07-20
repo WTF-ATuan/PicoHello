@@ -17,6 +17,7 @@ Shader "GGDog/Space_Test/Sky_Color"
     {
         Tags { "RenderType"="Opaque" }
         Cull Front
+		Offset 10000, 10000
         Pass
         {
             CGPROGRAM

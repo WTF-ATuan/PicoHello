@@ -6,15 +6,9 @@ using Unity.XR.PXR;
 
 public class seethrough : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    public void EnableSeeThroughManual()
     {
         PXR_Boundary.EnableSeeThroughManual(true);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
-    
 }
