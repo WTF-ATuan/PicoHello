@@ -4880,7 +4880,7 @@ MonoBehaviour:
   _ScalingObject: {fileID: 335738112}
   _From: {x: 0, y: 0, z: 0}
   _To: {x: 1, y: 1, z: 1}
-  _Duration: 0.3
+  _Duration: 0.1
   _Loop: 0
   _EaseCurve:
     serializedVersion: 2
@@ -4888,14 +4888,14 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0.095038585
-      outSlope: 0.095038585
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.08008214
+      outWeight: 0
     - serializedVersion: 3
-      time: 0.7
+      time: 1
       value: 1
       inSlope: 0
       outSlope: 0
@@ -9936,7 +9936,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1291713887907915246}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.2
@@ -10003,17 +10003,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _UsephPushBackFeedback: 0
-  _PushBackDuration: 0.3
-  _PushBackDist: 3
+  _PushBackDuration: 1.5
+  _PushBackDist: 1.8
   _PushBackEasingCureve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   _CollideClipName: []
   _DamageAmount: 0
-  _HitCDDuration: 0.05
+  _HitCDDuration: 0.3
   _InteractType: 4
   WhenCollide:
     m_PersistentCalls:
@@ -10053,8 +10071,32 @@ MonoBehaviour:
   _RequireEnergy: 40
   _SpawnThisWhenBloomed: {fileID: 6525888332042859794, guid: c56cb066b2767b74fb10c69b3b760375, type: 3}
   _SpawnEnergyFromAnimationEvent: 1
-  _SpawnAmount: 5
-  _DelayToActivate: 3
+  _SpawnAmount: 3
+  _DelayToActivate: 0.5
+  _SpawnedEnergyEasingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _SpawnObjectControl: {fileID: 387462982}
   _FollowVFXPosition: {fileID: 387462981}
   _DelayToDestroy: 1

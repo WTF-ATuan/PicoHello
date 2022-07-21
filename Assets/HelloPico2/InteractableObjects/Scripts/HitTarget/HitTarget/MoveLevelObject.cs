@@ -42,6 +42,7 @@ namespace HelloPico2.LevelTool
         public void WhenCollideWith(HelloPico2.InteractableObjects.InteractType type)
         {
             speed = 0;
+            force = 0;
         }
     }    
 }
