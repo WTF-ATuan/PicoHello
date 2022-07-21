@@ -96,9 +96,10 @@ namespace HelloPico2.LevelTool
                 if (_SpawnerSetsLibrary[i].Name == name)
                 {
                     CurrentSpawnersSet = i;
-                    break;
+                    return;
                 }
             }
+            throw new System.Exception("Can't find " + name + " spawner.");
         }
         #region Library
         private List<BaseSpawner> GetSpawners(Melanchall.DryWetMidi.MusicTheory.NoteName name)
