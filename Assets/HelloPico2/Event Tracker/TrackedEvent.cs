@@ -22,8 +22,12 @@ namespace HelloPico2.Event_Tracker{
 			return resultString;
 		}
 
-		#if UNITY_EDITOR
+		public void SetParamsValue(string paramsName, string paramsValue){
+			var eventParams = paramsList.Find(x => x.paramsName.Equals(paramsName));
+			eventParams.SetValue(paramsValue);
+		}
 
+		#if UNITY_EDITOR
 		[Button]
 		public void DebugEventJsonString(){
 			var eventString = $@"""eventName"":""{eventName}"",";

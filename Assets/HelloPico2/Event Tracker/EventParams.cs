@@ -10,5 +10,8 @@ namespace HelloPico2.Event_Tracker{
 			var castValue = value.ToString();
 			paramsValue = castValue;
 		}
+		public void SetValue(string value){
+			paramsValue = value;
+		}
 	}
 }
