@@ -49,16 +49,13 @@ Shader "GGDog/Env_StoneParticle"
 
                 half3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
 				
-                half4 FinalColor =  lerp( 0.5*i.color, 1*i.color , max(dot(normalDir,lightDir),0)  );
-				
-
 				fixed3 worldViewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos);
 				
 				fixed3 worldNormal = normalize(i.worldNormal);
 
-				float Rim = 1-saturate(smoothstep(0,0.035,dot(worldNormal,worldViewDir)*(1-dot(normalDir,lightDir)) ));
+				float Rim = 1-saturate(smoothstep(0,0.05,dot(worldNormal,worldViewDir)*(1-dot(normalDir,lightDir)) ));
 				
-                return FinalColor+Rim*_RimColor;
+                return lerp(_RimColor,i.color/1.75,smoothstep(-20,0,i.worldPos.y))+Rim*_RimColor;
             }
             ENDCG
         }

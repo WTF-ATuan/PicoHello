@@ -11,7 +11,8 @@
 	SubShader
 	{
 		Tags { "RenderType"="Opaque" }
- 
+		LOD 300
+
 		Pass
 		{
 			CGPROGRAM
@@ -48,10 +49,67 @@
 			float4 _Color;
 			float4 _BackFogColor;
 			
-			fixed4 frag (v2f i) : SV_Target
+			float4 frag (v2f i) : SV_Target
 			{
-				//fixed4 col = tex2D(_ReflectionTex, i.screenPos.xy / i.screenPos.w)*_Color;
-				fixed4 col = 0.5*_Color;
+				float4 col = tex2D(_ReflectionTex, i.screenPos.xy / i.screenPos.w)*_Color;
+				//fixed4 col = 0.5*_Color;
+				//中心距離場
+				float D = distance(float2(i.uv.x,i.uv.y),float2(0.5,0.5));
+				
+				col = lerp(col ,_FadeColor*_Color,1-smoothstep(0.005,0.2,D));
+
+				col = lerp(col , _FogColor, smoothstep(0,0.5,D)*smoothstep(0,0.5,1-i.uv.y));
+				
+				col = lerp(col ,_BackFogColor,smoothstep(0,1,i.uv.y));
+
+				return col;
+			}
+			ENDCG
+		}
+	}
+
+
+	SubShader
+	{
+		Tags { "RenderType"="Opaque" }
+		LOD 100
+		Pass
+		{
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment frag
+			
+			#include "UnityCG.cginc"
+ 
+			struct appdata
+			{
+				float4 vertex : POSITION;
+                float2 uv : TEXCOORD0;
+			};
+ 
+			struct v2f
+			{
+				float4 vertex : SV_POSITION;
+                float2 uv : TEXCOORD0;
+			};
+ 
+			sampler2D _ReflectionTex;
+			
+			v2f vert (appdata v)
+			{
+				v2f o;
+				o.vertex = UnityObjectToClipPos(v.vertex);
+                o.uv = v.uv;
+				return o;
+			}
+			float4 _FogColor;
+			float4 _FadeColor;
+			float4 _Color;
+			float4 _BackFogColor;
+			
+			float4 frag (v2f i) : SV_Target
+			{
+				float4 col = _FogColor/1.25;
 				//中心距離場
 				float D = distance(float2(i.uv.x,i.uv.y),float2(0.5,0.5));
 				

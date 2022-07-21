@@ -30,6 +30,7 @@ Shader "GGDog/Space_Test/PointGlow"
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
                 float4 color : COLOR;
+				float CameraDistance : TEXCOORD1;
             };
 
             v2f vert (appdata v)
@@ -38,6 +39,9 @@ Shader "GGDog/Space_Test/PointGlow"
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
 				o.color = v.color;
+				
+				o.CameraDistance = length(mul(UNITY_MATRIX_MV,v.vertex).xyz);
+
                 return o;
             }
 
@@ -53,7 +57,11 @@ Shader "GGDog/Space_Test/PointGlow"
 
 				i.color = saturate(lerp(i.color*i.color,i.color,D));
 
-                return saturate(i.color*D*i.color.a);
+				float4 finalColor = saturate(i.color*D*i.color.a);
+				
+				finalColor.a *= smoothstep(0,50,i.CameraDistance);
+
+                return finalColor;
             }
             ENDCG
         }

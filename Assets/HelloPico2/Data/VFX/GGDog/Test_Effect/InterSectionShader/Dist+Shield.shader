@@ -8,7 +8,7 @@
 	}
 	SubShader
 	{
-	    ZWrite Off
+	    //ZWrite Off
 	    Cull Off
 	    Tags
 	    {

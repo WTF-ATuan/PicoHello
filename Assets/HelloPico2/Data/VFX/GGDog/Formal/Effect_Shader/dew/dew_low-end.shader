@@ -171,7 +171,7 @@
 				//Rim
 				half Rim = saturate(1-smoothstep(0,1,dot(worldNormal,worldViewDir)));
 
-				half DarkPart = smoothstep(0,0.25,(1-i.uv.y));
+				half DarkPart = smoothstep(-1,0.3,(1-i.uv.y));
 				DarkPart = lerp(DarkPart,0,saturate(smoothstep(850,1500,i.CameraDistance.z)))/2;
 
 				//高光

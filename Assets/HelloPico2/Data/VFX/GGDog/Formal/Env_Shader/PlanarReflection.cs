@@ -12,74 +12,65 @@ public class PlanarReflection : MonoBehaviour
     private RenderTexture reflectionRT = null;
     private bool isReflectionCameraRendering = false;
     private Material reflectionMaterial = null;
-
-    /*
-    private int _tempWidth;
-    private int _tempHeight;
-
-    private void Start()
-    {
-        _tempWidth = Screen.width;
-        _tempHeight = Screen.height;
-    }
     
-    private void Update()
-    {
-        if (_tempHeight != Screen.height || _tempWidth != Screen.width)
-        {
-            _tempWidth = Screen.width;
-            _tempHeight = Screen.height;
-            isReflectionCameraRendering = false;
-            OnWillRenderObject();
-            print("Resize");
-        }
-    }*/
     private void OnWillRenderObject()
     {
-        if (isReflectionCameraRendering)
-            return;
+        
+            if (Shader.globalMaximumLOD < 300)
+                return;
+            
+            if (isReflectionCameraRendering)
+                return;
 
-        isReflectionCameraRendering = true;
+            isReflectionCameraRendering = true;
 
-        if (reflectionCamera == null)
-        {
-            var go = new GameObject("Reflection Camera");
-            reflectionCamera = go.AddComponent<Camera>();
-            reflectionCamera.CopyFrom(Camera.current);
-        }
-        if (reflectionRT == null)
-        {
-            reflectionRT = RenderTexture.GetTemporary(2048, 2048, 24);
-        }
-        //需要实时同步相机的参数，比如编辑器下滚动滚轮，Editor相机的远近裁剪面就会变化
-        //reflectionCamera.cullingMask &= ~(1 << 9); // 關閉9.Ground層
-        UpdateCamearaParams(Camera.current, reflectionCamera);
-        reflectionCamera.targetTexture = reflectionRT;
-        reflectionCamera.enabled = false;
+            if (Camera.current != Camera.main)
+            {
+                isReflectionCameraRendering = false;
+                return;
+            }
 
-        var reflectM = CaculateReflectMatrix();
-        reflectionCamera.worldToCameraMatrix = Camera.current.worldToCameraMatrix * reflectM;
+            if (reflectionCamera == null)
+            {
+                var go = new GameObject("Reflection Camera");
+                reflectionCamera = go.AddComponent<Camera>();
+                reflectionCamera.CopyFrom(Camera.main);
+            }
+            if (reflectionRT == null)
+            {
+                reflectionRT = RenderTexture.GetTemporary(2048, 2048, 24);
+            }
 
-        var normal = transform.up;
-        var d = -Vector3.Dot(normal, transform.position);
-        var plane = new Vector4(normal.x, normal.y, normal.z, d);
-        //用逆转置矩阵将平面从世界空间变换到反射相机空间
-        var viewSpacePlane = reflectionCamera.worldToCameraMatrix.inverse.transpose * plane;
-        var clipMatrix = reflectionCamera.CalculateObliqueMatrix(viewSpacePlane);
-        reflectionCamera.projectionMatrix = clipMatrix;
+            //需要实时同步相机的参数，比如编辑器下滚动滚轮，Editor相机的远近裁剪面就会变化
+            reflectionCamera.cullingMask &= ~(1 << 8); // 關閉指定Layer層
+            UpdateCamearaParams(Camera.main, reflectionCamera);
+            reflectionCamera.targetTexture = reflectionRT;
+            reflectionCamera.enabled = false;
 
-        GL.invertCulling = true;
-        reflectionCamera.Render();
-        GL.invertCulling = false;
+            var reflectM = CaculateReflectMatrix();
+            reflectionCamera.worldToCameraMatrix = Camera.main.worldToCameraMatrix * reflectM;
 
-        if (reflectionMaterial == null)
-        {
-            var renderer = GetComponent<Renderer>();
-            reflectionMaterial = renderer.sharedMaterial;
-        }
-        reflectionMaterial.SetTexture("_ReflectionTex", reflectionRT);
+            var normal = transform.up;
+            var d = -Vector3.Dot(normal, transform.position);
+            var plane = new Vector4(normal.x, normal.y, normal.z, d);
+            //用逆转置矩阵将平面从世界空间变换到反射相机空间
+            var viewSpacePlane = reflectionCamera.worldToCameraMatrix.inverse.transpose * plane;
+            var clipMatrix = reflectionCamera.CalculateObliqueMatrix(viewSpacePlane);
+            reflectionCamera.projectionMatrix = clipMatrix;
 
-        isReflectionCameraRendering = false;
+            GL.invertCulling = true;
+            reflectionCamera.Render();
+            GL.invertCulling = false;
+
+            if (reflectionMaterial == null)
+            {
+                var renderer = GetComponent<Renderer>();
+                reflectionMaterial = renderer.sharedMaterial;
+            }
+            reflectionMaterial.SetTexture("_ReflectionTex", reflectionRT);
+
+            isReflectionCameraRendering = false;
+        
     }
 
     Matrix4x4 CaculateReflectMatrix()
