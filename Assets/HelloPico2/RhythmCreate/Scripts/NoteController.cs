@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using HelloPico2.LevelTool;
 
@@ -7,7 +6,7 @@ namespace HelloPico2.RhythmCreate
 {
     public class NoteController : MonoBehaviour
     {
-        public string _SpawnerName;
+        [EnumPaging] public Melanchall.DryWetMidi.MusicTheory.NoteName _SpawnerName;
         
         private Scripts.LaneSpawner _LaneSpawner;
 

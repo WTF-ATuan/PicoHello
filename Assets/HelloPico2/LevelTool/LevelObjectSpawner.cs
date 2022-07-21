@@ -10,7 +10,7 @@ namespace HelloPico2.LevelTool
         public bool _Testing = false;
         [ShowIf("_Testing")] public HelloPico2.InteractableObjects.HitTargetBase prefab;
         [ShowIf("_Testing")] public float _SpawnCD = 1;
-        HelloPico2.LevelTool.SpawnersManager.SpawnDirection dir = SpawnersManager.SpawnDirection.SpawnerForward;
+        HelloPico2.LevelTool.SpawnersManager.SpawnDirection dir = SpawnersManager.SpawnDirection.SpawnerForward; 
         
         private void OnEnable()
         {

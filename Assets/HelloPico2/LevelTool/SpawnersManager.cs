@@ -16,7 +16,7 @@ namespace HelloPico2.LevelTool
         [System.Serializable]
         public struct SpawnerInfo
         {
-            public string Name;
+            [EnumPaging] public Melanchall.DryWetMidi.MusicTheory.NoteName Name;
             public string Description;
             public BaseSpawner Spawner;
         }
@@ -82,16 +82,26 @@ namespace HelloPico2.LevelTool
         }
         #endregion
 
-        [Button]
-        private void RefreshSpawnersName() {
-            for (int i = 0; i < _SpawnerSetsLibrary[_CurrentSpawnersSet].Spawners.Count; i++)
+        //[Button]
+        //private void RefreshSpawnersName() {
+        //    for (int i = 0; i < _SpawnerSetsLibrary[_CurrentSpawnersSet].Spawners.Count; i++)
+        //    {
+        //        SpawnerInfo info = _SpawnerSetsLibrary[_CurrentSpawnersSet].Spawners[i];
+        //        info.Name = _SpawnerSetsLibrary[_CurrentSpawnersSet].Spawners[i].Spawner.name;
+        //    }
+        //}
+        public void SetCurrentSpawner(string name) {
+            for (int i = 0; i < _SpawnerSetsLibrary.Count; i++)
             {
-                SpawnerInfo info = _SpawnerSetsLibrary[_CurrentSpawnersSet].Spawners[i];
-                info.Name = _SpawnerSetsLibrary[_CurrentSpawnersSet].Spawners[i].Spawner.name;
+                if (_SpawnerSetsLibrary[i].Name == name)
+                {
+                    CurrentSpawnersSet = i;
+                    break;
+                }
             }
         }
         #region Library
-        private List<BaseSpawner> GetSpawners(string name)
+        private List<BaseSpawner> GetSpawners(Melanchall.DryWetMidi.MusicTheory.NoteName name)
         {
             List<BaseSpawner> spawner = new List<BaseSpawner>();
             for (int i = 0; i < _SpawnerSetsLibrary[_CurrentSpawnersSet].Spawners.Count; i++)
@@ -133,7 +143,7 @@ namespace HelloPico2.LevelTool
                     return spawner.transform.forward;
             }
         }
-        public void Spawn(string spawnerName)
+        public void Spawn(Melanchall.DryWetMidi.MusicTheory.NoteName spawnerName)
         {
             var spawners = GetSpawners(spawnerName);
 

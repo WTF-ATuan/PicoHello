@@ -18,6 +18,7 @@ namespace HelloPico2.InteractableObjects
         [FoldoutGroup("Spawn Energy")][SerializeField] private bool _SpawnEnergyFromAnimationEvent = false;
         [FoldoutGroup("Spawn Energy")][SerializeField] private int _SpawnAmount;
         [FoldoutGroup("Spawn Energy")][SerializeField] private float _DelayToActivate = .5f;
+        [FoldoutGroup("Spawn Energy")][SerializeField] private AnimationCurve _SpawnedEnergyEasingCurve;
         [FoldoutGroup("Spawn Energy")][SerializeField] private FollowParticle _SpawnObjectControl;
         [FoldoutGroup("Spawn Energy")][SerializeField] private ParticleSystem _FollowVFXPosition;
         [FoldoutGroup("Spawn Energy")][SerializeField] private float _DelayToDestroy = 3f;        
@@ -55,15 +56,15 @@ namespace HelloPico2.InteractableObjects
             if (bloomed) return;
 
             WhenCollide?.Invoke();
-            WhenCollideUlt?.Invoke(); 
-            PushBackFeedback(selfCollider);
+            WhenCollideUlt?.Invoke();
+            if (_UsephPushBackFeedback) PushBackFeedback(selfCollider);
         }
         private void ChargeBloom(Collider selfCollider) {
             if (!_timer.CanInvoke()) return;
             if (bloomed) return;
 
             WhenCharge?.Invoke();
-            PushBackFeedback(selfCollider);
+            if (_UsephPushBackFeedback) PushBackFeedback(selfCollider);
 
             currentChargedEnergy += 20;
             CheckChargedEnergy();
@@ -106,7 +107,7 @@ namespace HelloPico2.InteractableObjects
                 clone.transform.SetParent(transform.parent);
                 clone.transform.position = _FollowVFXPosition.transform.position;
                 cloneList.Add(clone);
-                clone.transform.DOScale(clone.transform.localScale, _DelayToActivate);
+                clone.transform.DOScale(clone.transform.localScale, _DelayToActivate).From(Vector3.zero).SetEase(_SpawnedEnergyEasingCurve);
             }
 
             StartCoroutine(EnergyActivition(cloneList));
@@ -144,9 +145,8 @@ namespace HelloPico2.InteractableObjects
             #if UNITY_EDITOR
             if (_UsephPushBackFeedback)
             {
-                Gizmos.color = Color.red;
+                Gizmos.color = Color.white;
                 Gizmos.DrawRay(transform.position, transform.forward * _PushBackDist);
-                GUI.color = Color.red;
                 Handles.Label(transform.position + transform.forward * _PushBackDist / 2, "Pushback Distance");
             }
             #endif
