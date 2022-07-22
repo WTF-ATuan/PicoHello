@@ -179,7 +179,7 @@ namespace HelloPico2.LevelTool
             var clone = Instantiate(prefab, spawner.transform.position, Quaternion.LookRotation(dir));
             clone.transform.SetParent(_SpawnObjContainer);
 
-            clone.gameObject.AddComponent<MoveLevelObject>().SetUpMoveLevelObject(dir, spawner._Speed, spawner._UseExternalForce, spawner._ForceDir, spawner._Force);
+            clone.gameObject.AddComponent<MoveLevelObject>().SetUpMoveLevelObject(dir, spawner._Speed, spawner._UseExternalForce, spawner._ForceDir, spawner._Force, spawner._SpeedMultiplier);
 
             Destroy(clone.gameObject, 90f);
         }
