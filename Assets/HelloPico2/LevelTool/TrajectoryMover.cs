@@ -45,7 +45,7 @@ public class TrajectoryMover : MonoBehaviour
             Vector3 MovementVector = velocity * stepTimePassed;
             MovementVector += _Spawner._ForceDir * (_Spawner._Force / 2) * Mathf.Pow(stepTimePassed, 2);
 
-            _LinePoints.Add(spawner.transform.position + MovementVector);
+            _LinePoints.Add(spawner.transform.position + MovementVector * spawner._SpeedMultiplier);
         }
 
         _LineRenderer.positionCount = _LinePoints.Count;

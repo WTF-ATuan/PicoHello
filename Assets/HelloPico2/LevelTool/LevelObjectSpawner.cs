@@ -20,16 +20,16 @@ namespace HelloPico2.LevelTool
         private IEnumerator Spawning() {
             while (true)
             {
-                SpawnHitTarget(this, _Speed, _UseExternalForce, _Force);
+                SpawnHitTarget(this);
                 yield return new WaitForSeconds(_SpawnCD);
             }
         }
-        public void SpawnHitTarget(BaseSpawner spawner, float speed, bool useGravity = false, float gravity = 0)
+        public void SpawnHitTarget(BaseSpawner spawner)
         {
             var clone = Instantiate(prefab, spawner.transform.position, Quaternion.LookRotation(transform.forward));
             clone.transform.SetParent(transform);
             //clone.SetUpMoveBehavior(transform.forward, speed, useGravity, gravity);
-            clone.gameObject.AddComponent<MoveLevelObject>().SetUpMoveLevelObject(transform.forward, spawner._Speed, spawner._UseExternalForce, spawner._ForceDir, spawner._Force);
+            clone.gameObject.AddComponent<MoveLevelObject>().SetUpMoveLevelObject(transform.forward, spawner._Speed, spawner._UseExternalForce, spawner._ForceDir, spawner._Force, spawner._SpeedMultiplier);
             Destroy(clone.gameObject, 90f);
         }
     }

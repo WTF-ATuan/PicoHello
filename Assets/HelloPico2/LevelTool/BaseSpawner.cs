@@ -16,6 +16,7 @@ namespace HelloPico2.LevelTool
         public bool _UseExternalForce = false;   
         [ShowIf("_UseExternalForce")] public Vector3 _ForceDir = Vector3.zero;
         [ShowIf("_UseExternalForce")] public float _Force = 0; 
+        [ShowIf("_UseExternalForce")] public float _SpeedMultiplier = 1; 
         public System.Action<BaseSpawner> Notify;
         LineRenderer lineRenderer;
         TrajectoryMover trajectoryMover;

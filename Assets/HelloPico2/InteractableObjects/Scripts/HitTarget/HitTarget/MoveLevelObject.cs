@@ -11,8 +11,9 @@ namespace HelloPico2.LevelTool
         public bool useExternalForce = false;
         public Vector3 forceDir = Vector3.up;
         public float force = 0;
+        public float multiplier = 1;
         private float time { get; set; }
-        public void SetUpMoveLevelObject(Vector3 _dir, float _speed, bool _useExternalForce = false, Vector3 _forceDir = default, float _Force = -9.8f) { 
+        public void SetUpMoveLevelObject(Vector3 _dir, float _speed, bool _useExternalForce = false, Vector3 _forceDir = default, float _Force = -9.8f, float _Multiplier = 1) { 
             dir = _dir;
             speed = _speed;
 
@@ -20,6 +21,7 @@ namespace HelloPico2.LevelTool
                 useExternalForce = _useExternalForce;
                 forceDir = (_forceDir == default) ?  Vector3.up : _forceDir;
                 force = _Force;
+                multiplier = _Multiplier;
             }
         }
         private void Update()
@@ -36,7 +38,7 @@ namespace HelloPico2.LevelTool
 
                 Move += forceDir * force / 2 * Mathf.Pow(time, 1);
 
-                transform.Translate(Move, Space.World);
+                transform.Translate(Move * multiplier, Space.World);
             }
         }
         public void WhenCollideWith(HelloPico2.InteractableObjects.InteractType type)
