@@ -14,12 +14,10 @@ public class HandAnim : MonoBehaviour
 	public Animator _handAnimator;
 
 	public TargetItem_SO _getItme;
-	public GuideSys_SO _getGuideSys;
+	//public GuideSys_SO _getGuideSys;
 	public GameObject spawnedController;
 	public int checkItemHeld;
 	public bool showController = false;
-	public GameObject ShowBall;
-	string HandGet;
 	public GameObject tipButtonAll;
 	public GameObject[] tipButton;
 
@@ -46,12 +44,12 @@ public class HandAnim : MonoBehaviour
     void Update()
     {
 				
-		if(_getItme.targetItemHeld== checkItemHeld)
+		if(_getItme.targetItemHeld == checkItemHeld)
         {
 			staffCheck();
 		}
-
-		if (showController)
+		/*
+		if (!showController) return;
         {
 			_controller.inputDevice.TryGetFeatureValue(CommonUsages.triggerButton, out var isTrigger);
 			_controller.inputDevice.TryGetFeatureValue(CommonUsages.gripButton, out var isGrip);
@@ -107,7 +105,8 @@ public class HandAnim : MonoBehaviour
 					_getItme.isTipArm = true;
 				}
 				
-			}*/
+			} //¤¤Â_ÂI
+			//
 			if (isTrigger)
             {
 				tipButton[1].SetActive(true);
@@ -115,7 +114,7 @@ public class HandAnim : MonoBehaviour
             else
             {
 				tipButton[1].SetActive(false);
-			}
+			}//
 			if (triggetValue >= 0)
             {
 				_handAnimator.SetFloat("Trigger", triggetValue);
@@ -124,6 +123,7 @@ public class HandAnim : MonoBehaviour
 			{
 				_handAnimator.SetFloat("Grip", gripValue);
 			}
+			//
             if (isGrip)
             {
 				tipButton[0].SetActive(true);
@@ -132,6 +132,7 @@ public class HandAnim : MonoBehaviour
             {
 				tipButton[0].SetActive(false);
 			}
+			//
 			if (!padAxisTouch)
 			{
 
@@ -179,7 +180,7 @@ public class HandAnim : MonoBehaviour
 				_handAnimator.SetBool("PrimaryBtn", false);
 				//tipButton[2].SetActive(false);
 			}
-		}
+		} */
 		//ShowTip();
 		
 	}

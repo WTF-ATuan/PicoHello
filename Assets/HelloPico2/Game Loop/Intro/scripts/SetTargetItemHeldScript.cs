@@ -10,7 +10,6 @@ public class SetTargetItemHeldScript : MonoBehaviour
     void Start()
     {
         ItemHeld.targetItemHeld = SetHeldDefault;
-        gameObject.SetActive(false);
     }
 
 }

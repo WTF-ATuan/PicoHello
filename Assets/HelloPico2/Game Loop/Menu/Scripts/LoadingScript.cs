@@ -5,17 +5,24 @@ using UnityEngine.SceneManagement;
 
 public class LoadingScript : MonoBehaviour
 {
-    public int sceneNum;
-    public float loadCheckTime;
-    AsyncOperation async;
-
-
-    
-    /*
-    private void Start()
+    public TargetItem_SO ItemHeld;
+    private int HeldDefault = 0;
+    public void Start()
     {
-        StartCoroutine(AsynloadScene());
+        if(ItemHeld.targetItemHeld!=0)
+        {
+            LoadFun();
+        }
+        
     }
+
+    private void LoadFun()
+    {
+        SceneManager.LoadScene(0);
+        ItemHeld.targetItemHeld = 0;
+        gameObject.SetActive(false);
+    }
+    /*
     IEnumerator AsynloadScene()
     {
         async = SceneManager.LoadSceneAsync(sceneNum);
@@ -35,16 +42,6 @@ public class LoadingScript : MonoBehaviour
     }
         //¤Á´«³õ´º
     */
-    public void LoadScene()
-    {
-        Invoke("seconeChange", loadCheckTime);
-        
-    }
-    public void seconeChange()
-    {
-        //isChangeScene = true;
-        
-        SceneManager.LoadScene(sceneNum);
-    }
+
 
 }

@@ -14,8 +14,16 @@ public class targetScript : MonoBehaviour
     public bool isTrigger;
     public int coldTime;
     float countTimer;
-    
-    
+    public bool isAnim;
+    public Animator _Animator;
+
+    private void Start()
+    {
+        if (isAnim)
+        {
+            _Animator = _Animator.GetComponent<Animator>();
+        }
+    }
 
     private void Update()
     {
@@ -24,7 +32,19 @@ public class targetScript : MonoBehaviour
         
         if (menuCheck.targetItemHeld == checkHeld)
         {
-            transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, 0.1f);
+            if (isAnim)
+            {
+                ShowAnim();
+            }
+            else
+            {
+                transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, 0.1f);
+                if (transform.localScale.x <0.02f)
+                {
+                    gameObject.SetActive(false);
+                }
+            }
+
 
 
             for (int i=0; i < showObj.Length; i++)
@@ -37,7 +57,7 @@ public class targetScript : MonoBehaviour
                 hideList[i].SetActive(false);
             }
 
-            Destroy(gameObject, 3); 
+            //Destroy(gameObject, 3); 
         }
     }
     
@@ -45,6 +65,10 @@ public class targetScript : MonoBehaviour
     {
         menuCheck.targetItemHeld = checkHeld;
         isCheckSel = true;
+    }
+    public void ShowAnim()
+    {
+          _Animator.SetTrigger("isGet");
     }
    
     private void OnTriggerEnter(Collider other)
