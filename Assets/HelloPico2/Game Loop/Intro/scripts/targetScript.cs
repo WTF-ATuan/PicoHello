@@ -41,7 +41,8 @@ public class targetScript : MonoBehaviour
                 transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, 0.1f);
                 if (transform.localScale.x <0.02f)
                 {
-                    gameObject.SetActive(false);
+                    //gameObject.SetActive(false);
+                    Destroy(gameObject);
                 }
             }
 
@@ -57,7 +58,7 @@ public class targetScript : MonoBehaviour
                 hideList[i].SetActive(false);
             }
 
-            //Destroy(gameObject, 3); 
+            Destroy(gameObject, 3); 
         }
     }
     
