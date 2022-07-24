@@ -104,6 +104,8 @@ namespace HelloPico2.LevelTool
         #region Library
         private List<BaseSpawner> GetSpawners(Melanchall.DryWetMidi.MusicTheory.NoteName name)
         {
+            if(CurrentSpawnersSet < 0) return null;
+
             List<BaseSpawner> spawner = new List<BaseSpawner>();
             for (int i = 0; i < _SpawnerSetsLibrary[_CurrentSpawnersSet].Spawners.Count; i++)
             {
@@ -147,6 +149,8 @@ namespace HelloPico2.LevelTool
         public void Spawn(Melanchall.DryWetMidi.MusicTheory.NoteName spawnerName)
         {
             var spawners = GetSpawners(spawnerName);
+
+            if (spawners == null || spawners.Count == 0) return;
 
             foreach (var spawner in spawners)
             {                
