@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7984367163297893491}
   - component: {fileID: 8787579133768588769}
   m_Layer: 0
-  m_Name: EnergyProjectile
+  m_Name: ChargedEnergyProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -128,9 +128,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _InteractType: 2
   _Lifetime: 10
+  _CollideDestryDelayTime: 3
   _ActivateHoming: 0
   _homingSensativeness: 0.1
+  _StartHomingTime: 0
   _homingDuration: 2
+  _AngleLimit: 120
+  _DistanceLimit: 120
+  WhenShoot:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &3866000280701989769
 GameObject:
   m_ObjectHideFlags: 0
