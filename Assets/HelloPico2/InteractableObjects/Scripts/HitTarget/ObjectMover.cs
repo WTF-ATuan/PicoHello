@@ -9,11 +9,15 @@ namespace HelloPico2.InteractableObjects
 {
     public class ObjectMover : MonoBehaviour
     {
+        [SerializeField] private bool _RunOnEnable = false;
         [SerializeField] private Transform _MoveObject;
         [SerializeField] private Vector3 _From;
         [SerializeField] private Vector3 _To;
         [SerializeField] private float _Duration;
         [SerializeField] private AnimationCurve _EaseCurve;
+        [SerializeField] private bool _UseLoop = false;
+        [ShowIf("_UseLoop")][Range(2,999)][Tooltip("999 equals infinity")][SerializeField] private int _LoopAmount = 2;
+        [ShowIf("_UseLoop")][SerializeField] private LoopType _LoopType = LoopType.Yoyo;
 
         public Transform moveObject { get { return _MoveObject; } set { _MoveObject = value; } }
         public Vector3 from { get { return _From; } set { _From = value; } }
@@ -29,6 +33,10 @@ namespace HelloPico2.InteractableObjects
         private void Start()
         {
             defaultPos = _MoveObject.localPosition;
+        }
+        private void OnEnable()
+        {
+            if(_RunOnEnable) StartMoving();
         }
         [Button]
         public void GetSelfAsMovingObj()
@@ -62,8 +70,15 @@ namespace HelloPico2.InteractableObjects
             Sequence seq = DOTween.Sequence();
 
             seq.Append(_MoveObject.DOLocalMove(to, _Duration).From(from).SetEase(_EaseCurve));
+
+            if (_UseLoop)
+            {
+                var amount = (_LoopAmount == 999)? int.MaxValue : _LoopAmount;
+                seq.SetLoops(amount, _LoopType);
+            }
+
             WhenStart?.Invoke();
-            seq.Play().OnComplete(() => { WhenFinished?.Invoke(); });
-        }
+            seq.Play().OnComplete(() => { WhenFinished?.Invoke(); });            
+        }        
     }
 }
