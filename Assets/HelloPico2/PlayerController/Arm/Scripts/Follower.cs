@@ -10,6 +10,8 @@ public class Follower : MonoBehaviour
     [SerializeField] private bool m_FollowXAxis = true;
     [SerializeField] private bool m_FollowZAxis = true;
     [SerializeField] private bool m_FollowYAxis = false;
+    [SerializeField] private bool m_FollowYRot = false;
+
     public Vector3 m_AdditionalOffset;
     public bool m_HaveOffset = true;
     public bool m_AlwaysSync = false;
@@ -20,6 +22,7 @@ public class Follower : MonoBehaviour
     public bool m_Sync = false;
     [ShowIf("m_Sync")] public bool m_Activation;
     [ShowIf("m_Sync")] public bool m_Rotation;
+    [ShowIf("m_Sync")] public Vector3 m_AdditionalRotOffset;
     [ShowIf("m_Sync")] public bool m_Scale;
 
     public Transform Target { get { return m_Target; } set { m_Target = value; } }
@@ -53,6 +56,8 @@ public class Follower : MonoBehaviour
                 moveXfer.z = m_Target.position.z + offset.z;
             if (m_FollowYAxis)
                 moveXfer.y = m_Target.position.y + offset.y;
+            if (m_FollowYRot)
+                transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(m_Target.forward, Vector3.up).normalized, Vector3.up);
 
             if (!m_UseLerp)
                 transform.position = moveXfer + m_AdditionalOffset;
@@ -66,7 +71,7 @@ public class Follower : MonoBehaviour
         if (!m_Sync) return;
 
         if(m_Activation) gameObject.GetComponent<MeshRenderer>().enabled = m_Target.gameObject.activeSelf;
-        if(m_Rotation) transform.localRotation = m_Target.localRotation;
+        if(m_Rotation) transform.eulerAngles = m_Target.eulerAngles + m_AdditionalRotOffset;
         if(m_Scale) transform.localScale = m_Target.localScale;
     }
 }
