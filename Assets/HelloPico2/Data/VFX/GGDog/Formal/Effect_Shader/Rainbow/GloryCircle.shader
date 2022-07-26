@@ -57,8 +57,8 @@ Shader "GGDog/GloryCircle"
 
                 float4 col = 1;
 
-				col =lerp( float4(1,0,0,1) , float4(0,1,0,1) , (D)*_Width +_OffSet);
-				col =lerp(             col , float4(0,0,1,1) , (D)*_Width-0.3 +_OffSet);
+				col =lerp( float4(0,0,1,1) , float4(0,1,0,1) , (D)*_Width +_OffSet);
+				col =lerp(             col , float4(1,0,0,1) , (D)*_Width-0.3 +_OffSet);
 
 				col+=0.5;
 
