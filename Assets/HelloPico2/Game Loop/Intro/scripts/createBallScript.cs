@@ -9,11 +9,13 @@ public class createBallScript : MonoBehaviour
     float timeCount;
     public GameObject[] createPos;
     public GameObject[] insObj;
+    public GameObject SetGroup;
     public int createType = 0;//0 local place ,1 toward player,2 enemy Type1 
     int randRange;
     int createRange;
     public Vector3[] rangSize;
     public GameObject moveBall;
+    private GameObject EnemyPool;
 
     // Start is called before the first frame update
     void Start()
@@ -21,7 +23,7 @@ public class createBallScript : MonoBehaviour
         createRange = createPos.Length;
         randRange = insObj.Length;
         timeCount = timer;
-        
+        EnemyPool = GameObject.Find("EnemyPool");
     }
     void CreateObj()
     {
@@ -46,7 +48,8 @@ public class createBallScript : MonoBehaviour
         {
             GameObject parentName = GameObject.Find("EnemyPool");
             Vector3 pos = new Vector3(insCreatePos.x + Random.Range(rangSize[0][0], rangSize[1][0]), insCreatePos.y + Random.Range(rangSize[0][1], rangSize[1][1]), insCreatePos.z + Random.Range(rangSize[0][2], rangSize[1][2]));
-            Instantiate(insObj[Random.Range(0, randRange)], pos, insObj[0].transform.localRotation, parentName.transform);
+            GameObject getGroup = Instantiate(SetGroup,Vector3.zero,Quaternion.identity, parentName.transform);
+            Instantiate(insObj[Random.Range(0, randRange)], pos, insObj[0].transform.localRotation, getGroup.transform);
         }
             
 
@@ -58,8 +61,12 @@ public class createBallScript : MonoBehaviour
         timeCount = timeCount - Time.deltaTime;
         if (isCreate == true && timeCount<=0)
         {
-            CreateObj();
-            timeCount = timer;
+            if (EnemyPool.transform.childCount == 0)
+            {
+                CreateObj();
+                timeCount = timer;
+            }
+            
         }
         
     }
