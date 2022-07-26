@@ -1,4 +1,4 @@
-Shader "Custom/ShowNormals"
+Shader "Custom/Normal_Check"
 {
     Properties
     {
@@ -11,7 +11,7 @@ Shader "Custom/ShowNormals"
         {
             Tags { "RenderType" = "Opaque" }
             LOD 200
- 
+            Blend SrcAlpha OneMinusSrcAlpha
             CGPROGRAM
                 #pragma target 5.0
                 #pragma vertex VS_Main
