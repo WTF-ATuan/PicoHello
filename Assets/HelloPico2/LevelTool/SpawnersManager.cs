@@ -90,6 +90,10 @@ namespace HelloPico2.LevelTool
         //        info.Name = _SpawnerSetsLibrary[_CurrentSpawnersSet].Spawners[i].Spawner.name;
         //    }
         //}
+        private void OnEnable()
+        {
+            CurrentSpawnersSet = -1;
+        }
         public void SetCurrentSpawner(string name) {
             for (int i = 0; i < _SpawnerSetsLibrary.Count; i++)
             {

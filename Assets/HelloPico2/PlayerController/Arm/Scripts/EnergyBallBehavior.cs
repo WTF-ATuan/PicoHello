@@ -177,6 +177,7 @@ namespace HelloPico2.PlayerController.Arm
             if (overwriteScale) clone.transform.localScale *= scale;
             
             if (homing) {
+                _TestTarget = null;
                 var target = CheckTarget();
                 if (target != null) {
                     _TestTarget = target;
