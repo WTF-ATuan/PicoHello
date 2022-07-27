@@ -14,7 +14,6 @@ public class createBallScript : MonoBehaviour
     int randRange;
     int createRange;
     public Vector3[] rangSize;
-    public GameObject moveBall;
     private GameObject EnemyPool;
 
     // Start is called before the first frame update
@@ -24,8 +23,9 @@ public class createBallScript : MonoBehaviour
         randRange = insObj.Length;
         timeCount = timer;
         EnemyPool = GameObject.Find("EnemyPool");
+
     }
-    void CreateObj()
+    public void CreateObj()
     {
         
         Vector3 insCreatePos = createPos[Random.Range(0, createRange)].transform.localPosition;
@@ -39,10 +39,17 @@ public class createBallScript : MonoBehaviour
         else if(createType == 1)
         {
             GameObject parentName = GameObject.Find("BallPool");
-            Vector3 pos = new Vector3(insCreatePos.x + Random.Range(rangSize[0][0], rangSize[1][0]), insCreatePos.y + Random.Range(rangSize[0][1], rangSize[1][1]), insCreatePos.z + Random.Range(rangSize[0][2], rangSize[1][2]));
-            GameObject moveGrp = Instantiate(moveBall, pos, Quaternion.identity, parentName.transform);
-            Instantiate(insObj[Random.Range(0, randRange)], pos, Quaternion.identity, moveGrp.transform);
-            moveGrp.SetActive(true);
+
+            if (parentName.transform.childCount != 0)
+            {
+                Destroy(parentName.transform.GetChild(0).gameObject);
+                GameObject getGroup = Instantiate(SetGroup, Vector3.zero, Quaternion.identity, parentName.transform);
+                Vector3 pos = new Vector3(insCreatePos.x + Random.Range(rangSize[0][0], rangSize[1][0]), insCreatePos.y + Random.Range(rangSize[0][1], rangSize[1][1]), insCreatePos.z + Random.Range(rangSize[0][2], rangSize[1][2]));
+                Instantiate(insObj[Random.Range(0, randRange)], pos, Quaternion.identity, getGroup.transform);
+            }
+
+            
+            //moveGrp.SetActive(true);
         }
         else
         {
@@ -58,17 +65,19 @@ public class createBallScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timeCount = timeCount - Time.deltaTime;
-        if (isCreate == true && timeCount<=0)
+        if(createType !=1 && timer != 999)
         {
-            if (EnemyPool.transform.childCount == 0)
+            timeCount = timeCount - Time.deltaTime;
+            if (isCreate == true && timeCount <= 0 )
             {
-                CreateObj();
-                timeCount = timer;
+                if (EnemyPool.transform.childCount == 0)
+                {
+                    CreateObj();
+                    timeCount = timer;
+                }
+
             }
-            
         }
-        
     }
 
 }
