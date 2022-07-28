@@ -14,10 +14,10 @@ public class HandAnim : MonoBehaviour
 	public Animator _handAnimator;
 
 	public TargetItem_SO _getItme;
-	//public GuideSys_SO _getGuideSys;
 	public GameObject spawnedController;
-	public int checkItemHeld;
-	public bool showController = false;
+	public int[] checkItemHeld;
+	private bool showController = false;
+	private bool isTip;
 	public GameObject tipButtonAll;
 	public GameObject[] tipButton;
 
@@ -32,23 +32,34 @@ public class HandAnim : MonoBehaviour
     {
         controllerInteractor = _controller.GetComponent<Interactor>();
 		_handAnimator = _handAnimator.GetComponent<Animator>();
-		
+		isTip = true;
+
+
 	}
-	public void staffCheck()
+	private void staffCheck()
     {
-		spawnedController.SetActive(true);
+		spawnedController.SetActive(true); //show firstAnim
 		showController = true;
 	}
-
+	private void showAnim()
+    {
+		_handAnimator.SetTrigger("isGet");
+	}
     // Update is called once per frame
     void Update()
     {
-				
-		if(_getItme.targetItemHeld == checkItemHeld)
+        if (isTip)
         {
-			staffCheck();
+			if (_getItme.targetItemHeld == checkItemHeld[0])
+			{
+				staffCheck();
+			}
+			else if((_getItme.targetItemHeld == checkItemHeld[1]))
+            {
+				showAnim();
+			}
 		}
-		/*
+		
 		if (!showController) return;
         {
 			_controller.inputDevice.TryGetFeatureValue(CommonUsages.triggerButton, out var isTrigger);
@@ -104,17 +115,26 @@ public class HandAnim : MonoBehaviour
                 {
 					_getItme.isTipArm = true;
 				}
-				
-			} //中斷點
+
+		} //中斷點
 			//
-			if (isTrigger)
+			if (isTrigger)//Tip Trigger
             {
 				tipButton[1].SetActive(true);
 			}
             else
             {
 				tipButton[1].SetActive(false);
-			}//
+			}
+            if (isGrip)
+            {
+				tipButton[0].SetActive(true);
+			}
+            else
+            {
+				tipButton[0].SetActive(false);
+			}
+			*/
 			if (triggetValue >= 0)
             {
 				_handAnimator.SetFloat("Trigger", triggetValue);
@@ -124,15 +144,8 @@ public class HandAnim : MonoBehaviour
 				_handAnimator.SetFloat("Grip", gripValue);
 			}
 			//
-            if (isGrip)
-            {
-				tipButton[0].SetActive(true);
-			}
-            else
-            {
-				tipButton[0].SetActive(false);
-			}
-			//
+
+			/*
 			if (!padAxisTouch)
 			{
 
@@ -140,24 +153,11 @@ public class HandAnim : MonoBehaviour
 			if (padAxisClick)
 			{
 
-			}
+			}*/
 			if (primary2DAxisValue.magnitude >= 0)
 			{
 				_handAnimator.SetFloat("yAxis", primary2DAxisValue.y);
 				_handAnimator.SetFloat("xAxis", primary2DAxisValue.x);
-			}
-			if (primary2DAxisValue.y > 0)
-			{
-                if (firstTouch)
-                {
-					Invoke("closeAudio", 2);
-					firstTouch = false;
-				}
-                else
-                {
-					Invoke("closeAudio", 2);
-				}
-				
 			}
 
 			if (secondaryButtonValue)
@@ -180,7 +180,7 @@ public class HandAnim : MonoBehaviour
 				_handAnimator.SetBool("PrimaryBtn", false);
 				//tipButton[2].SetActive(false);
 			}
-		} */
+		}
 		//ShowTip();
 		
 	}

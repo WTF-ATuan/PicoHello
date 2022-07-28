@@ -5,13 +5,21 @@ using UnityEngine;
 public class RandomGuideScript : MonoBehaviour
 {
     public GameObject[] GuideList;
+    public TargetItem_SO _targetItem_SO;
     int getRandom;
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        getRandom =Random.Range(0, GuideList.Length);
-        GuideList[getRandom].SetActive(true);
+        RandomGuide();
     }
-
+    public void RandomGuide()
+    {
+        if (_targetItem_SO.targetItemHeld == 1)
+        {
+            getRandom = Random.Range(0, GuideList.Length);
+            GuideList[getRandom].SetActive(true);
+        }
+        
+    }
 
 }

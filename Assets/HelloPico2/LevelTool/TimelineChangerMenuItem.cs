@@ -9,7 +9,7 @@ namespace HelloPico2.LevelTool{
 		[Required] public CrossSceneEventPoster eventPoster;
 		
 		public  string _changedName;
-
+		public int m_DelayTime;
 		private void Start(){
 			//_button = GetComponent<Button>();
 			//_button.onClick.AddListener(OnButtonClick);
@@ -19,7 +19,13 @@ namespace HelloPico2.LevelTool{
 			var timelineChanged = new TimelineChanged{
 				eventID = _changedName
 			};
+			StartCoroutine(Delayer());
 			eventPoster.Post(timelineChanged);
+		}
+		private System.Collections.IEnumerator Delayer()
+		{
+			yield return new WaitForSeconds(m_DelayTime);
+			
 		}
 	}
 }
