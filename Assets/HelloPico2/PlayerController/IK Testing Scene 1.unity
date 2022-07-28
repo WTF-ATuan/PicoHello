@@ -753,7 +753,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 146518975}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9fc7ec9ab22e7654f82931a4df5718e2, type: 3}
   m_Name: 
@@ -787,7 +787,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 146518975}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bca7c063e5324c243bb4252a6576c859, type: 3}
   m_Name: 
@@ -5057,6 +5057,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1435992624}
+  - component: {fileID: 1435992626}
   - component: {fileID: 1435992625}
   m_Layer: 0
   m_Name: ArmIK_target
@@ -5086,7 +5087,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1435992623}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bca7c063e5324c243bb4252a6576c859, type: 3}
   m_Name: 
@@ -5119,6 +5120,40 @@ MonoBehaviour:
   WhenEnableDelay:
     _PersistentCalls: []
   m_DelayTime: 1
+--- !u!114 &1435992626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1435992623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fc7ec9ab22e7654f82931a4df5718e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Target: {fileID: 1697965682}
+  m_FollowXAxis: 1
+  m_FollowZAxis: 1
+  m_FollowYAxis: 1
+  m_FollowYRot: 0
+  m_AdditionalOffset: {x: 0, y: 0, z: 0}
+  m_HaveOffset: 0
+  m_AlwaysSync: 1
+  m_Dismont: 0
+  m_UseLerp: 0
+  m_Duration: 0.05
+  m_EasingCureve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_Sync: 1
+  m_Activation: 0
+  m_Rotation: 1
+  m_AdditionalRotOffset: {x: 0, y: 180, z: 0}
+  m_Scale: 0
 --- !u!1 &1437916307
 GameObject:
   m_ObjectHideFlags: 0
@@ -7355,6 +7390,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1587760728, guid: 89956970cb2154b47b10f221b5f4e682, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1587760729, guid: 89956970cb2154b47b10f221b5f4e682, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 297839584518486765, guid: 89956970cb2154b47b10f221b5f4e682, type: 3}
       propertyPath: HelperOffset.x
       value: 0

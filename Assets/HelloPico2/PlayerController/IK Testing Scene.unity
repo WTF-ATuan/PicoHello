@@ -443,6 +443,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 157607734}
+  - component: {fileID: 157607736}
   - component: {fileID: 157607735}
   m_Layer: 0
   m_Name: ArmIK_target
@@ -458,13 +459,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 157607733}
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 2.67, y: 0.91, z: 0.46000004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 719481618}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &157607735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -472,7 +473,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 157607733}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bca7c063e5324c243bb4252a6576c859, type: 3}
   m_Name: 
@@ -505,6 +506,40 @@ MonoBehaviour:
   WhenEnableDelay:
     _PersistentCalls: []
   m_DelayTime: 1
+--- !u!114 &157607736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157607733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fc7ec9ab22e7654f82931a4df5718e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Target: {fileID: 1697965682}
+  m_FollowXAxis: 1
+  m_FollowZAxis: 1
+  m_FollowYAxis: 1
+  m_FollowYRot: 0
+  m_AdditionalOffset: {x: 0, y: 0, z: 0}
+  m_HaveOffset: 0
+  m_AlwaysSync: 1
+  m_Dismont: 0
+  m_UseLerp: 0
+  m_Duration: 0.05
+  m_EasingCureve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_Sync: 1
+  m_Activation: 0
+  m_Rotation: 1
+  m_AdditionalRotOffset: {x: 0, y: 180, z: 0}
+  m_Scale: 0
 --- !u!1 &210715473
 GameObject:
   m_ObjectHideFlags: 0
@@ -6286,6 +6321,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2066417530}
+  - component: {fileID: 2066417532}
   - component: {fileID: 2066417531}
   m_Layer: 0
   m_Name: ArmIK_target
@@ -6315,7 +6351,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2066417529}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bca7c063e5324c243bb4252a6576c859, type: 3}
   m_Name: 
@@ -6348,6 +6384,40 @@ MonoBehaviour:
   WhenEnableDelay:
     _PersistentCalls: []
   m_DelayTime: 1
+--- !u!114 &2066417532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2066417529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fc7ec9ab22e7654f82931a4df5718e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Target: {fileID: 1251882859}
+  m_FollowXAxis: 1
+  m_FollowZAxis: 1
+  m_FollowYAxis: 1
+  m_FollowYRot: 0
+  m_AdditionalOffset: {x: 0, y: 0, z: 0}
+  m_HaveOffset: 0
+  m_AlwaysSync: 1
+  m_Dismont: 0
+  m_UseLerp: 0
+  m_Duration: 0.05
+  m_EasingCureve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_Sync: 1
+  m_Activation: 0
+  m_Rotation: 1
+  m_AdditionalRotOffset: {x: 0, y: 180, z: 0}
+  m_Scale: 0
 --- !u!1 &2069589675
 GameObject:
   m_ObjectHideFlags: 0
@@ -6731,6 +6801,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1587760728, guid: 89956970cb2154b47b10f221b5f4e682, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 297839584518486765, guid: 89956970cb2154b47b10f221b5f4e682, type: 3}
       propertyPath: HelperOffset.x
       value: 0
