@@ -23,6 +23,7 @@ namespace HelloPico2.PlayerController.Arm
         private float _speed;
         private float _duration;
         private AnimationCurve _easingCurve;
+        public HelloPico2.InputDevice.Scripts.DeviceInputDetected _deviceInput { get; set; }
         float _step;
         Transform _target;
         Vector3 originalDir;
@@ -30,13 +31,14 @@ namespace HelloPico2.PlayerController.Arm
         Vector3 velocity;
         bool finishedVelocityBuffer;
 
-        public void ProjectileSetUp(float speed, float duration, AnimationCurve easingCurve, Transform target = null, bool homing = false) {
+        public void ProjectileSetUp(float speed, float duration, AnimationCurve easingCurve, HelloPico2.InputDevice.Scripts.DeviceInputDetected deviceInput, Transform target = null, bool homing = false) {
             if (target) _target = target;
             _rigidbody = GetComponent<Rigidbody>();
             _speed = speed;
             _duration = duration;
             _easingCurve = easingCurve;
             _ActivateHoming = homing;
+            _deviceInput = deviceInput;
             originalDir = transform.forward;
             Destroy(gameObject, _Lifetime);
             WhenShoot?.Invoke();

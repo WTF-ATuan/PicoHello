@@ -33,9 +33,12 @@ namespace HelloPico2.InteractableObjects
         private bool charged2;
         private bool bloomed;
         private float currentChargedEnergy;
-        
+        public HelloPico2.InputDevice.Scripts.DeviceInputDetected _deviceInput { get; set; }
+
         public override void OnCollide(InteractType type, Collider selfCollider){
             base.OnCollide(type, selfCollider);
+            if (selfCollider.TryGetComponent<HelloPico2.PlayerController.Arm.ProjectileController>(out var projectileController))
+                _deviceInput = projectileController._deviceInput;
         }
         private void OnEnable(){
             OnEnergyBallInteract += ChargeBloom;          
@@ -101,21 +104,39 @@ namespace HelloPico2.InteractableObjects
         }
         public void SpawnEnergy() {
             List<GameObject> cloneList = new List<GameObject>();
+            var lifeTime =_FollowVFXPosition.main.startLifetime.Evaluate(0);
+
             for (int i = 0; i < _SpawnAmount; i++)
             {
                 var clone = Instantiate(_SpawnThisWhenBloomed, _FollowVFXPosition.transform.position, Quaternion.identity);
                 clone.transform.SetParent(transform.parent);
                 clone.transform.position = _FollowVFXPosition.transform.position;
                 cloneList.Add(clone);
-                clone.transform.DOScale(clone.transform.localScale, _DelayToActivate).From(Vector3.zero).SetEase(_SpawnedEnergyEasingCurve);
+
+                var Seq = DOTween.Sequence();
+                Seq.Append(clone.transform.DOScale(clone.transform.localScale, _DelayToActivate).From(Vector3.zero).SetEase(_SpawnedEnergyEasingCurve));
+                Seq.AppendInterval(lifeTime).OnComplete(() => {
+                    if (clone.TryGetComponent<InteractablePower>(out var interactablePower))
+                    {
+                        if (_deviceInput != null)
+                            interactablePower?.OnSelect(_deviceInput);
+                    }
+                });
+                Seq.Play();
             }
 
             StartCoroutine(EnergyActivition(cloneList));
-            
 
             _SpawnObjectControl.m_Follower = cloneList.ToArray();
             _SpawnObjectControl.m_FollowThis = _FollowVFXPosition;
             _SpawnObjectControl.Activate = true;
+            _SpawnObjectControl.WhenParticleDies = delegate(GameObject obj) {
+                //if (obj.TryGetComponent<InteractablePower>(out var interactablePower))
+                //{
+                //    if (_deviceInput != null)
+                //        interactablePower?.OnSelect(_deviceInput);
+                //}
+            };
             _FollowVFXPosition.Play();
         }
         private IEnumerator EnergyActivition(List<GameObject> objs) {            

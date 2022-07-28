@@ -127,7 +127,8 @@ namespace HelloPico2.PlayerController.Arm
         }
         private void OnDeviceInputDetected(DeviceInputDetected obj)
         {
-            OnUpdateInput?.Invoke(obj);
+            if(obj.Selector.HandType == data.HandType)
+                OnUpdateInput?.Invoke(obj);
 
 			if (obj.Selector.SelectableObject == null) return;
 

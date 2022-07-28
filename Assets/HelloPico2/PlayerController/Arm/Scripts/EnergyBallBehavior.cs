@@ -65,6 +65,7 @@ namespace HelloPico2.PlayerController.Arm
         private GameObject currentShape;
         private WeaponBehavior currentWeaponBehavior;
         private bool isShapeConfirmed = false;
+        private DeviceInputDetected currentDeviceInputDetected { get; set; }
         #endregion
         private void Start()
         {
@@ -87,6 +88,7 @@ namespace HelloPico2.PlayerController.Arm
             armLogic.OnPrimaryAxisClick += ConfirmShape;
             armLogic.OnPrimaryAxisTouchUp += ExitShapeControlling;
 
+            armLogic.OnUpdateInput += GetCurrentDeviceInput;
             armLogic.OnTriggerDown += ShootEnergyProjectile;
 
             currentShape = currentEnergyBall;
@@ -120,8 +122,6 @@ namespace HelloPico2.PlayerController.Arm
             eventData.Interactable.transform.DOMove(targetPos, armLogic.data.GrabEasingDuration).OnComplete(() =>
             {
                 armLogic.data.Energy += eventData.Energy;
-                               
-                armLogic.data.Energy = Mathf.Clamp(armLogic.data.Energy, 0, armLogic.data.MaxEnergy);
 
                 armLogic.data.WhenGainEnergy?.Invoke();
 
@@ -140,6 +140,9 @@ namespace HelloPico2.PlayerController.Arm
                 return hitInfos[0].transform;
             }
             return null;
+        }
+        private void GetCurrentDeviceInput(DeviceInputDetected obj) {
+            currentDeviceInputDetected = obj;
         }
         private void ShootChargedProjectile(ArmData data)
         {
@@ -183,8 +186,8 @@ namespace HelloPico2.PlayerController.Arm
                     _TestTarget = target;
                 }
             }
-
-            clone.GetComponent<ProjectileController>().ProjectileSetUp(speed, _SpeedBufferDuration, _SpeedBufferEasingCurve, _TestTarget, homing);
+                        
+            clone.GetComponent<ProjectileController>().ProjectileSetUp(speed, _SpeedBufferDuration, _SpeedBufferEasingCurve, currentDeviceInputDetected, _TestTarget, homing);
                         
             ShootCoolDownProcess = StartCoroutine(CoolDown(_ShootCoolDown));
         }

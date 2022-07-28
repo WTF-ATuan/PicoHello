@@ -30,7 +30,7 @@ namespace HelloPico2.PlayerController.Arm
         [FoldoutGroup("Events Settings")] public UnityEngine.Events.UnityEvent WhenShootChargedProjectile;
         public HandType HandType { get { return _HandType; } }
         public XRController Controller { get { return _Controller; } }
-        public float Energy { get { return _Energy; } set { _Energy = value; } }
+        public float Energy { get { return _Energy; } set { _Energy = Mathf.Clamp(value, 0, _MaxEnergy);} }
         public float MaxEnergy { get { return _MaxEnergy; } }
         public float GrabDetectionRadius { get { return _GrabDetectionRadius; } }
         public float GrabDistance { get { return _GrabDistance; } }

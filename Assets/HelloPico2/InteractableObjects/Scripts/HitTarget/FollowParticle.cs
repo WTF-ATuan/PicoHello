@@ -13,6 +13,7 @@ namespace HelloPico2.InteractableObjects
         public bool m_DeactivateAfterParticleDie = true;
         [ShowIf("m_DeactivateAfterParticleDie")] public float m_DelayDeactiveTime = .5f;
         ParticleSystem.Particle[] m_Particles;
+        public System.Action<GameObject> WhenParticleDies;
         private void Awake()
         {
             for (int i = 0; i < m_Follower.Length; i++)
@@ -42,7 +43,9 @@ namespace HelloPico2.InteractableObjects
                     }
                     else
                     {
-                        if(m_DeactivateAfterParticleDie)
+                        WhenParticleDies?.Invoke(m_Follower[i]);
+
+                        if (m_DeactivateAfterParticleDie)
                             StartCoroutine(Delayer(m_Follower[i]));
                     }
 
