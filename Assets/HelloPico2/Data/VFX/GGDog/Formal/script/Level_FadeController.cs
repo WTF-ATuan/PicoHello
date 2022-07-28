@@ -8,14 +8,23 @@ public class Level_FadeController : MonoBehaviour
 {
     public enum Level
     {
-        _0_intro_黑暗中,
-        _1_第一關_精靈樂園,
-        _2_第二關_樹根,
-        _3_第三關_紫色遺跡,
-        _4_轉到現實_Seethrough,
-        _5_第四關_穿越特效進入_雲洞,
-        _6_顏色漸亮_雲洞,
-        _7_衝出雲洞_大結局
+        _0_intro,
+        _1_Ch1,
+        _2_Ch2,
+        _3_Ch2ToBoss,
+        _4_Ch3_Seethrough,
+        _5_Ch4_Cloud,
+        _6_Ch4_ToBright,
+        _7_Ending,
+        /*
+           _0_intro_黑暗中,
+           _1_第一關_精靈樂園,
+           _2_第二關_樹根,
+           _3_第三關_紫色遺跡,
+           _4_轉到現實_Seethrough,
+           _5_第四關_穿越特效進入_雲洞,
+           _6_顏色漸亮_雲洞,
+           _7_衝出雲洞_大結局*/
     }
     public Level level;
 
@@ -225,8 +234,68 @@ public class Level_FadeController : MonoBehaviour
         }
     }
 
-    
+    //change name
+    void Level_switch()
+    {
+        switch (level)
+        {
+            case Level._0_intro:
+                Level_4.SetActive(false);
+                ColorFade_Sky(Level_0.Sky);
+                ColorFade_Ground(Level_0.Ground);
+                ColorFade_Env(Level_0.Env, Level_0.Env_far, Level_0.Env_near);
+                Env_StartUp(Level_0);
+                break;
 
+
+            case Level._1_Ch1:
+                Level_4.SetActive(false);
+                ColorFade_Sky(Level_1.Sky);
+                ColorFade_Ground(Level_1.Ground);
+                ColorFade_Env(Level_1.Env, Level_1.Env_far, Level_1.Env_near);
+                Env_StartUp(Level_1);
+                break;
+
+
+            case Level._2_Ch2:
+                Level_4.SetActive(false);
+                ColorFade_Sky(Level_2.Sky);
+                ColorFade_Ground(Level_2.Ground);
+                ColorFade_Env(Level_2.Env, Level_2.Env_far, Level_2.Env_near);
+                Env_StartUp(Level_2);
+                break;
+
+
+            case Level._3_Ch2ToBoss:
+                Level_4.SetActive(false);
+                ColorFade_Sky(Level_3.Sky);
+                ColorFade_Ground(Level_3.Ground);
+                ColorFade_Env(Level_3.Env, Level_3.Env_far, Level_3.Env_near);
+                Env_StartUp(Level_3);
+                break;
+
+
+            case Level._4_Ch3_Seethrough:
+                Enable_Env = false;
+                Level_4.SetActive(false);
+                break;
+
+            case Level._5_Ch4_Cloud:
+                Enable_Env = false;
+                Level_4.SetActive(true);
+                break;
+
+
+            case Level._6_Ch4_ToBright:
+                break;
+
+
+            case Level._7_Ending:
+                break;
+
+        }
+        
+    /*
     void Level_switch()
     {
         switch (level)
@@ -285,6 +354,6 @@ public class Level_FadeController : MonoBehaviour
             case Level._7_衝出雲洞_大結局:
                 break;
                 
-        }
+        }*/
     }
 }
