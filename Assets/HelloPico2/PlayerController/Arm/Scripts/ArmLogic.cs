@@ -51,8 +51,10 @@ namespace HelloPico2.PlayerController.Arm
 
             data.WhenGainEnergy.AddListener(() =>
             EventBus.Post(new AudioEventRequested(data.GainEnergyBallClipName, _controller.transform.position)));
+
             data.WhenShootProjectile.AddListener(() =>
-            EventBus.Post(new AudioEventRequested(data.ShootEnergyBallClipName, _controller.transform.position)));
+            AudioPlayerHelper.PlayRandomAudio(data.ShootEnergyBallClipName, _controller.transform.position));            
+
             data.WhenShootChargedProjectile.AddListener(() =>
             EventBus.Post(new AudioEventRequested(data.ShootChargedEnergyBallClipName, _controller.transform.position)));
         }
