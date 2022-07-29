@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 209317907826756369}
   - component: {fileID: 209317907826756368}
   - component: {fileID: 7984367163297893491}
-  - component: {fileID: 8787579133768588769}
+  - component: {fileID: 8606128195516463523}
   - component: {fileID: 7331285149722577253}
   m_Layer: 0
   m_Name: ChargedEnergyProjectile
@@ -34,6 +34,7 @@ Transform:
   m_LocalScale: {x: 2.5, y: 1.5, z: 2.5}
   m_Children:
   - {fileID: 4734840646766223857}
+  - {fileID: 8490385364067986123}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -115,7 +116,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &8787579133768588769
+--- !u!114 &8606128195516463523
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -124,21 +125,55 @@ MonoBehaviour:
   m_GameObject: {fileID: 209317907826756382}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a686d33b254924282aec417b3ce39f51, type: 3}
+  m_Script: {fileID: 11500000, guid: f1bfe378ef523ee4ab9d64159b1717d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _InteractType: 2
   _Lifetime: 10
-  _CollideDestryDelayTime: 3
+  _CollideDestryDelayTime: 4
   _ActivateHoming: 0
-  _homingSensativeness: 0.1
+  _homingSensativeness: 0
   _StartHomingTime: 0
-  _homingDuration: 2
-  _AngleLimit: 120
-  _DistanceLimit: 120
+  _homingDuration: 0
+  _AngleLimit: 0
+  _DistanceLimit: 0
   WhenShoot:
     m_PersistentCalls:
       m_Calls: []
+  WhenCollide:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3866000280701989769}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 7331285149722577253}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _CountDownDuration: 3
+  _DealDamageRange: 15
+  _DamageDetectionLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  _ExplosionVFX: {fileID: 4223618234589925904}
+  _ExplosionSFXName: Explosion
 --- !u!114 &7331285149722577253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4958,3 +4993,70 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!1001 &192661800287300309
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 209317907826756383}
+    m_Modifications:
+    - target: {fileID: 3929482160136906065, guid: eb5f1a8fbcbef27499f1e60892bcb353, type: 3}
+      propertyPath: m_Name
+      value: VFX_Explosion
+      objectReference: {fileID: 0}
+    - target: {fileID: 8610759771065925662, guid: eb5f1a8fbcbef27499f1e60892bcb353, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8610759771065925662, guid: eb5f1a8fbcbef27499f1e60892bcb353, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8610759771065925662, guid: eb5f1a8fbcbef27499f1e60892bcb353, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8610759771065925662, guid: eb5f1a8fbcbef27499f1e60892bcb353, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8610759771065925662, guid: eb5f1a8fbcbef27499f1e60892bcb353, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8610759771065925662, guid: eb5f1a8fbcbef27499f1e60892bcb353, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8610759771065925662, guid: eb5f1a8fbcbef27499f1e60892bcb353, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8610759771065925662, guid: eb5f1a8fbcbef27499f1e60892bcb353, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8610759771065925662, guid: eb5f1a8fbcbef27499f1e60892bcb353, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8610759771065925662, guid: eb5f1a8fbcbef27499f1e60892bcb353, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8610759771065925662, guid: eb5f1a8fbcbef27499f1e60892bcb353, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: eb5f1a8fbcbef27499f1e60892bcb353, type: 3}
+--- !u!4 &8490385364067986123 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8610759771065925662, guid: eb5f1a8fbcbef27499f1e60892bcb353, type: 3}
+  m_PrefabInstance: {fileID: 192661800287300309}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &4223618234589925904 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4049077510283016389, guid: eb5f1a8fbcbef27499f1e60892bcb353, type: 3}
+  m_PrefabInstance: {fileID: 192661800287300309}
+  m_PrefabAsset: {fileID: 0}
