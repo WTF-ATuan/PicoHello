@@ -14,7 +14,7 @@ namespace HelloPico2.PlayerController.Arm
         [SerializeField] private XRController _Controller;
         [SerializeField] private float _Energy;
         [SerializeField] private float _MaxEnergy;
-        [SerializeField][Range(0.01f,3f)] private float _GrabDetectionRadius = 1;
+        [SerializeField][Range(0.01f,30f)] private float _GrabDetectionRadius = 1;
         [SerializeField][Min(0.01f)] private float _GrabDistance = 30;
         [SerializeField] private float _GrabEasingDuration;
         [SerializeField] private InteractableSettings _InteractableSettings;
