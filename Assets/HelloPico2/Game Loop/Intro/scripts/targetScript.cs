@@ -76,16 +76,14 @@ public class targetScript : MonoBehaviour
     }
     public void ShowAnim()
     {
-          _Animator.SetTrigger("isGet");
+          _Animator.SetBool("isGet",true);
     }
    
     private void OnTriggerEnter(Collider other)
     {
         if (isTrigger && other.CompareTag("Player")&&coldTime==0)
-        {   
-            menuCheck.targetItemHeld = checkHeld;
-            isCheckSel = true;
-            countTimer = 0;
+        {
+            AddItemHeld();
         }
     }
     private void OnTriggerStay(Collider other)

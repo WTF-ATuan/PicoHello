@@ -8,6 +8,7 @@ public class TargetItem_SO : ScriptableObject
 {
     public string targetIteamName;
     public int targetItemHeld;
+    
     public bool isTipArm;
     public bool isTipOpen;
     
