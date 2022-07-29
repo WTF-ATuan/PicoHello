@@ -13,10 +13,20 @@ public class RhythmTrack : TrackAsset{
 	private RhythmDataReader _dataReader;
 
 	public List<NoteName> activateNoteList;
+	private DirectorUpdateMode _updateMode;
 
 	public bool CheckClipExists(){
 		var timelineClips = GetClips().ToList();
 		return timelineClips.Count > 1;
+	}
+
+	public void CreateNewNote(NoteName selectNoteName){
+		var timelineClip = CreateClip<RhythmClip>();
+		timelineClip.displayName = selectNoteName.ToString();
+		timelineClip.duration = 1f;
+		var rhythmClip = timelineClip.asset as RhythmClip;
+		if(rhythmClip != null)
+			rhythmClip.noteName = selectNoteName;
 	}
 
 	public void CreateSelectedNote(){
@@ -45,6 +55,7 @@ public class RhythmTrack : TrackAsset{
 	public override void GatherProperties(PlayableDirector director, IPropertyCollector driver){
 		var binding = director.GetGenericBinding(this);
 		_textAsset = binding as TextAsset;
+		_updateMode = director.timeUpdateMode;
 		base.GatherProperties(director, driver);
 	}
 }
