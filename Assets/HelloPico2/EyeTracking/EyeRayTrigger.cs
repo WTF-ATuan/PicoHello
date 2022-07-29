@@ -1,5 +1,6 @@
 ﻿using DG.Tweening;
 using HelloPico2.InteractableObjects;
+using UltEvents;
 using Unity.XR.PXR;
 using UnityEngine;
 using UnityEngine.XR;
@@ -8,15 +9,35 @@ namespace HelloPico2.EyeTracking{
 	public class EyeRayTrigger : MonoBehaviour{
 		[SerializeField] private float rayCastMaxDistance = 100;
 		[SerializeField] private Transform signObject;
+		[SerializeField] private LayerMask detectedLayer;
+		[SerializeField] private bool eyeTracking = true;
 
+		public UltEvent<Vector3> eyeHitEvent;
 
 		private void Update(){
-			TrackEye();
+			if(eyeTracking){
+				TrackEye();
+			}
+			else{
+				TrackHead();
+			}
+
 			InputDevices.GetDeviceAtXRNode(XRNode.LeftHand)
 					.TryGetFeatureValue(CommonUsages.menuButton, out var isLMenuButton);
 			InputDevices.GetDeviceAtXRNode(XRNode.RightHand)
 					.TryGetFeatureValue(CommonUsages.menuButton, out var isRMenuButton);
 			if(isLMenuButton || isRMenuButton) CalibrationEyeTracker();
+		}
+
+		private void TrackHead(){
+			if(!Camera.main) return;
+			var cameraTransform = Camera.main.transform;
+			var originPoint = cameraTransform.position;
+			var direction = cameraTransform.forward;
+			var ray = new Ray(originPoint, direction);
+			if(!Physics.Raycast(ray, out var hit, rayCastMaxDistance, detectedLayer)) return;
+			signObject.position = hit.point;
+			Trigger(hit.collider, hit.point);
 		}
 
 		private void TrackEye(){
@@ -28,10 +49,15 @@ namespace HelloPico2.EyeTracking{
 			var originOffset = matrix4X4.MultiplyPoint(origin);
 			var directionOffset = matrix4X4.MultiplyVector(direction);
 			var ray = new Ray(originOffset, directionOffset);
-			if(!Physics.Raycast(ray, out var hit, rayCastMaxDistance)) return;
+			if(!Physics.Raycast(ray, out var hit, rayCastMaxDistance, detectedLayer)) return;
 			signObject.position = hit.point;
-			var collide = hit.collider.GetComponent<IInteractCollide>();
-			collide?.OnCollide(InteractType.Eye, null);
+			Trigger(hit.collider, hit.point);
+		}
+
+		private void Trigger(Collider hitTarget, Vector3 position){
+			var collide = hitTarget.GetComponent<IInteractCollide>();
+			collide?.OnCollide(InteractType.Eye, hitTarget);
+			eyeHitEvent.Invoke(position);
 		}
 
 		public void CalibrationEyeTracker(){
