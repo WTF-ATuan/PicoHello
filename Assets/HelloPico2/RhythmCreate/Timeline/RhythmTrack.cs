@@ -12,25 +12,14 @@ public class RhythmTrack : TrackAsset{
 	private TextAsset _textAsset;
 	private RhythmDataReader _dataReader;
 
-	[SerializeField] private List<NoteName> activateNoteList;
+	public List<NoteName> activateNoteList;
 
-	private void OnValidate(){
-		if(activateNoteList.Count < 1) return;
-		if(CheckClipExists()){
-			DeleteAllNote();
-			CreateSelectedNote();
-		}
-		else{
-			CreateSelectedNote();
-		}
-	}
-
-	private bool CheckClipExists(){
+	public bool CheckClipExists(){
 		var timelineClips = GetClips().ToList();
 		return timelineClips.Count > 1;
 	}
 
-	private void CreateSelectedNote(){
+	public void CreateSelectedNote(){
 		if(!_textAsset) return;
 		_dataReader = new RhythmDataReader(_textAsset);
 		foreach(var note in _dataReader.StampDictionary){
@@ -49,26 +38,13 @@ public class RhythmTrack : TrackAsset{
 		}
 	}
 
-	private void DeleteAllNote(){
+	public void DeleteAllNote(){
 		foreach(var clip in GetClips()) DeleteClip(clip);
 	}
 
 	public override void GatherProperties(PlayableDirector director, IPropertyCollector driver){
 		var binding = director.GetGenericBinding(this);
 		_textAsset = binding as TextAsset;
-		if(!_textAsset){
-			DeleteAllNote();
-		}
-		else{
-			if(CheckClipExists()){
-				DeleteAllNote();
-				CreateSelectedNote();
-			}
-			else{
-				CreateSelectedNote();
-			}
-		}
-
 		base.GatherProperties(director, driver);
 	}
 }
