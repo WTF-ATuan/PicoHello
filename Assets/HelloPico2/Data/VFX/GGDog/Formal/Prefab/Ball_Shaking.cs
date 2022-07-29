@@ -9,7 +9,8 @@ public class Ball_Shaking : MonoBehaviour
 
     void Awake()
     {
-        OriScale = transform.localScale * Random.Range(0.5f, 1.25f);
+        float d = Min_Scale + Vector3.Distance(Vector3.zero, transform.position) / 700;
+        OriScale = transform.localScale * Random.Range(1f, 1f)/ d;
     }
 
     Vector3 OriScale;
@@ -24,7 +25,7 @@ public class Ball_Shaking : MonoBehaviour
 
     void Update()
     {
-
+        /*
         //隨機的微秒時間內做隨機位置取用
         if (Time.time > _RandomTrans_timer + Random.Range(0.25f, 0.75f))
         {
@@ -33,7 +34,7 @@ public class Ball_Shaking : MonoBehaviour
         }
         //飄移向隨機位置，完成隨機飄動的效果
         transform.Translate(Vector3.Lerp(Vector3.zero, RandomTrans, 0.03f));
-
+        */
         //Size逆透視
         float d = Min_Scale + Vector3.Distance(Vector3.zero,transform.position)/700;
 

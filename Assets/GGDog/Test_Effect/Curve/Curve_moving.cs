@@ -13,7 +13,7 @@ public class Curve_moving : MonoBehaviour
     float ori_d;
 
     GameObject Player_Hand_Pos;
-
+    public GameObject Test;
     void OnEnable()
     {
         Player_Hand_Pos = GameObject.Find("Player_Hand_Pos");
@@ -23,6 +23,7 @@ public class Curve_moving : MonoBehaviour
 
     void Update()
     {
+        Test.SetActive(true);
         float d = Vector3.Distance(transform.position, Player_Hand_Pos.transform.position);
 
         avSpeed = Speed * ori_d / d;
