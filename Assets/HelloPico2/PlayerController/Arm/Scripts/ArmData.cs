@@ -17,6 +17,7 @@ namespace HelloPico2.PlayerController.Arm
         [SerializeField][Range(0.01f,30f)] private float _GrabDetectionRadius = 1;
         [SerializeField][Min(0.01f)] private float _GrabDistance = 30;
         [SerializeField] private float _GrabEasingDuration;
+        [SerializeField] private AnimationCurve _GrabEasingCurve;
         [SerializeField] private InteractableSettings _InteractableSettings;
         [SerializeField] private Transform _SummonPoint;
         [FoldoutGroup("Audio Settings")][SerializeField] private string _GainEnergyBallClipName;
@@ -35,6 +36,7 @@ namespace HelloPico2.PlayerController.Arm
         public float GrabDetectionRadius { get { return _GrabDetectionRadius; } }
         public float GrabDistance { get { return _GrabDistance; } }
         public float GrabEasingDuration { get { return _GrabEasingDuration; } }
+        public AnimationCurve GrabEasingCurve { get { return _GrabEasingCurve; } }
         public InteractableSettings InteractableSettings { get { return _InteractableSettings; } }
         public Transform SummonPoint { get { return _SummonPoint; } }
         public string GainEnergyBallClipName { get { return _GainEnergyBallClipName; } }
