@@ -26,14 +26,16 @@ namespace HelloPico2.PlayerController.Arm
         private AnimationCurve _easingCurve;
         public HelloPico2.InputDevice.Scripts.DeviceInputDetected _deviceInput { get; set; }
         float _step;
+        bool _AssignedTarget;
         Transform _target;
+
         Vector3 originalDir;
         Vector3 dir;
         Vector3 velocity;
         bool finishedVelocityBuffer;
 
         public void ProjectileSetUp(float speed, float duration, AnimationCurve easingCurve, HelloPico2.InputDevice.Scripts.DeviceInputDetected deviceInput, Transform target = null, bool homing = false) {
-            if (target) _target = target;
+            if (target) { _target = target; _AssignedTarget = true; }
             _rigidbody = GetComponent<Rigidbody>();
             _speed = speed;
             _duration = duration;
@@ -64,21 +66,24 @@ namespace HelloPico2.PlayerController.Arm
             else
             {
                 if (_ActivateHoming)
-                {
+                {          
+                            
                     if (_target == null) return;
-                    if (Vector3.Distance(transform.position, _target.position) < 1) { /*_rigidbody.velocity = Vector3.zero;*/ return; }
+                    if (Vector3.Distance(transform.position, _target.position) < 1) { return; }
 
                     if (_step >= _StartHomingTime && _step <= _homingDuration)
                     {
                         var targetDir = (_target.position - transform.position).normalized;
-                                                
+
+                        // Prevent shooting back
+                        if (Vector3.Angle(originalDir, targetDir) > 150) { Destroy(gameObject); }
+
                         if (Vector3.Distance(transform.position, _target.position) > _DistanceLimit && 
                             Vector3.Angle(originalDir, targetDir) > _AngleLimit) return;
 
                         var step = Mathf.Clamp(_step / (1 / _homingSensativeness), 0, 1);
 
-                        dir = Vector3.Lerp(originalDir, targetDir, step);
-                        
+                        dir = Vector3.Lerp(originalDir, targetDir, step);                        
 
                         transform.forward = dir;
                         _rigidbody.velocity = dir * _speed;
