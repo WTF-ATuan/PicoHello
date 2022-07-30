@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 2959881842713970337}
   - component: {fileID: 5022110011080971242}
   - component: {fileID: 7879427122820126459}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Enemybullet_NoMover
   m_TagString: target
   m_Icon: {fileID: 0}
@@ -311,9 +311,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fc23712566f7e34096a971f96cd7790, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _UsephPushBackFeedback: 0
+  _PushBackDuration: 0.3
+  _PushBackDist: 3
+  _PushBackEasingCureve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _CollideClipName:
   - BulletDestroy
   _DamageAmount: 0
+  _HitCDDuration: 0.05
   _InteractType: 4
   WhenCollide:
     m_PersistentCalls:
@@ -354,6 +364,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  WhenCollideUlt:
+    _PersistentCalls: []
   _Lifetime: 90
   _DestroyDelayDuration: 2
   _HitEffectID: BulletDestroyVFX

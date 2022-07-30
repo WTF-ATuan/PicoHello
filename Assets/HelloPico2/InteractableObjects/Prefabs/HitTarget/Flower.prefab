@@ -126,6 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ControlMode: 1
+  _RunOnEnable: 0
   _ScalingObject: {fileID: 1377952310}
   _From: {x: 0, y: 0, z: 0}
   _To: {x: 1.1, y: 1.1, z: 1.1}
@@ -155,6 +156,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  WhenStart:
+    m_PersistentCalls:
+      m_Calls: []
+  WhenFinished:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1383943080
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,6 +207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ControlMode: 1
+  _RunOnEnable: 0
   _ScalingObject: {fileID: 1383943080}
   _From: {x: 0, y: 0, z: 0}
   _To: {x: 0.748, y: 0.748, z: 0.748}
@@ -229,6 +237,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  WhenStart:
+    m_PersistentCalls:
+      m_Calls: []
+  WhenFinished:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2080604737
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,6 +288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ControlMode: 1
+  _RunOnEnable: 0
   _ScalingObject: {fileID: 2080604737}
   _From: {x: 0, y: 0, z: 0}
   _To: {x: 1.1, y: 1.1, z: 1.1}
@@ -303,6 +318,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  WhenStart:
+    m_PersistentCalls:
+      m_Calls: []
+  WhenFinished:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8011040258393240782
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,7 +338,7 @@ GameObject:
   - component: {fileID: 8011040258393240783}
   - component: {fileID: 1685261697}
   - component: {fileID: 1685261698}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Flower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -416,6 +437,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ControlMode: 1
+  _RunOnEnable: 0
   _ScalingObject: {fileID: 8011040258393240782}
   _From: {x: 27, y: 27, z: 27}
   _To: {x: 36, y: 36, z: 36}
@@ -445,6 +467,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  WhenStart:
+    m_PersistentCalls:
+      m_Calls: []
+  WhenFinished:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1685261698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -457,7 +485,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3da9d4b96aa8fa643976c5ed1debb7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _CollideClipName: ChargeFlowerBloom
+  _UsephPushBackFeedback: 0
+  _PushBackDuration: 0.3
+  _PushBackDist: 3
+  _PushBackEasingCureve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _CollideClipName: []
+  _DamageAmount: 0
+  _HitCDDuration: 0.05
+  _InteractType: 4
   WhenCollide:
     m_PersistentCalls:
       m_Calls:
@@ -473,9 +513,26 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  WhenCollideUlt:
+    _PersistentCalls: []
   _ChargeBloomClipName0: ChargeFlowerBloom_0
   _ChargeBloomClipName1: ChargeFlowerBloom_1
   _RequireEnergy: 60
+  _SpawnThisWhenBloomed: {fileID: 0}
+  _SpawnEnergyFromAnimationEvent: 0
+  _SpawnAmount: 0
+  _DelayToActivate: 0.5
+  _SpawnedEnergyEasingCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _SpawnObjectControl: {fileID: 0}
+  _FollowVFXPosition: {fileID: 0}
+  _DelayToDestroy: 3
+  WhenCharge:
+    _PersistentCalls: []
   WhenCharged1:
     m_PersistentCalls:
       m_Calls:
@@ -557,6 +614,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  WhenFinishedBloom:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8622785943990432518
 GameObject:
   m_ObjectHideFlags: 0

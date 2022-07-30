@@ -19,7 +19,12 @@ namespace HelloPico2.PlayerController.Arm
         [FoldoutGroup("Charging Energyball Position")][SerializeField] private Vector2 _ScaleRange;
         [FoldoutGroup("Charging Energyball Position")][SerializeField] private float _ScalingSpeed;
 
-        [FoldoutGroup("Lock On Target")][SerializeField] private float _CheckSphererRadius;
+        public enum LockOnType { SphereCast, Cone}
+        [FoldoutGroup("Lock On Target")][SerializeField] private LockOnType _LockOnType;
+        [FoldoutGroup("Lock On Target")][Min(0)][SerializeField] private float _CheckSphererRadius;
+        [FoldoutGroup("Lock On Target")][ShowIf("_LockOnType", LockOnType.Cone)][Min(0)][SerializeField] private float _CheckEndSphererRadius;
+        [FoldoutGroup("Lock On Target")][ShowIf("_LockOnType", LockOnType.Cone)][Range(10,30)][SerializeField] private float _AnglePercision = 10;
+        [FoldoutGroup("Lock On Target")][ShowIf("_LockOnType", LockOnType.Cone)][Range(1,10)][SerializeField] private float _RaycastPercision = 10;
         [FoldoutGroup("Lock On Target")][SerializeField] private float _Distance;
         [FoldoutGroup("Lock On Target")][SerializeField] private LayerMask _LayerMask;
 
@@ -134,10 +139,38 @@ namespace HelloPico2.PlayerController.Arm
             Ray ray = new Ray();   
             ray.origin = currentEnergyBall.transform.position + (currentEnergyBall.transform.forward * _SpawnOffset);
             ray.direction = armLogic.data.Controller.transform.forward;
-            RaycastHit[] hitInfos = new RaycastHit[3];
+            if (_LockOnType == LockOnType.SphereCast)
+            {
+                RaycastHit[] hitInfos = new RaycastHit[3];
 
-            if (Physics.SphereCastNonAlloc(ray, _CheckSphererRadius, hitInfos, _Distance, _LayerMask) > 0) {
-                return hitInfos[0].transform;
+                if (Physics.SphereCastNonAlloc(ray, _CheckSphererRadius, hitInfos, _Distance, _LayerMask) > 0)                
+                    return hitInfos[0].transform;                
+            }
+            if (_LockOnType == LockOnType.Cone)
+            {
+                var angle = _AnglePercision;
+                var percision = _RaycastPercision;
+                var loops = 360 / angle;
+                var radiusDecrement = _CheckSphererRadius / percision;
+                var endRradiusDecrement = _CheckEndSphererRadius / percision;
+                RaycastHit hitInfo;
+
+                for (int i = 0; i < percision; i++)
+                {
+                    var currentRadius = _CheckSphererRadius - radiusDecrement * i;
+                    var currentEndRadius = _CheckEndSphererRadius - endRradiusDecrement * i;                    
+
+                    for (int j = 0; j < loops; j++)
+                    {
+                        var angleDir = Quaternion.AngleAxis(angle * j, armLogic.data.Controller.transform.forward) * armLogic.data.Controller.transform.right;
+                        var Pos = ray.origin + angleDir * currentRadius;
+                        var target = ray.origin + armLogic.data.Controller.transform.forward * _Distance + angleDir * currentEndRadius;
+                        var dir = (target - Pos).normalized;
+                        
+                        if(Physics.Raycast(Pos, dir, out hitInfo, _Distance, _LayerMask))
+                            return hitInfo.transform;
+                    }
+                }
             }
             return null;
         }
@@ -362,17 +395,48 @@ namespace HelloPico2.PlayerController.Arm
 
             GUI.color = col;
             Handles.Label(transform.position + transform.forward * _Distance / 2, "Homing Target Range");
-
-            Vector3 startDir, next;
-            int rayAmount = Mathf.Clamp(Mathf.FloorToInt(50 * _CheckSphererRadius / 3), 10, 100);
-            float angle = 360f / rayAmount;
-            for (int i = 0; i < rayAmount; i++)
+            if (_LockOnType == LockOnType.SphereCast)
             {
-                startDir = transform.right;
-                next = transform.position + Quaternion.Euler(0, 0, angle * i) * startDir * _CheckSphererRadius;
-                Gizmos.DrawRay(next, transform.forward * _Distance);
+                Vector3 startDir, next;
+                int rayAmount = Mathf.Clamp(Mathf.FloorToInt(50 * _CheckSphererRadius / 3), 10, 100);
+                float angle = 360f / rayAmount;
+                for (int i = 0; i < rayAmount; i++)
+                {
+                    startDir = transform.right;
+                    next = transform.position + Quaternion.Euler(0, 0, angle * i) * startDir * _CheckSphererRadius;
+                    Gizmos.DrawRay(next, transform.forward * _Distance);
+                }
             }
-            #endif
+            if (_LockOnType == LockOnType.Cone)
+            {
+                Ray ray = new Ray();
+                ray.origin = armLogic.data.Controller.transform.position;
+                ray.direction = armLogic.data.Controller.transform.forward;
+
+                var angle = _AnglePercision;
+                var percision = _RaycastPercision;
+                var loops = 360 / angle;
+                var radiusDecrement = _CheckSphererRadius / percision;
+                var endRradiusDecrement = _CheckEndSphererRadius / percision;
+
+                for (int i = 0; i < percision; i++)
+                {
+                    var currentRadius = _CheckSphererRadius - radiusDecrement * i;
+                    var currentEndRadius = _CheckEndSphererRadius - endRradiusDecrement * i;
+                    col.a = Mathf.Clamp(col.a - (0.3f / percision) * i, .03f, 1);
+                    Gizmos.color = col;
+
+                    for (int j = 0; j < loops; j++)
+                    {
+                        var angleDir = Quaternion.AngleAxis(angle * j, armLogic.data.Controller.transform.forward) * armLogic.data.Controller.transform.right;
+                        var Pos = ray.origin + angleDir * currentRadius;
+                        var target = ray.origin + armLogic.data.Controller.transform.forward * _Distance + angleDir * currentEndRadius;
+                        var dir = (target - Pos).normalized;
+                        Gizmos.DrawLine(Pos, target);
+                    }
+                }
+            }
+#endif
         }
         #endregion
     }

@@ -35,7 +35,6 @@ namespace HelloPico2.PlayerController.Arm
         public void ProjectileSetUp(float speed, float duration, AnimationCurve easingCurve, HelloPico2.InputDevice.Scripts.DeviceInputDetected deviceInput, Transform target = null, bool homing = false) {
             if (target) _target = target;
             _rigidbody = GetComponent<Rigidbody>();
-            print("Set up" + GetComponent<Rigidbody>().name);
             _speed = speed;
             _duration = duration;
             _easingCurve = easingCurve;
