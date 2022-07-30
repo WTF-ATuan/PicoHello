@@ -13,8 +13,9 @@ public class createBallScript : MonoBehaviour
     public int createType = 0;//0 local place ,1 toward player,2 enemy Type1 
     int randRange;
     int createRange;
+    public bool isMulit;
     public Vector3[] rangSize;
-    private GameObject EnemyPool;
+    public  GameObject setingPool;
 
     // Start is called before the first frame update
     void Start()
@@ -22,14 +23,35 @@ public class createBallScript : MonoBehaviour
         createRange = createPos.Length;
         randRange = insObj.Length;
         timeCount = timer;
-        EnemyPool = GameObject.Find("EnemyPool");
+        
 
     }
+    public void CreateMultiObj()
+    {
+        Vector3 insCreatePos = createPos[Random.Range(0, createRange)].transform.localPosition;
+        GameObject parentName = setingPool;
+        Vector3 pos = new Vector3(insCreatePos.x + Random.Range(rangSize[0][0], rangSize[1][0]), insCreatePos.y + Random.Range(rangSize[0][1], rangSize[1][1]), insCreatePos.z + Random.Range(rangSize[0][2], rangSize[1][2]));
+        GameObject getGroup = Instantiate(SetGroup, Vector3.zero, Quaternion.identity, parentName.transform);
+        Instantiate(insObj[Random.Range(0, randRange)], pos, insObj[0].transform.localRotation, getGroup.transform);
+    }
+
     public void CreateObj()
     {
         
         Vector3 insCreatePos = createPos[Random.Range(0, createRange)].transform.localPosition;
-
+        GameObject parentName = setingPool;
+        //Destroy(parentName.transform.GetChild(0).gameObject);
+        GameObject getGroup = Instantiate(SetGroup, Vector3.zero, Quaternion.identity, parentName.transform);
+        Vector3 pos = new Vector3(insCreatePos.x + Random.Range(rangSize[0][0], rangSize[1][0]), insCreatePos.y + Random.Range(rangSize[0][1], rangSize[1][1]), insCreatePos.z + Random.Range(rangSize[0][2], rangSize[1][2]));
+        Instantiate(insObj[Random.Range(0, randRange)], pos, Quaternion.identity, getGroup.transform);
+        /*if (parentName.transform.childCount != 0)
+        {
+            Destroy(parentName.transform.GetChild(0).gameObject);
+            GameObject getGroup = Instantiate(SetGroup, Vector3.zero, Quaternion.identity, parentName.transform);
+            Vector3 pos = new Vector3(insCreatePos.x + Random.Range(rangSize[0][0], rangSize[1][0]), insCreatePos.y + Random.Range(rangSize[0][1], rangSize[1][1]), insCreatePos.z + Random.Range(rangSize[0][2], rangSize[1][2]));
+            Instantiate(insObj[Random.Range(0, randRange)], pos, Quaternion.identity, getGroup.transform);
+        }*/
+        /*
         if (createType == 0)
         {
             GameObject parentName = GameObject.Find("BallPool");
@@ -38,7 +60,7 @@ public class createBallScript : MonoBehaviour
         }
         else if(createType == 1)
         {
-            GameObject parentName = GameObject.Find("BallPool");
+            GameObject parentName = setingPool;
 
             if (parentName.transform.childCount != 0)
             {
@@ -51,16 +73,17 @@ public class createBallScript : MonoBehaviour
             
             //moveGrp.SetActive(true);
         }
+        
         else
         {
-            GameObject parentName = GameObject.Find("EnemyPool");
+            GameObject parentName = setingPool;
             Vector3 pos = new Vector3(insCreatePos.x + Random.Range(rangSize[0][0], rangSize[1][0]), insCreatePos.y + Random.Range(rangSize[0][1], rangSize[1][1]), insCreatePos.z + Random.Range(rangSize[0][2], rangSize[1][2]));
             GameObject getGroup = Instantiate(SetGroup,Vector3.zero,Quaternion.identity, parentName.transform);
             Instantiate(insObj[Random.Range(0, randRange)], pos, insObj[0].transform.localRotation, getGroup.transform);
         }
-            
+            */
 
-        
+
     }
     // Update is called once per frame
     void Update()
@@ -70,7 +93,12 @@ public class createBallScript : MonoBehaviour
             timeCount = timeCount - Time.deltaTime;
             if (isCreate == true && timeCount <= 0 )
             {
-                if (EnemyPool.transform.childCount == 0)
+                if (isMulit)
+                {
+                    CreateMultiObj();
+                    timeCount = timer;
+                }
+                else 
                 {
                     CreateObj();
                     timeCount = timer;

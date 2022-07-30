@@ -16,7 +16,7 @@ public class HandAnim : MonoBehaviour
 	public TargetItem_SO _getItme;
 	public GameObject spawnedController;
 	public int[] checkItemHeld;
-	private bool showController = false;
+	public bool showController = false;
 	private bool isTip;
 	public GameObject tipButtonAll;
 	public GameObject[] tipButton;
