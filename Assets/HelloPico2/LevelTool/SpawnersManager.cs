@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using HelloPico2.InteractableObjects;
 using Sirenix.OdinInspector;
+using DG.Tweening;
 
 namespace HelloPico2.LevelTool
 {
@@ -61,6 +62,11 @@ namespace HelloPico2.LevelTool
         public float _HelpObjectCoolDown;
         [FoldoutGroup("Help Player When Running out of Power")]
         public List<BaseSpawner> _HelpObjectSpawnPoints;
+        
+        [FoldoutGroup("Spawn Scaling Setting")]
+        public float _SpawnScalingDuration = .5f;
+        [FoldoutGroup("Spawn Scaling Setting")]
+        public AnimationCurve _SpawnScalingCurve;
 
         public Transform _Player;
         public Transform _SpawnObjContainer;
@@ -188,6 +194,7 @@ namespace HelloPico2.LevelTool
             clone.transform.SetParent(_SpawnObjContainer);
 
             clone.gameObject.AddComponent<MoveLevelObject>().SetUpMoveLevelObject(dir, spawner._Speed, spawner._UseExternalForce, spawner._ForceDir, spawner._Force, spawner._SpeedMultiplier);
+            clone.transform.DOScale(clone.transform.localScale, _SpawnScalingDuration).SetEase(_SpawnScalingCurve).From(Vector3.zero);
 
             Destroy(clone.gameObject, 90f);
         }
