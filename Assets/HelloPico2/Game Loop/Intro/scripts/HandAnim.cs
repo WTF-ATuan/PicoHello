@@ -6,6 +6,7 @@ using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
 using HelloPico2.InteractableObjects;
 using HelloPico2.InputDevice.Scripts;
+using Unity.XR.PXR;
 
 public class HandAnim : MonoBehaviour
 {
@@ -31,6 +32,7 @@ public class HandAnim : MonoBehaviour
 	int showArmTipCounter;
 	public bool firstTouch;
 
+	public GameObject testChecker;
 	// Start is called before the first frame update
 	private void Start()
     {
@@ -92,6 +94,8 @@ public class HandAnim : MonoBehaviour
 			_controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 primary2DAxisValue);
 			_controller.inputDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out bool secondaryButtonValue);
 			_controller.inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out bool primaryButtonValue);
+			_controller.inputDevice.TryGetFeatureValue(PXR_Usages.grip1DAxis, out var grip1DAxis);
+			testChecker.SetActive(grip1DAxis > 0);
 
 			/* find right left Tip
 			if (isTrigger && isGetGripTip && !isGetTriggetpTip)
