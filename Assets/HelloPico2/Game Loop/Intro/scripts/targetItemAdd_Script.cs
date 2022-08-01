@@ -7,6 +7,7 @@ public class targetItemAdd_Script : MonoBehaviour
 {
     public TargetItem_SO menuCheck;
     public int checkHeld;
+    public int setHeld;
     public GameObject[] showObj;
     public GameObject[] hideList;
     public void AddItemHeld()
@@ -25,7 +26,7 @@ public class targetItemAdd_Script : MonoBehaviour
         {
             showObj[0].SetActive(true);
             hideList[0].SetActive(false);
-            menuCheck.targetItemHeld = checkHeld;
+            menuCheck.targetItemHeld = setHeld;
 
         }
         //showObj[1]¥`¿Ù±–æ«

@@ -10,6 +10,7 @@ public class SetTargetItemHeldScript : MonoBehaviour
     void Start()
     {
         ItemHeld.targetItemHeld = SetHeldDefault;
+        Debug.Log(SetHeldDefault);
     }
 
 }

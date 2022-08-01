@@ -53,22 +53,22 @@ public class HandAnim : MonoBehaviour
 	}
 	private void HandAnimSwtich()
     {
-		if (_getItme.targetItemHeld == 2)
+		if (_getItme.targetItemHeld == checkItemHeld[0]) //held 2
         {
 			staffCheck();
 		}
 		//Finish Grip
-		else if (_getItme.targetItemHeld == 200)
+		else if (_getItme.targetItemHeld == checkItemHeld[1])//held 200
         {
-			showAnim("isJoystick");
+			showAnim("isGrip");
 		}
 		//Finish Sword
-		else if (_getItme.targetItemHeld == 300)
+		else if (_getItme.targetItemHeld == checkItemHeld[2] )//300
 		{
-			showAnim("isBtnAX");
+			showAnim("isJoystick");
 		}
 		//Shield
-		else if (_getItme.targetItemHeld == 3)
+		else if (_getItme.targetItemHeld == checkItemHeld[3]) //3
 		{
 			showAnim("isBtnAX");
 			isTip = false;
@@ -95,7 +95,8 @@ public class HandAnim : MonoBehaviour
 			_controller.inputDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out bool secondaryButtonValue);
 			_controller.inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out bool primaryButtonValue);
 			_controller.inputDevice.TryGetFeatureValue(PXR_Usages.grip1DAxis, out var grip1DAxis);
-			testChecker.SetActive(grip1DAxis > 0);
+			
+
 
 			/* find right left Tip
 			if (isTrigger && isGetGripTip && !isGetTriggetpTip)
