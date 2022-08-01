@@ -18,10 +18,10 @@ public class ObjPool_Spawner_Jy : MonoBehaviour
     {
         if (isOne) return;
         
-        if (Time.time > _timer + spawnTime)
+        if (Time.time > _timer)
         {
             SpawnerFunc();
-            _timer = Time.time;            
+            _timer = Time.time + spawnTime;            
         }
     }
 
