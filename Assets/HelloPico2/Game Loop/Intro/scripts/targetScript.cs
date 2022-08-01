@@ -8,16 +8,15 @@ public class targetScript : MonoBehaviour
     public TargetItem_SO menuCheck;
     public GameObject[] showObj;
     public GameObject[] hideList;
-
     public int checkHeld;
-    public bool isCheckSel;
     public bool isTrigger;
     public int coldTime;
     float countTimer;
     public bool isAnim;
     public Animator _Animator;
     private bool isListNull;
-    public GameObject DestoryObj;
+    
+    
     private void Start()
     {
         if (isAnim)
@@ -32,9 +31,6 @@ public class targetScript : MonoBehaviour
 
     private void Update()
     {
-        if (!isCheckSel) return;
-
-        
         if (menuCheck.targetItemHeld == checkHeld)
         {
             if (isAnim)
@@ -44,7 +40,6 @@ public class targetScript : MonoBehaviour
             else
             {
                 transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, 0.1f);
-
             }
 
             if (!isListNull)
@@ -62,17 +57,15 @@ public class targetScript : MonoBehaviour
 
                 //Destroy(gameObject, 3);
             }
-
         }
+
+
     }
-    public void DestoryObjFun()
-    {
-        Destroy(DestoryObj, 2f);
-    }
+
     public void AddItemHeld()
     {
         menuCheck.targetItemHeld = checkHeld;
-        isCheckSel = true;
+        
     }
     public void ShowAnim()
     {
@@ -95,7 +88,7 @@ public class targetScript : MonoBehaviour
             if (countTimer > coldTime)
             {
                 menuCheck.targetItemHeld = checkHeld;
-                isCheckSel = true;
+                
                 countTimer = 0;
             }
         }

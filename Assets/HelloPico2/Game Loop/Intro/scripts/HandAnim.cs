@@ -16,6 +16,10 @@ public class HandAnim : MonoBehaviour
 	public TargetItem_SO _getItme;
 	public GameObject spawnedController;
 	public int[] checkItemHeld;
+	//碰觸法器取得Trigget grip，完成取得Joystick，完成光劍取得A，完成盾牌取得B
+	enum checkAnimType {Staff,Joystick,BtnA,BtnB};
+	checkAnimType _checkAnimType;
+	
 	public bool showController = false;
 	private bool isTip;
 	public GameObject tipButtonAll;
@@ -41,23 +45,40 @@ public class HandAnim : MonoBehaviour
 		spawnedController.SetActive(true); //show firstAnim
 		showController = true;
 	}
-	private void showAnim()
+	private void showAnim(string animTrigger)
     {
-		_handAnimator.SetTrigger("isGet");
+		_handAnimator.SetTrigger(animTrigger);
+	}
+	private void HandAnimSwtich()
+    {
+		if (_getItme.targetItemHeld == 2)
+        {
+			staffCheck();
+		}
+		//Finish Grip
+		else if (_getItme.targetItemHeld == 200)
+        {
+			showAnim("isJoystick");
+		}
+		//Finish Sword
+		else if (_getItme.targetItemHeld == 300)
+		{
+			showAnim("isBtnAX");
+		}
+		//Shield
+		else if (_getItme.targetItemHeld == 3)
+		{
+			showAnim("isBtnAX");
+			isTip = false;
+		}
+
 	}
     // Update is called once per frame
     void Update()
     {
-        if (isTip)
+        if (isTip )
         {
-			if (_getItme.targetItemHeld == checkItemHeld[0])
-			{
-				staffCheck();
-			}
-			else if((_getItme.targetItemHeld == checkItemHeld[1]))
-            {
-				showAnim();
-			}
+			HandAnimSwtich();
 		}
 		
 		if (!showController) return;
