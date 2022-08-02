@@ -1,4 +1,5 @@
-﻿namespace HelloPico2.Rating_System{
+﻿
+namespace HelloPico2.Rating_System{
 	public class BehaviorRating{
 		private readonly AngleDetector _detector;
 
@@ -10,12 +11,13 @@
 		}
 
 
-		public void Rate(){
+		public float Rate(){
 			var angle = _detector.GetAngleOfTarget();
 			var offset = _detector.GetOffsetOfTarget();
 			var angleTier = CompareAngleTier(angle);
 			var offsetTier = CompareOffsetTier(offset);
-			var tier = (angleTier + offsetTier) / 2;
+			var tier = (angleTier + offsetTier) / 2.0f;
+			return tier;
 		}
 
 		/// <summary>
