@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using Project;
+using Unity.XR.PXR;
 using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
 using DG.Tweening;
@@ -31,9 +32,11 @@ namespace HelloPico2.PlayerController.Arm
 
         #region Delegate
         public delegate void ValueAction (ArmData data);
+		public delegate void FloatAction (float data);
 		public delegate void AxisAction (Vector2 data);
 		public delegate void InputAction (DeviceInputDetected obj);
 		public ValueAction OnEnergyChanged;
+		public ValueAction OnGripTouch;
 		public ValueAction OnGripUp;
 		public ValueAction OnTriggerUp;
 		public ValueAction OnTriggerDown;
@@ -84,12 +87,15 @@ namespace HelloPico2.PlayerController.Arm
         }
         private void CheckInput() {
             _controller.inputDevice.TryGetFeatureValue(CommonUsages.triggerButton, out var isTrigger);
-            _controller.inputDevice.TryGetFeatureValue(CommonUsages.trigger, out var isTriggerTouch);
+            _controller.inputDevice.TryGetFeatureValue(CommonUsages.trigger, out var isTriggerTouch);            
             _controller.inputDevice.TryGetFeatureValue(CommonUsages.gripButton, out var isGrip);
-            _controller.inputDevice.TryGetFeatureValue(CommonUsages.grip, out var isGripTouch);
+            _controller.inputDevice.TryGetFeatureValue(CommonUsages.grip, out var isGripTouch);            
             _controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxisTouch, out var padAxisTouch);
             _controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxisClick, out var padAxisClick);
             _controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out var padAxis);
+
+            // PXR usage
+            _controller.inputDevice.TryGetFeatureValue(PXR_Usages.grip1DAxis, out var grip1DAxis);
 
             if (isTrigger)
             {
@@ -104,11 +110,13 @@ namespace HelloPico2.PlayerController.Arm
             {
                 data.WhenTouchTriggerOrGrip?.Invoke();
             }
-            if (isTriggerTouch < 0.1f && isGripTouch < 0.1f)
+            if (isTriggerTouch < 0.1f && isGripTouch < 0.01f)
             {
                 data.WhenNotTouchTriggerAndGrip?.Invoke();
             }
-
+            if (isGripTouch <= data.GrabReleaseValue) {
+                OnGripTouch?.Invoke(data);
+            }
             if (!isGrip)
             {
                 OnGripUp?.Invoke(data);
