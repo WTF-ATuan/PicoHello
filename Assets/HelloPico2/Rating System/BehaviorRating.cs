@@ -1,19 +1,23 @@
-﻿
-namespace HelloPico2.Rating_System{
+﻿namespace HelloPico2.Rating_System{
 	public class BehaviorRating{
-		private readonly AngleDetector _detector;
+		private readonly AngleCalculator _calculator;
 
 		private readonly RatingSetting _setting;
 
-		public BehaviorRating(AngleDetector detector, RatingSetting setting){
-			_detector = detector;
+		public BehaviorRating(AngleCalculator calculator, RatingSetting setting){
+			_calculator = calculator;
 			_setting = setting;
 		}
 
+		public float GetOffsetRating(){
+			var offset = _calculator.GetOffsetOfTarget();
+			var offsetTier = CompareOffsetTier(offset);
+			return offsetTier;
+		}
 
-		public float Rate(){
-			var angle = _detector.GetAngleOfTarget();
-			var offset = _detector.GetOffsetOfTarget();
+		public float GetCompositeRating(){
+			var angle = _calculator.GetAngleOfTarget();
+			var offset = _calculator.GetOffsetOfTarget();
 			var angleTier = CompareAngleTier(angle);
 			var offsetTier = CompareOffsetTier(offset);
 			var tier = (angleTier + offsetTier) / 2.0f;
@@ -30,9 +34,9 @@ namespace HelloPico2.Rating_System{
 			var angleRange = _setting.GetAngleRange();
 			for(var i = 0; i < angleRange.Count; i++){
 				var currentRange = angleRange[i];
-				var minValue = currentRange.x;
-				var maxValue = currentRange.y;
-				if(angle >= minValue && angle <= maxValue) return i + 1;
+				var minValue = currentRange.minValue;
+				var maxValue = currentRange.maxValue;
+				if(angle > minValue && angle <= maxValue) return currentRange.ratingPoint;
 			}
 
 			return 0;
@@ -48,9 +52,9 @@ namespace HelloPico2.Rating_System{
 			var offsetRange = _setting.GetOffsetRange();
 			for(var i = 0; i < offsetRange.Count; i++){
 				var currentRange = offsetRange[i];
-				var minValue = currentRange.x;
-				var maxValue = currentRange.y;
-				if(offset >= minValue && offset <= maxValue) return i + 1;
+				var minValue = currentRange.minValue;
+				var maxValue = currentRange.maxValue;
+				if(offset > minValue && offset <= maxValue) return currentRange.ratingPoint;
 			}
 
 			return 0;

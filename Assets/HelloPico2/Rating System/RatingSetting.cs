@@ -1,18 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace HelloPico2.Rating_System{
 	[CreateAssetMenu(menuName = "HelloPico2/ScriptableObject/ RatingSetting", fileName = "RatingSetting", order = 0)]
 	public class RatingSetting : ScriptableObject{
-		[SerializeField] private List<Vector2> angleList;
-		[SerializeField] private List<Vector2> offsetList;
+		[SerializeField] private List<RatingData> angleList;
+		[SerializeField] private List<RatingData> offsetList;
 
-		public List<Vector2> GetAngleRange(){
+		public List<RatingData> GetAngleRange(){
 			return angleList;
 		}
 
-		public List<Vector2> GetOffsetRange(){
+		public List<RatingData> GetOffsetRange(){
 			return offsetList;
 		}
+	}
+
+	[Serializable]
+	public class RatingData{
+		[HorizontalGroup] [HideLabel] public float minValue, maxValue;
+		[HorizontalGroup] [HideLabel] public int ratingPoint;
 	}
 }
