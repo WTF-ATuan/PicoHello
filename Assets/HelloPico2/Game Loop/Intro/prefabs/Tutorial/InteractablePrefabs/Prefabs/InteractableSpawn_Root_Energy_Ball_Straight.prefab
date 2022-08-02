@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &251418976386586061
+--- !u!1 &5767989089813166403
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,39 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 251418976386586060}
-  - component: {fileID: 251418976386586050}
-  - component: {fileID: 251418976386586051}
-  - component: {fileID: -8798771134598096845}
-  m_Layer: 9
-  m_Name: Interactable_Intro_FlowerType2
+  - component: {fileID: 5767989089813166400}
+  - component: {fileID: 5767989089813167807}
+  - component: {fileID: 5767989089813167806}
+  - component: {fileID: 5767989089813166401}
+  m_Layer: 0
+  m_Name: InteractableSpawn_Root_Energy_Ball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &251418976386586060
+--- !u!4 &5767989089813166400
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 251418976386586061}
+  m_GameObject: {fileID: 5767989089813166403}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1337620584584686872}
+  - {fileID: 4262261545957906698}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &251418976386586050
+--- !u!114 &5767989089813167807
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 251418976386586061}
+  m_GameObject: {fileID: 5767989089813166403}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a09ea6bd1ffaa5f488ac2afb30fb6c51, type: 3}
@@ -48,101 +48,94 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   recoveryTime: 10
   SelPool: {fileID: 0}
-  SelPoolName: PoolManager_Intro_FlowerType2
+  SelPoolName: PoolManager_Intro_Energy_Unit
   isMove: 0
   speed: 0
-  isCheck: 0
-  _targetItem: {fileID: 11400000, guid: f5820e50eb9d1df42bbdb08a1d47e257, type: 2}
-  checkHeld: 0
---- !u!114 &251418976386586051
+--- !u!114 &5767989089813167806
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 251418976386586061}
+  m_GameObject: {fileID: 5767989089813166403}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b34f97e3313b774899284a586766747, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-8798771134598096845
+--- !u!114 &5767989089813166401
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 251418976386586061}
+  m_GameObject: {fileID: 5767989089813166403}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 857460c1d4b10494da46031c45bd0122, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 1
   relativeDirection: {x: 0, y: 0, z: -1}
---- !u!1001 &251418977511344370
+--- !u!1001 &7040820117951163417
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 251418976386586060}
+    m_TransformParent: {fileID: 5767989089813166400}
     m_Modifications:
-    - target: {fileID: 1291713887907915242, guid: c273fc1298127d444afbe0b860528cb8, type: 3}
+    - target: {fileID: 6525888332042859794, guid: c56cb066b2767b74fb10c69b3b760375, type: 3}
+      propertyPath: m_Name
+      value: Interactable_EnergyBall
+      objectReference: {fileID: 0}
+    - target: {fileID: 6525888332042859795, guid: c56cb066b2767b74fb10c69b3b760375, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1291713887907915242, guid: c273fc1298127d444afbe0b860528cb8, type: 3}
+    - target: {fileID: 6525888332042859795, guid: c56cb066b2767b74fb10c69b3b760375, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1291713887907915242, guid: c273fc1298127d444afbe0b860528cb8, type: 3}
+    - target: {fileID: 6525888332042859795, guid: c56cb066b2767b74fb10c69b3b760375, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1291713887907915242, guid: c273fc1298127d444afbe0b860528cb8, type: 3}
+    - target: {fileID: 6525888332042859795, guid: c56cb066b2767b74fb10c69b3b760375, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.59
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1291713887907915242, guid: c273fc1298127d444afbe0b860528cb8, type: 3}
+    - target: {fileID: 6525888332042859795, guid: c56cb066b2767b74fb10c69b3b760375, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1291713887907915242, guid: c273fc1298127d444afbe0b860528cb8, type: 3}
+    - target: {fileID: 6525888332042859795, guid: c56cb066b2767b74fb10c69b3b760375, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 1291713887907915242, guid: c273fc1298127d444afbe0b860528cb8, type: 3}
+    - target: {fileID: 6525888332042859795, guid: c56cb066b2767b74fb10c69b3b760375, type: 3}
       propertyPath: m_LocalRotation.y
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 1291713887907915242, guid: c273fc1298127d444afbe0b860528cb8, type: 3}
+    - target: {fileID: 6525888332042859795, guid: c56cb066b2767b74fb10c69b3b760375, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 1291713887907915242, guid: c273fc1298127d444afbe0b860528cb8, type: 3}
+    - target: {fileID: 6525888332042859795, guid: c56cb066b2767b74fb10c69b3b760375, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1291713887907915242, guid: c273fc1298127d444afbe0b860528cb8, type: 3}
+    - target: {fileID: 6525888332042859795, guid: c56cb066b2767b74fb10c69b3b760375, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1291713887907915242, guid: c273fc1298127d444afbe0b860528cb8, type: 3}
+    - target: {fileID: 6525888332042859795, guid: c56cb066b2767b74fb10c69b3b760375, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1291713887907915246, guid: c273fc1298127d444afbe0b860528cb8, type: 3}
-      propertyPath: m_Name
-      value: Flower_Type2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1291713887907915246, guid: c273fc1298127d444afbe0b860528cb8, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: c273fc1298127d444afbe0b860528cb8, type: 3}
---- !u!4 &1337620584584686872 stripped
+  m_SourcePrefab: {fileID: 100100000, guid: c56cb066b2767b74fb10c69b3b760375, type: 3}
+--- !u!4 &4262261545957906698 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 1291713887907915242, guid: c273fc1298127d444afbe0b860528cb8, type: 3}
-  m_PrefabInstance: {fileID: 251418977511344370}
+  m_CorrespondingSourceObject: {fileID: 6525888332042859795, guid: c56cb066b2767b74fb10c69b3b760375, type: 3}
+  m_PrefabInstance: {fileID: 7040820117951163417}
   m_PrefabAsset: {fileID: 0}
