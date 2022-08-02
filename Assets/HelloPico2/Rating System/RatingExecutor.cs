@@ -1,4 +1,5 @@
 ﻿using Project;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace HelloPico2.Rating_System{
@@ -9,9 +10,17 @@ namespace HelloPico2.Rating_System{
 		private BehaviorRating _behaviorRating;
 
 		private int _ratingCount;
+		private float _ratingPoint;
 
 		private void Start(){
 			EventBus.Subscribe<RatingInputRequested>(OnInputRequested);
+		}
+
+		[Button]
+		private void TestEvent(){
+			var origin = GameObject.Find("Origin").transform;
+			var target = GameObject.Find("Target").transform;
+			EventBus.Post(new RatingInputRequested(origin, target));
 		}
 
 		private void OnInputRequested(RatingInputRequested obj){
@@ -23,6 +32,11 @@ namespace HelloPico2.Rating_System{
 			CalculateHitRate();
 		}
 
-		private void CalculateHitRate(){ }
+		private void CalculateHitRate(){
+			var offsetRating = _behaviorRating.GetOffsetRating();
+			_ratingPoint += offsetRating;
+			var hitRate = _ratingPoint / _ratingCount;
+			Debug.Log($"{hitRate} = ({_ratingPoint} / {_ratingCount})");
+		}
 	}
 }

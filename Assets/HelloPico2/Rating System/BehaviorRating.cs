@@ -14,43 +14,7 @@
 			var offsetTier = CompareOffsetTier(offset);
 			return offsetTier;
 		}
-
-		public float GetCompositeRating(){
-			var angle = _calculator.GetAngleOfTarget();
-			var offset = _calculator.GetOffsetOfTarget();
-			var angleTier = CompareAngleTier(angle);
-			var offsetTier = CompareOffsetTier(offset);
-			var tier = (angleTier + offsetTier) / 2.0f;
-			return tier;
-		}
-
-		/// <summary>
-		///     if you get 0 that is not in any Tier
-		///     the Tier is between 0 to max
-		/// </summary>
-		/// <param name="angle"></param>
-		/// <returns></returns>
-		private int CompareAngleTier(float angle){
-			if(angle < 0) return 0;
-
-			var angleRange = _setting.GetAngleRange();
-			for(var i = 0; i < angleRange.Count; i++){
-				var currentRange = angleRange[i];
-				var minValue = currentRange.minValue;
-				var maxValue = currentRange.maxValue;
-				if(angle > minValue && angle <= maxValue) return currentRange.ratingPoint;
-			}
-
-			return 0;
-		}
-
-		/// <summary>
-		///     if you get 0 that is not in any Tier
-		///     the Tier is between 0 to max
-		/// </summary>
-		/// <param name="offset"></param>
-		/// <returns></returns>
-		private int CompareOffsetTier(float offset){
+		private float CompareOffsetTier(float offset){
 			if(offset < 0) return 0;
 
 			var offsetRange = _setting.GetOffsetRange();
