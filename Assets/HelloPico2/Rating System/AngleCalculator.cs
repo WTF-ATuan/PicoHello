@@ -11,6 +11,7 @@ namespace HelloPico2.Rating_System{
 		}
 
 		public float GetAngleOfTarget(){
+			if(!_target || !_origin) return -1;
 			var targetPosition = _target.position;
 			var originPosition = _origin.position;
 			var originForward = _origin.forward;
@@ -19,6 +20,7 @@ namespace HelloPico2.Rating_System{
 		}
 
 		public float GetOffsetOfTarget(){
+			if(!_target || !_origin) return -1;
 			var targetPosition = _target.position;
 			var originPosition = _origin.position;
 			var originForward = _origin.forward;

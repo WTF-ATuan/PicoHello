@@ -20,6 +20,9 @@ namespace HelloPico2.Rating_System{
 			_ratingCount++;
 			_calculator = new AngleCalculator(origin, target);
 			_behaviorRating = new BehaviorRating(_calculator, setting);
+			CalculateHitRate();
 		}
+
+		private void CalculateHitRate(){ }
 	}
 }

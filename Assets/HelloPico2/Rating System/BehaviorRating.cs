@@ -31,6 +31,8 @@
 		/// <param name="angle"></param>
 		/// <returns></returns>
 		private int CompareAngleTier(float angle){
+			if(angle < 0) return 0;
+
 			var angleRange = _setting.GetAngleRange();
 			for(var i = 0; i < angleRange.Count; i++){
 				var currentRange = angleRange[i];
@@ -49,6 +51,8 @@
 		/// <param name="offset"></param>
 		/// <returns></returns>
 		private int CompareOffsetTier(float offset){
+			if(offset < 0) return 0;
+
 			var offsetRange = _setting.GetOffsetRange();
 			for(var i = 0; i < offsetRange.Count; i++){
 				var currentRange = offsetRange[i];
