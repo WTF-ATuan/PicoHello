@@ -1,5 +1,4 @@
-﻿using System;
-using Sirenix.OdinInspector;
+﻿using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace HelloPico2.Rating_System{
@@ -23,6 +22,23 @@ namespace HelloPico2.Rating_System{
 			var distance = Vector3.Distance(targetPosition, originPosition);
 			_trianglePoint = originPosition + originForward * distance;
 			offset = Vector3.Distance(_trianglePoint, targetPosition);
+		}
+
+		public float GetAngleOfTarget(){
+			var targetPosition = target.position;
+			var originPosition = origin.position;
+			var originForward = origin.forward;
+			var direction = targetPosition - originPosition;
+			return Vector3.Angle(originForward, direction);
+		}
+
+		public float GetOffsetOfTarget(){
+			var targetPosition = target.position;
+			var originPosition = origin.position;
+			var originForward = origin.forward;
+			var distance = Vector3.Distance(targetPosition, originPosition);
+			var trianglePoint = originPosition + originForward * distance;
+			return Vector3.Distance(trianglePoint, targetPosition);
 		}
 
 		private void OnDrawGizmos(){
