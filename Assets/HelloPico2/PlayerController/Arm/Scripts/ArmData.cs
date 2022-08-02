@@ -16,6 +16,7 @@ namespace HelloPico2.PlayerController.Arm
         [SerializeField] private float _MaxEnergy;
         [SerializeField][Range(0.01f,30f)] private float _GrabDetectionRadius = 1;
         [SerializeField][Min(0.01f)] private float _GrabDistance = 30;
+        [SerializeField][Range(0.001f,1)] private float _GrabReleaseValue = 0.05f;
         [SerializeField] private float _GrabEasingDuration;
         [SerializeField] private AnimationCurve _GrabEasingCurve;
         [SerializeField] private InteractableSettings _InteractableSettings;
@@ -35,6 +36,7 @@ namespace HelloPico2.PlayerController.Arm
         public float MaxEnergy { get { return _MaxEnergy; } }
         public float GrabDetectionRadius { get { return _GrabDetectionRadius; } }
         public float GrabDistance { get { return _GrabDistance; } }
+        public float GrabReleaseValue { get { return _GrabReleaseValue; } }
         public float GrabEasingDuration { get { return _GrabEasingDuration; } }
         public AnimationCurve GrabEasingCurve { get { return _GrabEasingCurve; } }
         public InteractableSettings InteractableSettings { get { return _InteractableSettings; } }

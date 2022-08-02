@@ -14,6 +14,8 @@ namespace HelloPico2.PlayerController.Arm
     public class EnergyBallBehavior : WeaponBehavior
     {
         #region Variables
+        public enum GrabReleaseType { OnGripUp, OnGripTouchRelease}
+        [SerializeField] private GrabReleaseType _GrabReleaseType = GrabReleaseType.OnGripUp;
         [FoldoutGroup("Charging Energyball Position")][SerializeField] private Transform _Pivot;
         [FoldoutGroup("Charging Energyball Position")][SerializeField] private GameObject _ChargingEnergyBall;
         [FoldoutGroup("Charging Energyball Position")][SerializeField] private Vector2 _ScaleRange;
@@ -87,7 +89,10 @@ namespace HelloPico2.PlayerController.Arm
             armLogic.OnEnergyChanged += UpdateScale;
             armLogic.OnEnergyChanged += CheckEnableGrip;
 
-            armLogic.OnGripUp += ShootChargedProjectile;
+            if(_GrabReleaseType == GrabReleaseType.OnGripUp)            
+                armLogic.OnGripUp += ShootChargedProjectile;
+            if(_GrabReleaseType == GrabReleaseType.OnGripTouchRelease)            
+                armLogic.OnGripTouch += ShootChargedProjectile;
 
             armLogic.OnPrimaryAxisInput += UpdateShape;
             armLogic.OnPrimaryAxisClick += ConfirmShape;
@@ -105,7 +110,10 @@ namespace HelloPico2.PlayerController.Arm
             armLogic.OnEnergyChanged -= UpdateScale;
             armLogic.OnEnergyChanged -= CheckEnableGrip;
 
-            armLogic.OnGripUp -= ShootChargedProjectile;
+            if (_GrabReleaseType == GrabReleaseType.OnGripUp)
+                armLogic.OnGripUp -= ShootChargedProjectile;
+            if (_GrabReleaseType == GrabReleaseType.OnGripTouchRelease)
+                armLogic.OnGripTouch -= ShootChargedProjectile;
 
             armLogic.OnPrimaryAxisInput -= UpdateShape;
             armLogic.OnPrimaryAxisClick -= ConfirmShape;
