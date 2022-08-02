@@ -1,5 +1,6 @@
 ﻿using Project;
 using Sirenix.OdinInspector;
+using UltEvents;
 using UnityEngine;
 
 namespace HelloPico2.Rating_System{
@@ -14,6 +15,10 @@ namespace HelloPico2.Rating_System{
 		private float _hitRate;
 
 		[ReadOnly] public string playerState = "Non Rating";
+
+		[SerializeField] private UltEvent masterLevel;
+		[SerializeField] private UltEvent middenLevel;
+		[SerializeField] private UltEvent weekLevel;
 
 		private void Start(){
 			EventBus.Subscribe<RatingInputRequested>(OnInputRequested);
@@ -40,7 +45,7 @@ namespace HelloPico2.Rating_System{
 			var offsetRating = _behaviorRating.GetOffsetRating();
 			_ratingPoint += offsetRating;
 			_hitRate = _ratingPoint / _ratingCount;
-			Debug.Log($"{_hitRate} = ({_ratingPoint} / {_ratingCount})");
+			//Debug.Log($"{_hitRate} = ({_ratingPoint} / {_ratingCount})");
 		}
 
 		private void CalculateRatingLevel(){
@@ -69,6 +74,17 @@ namespace HelloPico2.Rating_System{
 			if(playerState.Equals(state)) return;
 			Debug.Log($"State Changed to {state} from {playerState}");
 			playerState = state;
+			switch(playerState){
+				case "Master":
+					masterLevel.Invoke();
+					break;
+				case "Midden":
+					middenLevel.Invoke();
+					break;
+				case "Week":
+					weekLevel.Invoke();
+					break;
+			}
 		}
 	}
 }
