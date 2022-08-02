@@ -88,6 +88,9 @@ GameObject:
   - component: {fileID: 5767989090223060363}
   - component: {fileID: 7787728782106146423}
   - component: {fileID: 5767989090223060360}
+  - component: {fileID: 2022020276210607566}
+  - component: {fileID: 5425086468616537620}
+  - component: {fileID: 6130151093194253389}
   m_Layer: 0
   m_Name: Interactable_Anim_Control
   m_TagString: Untagged
@@ -141,6 +144,103 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2022020276210607566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5767989090223060362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bca7c063e5324c243bb4252a6576c859, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WhenEnable:
+    _PersistentCalls:
+    - _Target: {fileID: 6130151093194253389}
+      _MethodName: SetRandomScale
+      _PersistentArguments: []
+    - _Target: {fileID: 5425086468616537620}
+      _MethodName: SetToScaleBasedOnCurrent
+      _PersistentArguments:
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 1
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+    - _Target: {fileID: 5425086468616537620}
+      _MethodName: StartScaling
+      _PersistentArguments: []
+  WhenEnableDelay:
+    _PersistentCalls: []
+  m_DelayTime: 1
+--- !u!114 &5425086468616537620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5767989090223060362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7baf3614bef84a04a8bea9e0888d466d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ControlMode: 2
+  _RunOnEnable: 0
+  _ScalingObject: {fileID: 5767989090223060362}
+  _From: {x: 0, y: 0, z: 0}
+  _To: {x: 0.2, y: 0.2, z: 0.2}
+  _Duration: 0.7
+  _Loop: 0
+  _EaseCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  WhenStart:
+    m_PersistentCalls:
+      m_Calls: []
+  WhenFinished:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &6130151093194253389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5767989090223060362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33b2c39a162497847925a8fbe16ec6c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ControlTarget: {fileID: 5767989090223060363}
+  _ScaleRange: {x: 0.6, y: 1.3}
 --- !u!1001 &7040820117951163417
 PrefabInstance:
   m_ObjectHideFlags: 0

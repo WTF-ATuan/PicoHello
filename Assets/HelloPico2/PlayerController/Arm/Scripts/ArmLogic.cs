@@ -56,10 +56,19 @@ namespace HelloPico2.PlayerController.Arm
             EventBus.Post(new AudioEventRequested(data.GainEnergyBallClipName, _controller.transform.position)));
 
             data.WhenShootProjectile.AddListener(() =>
-            AudioPlayerHelper.PlayRandomAudio(data.ShootEnergyBallClipName, _controller.transform.position));            
+            EnergyBallSound());            
 
             data.WhenShootChargedProjectile.AddListener(() =>
             EventBus.Post(new AudioEventRequested(data.ShootChargedEnergyBallClipName, _controller.transform.position)));
+        }
+        public List<string> ShootEnergyBallClipNames = new List<string>();
+        private void EnergyBallSound() {
+            if (ShootEnergyBallClipNames.Count == 0)
+                ShootEnergyBallClipNames = new List<string>(data.ShootEnergyBallClipName);
+
+            var pick = AudioPlayerHelper.PlayRandomAudio(ShootEnergyBallClipNames.ToArray(), _controller.transform.position);
+
+            ShootEnergyBallClipNames.Remove(pick);
         }
         private void SetUpXR() {
             if (TryGetComponent<XRRayInteractor>(out rayInteractor))
