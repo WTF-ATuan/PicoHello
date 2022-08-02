@@ -229,7 +229,9 @@ namespace HelloPico2.PlayerController.Arm
             }
                         
             clone.GetComponent<ProjectileController>().ProjectileSetUp(speed, _SpeedBufferDuration, _SpeedBufferEasingCurve, currentDeviceInputDetected, _TestTarget, homing);
-                        
+
+            SendAimingPercisionData(currentEnergyBall.transform, _TestTarget);
+
             ShootCoolDownProcess = StartCoroutine(CoolDown(_ShootCoolDown));
         }
         private void ChargeEnergyBall(GainEnergyEventData eventData) {
@@ -240,6 +242,10 @@ namespace HelloPico2.PlayerController.Arm
 
             if (!armLogic.CheckHasEnergy() && !currentEnergyBall.activeSelf)
                 currentEnergyBall.SetActive(true);
+        }
+        private void SendAimingPercisionData(Transform controller, Transform target) {
+            Rating_System.RatingInputRequested rating = new Rating_System.RatingInputRequested(controller, target);
+            Project.EventBus.Post(rating);
         }
         private void GenerateChargingEnergyBall() {
             if (currentEnergyBall == null)
