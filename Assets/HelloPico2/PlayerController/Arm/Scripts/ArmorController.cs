@@ -77,6 +77,7 @@ namespace HelloPico2.PlayerController.Arm{
 		Integrity,
 		Knowledge,
 		Mercy,
-		Nature
+		Nature,
+		Tube
 	}
 }
