@@ -6,7 +6,7 @@ namespace HelloPico2{
 	public class ViewEventData{
 		[Required] public string identity;
 		public string description;
-		public bool Equals(string foundID){
+		public virtual bool Equals(string foundID){
 			return foundID.Equals(identity);
 		}
 	}

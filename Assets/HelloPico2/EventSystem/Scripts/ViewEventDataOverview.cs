@@ -34,7 +34,7 @@ namespace HelloPico2{
 		private List<ViewEventData> viewEventDataList = new List<ViewEventData>();
 
 		public T FindEventData<T>(string id) where T : ViewEventData{
-			var viewEventData = viewEventDataList.Find(x => x.identity.Equals(id));
+			var viewEventData = viewEventDataList.Find(x => x.Equals(id));
 			if(viewEventData == null){
 				throw new NullReferenceException($"Can,t Not Find {id}");
 			}
