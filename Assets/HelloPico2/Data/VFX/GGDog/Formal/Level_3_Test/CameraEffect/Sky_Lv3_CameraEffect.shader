@@ -160,6 +160,8 @@ Shader "GGDog/Space_Test/Lv3_CameraEffect"
 				col.a = 1 - smoothstep(0.45,0.5,fade-n);
 
 				col = lerp(_SeethroughColor,col,col.a);
+
+				col.a *= (1-_Dis);
 				
 				col = lerp(col,_EdgeColor,smoothstep(0.5,0.7,col.a)*smoothstep(0.425,0.5,fade-n));
 

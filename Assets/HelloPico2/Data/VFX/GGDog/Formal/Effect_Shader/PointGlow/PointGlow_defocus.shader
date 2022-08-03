@@ -2,6 +2,7 @@ Shader "GGDog/Space_Test/PointGlow_defocus"
 {
     Properties
     {
+		_Color("Color",Color) = (1,1,1,1)
     }
     SubShader
     {
@@ -44,7 +45,8 @@ Shader "GGDog/Space_Test/PointGlow_defocus"
 
                 return o;
             }
-
+            
+            float4 _Color;
             float4 frag (v2f i) : SV_Target
             {
 				//¤¤¤ß¶ZÂ÷³õ
@@ -63,7 +65,7 @@ Shader "GGDog/Space_Test/PointGlow_defocus"
 				
 				finalColor.a *= smoothstep(50,90,i.CameraDistance);
 
-                return finalColor;
+                return finalColor*_Color;
             }
             ENDCG
         }
