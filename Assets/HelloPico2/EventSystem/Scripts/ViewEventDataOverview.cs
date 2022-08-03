@@ -5,6 +5,12 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using JetBrains.Annotations;
+using Sirenix.Utilities.Editor;
+
+#endif
+
 namespace HelloPico2{
 	[CreateAssetMenu(fileName = "ViewEventDataOverview",
 		menuName = "HelloPico2/ScriptableObject/ ViewEventData Overview",
@@ -30,7 +36,13 @@ namespace HelloPico2{
 			viewEventDataList.Add(data);
 		}
 
-		[SerializeReference] [PropertyOrder(100)]
+		[SerializeReference]
+		[HideReferenceObjectPicker]
+		[PropertyOrder(100)]
+		[Searchable]
+		[LabelText("Data")]
+		[ListDrawerSettings(OnBeginListElementGUI = "BeginListElementGUI", OnEndListElementGUI = "EndListElementGUI",
+			Expanded = true)]
 		private List<ViewEventData> viewEventDataList = new List<ViewEventData>();
 
 		public T FindEventData<T>(string id) where T : ViewEventData{
@@ -47,5 +59,39 @@ namespace HelloPico2{
 			var foundDataList = viewEventDataList.FindAll(x => x.GetType() == type);
 			return foundDataList.Cast<T>().ToList();
 		}
+
+		#if UNITY_EDITOR
+		[UsedImplicitly]
+		private void BeginListElementGUI(int index){
+			GUILayout.BeginHorizontal();
+			var elementBoxText = GetElementBoxText(index);
+			var guiContent = new GUIContent(elementBoxText);
+			guiContent.tooltip = "AAA";
+			var contentColor = Color.white;
+			GUI.backgroundColor = GetGUIColor(index);
+			GUI.contentColor = contentColor;
+			SirenixEditorGUI.BeginBox(guiContent);
+			GUI.contentColor = Color.white;
+		}
+
+		private Color GetGUIColor(int index){
+			return index % 2 == 0 ? Color.green : Color.red;
+		}
+
+
+		[UsedImplicitly]
+		private void EndListElementGUI(int index){
+			SirenixEditorGUI.EndBox();
+			GUILayout.EndHorizontal();
+		}
+
+		private string GetElementBoxText(int index){
+			var data = viewEventDataList[index];
+			var identity = data.identity;
+			var type = data.GetType().Name;
+			var text = $"( {index} -> {type}) : {identity}";
+			return text;
+		}
+		#endif
 	}
 }
