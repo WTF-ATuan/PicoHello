@@ -141,6 +141,93 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dataOverview: {fileID: 11400000, guid: 55eca905fa047144298e5ef486ef40c5, type: 2}
+--- !u!1 &4989314515856464538
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4667138702912635032}
+  - component: {fileID: 7231639357025794224}
+  m_Layer: 0
+  m_Name: Rating System
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4667138702912635032
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4989314515856464538}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8554737487048622937}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7231639357025794224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4989314515856464538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 522f2e1287e548c29f079adb0a0779af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  setting: {fileID: 11400000, guid: 2b9cac3d90bd61a4f8a71271052c8540, type: 2}
+  playerState: Non Rating
+  masterLevel:
+    _PersistentCalls:
+    - _Target: {fileID: 119884047}
+      _MethodName: ChangeData
+      _PersistentArguments:
+      - _Type: 13
+        _Int: 0
+        _String: HelloPico2.ViewEventDataOverview, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 11400000, guid: 8b541312040bc8645af7caa5dd93c03f, type: 2}
+  middenLevel:
+    _PersistentCalls:
+    - _Target: {fileID: 119884047}
+      _MethodName: ChangeData
+      _PersistentArguments:
+      - _Type: 13
+        _Int: 0
+        _String: HelloPico2.ViewEventDataOverview, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 11400000, guid: ee10ee50c7a92974e97262e53b0c900f, type: 2}
+  weekLevel:
+    _PersistentCalls:
+    - _Target: {fileID: 119884047}
+      _MethodName: ChangeData
+      _PersistentArguments:
+      - _Type: 13
+        _Int: 0
+        _String: HelloPico2.ViewEventDataOverview, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 11400000, guid: bd58f064c117790409daf0e4f29915a6, type: 2}
 --- !u!1 &8554737487048622939
 GameObject:
   m_ObjectHideFlags: 0
@@ -169,6 +256,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 119884046}
+  - {fileID: 4667138702912635032}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

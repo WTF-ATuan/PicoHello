@@ -24,13 +24,6 @@ namespace HelloPico2.Rating_System{
 			EventBus.Subscribe<RatingInputRequested>(OnInputRequested);
 		}
 
-		[Button]
-		private void TestEvent(){
-			var origin = GameObject.Find("Origin").transform;
-			var target = GameObject.Find("Target").transform;
-			EventBus.Post(new RatingInputRequested(origin, target));
-		}
-
 		private void OnInputRequested(RatingInputRequested obj){
 			var origin = obj.Origin;
 			var target = obj.Target;

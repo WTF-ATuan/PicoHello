@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -21,7 +22,8 @@ namespace HelloPico2{
 
 		public bool useColorWithType = true;
 
-		[FolderPath] public string folderPath;
+		[Title("Select Tool")] [AssetSelector(Paths = "Assets/HelloPico2/Data/Audio")] [InlineButton("AddRangeAudio")]
+		public List<AudioClip> audioSelector;
 
 		private IEnumerable GetEventType(){
 			var eventType = typeof(ViewEventData).Assembly
@@ -38,6 +40,18 @@ namespace HelloPico2{
 			var instance = Activator.CreateInstance(type);
 			var data = (ViewEventData)instance;
 			viewEventDataList.Add(data);
+		}
+
+		private void AddRangeAudio(){
+			foreach(var audioData in audioSelector.Select(
+						audioClip => new AudioData{
+							identity = audioClip.name,
+							clip = audioClip
+						})){
+				viewEventDataList.Add(audioData);
+			}
+
+			audioSelector.Clear();
 		}
 
 		[ButtonGroup("Sort")]
