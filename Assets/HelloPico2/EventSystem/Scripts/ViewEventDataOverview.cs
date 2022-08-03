@@ -19,6 +19,8 @@ namespace HelloPico2{
 		[TypeFilter("GetEventType")] [HideReferenceObjectPicker] [InlineButton("CreateEvent")]
 		public ViewEventData eventData;
 
+		[FolderPath] public string folderPath;
+
 		private IEnumerable GetEventType(){
 			var eventType = typeof(ViewEventData).Assembly
 					.GetTypes()
@@ -36,13 +38,27 @@ namespace HelloPico2{
 			viewEventDataList.Add(data);
 		}
 
+		[ButtonGroup("Sort")]
+		[Button("With Type")]
+		[PropertyOrder(200)]
+		private void SortWithType(){ }
+
+		[ButtonGroup("Sort")]
+		[Button("With Name")]
+		[PropertyOrder(200)]
+		private void SortWithName(){ }
+
+		[Title("Data List")]
 		[SerializeReference]
 		[HideReferenceObjectPicker]
 		[PropertyOrder(100)]
 		[Searchable]
 		[LabelText("Data")]
-		[ListDrawerSettings(OnBeginListElementGUI = "BeginListElementGUI", OnEndListElementGUI = "EndListElementGUI",
-			Expanded = true)]
+		[ListDrawerSettings(OnBeginListElementGUI = "BeginListElementGUI"
+			, OnEndListElementGUI = "EndListElementGUI"
+			, ElementColor = "GetGUIColor"
+			, DraggableItems = false
+			, NumberOfItemsPerPage = 5)]
 		private List<ViewEventData> viewEventDataList = new List<ViewEventData>();
 
 		public T FindEventData<T>(string id) where T : ViewEventData{
@@ -66,16 +82,17 @@ namespace HelloPico2{
 			GUILayout.BeginHorizontal();
 			var elementBoxText = GetElementBoxText(index);
 			var guiContent = new GUIContent(elementBoxText);
-			guiContent.tooltip = "AAA";
 			var contentColor = Color.white;
-			GUI.backgroundColor = GetGUIColor(index);
 			GUI.contentColor = contentColor;
 			SirenixEditorGUI.BeginBox(guiContent);
 			GUI.contentColor = Color.white;
 		}
 
 		private Color GetGUIColor(int index){
-			return index % 2 == 0 ? Color.green : Color.red;
+			if(index % 2 == 0)
+				return new Color(0, 0.8f, 0, 0.1f);
+			else
+				return new Color(0.8f, 0, 0, 0.1f);
 		}
 
 
