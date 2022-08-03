@@ -44,7 +44,16 @@ namespace HelloPico2{
 		[Button("With Type")]
 		[PropertyOrder(200)]
 		private void SortWithType(){
-			var sortedData = viewEventDataList.OrderBy(x => x.GetType()).ToList();
+			var copiedData = viewEventDataList.Select(x => x).ToList();
+			var sortedEvent = new List<ViewEventData>();
+			while(copiedData.Count > 0){
+				var type = copiedData.First().GetType();
+				var typeData = copiedData.FindAll(x => x.GetType() == type);
+				copiedData.RemoveAll(x => x.GetType() == type);
+				sortedEvent.AddRange(typeData);
+			}
+
+			viewEventDataList = sortedEvent;
 		}
 
 		[ButtonGroup("Sort")]
