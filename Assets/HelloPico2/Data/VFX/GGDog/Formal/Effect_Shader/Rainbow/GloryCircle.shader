@@ -2,6 +2,7 @@ Shader "GGDog/GloryCircle"
 {
     Properties
     {
+		_Color("Color",Color) = (1,1,1,1)
 		_Alpha("_Alpha",Range(0,1)) = 1
 		_Gray("_Gray",Range(0,1)) = 1
 		_Width("_Width",Range(1,10)) = 5
@@ -50,6 +51,7 @@ Shader "GGDog/GloryCircle"
             float _Alpha;
             float _Gray;
 			
+            float4 _Color;
             float4 frag (v2f i) : SV_Target
             {
 				//¤¤¤ß¶ZÂ÷³õ
@@ -74,7 +76,7 @@ Shader "GGDog/GloryCircle"
 				col = lerp(col,float4(0.5,0.5,0.5,1),1-_Gray);
 
 
-                return i.color*DD*saturate(col/10)*3*_Alpha;
+                return i.color*DD*saturate(col/10)*3*_Alpha*_Color;
 
             }
 
