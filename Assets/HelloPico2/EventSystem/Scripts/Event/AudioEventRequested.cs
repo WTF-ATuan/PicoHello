@@ -5,6 +5,8 @@ namespace HelloPico2{
 		public string AudioID{ get; }
 		public Vector3 PlayPosition{ get; }
 
+		public bool AllowMultiple = false;
+
 		public AudioEventRequested(string audioID, Vector3 playPosition){
 			AudioID = audioID;
 			PlayPosition = playPosition;
