@@ -16,8 +16,10 @@ namespace HelloPico2{
 		menuName = "HelloPico2/ScriptableObject/ ViewEventData Overview",
 		order = 0)]
 	public class ViewEventDataOverview : ScriptableObject{
-		[TypeFilter("GetEventType")] [HideReferenceObjectPicker] [InlineButton("CreateEvent")]
+		[TypeFilter("GetEventType")] [InlineButton("CreateEvent")] [HideLabel]
 		public ViewEventData eventData;
+
+		public bool useColorWithType = true;
 
 		[FolderPath] public string folderPath;
 
@@ -41,7 +43,9 @@ namespace HelloPico2{
 		[ButtonGroup("Sort")]
 		[Button("With Type")]
 		[PropertyOrder(200)]
-		private void SortWithType(){ }
+		private void SortWithType(){
+			var sortedData = viewEventDataList.OrderBy(x => x.GetType()).ToList();
+		}
 
 		[ButtonGroup("Sort")]
 		[Button("With Name")]
@@ -89,10 +93,15 @@ namespace HelloPico2{
 		}
 
 		private Color GetGUIColor(int index){
-			if(index % 2 == 0)
-				return new Color(0, 0.8f, 0, 0.1f);
-			else
-				return new Color(0.8f, 0, 0, 0.1f);
+			if(!useColorWithType){
+				return index % 2 == 0
+						? new Color(0, 0.8f, 0, 0.1f)
+						: new Color(0.8f, 0, 0, 0.1f);
+			}
+
+			var viewEventData = viewEventDataList[index];
+			var color = viewEventData.GetEditorColor();
+			return color;
 		}
 
 
