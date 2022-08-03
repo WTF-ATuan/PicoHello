@@ -2208,6 +2208,7 @@ MonoBehaviour:
   level: 0
   speed: 0.001
   Enable_Env: 1
+  Env_Speed: 50
   Shader_Properties:
     Sky_VarNames_Color:
     - _SkyColor
@@ -2234,6 +2235,10 @@ MonoBehaviour:
     Env_VarNames_Float:
     - _FogPos
     - _Rim
+  SpecificPartical:
+    Partical: []
+  ParticalMaterial:
+    Partical: []
   BaseMaterial:
     Sky: {fileID: 2100000, guid: e00b9366dd5798e468ad5641f011e75a, type: 2}
     Ground: {fileID: 2100000, guid: 04d12ede7e8570b4f8b7e99808391141, type: 2}
@@ -2242,6 +2247,11 @@ MonoBehaviour:
     Env_near: {fileID: 2100000, guid: f1ffca48b2dad8f439b0d3e80a5f0574, type: 2}
     Env_Spawner: {fileID: 0}
     Spawner_Emission: []
+    BG_GlowPoint: {r: 0, g: 0, b: 0, a: 0}
+    Glory_circle: {r: 0, g: 0, b: 0, a: 0}
+    Foggy: {r: 0, g: 0, b: 0, a: 0}
+    Particle_defocus: {r: 0, g: 0, b: 0, a: 0}
+    Particle: {fileID: 0}
   Level_0:
     Sky: {fileID: 2100000, guid: 370213e8ac1950546be4310e4794d42d, type: 2}
     Ground: {fileID: 2100000, guid: 8c23fbe144a24884bafd1e0b8d35e41c, type: 2}
@@ -2260,6 +2270,11 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
+    BG_GlowPoint: {r: 0, g: 0, b: 0, a: 0}
+    Glory_circle: {r: 0, g: 0, b: 0, a: 0}
+    Foggy: {r: 0, g: 0, b: 0, a: 0}
+    Particle_defocus: {r: 0, g: 0, b: 0, a: 0}
+    Particle: {fileID: 0}
   Level_1:
     Sky: {fileID: 2100000, guid: ec812e9d19df6954f97bbf1890f998de, type: 2}
     Ground: {fileID: 2100000, guid: df9bb0a3b1685474887e2d36da852ed3, type: 2}
@@ -2278,6 +2293,11 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
+    BG_GlowPoint: {r: 0, g: 0, b: 0, a: 0}
+    Glory_circle: {r: 0, g: 0, b: 0, a: 0}
+    Foggy: {r: 0, g: 0, b: 0, a: 0}
+    Particle_defocus: {r: 0, g: 0, b: 0, a: 0}
+    Particle: {fileID: 0}
   Level_2:
     Sky: {fileID: 2100000, guid: 2ecc7346c4225974d8580a892dd0633e, type: 2}
     Ground: {fileID: 2100000, guid: 26c09904442c4824b8c11a1f99221c2d, type: 2}
@@ -2296,6 +2316,11 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
+    BG_GlowPoint: {r: 0, g: 0, b: 0, a: 0}
+    Glory_circle: {r: 0, g: 0, b: 0, a: 0}
+    Foggy: {r: 0, g: 0, b: 0, a: 0}
+    Particle_defocus: {r: 0, g: 0, b: 0, a: 0}
+    Particle: {fileID: 0}
   Level_3:
     Sky: {fileID: 2100000, guid: 0932f54206b31c04fad40197f7c3d968, type: 2}
     Ground: {fileID: 2100000, guid: a67c70156d3e8c2429791191cfdd755f, type: 2}
@@ -2314,7 +2339,25 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
+    BG_GlowPoint: {r: 0, g: 0, b: 0, a: 0}
+    Glory_circle: {r: 0, g: 0, b: 0, a: 0}
+    Foggy: {r: 0, g: 0, b: 0, a: 0}
+    Particle_defocus: {r: 0, g: 0, b: 0, a: 0}
+    Particle: {fileID: 0}
+  Level_3_ToReality_Sky: {fileID: 0}
+  Level_3_ToReality_Ground: {fileID: 0}
+  m_ToReality_Sky: {fileID: 0}
+  m_ToReality_Ground: {fileID: 0}
+  ToReality_Animation: {fileID: 0}
+  Space_CameraEffect: {fileID: 0}
   Level_4: {fileID: 473137991}
+  Level_4_CloudTunnel: {fileID: 0}
+  Level_4_stone: {fileID: 0}
+  stone: {fileID: 0}
+  stone_piece: {fileID: 0}
+  tunnel: {fileID: 0}
+  Level_5: {fileID: 0}
+  Level_4_Close: []
 --- !u!4 &42276970
 Transform:
   m_ObjectHideFlags: 0
@@ -62080,99 +62123,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1194383064}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1001 &1195253293
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: -8993091171546179473, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
-      propertyPath: m_RootOrder
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -4254289500412602012, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -2695642609728331868, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -122716781290030799, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
-      propertyPath: m_Name
-      value: All_ArmConAnim
-      objectReference: {fileID: 0}
-    - target: {fileID: 1785535346142931486, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1968551885108785549, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1990491243409130987, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3211363826893593099, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6769273334099831958, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
 --- !u!1 &1202262120
 GameObject:
   m_ObjectHideFlags: 0
