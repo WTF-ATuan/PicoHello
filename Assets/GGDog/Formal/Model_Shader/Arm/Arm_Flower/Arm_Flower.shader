@@ -159,6 +159,8 @@ Shader "Unlit/Arm_Flower"
 
                 FinalColor = lerp(FinalColor,float4(0,0,0,1),saturate((1-Out)));
                 
+                FinalColor += (1-Out2)*smoothstep(0.8,1.1,(1-Out))*_RimColor*5*saturate(1-_injured*_injured*_injured);
+
                 clip(Out-0.01);
 
                 return  FinalColor;
