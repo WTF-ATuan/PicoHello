@@ -10,48 +10,16 @@ Shader "Unlit/Arm_Flower"
 		[HDR]_DissolveColor("DissolveColor",Color) = (1,1,1,1)
 		[HDR]_DissolveDirColor("_DissolveDirColor",Color) = (1,1,1,1)
 		_DissolveBackDirColor("_DissolveBackDirColor",Color) = (1,1,1,1)
+
+        _injured("_injured",Range(0,1)) = 0
     }
     SubShader
     {
-        Pass
-        {
-            CGPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
-
-            #include "UnityCG.cginc"
-
-            struct appdata
-            {
-                float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
-            };
-
-            struct v2f
-            {
-                float2 uv : TEXCOORD0;
-                float4 vertex : SV_POSITION;
-            };
-
-            v2f vert (appdata v)
-            {
-                v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = v.uv;
-
-                return o;
-            }
-            fixed4 frag (v2f i) : SV_Target
-            {
-                return  0;
-            }
-            ENDCG
-        }
         Tags { "RenderType" = "Opaque" "Queue" = "Geometry+1"}
-        ZWrite off
+        //ZWrite off
         Stencil {
-            Ref 10
-            Comp always
+            Ref 1
+            Comp Always
             Pass replace
         }
         Pass
@@ -75,7 +43,34 @@ Shader "Unlit/Arm_Flower"
                 float4 vertex : SV_POSITION;
 				float3 worldNormal : TEXCOORD1;
 				float3 worldPos : TEXCOORD2;
+				half4 scrPos : TEXCOORD3;
             };
+            
+			float2 unity_gradientNoise_dir(float2 p)
+			{
+				p = p % 289;
+				float x = (34 * p.x + 1) * p.x % 289 + p.y;
+				x = (34 * x + 1) * x % 289;
+				x = frac(x / 41) * 2 - 1;
+				return normalize(float2(x - floor(x + 0.5), abs(x) - 0.5));
+			}
+			
+			float unity_gradientNoise(float2 p)
+			{
+				float2 ip = floor(p);
+				float2 fp = frac(p);
+				float d00 = dot(unity_gradientNoise_dir(ip), fp);
+				float d01 = dot(unity_gradientNoise_dir(ip + float2(0, 1)), fp - float2(0, 1));
+				float d10 = dot(unity_gradientNoise_dir(ip + float2(1, 0)), fp - float2(1, 0));
+				float d11 = dot(unity_gradientNoise_dir(ip + float2(1, 1)), fp - float2(1, 1));
+				fp = fp * fp * fp * (fp * (fp * 6 - 15) + 10);
+				return lerp(lerp(d00, d01, fp.y), lerp(d10, d11, fp.y), fp.x);
+			}
+
+			void Unity_GradientNoise_float(float2 UV, float Scale, out float Out)
+			{
+				Out = unity_gradientNoise(UV * Scale) + 0.5;
+			}
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
@@ -87,12 +82,14 @@ Shader "Unlit/Arm_Flower"
             v2f vert (appdata v)
             {
                 v2f o;
+				o.scrPos = ComputeScreenPos(v.vertex);  //抓取螢幕截圖的位置
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 
 				o.worldNormal = mul(v.normal,(float3x3)unity_WorldToObject);
 				
 				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+                
 
                 return o;
             }
@@ -100,6 +97,7 @@ Shader "Unlit/Arm_Flower"
             fixed4 _DissolveColor;
             fixed4 _DissolveDirColor;
             fixed4 _DissolveBackDirColor;
+            float _injured;
             
             fixed4 frag (v2f i) : SV_Target
             {
@@ -127,6 +125,8 @@ Shader "Unlit/Arm_Flower"
 
                 fixed4 DColor =  lerp( _DissolveBackDirColor, _DissolveDirColor , smoothstep(-0.5,0.25,dot(worldNormal,LightDir))*(1-i.uv.y)  )+ smoothstep(0,1,1-dot(worldNormal,worldViewDir))*_DissolveColor+I*_DissolveColor;
 
+                float _hh = _h;
+
                 _h=(1-_h)*1.75;
                 float h =1- smoothstep(0.45,0.7, _h-i.uv.y );
                 float h2 =1- smoothstep(0.5,0.5, _h-i.uv.y );
@@ -135,6 +135,31 @@ Shader "Unlit/Arm_Flower"
                 FinalColor =  FinalColor +h*_DissolveColor;
 
                 FinalColor = lerp( DColor, FinalColor , (1- h2));
+                
+
+                //injured
+                
+				half2 scruv = i.scrPos.xy/i.scrPos.w;
+
+				float Out_noise;
+                Unity_GradientNoise_float(scruv+_Time.y*0.075,150,Out_noise);
+				float Out_noise2;
+                Unity_GradientNoise_float(scruv-_Time.y*0.15,100,Out_noise2);
+                scruv+= (Out_noise+Out_noise2)*float2(0.003,0.003);
+
+				float Out;
+                Unity_GradientNoise_float(scruv,30,Out);
+                
+				float Out2;
+                Unity_GradientNoise_float(scruv,50,Out2);
+
+                Out*=Out2;
+
+                Out = smoothstep(0.15,0.5,Out-_injured+0.75);
+
+                FinalColor = lerp(FinalColor,float4(0,0,0,1),saturate((1-Out)));
+                
+                clip(Out-0.01);
 
                 return  FinalColor;
             }

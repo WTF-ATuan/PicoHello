@@ -33,10 +33,14 @@ namespace HelloPico2{
 		}
 
 		[Button]
-		private void TestEvent(string id){
+		private void AudioTest(string id){
 			var multiAudioData = dataOverview.FindEventData<MultiAudioData>(id);
 			var audioClip = multiAudioData.GetItem();
 			_audioSource.PlayOneShot(audioClip);
+		}
+
+		public void ChangeData(ViewEventDataOverview data){
+			dataOverview = data;
 		}
 	}
 }
