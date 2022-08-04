@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Game.Project;
+using Sirenix.OdinInspector;
+using Sirenix.Utilities;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -22,7 +25,29 @@ namespace HelloPico2.Trajectory{
 			GetTipsChildRecursive(gameObject, tipList);
 			_timer = new ColdDownTimer(randomDuring);
 		}
+		#if UNITY_EDITOR
 
+		[Button]
+		private void AutoPlace(GameObject obj){
+			var childList = new List<Transform>();
+			GetTipsChildRecursive(gameObject, childList);
+			foreach(var child in childList){
+				var spawnObj = Instantiate(obj, child.position, Quaternion.identity, child);
+				spawnObj.transform.localPosition = Vector3.zero;
+			}
+		}
+
+		[Button]
+		private void ClearPlace(GameObject obj){
+			var childList = new List<Transform>();
+			GetTipsChildRecursive(gameObject, childList);
+			foreach(var children in childList.Select(
+						child => child.GetComponentsInChildren<Transform>())){
+				children.ForEach(x => Destroy(x.gameObject));
+			}
+		}
+
+		#endif
 		private void Update(){
 			if(_timer.CanInvoke()){
 				RandomSpawn();
