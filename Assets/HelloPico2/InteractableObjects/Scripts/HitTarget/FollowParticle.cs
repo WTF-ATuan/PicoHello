@@ -8,17 +8,21 @@ namespace HelloPico2.InteractableObjects
     public class FollowParticle : MonoBehaviour
     {
         public bool Activate;
+        public bool DisableFollowerOnAwake = true;
         public GameObject[] m_Follower;
         public ParticleSystem m_FollowThis;
         public bool m_DeactivateAfterParticleDie = true;
         [ShowIf("m_DeactivateAfterParticleDie")] public float m_DelayDeactiveTime = .5f;
         ParticleSystem.Particle[] m_Particles;
         public System.Action<GameObject> WhenParticleDies;
+        public void ActivateFollowParticle() {
+            Activate = true;
+        }
         private void Awake()
         {
             for (int i = 0; i < m_Follower.Length; i++)
             {
-                m_Follower[i].SetActive(false);
+                m_Follower[i].SetActive(!DisableFollowerOnAwake);
             }
         }
         public void Update()
@@ -35,7 +39,7 @@ namespace HelloPico2.InteractableObjects
                     if (m_Follower[i] == null) continue;                    
 
                     m_Follower[i].transform.position = m_Particles[i].position + m_FollowThis.transform.position;
-                    m_Follower[i].transform.forward = m_Particles[i].animatedVelocity.normalized;
+                    m_Follower[i].transform.forward = m_Particles[i].animatedVelocity.normalized;                    
 
                     if (m_Particles[i].remainingLifetime > 0.1f)
                     {
