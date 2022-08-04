@@ -16,11 +16,11 @@
 		
 		_Distance_Intensive("Intensive",Range(-3,0))=-3
 		_Distance_Radius("Radius",Range(0,30))=12
-
-		_RandomOffset("RandomOffset", Vector) = (0, 0, 0,0)
 	}
 	SubShader
 	{
+       // GrabPass { "_BackTex123" }
+	   
 		LOD 200
 		//ZTest Always
 		Pass
@@ -57,8 +57,7 @@
 			half4 _ShadowColor;
 			half4 _SpecularColor;
 			
-			uniform	fixed3 GLOBAL_Pos;
-			
+			uniform	half3 All_Pos[10];
 			half _Distance_Intensive;
 			half _Distance_Radius;
 			
@@ -122,11 +121,9 @@
 
 				return 130.0 * dot(m, g);
 			}
-			
-            UNITY_INSTANCING_BUFFER_START(Props)
-                UNITY_DEFINE_INSTANCED_PROP(float4, _RandomOffset)
-            UNITY_INSTANCING_BUFFER_END(Props)
-			
+
+
+
 			v2f vert (appdata v)
 			{
 				v2f o;
@@ -134,27 +131,33 @@
                 UNITY_SETUP_INSTANCE_ID(v);
                 UNITY_TRANSFER_INSTANCE_ID(v, o);
 				
-                o.worldNormal  = UnityObjectToWorldNormal(v.normal);
-                o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
-                
-                half3 WorldPos = unity_ObjectToWorld._m03_m13_m23;
-
-				half d = saturate(distance( GLOBAL_Pos,o.worldPos/length(o.worldNormal)) / (_Distance_Radius/(1+distance( GLOBAL_Pos,o.worldPos)) ));
-
-				half3 n =  ((o.worldPos-(o.worldNormal)/(1+distance( GLOBAL_Pos,o.worldPos)))-GLOBAL_Pos)*_Distance_Intensive*smoothstep(0,2.7,1-d);
-				
 				o.CameraDistance = length(mul(UNITY_MATRIX_MV,v.vertex).xyz);
 				
-				v.vertex.xyz += (distance( GLOBAL_Pos,o.worldPos))*n/(2+d);
+                o.worldNormal  = UnityObjectToWorldNormal(v.normal);
+                o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+
+                half3 WorldPos = unity_ObjectToWorld._m03_m13_m23;
+
+				half d;
+				half3 n;
+
+                for(int i=0; i<10; i++)
+                {
+				    d = saturate(distance( All_Pos[i],o.worldPos/length(o.worldNormal)) / (_Distance_Radius/(1+distance( All_Pos[i],o.worldPos)) ));
+
+                    n =  ((o.worldPos-(o.worldNormal)/(1+distance( All_Pos[i],WorldPos)))-All_Pos[i])  *_Distance_Intensive *smoothstep(0,2.7,1-d);
+
+                    v.vertex.xyz += saturate(smoothstep(0,0.5,saturate(distance( All_Pos[i],WorldPos))-0.2)) *n/(2+d);
+                }
 
 				o.vertex = UnityObjectToClipPos(v.vertex);
-
                 o.uv = v.uv;
+				
 				
 				o.scrPos = ComputeScreenPos(o.vertex);  //抓取螢幕截圖的位置
 
-				float Noise1 = snoise(v.vertex*0.55+_Time.y*(0.35,-0.25)*2.5 + UNITY_ACCESS_INSTANCED_PROP(Props, _RandomOffset).xy);
-				float Noise2 = snoise(v.vertex*0.75+_Time.y*(-0.15,0.45)*1.5 + UNITY_ACCESS_INSTANCED_PROP(Props, _RandomOffset).xy);
+				float Noise1 = snoise(v.vertex*0.55+_Time.y*(0.35,-0.25)*2.5);
+				float Noise2 = snoise(v.vertex*0.75+_Time.y*(-0.15,0.45)*1.5);
 
 				float noise = (Noise1*0.35+Noise2*0.25);
 
@@ -163,8 +166,6 @@
 				return o;
 			}
 			
-
-
             half _Gloss;
 			
 			half3 _Vector;
