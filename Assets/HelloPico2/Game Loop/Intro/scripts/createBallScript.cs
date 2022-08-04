@@ -43,7 +43,11 @@ public class createBallScript : MonoBehaviour
         //Destroy(parentName.transform.GetChild(0).gameObject);
         GameObject getGroup = Instantiate(SetGroup, Vector3.zero, Quaternion.identity, parentName.transform);
         Vector3 pos = new Vector3(insCreatePos.x + Random.Range(rangSize[0][0], rangSize[1][0]), insCreatePos.y + Random.Range(rangSize[0][1], rangSize[1][1]), insCreatePos.z + Random.Range(rangSize[0][2], rangSize[1][2]));
-        Instantiate(insObj[Random.Range(0, randRange)], pos, Quaternion.identity, getGroup.transform);
+        var obj = Instantiate(insObj[Random.Range(0, randRange)], pos, Quaternion.identity, getGroup.transform);
+        obj.SetActive(true);
+        var destroy = obj.AddComponent<DestroyObject>();
+        destroy.enabled = true;
+        destroy.DestoryTime = 3;
         /*if (parentName.transform.childCount != 0)
         {
             Destroy(parentName.transform.GetChild(0).gameObject);
