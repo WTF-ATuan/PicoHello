@@ -91,7 +91,7 @@ namespace HelloPico2{
 		public T FindEventData<T>(string id) where T : ViewEventData{
 			var viewEventData = viewEventDataList.Find(x => x.Equals(id));
 			if(viewEventData == null){
-				throw new NullReferenceException($"Can,t Not Find {id}");
+				throw new NullReferenceException($"[{name}] couldn't find [{id}] asset");
 			}
 
 			return viewEventData as T;
