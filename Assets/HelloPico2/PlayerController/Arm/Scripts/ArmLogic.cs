@@ -83,6 +83,7 @@ namespace HelloPico2.PlayerController.Arm
 		{
 			EventBus.Subscribe<DeviceInputDetected>(OnDeviceInputDetected);
             EventBus.Subscribe<ReceiveDamageData>(ReceiveDamage);
+            EventBus.Subscribe<GainArmorUpgradeData>(ArmorUpgrade); 
 
             OnEnergyChanged += BroadCastEnergyAmount;
         }
@@ -208,7 +209,10 @@ namespace HelloPico2.PlayerController.Arm
             needEnergyEventData.HandType = data.HandType;
 
             EventBus.Post(needEnergyEventData);
-        }   
+        }
+        private void ArmorUpgrade(GainArmorUpgradeData data) {
+            _data.ArmorController.ActiveArm(data.armorType, data.armorPart);
+        }
     }
 
     public class ArmGizmoDrawer
