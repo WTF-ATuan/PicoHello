@@ -49,7 +49,7 @@ namespace HelloPico2{
 		}
 
 		private void RemoveUnUseObject(GameObject clone, string selectMeshName){
-			var childList = clone.GetComponentsInChildren<Transform>().ToList();
+			var childList = clone.GetComponentsInChildren<Transform>(true).ToList();
 			var animationRoot = childList.Find(x => x.name.Equals("Char_Guide_Anim"));
 			if(!animationRoot) throw new Exception("Can,t find 'Char_Guide_Anim'");
 			var foundMeshList = childList.FindAll(x => x.name.Contains("Mesh"));
