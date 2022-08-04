@@ -8,66 +8,38 @@ using UnityEngine;
 namespace HelloPico2.PlayerController.Arm{
 	public class ArmorController : MonoBehaviour{
 		[ChildGameObjectsOnly] public List<GameObject> armorList;
-		[ValueDropdown("GetChildArmor")] public GameObject currentArmor;
-		private List<GameObject> _currentArmorPart;
 
-		[FoldoutGroup("Part Setup")] public bool elbow = true;
-		[FoldoutGroup("Part Setup")] public bool fingers = true;
-		[FoldoutGroup("Part Setup")] public bool forearm = true;
-		[FoldoutGroup("Part Setup")] public bool handController = true;
-		[FoldoutGroup("Part Setup")] public bool upperArm = true;
+		private List<GameObject> _armorParts = new List<GameObject>();
 
 		private List<ValueDropdownItem> GetChildArmor(){
 			var dropdownItems = armorList.Select(x => new ValueDropdownItem(x.name, x));
 			return dropdownItems.ToList();
 		}
 
-		private void Start(){
-			if(!currentArmor){
-				return;
-			}
-
-			armorList.ForEach(x => x.SetActive(false));
-			currentArmor.SetActive(true);
-			var armors = currentArmor.GetComponentsInChildren<Transform>().ToList();
-			_currentArmorPart = armors.Select(x => x.gameObject).ToList();
-			UpdateArmPart();
-		}
 		[Button]
-		public void SelectArmor(ArmorType armorType){
-			var armorName = armorType.ToString();
-			var foundArmor = armorList.Find(x => x.name.Contains(armorName));
-			currentArmor = foundArmor;
-			armorList.ForEach(x => x.SetActive(false));
-			currentArmor.SetActive(true);
-			var armors = currentArmor.GetComponentsInChildren<Transform>(true).ToList();
-			_currentArmorPart = armors.Select(x => x.gameObject).ToList();
-			UpdateArmPart();
+		private void CloseChildActive(bool active){
+			foreach(var armor in armorList){
+				var componentsInChildren = armor.GetComponentsInChildren<Transform>().ToList();
+				componentsInChildren.RemoveAt(0);
+				componentsInChildren.ForEach(x => x.gameObject.SetActive(active));
+			}
 		}
 
-		public void UpdateArmPart(){
-			foreach(var armorPart in _currentArmorPart){
-				var armorPartName = armorPart.name;
-				if(armorPartName.Contains("Elbow")){
-					armorPart.SetActive(elbow);
-				}
+		[Button]
+		public void ActiveArm(ArmorType type, ArmorPart part){
+			if(_armorParts.Exists(x => x.name.Contains(part.ToString()))) return;
+			var foundArmor = armorList.Find(x => x.name.Contains(type.ToString()));
+			if(!foundArmor) throw new Exception($"Can,t find {type} of GameObject");
+			var partsList = foundArmor.GetComponentsInChildren<Transform>(true).ToList();
+			var foundPart = partsList.Find(x => x.name.Contains(part.ToString()));
+			if(!foundPart) throw new Exception($"can,t find {part} of {foundArmor}");
+			_armorParts.Add(foundPart.gameObject);
+			foundPart.gameObject.SetActive(true);
+		}
 
-				if(armorPartName.Contains("Fingers")){
-					armorPart.SetActive(fingers);
-				}
-
-				if(armorPartName.Contains("Forearm")){
-					armorPart.SetActive(forearm);
-				}
-
-				if(armorPartName.Contains("HandController")){
-					armorPart.SetActive(handController);
-				}
-
-				if(armorPartName.Contains("UpperArm")){
-					armorPart.SetActive(upperArm);
-				}
-			}
+		[Button]
+		public List<GameObject> GetActiveArmParts(){
+			return _armorParts;
 		}
 	}
 
@@ -77,7 +49,14 @@ namespace HelloPico2.PlayerController.Arm{
 		Integrity,
 		Knowledge,
 		Mercy,
-		Nature,
-		Tube
+		Follower //需要流體手 Armor 不需要流體手
+	}
+
+	public enum ArmorPart{
+		Elbow,
+		Fingers,
+		Forearm,
+		HandController,
+		UpperArm
 	}
 }
