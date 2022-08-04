@@ -26,6 +26,28 @@ namespace HelloPico2.PlayerController.Arm{
 		}
 
 		[Button]
+		public void AutoActiveWithOrder(ArmorType type){
+			var armorParts = Enum.GetValues(typeof(ArmorPart)).Cast<ArmorPart>().ToList();
+			var armorPartNames = armorParts.Select(x => x.ToString()).ToList();
+			var lastIndex = 0;
+			for(var i = 0; i < armorPartNames.Count; i++){
+				var partName = armorPartNames[i];
+				var exists = _armorParts.Exists(x => x.name.Contains(partName));
+				if(!exists) continue;
+				if(i + 1 > lastIndex){
+					lastIndex = i + 1;
+				}
+			}
+
+			if(lastIndex > armorParts.Count){
+				return;
+			}
+
+			var armorPart = armorParts[lastIndex];
+			ActiveArm(type, armorPart);
+		}
+
+		[Button]
 		public void ActiveArm(ArmorType type, ArmorPart part){
 			var existsPart = _armorParts.Find(x => x.name.Contains(part.ToString()));
 			if(existsPart){
@@ -54,14 +76,16 @@ namespace HelloPico2.PlayerController.Arm{
 		Integrity,
 		Knowledge,
 		Mercy,
-		Follower //需要流體手 Armor 不需要流體手
+
+		Nature //需要流體手
+		//Armor 不需要流體手
 	}
 
 	public enum ArmorPart{
-		Elbow,
-		Fingers,
-		Forearm,
-		HandController,
-		UpperArm
+		Fingers = 0,
+		HandController = 1,
+		Elbow = 2,
+		Forearm = 3,
+		UpperArm = 4
 	}
 }
