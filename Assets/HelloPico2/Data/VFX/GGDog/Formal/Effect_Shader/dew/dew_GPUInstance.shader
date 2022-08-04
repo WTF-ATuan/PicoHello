@@ -4,8 +4,6 @@
 	{
         _RenderTex("Render Tex", 2D) = "white" {}
 
-        _NoiseTex("NoiseTex", 2D) = "white" {}
-
 		_SpecularColor("Specular Color",Color) = (1,1,1,1)
 
 		_ShadowColor("Shadow Color",Color) = (0,0,0,1)
@@ -16,11 +14,13 @@
 
 		_Vector ("Light Direction", Vector) = (0, 0, 0)
 		
+		_Distance_Intensive("Intensive",Range(-3,0))=-3
+		_Distance_Radius("Radius",Range(0,30))=12
+
+		_RandomOffset("RandomOffset", Vector) = (0, 0, 0,0)
 	}
 	SubShader
 	{
-       // GrabPass { "_BackTex123" }
-	   
 		LOD 200
 		//ZTest Always
 		Pass
@@ -53,46 +53,14 @@
                 UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 			
-            sampler2D _NoiseTex;
-            float4 _NoiseTex_ST;
-
 			half4 _RimColor;
 			half4 _ShadowColor;
 			half4 _SpecularColor;
 			
-			v2f vert (appdata v)
-			{
-				v2f o;
-
-                UNITY_SETUP_INSTANCE_ID(v);
-                UNITY_TRANSFER_INSTANCE_ID(v, o);
-				
-				o.CameraDistance = length(mul(UNITY_MATRIX_MV,v.vertex).xyz);
-
-				o.vertex = UnityObjectToClipPos(v.vertex);
-				//v.vertex*=smoothstep(-50,200,o.CameraDistance)*smoothstep(-800,1200,o.CameraDistance);
-                o.uv = v.uv;
-				
-				o.worldNormal = UnityObjectToWorldNormal(v.normal); 
-				//v.normal*=smoothstep(-50,200,o.CameraDistance)*smoothstep(-800,1200,o.CameraDistance);
-				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
-				
-				
-				o.scrPos = ComputeScreenPos(o.vertex);  //抓取螢幕截圖的位置
-				half2 scruv = o.scrPos.xy/o.scrPos.w;
-
-				half Noise1 = tex2Dlod(_NoiseTex, half4( scruv*_NoiseTex_ST.xy +_Time.y*(0.25,-0.25)*1.5 ,0,0)).r;
-				half Noise2 = tex2Dlod(_NoiseTex, half4( scruv*_NoiseTex_ST.xy +_Time.y*(-0.25,0.25)*1.5 ,0,0)).r;
-
-				half Noise3 = tex2Dlod(_NoiseTex, half4( 0.35*v.vertex*_NoiseTex_ST.xy +_Time.y*(-0.3,-0.3)*1.5 ,0,0)).r;
-				half uvdis = (smoothstep(0,1,v.uv.y)+smoothstep(0,1,1-v.uv.y))/2;
-
-				o.vertex = UnityObjectToClipPos(v.vertex + v.normal * pow((Noise1+Noise2+Noise3)*uvdis/1.25,2));
-				
-				o.scrPos = ComputeScreenPos(o.vertex);  //抓取螢幕截圖的位置
-				
-				return o;
-			}
+			uniform	fixed3 GLOBAL_Pos;
+			
+			half _Distance_Intensive;
+			half _Distance_Radius;
 			
 			//Noise圖計算
 			float3 mod289(float3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
@@ -154,7 +122,47 @@
 
 				return 130.0 * dot(m, g);
 			}
+			
+            UNITY_INSTANCING_BUFFER_START(Props)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _RandomOffset)
+            UNITY_INSTANCING_BUFFER_END(Props)
+			
+			v2f vert (appdata v)
+			{
+				v2f o;
 
+                UNITY_SETUP_INSTANCE_ID(v);
+                UNITY_TRANSFER_INSTANCE_ID(v, o);
+				
+                o.worldNormal  = UnityObjectToWorldNormal(v.normal);
+                o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+                
+                half3 WorldPos = unity_ObjectToWorld._m03_m13_m23;
+
+				half d = saturate(distance( GLOBAL_Pos,o.worldPos/length(o.worldNormal)) / (_Distance_Radius/(1+distance( GLOBAL_Pos,o.worldPos)) ));
+
+				half3 n =  ((o.worldPos-(o.worldNormal)/(1+distance( GLOBAL_Pos,o.worldPos)))-GLOBAL_Pos)*_Distance_Intensive*smoothstep(0,2.7,1-d);
+				
+				o.CameraDistance = length(mul(UNITY_MATRIX_MV,v.vertex).xyz);
+				
+				v.vertex.xyz += (distance( GLOBAL_Pos,o.worldPos))*n/(2+d);
+
+				o.vertex = UnityObjectToClipPos(v.vertex);
+
+                o.uv = v.uv;
+				
+				o.scrPos = ComputeScreenPos(o.vertex);  //抓取螢幕截圖的位置
+
+				float Noise1 = snoise(v.vertex*0.55+_Time.y*(0.35,-0.25)*2.5 + UNITY_ACCESS_INSTANCED_PROP(Props, _RandomOffset).xy);
+				float Noise2 = snoise(v.vertex*0.75+_Time.y*(-0.15,0.45)*1.5 + UNITY_ACCESS_INSTANCED_PROP(Props, _RandomOffset).xy);
+
+				float noise = (Noise1*0.35+Noise2*0.25);
+
+				o.vertex = UnityObjectToClipPos(v.vertex /1.15 + v.normal * noise*noise);
+				
+				return o;
+			}
+			
 
 
             half _Gloss;
