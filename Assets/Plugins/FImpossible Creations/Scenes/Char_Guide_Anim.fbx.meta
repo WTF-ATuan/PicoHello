@@ -47,10 +47,22 @@ ModelImporter:
     second: Guide_fly_showHand
   - first:
       74: -3292820325217168367
-    second: Guide_fly_head
+    second: Guide_SeeToTouch
   - first:
       74: -4270527977358930335
     second: Guide_TouchToFly
+  - first:
+      74: -4258634953982674502
+    second: Guide_fly_Idle
+  - first:
+      74: 4750587057071602296
+    second: Guide_fly_turnRight
+  - first:
+      74: -1827660245272521049
+    second: Guide_fly_turnLeft
+  - first:
+      74: 7654054651905813170
+    second: Guide_fly_turnCircle
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -866,7 +878,7 @@ ModelImporter:
       name: Guide_waitTouch_Loop
       takeName: Take 001
       internalID: 0
-      firstFrame: 711
+      firstFrame: 710
       lastFrame: 740
       wrapMode: 0
       orientationOffsetY: 0
@@ -874,7 +886,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -1160,7 +1172,7 @@ ModelImporter:
       - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_R_Shoulder/GuideRigRef_R_Arm/GuideRigRef_R_Elbow/GuideRigRef_R_Hand
         weight: 1
       - path: GuideRigRef_Dummy2
-        weight: 0
+        weight: 1
       maskType: 3
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
@@ -1316,10 +1328,10 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Guide_fly_head
+      name: Guide_SeeToTouch
       takeName: Take 001
       internalID: 0
-      firstFrame: 660
+      firstFrame: 661
       lastFrame: 710
       wrapMode: 0
       orientationOffsetY: 0
@@ -1472,6 +1484,610 @@ ModelImporter:
       internalID: 0
       firstFrame: 741
       lastFrame: 820
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: GuideRigRef_Char_Guide_ArmMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_BabyMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_BasketMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_BirdMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_BotMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_BowlMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_CloudMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_DandelionMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_DeerMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_DiamondMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_DuckMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_EggBirdMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_EyeBallMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_FairyMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_FireflyMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_FourArmMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_GoatMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_HeadMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_HorseMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_IndianMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_JackMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_KelpMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_LamplighterMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_MouseMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_MushroomMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_OctopuslMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_OnionMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_PrinceMesh1
+        weight: 1
+      - path: GuideRigRef_Char_Guide_PrincessMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_SheepMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_SnowflakeMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_SphinxMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_StarKidMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_StarMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_SunMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_TeethMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_TowerMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_TwoHeadMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_UFOMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_WomanMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_WristbandBMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_WristbandMesh
+        weight: 1
+      - path: GuideRigRef_Char_Root
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_L_Shoulder
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_L_Shoulder/GuideRigRef_L_Arm
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_L_Shoulder/GuideRigRef_L_Arm/GuideRigRef_L_Elbow
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_L_Shoulder/GuideRigRef_L_Arm/GuideRigRef_L_Elbow/GuideRigRef_L_Hand
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_M_Neck
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_M_Neck/GuideRigRef_M_Head
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_M_Neck/GuideRigRef_M_Head/GuideRigRef_M_Eye
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_M_Spine
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_M_Spine/GuideRigRef_M_Hip
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_M_Spine/GuideRigRef_M_Hip/GuideRigRef_M_Knee
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_M_Spine/GuideRigRef_M_Hip/GuideRigRef_M_Knee/GuideRigRef_M_Foot
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_R_Shoulder
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_R_Shoulder/GuideRigRef_R_Arm
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_R_Shoulder/GuideRigRef_R_Arm/GuideRigRef_R_Elbow
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_R_Shoulder/GuideRigRef_R_Arm/GuideRigRef_R_Elbow/GuideRigRef_R_Hand
+        weight: 1
+      - path: GuideRigRef_Dummy2
+        weight: 0
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Guide_fly_Idle
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 821
+      lastFrame: 940
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: GuideRigRef_Char_Guide_ArmMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_BabyMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_BasketMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_BirdMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_BotMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_BowlMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_CloudMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_DandelionMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_DeerMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_DiamondMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_DuckMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_EggBirdMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_EyeBallMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_FairyMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_FireflyMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_FourArmMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_GoatMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_HeadMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_HorseMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_IndianMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_JackMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_KelpMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_LamplighterMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_MouseMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_MushroomMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_OctopuslMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_OnionMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_PrinceMesh1
+        weight: 1
+      - path: GuideRigRef_Char_Guide_PrincessMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_SheepMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_SnowflakeMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_SphinxMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_StarKidMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_StarMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_SunMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_TeethMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_TowerMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_TwoHeadMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_UFOMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_WomanMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_WristbandBMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_WristbandMesh
+        weight: 1
+      - path: GuideRigRef_Char_Root
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_L_Shoulder
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_L_Shoulder/GuideRigRef_L_Arm
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_L_Shoulder/GuideRigRef_L_Arm/GuideRigRef_L_Elbow
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_L_Shoulder/GuideRigRef_L_Arm/GuideRigRef_L_Elbow/GuideRigRef_L_Hand
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_M_Neck
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_M_Neck/GuideRigRef_M_Head
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_M_Neck/GuideRigRef_M_Head/GuideRigRef_M_Eye
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_M_Spine
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_M_Spine/GuideRigRef_M_Hip
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_M_Spine/GuideRigRef_M_Hip/GuideRigRef_M_Knee
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_M_Spine/GuideRigRef_M_Hip/GuideRigRef_M_Knee/GuideRigRef_M_Foot
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_R_Shoulder
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_R_Shoulder/GuideRigRef_R_Arm
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_R_Shoulder/GuideRigRef_R_Arm/GuideRigRef_R_Elbow
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_R_Shoulder/GuideRigRef_R_Arm/GuideRigRef_R_Elbow/GuideRigRef_R_Hand
+        weight: 1
+      - path: GuideRigRef_Dummy2
+        weight: 0
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Guide_fly_turnRight
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 941
+      lastFrame: 980
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: GuideRigRef_Char_Guide_ArmMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_BabyMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_BasketMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_BirdMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_BotMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_BowlMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_CloudMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_DandelionMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_DeerMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_DiamondMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_DuckMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_EggBirdMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_EyeBallMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_FairyMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_FireflyMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_FourArmMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_GoatMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_HeadMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_HorseMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_IndianMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_JackMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_KelpMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_LamplighterMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_MouseMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_MushroomMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_OctopuslMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_OnionMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_PrinceMesh1
+        weight: 1
+      - path: GuideRigRef_Char_Guide_PrincessMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_SheepMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_SnowflakeMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_SphinxMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_StarKidMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_StarMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_SunMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_TeethMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_TowerMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_TwoHeadMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_UFOMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_WomanMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_WristbandBMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_WristbandMesh
+        weight: 1
+      - path: GuideRigRef_Char_Root
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_L_Shoulder
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_L_Shoulder/GuideRigRef_L_Arm
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_L_Shoulder/GuideRigRef_L_Arm/GuideRigRef_L_Elbow
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_L_Shoulder/GuideRigRef_L_Arm/GuideRigRef_L_Elbow/GuideRigRef_L_Hand
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_M_Neck
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_M_Neck/GuideRigRef_M_Head
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_M_Neck/GuideRigRef_M_Head/GuideRigRef_M_Eye
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_M_Spine
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_M_Spine/GuideRigRef_M_Hip
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_M_Spine/GuideRigRef_M_Hip/GuideRigRef_M_Knee
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_M_Spine/GuideRigRef_M_Hip/GuideRigRef_M_Knee/GuideRigRef_M_Foot
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_R_Shoulder
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_R_Shoulder/GuideRigRef_R_Arm
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_R_Shoulder/GuideRigRef_R_Arm/GuideRigRef_R_Elbow
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_R_Shoulder/GuideRigRef_R_Arm/GuideRigRef_R_Elbow/GuideRigRef_R_Hand
+        weight: 1
+      - path: GuideRigRef_Dummy2
+        weight: 0
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Guide_fly_turnLeft
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 981
+      lastFrame: 1060
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: GuideRigRef_Char_Guide_ArmMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_BabyMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_BasketMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_BirdMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_BotMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_BowlMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_CloudMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_DandelionMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_DeerMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_DiamondMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_DuckMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_EggBirdMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_EyeBallMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_FairyMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_FireflyMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_FourArmMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_GoatMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_HeadMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_HorseMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_IndianMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_JackMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_KelpMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_LamplighterMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_MouseMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_MushroomMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_OctopuslMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_OnionMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_PrinceMesh1
+        weight: 1
+      - path: GuideRigRef_Char_Guide_PrincessMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_SheepMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_SnowflakeMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_SphinxMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_StarKidMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_StarMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_SunMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_TeethMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_TowerMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_TwoHeadMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_UFOMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_WomanMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_WristbandBMesh
+        weight: 1
+      - path: GuideRigRef_Char_Guide_WristbandMesh
+        weight: 1
+      - path: GuideRigRef_Char_Root
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_L_Shoulder
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_L_Shoulder/GuideRigRef_L_Arm
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_L_Shoulder/GuideRigRef_L_Arm/GuideRigRef_L_Elbow
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_L_Shoulder/GuideRigRef_L_Arm/GuideRigRef_L_Elbow/GuideRigRef_L_Hand
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_M_Neck
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_M_Neck/GuideRigRef_M_Head
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_M_Neck/GuideRigRef_M_Head/GuideRigRef_M_Eye
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_M_Spine
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_M_Spine/GuideRigRef_M_Hip
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_M_Spine/GuideRigRef_M_Hip/GuideRigRef_M_Knee
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_M_Spine/GuideRigRef_M_Hip/GuideRigRef_M_Knee/GuideRigRef_M_Foot
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_R_Shoulder
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_R_Shoulder/GuideRigRef_R_Arm
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_R_Shoulder/GuideRigRef_R_Arm/GuideRigRef_R_Elbow
+        weight: 1
+      - path: GuideRigRef_Char_Root/GuideRigRef_M_Chest/GuideRigRef_R_Shoulder/GuideRigRef_R_Arm/GuideRigRef_R_Elbow/GuideRigRef_R_Hand
+        weight: 1
+      - path: GuideRigRef_Dummy2
+        weight: 0
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Guide_fly_turnCircle
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 1061
+      lastFrame: 1180
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

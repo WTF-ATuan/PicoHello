@@ -13,7 +13,7 @@ public class targetItemAdd_Script : MonoBehaviour
     public void AddItemHeld()
     {
         menuCheck.targetItemHeld += 1;
-        Debug.Log(menuCheck.targetItemHeld);
+        //Debug.Log(menuCheck.targetItemHeld);
     }
     private void OnTriggerEnter(Collider other)
     {
