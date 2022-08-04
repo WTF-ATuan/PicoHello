@@ -57,19 +57,11 @@ public class HandAnim : MonoBehaviour
         {
 			staffCheck();
 		}
-		//Finish Grip
-		else if (_getItme.targetItemHeld == checkItemHeld[1])//held 200
-        {
-			showAnim("isGrip");
-		}
-		//Finish Sword
-		else if (_getItme.targetItemHeld == checkItemHeld[2] )//300
-		{
-			showAnim("isJoystick");
-		}
-		//Shield
+
 		else if (_getItme.targetItemHeld == checkItemHeld[3]) //3
 		{
+			showAnim("isGrip");
+			showAnim("isJoystick");
 			showAnim("isBtnAX");
 			isTip = false;
 		}
