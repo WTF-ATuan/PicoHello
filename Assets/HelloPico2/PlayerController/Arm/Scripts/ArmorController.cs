@@ -27,7 +27,12 @@ namespace HelloPico2.PlayerController.Arm{
 
 		[Button]
 		public void ActiveArm(ArmorType type, ArmorPart part){
-			if(_armorParts.Exists(x => x.name.Contains(part.ToString()))) return;
+			var existsPart = _armorParts.Find(x => x.name.Contains(part.ToString()));
+			if(existsPart){
+				existsPart.SetActive(false);
+				_armorParts.Remove(existsPart);
+			}
+
 			var foundArmor = armorList.Find(x => x.name.Contains(type.ToString()));
 			if(!foundArmor) throw new Exception($"Can,t find {type} of GameObject");
 			var partsList = foundArmor.GetComponentsInChildren<Transform>(true).ToList();
