@@ -12,9 +12,10 @@ public class targetItemAdd_Script : MonoBehaviour
     public GameObject[] hideList;
     public void AddItemHeld()
     {
-        menuCheck.targetItemHeld += 1;
+        menuCheck.targetItemHeld = setHeld;
         //Debug.Log(menuCheck.targetItemHeld);
     }
+
     private void OnTriggerEnter(Collider other)
     {
          AddItemHeld();
