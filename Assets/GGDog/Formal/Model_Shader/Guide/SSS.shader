@@ -2,11 +2,13 @@ Shader "GGDog/SSS"
 {
     Properties
     {
+        _FadeColor1("Fade Color1",Color) = (0.75,0.75,0.75,1)
+        _FadeColor2("Fade Color2",Color) = (0.75,0.75,0.75,1)
+
         _Color("Color",Color) = (0.75,0.75,0.75,1)
         _ShadowColor("ShadowColor",Color) = (0.25,0.25,0.25,1)
         _Distortion ("Distortion", Range(0,1)) = 0.75
         [HDR]_SSSColor("SSS Color",Color) = (1,0.5,0.5,1)
-        _ThicknessTex ("Thickness Tex", 2D) = "black" {}
 		
         _LightDir ("LightDir", Vector) = (0,0,0,0)
     }
@@ -37,7 +39,7 @@ Shader "GGDog/SSS"
                 float3 worldNormal : TEXCOORD1;
                 float3 worldPos : TEXCOORD2;
             };
-
+            
             v2f vert (appdata v)
             {
                 v2f o;
@@ -55,18 +57,22 @@ Shader "GGDog/SSS"
 			float4 _ShadowColor;
 			float4 _SSSColor;
 			
-            sampler2D _ThicknessTex;
 			float4 _LightDir;
+
+			float4 _FadeColor1;
+			float4 _FadeColor2;
             
             float4 frag (v2f i) : SV_Target
             {
 			
 				half Time_y = abs(fmod(_Time.y*3,1.0f)*2.0f-1.0f);
 
-				_Distortion = _Distortion+0.05*Time_y*cos(_Time.y);
+                _FadeColor1.rgb = clamp(_FadeColor1.rgb,0.5,1);
+                _FadeColor1 = lerp(_FadeColor1,0.75,0.5)*1.75*_Color;
 
-
-                float4 thickness = tex2D(_ThicknessTex, i.uv);
+                
+                _FadeColor2.rgb = clamp(_FadeColor2.rgb,0.25,1);
+                _FadeColor2 = lerp(_FadeColor2,0.75,0.5)*1.75*_ShadowColor;
 
                 float3 WorldNormal = normalize(i.worldNormal);
                 //float3 LightDir = normalize(_WorldSpaceLightPos0.xyz);
@@ -75,10 +81,17 @@ Shader "GGDog/SSS"
 				float NdotL = saturate(dot(WorldNormal,_LightDir));
 				float Rim = 1-saturate(dot(WorldNormal,ViewDir));
 
-				float3 H = normalize( ViewDir + WorldNormal * _Distortion);
+				float3 H = normalize( ViewDir + WorldNormal);
 				float I = saturate(dot(ViewDir,-H));
 
-				float4 FinalColor = lerp(_ShadowColor + ( (Rim+I) * _SSSColor * thickness) ,_LightColor0 * _Color ,NdotL ) ;
+
+                float FadeUV = saturate(frac(2*i.uv.y)+0.1);
+
+                _SSSColor = FadeUV*FadeUV/2;
+
+
+
+				float4 FinalColor = lerp(_FadeColor2*FadeUV + Rim* _SSSColor ,_LightColor0 * _FadeColor1*FadeUV ,NdotL ) ;
 
                 return FinalColor;
             }

@@ -33408,17 +33408,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
+    SerializedFormat: 0
+    SerializedBytes: 2d01080000006d005f0045006e006500720067007900
     ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: m_Energy
-      Entry: 6
-      Data: 
+    SerializationNodes: []
   _ArmData: {fileID: 4939205608762558257}
 --- !u!114 &8604806816237817109
 MonoBehaviour:
@@ -59203,18 +59200,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
+    SerializedFormat: 0
+    SerializedBytes: 0b01080000006d005f0045006e00650072006700790000000000
     ReferencedUnityObjects:
     - {fileID: 6605219741232540125}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: m_Energy
-      Entry: 10
-      Data: 0
+    SerializationNodes: []
   _ArmData: {fileID: 4939205610337954862}
 --- !u!114 &9060945968444900562
 MonoBehaviour:
@@ -65442,6 +65436,149 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &125967610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5209253565498310367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adeac2d247fa1aa4c802692be2d8bd5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _controller: {fileID: 4939205610337954856}
+  WhenTriggerTouch:
+    _PersistentCalls:
+    - _Target: {fileID: 1272398317}
+      _MethodName: RaiseToValue
+      _PersistentArguments:
+      - _Type: 3
+        _Int: 1
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  WhenTriggerNotTouch:
+    _PersistentCalls:
+    - _Target: {fileID: 1272398317}
+      _MethodName: RaiseToValue
+      _PersistentArguments:
+      - _Type: 3
+        _Int: 0
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  WhenGripTouch:
+    _PersistentCalls:
+    - _Target: {fileID: 377409337}
+      _MethodName: RaiseToValue
+      _PersistentArguments:
+      - _Type: 3
+        _Int: 1
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  WhenGripNotTouch:
+    _PersistentCalls:
+    - _Target: {fileID: 377409337}
+      _MethodName: RaiseToValue
+      _PersistentArguments:
+      - _Type: 3
+        _Int: 0
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  WhenJoyStickTouch:
+    _PersistentCalls:
+    - _Target: {fileID: 165973253}
+      _MethodName: RaiseToValue
+      _PersistentArguments:
+      - _Type: 3
+        _Int: 1
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  WhenJoyStickNotTouch:
+    _PersistentCalls:
+    - _Target: {fileID: 165973253}
+      _MethodName: RaiseToValue
+      _PersistentArguments:
+      - _Type: 3
+        _Int: 0
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  WhenPrimaryButtonTouch:
+    _PersistentCalls:
+    - _Target: {fileID: 1162219772}
+      _MethodName: RaiseToValue
+      _PersistentArguments:
+      - _Type: 3
+        _Int: 1
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  WhenPrimaryButtonNotTouch:
+    _PersistentCalls:
+    - _Target: {fileID: 1162219772}
+      _MethodName: RaiseToValue
+      _PersistentArguments:
+      - _Type: 3
+        _Int: 0
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  WhenSecondaryButtonTouch:
+    _PersistentCalls:
+    - _Target: {fileID: 729154106}
+      _MethodName: RaiseToValue
+      _PersistentArguments:
+      - _Type: 3
+        _Int: 1
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  WhenSecondaryButtonNotTouch:
+    _PersistentCalls:
+    - _Target: {fileID: 729154106}
+      _MethodName: RaiseToValue
+      _PersistentArguments:
+      - _Type: 3
+        _Int: 0
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
 --- !u!114 &1399431537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65766,149 +65903,6 @@ MonoBehaviour:
   OffsetAllColliders: {x: 0, y: 0, z: 0}
   DetailedCollision: 1
   IncludedColliders: []
---- !u!114 &125967610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5209253565498310367}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adeac2d247fa1aa4c802692be2d8bd5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _controller: {fileID: 4939205610337954856}
-  WhenTriggerTouch:
-    _PersistentCalls:
-    - _Target: {fileID: 1272398317}
-      _MethodName: RaiseToValue
-      _PersistentArguments:
-      - _Type: 3
-        _Int: 1
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
-  WhenTriggerNotTouch:
-    _PersistentCalls:
-    - _Target: {fileID: 1272398317}
-      _MethodName: RaiseToValue
-      _PersistentArguments:
-      - _Type: 3
-        _Int: 0
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
-  WhenGripTouch:
-    _PersistentCalls:
-    - _Target: {fileID: 377409337}
-      _MethodName: RaiseToValue
-      _PersistentArguments:
-      - _Type: 3
-        _Int: 1
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
-  WhenGripNotTouch:
-    _PersistentCalls:
-    - _Target: {fileID: 377409337}
-      _MethodName: RaiseToValue
-      _PersistentArguments:
-      - _Type: 3
-        _Int: 0
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
-  WhenJoyStickTouch:
-    _PersistentCalls:
-    - _Target: {fileID: 165973253}
-      _MethodName: RaiseToValue
-      _PersistentArguments:
-      - _Type: 3
-        _Int: 1
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
-  WhenJoyStickNotTouch:
-    _PersistentCalls:
-    - _Target: {fileID: 165973253}
-      _MethodName: RaiseToValue
-      _PersistentArguments:
-      - _Type: 3
-        _Int: 0
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
-  WhenPrimaryButtonTouch:
-    _PersistentCalls:
-    - _Target: {fileID: 1162219772}
-      _MethodName: RaiseToValue
-      _PersistentArguments:
-      - _Type: 3
-        _Int: 1
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
-  WhenPrimaryButtonNotTouch:
-    _PersistentCalls:
-    - _Target: {fileID: 1162219772}
-      _MethodName: RaiseToValue
-      _PersistentArguments:
-      - _Type: 3
-        _Int: 0
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
-  WhenSecondaryButtonTouch:
-    _PersistentCalls:
-    - _Target: {fileID: 729154106}
-      _MethodName: RaiseToValue
-      _PersistentArguments:
-      - _Type: 3
-        _Int: 1
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
-  WhenSecondaryButtonNotTouch:
-    _PersistentCalls:
-    - _Target: {fileID: 729154106}
-      _MethodName: RaiseToValue
-      _PersistentArguments:
-      - _Type: 3
-        _Int: 0
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
 --- !u!95 &1920843450
 Animator:
   serializedVersion: 3
@@ -65928,6 +65922,149 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1546806445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5209253565567504885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adeac2d247fa1aa4c802692be2d8bd5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _controller: {fileID: 4939205608762558284}
+  WhenTriggerTouch:
+    _PersistentCalls:
+    - _Target: {fileID: 1548724016}
+      _MethodName: RaiseToValue
+      _PersistentArguments:
+      - _Type: 3
+        _Int: 1
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  WhenTriggerNotTouch:
+    _PersistentCalls:
+    - _Target: {fileID: 1548724016}
+      _MethodName: RaiseToValue
+      _PersistentArguments:
+      - _Type: 3
+        _Int: 0
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  WhenGripTouch:
+    _PersistentCalls:
+    - _Target: {fileID: 745113769}
+      _MethodName: RaiseToValue
+      _PersistentArguments:
+      - _Type: 3
+        _Int: 1
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  WhenGripNotTouch:
+    _PersistentCalls:
+    - _Target: {fileID: 745113769}
+      _MethodName: RaiseToValue
+      _PersistentArguments:
+      - _Type: 3
+        _Int: 0
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  WhenJoyStickTouch:
+    _PersistentCalls:
+    - _Target: {fileID: 1379219316}
+      _MethodName: RaiseToValue
+      _PersistentArguments:
+      - _Type: 3
+        _Int: 1
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  WhenJoyStickNotTouch:
+    _PersistentCalls:
+    - _Target: {fileID: 1379219316}
+      _MethodName: RaiseToValue
+      _PersistentArguments:
+      - _Type: 3
+        _Int: 0
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  WhenPrimaryButtonTouch:
+    _PersistentCalls:
+    - _Target: {fileID: 1685076338}
+      _MethodName: RaiseToValue
+      _PersistentArguments:
+      - _Type: 3
+        _Int: 1
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  WhenPrimaryButtonNotTouch:
+    _PersistentCalls:
+    - _Target: {fileID: 1685076338}
+      _MethodName: RaiseToValue
+      _PersistentArguments:
+      - _Type: 3
+        _Int: 0
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  WhenSecondaryButtonTouch:
+    _PersistentCalls:
+    - _Target: {fileID: 852383388}
+      _MethodName: RaiseToValue
+      _PersistentArguments:
+      - _Type: 3
+        _Int: 1
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  WhenSecondaryButtonNotTouch:
+    _PersistentCalls:
+    - _Target: {fileID: 852383388}
+      _MethodName: RaiseToValue
+      _PersistentArguments:
+      - _Type: 3
+        _Int: 0
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
 --- !u!114 &1920843447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66252,149 +66389,6 @@ MonoBehaviour:
   OffsetAllColliders: {x: 0, y: 0, z: 0}
   DetailedCollision: 1
   IncludedColliders: []
---- !u!114 &1546806445
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5209253565567504885}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adeac2d247fa1aa4c802692be2d8bd5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _controller: {fileID: 4939205608762558284}
-  WhenTriggerTouch:
-    _PersistentCalls:
-    - _Target: {fileID: 1548724016}
-      _MethodName: RaiseToValue
-      _PersistentArguments:
-      - _Type: 3
-        _Int: 1
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
-  WhenTriggerNotTouch:
-    _PersistentCalls:
-    - _Target: {fileID: 1548724016}
-      _MethodName: RaiseToValue
-      _PersistentArguments:
-      - _Type: 3
-        _Int: 0
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
-  WhenGripTouch:
-    _PersistentCalls:
-    - _Target: {fileID: 745113769}
-      _MethodName: RaiseToValue
-      _PersistentArguments:
-      - _Type: 3
-        _Int: 1
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
-  WhenGripNotTouch:
-    _PersistentCalls:
-    - _Target: {fileID: 745113769}
-      _MethodName: RaiseToValue
-      _PersistentArguments:
-      - _Type: 3
-        _Int: 0
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
-  WhenJoyStickTouch:
-    _PersistentCalls:
-    - _Target: {fileID: 1379219316}
-      _MethodName: RaiseToValue
-      _PersistentArguments:
-      - _Type: 3
-        _Int: 1
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
-  WhenJoyStickNotTouch:
-    _PersistentCalls:
-    - _Target: {fileID: 1379219316}
-      _MethodName: RaiseToValue
-      _PersistentArguments:
-      - _Type: 3
-        _Int: 0
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
-  WhenPrimaryButtonTouch:
-    _PersistentCalls:
-    - _Target: {fileID: 1685076338}
-      _MethodName: RaiseToValue
-      _PersistentArguments:
-      - _Type: 3
-        _Int: 1
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
-  WhenPrimaryButtonNotTouch:
-    _PersistentCalls:
-    - _Target: {fileID: 1685076338}
-      _MethodName: RaiseToValue
-      _PersistentArguments:
-      - _Type: 3
-        _Int: 0
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
-  WhenSecondaryButtonTouch:
-    _PersistentCalls:
-    - _Target: {fileID: 852383388}
-      _MethodName: RaiseToValue
-      _PersistentArguments:
-      - _Type: 3
-        _Int: 1
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
-  WhenSecondaryButtonNotTouch:
-    _PersistentCalls:
-    - _Target: {fileID: 852383388}
-      _MethodName: RaiseToValue
-      _PersistentArguments:
-      - _Type: 3
-        _Int: 0
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
 --- !u!114 &4939205610529410148
 MonoBehaviour:
   m_ObjectHideFlags: 0
