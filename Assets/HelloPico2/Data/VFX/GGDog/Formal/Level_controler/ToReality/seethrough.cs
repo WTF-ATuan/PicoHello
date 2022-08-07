@@ -6,6 +6,10 @@ using Unity.XR.PXR;
 
 public class seethrough : MonoBehaviour
 {
+    public void Start()
+    {
+        PXR_Boundary.EnableSeeThroughManual(true);
+    }
 
     public void EnableSeeThroughManual()
     {
