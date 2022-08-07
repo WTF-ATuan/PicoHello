@@ -55,7 +55,7 @@ public class targetScript : MonoBehaviour
                     hideList[i].SetActive(false);
                 }
 
-                //Destroy(gameObject, 3);
+                Destroy(gameObject, 3);
             }
         }
 
