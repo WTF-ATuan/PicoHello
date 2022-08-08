@@ -18,4 +18,8 @@ public class TargetItem_SO : ScriptableObject
     [TextArea]
     public string itemInfo;
 
+    public void SetTarget(int itemHeld){
+        targetItemHeld = itemHeld;
+    }
+
 }
