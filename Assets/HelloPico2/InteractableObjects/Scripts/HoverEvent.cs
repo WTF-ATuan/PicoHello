@@ -17,6 +17,7 @@ namespace HelloPico2.InteractableObjects.Scripts{
 		private float _timer;
 
 		public UltEvent<float> onHovering;
+		public UltEvent onHoverTrigger;
 
 		private HoverEnterEventArgs _hoverEnterEventArgs;
 
@@ -37,10 +38,12 @@ namespace HelloPico2.InteractableObjects.Scripts{
 
 			_timer += Time.fixedDeltaTime;
 			onHovering.Invoke(Mathf.Clamp(_timer, 0, 1));
-			if(_timer > during){
+			if(_timer >= during){
 				var interactor = _hoverEnterEventArgs.interactorObject;
 				var interactorPosition = interactor.transform.position;
-				transform.DOMove(interactorPosition, 1f);
+				transform.DOMove(interactorPosition, 1f)
+						.OnComplete(() => onHoverTrigger.Invoke());
+				_timer = 0;
 			}
 		}
 	}
