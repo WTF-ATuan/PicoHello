@@ -10,11 +10,18 @@ public class targetItemAdd_Script : MonoBehaviour
     public int setHeld;
     public GameObject[] showObj;
     public GameObject[] hideList;
-    public void AddItemHeld()
+
+    private void Start()
     {
         menuCheck.targetItemHeld = setHeld;
-        //Debug.Log(menuCheck.targetItemHeld);
     }
+
+    public void AddItemHeld()
+    {
+        menuCheck.targetItemHeld += 1;
+        Debug.Log(menuCheck.targetItemHeld);
+    }
+    
 
     private void OnTriggerEnter(Collider other)
     {
@@ -28,6 +35,7 @@ public class targetItemAdd_Script : MonoBehaviour
             showObj[0].SetActive(true);
             hideList[0].SetActive(false);
             menuCheck.targetItemHeld = setHeld;
+            Debug.Log("showObj");
 
         }
         //showObj[1]¥`¿Ù±–æ«
