@@ -6,6 +6,7 @@ namespace HelloPico2.InteractableObjects
 {
     public class HitTargetBullet : HitTargetBase
     {
+        [SerializeField] private bool _CanOnlyDestroyByInteractType = false;
         [SerializeField] private float _Lifetime = 90f;        
         [SerializeField] private float _DestroyDelayDuration = 3;        
         [SerializeField] private string _HitEffectID = "";
@@ -16,10 +17,24 @@ namespace HelloPico2.InteractableObjects
         }
         public override void OnCollide(InteractType type, Collider selfCollider)
         {
-            //print("Collide");
+            print("Collide " + type.ToString());
+
+            if (!_CanOnlyDestroyByInteractType)
+            {
+                ReceiveHit(selfCollider);
+            }
+            else {
+                if (type == interactType) {
+                    ReceiveHit(selfCollider);
+                }
+            }
+            base.OnCollide(type, selfCollider);
+        }
+        private void ReceiveHit(Collider selfCollider)
+        {
             DestroyBullet(selfCollider);
             WhenCollide?.Invoke();
-            base.OnCollide(type, selfCollider);
+            WhenCollideUlt?.Invoke();
         }
         //private void OnEnable()
         //{

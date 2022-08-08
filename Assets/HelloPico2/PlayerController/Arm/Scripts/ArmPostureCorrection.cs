@@ -14,6 +14,7 @@ public class ArmPostureCorrection : MonoBehaviour
     [FoldoutGroup("Joint Settings")] public Transform m_WristRoationChecker;
     [FoldoutGroup("IK Settings")] public Transform m_HintIK;
     [FoldoutGroup("IK Settings")] public TwoBoneIKConstraint m_ElbowIKSettings;
+    public Vector2 m_HintBlendingRange;
     public HintBendDirection m_HintBendDirection = HintBendDirection.Right;
     public Vector2 m_ElbowRotateLimit;
     public float m_LerpSpeed;
@@ -24,6 +25,9 @@ public class ArmPostureCorrection : MonoBehaviour
     private Vector3 hintPos;
     private float shoulderWristDist;
     private Vector3 armDir;
+
+    [ReadOnly]public float Dist;
+
     private void Update()
     {
         m_WristRoationChecker.position = m_WristJoint.position;
@@ -46,9 +50,11 @@ public class ArmPostureCorrection : MonoBehaviour
         if (angle >= m_ElbowRotateLimit.x && angle <= m_ElbowRotateLimit.y)
         {
             hintPos = Pivotpos + m_WristJoint.right * dir * m_HintOffset;
-        m_HintIK.position = Vector3.Lerp(m_HintIK.position, hintPos, Time.deltaTime * m_LerpSpeed);        
+            m_HintIK.position = Vector3.Lerp(m_HintIK.position, hintPos, Time.deltaTime * m_LerpSpeed);        
         }
 
+        Dist = shoulderWristDist;
+        m_ElbowIKSettings.data.hintWeight =  1 - Mathf.Clamp(shoulderWristDist / Mathf.Abs(m_HintBlendingRange.x - m_HintBlendingRange.y),0,1);
     }   
     private void OnDrawGizmos()
     {        

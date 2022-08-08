@@ -11,6 +11,9 @@ namespace HelloPico2.PlayerController.Arm{
 
 		private List<GameObject> _armorParts = new List<GameObject>();
 
+		public UltEvents.UltEvent WhenGainAutoActivateArmor;
+		public delegate void ArmorDel(GameObject part);
+		public ArmorDel WhenActivateArmor;
 		private List<ValueDropdownItem> GetChildArmor(){
 			var dropdownItems = armorList.Select(x => new ValueDropdownItem(x.name, x));
 			return dropdownItems.ToList();
@@ -45,6 +48,8 @@ namespace HelloPico2.PlayerController.Arm{
 
 			var armorPart = armorParts[lastIndex];
 			ActiveArm(type, armorPart);
+
+			WhenGainAutoActivateArmor?.Invoke();			
 		}
 
 		[Button]
@@ -62,6 +67,8 @@ namespace HelloPico2.PlayerController.Arm{
 			if(!foundPart) throw new Exception($"can,t find {part} of {foundArmor}");
 			_armorParts.Add(foundPart.gameObject);
 			foundPart.gameObject.SetActive(true);
+
+			WhenActivateArmor?.Invoke(foundPart.gameObject);
 		}
 
 		[Button]
