@@ -22,6 +22,7 @@ public class CheckTimerScript : MonoBehaviour
         {
             showTip.SetActive(true);
             hideList.SetActive(false);
+            Timer = 0;
         }
     }
 }
