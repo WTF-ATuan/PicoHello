@@ -136,7 +136,7 @@ Shader "GGDog/Ball/ChargeEnergProjectile_GPUInstance"
 				
                 o.worldNormal  = UnityObjectToWorldNormal(v.normal);
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
-                
+                /*
                 half3 WorldPos = unity_ObjectToWorld._m03_m13_m23;
 
 				half d = saturate(distance( GLOBAL_Pos,o.worldPos/length(o.worldNormal)) / (_Distance_Radius/(1+distance( GLOBAL_Pos,o.worldPos)) ));
@@ -146,9 +146,9 @@ Shader "GGDog/Ball/ChargeEnergProjectile_GPUInstance"
 				o.CameraDistance = length(mul(UNITY_MATRIX_MV,v.vertex).xyz);
 				
 				v.vertex.xyz += (distance( GLOBAL_Pos,o.worldPos))*n/(2+d);
-
+				*/
 				o.vertex = UnityObjectToClipPos(v.vertex);
-
+				/*
                 o.uv = v.uv;
 				
 				o.scrPos = ComputeScreenPos(o.vertex);  //抓取螢幕截圖的位置
@@ -159,7 +159,7 @@ Shader "GGDog/Ball/ChargeEnergProjectile_GPUInstance"
 				float noise = (Noise1*0.35+Noise2*0.25);
 
 				o.vertex = UnityObjectToClipPos(v.vertex /1.15 + v.normal * noise*noise);
-				
+				*/
 				return o;
 			}
 			
