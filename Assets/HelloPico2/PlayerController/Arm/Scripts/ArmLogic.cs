@@ -70,6 +70,13 @@ namespace HelloPico2.PlayerController.Arm
 
             ShootEnergyBallClipNames.Remove(pick);
         }
+        public void ChangeXRInteractSettings(float grabDetectionRadius, float grabDistance)
+        {
+            data.GrabDetectionRadius = grabDetectionRadius;
+            data.GrabDistance = grabDistance;
+
+            SetUpXR();
+        }
         private void SetUpXR() {
             if (TryGetComponent<XRRayInteractor>(out rayInteractor))
             { 

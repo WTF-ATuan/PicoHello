@@ -54,7 +54,7 @@ public class ArmPostureCorrection : MonoBehaviour
         }
 
         Dist = shoulderWristDist;
-        m_ElbowIKSettings.data.hintWeight =  1 - Mathf.Clamp(shoulderWristDist / Mathf.Abs(m_HintBlendingRange.x - m_HintBlendingRange.y),0,1);
+        //m_ElbowIKSettings.data.hintWeight =  1 - Mathf.Clamp(shoulderWristDist / Mathf.Abs(m_HintBlendingRange.x - m_HintBlendingRange.y),0,1);
     }   
     private void OnDrawGizmos()
     {        
