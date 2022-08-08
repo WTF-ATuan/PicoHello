@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-
+[ExecuteInEditMode]
 public class FlowerArmor : MonoBehaviour
 {
     public HelloPico2.PlayerController.Arm.ArmData _ArmData;

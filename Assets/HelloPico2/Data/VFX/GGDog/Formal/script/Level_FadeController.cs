@@ -111,6 +111,7 @@ public class Level_FadeController : MonoBehaviour
     
     public GameObject Level_5;
     public GameObject[] Level_4_Close;
+
     void Env_StartUp(_Level Lv)
     {
         //Get每個關卡的場景發射器的開關
