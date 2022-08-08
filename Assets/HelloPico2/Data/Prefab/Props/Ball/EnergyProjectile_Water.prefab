@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d5cdcf47495cada49ae1e058bd447eec, type: 2}
+  - {fileID: 2100000, guid: b674e14bbeaa00647a79161556b4ecc1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -224,7 +224,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a686d33b254924282aec417b3ce39f51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _InteractType: 2
   _Lifetime: 10
+  _CollideDestryDelayTime: 3
   _ActivateHoming: 0
   _homingSensativeness: 0.1
+  _StartHomingTime: 0
   _homingDuration: 2
+  _AngleLimit: 120
+  _DistanceLimit: 120
+  WhenShoot:
+    m_PersistentCalls:
+      m_Calls: []
+  WhenCollide:
+    m_PersistentCalls:
+      m_Calls: []
