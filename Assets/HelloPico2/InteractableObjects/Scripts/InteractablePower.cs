@@ -9,6 +9,7 @@ namespace HelloPico2.InteractableObjects
     {
         [SerializeField] private float _Energy = 20;
         [Header("Merge into Charging ball Settings")]
+        [SerializeField] private bool _UseScaleControl = true;
         [SerializeField] private float _StartScalingDist = 10;
         [SerializeField] private float _ScalingDuration = .5f;
         [SerializeField] private AnimationCurve _EaseCurve;
@@ -38,10 +39,13 @@ namespace HelloPico2.InteractableObjects
         private void Update()
         {
             if (selectorTarget == null) return;
-
-            if (Vector3.Distance(transform.position, selectorTarget.position) < _StartScalingDist)
+           
+            if (_UseScaleControl)
             {
-                transform.DOScale(Vector3.zero, _ScalingDuration).SetEase(_EaseCurve);
+                if (Vector3.Distance(transform.position, selectorTarget.position) < _StartScalingDist)
+                {
+                    transform.DOScale(Vector3.zero, _ScalingDuration).SetEase(_EaseCurve);
+                }
             }
         }
         private void OnDisable()
