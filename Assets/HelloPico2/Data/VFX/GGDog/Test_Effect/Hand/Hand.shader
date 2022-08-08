@@ -30,6 +30,7 @@ Shader "Unlit/Rim"
 				float4 vertex : POSITION;
 				float2 uv : TEXCOORD0;
 				float3 normal : NORMAL;
+				float4 color : COLOR;
 			};
 
 			struct v2f
@@ -38,6 +39,7 @@ Shader "Unlit/Rim"
 				float4 vertex : SV_POSITION;
 				float3 worldNormal : TEXCOORD1;
 				float3 worldPos : TEXCOORD2;
+				float4 color : COLOR;
 			};
 
 			float4 _RimColor;
@@ -49,6 +51,7 @@ Shader "Unlit/Rim"
 				v2f o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
+                o.color = v.color;
 
 				//o.worldNormal = UnityObjectToWorldNormal(v.normal); 
 				o.worldNormal = mul(v.normal,(float3x3)unity_WorldToObject);
@@ -66,7 +69,7 @@ Shader "Unlit/Rim"
 
 				float Rim = 1-saturate(smoothstep(0,_RimPow,dot(worldNormal,worldViewDir)+(1-_RimPart) ));
 
-				return Rim*_RimColor*smoothstep(0.2,0.35,1-i.uv.y)*1.5;
+				return Rim*_RimColor*smoothstep(0.2,0.35,1-i.uv.y)*1.5*i.color.a;
 			}
 			ENDCG
 		}
