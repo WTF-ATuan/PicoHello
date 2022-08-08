@@ -16,34 +16,91 @@ public class FlowerArmor : MonoBehaviour
     public List<Renderer> _m4 = new List<Renderer>();
 
     public ParticleSystem PS;
-    private bool hasTween;
+    bool hasGainArmorProcess;
+    int gainedArmor;
+    int maxArmor = 5;
+    Sequence dotweeenSep;
+
     private void Start()
     {
-        Project.EventBus.Subscribe<HelloPico2.InteractableObjects.NeedEnergyEventData>(EnergyUpdate);
+        //Project.EventBus.Subscribe<HelloPico2.InteractableObjects.NeedEnergyEventData>(EnergyUpdate);
     }
-    private void EnergyUpdate(HelloPico2.InteractableObjects.NeedEnergyEventData data) {
-        if (data.HandType != _ArmData.HandType) return;
-        var ratio = Mathf.Clamp(_ArmData.Energy / _ArmData.MaxEnergy, 0, 1);
-        SetGlowValue(ratio);
-    }
+    //private void EnergyUpdate(HelloPico2.InteractableObjects.NeedEnergyEventData data) {
+    //    if (data.HandType != _ArmData.HandType) return;
+    //    var ratio = Mathf.Clamp(_ArmData.Energy / _ArmData.MaxEnergy, 0, 1);
+    //    SetGlowValue(ratio);
+    //}
     public void SetGlowValue(float value) {
-        if (hasTween) return;
+        if (dotweeenSep != null && dotweeenSep.IsPlaying()) return;
 
         var duration = Mathf.Abs(value - _h) / _Speed;
-        hasTween = true;
 
-        DOTween.To(() => _h, x => _h = x, value, duration).OnComplete(() => { hasTween = false; });
+        SetGlowValue(value, duration, LoopType.Yoyo, 2);
     }
-    public void SetGlowValue(float value, float duration)
+    public void SetGlowValue(float value, float duration, LoopType loopType, int loopAmount)
     {
-        if (hasTween) return;
+        if (dotweeenSep != null && dotweeenSep.IsPlaying()) return;
 
         var from = _h;
-        hasTween = true;
+        
+        if (dotweeenSep != null)
+            dotweeenSep.Kill();
 
-        DOTween.To(() => _h, x => _h = x, value, duration).From(_h).SetLoops(2,LoopType.Yoyo).SetEase(_EaseCurve).OnComplete(() => { 
-            hasTween = false; 
-        });                
+        dotweeenSep = DOTween.Sequence();
+        dotweeenSep.Append(
+             DOTween.To(() => _h, x => _h = x, value, duration).From(_h).SetLoops(loopAmount, loopType).SetEase(_EaseCurve)
+        );
+
+        dotweeenSep.Play();               
+    }
+    float currentHeatLevel;
+    public void OverHeat(float step, float speed) {
+        if (hasGainArmorProcess) return;
+
+        if (dotweeenSep != null)
+            dotweeenSep.Kill();
+
+        currentHeatLevel += step;
+        var duration = Mathf.Abs(currentHeatLevel - _h) / speed;
+        //var duration = .1f;
+
+        dotweeenSep = DOTween.Sequence();
+        dotweeenSep.Append(
+             DOTween.To(() => _h, x => _h = x, currentHeatLevel, 0.1f).From(_h).SetEase(_EaseCurve)
+        );
+        dotweeenSep.Append(
+             DOTween.To(() => _h, x => _h = x, 0, Mathf.Abs(currentHeatLevel) / speed).From(currentHeatLevel).SetEase(_EaseCurve)             
+        );
+        dotweeenSep.Insert(1, DOTween.To(() => currentHeatLevel, x => currentHeatLevel = x, 0, Mathf.Abs(currentHeatLevel) / speed).From(currentHeatLevel));
+
+        dotweeenSep.Play();
+    }
+    public void GainArmor(float duration, float stayDuration)
+    {
+        if (gainedArmor >= maxArmor) return;
+        
+        hasGainArmorProcess = true;
+
+        gainedArmor++;
+        Mathf.Clamp(gainedArmor, 0, maxArmor);
+
+        var from = _h;
+
+        if (dotweeenSep != null)
+            dotweeenSep.Kill();
+
+        var targetValue = (float)gainedArmor / (float)maxArmor;
+
+        dotweeenSep = DOTween.Sequence();
+        dotweeenSep.Append(
+            DOTween.To(() => _h, x => _h = x, targetValue, duration).From(0).SetEase(_EaseCurve)
+        ).AppendInterval(
+            stayDuration
+        ).Append(
+            DOTween.To(() => _h, x => _h = x, 0, duration).From(targetValue).SetEase(_EaseCurve).OnComplete(() => { hasGainArmorProcess = false; })
+        );
+        
+        dotweeenSep.Play();
     }
     private void Update()
     {

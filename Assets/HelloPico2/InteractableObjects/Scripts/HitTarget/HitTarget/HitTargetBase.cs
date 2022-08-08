@@ -76,6 +76,10 @@ namespace HelloPico2.InteractableObjects
                     WhenCollideUlt?.Invoke();
                     break;
             }
+            if (type == _InteractType) {
+                WhenCollide?.Invoke();
+                WhenCollideUlt?.Invoke();
+            }
         }
         private void NotifyTracker(InteractType type) {
             if (TryGetComponent<HelloPico2.LevelTool.ITrackInteractableState>(out var tracker))
