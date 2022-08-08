@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,14 +21,7 @@ namespace HelloPico2.InteractableObjects
 
         [Header("Gizmos Settings")]
         public Color _DrawColor;
-
-        private void Start()
-        {
-            SpawnSingleWave();
-            
-            if(_SpawnWavesAmount > 1)
-                StartCoroutine(WaveControl());
-        }
+        
         private void SpawnSingleWave() {
             for (int i = 0; i < _MaxAmount; i++)
             {
@@ -44,13 +38,21 @@ namespace HelloPico2.InteractableObjects
                 yield return new WaitForSeconds(_WaveDelayDuration);
             }
         }
+
+        private void OnEnable(){
+            if(_Clonelist.Count >= 1) return;
+            SpawnSingleWave();
+        }
+
         private void OnDisable()
         {
             foreach (var obj in _Clonelist) {
                 if (obj == null || !obj.TryGetComponent<InteractableBase>(out var interactable)) continue;
                     
-                interactable.OnInteractableDisable -= UpdateWhenDestroy;                 
+                interactable.OnInteractableDisable -= UpdateWhenDestroy;
+                Destroy(obj);
             }
+            _Clonelist.Clear();
         }
         public GameObject SpawnObject(Vector3 spawnPos) {
             var clone = Instantiate(_SpawnThis, transform);
@@ -90,9 +92,11 @@ namespace HelloPico2.InteractableObjects
                 var pos = _SpawnPosition.position + _SpawnPosition.transform.right * i * _SpawnOffset;
                 
                 Gizmos.color = _DrawColor;
-                //Gizmos.DrawWireSphere(pos, _SpawnThis.transform.localScale.x);
-                
-                Gizmos.DrawWireMesh(_SpawnThis.GetComponent<MeshFilter>().sharedMesh, pos, Quaternion.Euler(_SpawnRotation), _SpawnThis.transform.localScale);
+
+                var sharedMesh = _SpawnThis.GetComponent<MeshFilter>().sharedMesh;
+                var childMesh = _SpawnThis.GetComponentInChildren<MeshFilter>().sharedMesh;
+                Gizmos.DrawWireMesh(!sharedMesh ? childMesh : sharedMesh, pos, Quaternion.Euler(_SpawnRotation),
+                    _SpawnThis.transform.localScale);
             }
         }
     }
