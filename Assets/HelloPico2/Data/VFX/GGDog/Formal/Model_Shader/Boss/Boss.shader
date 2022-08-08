@@ -8,6 +8,7 @@ Shader "GGDog/SSS"
         [HDR]_DirRimColor("DirRim Color",Color) = (1,0.5,0.5,1)
         _ThicknessTex ("Thickness Tex", 2D) = "black" {}
         _Gloss("Gloss",Range(1,200)) = 10
+        _LightDir ("LightDir", Vector) = (0,0,0,0)
     }
     SubShader
     {
@@ -56,13 +57,14 @@ Shader "GGDog/SSS"
             sampler2D _ThicknessTex;
             
             half _Gloss;
-
+            
+            fixed3 _LightDir;
             float4 frag (v2f i) : SV_Target
             {
                 float4 thickness = tex2D(_ThicknessTex, i.uv+float2(0,0.05)*_Time.y);
 
                 float3 WorldNormal = normalize(i.worldNormal);
-                float3 LightDir = normalize(_WorldSpaceLightPos0.xyz);
+                float3 LightDir = _LightDir;
                 fixed3 ViewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos );
 
 				float NdotL = saturate(dot(WorldNormal,LightDir));

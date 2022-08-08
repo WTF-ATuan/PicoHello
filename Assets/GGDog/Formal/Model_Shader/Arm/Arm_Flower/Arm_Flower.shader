@@ -12,6 +12,8 @@ Shader "Unlit/Arm_Flower"
 		_DissolveBackDirColor("_DissolveBackDirColor",Color) = (1,1,1,1)
 
         _injured("_injured",Range(0,1)) = 0
+
+        _LightDir ("LightDir", Vector) = (0,0,0,0)
     }
     SubShader
     {
@@ -98,6 +100,7 @@ Shader "Unlit/Arm_Flower"
             fixed4 _DissolveDirColor;
             fixed4 _DissolveBackDirColor;
             float _injured;
+            fixed3 _LightDir;
             
             fixed4 frag (v2f i) : SV_Target
             {
@@ -107,7 +110,7 @@ Shader "Unlit/Arm_Flower"
 				
 				fixed3 worldNormal = normalize(i.worldNormal);
 
-                fixed3 LightDir = normalize(_WorldSpaceLightPos0.xyz);
+                fixed3 LightDir = _LightDir;
 
 				float Rim = 1-saturate(smoothstep(0,2,dot(worldNormal,worldViewDir) ));
 
@@ -272,13 +275,15 @@ Shader "Unlit/Arm_Flower"
             fixed4 _DissolveDirColor;
             fixed4 _DissolveBackDirColor;
             
+            fixed3 _LightDir;
+
             fixed4 frag (v2f i) : SV_Target
             {
 				fixed3 worldViewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos);
 				
 				fixed3 worldNormal = normalize(i.worldNormal);
-
-                fixed3 LightDir = normalize(_WorldSpaceLightPos0.xyz);
+                
+                fixed3 LightDir = _LightDir;
 
                 fixed4 DColor =  lerp( _DissolveBackDirColor, _DissolveDirColor , smoothstep(-0.5,0.25,dot(worldNormal,LightDir))*(1-i.uv.y)  )+ smoothstep(0,1,1-dot(worldNormal,worldViewDir))*_DissolveColor;
 
