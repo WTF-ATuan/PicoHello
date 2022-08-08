@@ -35,8 +35,8 @@ namespace HelloPico2.PlayerController.Arm
         public XRController Controller { get { return _Controller; } }
         public float Energy { get { return _Energy; } set { _Energy = Mathf.Clamp(value, 0, _MaxEnergy);} }
         public float MaxEnergy { get { return _MaxEnergy; } }
-        public float GrabDetectionRadius { get { return _GrabDetectionRadius; } }
-        public float GrabDistance { get { return _GrabDistance; } }
+        public float GrabDetectionRadius { get { return _GrabDetectionRadius; } set { _GrabDetectionRadius = value; } }
+        public float GrabDistance { get { return _GrabDistance; } set { _GrabDistance = value; } }
         public float GrabReleaseValue { get { return _GrabReleaseValue; } }
         public float GrabEasingDuration { get { return _GrabEasingDuration; } }
         public AnimationCurve GrabEasingCurve { get { return _GrabEasingCurve; } }
