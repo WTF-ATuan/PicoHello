@@ -1,6 +1,7 @@
 using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEditor;
 using UnityEngine.Events;
 using Project;
 using DG.Tweening;
@@ -95,6 +96,17 @@ namespace HelloPico2.InteractableObjects
 
         protected virtual void PushBackFeedback(Collider hitCol) {
             if (!_UsephPushBackFeedback) return;
+        }
+        private void OnDrawGizmosSelected()
+        {
+            #if UNITY_EDITOR
+            if (_UsephPushBackFeedback)
+            {
+                Gizmos.color = Color.white;
+                Gizmos.DrawRay(transform.position, transform.forward * _PushBackDist);
+                Handles.Label(transform.position + transform.forward * _PushBackDist / 2, "Pushback Distance");
+            }
+            #endif
         }
     }
 }
