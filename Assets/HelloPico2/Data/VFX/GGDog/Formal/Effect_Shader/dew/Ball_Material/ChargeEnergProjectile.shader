@@ -21,7 +21,7 @@ Shader "GGDog/Ball/ChargeEnergProjectile_GPUInstance"
 	}
 	SubShader
 	{
-		LOD 100
+		
 		//ZTest Always
 		Pass
 		{	
