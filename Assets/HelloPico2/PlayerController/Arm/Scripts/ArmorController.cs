@@ -84,8 +84,10 @@ namespace HelloPico2.PlayerController.Arm{
 		Knowledge,
 		Mercy,
 
-		Nature //需要流體手
+		Nature, //需要流體手
 		//Armor 不需要流體手
+		Tube,
+		God
 	}
 
 	public enum ArmorPart{
