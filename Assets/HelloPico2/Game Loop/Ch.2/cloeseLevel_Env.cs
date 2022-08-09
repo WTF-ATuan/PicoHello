@@ -13,5 +13,4 @@ public class cloeseLevel_Env : MonoBehaviour
         setLevel.GetComponent<Level_FadeController>().Enable_Env = false;
     }
 
-
 }
