@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Project;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEditor;
 using UnityEngine.Events;
 using DG.Tweening;
 
@@ -161,16 +160,6 @@ namespace HelloPico2.InteractableObjects
 
             transform.DOMove(targetPos, _PushBackDuration).SetEase(_PushBackEasingCureve);
         }
-        private void OnDrawGizmosSelected()
-        {
-            #if UNITY_EDITOR
-            if (_UsephPushBackFeedback)
-            {
-                Gizmos.color = Color.white;
-                Gizmos.DrawRay(transform.position, transform.forward * _PushBackDist);
-                Handles.Label(transform.position + transform.forward * _PushBackDist / 2, "Pushback Distance");
-            }
-            #endif
-        }
+        
     }
 }
