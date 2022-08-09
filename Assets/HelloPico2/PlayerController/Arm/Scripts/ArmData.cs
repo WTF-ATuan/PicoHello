@@ -22,7 +22,7 @@ namespace HelloPico2.PlayerController.Arm
         [SerializeField] private InteractableSettings _InteractableSettings;
         [SerializeField] private Transform _SummonPoint;
         [SerializeField] private ArmorController _ArmorController;
-        [FoldoutGroup("Audio Settings")][SerializeField] private string _GainEnergyBallClipName;
+        [FoldoutGroup("Audio Settings")][SerializeField] private string[] _GainEnergyBallClipName;
         [FoldoutGroup("Audio Settings")][SerializeField] private string[] _ShootEnergyBallClipName;
         [FoldoutGroup("Audio Settings")][SerializeField] private string _ShootChargedEnergyBallClipName;
 
@@ -43,7 +43,7 @@ namespace HelloPico2.PlayerController.Arm
         public InteractableSettings InteractableSettings { get { return _InteractableSettings; } }
         public Transform SummonPoint { get { return _SummonPoint; } }
         public ArmorController ArmorController { get { return _ArmorController; } }
-        public string GainEnergyBallClipName { get { return _GainEnergyBallClipName; } }
+        public string[] GainEnergyBallClipName { get { return _GainEnergyBallClipName; } }
         public string[] ShootEnergyBallClipName { get { return _ShootEnergyBallClipName; } }
         public string ShootChargedEnergyBallClipName{get{ return _ShootChargedEnergyBallClipName; }}
         public GameObject currentWeapon { get; set; }

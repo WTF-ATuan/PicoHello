@@ -53,7 +53,7 @@ namespace HelloPico2.PlayerController.Arm
 			controllerInteractor = _controller.GetComponent<Interactor>();
 
             data.WhenGainEnergy.AddListener(() =>
-            EventBus.Post(new AudioEventRequested(data.GainEnergyBallClipName, _controller.transform.position)));
+            GainEnergySound());
 
             data.WhenShootProjectile.AddListener(() =>
             EnergyBallSound());            
@@ -61,7 +61,17 @@ namespace HelloPico2.PlayerController.Arm
             data.WhenShootChargedProjectile.AddListener(() =>
             EventBus.Post(new AudioEventRequested(data.ShootChargedEnergyBallClipName, _controller.transform.position)));
         }
+        List<string> GainEnergyClipNames = new List<string>();
         List<string> ShootEnergyBallClipNames = new List<string>();
+        private void GainEnergySound()
+        {
+            if (GainEnergyClipNames.Count == 0)
+                GainEnergyClipNames = new List<string>(data.GainEnergyBallClipName);
+
+            var pick = AudioPlayerHelper.PlayRandomAudio(GainEnergyClipNames.ToArray(), _controller.transform.position);
+
+            GainEnergyClipNames.Remove(pick);
+        }
         private void EnergyBallSound() {
             if (ShootEnergyBallClipNames.Count == 0)
                 ShootEnergyBallClipNames = new List<string>(data.ShootEnergyBallClipName);
