@@ -21,8 +21,6 @@ Shader "GGDog/Ball/ChargeEnergProjectile_GPUInstance"
 	}
 	SubShader
 	{
-		
-		//ZTest Always
 		Pass
 		{	
 			Tags { "RenderType" = "Opaque" "Queue" = "Geometry+1"}
@@ -56,12 +54,12 @@ Shader "GGDog/Ball/ChargeEnergProjectile_GPUInstance"
 			half4 _OutRimColor;
 			half4 _ShadowColor;
 			half4 _SpecularColor;
-			
+			/*
 			uniform	fixed3 GLOBAL_Pos;
 			
 			half _Distance_Intensive;
 			half _Distance_Radius;
-			
+			*/
 			//Noise圖計算
 			float3 mod289(float3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
 			float2 mod289(float2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
@@ -136,6 +134,8 @@ Shader "GGDog/Ball/ChargeEnergProjectile_GPUInstance"
 				
                 o.worldNormal  = UnityObjectToWorldNormal(v.normal);
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+				o.CameraDistance = length(mul(UNITY_MATRIX_MV,v.vertex).xyz);
+
                 /*
                 half3 WorldPos = unity_ObjectToWorld._m03_m13_m23;
 
@@ -143,16 +143,15 @@ Shader "GGDog/Ball/ChargeEnergProjectile_GPUInstance"
 
 				half3 n =  ((o.worldPos-(o.worldNormal)/(1+distance( GLOBAL_Pos,o.worldPos)))-GLOBAL_Pos)*_Distance_Intensive*smoothstep(0,2.7,1-d);
 				
-				o.CameraDistance = length(mul(UNITY_MATRIX_MV,v.vertex).xyz);
 				
 				v.vertex.xyz += (distance( GLOBAL_Pos,o.worldPos))*n/(2+d);
 				*/
 				o.vertex = UnityObjectToClipPos(v.vertex);
-				/*
+				
                 o.uv = v.uv;
 				
 				o.scrPos = ComputeScreenPos(o.vertex);  //抓取螢幕截圖的位置
-
+				/*
 				float Noise1 = snoise(v.vertex*0.55+_Time.y*(0.35,-0.25)*2.5 + UNITY_ACCESS_INSTANCED_PROP(Props, _RandomOffset).xy);
 				float Noise2 = snoise(v.vertex*0.75+_Time.y*(-0.15,0.45)*1.5 + UNITY_ACCESS_INSTANCED_PROP(Props, _RandomOffset).xy);
 
@@ -168,8 +167,6 @@ Shader "GGDog/Ball/ChargeEnergProjectile_GPUInstance"
             half _Gloss;
 			
 			half3 _Vector;
-
-            sampler2D _BackTex123;
 
 			sampler2D _RenderTex;
 
@@ -224,23 +221,15 @@ Shader "GGDog/Ball/ChargeEnergProjectile_GPUInstance"
 
 				half2 scruv = i.scrPos.xy/i.scrPos.w;
 
-				half f = (snoise(i.worldPos.xy*0.2*float2(0.5,1)+sin(_Time.y*3)*float2(0.5,-0.2))/2 + snoise(i.worldPos.xy*0.1*float2(0.5,0.25)-sin(_Time.y*2.5)*float2(0.8,0.52))/2)*(1-Rim)*(1-Rim)*(1-Rim)*(1-Rim)*(1-Rim)*(1-Rim)*smoothstep(0,0.45,Rim);
-
-				f = smoothstep(0.0045,0.0075,saturate(smoothstep(50,700,i.CameraDistance)*f/2)*smoothstep(0.3,1,1-i.uv.y));
-
-				f = lerp(f,0,CameraDistance950_1500);
-				Rim = lerp(Rim,0,CameraDistance950_1500);
-				
-
 				half4 refrCol = tex2D(_RenderTex, scruv) ;
 
 				//refrCol = lerp(refrCol,refrCol*_ShadowColor,smoothstep(-0.25,0.35,Rim*i.uv.y));
 
-				refrCol = lerp(refrCol,refrCol*_ShadowColor,1-smoothstep(-0.25,1,Rim*i.uv.y));
+				//refrCol = lerp(refrCol,refrCol*_ShadowColor,1-smoothstep(-0.25,1,Rim*i.uv.y));
 
 				FinalColor = lerp(FinalColor,refrCol,1-FinalColor.a);
 				
-				FinalColor += Rim*_OutRimColor*1.5 + saturate(f)*_SpecularColor/5;
+				FinalColor += Rim*smoothstep(-0.25,1,1-i.uv.y)*_OutRimColor*1.5 ;
 				
 
 				return FinalColor;
@@ -248,5 +237,5 @@ Shader "GGDog/Ball/ChargeEnergProjectile_GPUInstance"
 			ENDCG
 		}
 	}
-
+	
 }
