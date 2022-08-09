@@ -6,9 +6,12 @@ public class cloeseLevel_Env : MonoBehaviour
 {
     Level_FadeController _level_FadeController;
     // Start is called before the first frame update
-    void Start()
+    public GameObject setLevel;
+
+    public void Start()
     {
-        _level_FadeController.Enable_Env = false;
+        setLevel.GetComponent<Level_FadeController>().Enable_Env = false;
     }
+
 
 }
