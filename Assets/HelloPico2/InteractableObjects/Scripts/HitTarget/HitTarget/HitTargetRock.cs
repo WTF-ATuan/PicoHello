@@ -7,7 +7,6 @@ namespace HelloPico2.InteractableObjects
 {
     public class HitTargetRock : HitTargetBase
     {
-
         [SerializeField] private bool _CanOnlyDestroyByInteractType = false;
         [SerializeField] private float _Lifetime = 90f;
         [SerializeField] private float _DestroyDelayDuration = 3;
@@ -16,26 +15,9 @@ namespace HelloPico2.InteractableObjects
         public UltEvents.UltEvent WhenCollideWithEnergyBall;
 
         public override void OnCollide(InteractType type, Collider selfCollider)
-        {
-            //if (!_CanOnlyDestroyByInteractType)
-            //{
-            //    ReceiveHit(selfCollider);
-            //}
-            //else
-            //{
-            //    if (type == interactType)
-            //    {
-            //        ReceiveHit(selfCollider);
-            //    }
-            //}
+        {            
             base.OnCollide(type, selfCollider);
         }
-        //private void ReceiveHit(Collider selfCollider)
-        //{
-        //    DestroyBullet(selfCollider);
-        //    WhenCollide?.Invoke();
-        //    WhenCollideUlt?.Invoke();
-        //}
         private void OnEnable()
         {
             Destroy(gameObject, _Lifetime);

@@ -62,6 +62,7 @@ namespace HelloPico2.PlayerController.Arm
         private IEnumerator ActivateArmorprocess() {
             while (queueList.Count > 0) {
                 _Armor = queueList[0].GetComponent<Renderer>();
+                if (_Armor == null) { yield return null; continue; }
                 ActivateArmor();
                 yield return new WaitUntil(() => !seq.IsPlaying() && !seq1.IsPlaying());
                 queueList.RemoveAt(0);
