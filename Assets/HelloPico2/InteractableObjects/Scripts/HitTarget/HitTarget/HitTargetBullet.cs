@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 namespace HelloPico2.InteractableObjects
 {
@@ -32,6 +33,7 @@ namespace HelloPico2.InteractableObjects
         }
         private void ReceiveHit(Collider selfCollider)
         {
+            if (_UsephPushBackFeedback) PushBackFeedback(selfCollider);
             DestroyBullet(selfCollider);
             WhenCollide?.Invoke();
             WhenCollideUlt?.Invoke();
@@ -61,7 +63,15 @@ namespace HelloPico2.InteractableObjects
             if(TryGetComponent<MoveObject>(out var moveObj))
                 moveObj.speed = 0;
 
-            Destroy(gameObject, _DestroyDelayDuration);             
+            Destroy(gameObject, _DestroyDelayDuration);
+        }
+        protected override void PushBackFeedback(Collider hitCol)
+        {
+            base.PushBackFeedback(hitCol);
+
+            var targetPos = transform.position + hitCol.transform.forward * _PushBackDist;
+
+            transform.DOMove(targetPos, _PushBackDuration).SetEase(_PushBackEasingCureve);
         }
     }
 }
