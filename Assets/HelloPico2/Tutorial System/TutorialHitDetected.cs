@@ -26,6 +26,7 @@ namespace HelloPico2.TutorialSystem{
 		}
 
 		public void OnCollide(InteractType type, Collider selfCollider){
+			if(currentIndex >= dataWrappers.Count) return;
 			var wrapper = dataWrappers[currentIndex];
 			var interactType = wrapper.interactType;
 			var successEvent = wrapper.unityEvent;
