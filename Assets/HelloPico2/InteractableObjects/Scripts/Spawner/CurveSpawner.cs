@@ -16,7 +16,7 @@ namespace HelloPico2.InteractableObjects{
 		[TitleGroup("Curve Setting")] [SerializeField] [OnValueChanged("EditCurve")] [Min(1)]
 		private int spawnCount = 2;
 
-		[SerializeField] [TitleGroup("During Setting")] [MinMaxSlider(0, 5, true)]
+		[SerializeField] [TitleGroup("During Setting")] [MinMaxSlider(0, 20, true)]
 		private Vector2 duringMinMax = new Vector2(0.5f, 1f);
 
 		[TitleGroup("Debug")] public bool debug;
