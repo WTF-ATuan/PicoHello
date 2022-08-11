@@ -4,15 +4,16 @@ using System.Linq;
 using Game.Project;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace HelloPico2.InteractableObjects{
 	public class CurveSpawner : MonoBehaviour{
 		[Required] public GameObject spawnPrefab;
 
-		[TitleGroup("Point Setting")] [OnValueChanged("EditCurve")]
+		[TitleGroup("Curve Setting")] [OnValueChanged("EditCurve")]
 		public AnimationCurve curvePoint = AnimationCurve.Linear(0, 0, 1, 1);
 
-		[TitleGroup("Point Setting")] [SerializeField] [OnValueChanged("EditCurve")] [Min(1)]
+		[TitleGroup("Curve Setting")] [SerializeField] [OnValueChanged("EditCurve")] [Min(1)]
 		private int spawnCount = 2;
 
 		[SerializeField] [TitleGroup("During Setting")] [MinMaxSlider(0, 5, true)]
@@ -30,8 +31,26 @@ namespace HelloPico2.InteractableObjects{
 		private Color gizmosColor = Color.green;
 
 		private ColdDownTimer _timer;
+
 		private void Start(){
 			InitSpawnPosition();
+			_timer = new ColdDownTimer();
+		}
+
+		private void FixedUpdate(){
+			if(!_timer.CanInvoke()) return;
+			Spawn();
+			var randomDuring = Random.Range(duringMinMax.x, duringMinMax.y);
+			_timer.ModifyDuring(randomDuring);
+			_timer.Reset();
+		}
+
+		private void Spawn(){
+			var spawnIndex = cloneList.Count;
+			if(spawnIndex >= spawnCount) return;
+			var spawnPosition = spawnPositions[spawnIndex];
+			var spawnObject = Instantiate(spawnPrefab, spawnPosition, Quaternion.identity, transform);
+			cloneList.Add(spawnObject);
 		}
 
 		private void EditCurve(){
