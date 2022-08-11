@@ -225,7 +225,7 @@ namespace HelloPico2.PlayerController.Arm
             needEnergyEventData.Energy = data.Energy;
             needEnergyEventData.HandType = data.HandType;
 
-            EventBus.Post(needEnergyEventData);
+            //EventBus.Post(needEnergyEventData);
         }
         private void ArmorUpgrade(GainArmorUpgradeData data) {
             if(data.armorType != ArmorType.Nature)
