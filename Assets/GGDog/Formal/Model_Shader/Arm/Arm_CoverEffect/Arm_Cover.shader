@@ -46,7 +46,7 @@ Shader "GGDog/Arm_cover"
                 return o;
             }
             
-
+            /*
 			inline float2 unity_voronoi_noise_randomVector (float2 UV, float offset)
 			{
 			    float2x2 m = float2x2(15.27, 47.63, 99.41, 89.98);
@@ -76,7 +76,7 @@ Shader "GGDog/Arm_cover"
 					    }
 				    }
 			    }
-            }
+            }*/
             float4 _Color;
             float4 _Color2;
             
@@ -95,7 +95,7 @@ Shader "GGDog/Arm_cover"
                 float4 col = i.color ;
                 col.a *= saturate(D) ;
                 
-                
+                /*
 				half2 scruv = i.scrPos.xy/i.scrPos.w;
 			    float Out;
 			    float Cells;
@@ -106,7 +106,7 @@ Shader "GGDog/Arm_cover"
 
                 col.a -= saturate(1-Out*Out2*2-col.a*2);
                 col.rgb = col.rgb*saturate(Out*Out2*Out*Out2)*1/3 + col.rgb*2/3;
-
+                */
                 clip(col.a - 0.005);
                 
                 _Color = lerp(_Color,_Color2,_h);
