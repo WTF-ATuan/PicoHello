@@ -19,6 +19,9 @@ namespace HelloPico2.InteractableObjects
         [Min(1)]public int _SpawnWavesAmount = 1;
         public float _WaveDelayDuration = 5f;
 
+        [Header("Timed Refill")]
+        public bool _UseTimedRefill = false;
+
         [Header("Gizmos Settings")]
         public Color _DrawColor;
         
@@ -29,6 +32,25 @@ namespace HelloPico2.InteractableObjects
                 var clone = SpawnObject(pos);
                 clone.transform.eulerAngles = _SpawnRotation;
                 _Clonelist.Add(clone);
+            }
+
+            if (_UseTimedRefill)
+                StartCoroutine(CheckCloneList());
+        }
+        private IEnumerator CheckCloneList() {
+            while (_Clonelist.Count > 0)
+            {
+                for (int i = 0; i < _Clonelist.Count; i++)
+                {
+                    if (_Clonelist[i] == null)
+                    {
+                        var pos = _SpawnPosition.position + _SpawnPosition.transform.right * i * _SpawnOffset;
+                        var clone = SpawnObject(pos);
+                        clone.transform.eulerAngles = _SpawnRotation;
+                        _Clonelist[i] = clone;
+                    }
+                }
+                yield return new WaitForSeconds(_RefillDelayDuration);
             }
         }
         private IEnumerator WaveControl() {

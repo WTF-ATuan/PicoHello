@@ -141,14 +141,16 @@ namespace HelloPico2.PlayerController.Arm
 
             var targetPos = currentEnergyBall.transform.position;
 
+            eventData.Interactable.transform.SetParent(eventData.Interactable.transform.root);
+
             eventData.Interactable.transform.DOMove(targetPos, armLogic.data.GrabEasingDuration).SetEase(armLogic.data.GrabEasingCurve).OnComplete(() =>
             {
                 armLogic.data.Energy += eventData.Energy;
 
                 armLogic.data.WhenGainEnergy?.Invoke();
 
-                Destroy(eventData.Interactable.transform.gameObject); 
-                
+                Destroy(eventData.Interactable.transform.gameObject);
+
                 armLogic.OnEnergyChanged?.Invoke(armLogic.data);
             });
         }
