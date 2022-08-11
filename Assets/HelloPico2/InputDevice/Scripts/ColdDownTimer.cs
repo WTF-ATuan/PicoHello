@@ -15,6 +15,11 @@ namespace Game.Project{
 			During = during;
 		}
 
+		public ColdDownTimer(){
+			During = 0;
+			TrackTime = Time.time;
+		}
+
 		public bool CanInvoke(){
 			var currentTime = Time.time;
 			return currentTime > TrackTime;
@@ -24,6 +29,5 @@ namespace Game.Project{
 			var currentTime = Time.time;
 			TrackTime = currentTime + During;
 		}
-
 	}
 }
