@@ -9,8 +9,12 @@ using Unity.XR.PXR;
 
 namespace HelloPico2.PlayerController.Arm
 {
+    
     public class ArmConVisualEvents : MonoBehaviour
     {
+        public string _PrimaryAxisXName = "xAxis";
+        public string _PrimaryAxisYName = "yAxis";
+        public bool _InvertX = false;
         public XRController _controller;
         public UltEvents.UltEvent WhenTriggerTouch;
         public UltEvents.UltEvent WhenTriggerNotTouch;
@@ -22,6 +26,11 @@ namespace HelloPico2.PlayerController.Arm
         public UltEvents.UltEvent WhenPrimaryButtonNotTouch;
         public UltEvents.UltEvent WhenSecondaryButtonTouch;
         public UltEvents.UltEvent WhenSecondaryButtonNotTouch;
+        public UltEvents.UltEvent WhenPrimaryButtonDown;
+        public UltEvents.UltEvent WhenPrimaryButtonUp;
+        public UltEvents.UltEvent WhenSecondaryButtonDown;
+        public UltEvents.UltEvent WhenSecondaryButtonUp;   
+
         private void Update()
         {
             _controller.inputDevice.TryGetFeatureValue(CommonUsages.triggerButton, out var isTrigger);
@@ -36,6 +45,13 @@ namespace HelloPico2.PlayerController.Arm
             _controller.inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out bool primaryButtonValue);
             _controller.inputDevice.TryGetFeatureValue(CommonUsages.primaryTouch, out bool primaryTouchValue);
             _controller.inputDevice.TryGetFeatureValue(PXR_Usages.grip1DAxis, out var grip1DAxis);
+
+            if (TryGetComponent<AnimatorValueChanger>(out var valueChanger))
+            {
+                int invert = (_InvertX) ? -1 : 1;
+                valueChanger.animator.SetFloat(_PrimaryAxisXName, primary2DAxisValue.x * invert);
+                valueChanger.animator.SetFloat(_PrimaryAxisYName, primary2DAxisValue.y);
+            }
 
             if (isTrigger)
                 WhenTriggerTouch?.Invoke();
@@ -52,15 +68,35 @@ namespace HelloPico2.PlayerController.Arm
             else
                 WhenJoyStickNotTouch?.Invoke();
 
-            if(primaryTouchValue)
-                WhenPrimaryButtonTouch?.Invoke();
-            else
-                WhenPrimaryButtonNotTouch?.Invoke();    
+            //if(primaryTouchValue)
+            //    WhenPrimaryButtonTouch?.Invoke();
+            //else
+            //    WhenPrimaryButtonNotTouch?.Invoke();    
 
-            if(secondaryTouchValue)
-                WhenSecondaryButtonTouch?.Invoke(); 
+            //if(secondaryTouchValue)
+            //    WhenSecondaryButtonTouch?.Invoke(); 
+            //else
+            //    WhenSecondaryButtonNotTouch?.Invoke();
+
+            if (primaryButtonValue)
+                WhenPrimaryButtonDown?.Invoke();
             else
-                WhenSecondaryButtonNotTouch?.Invoke();  
+                WhenPrimaryButtonUp?.Invoke();
+
+            if (secondaryButtonValue)
+                WhenSecondaryButtonDown?.Invoke();
+            else
+                WhenSecondaryButtonUp?.Invoke();
+
+            if (primaryTouchValue && !secondaryTouchValue)
+                WhenPrimaryButtonTouch?.Invoke();
+            else if (!primaryTouchValue)
+                WhenPrimaryButtonNotTouch?.Invoke();
+
+            if (secondaryTouchValue)
+                { WhenSecondaryButtonTouch?.Invoke(); WhenPrimaryButtonNotTouch?.Invoke(); }
+            if (!secondaryTouchValue)
+                WhenSecondaryButtonNotTouch?.Invoke();
 
         }
     }
