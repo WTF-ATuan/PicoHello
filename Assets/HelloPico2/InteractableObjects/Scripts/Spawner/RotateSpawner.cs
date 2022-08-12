@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Game.Project;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace HelloPico2.InteractableObjects{
 	public class RotateSpawner : MonoBehaviour{
@@ -33,9 +35,14 @@ namespace HelloPico2.InteractableObjects{
 
 		private ColdDownTimer _timer;
 
-		private void Start(){
+		private void OnEnable(){
 			_timer = new ColdDownTimer();
 			spawnCount = spawnPointList.Count;
+		}
+
+		private void OnDisable(){
+			cloneList.ForEach(x => x.transform.SetParent(null));
+			cloneList.Clear();
 		}
 
 		private void FixedUpdate(){
@@ -50,7 +57,7 @@ namespace HelloPico2.InteractableObjects{
 			var spawnIndex = cloneList.Count;
 			if(spawnIndex >= spawnCount) return;
 			var spawnPoint = spawnPointList[spawnIndex];
-			var spawnObject = Instantiate(spawnPrefab, spawnPoint.position, Quaternion.identity, spawnPoint);
+			var spawnObject = Instantiate(spawnPrefab, spawnPoint.position, spawnPoint.rotation, spawnPoint);
 			cloneList.Add(spawnObject);
 		}
 
@@ -92,8 +99,10 @@ namespace HelloPico2.InteractableObjects{
 
 			Gizmos.color = gizmosColor;
 
-			foreach(var spawnPosition in spawnPointList.Select(spawnPoint => spawnPoint.position))
-				Gizmos.DrawWireCube(spawnPosition, Vector3.one * 0.5f);
+			foreach(var spawnPoint in spawnPointList){
+				Gizmos.matrix = spawnPoint.localToWorldMatrix;
+				Gizmos.DrawWireCube(Vector3.zero, Vector3.one * 0.5f);
+			}
 		}
 	}
 }
