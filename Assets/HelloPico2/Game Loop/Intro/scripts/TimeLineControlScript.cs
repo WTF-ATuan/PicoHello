@@ -19,16 +19,16 @@ public class TimeLineControlScript : MonoBehaviour
     IEnumerator WaitTimer()
     {
         yield return new WaitForSeconds(waitTime);
+        
         PlayTimeLineController();
-        Debug.Log("Show");
     }
 
 
 
     public void PlayTimeLineController()
     {
-        
-        if(showTimeLine != null)
+        Debug.Log(waitTime);
+        if (showTimeLine != null)
         {
             showTimeLine.SetActive(true);
         }
@@ -36,6 +36,7 @@ public class TimeLineControlScript : MonoBehaviour
         {
             hideTimeLine.SetActive(false);
         }
+        gameObject.SetActive(false);
         //PauseTimeDirector.Play();
         //TimeDirector.playableGraph.GetRootPlayable(0).SetSpeed(1);
     }
