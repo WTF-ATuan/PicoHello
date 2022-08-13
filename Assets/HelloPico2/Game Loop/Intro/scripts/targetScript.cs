@@ -72,13 +72,14 @@ public class targetScript : MonoBehaviour
           _Animator.SetBool("isGet",true);
     }
    
+    /*
     private void OnTriggerEnter(Collider other)
     {
         if (isTrigger && other.CompareTag("Player")&&coldTime==0)
         {
             AddItemHeld();
         }
-    }
+    }*/
     private void OnTriggerStay(Collider other)
     {
         if (isTrigger && other.CompareTag("Player"))
@@ -87,10 +88,17 @@ public class targetScript : MonoBehaviour
             
             if (countTimer > coldTime)
             {
-                menuCheck.targetItemHeld = checkHeld;
-                
-                countTimer = 0;
+                //menuCheck.targetItemHeld = checkHeld;
+                ShowAnim();
+                LoadTimeLine();
             }
         }
+    }
+    private void LoadTimeLine()
+    {
+            showObj[0].SetActive(true);
+            hideList[0].SetActive(false);
+            isTrigger = false;
+            countTimer = 0;
     }
 }
