@@ -94,7 +94,7 @@ public class targetScript : MonoBehaviour
             }
         }
     }
-    private void LoadTimeLine()
+    public void LoadTimeLine()
     {
             showObj[0].SetActive(true);
             hideList[0].SetActive(false);
