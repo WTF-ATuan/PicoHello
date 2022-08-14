@@ -33,7 +33,7 @@ public class targetScript : MonoBehaviour
             isListNull = true;
         }
     }
-
+    /*
     private void Update()
     {
         if (menuCheck.targetItemHeld == checkHeld)
@@ -65,7 +65,7 @@ public class targetScript : MonoBehaviour
         }
 
 
-    }
+    }*/
 
     public void AddItemHeld()
     {

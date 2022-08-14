@@ -8,6 +8,7 @@ public class TutorialSpawner : MonoBehaviour
 {
     public GameObject insObj;
     public GameObject createPos;
+    public GameObject moveGrp;
     public float waitTime=3;
     float timer;
     [BoxGroup("NEW")]
@@ -16,7 +17,14 @@ public class TutorialSpawner : MonoBehaviour
 
     public void Start()
     {
-        createObj();
+        if(moveGrp == null)
+        {
+            createObj();
+        }
+        else
+        {
+            createMpveObj();
+        }
         timer = 0;
     }
     public void createObj()
@@ -27,6 +35,17 @@ public class TutorialSpawner : MonoBehaviour
             var originScale = obj.transform.localScale;
             obj.transform.DOScale(Vector3.zero, 0); //將其物件先設成最小Scale;
             obj.transform.DOScale(originScale, fadeinDuring).SetEase(Ease.Linear);
+        }
+    }
+    public void createMpveObj()
+    {
+        if (createPos.transform.childCount < 1)
+        {
+            GameObject objGrp = Instantiate(moveGrp, createPos.transform.position, Quaternion.identity);
+            GameObject obj = Instantiate(insObj, objGrp.transform.position, Quaternion.identity, objGrp.transform);
+            var originScale = objGrp.transform.localScale;
+            objGrp.transform.DOScale(Vector3.zero, 0); //將其物件先設成最小Scale;
+            objGrp.transform.DOScale(originScale, fadeinDuring).SetEase(Ease.Linear);
         }
     }
     IEnumerator WaitCreate()
