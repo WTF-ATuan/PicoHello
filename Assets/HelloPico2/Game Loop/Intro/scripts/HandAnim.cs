@@ -65,6 +65,7 @@ public class HandAnim : MonoBehaviour
 		}*/
 		else if (_getItme.targetItemHeld == checkItemHeld[1]) //3
 		{
+			showAnim("isGrip");
 			showAnim("isJoystick");
 			showAnim("isBtnAX");
 			isTip = false;

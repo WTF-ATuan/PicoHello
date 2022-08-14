@@ -27,7 +27,7 @@ public class TimeLineControlScript : MonoBehaviour
 
     public void PlayTimeLineController()
     {
-        Debug.Log(waitTime);
+        
         if (showTimeLine != null)
         {
             showTimeLine.SetActive(true);

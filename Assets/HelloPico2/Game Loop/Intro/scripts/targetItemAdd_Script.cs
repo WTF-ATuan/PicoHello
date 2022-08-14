@@ -22,11 +22,11 @@ public class targetItemAdd_Script : MonoBehaviour
         Debug.Log(menuCheck.targetItemHeld);
     }
     
-
+    /*
     private void OnTriggerEnter(Collider other)
     {
          AddItemHeld();
-    }
+    }*/
     public void CheckHeldPoint()
     {
         //檢測是否達到操作 ToNext 

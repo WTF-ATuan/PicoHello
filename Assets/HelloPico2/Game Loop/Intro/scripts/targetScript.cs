@@ -14,11 +14,16 @@ public class targetScript : MonoBehaviour
     float countTimer;
     public bool isAnim;
     public Animator _Animator;
+    public Animator rayAnimator;
     private bool isListNull;
     
     
     private void Start()
     {
+        if(rayAnimator != null)
+        {
+            rayAnimator = rayAnimator.GetComponent<Animator>();
+        }
         if (isAnim)
         {
             _Animator = _Animator.GetComponent<Animator>();
@@ -71,24 +76,19 @@ public class targetScript : MonoBehaviour
     {
           _Animator.SetBool("isGet",true);
     }
-   
-    /*
-    private void OnTriggerEnter(Collider other)
-    {
-        if (isTrigger && other.CompareTag("Player")&&coldTime==0)
-        {
-            AddItemHeld();
-        }
-    }*/
+
     private void OnTriggerStay(Collider other)
     {
         if (isTrigger && other.CompareTag("Player"))
         {
             countTimer += Time.deltaTime;
-            
+            if (rayAnimator != null)
+            {
+                rayAnimator.SetTrigger("isGet");
+            }
             if (countTimer > coldTime)
             {
-                //menuCheck.targetItemHeld = checkHeld;
+                AddItemHeld();
                 ShowAnim();
                 LoadTimeLine();
             }
