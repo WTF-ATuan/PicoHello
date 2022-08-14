@@ -9,30 +9,34 @@ public class TimeLineControlScript : MonoBehaviour
     public string SingleType;
     public GameObject showTimeLine;
     public GameObject hideTimeLine;
-    public bool isTutorial;
+    public int waitTime;
     // Start is called before the first frame update
     void Start()
     {
-        //PauseTimeDirector = PauseTimeDirector.GetComponent<PlayableDirector>();
+        StartCoroutine(WaitTimer());
+        
+    }
+    IEnumerator WaitTimer()
+    {
+        yield return new WaitForSeconds(waitTime);
+        
+        PlayTimeLineController();
     }
 
-    public void PauseTimeLineController()
-    {
-        //PauseTimeDirector.Pause();
-        showTimeLine.SetActive(false);
-        if (isTutorial)
-        {
-            hideTimeLine.SetActive(true);
-        }
-        //TimeDirector.playableGraph.GetRootPlayable(0).SetSpeed(0);
-    }
+
+
     public void PlayTimeLineController()
     {
-        showTimeLine.SetActive(true);
-        if (isTutorial)
+        
+        if (showTimeLine != null)
+        {
+            showTimeLine.SetActive(true);
+        }
+        if (hideTimeLine != null)
         {
             hideTimeLine.SetActive(false);
         }
+        gameObject.SetActive(false);
         //PauseTimeDirector.Play();
         //TimeDirector.playableGraph.GetRootPlayable(0).SetSpeed(1);
     }

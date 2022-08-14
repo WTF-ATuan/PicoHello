@@ -14,11 +14,16 @@ public class targetScript : MonoBehaviour
     float countTimer;
     public bool isAnim;
     public Animator _Animator;
+    public Animator rayAnimator;
     private bool isListNull;
     
     
     private void Start()
     {
+        if(rayAnimator != null)
+        {
+            rayAnimator = rayAnimator.GetComponent<Animator>();
+        }
         if (isAnim)
         {
             _Animator = _Animator.GetComponent<Animator>();
@@ -28,7 +33,7 @@ public class targetScript : MonoBehaviour
             isListNull = true;
         }
     }
-
+    /*
     private void Update()
     {
         if (menuCheck.targetItemHeld == checkHeld)
@@ -60,7 +65,7 @@ public class targetScript : MonoBehaviour
         }
 
 
-    }
+    }*/
 
     public void AddItemHeld()
     {
@@ -71,26 +76,29 @@ public class targetScript : MonoBehaviour
     {
           _Animator.SetBool("isGet",true);
     }
-   
-    private void OnTriggerEnter(Collider other)
-    {
-        if (isTrigger && other.CompareTag("Player")&&coldTime==0)
-        {
-            AddItemHeld();
-        }
-    }
+
     private void OnTriggerStay(Collider other)
     {
         if (isTrigger && other.CompareTag("Player"))
         {
             countTimer += Time.deltaTime;
-            
+            if (rayAnimator != null)
+            {
+                rayAnimator.SetTrigger("isGet");
+            }
             if (countTimer > coldTime)
             {
-                menuCheck.targetItemHeld = checkHeld;
-                
-                countTimer = 0;
+                AddItemHeld();
+                ShowAnim();
+                LoadTimeLine();
             }
         }
+    }
+    public void LoadTimeLine()
+    {
+            showObj[0].SetActive(true);
+            hideList[0].SetActive(false);
+            isTrigger = false;
+            countTimer = 0;
     }
 }
