@@ -9,7 +9,8 @@ using Random = UnityEngine.Random;
 
 namespace HelloPico2.InteractableObjects{
 	public class RotateSpawner : MonoBehaviour{
-		[Required] public GameObject spawnPrefab;
+		[Required] [InlineEditor(InlineEditorModes.GUIAndPreview, Expanded = true)]
+		public GameObject spawnPrefab;
 
 
 		[TitleGroup("RotateSetting")] [OnValueChanged("EditSpawnPosition")]
@@ -76,7 +77,7 @@ namespace HelloPico2.InteractableObjects{
 			var spawnerTransform = transform;
 			var position = spawnerTransform.position;
 			var spawnPosition = position + radius * Vector3.up;
-			var vectorAngle = angle * Vector3.right;
+			var vectorAngle = angle * Vector3.forward;
 			var rotatePosition = Quaternion.Euler(vectorAngle) * (spawnPosition - position) + position;
 			var spawnPoint = new GameObject{
 				transform ={
