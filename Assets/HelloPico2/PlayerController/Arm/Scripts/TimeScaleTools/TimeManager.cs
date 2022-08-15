@@ -33,6 +33,8 @@ public class TimeManager : MonoBehaviour
     public List<TimeEvent> m_TimeEvents = new List<TimeEvent>();
     List<ITimeScaleChange> TimeScaleChangeObservers = new List<ITimeScaleChange>();
     List<ITimelinePlaying> ITimelinePlayingObservers = new List<ITimelinePlaying>();
+    public PlayerInput playerInput;
+
     public static TimeManager m_Instance;
     public static TimeManager Instance {
         get {
@@ -45,6 +47,28 @@ public class TimeManager : MonoBehaviour
 
     Coroutine Process { get; set; }
 
+    private void Start()
+    {
+        playerInput = GetComponent<PlayerInput>();        
+    }
+    private void OnEnable()
+    {
+        playerInput.actions["+"].performed += (InputAction.CallbackContext callback) => { SpeedUp(); };
+        playerInput.actions["-"].performed += (InputAction.CallbackContext callback) => { SpeedDown(); };
+        playerInput.actions["0"].performed += (InputAction.CallbackContext callback) => { SetTo(0); };
+        playerInput.actions["1"].performed += (InputAction.CallbackContext callback) => { SetTo(1); };
+        playerInput.actions["2"].performed += (InputAction.CallbackContext callback) => { SetTo(2); };
+        playerInput.actions["3"].performed += (InputAction.CallbackContext callback) => { SetTo(3); };
+    }
+    private void OnDisable()
+    {
+        playerInput.actions["+"].performed -= (InputAction.CallbackContext callback) => { SpeedUp(); };
+        playerInput.actions["-"].performed -= (InputAction.CallbackContext callback) => { SpeedDown(); };
+        playerInput.actions["0"].performed -= (InputAction.CallbackContext callback) => { SetTo(0); };
+        playerInput.actions["1"].performed -= (InputAction.CallbackContext callback) => { SetTo(1); };
+        playerInput.actions["2"].performed -= (InputAction.CallbackContext callback) => { SetTo(2); };
+        playerInput.actions["3"].performed -= (InputAction.CallbackContext callback) => { SetTo(3); };
+    }
     public void StartTimeEvent(string name) {
         var check = false;
         for (int i = 0; i < m_TimeEvents.Count; i++)
@@ -77,7 +101,7 @@ public class TimeManager : MonoBehaviour
             Time.timeScale = 0f;
         }
         NotifyObservers();
-    }
+    }    
     public void Pause() {
         Time.timeScale = 0f;
         NotifyObservers();
