@@ -9,8 +9,19 @@ namespace HelloPico2.LevelTool
     public class MoveOutLevelObject : MonoBehaviour
     {
         public Transform _Obj;
+        public Animator _ObjAnimator;
+        [Header("Thanks Player")]
+        public float _Delay = 1f;
+        public float _ThanksSpeed = 10f;
+        public Vector3 _ThanksPlayerPosition = Vector3.zero;
+        public float _FacingSpeed = 0.1f;
+        public string _ThanksPlayerAnimationName = "isCheer";
+        public float _ThanksDuration = 1f;
+
+        [Header("Flyout")]
         public float _InitialDelay = 1f;
-        public float _Speed = 10f;
+        public float _Speed = 100f;
+        public float _FacingDuration = 1f;
         public AnimationCurve _XCurve;
         public AnimationCurve _YCurve;
         public AnimationCurve _ZCurve;
@@ -26,26 +37,71 @@ namespace HelloPico2.LevelTool
         public void MoveOut(Transform obj) {
             _Obj = obj;
             MoveOut();
-        }
+        }        
         public void MoveOut() {
+            var thanksPlayerPos = _ThanksPlayerPosition;
+            // pick left or right side of the player
+            if (_Obj.transform.position.x < 0) thanksPlayerPos.x *= -1;
+
             var targetPos = GetTargetWorldPosition();
-            var duration = Vector3.Distance(_Obj.transform.position, targetPos) / _Speed;
 
             Sequence seq = DOTween.Sequence();
 
+            #region Thanks Player
             seq.AppendInterval(_InitialDelay);
 
+            var duration = Vector3.Distance(_Obj.transform.position, thanksPlayerPos) / _Speed;
+            HelloPico2.LevelTool.FacingTarget facing = new FacingTarget(transform, 0.1f);
+
+            duration = Vector3.Distance(_Obj.transform.position, thanksPlayerPos) / _ThanksSpeed;
+
+            TweenCallback MoveToPlayerCallback = delegate {                
+                facing = _Obj.gameObject.AddComponent<HelloPico2.LevelTool.FacingTarget>();
+                facing._FacingThis = HelloPico2.Singleton.Gamemanager.Instance._Player.transform;
+                facing._FacingSpeed = .3f;
+
+                _Obj.DOMoveX(thanksPlayerPos.x, duration).SetEase(_XCurve);
+                _Obj.DOMoveY(thanksPlayerPos.y, duration).SetEase(_YCurve);
+                _Obj.DOMoveZ(thanksPlayerPos.z, duration).SetEase(_ZCurve);
+            };
+            seq.AppendCallback(MoveToPlayerCallback);
+            seq.AppendInterval(duration); 
+            
+            TweenCallback ThanksPlayerCallback = delegate {
+                _ObjAnimator.SetBool(_ThanksPlayerAnimationName, true);
+            };
+            seq.AppendCallback(ThanksPlayerCallback);
+            seq.AppendInterval(_ThanksDuration);
+
+            TweenCallback FinishedThanksPlayerCallback = delegate {
+                _ObjAnimator.SetBool(_ThanksPlayerAnimationName, false);
+            };
+            seq.AppendCallback(FinishedThanksPlayerCallback);
+            #endregion
+
+            #region FlyOut
+            seq.AppendInterval(_InitialDelay);            
+
+            TweenCallback LeaveFacingCallback = delegate {
+                if (facing != null) facing.UpdateToFacingPoint(targetPos);
+            };
+            seq.AppendCallback(LeaveFacingCallback);
+
+            var durationMove = Vector3.Distance(thanksPlayerPos, targetPos) / _Speed;
+
             TweenCallback MoveCallback = delegate { 
-                _Obj.DOMoveX(targetPos.x, duration).SetEase(_XCurve);
-                _Obj.DOMoveY(targetPos.y, duration).SetEase(_YCurve);
-                _Obj.DOMoveZ(targetPos.z, duration).SetEase(_ZCurve);
+                _Obj.DOMoveX(targetPos.x, durationMove).SetEase(_XCurve);
+                _Obj.DOMoveY(targetPos.y, durationMove).SetEase(_YCurve);
+                _Obj.DOMoveZ(targetPos.z, durationMove).SetEase(_ZCurve);
             };
             seq.AppendCallback(MoveCallback);
+            seq.AppendInterval(_StartScalingTime * durationMove);
+            seq.Append(_Obj.DOScale(0, (1 - _StartScalingTime) * durationMove));
 
-            seq.AppendInterval(_StartScalingTime * duration);
-            seq.Append(_Obj.DOScale(0, (1 - _StartScalingTime) * duration));
             TweenCallback SeqCompleteCallback = delegate { Destroy(_Obj.gameObject); };
             seq.AppendCallback(SeqCompleteCallback);
+            #endregion
+
             seq.Play();
         }
         private Vector3 GetTargetWorldPosition() {
