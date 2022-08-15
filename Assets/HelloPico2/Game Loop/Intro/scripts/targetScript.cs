@@ -87,7 +87,16 @@ public class targetScript : MonoBehaviour
     {
           _Animator.SetBool("isGet",true);
     }
+    private void nTriggerEnter(Collider other)
+    {
+        if (!isHandTouch && isTrigger && other.CompareTag("Player"))
+        {
+                AddItemHeld();
+                ShowAnim();
+                LoadTimeLine();
 
+        }
+    }
     private void OnTriggerStay(Collider other)
     {
         if (isHandTouch && isTrigger && other.CompareTag("Player"))
