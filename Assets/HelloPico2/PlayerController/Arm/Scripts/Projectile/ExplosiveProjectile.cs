@@ -52,6 +52,7 @@ namespace HelloPico2.PlayerController.Arm
                 return false;
         }
         private void PlayExplosionEffect() {
+            _ExplosionVFX.gameObject.SetActive(true);
             _ExplosionVFX.Play();
             GetComponent<Collider>().enabled = false;
             GetComponent<MeshRenderer>().enabled = false;
