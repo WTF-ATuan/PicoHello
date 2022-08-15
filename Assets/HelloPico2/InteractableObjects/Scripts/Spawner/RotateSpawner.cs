@@ -4,6 +4,7 @@ using System.Linq;
 using Game.Project;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
+using TNRD.Utilities;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -69,6 +70,7 @@ namespace HelloPico2.InteractableObjects{
 			for(var i = 0; i < spawnCount; i++){
 				var point = CreatePoint(spawnRadius, angle * (i + 1));
 				point.name = $"Edit Point [ index : {i} radius : {spawnRadius}]";
+				point.SetIcon(ShapeIcon.DiamondRed);
 				spawnPointList.Add(point.transform);
 			}
 		}
