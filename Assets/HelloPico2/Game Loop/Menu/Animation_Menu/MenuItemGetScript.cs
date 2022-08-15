@@ -63,7 +63,7 @@ public class MenuItemGetScript : MonoBehaviour
         {
             timer -= Time.deltaTime;
             filledImage.fillAmount = (coldTime -timer)/ coldTime;
-            rayObjAnimator.SetTrigger("isGet");
+            rayObjAnimator.SetBool("isGet",true);
         }
         else
         {
@@ -76,6 +76,7 @@ public class MenuItemGetScript : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
+        rayObjAnimator.SetBool("isGet", false);
         isNotTouch = true;
     }
 }

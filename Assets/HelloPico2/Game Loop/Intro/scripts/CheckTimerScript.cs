@@ -11,14 +11,16 @@ public class CheckTimerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Timer = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Timer += Time.deltaTime; 
-        if(Timer > CountTimme)
+        Timer += Time.deltaTime;
+        //Debug.Log(Timer);
+        //Debug.Log(gameObject.name);
+        if (Timer > CountTimme)
         {
             showTip.SetActive(true);
             hideList.SetActive(false);

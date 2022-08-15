@@ -16,11 +16,13 @@ public class targetScript : MonoBehaviour
     public Animator _Animator;
     public Animator rayAnimator;
     private bool isListNull;
-    
-    
+    SphereCollider getCollider;
+    public bool isHandTouch;
+    float baseValue;
     private void Start()
     {
-        if(rayAnimator != null)
+        countTimer = 0;
+        if (rayAnimator != null)
         {
             rayAnimator = rayAnimator.GetComponent<Animator>();
         }
@@ -32,6 +34,15 @@ public class targetScript : MonoBehaviour
         {
             isListNull = true;
         }
+        if (isHandTouch)
+        {
+            getCollider = gameObject.GetComponent<SphereCollider>();
+            baseValue = getCollider.radius;
+            getCollider.radius = 0;
+            isTrigger = true;
+        }
+        
+
     }
     /*
     private void Update()
@@ -79,15 +90,20 @@ public class targetScript : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (isTrigger && other.CompareTag("Player"))
+        if (isHandTouch && isTrigger && other.CompareTag("Player"))
         {
             countTimer += Time.deltaTime;
+            Debug.Log(countTimer);
             if (rayAnimator != null)
             {
-                rayAnimator.SetTrigger("isGet");
+                rayAnimator.SetBool("isGet",true);
             }
             if (countTimer > coldTime)
             {
+                if (isHandTouch)
+                {
+                    getCollider.radius = baseValue;
+                }
                 AddItemHeld();
                 ShowAnim();
                 LoadTimeLine();
