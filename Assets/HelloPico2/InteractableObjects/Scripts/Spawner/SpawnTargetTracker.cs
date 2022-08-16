@@ -41,6 +41,9 @@ namespace HelloPico2.InteractableObjects{
 		private void OnSpawn(GameObject obj){
 			var objTransform = obj.transform;
 			var targetPosition = GetTargetPosition();
+			var currentScale = objTransform.localScale;
+			obj.transform.DOScale(Vector3.zero, 0f);
+			obj.transform.DOScale(currentScale, 0.5f);
 			objTransform.DOLookAt(targetPosition, 0.1f);
 			objTransform.DOMove(targetPosition, during)
 					.SetEase(movingCurve)
@@ -52,7 +55,8 @@ namespace HelloPico2.InteractableObjects{
 				case CompleteAction.None:
 					break;
 				case CompleteAction.Destroy:
-					Destroy(obj, delayTime);
+					obj.transform.DOScale(Vector3.zero, delayTime)
+							.OnComplete(() => Destroy(obj));
 					break;
 				case CompleteAction.Inactive:
 					obj.transform.DOScale(Vector3.zero, delayTime)
@@ -67,8 +71,9 @@ namespace HelloPico2.InteractableObjects{
 			switch(targetType){
 				case TargetType.MainCamera:
 					var main = Camera.main;
-					if(!main) throw new Exception("Main Camera is null");
-					var cameraPosition = main.transform.position;
+					var current = Camera.current;
+					if(!main && !current) throw new Exception("Can,t find Camera");
+					var cameraPosition = main ? main.transform.position : current.transform.position;
 					return cameraPosition;
 				case TargetType.Transform:
 					var position = targetTransform.position;
@@ -93,6 +98,7 @@ namespace HelloPico2.InteractableObjects{
 
 		private bool IsTransformType() => targetType == TargetType.Transform;
 		private bool IsVectorType() => targetType == TargetType.Vector;
+
 		private bool IsDelayAction() =>
 				completeAction == CompleteAction.Destroy || completeAction == CompleteAction.Inactive;
 	}
