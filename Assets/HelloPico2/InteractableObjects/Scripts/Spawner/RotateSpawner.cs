@@ -9,16 +9,18 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace HelloPico2.InteractableObjects{
-	public class RotateSpawner : MonoBehaviour{
+	public class RotateSpawner : MonoBehaviour , ISpawner{
 		[Required] [InlineEditor(InlineEditorModes.GUIAndPreview, Expanded = true)]
 		public GameObject spawnPrefab;
 
 
-		[TitleGroup("RotateSetting")] [OnValueChanged("EditSpawnPosition")]
+		[TitleGroup("RotateSetting")]
+		[OnValueChanged("EditSpawnPosition")]
+		[InfoBox("改動數值將會覆寫已調整好的位置資訊", InfoMessageType.Warning)]
 		public float spawnRadius = 5f;
 
 		[TitleGroup("RotateSetting")] [OnValueChanged("EditSpawnPosition")]
-		public int spawnCount = 2;
+		public int spawnCount = 5;
 
 		[SerializeField] [TitleGroup("During Setting")] [MinMaxSlider(0, 20, true)]
 		private Vector2 duringMinMax = new Vector2(0.5f, 1f);
@@ -34,8 +36,13 @@ namespace HelloPico2.InteractableObjects{
 
 		[TitleGroup("Edit")] [ShowIf("edit")] [SerializeField]
 		private Color gizmosColor = Color.green;
-
+		
 		private ColdDownTimer _timer;
+		
+		public Action<GameObject> OnSpawn{ get; set; }
+
+		public List<Vector3> SpawnPoint => spawnPointList.Select(x => x.position).ToList();
+
 
 		private void OnEnable(){
 			_timer = new ColdDownTimer();
@@ -60,6 +67,7 @@ namespace HelloPico2.InteractableObjects{
 			if(spawnIndex >= spawnCount) return;
 			var spawnPoint = spawnPointList[spawnIndex];
 			var spawnObject = Instantiate(spawnPrefab, spawnPoint.position, spawnPoint.rotation, spawnPoint);
+			OnSpawn?.Invoke(spawnObject);
 			cloneList.Add(spawnObject);
 		}
 
@@ -107,5 +115,6 @@ namespace HelloPico2.InteractableObjects{
 				Gizmos.DrawWireCube(Vector3.zero, Vector3.one * 0.5f);
 			}
 		}
+
 	}
 }
