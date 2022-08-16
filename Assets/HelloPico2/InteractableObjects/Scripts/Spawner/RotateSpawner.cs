@@ -41,9 +41,6 @@ namespace HelloPico2.InteractableObjects{
 		
 		public Action<GameObject> OnSpawn{ get; set; }
 
-		public List<Vector3> SpawnPoint => spawnPointList.Select(x => x.position).ToList();
-
-
 		private void OnEnable(){
 			_timer = new ColdDownTimer();
 			spawnCount = spawnPointList.Count;
