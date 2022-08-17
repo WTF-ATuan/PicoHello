@@ -92,11 +92,9 @@ public class targetScript : MonoBehaviour
     {
         if (!isHandTouch && isTrigger && other.CompareTag("Player"))
         {
-
                 AddItemHeld();
                 ShowAnim();
-                LoadTimeLine();
-            
+                LoadTimeLine();            
         }
     }
     private void OnTriggerStay(Collider other)
@@ -104,22 +102,26 @@ public class targetScript : MonoBehaviour
         if (isHandTouch && isTrigger && other.CompareTag("Player"))
         {
             countTimer += Time.deltaTime;
-            Debug.Log(countTimer);
+            if (isHandTouch)
+            {
+                StartCoroutine(WaitTimeScaleCollider());
+            }
             if (rayAnimator != null)
             {
                 rayAnimator.SetBool("isGet",true);
             }
             if (countTimer > coldTime)
-            {
-                if (isHandTouch)
-                {
-                    getCollider.radius = baseValue;
-                }
+            {   
                 AddItemHeld();
                 ShowAnim();
                 LoadTimeLine();
             }
         }
+    }
+    IEnumerator WaitTimeScaleCollider()
+    {
+        yield return new WaitForSeconds(1);
+        getCollider.radius = baseValue;
     }
     public void LoadTimeLine()
     {

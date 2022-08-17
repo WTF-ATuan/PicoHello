@@ -11,19 +11,16 @@ public class TutorialSpawner : MonoBehaviour
     public GameObject moveGrp;
     public float waitTime=3;
     float timer;
+    public bool isWait;
     [BoxGroup("NEW")]
     public float fadeinDuring = 0.5f;
     // Start is called before the first frame update
 
     public void Start()
     {
-        if(moveGrp == null)
+        if (!isWait)
         {
-            createObj();
-        }
-        else
-        {
-            createMpveObj();
+            CheckMoveType();
         }
         timer = 0;
     }
@@ -41,25 +38,31 @@ public class TutorialSpawner : MonoBehaviour
     {
         if (createPos.transform.childCount < 1)
         {
-            GameObject objGrp = Instantiate(moveGrp, createPos.transform.position, Quaternion.identity);
+            GameObject objGrp = Instantiate(moveGrp, createPos.transform.position, Quaternion.identity, createPos.transform);
             GameObject obj = Instantiate(insObj, objGrp.transform.position, Quaternion.identity, objGrp.transform);
             var originScale = objGrp.transform.localScale;
             objGrp.transform.DOScale(Vector3.zero, 0); //將其物件先設成最小Scale;
             objGrp.transform.DOScale(originScale, fadeinDuring).SetEase(Ease.Linear);
         }
     }
-    IEnumerator WaitCreate()
-    {
-        yield return new WaitForSeconds(waitTime);
-        createObj();
-    }
     private void Update()
     {
         timer += Time.deltaTime;
         if (timer > waitTime)
         {
-            createObj();
+            CheckMoveType();
             timer = 0;
+        }
+    }
+    private void CheckMoveType()
+    {
+        if (moveGrp == null)
+        {
+            createObj();
+        }
+        else
+        {
+            createMpveObj();
         }
     }
 
