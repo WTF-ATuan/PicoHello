@@ -115,10 +115,16 @@ namespace HelloPico2.InteractableObjects{
 
 			foreach(var spawnPoint in spawnPointList){
 				Gizmos.matrix = spawnPoint.localToWorldMatrix;
-				Gizmos.DrawWireCube(Vector3.zero, Vector3.one * 0.5f);
+				if(!spawnPrefab){
+					Gizmos.DrawWireCube(Vector3.zero, Vector3.one * 0.5f);
+				}
+				else{
+					var sharedMesh = spawnPrefab.GetComponent<MeshFilter>().sharedMesh;
+					Gizmos.DrawWireMesh(sharedMesh, Vector3.zero, Quaternion.identity, Vector3.one * 0.5f);
+				}
 			}
 		}
-		
+
 		#if UNITY_EDITOR
 		[Button] [ShowIf("edit")] [ButtonGroup("Icon")]
 		private void SetEditIcon(){
