@@ -4,12 +4,15 @@ using System.Linq;
 using Game.Project;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
-//using TNRD.Utilities;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+#if UNITY_EDITOR
+using TNRD.Utilities;
+#endif
+
 namespace HelloPico2.InteractableObjects{
-	public class RotateSpawner : MonoBehaviour , ISpawner{
+	public class RotateSpawner : MonoBehaviour, ISpawner{
 		[Required] [InlineEditor(InlineEditorModes.GUIAndPreview, Expanded = true)]
 		public GameObject spawnPrefab;
 
@@ -36,9 +39,9 @@ namespace HelloPico2.InteractableObjects{
 
 		[TitleGroup("Edit")] [ShowIf("edit")] [SerializeField]
 		private Color gizmosColor = Color.green;
-		
+
 		private ColdDownTimer _timer;
-		
+
 		public Action<GameObject> OnSpawn{ get; set; }
 
 		public List<Vector3> SpawnPoint => spawnPointList.Select(x => x.position).ToList();
@@ -79,7 +82,6 @@ namespace HelloPico2.InteractableObjects{
 			for(var i = 0; i < spawnCount; i++){
 				var point = CreatePoint(spawnRadius, angle * (i + 1));
 				point.name = $"Edit Point [ index : {i} radius : {spawnRadius}]";
-				//point.SetIcon(ShapeIcon.DiamondRed);
 				spawnPointList.Add(point.transform);
 			}
 		}
@@ -113,9 +115,28 @@ namespace HelloPico2.InteractableObjects{
 
 			foreach(var spawnPoint in spawnPointList){
 				Gizmos.matrix = spawnPoint.localToWorldMatrix;
-				Gizmos.DrawWireCube(Vector3.zero, Vector3.one * 0.5f);
+				if(!spawnPrefab){
+					Gizmos.DrawWireCube(Vector3.zero, Vector3.one * 0.5f);
+				}
+				else{
+					var sharedMesh = spawnPrefab.GetComponent<MeshFilter>().sharedMesh;
+					Gizmos.DrawWireMesh(sharedMesh, Vector3.zero, Quaternion.identity, Vector3.one * 0.5f);
+				}
 			}
 		}
 
+		#if UNITY_EDITOR
+		[Button] [ShowIf("edit")] [ButtonGroup("Icon")]
+		private void SetEditIcon(){
+			foreach(var point in spawnPointList){
+				point.gameObject.SetIcon(ShapeIcon.DiamondRed);
+			}
+		}[Button] [ShowIf("edit")] [ButtonGroup("Icon")]
+		private void RemoveEditIcon(){
+			foreach(var point in spawnPointList){
+				point.gameObject.RemoveIcon();
+			}
+		}
+		#endif
 	}
 }
