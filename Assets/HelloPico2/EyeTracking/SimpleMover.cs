@@ -7,6 +7,7 @@ namespace HelloPico2.EyeTracking{
 		[SerializeField] private Transform controlObject;
 		[SerializeField] private float during;
 		[SerializeField] private bool ignoreZ = true;
+		[SerializeField] private AnimationCurve movingCurve = AnimationCurve.Linear(0, 0, 1, 1);
 
 
 		[Button]
@@ -14,11 +15,11 @@ namespace HelloPico2.EyeTracking{
 			if(ignoreZ){
 				targetPosition.z = controlObject.position.z;
 				controlObject.DOMove(targetPosition, during)
-						.SetEase(Ease.Linear);
+						.SetEase(movingCurve);
 			}
 			else{
 				controlObject.DOMove(targetPosition, during)
-						.SetEase(Ease.Linear);
+						.SetEase(movingCurve);
 			}
 		}
 	}
