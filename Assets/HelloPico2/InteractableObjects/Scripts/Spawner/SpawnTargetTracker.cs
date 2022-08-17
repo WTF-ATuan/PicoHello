@@ -2,6 +2,7 @@
 using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace HelloPico2.InteractableObjects{
 	public class SpawnTargetTracker : MonoBehaviour{
@@ -13,6 +14,8 @@ namespace HelloPico2.InteractableObjects{
 
 		[ShowIf("IsVectorType")] [TitleGroup("Target Setting")]
 		public Vector3 targetVector;
+
+		[TitleGroup("Target Setting")] public Vector3 targetBoxSize = Vector3.one;
 
 		[TitleGroup("Duration Setting")] public float during = 2;
 		[TitleGroup("Duration Setting")] public AnimationCurve movingCurve = AnimationCurve.Linear(0, 0, 1, 1);
@@ -41,11 +44,12 @@ namespace HelloPico2.InteractableObjects{
 		private void OnSpawn(GameObject obj){
 			var objTransform = obj.transform;
 			var targetPosition = GetTargetPosition();
+			var targetRandomPosition = GetTargetRandomPosition(targetPosition);
 			var currentScale = objTransform.localScale;
 			obj.transform.DOScale(Vector3.zero, 0f);
 			obj.transform.DOScale(currentScale, 0.5f);
-			objTransform.DOLookAt(targetPosition, 0.1f);
-			objTransform.DOMove(targetPosition, during)
+			objTransform.DOLookAt(targetRandomPosition, 0.1f);
+			objTransform.DOMove(targetRandomPosition, during)
 					.SetEase(movingCurve)
 					.OnComplete(() => OnCompleteMoving(obj));
 		}
@@ -65,6 +69,14 @@ namespace HelloPico2.InteractableObjects{
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
+		}
+
+		private Vector3 GetTargetRandomPosition(Vector3 targetPosition){
+			var randomX = Random.Range(-targetBoxSize.x / 2, targetBoxSize.x / 2);
+			var randomY = Random.Range(-targetBoxSize.y / 2, targetBoxSize.y / 2);
+			var randomZ = Random.Range(-targetBoxSize.z / 2, targetBoxSize.z / 2);
+			var randomPosition = new Vector3(randomX, randomY, randomZ);
+			return targetPosition + randomPosition;
 		}
 
 		private Vector3 GetTargetPosition(){
@@ -97,11 +109,14 @@ namespace HelloPico2.InteractableObjects{
 			Gizmos.color = debugColor;
 			if(_spawner == null){
 				Gizmos.DrawLine(transform.position, targetPosition);
+				Gizmos.DrawWireCube(targetPosition, targetBoxSize);
 			}
 			else{
 				foreach(var point in _spawner.SpawnPoint){
 					Gizmos.DrawLine(point, targetPosition);
 				}
+
+				Gizmos.DrawWireCube(targetPosition, targetBoxSize);
 			}
 		}
 
