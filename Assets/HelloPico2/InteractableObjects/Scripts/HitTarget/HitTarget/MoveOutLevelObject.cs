@@ -17,6 +17,7 @@ namespace HelloPico2.LevelTool
         public float _FacingSpeed = 0.1f;
         public string _ThanksPlayerAnimationName = "isCheer";
         public float _ThanksDuration = 1f;
+        public UltEvents.UltEvent _WhenThanksPlayer;
 
         [Header("Flyout")]
         public float _InitialDelay = 1f;
@@ -60,7 +61,7 @@ namespace HelloPico2.LevelTool
                 facing._FacingThis = HelloPico2.Singleton.Gamemanager.Instance._Player.transform;
                 facing._FacingSpeed = .3f;
 
-                _Obj.DOMoveX(thanksPlayerPos.x, duration).SetEase(_XCurve);
+                _Obj.DOMoveX(thanksPlayerPos.x, duration).SetEase(Ease.OutExpo);
                 _Obj.DOMoveY(thanksPlayerPos.y, duration).SetEase(_YCurve);
                 _Obj.DOMoveZ(thanksPlayerPos.z, duration).SetEase(_ZCurve);
             };
@@ -69,6 +70,7 @@ namespace HelloPico2.LevelTool
             
             TweenCallback ThanksPlayerCallback = delegate {
                 _ObjAnimator.SetBool(_ThanksPlayerAnimationName, true);
+                _WhenThanksPlayer?.Invoke();
             };
             seq.AppendCallback(ThanksPlayerCallback);
             seq.AppendInterval(_ThanksDuration);
