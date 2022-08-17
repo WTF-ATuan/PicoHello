@@ -79,7 +79,8 @@ namespace HelloPico2.InteractableObjects{
 					var position = targetTransform.position;
 					return position;
 				case TargetType.Vector:
-					return targetVector;
+					var targetPosition = transform.position + targetVector;
+					return targetPosition;
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
@@ -90,9 +91,18 @@ namespace HelloPico2.InteractableObjects{
 				return;
 			}
 
+			if(!targetTransform && IsTransformType()) return;
+
 			var targetPosition = GetTargetPosition();
 			Gizmos.color = debugColor;
-			Gizmos.DrawLine(transform.position, targetPosition);
+			if(_spawner == null){
+				Gizmos.DrawLine(transform.position, targetPosition);
+			}
+			else{
+				foreach(var point in _spawner.SpawnPoint){
+					Gizmos.DrawLine(point, targetPosition);
+				}
+			}
 		}
 
 
