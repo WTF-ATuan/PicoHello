@@ -16,6 +16,9 @@ namespace HelloPico2.InteractableObjects
 
         [SerializeField] private HelloPico2.PlayerController.Arm.ArmorType _ArmorType;
         [SerializeField] private HelloPico2.PlayerController.Arm.ArmorPart _ArmorParts;
+        
+        public HelloPico2.PlayerController.Arm.ArmorType armorType { get { return _ArmorType; } }
+        public HelloPico2.PlayerController.Arm.ArmorPart armorParts { get { return _ArmorParts; } }
 
         private Transform selectorTarget;
 
