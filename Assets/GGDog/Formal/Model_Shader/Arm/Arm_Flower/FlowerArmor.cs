@@ -8,6 +8,8 @@ public class FlowerArmor : MonoBehaviour
     [Range(0,1)]
     public float _h;
     [Range(0, 1)]
+    public float _injured;
+    [Range(0, 1)][Tooltip("??????SetGlowValue???")]
     public float _Speed = 1;
     public AnimationCurve _EaseCurve;
     public List<Renderer> _m1 = new List<Renderer>();
@@ -104,16 +106,19 @@ public class FlowerArmor : MonoBehaviour
     }
     private void Update()
     {
-        //ParticleSystem ps = PS; 
-        //var em = ps.emission;
-        //em.rateOverTime = _h * 200;
+        ParticleSystem ps = PS;
+        var em = ps.emission;
+        em.rateOverTime = _h * 200;
+
+        // Glow Control
         _m1.ForEach(m => m.material.SetFloat("_h", _h));
         _m2.ForEach(m => m.material.SetFloat("_h", (_h - 0.25f) * (4)));
         _m3.ForEach(m => m.material.SetFloat("_h", (_h - 0.50f ) * (4) ));
         _m4.ForEach(m => m.material.SetFloat("_h", (_h - 0.75f ) * (4) ));
-        //_m1.material.SetFloat("_h", _h );
-        //_m2.material.SetFloat("_h", (_h - 0.25f ) * (4) );
-        //_m3.material.SetFloat("_h", (_h - 0.50f ) * (4) );
-        //_m4.material.SetFloat("_h", (_h - 0.75f ) * (4) );
+
+        _m1.ForEach(m => m.material.SetFloat("_injured", _injured * 1.5f));
+        _m2.ForEach(m => m.material.SetFloat("_injured", _injured * 1.5f));
+        _m3.ForEach(m => m.material.SetFloat("_injured", _injured * 1.5f));
+        _m4.ForEach(m => m.material.SetFloat("_injured", _injured * 1.5f));
     }
 }
