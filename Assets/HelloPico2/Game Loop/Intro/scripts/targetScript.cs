@@ -19,6 +19,7 @@ public class targetScript : MonoBehaviour
     SphereCollider getCollider;
     public bool isHandTouch;
     float baseValue;
+    
     private void Start()
     {
         countTimer = 0;
@@ -35,48 +36,15 @@ public class targetScript : MonoBehaviour
             isListNull = true;
         }
         if (isHandTouch)
-        {
-            getCollider = gameObject.GetComponent<SphereCollider>();
-            baseValue = getCollider.radius;
-            getCollider.radius = 0;
-            isTrigger = true;
+        {   
+           getCollider = gameObject.GetComponent<SphereCollider>();
+           //baseValue = getCollider.radius;
+           //getCollider.radius = 0;
+           isTrigger = true;
         }
         
 
     }
-    /*
-    private void Update()
-    {
-        if (menuCheck.targetItemHeld == checkHeld)
-        {
-            if (isAnim)
-            {
-                ShowAnim();
-            }
-            else
-            {
-                transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, 0.1f);
-            }
-
-            if (!isListNull)
-            {
-
-                for (int i = 0; i < showObj.Length; i++)
-                {
-                    showObj[i].SetActive(true);
-                }
-
-                for (int i = 0; i < hideList.Length; i++)
-                {
-                    hideList[i].SetActive(false);
-                }
-
-                Destroy(gameObject, 3);
-            }
-        }
-
-
-    }*/
 
     public void AddItemHeld()
     {
@@ -104,7 +72,8 @@ public class targetScript : MonoBehaviour
             countTimer += Time.deltaTime;
             if (isHandTouch)
             {
-                StartCoroutine(WaitTimeScaleCollider());
+                transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, 0.02f);
+                getCollider.radius += countTimer;
             }
             if (rayAnimator != null)
             {
@@ -114,20 +83,21 @@ public class targetScript : MonoBehaviour
             {   
                 AddItemHeld();
                 ShowAnim();
-                LoadTimeLine();
+                StartCoroutine(WaitTimeScaleCollider());                
             }
         }
     }
     IEnumerator WaitTimeScaleCollider()
     {
-        yield return new WaitForSeconds(1);
-        getCollider.radius = baseValue;
+        yield return new WaitForSeconds(2);
+        LoadTimeLine();
     }
     public void LoadTimeLine()
     {
-            showObj[0].SetActive(true);
-            hideList[0].SetActive(false);
-            isTrigger = false;
-            countTimer = 0;
+        showObj[0].SetActive(true);
+        hideList[0].SetActive(false);
+        gameObject.transform.parent.gameObject.SetActive(false);
+        isTrigger = false;
+        countTimer = 0;
     }
 }

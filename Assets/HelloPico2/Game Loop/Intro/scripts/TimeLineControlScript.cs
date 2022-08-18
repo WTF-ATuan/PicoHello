@@ -10,10 +10,18 @@ public class TimeLineControlScript : MonoBehaviour
     public GameObject showTimeLine;
     public GameObject hideTimeLine;
     public int waitTime;
+    public bool isString;
+    public string showTLName;
+    public string hideTLName;
+    public bool isCheck;
+    
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(WaitTimer());
+        if (isCheck)
+        {
+            StartCoroutine(WaitTimer());
+        }
         
     }
     IEnumerator WaitTimer()
@@ -23,20 +31,35 @@ public class TimeLineControlScript : MonoBehaviour
         PlayTimeLineController();
     }
 
-
-
     public void PlayTimeLineController()
     {
-        Debug.Log(waitTime);
-        if (showTimeLine != null)
+        if (!isString)
         {
-            showTimeLine.SetActive(true);
+            if (showTimeLine != null)
+            {
+                showTimeLine.SetActive(true);
+            }
+            if (hideTimeLine != null)
+            {
+                hideTimeLine.SetActive(false);
+            }
+            gameObject.SetActive(false);
         }
-        if (hideTimeLine != null)
+        else
         {
-            hideTimeLine.SetActive(false);
+            GameObject showTimeLineObj = GameObject.Find(showTLName);
+            GameObject hideTimeLineObj = GameObject.Find(hideTLName);
+
+            if (showTimeLineObj != null)
+            {
+                showTimeLineObj.SetActive(true);
+            }
+            if (hideTimeLineObj != null)
+            {
+                hideTimeLineObj.SetActive(false);
+            }
+            gameObject.SetActive(false);
         }
-        gameObject.SetActive(false);
         //PauseTimeDirector.Play();
         //TimeDirector.playableGraph.GetRootPlayable(0).SetSpeed(1);
     }
