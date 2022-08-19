@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewTargetItem", menuName = "HelloPico/New TargetItem")]
 public class TargetItem_SO : ScriptableObject
 {
-    public string targetIteamName;
+    public string targetItemName;
     public int targetItemHeld;
     
     public bool isTipArm;

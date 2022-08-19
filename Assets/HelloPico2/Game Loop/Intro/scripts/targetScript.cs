@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Sirenix.OdinInspector;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 
 
@@ -45,11 +48,15 @@ public class targetScript : MonoBehaviour
         
 
     }
-
-    public void AddItemHeld()
-    {
+    [Button]
+    public void AddItemHeld(){
         menuCheck.targetItemHeld = checkHeld;
-        
+        var childRoot = gameObject.GetNamedChild("targetObjLocal");
+        var childrenList = childRoot.GetComponentsInChildren<Transform>(false).ToList();
+        childrenList.RemoveAt(0);
+        var child = childrenList.First();
+        var childrenName = child.name;
+        menuCheck.targetItemName = childrenName;
     }
     public void ShowAnim()
     {
