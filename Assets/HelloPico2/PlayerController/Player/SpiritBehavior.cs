@@ -10,7 +10,7 @@ namespace HelloPico2.PlayerController
         public float _OrbitDuration;
         private void Start()
         {
-            HelloPico2.Singleton.GameManager.Instance._Spirit = this;
+            HelloPico2.Singleton.GameManagerHelloPico.Instance._Spirit = this;
         }
         public void OnReceiveArmorUpgrade() { 
             

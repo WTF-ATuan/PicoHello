@@ -64,9 +64,9 @@ namespace HelloPico2.Singleton
         }
         public void StartArmorUpgradeSequence(Transform armorUpgrade, TweenCallback gainArmorCallback)
         {
-            var spiritTarget = HelloPico2.Singleton.GameManager.Instance._Spirit._GainArmorUpgradeRotationPivot;
-            var playertarget = HelloPico2.Singleton.GameManager.Instance._Player;
-            var orbitDuration = HelloPico2.Singleton.GameManager.Instance._Spirit._OrbitDuration;
+            var spiritTarget = HelloPico2.Singleton.GameManagerHelloPico.Instance._Spirit._GainArmorUpgradeRotationPivot;
+            var playertarget = HelloPico2.Singleton.GameManagerHelloPico.Instance._Player;
+            var orbitDuration = HelloPico2.Singleton.GameManagerHelloPico.Instance._Spirit._OrbitDuration;
             var duration = GetDuration(armorUpgrade.position, spiritTarget.position);
 
             armorUpgrade.transform.localScale = Vector3.one;
@@ -85,7 +85,7 @@ namespace HelloPico2.Singleton
             TweenCallback EnterOrbitMode = () => {                
                 armorUpgrade.SetParent(spiritTarget);
                 armorUpgrade.DOLocalMove(Vector3.zero, GetDuration(armorUpgrade.position, spiritTarget.position)).OnComplete(() => {
-                    HelloPico2.Singleton.GameManager.Instance._Spirit.OnReceiveArmorUpgrade();
+                    HelloPico2.Singleton.GameManagerHelloPico.Instance._Spirit.OnReceiveArmorUpgrade();
                 });
             };
             seq.AppendCallback(EnterOrbitMode);
