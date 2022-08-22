@@ -1,18 +1,22 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using DG.Tweening;
+using HelloPico2.PlayerController.Arm;
 using Sirenix.OdinInspector;
+using Random = UnityEngine.Random;
 
 namespace HelloPico2.LevelTool
 {
     public class FloatingObjectMover : MonoBehaviour
     {
-        public HelloPico2.InteractableObjects.CollectableItemTrackingList _CollectableItemsSO;
-        public HelloPico2.PlayerController.Arm.ArmorType _StartingType;
-        public HelloPico2.PlayerController.Arm.ArmorPart _StartingParts;
+        public InteractableObjects.CollectableItemTrackingList _CollectableItemsSO;
+        public TargetItem_SO menuItemSo;
+        public ArmorType _StartingType => GetArmorTypeFromSo();
+        public ArmorPart _StartingParts;
         public float _ChangeTypeTimer = 10;
-
         public float _SpawnScalingRatio = .5f;
         public float _SpawnScalingDuration = .5f;
         public int _vibrato = 5;
@@ -193,6 +197,14 @@ namespace HelloPico2.LevelTool
 
                 ChangeObjectType(currentType, currentParts);
             }
+        }
+
+        private ArmorType GetArmorTypeFromSo(){
+            var targetItemName = menuItemSo.targetItemName;
+            var armorType = Enum.GetValues(typeof(ArmorType)).Cast<ArmorType>().ToList();
+            var armorTypeNames = armorType.Select(x => x.ToString()).ToList();
+            var foundIndex = armorTypeNames.FindIndex(x => x.Equals(targetItemName));
+            return armorType[foundIndex];
         }
     }
 }
