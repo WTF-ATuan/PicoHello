@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UnityEngine;
+using UltEvents;
 
 namespace HelloPico2.InteractableObjects
 {
@@ -12,6 +13,7 @@ namespace HelloPico2.InteractableObjects
         public Collider _Collider;
         public delegate void OnCollisionDel(InteractType interactType, Collider other);
         public OnCollisionDel OnCollision;
+        public UltEvent WhenCollision;
               
         private void OnCollisionEnter(Collision collision)
         {
@@ -28,6 +30,7 @@ namespace HelloPico2.InteractableObjects
                     rigidbody.AddForce(transform.forward * _ForceAmount, ForceMode.Impulse);
 
                     OnCollision?.Invoke(InteractType.Shield, _Collider);
+                    WhenCollision?.Invoke();
                 }
             }
         }

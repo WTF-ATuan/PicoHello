@@ -16,7 +16,7 @@ namespace HelloPico2.InteractableObjects
 
         [SerializeField] private HelloPico2.PlayerController.Arm.ArmorType _ArmorType;
         [SerializeField] private HelloPico2.PlayerController.Arm.ArmorPart _ArmorParts;
-        
+                
         public HelloPico2.PlayerController.Arm.ArmorType armorType { get { return _ArmorType; } }
         public HelloPico2.PlayerController.Arm.ArmorPart armorParts { get { return _ArmorParts; } }
 
@@ -30,11 +30,19 @@ namespace HelloPico2.InteractableObjects
             var clone = Instantiate(_VFX, transform.position, Quaternion.identity);
             clone.transform.SetParent(transform.GetChild(1));
         }
-
+        GainEnergyEventData eventDate0;
+        GainArmorUpgradeData eventDate;
         public override void OnSelect(DeviceInputDetected obj)
         {
             base.OnSelect(obj);
             if (used) return;
+
+            StartArmorUpgradeSequence();
+
+            foreach (var mesh in GetComponentsInChildren<Renderer>())
+            {
+                mesh.enabled = false;
+            }
 
             // Charge Energy            
             TryGetComponent<IXRSelectInteractable>(out var Interactable);
@@ -52,6 +60,7 @@ namespace HelloPico2.InteractableObjects
             Project.EventBus.Post(eventDate);
 
             GetComponent<Collider>().enabled = false;
+            
             used = true;
 
             selectorTarget = obj.Selector.SelectorTransform;
@@ -64,6 +73,17 @@ namespace HelloPico2.InteractableObjects
             {
                 transform.DOScale(Vector3.zero, _ScalingDuration).SetEase(_EaseCurve);
             }
+        }
+        public void StartArmorUpgradeSequence()
+        {
+            var clone = Instantiate(transform.GetChild(1));
+            clone.transform.position = transform.position;
+            clone.SetParent(transform.root.parent);
+            
+            TweenCallback gainArmorCallback = () => {
+                
+            };
+            HelloPico2.Singleton.ArmorUpgradeSequence.Instance.StartArmorUpgradeSequence(clone, gainArmorCallback);  
         }
         private void OnDisable()
         {

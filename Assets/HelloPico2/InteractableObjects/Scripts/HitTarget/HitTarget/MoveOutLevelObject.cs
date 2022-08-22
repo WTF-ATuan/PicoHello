@@ -58,7 +58,7 @@ namespace HelloPico2.LevelTool
 
             TweenCallback MoveToPlayerCallback = delegate {                
                 facing = _Obj.gameObject.AddComponent<HelloPico2.LevelTool.FacingTarget>();
-                facing._FacingThis = HelloPico2.Singleton.Gamemanager.Instance._Player.transform;
+                facing._FacingThis = HelloPico2.Singleton.GameManager.Instance._Player.transform;
                 facing._FacingSpeed = .3f;
 
                 _Obj.DOMoveX(thanksPlayerPos.x, duration).SetEase(Ease.OutExpo);

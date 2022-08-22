@@ -16,7 +16,35 @@ namespace HelloPico2.InteractableObjects
         public List<TrackingItem> _ArmorUpgrades = new List<TrackingItem>();
         [ReadOnly] public List<TrackingItem> trackingItemList = new List<TrackingItem>();
 
-        private InteractableArmorUpgrade GetItem(HelloPico2.PlayerController.Arm.ArmorType type, HelloPico2.PlayerController.Arm.ArmorPart part) {
+        [Button]
+        private void SortItem() {
+            for (int i = 0; i < _ArmorUpgrades.Count; i++) {
+                bool sorted = true;
+                
+                while (sorted)
+                {
+                    sorted = false;
+
+                    for (int j = 0; j < _ArmorUpgrades[i].armUpgradeList.Count - 1; j++)
+                    {
+                        if (_ArmorUpgrades[i].armUpgradeList[j].armorParts > _ArmorUpgrades[i].armUpgradeList[j + 1].armorParts)
+                        {
+                            var temp = _ArmorUpgrades[i].armUpgradeList[j];
+                            _ArmorUpgrades[i].armUpgradeList[j] = _ArmorUpgrades[i].armUpgradeList[j + 1];
+                            _ArmorUpgrades[i].armUpgradeList[j + 1] = temp;
+
+                            sorted = true;
+                        }
+                    }
+                }
+            }
+        }
+        [Button]
+        private void RenewTrackingList() {
+           trackingItemList.Clear();
+           trackingItemList = new List<TrackingItem>(_ArmorUpgrades);
+        }
+        public InteractableArmorUpgrade GetItem(HelloPico2.PlayerController.Arm.ArmorType type, HelloPico2.PlayerController.Arm.ArmorPart part) {
             int typeIndex = -1;
             int partsIndex = -1;
 

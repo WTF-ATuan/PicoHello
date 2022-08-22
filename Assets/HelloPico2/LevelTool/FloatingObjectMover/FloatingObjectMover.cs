@@ -8,6 +8,16 @@ namespace HelloPico2.LevelTool
 {
     public class FloatingObjectMover : MonoBehaviour
     {
+        public HelloPico2.InteractableObjects.CollectableItemTrackingList _CollectableItemsSO;
+        public HelloPico2.PlayerController.Arm.ArmorType _StartingType;
+        public HelloPico2.PlayerController.Arm.ArmorPart _StartingParts;
+        public float _ChangeTypeTimer = 10;
+
+        public float _SpawnScalingRatio = .5f;
+        public float _SpawnScalingDuration = .5f;
+        public int _vibrato = 5;
+
+        [Header("Floating Behavior Settings")]
         public Vector2 _DepthRange = new Vector2(10,15);
         public Vector2 _TiltRotationRange = new Vector2(-30,30);
         public Vector2 _VerticalRotationRange = new Vector2(-60,60);
@@ -19,36 +29,104 @@ namespace HelloPico2.LevelTool
         public Ease _TiltEase = Ease.InOutCubic;
         public Ease _VerticalEase = Ease.InOutCubic;
         public Transform _Container;
-        public List<GameObject> _FloatingObjectList = new List<GameObject>();
+        public Transform currentFloatingObject;
+                
+        public HelloPico2.PlayerController.Arm.ArmorType currentType { get; set; }
+        public HelloPico2.PlayerController.Arm.ArmorPart currentParts { get; set; }
 
-        private void SetUpFloatingObjects() {
-            for (int i = 0; i < _FloatingObjectList.Count; i++)
-            {
-                SetUpFloating(_FloatingObjectList[i].transform);
-            }
+        Coroutine typeChangerProcess;
+
+        public void StartSendingCollectableItem()
+        {
+            currentType = _StartingType;
+            currentParts = _StartingParts;
+            CheckSpawnObject(_StartingType, _StartingParts);
+            typeChangerProcess = StartCoroutine(TypeChanger());
         }
+        public void NextArmorParts()
+        {
+            if (currentParts == PlayerController.Arm.ArmorPart.UpperArm)
+                return;
+            else
+                currentParts++;
 
+            currentType = _StartingType;
+
+            CheckSpawnObject(currentType, currentParts);
+            
+            if(typeChangerProcess != null)
+                StopCoroutine(typeChangerProcess);
+
+            typeChangerProcess = StartCoroutine(TypeChanger());
+        }
+        private float timer;
+        private void Update()
+        {
+            timer += Time.deltaTime;
+            if (currentFloatingObject != null) return;            
+            
+            NextArmorParts();
+        }
+        private void CheckSpawnObject(HelloPico2.PlayerController.Arm.ArmorType type, HelloPico2.PlayerController.Arm.ArmorPart part) {
+            var item = _CollectableItemsSO.GetItem(type, part);
+            var clone = CreateObject(item);
+
+            currentFloatingObject = clone.transform;
+            SetUpFloating(currentFloatingObject);
+        }
+        private void ChangeObjectType(HelloPico2.PlayerController.Arm.ArmorType type, HelloPico2.PlayerController.Arm.ArmorPart part)
+        {
+            var item = _CollectableItemsSO.GetItem(type, part);
+            var clone = CreateObject(item);
+            clone.transform.SetParent(currentFloatingObject.parent);
+            clone.transform.localPosition = currentFloatingObject.localPosition;        
+
+            Destroy(currentFloatingObject.gameObject);
+            currentFloatingObject = clone.transform;            
+        }
+        private GameObject CreateObject(InteractableObjects.InteractableArmorUpgrade item) {
+            var clone = Instantiate(item).gameObject;
+
+            clone.transform.DOPunchScale(clone.transform.localScale * _SpawnScalingRatio, _SpawnScalingDuration, _vibrato);
+
+            return clone;
+        }
+        
         [Button]
         private void SetUpFloating(Transform obj) {
             var tiltPivot =  Instantiate(new GameObject(), _Container);
             var horizontalPivot =  Instantiate(new GameObject(), _Container);
             var verticalPivot =  Instantiate(new GameObject(), _Container);
+            var depthPivot =  Instantiate(new GameObject(), _Container);
+
+            tiltPivot.name = "TiltPivot";
+            horizontalPivot.name = "HorizontalPivot";
+            verticalPivot.name = "VerticalPivot";
+            depthPivot.name = "DepthPivot";
+
             var depth = Random.Range(_DepthRange.x, _DepthRange.y);
             var hAngle = Random.Range(0, 360);
             var vAngle = Random.Range(_VerticalRotationRange.x, _VerticalRotationRange.y);
 
-            obj.SetParent(verticalPivot.transform);
+            obj.SetParent(depthPivot.transform);
+            depthPivot.transform.SetParent(verticalPivot.transform);
             verticalPivot.transform.SetParent(horizontalPivot.transform);
             horizontalPivot.transform.SetParent(tiltPivot.transform);
 
-            obj.transform.localPosition = new Vector3(0,0,depth);
+            obj.transform.localPosition = new Vector3(0,0,0);
+            depthPivot.transform.localPosition = new Vector3(0,0,depth);
             tiltPivot.transform.localEulerAngles = new Vector3(0,hAngle,0);
             horizontalPivot.transform.localEulerAngles = new Vector3(0,hAngle,0);
             verticalPivot.transform.localEulerAngles = new Vector3(vAngle,0,0);
 
+            timer = 0;
+
             // horizontal
             var rotControl = horizontalPivot.AddComponent<RotateObject>();
             rotControl.rotateY = _HorizontalSpeed;
+
+            print("Start horizontal " + timer);
+
             // tilt
             Sequence tiltSeq = DOTween.Sequence();
             var tiltDuration = Mathf.Abs(tiltPivot.transform.localEulerAngles.x - _TiltRotationRange.y) * _TiltDuration / Mathf.Abs(_TiltRotationRange.y - _TiltRotationRange.x);
@@ -59,6 +137,9 @@ namespace HelloPico2.LevelTool
                 .SetEase(_TiltEase);
             }));
             tiltSeq.Play();
+
+            print("Start tilt " + timer);
+
             // vertical
             Sequence verticalSeq = DOTween.Sequence();
             var verticalDuration = Mathf.Abs(verticalPivot.transform.localEulerAngles.x - _VerticalRotationRange.y) * _VerticalDuration / Mathf.Abs(_VerticalRotationRange.y - _VerticalRotationRange.x);
@@ -70,9 +151,15 @@ namespace HelloPico2.LevelTool
             }));
             verticalSeq.Play();
 
+            print("Start vertical " + timer);
+
             Sequence endSeq = DOTween.Sequence();
-            endSeq.Append(obj.transform.DOLocalMoveZ(_EndDepthValue, _DepthDuration).SetEase(Ease.InOutCubic));
+            endSeq.Append(depthPivot.transform.DOLocalMoveZ(_EndDepthValue, _DepthDuration).SetEase(Ease.InOutCubic));
+
+            print("Start depth " + timer);
+
             TweenCallback StopHorizontalCallback = () => {
+                print("Stop Horizontal " + timer);
                 tiltSeq.Kill();
                 verticalSeq.Kill();
 
@@ -81,17 +168,31 @@ namespace HelloPico2.LevelTool
 
                 var horizontalDuration1 = horizontalPivot.transform.localEulerAngles.y * _VerticalDuration / 360;
                 horizontalPivot.transform.DOLocalRotate(Vector3.zero, horizontalDuration1, RotateMode.Fast).SetEase(Ease.Linear).OnComplete(() => { 
-                    obj.SetParent(_Container);
+                    depthPivot.transform.SetParent(_Container);
                     Destroy(tiltPivot);
 
                     var target = transform.position + transform.forward * _EndDepthValue;
-                    var endDuration = Vector3.Distance(obj.transform.position, target);
-                    obj.transform.DOMove(target, endDuration);                
+                    var endDuration = Vector3.Distance(depthPivot.transform.position, target);
+                    depthPivot.transform.DOMove(target, endDuration).OnComplete(() => { obj.SetParent(_Container); Destroy(depthPivot.gameObject); });
+
+                    print("Start lerping " + timer);
                 });
 
             };
             endSeq.AppendCallback(StopHorizontalCallback);            
             endSeq.Play();
+        }
+        private IEnumerator TypeChanger() {
+            while (true)
+            {
+                yield return new WaitForSeconds(_ChangeTypeTimer);
+                               
+
+                if (currentType != PlayerController.Arm.ArmorType.Mercy) currentType++;
+                else currentType = 0;
+
+                ChangeObjectType(currentType, currentParts);
+            }
         }
     }
 }

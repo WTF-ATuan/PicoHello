@@ -38,13 +38,19 @@ namespace HelloPico2.PlayerController.Arm
 
         private void OnEnable()
         {
-            if(_ArmorController)
+            if (_ArmorController)
+            {
                 _ArmorController.WhenActivateArmor += ActivateTargetArmor;
+                _ArmorController.WhenActivateArmor += HelloPico2.Singleton.ArmorUpgradeSequence.Instance.UpdatePlayerArmorPosition;
+            }
         }
         private void OnDisable()
         {
-            if(_ArmorController)
-                _ArmorController.WhenActivateArmor -= ActivateTargetArmor;            
+            if (_ArmorController)
+            {
+                _ArmorController.WhenActivateArmor -= ActivateTargetArmor; 
+                _ArmorController.WhenActivateArmor -= HelloPico2.Singleton.ArmorUpgradeSequence.Instance.UpdatePlayerArmorPosition;
+            }
         }
         private void ActivateTargetArmor(GameObject armor) {
             //_Armor = armor.GetComponent<Renderer>();
