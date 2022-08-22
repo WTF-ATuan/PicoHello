@@ -203,7 +203,7 @@ namespace HelloPico2.LevelTool
             var targetItemName = menuItemSo.targetItemName;
             var armorType = Enum.GetValues(typeof(ArmorType)).Cast<ArmorType>().ToList();
             var armorTypeNames = armorType.Select(x => x.ToString()).ToList();
-            var foundIndex = armorTypeNames.FindIndex(x => x.Equals(targetItemName));
+            var foundIndex = armorTypeNames.FindIndex(x => targetItemName.Contains(x));
             
             if(foundIndex < 0) foundIndex = 0;
 
