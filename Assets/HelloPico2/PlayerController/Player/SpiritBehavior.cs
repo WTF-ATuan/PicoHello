@@ -8,7 +8,10 @@ namespace HelloPico2.PlayerController
     {
         public Transform _GainArmorUpgradeRotationPivot;
         public float _OrbitDuration;
-
+        private void Start()
+        {
+            HelloPico2.Singleton.GameManager.Instance._Spirit = this;
+        }
         public void OnReceiveArmorUpgrade() { 
             
         }

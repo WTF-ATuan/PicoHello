@@ -81,6 +81,7 @@ namespace HelloPico2.Singleton
             };
             seq.AppendCallback(LerpToSpirit);
 
+
             TweenCallback EnterOrbitMode = () => {                
                 armorUpgrade.SetParent(spiritTarget);
                 armorUpgrade.DOLocalMove(Vector3.zero, GetDuration(armorUpgrade.position, spiritTarget.position)).OnComplete(() => {
@@ -88,6 +89,8 @@ namespace HelloPico2.Singleton
                 });
             };
             seq.AppendCallback(EnterOrbitMode);
+
+            seq.AppendInterval(duration);
 
             seq.AppendInterval(orbitDuration);
 
