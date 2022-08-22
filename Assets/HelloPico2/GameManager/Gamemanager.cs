@@ -4,17 +4,18 @@ using UnityEngine;
 
 namespace HelloPico2.Singleton
 {
-    public class Gamemanager : MonoBehaviour
+    public class GameManager : MonoBehaviour
     {
         public GameObject _Player;
+        public HelloPico2.PlayerController.SpiritBehavior _Spirit;
         public Camera _MainCamera;
-        public static Gamemanager _Instance;
-        public static Gamemanager Instance
+        public static GameManager _Instance;
+        public static GameManager Instance
         {
             get
             {
                 if (_Instance == null)
-                    _Instance = GameObject.FindObjectOfType<Gamemanager>();
+                    _Instance = GameObject.FindObjectOfType<GameManager>();
 
                 return _Instance;
             }
@@ -23,6 +24,7 @@ namespace HelloPico2.Singleton
         {
             _MainCamera = Camera.main;
             _Player = GameObject.FindGameObjectWithTag("Player");
+            _Spirit = GameObject.FindObjectOfType<HelloPico2.PlayerController.SpiritBehavior>();
         }
     }
 }

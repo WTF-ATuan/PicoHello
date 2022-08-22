@@ -8,9 +8,18 @@ namespace HelloPico2.LevelTool
     public class HorizontalMeshVFX : MonoBehaviour
     {
         public Vector2 _AngleXRange = new Vector2(-5,5);
+        public Vector2 _MinAngleXRange = new Vector2(-2,2);
         [Button]
         public void SetUp() {
-            var angle = Random.Range(-5, 5);
+
+            float dir = Random.Range(-1, 1);
+            float angle = 0f;
+
+            if(dir > 0)
+                angle = Random.Range(_MinAngleXRange.y, _AngleXRange.y);
+            else
+                angle = Random.Range(-_AngleXRange.x, -_MinAngleXRange.x);
+
             var pos = transform.parent.parent.position;
             transform.SetParent(transform.root.parent);
             transform.position = pos;

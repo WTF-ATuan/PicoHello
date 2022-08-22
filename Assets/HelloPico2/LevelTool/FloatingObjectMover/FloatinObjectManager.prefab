@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8205787487219096949
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8205787487219096951}
+  - component: {fileID: 8205787487219096950}
+  - component: {fileID: 8205787487219096936}
+  - component: {fileID: 8205787487219096937}
+  m_Layer: 0
+  m_Name: FloatinObjectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8205787487219096951
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8205787487219096949}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8205787487219096950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8205787487219096949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77d04fefeed61264cbeb3595955151b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _CollectableItemsSO: {fileID: 11400000, guid: a68773b7d08241542bb19cdbdf9cd3a8, type: 2}
+  _StartingType: 0
+  _StartingParts: 0
+  _ChangeTypeTimer: 60
+  _SpawnScalingRatio: 0.3
+  _SpawnScalingDuration: 0.5
+  _vibrato: 2
+  _DepthRange: {x: 15, y: 23}
+  _TiltRotationRange: {x: -20, y: 20}
+  _VerticalRotationRange: {x: -30, y: 30}
+  _EndDepthValue: 11
+  _DepthDuration: 150
+  _TiltDuration: 30
+  _HorizontalSpeed: 3
+  _VerticalDuration: 30
+  _TiltEase: 10
+  _VerticalEase: 10
+  _Container: {fileID: 8205787487219096951}
+  currentFloatingObject: {fileID: 0}
+--- !u!114 &8205787487219096936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8205787487219096949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bca7c063e5324c243bb4252a6576c859, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WhenEnable:
+    _PersistentCalls:
+    - _Target: {fileID: 8205787487219096950}
+      _MethodName: StartSendingCollectableItem
+      _PersistentArguments: []
+  WhenEnableDelay:
+    _PersistentCalls: []
+  m_DelayTime: 1
+--- !u!114 &8205787487219096937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8205787487219096949}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bca7c063e5324c243bb4252a6576c859, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WhenEnable:
+    _PersistentCalls:
+    - _Target: {fileID: 8205787487219096950}
+      _MethodName: NextArmorParts
+      _PersistentArguments: []
+  WhenEnableDelay:
+    _PersistentCalls: []
+  m_DelayTime: 1

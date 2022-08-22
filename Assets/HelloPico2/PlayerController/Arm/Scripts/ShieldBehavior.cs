@@ -9,6 +9,7 @@ namespace HelloPico2.PlayerController.Arm{
 	[RequireComponent(typeof(ArmLogic))]
 	public class ShieldBehavior : WeaponBehavior{		
 		[FoldoutGroup("Shield Scale")][SerializeField] private Vector2 _ScaleRange;
+		[FoldoutGroup("Shield Scale")][SerializeField] private float _ScalingSpeed;
 		[FoldoutGroup("Shield Scale")][SerializeField] private float _ScalingDuration;
 		[FoldoutGroup("Interaction")][SerializeField] private int _SpentEnergyWhenCollide = 30;
 		[FoldoutGroup("Special Skill")][SerializeField] private float _AbsorbCoolDownDuration = .5f;
@@ -55,7 +56,7 @@ namespace HelloPico2.PlayerController.Arm{
 
 			if(_shieldController) _shieldController.OnCollision -= OnShieldCollide;
 
-			shield.transform.DOScale(new Vector3(0, 0, shield.transform.localScale.z), _DeactiveDuration).OnComplete(
+			shield.transform.DOScale(0, _DeactiveDuration).OnComplete(
 				() => {
 					obj.SetActive(false);
 					_FinishedDeactivate?.Invoke();
@@ -72,13 +73,21 @@ namespace HelloPico2.PlayerController.Arm{
 		private void UpdateShieldScale(ArmData data){
 			var targetScale = Mathf.Lerp(_ScaleRange.x, _ScaleRange.y, data.Energy / data.MaxEnergy);
 			if(data.Energy == 0) targetScale = 0;
-			shield.transform.DOScale(new Vector3(targetScale, targetScale, shield.transform.localScale.z),
+			shield.transform.DOScale(new Vector3(targetScale, targetScale, targetScale),
 				_ScalingDuration);
 		}
 		private void UpdateShieldPosition(ArmData data)
 		{
-			shield.transform.localPosition = _DefaultOffset +
-				new Vector3(0, 0, _OffsetRange.x);
+			//shield.transform.localPosition = _DefaultOffset +
+			//	new Vector3(0, 0, _OffsetRange.x);
+
+			var targetScale = Vector3.one * Mathf.Lerp(_ScaleRange.x, _ScaleRange.y, data.Energy / data.MaxEnergy);
+			var ratio = (targetScale.x - _ScaleRange.x) / (_ScaleRange.y - _ScaleRange.x);
+			shield.transform.DOLocalMove(
+				_DefaultOffset +
+				new Vector3(0, 0,
+				_OffsetRange.x + ((_OffsetRange.y - _OffsetRange.x) * ratio)),
+				1 / _ScalingSpeed);
 		}
 		private void DetectDeviceSpeed(DeviceInputDetected inputDetected){
 			if(inputDetected.Selector.HandType != armLogic.data.HandType) return;
