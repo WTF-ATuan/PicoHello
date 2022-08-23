@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using HelloPico2.Singleton;
 
 namespace HelloPico2.PlayerController.Arm
 {
@@ -48,8 +49,10 @@ namespace HelloPico2.PlayerController.Arm
         {
             if (_ArmorController)
             {
-                _ArmorController.WhenActivateArmor -= ActivateTargetArmor; 
-                _ArmorController.WhenActivateArmor -= HelloPico2.Singleton.ArmorUpgradeSequence.Instance.UpdatePlayerArmorPosition;
+                _ArmorController.WhenActivateArmor -= ActivateTargetArmor;
+                if(ArmorUpgradeSequence.Instance){
+                    _ArmorController.WhenActivateArmor -= HelloPico2.Singleton.ArmorUpgradeSequence.Instance.UpdatePlayerArmorPosition;
+                }
             }
         }
         private void ActivateTargetArmor(GameObject armor) {
