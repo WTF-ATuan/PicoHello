@@ -61,6 +61,8 @@ Shader "GGDog/Space_Test/PointGlow"
 				
 				finalColor.a *= smoothstep(0,50,i.CameraDistance);
 
+                clip(saturate(finalColor.a) - 0.000015);
+
                 return finalColor;
             }
             ENDCG

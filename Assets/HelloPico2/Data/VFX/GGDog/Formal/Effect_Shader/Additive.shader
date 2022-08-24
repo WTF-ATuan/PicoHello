@@ -11,6 +11,8 @@ Shader "Unlit/Additive"
 
 		Blend One One
 		Zwrite Off
+
+        Cull Off
         Pass
         {
             CGPROGRAM
@@ -31,6 +33,7 @@ Shader "Unlit/Additive"
                 fixed2 uv : TEXCOORD0;
                 fixed4 vertex : SV_POSITION;
                 fixed4 color : COLOR;
+				float CameraDistance : TEXCOORD1;
             };
 			
 			sampler2D _MainTex;
@@ -41,12 +44,19 @@ Shader "Unlit/Additive"
                 o.vertex = UnityObjectToClipPos(v.vertex);
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				o.color = v.color;
+				o.CameraDistance = length(mul(UNITY_MATRIX_MV,v.vertex).xyz);
                 return o;
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
 				fixed4 col = tex2D(_MainTex, i.uv)*i.color*i.color.a;
+
+                col = lerp(col,col*fixed4(i.color.rgb*i.color.rgb,1),1-i.color.a);
+                
+				col.a *= smoothstep(10,90,i.CameraDistance);
+
+                clip(i.color.a-0.5);
 
                 return col;
             }

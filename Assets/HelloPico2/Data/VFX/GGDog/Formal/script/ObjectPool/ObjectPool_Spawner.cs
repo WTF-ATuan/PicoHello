@@ -23,13 +23,36 @@ public class ObjectPool_Spawner : MonoBehaviour
 
 
     ObjectPool_Spawner_Range ObjectPool_Spawner_Range;
-    private void Awake()
+    private void Start()
     {
         ObjectPool_Spawner_Range = GetComponent<ObjectPool_Spawner_Range>();
 
         pool = GetComponent<ObjectPool>();
         pool.ObjectPool_Spawner = GetComponent<ObjectPool_Spawner>();
         pool.ObjectPool_Spawner_Range = ObjectPool_Spawner_Range;
+
+        
+        if (!Emission)
+        {
+            return;
+        }
+        Vector3 Pos = transform.localPosition;
+        pool.Instantiate(
+
+            Pos +
+            new Vector3(Random.Range(-ObjectPool_Spawner_Range.Range_X, ObjectPool_Spawner_Range.Range_X)
+            , Random.Range(-ObjectPool_Spawner_Range.Range_Y, ObjectPool_Spawner_Range.Range_Y)
+            , ObjectPool_Spawner_Range.Range_Z),
+
+            Quaternion.Euler(
+            Random.Range(Random_rotation_min.x, Random_rotation_max.x),
+            Random.Range(Random_rotation_min.y, Random_rotation_max.y),
+            Random.Range(Random_rotation_min.z, Random_rotation_max.z)),
+
+            Random.Range(Random_Size.x, Random_Size.y)
+
+            );
+        
     }
 
     void Update()

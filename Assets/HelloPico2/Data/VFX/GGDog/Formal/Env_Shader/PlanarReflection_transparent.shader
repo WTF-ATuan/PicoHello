@@ -12,8 +12,7 @@
 	SubShader
 	{
 
-		Tags { "RenderType"="Opaque" }
-		ZWrite off
+		Tags { "Queue"="Geometry+1" }
 		Blend SrcAlpha OneMinusSrcAlpha
 
 		LOD 300
@@ -68,7 +67,7 @@
 				
 				col = lerp(col ,_BackFogColor,smoothstep(0,1,i.uv.y));
 
-				return float4(col.rgb, saturate(smoothstep(0.75,1,i.uv.y+_Alpha)) );
+				return float4(col.rgb, saturate(smoothstep(0.75,1,i.uv.y+_Alpha))/1.1 );
 			}
 			ENDCG
 		}
@@ -77,9 +76,8 @@
 
 	SubShader
 	{
-		Tags { "RenderType"="Opaque" }
+		Tags { "Queue"="Geometry+1" }
 
-		ZWrite off
 		Blend SrcAlpha OneMinusSrcAlpha
 
 		LOD 100
@@ -130,7 +128,7 @@
 				
 				col = lerp(col ,_BackFogColor,smoothstep(0,1,i.uv.y));
 				
-				return float4(col.rgb, saturate(smoothstep(0.75,1,i.uv.y+_Alpha)) );
+				return float4(col.rgb, saturate(smoothstep(0.75,1,i.uv.y+_Alpha))/1.1 );
 			}
 			ENDCG
 		}

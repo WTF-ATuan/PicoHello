@@ -6,11 +6,12 @@
 		_FadeColor("Fade Color",Color) = (0.5,0.5,0.5,1)
 		_FogColor("Fog Color",Color) = (1,1,1,1)
 		_BackFogColor("Back Fog Color",Color) = (0,0,0,1)
+		_Alpha("Alpha",Range(0,1)) = 0.9
     }
 
 	SubShader
 	{
-		Tags { "RenderType"="Opaque" }
+		Tags { "Queue"="Geometry+100" }
 		LOD 300
 
 		Pass
@@ -71,8 +72,10 @@
 
 	SubShader
 	{
-		Tags { "RenderType"="Opaque" }
+		Tags { "Queue"="Geometry+100" }
 		LOD 100
+
+		Blend SrcAlpha OneMinusSrcAlpha
 		Pass
 		{
 			CGPROGRAM
@@ -92,9 +95,7 @@
 				float4 vertex : SV_POSITION;
                 float2 uv : TEXCOORD0;
 			};
- 
-			sampler2D _ReflectionTex;
-			
+
 			v2f vert (appdata v)
 			{
 				v2f o;
@@ -106,6 +107,7 @@
 			float4 _FadeColor;
 			float4 _Color;
 			float4 _BackFogColor;
+			float _Alpha;
 			
 			float4 frag (v2f i) : SV_Target
 			{
@@ -118,6 +120,8 @@
 				col = lerp(col , _FogColor, smoothstep(0,0.5,D)*smoothstep(0,0.5,1-i.uv.y));
 				
 				col = lerp(col ,_BackFogColor,smoothstep(0,1,i.uv.y));
+
+				col.a *= (1-smoothstep(0,0.5,D))*_Alpha;
 
 				return col;
 			}

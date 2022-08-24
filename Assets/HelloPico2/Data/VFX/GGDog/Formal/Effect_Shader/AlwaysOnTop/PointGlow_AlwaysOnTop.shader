@@ -3,6 +3,7 @@ Shader "GGDog/Space_Test/Glow_AlwaysOnTop"
     Properties
     {
 		_Color("Color",Color) = (1,1,1,1)
+        _Alpha("Alpha",Range(0,1)) = 1
     }
     SubShader
     {
@@ -42,8 +43,11 @@ Shader "GGDog/Space_Test/Glow_AlwaysOnTop"
 				o.color = v.color;
                 return o;
             }
-            
             float4 _Color;
+            
+            float _Alpha;
+
+            
             float4 frag (v2f i) : SV_Target
             {
 				//¤¤¤ß¶ZÂ÷³õ
@@ -56,7 +60,11 @@ Shader "GGDog/Space_Test/Glow_AlwaysOnTop"
 
 				i.color = lerp(i.color*i.color,i.color,D);
 
-                return i.color*D*i.color.a*_Color;
+                float4 col = i.color * D ;
+
+                clip(col.a - 0.0015);
+
+                return col*_Color* i.color.a*_Alpha;
             }
             ENDCG
         }

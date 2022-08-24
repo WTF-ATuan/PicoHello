@@ -50,8 +50,8 @@ Shader "GGDog/GloryCircle"
             float _OffSet;
             float _Alpha;
             float _Gray;
-			
             float4 _Color;
+			
             float4 frag (v2f i) : SV_Target
             {
 				//¤¤¤ß¶ZÂ÷³õ
@@ -59,8 +59,8 @@ Shader "GGDog/GloryCircle"
 
                 float4 col = 1;
 
-				col =lerp( float4(0,0,1,1) , float4(0,1,0,1) , (D)*_Width +_OffSet);
-				col =lerp(             col , float4(1,0,0,1) , (D)*_Width-0.3 +_OffSet);
+				col =lerp( float4(1,0,0,1) , float4(0,1,0,1) , (D)*_Width +_OffSet);
+				col =lerp(             col , float4(0,0,1,1) , (D)*_Width-0.3 +_OffSet);
 
 				col+=0.5;
 
@@ -76,7 +76,7 @@ Shader "GGDog/GloryCircle"
 				col = lerp(col,float4(0.5,0.5,0.5,1),1-_Gray);
 
 
-                return i.color*DD*saturate(col/10)*3*_Alpha*_Color;
+                return _Color*i.color*DD*saturate(col/10)*3*_Alpha;
 
             }
 

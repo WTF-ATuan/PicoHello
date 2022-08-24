@@ -23,21 +23,21 @@ Shader "GGDog/Space_Test/Sprite_AlwaysOnTop"
 
             struct appdata
             {
-                float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
-                float4 color : COLOR;
+                half4 vertex : POSITION;
+                half2 uv : TEXCOORD0;
+                half4 color : COLOR;
             };
 
             struct v2f
             {
-                float2 uv : TEXCOORD0;
-                float4 vertex : SV_POSITION;
-                float4 color : COLOR;
+                half2 uv : TEXCOORD0;
+                half4 vertex : SV_POSITION;
+                half4 color : COLOR;
             };
 
             sampler2D _MainTex;
-            float4 _MainTex_ST;
-            
+            half4 _MainTex_ST;
+
             v2f vert (appdata v)
             {
                 v2f o;
@@ -46,12 +46,16 @@ Shader "GGDog/Space_Test/Sprite_AlwaysOnTop"
 				o.color = v.color;
                 return o;
             }
-            
-            float4 _Color;
-            fixed4 frag (v2f i) : SV_Target
+            half4 _Color;
+            half4 frag (v2f i) : SV_Target
             {
-                fixed4 col = tex2D(_MainTex, i.uv);
-                return fixed4(1,1,1,col.a)*i.color*_Color;
+                half4 col = tex2D(_MainTex, i.uv);
+                
+                col = half4(1, 1, 1, col.a) * i.color*_Color;
+
+                clip(col.a - 0.0015);
+                
+                return col;
             }
             ENDCG
         }

@@ -17,6 +17,7 @@ Shader "GGDog/Space_Test/Env"
 		_LOD_LowColor("LOD LowColor",Color) = (1,1,1,1)
 		
         [Toggle(_False)]_ModelReflection("Model Reflection",Float) = 0
+        _Reflect("Reflection",Range(0,1.5)) = 1.5
     }
     SubShader
     {
@@ -126,7 +127,8 @@ Shader "GGDog/Space_Test/Env"
             
             half _UV_Tilling;
             half _UV_Offset;
-
+            half _Reflect;
+            
             float4 frag (v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
@@ -195,7 +197,7 @@ Shader "GGDog/Space_Test/Env"
 
              Reflect *= (1-saturate(smoothstep(0,1500,i.worldPos.z))) * (saturate(smoothstep(-150,1000,i.worldPos.z))) ;
 
-                return col +Reflect*_FogColor*1.5;
+                return col +Reflect*_FogColor*_Reflect;
             }
             ENDCG
         }

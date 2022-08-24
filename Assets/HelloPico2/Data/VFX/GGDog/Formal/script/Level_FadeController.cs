@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+[ExecuteInEditMode]
 public class Level_FadeController : MonoBehaviour
 {
     public enum Level
     {
-        _0_Level_Intro,          //é»‘æš—æ´ç©´
-        _1_Level_1,              //ç²¾éˆçš„æ¨‚åœ’
-        _2_Level_2,              //è¿·éœ§æ¨¹æ ¹
-        _3_Level_3,              //å±éšªéºè·¡
-        _4_Level_3_ToReality,    //å±éšªéºè·¡: è½‰ç¾å¯¦(Bossé–‹å¤§)
-        _5_ToLevel_4_BackToGame, //å›åˆ°éŠæˆ²: é›²æ´ä¸­
-        _6_Level_4_CloudBright,  //é›²æ´: æ‰“å®ŒBossä¹‹å¾Œï¼Œæ•´é«”é¡è‰²è®Šæ˜äº®
-        _7_ToLevel_5_OutCloud    //é£›å‡ºé›²æ´: æœ€å¾Œçµå±€å ´æ™¯
+        _0_Level_Intro,          //¶Â·t¬}¥Ş
+        _1_Level_1,              //ºëÆFªº¼Ö¶é
+        _2_Level_2,              //°gÃú¾ğ®Ú
+        _3_Level_3,              //¦MÀI¿ò¸ñ
+        _4_Level_3_ToReality,    //¦MÀI¿ò¸ñ: Âà²{¹ê(Boss¶}¤j)
+        _5_ToLevel_4_BackToGame, //¦^¨ì¹CÀ¸: ¶³¬}¤¤
+        _6_Level_4_CloudBright,  //¶³¬}: ¥´§¹Boss¤§«á¡A¾ãÅéÃC¦âÅÜ©ú«G
+        _7_ToLevel_5_OutCloud    //­¸¥X¶³¬}: ³Ì«áµ²§½³õ´º
     }
     public Level level;
 
@@ -24,8 +25,16 @@ public class Level_FadeController : MonoBehaviour
     [Range(50, 175)]
     public float Env_Speed = 50;
 
+    //¬ï¥X¶³¬}ªº³t«×½Õ¾ã
+    [Range(1, 50)]
+    public float Level4To5_OutCloud_Speed = 1;
+
+    //³Ì³»¼hªº¥ú(ZTestAlways)ªº³z©ú«×
+    [Range(0, 1)]
+    public float TopGlow_Alpha = 1;
+
     [Header("---------------------------------------")]
-    //Shaderåƒæ•¸åç¨±
+    //Shader°Ñ¼Æ¦WºÙ
     public Shader_properties Shader_Properties;
     #region
     [System.Serializable]
@@ -46,7 +55,7 @@ public class Level_FadeController : MonoBehaviour
 
     [Header("---------------------------------------")]
 
-    //é—œå¡é™å®šçš„ç²’å­ç³»çµ±
+    //Ãö¥d­­©wªº²É¤l¨t²Î
     public _SpecificPartical SpecificPartical;
     #region
     [System.Serializable]
@@ -57,7 +66,7 @@ public class Level_FadeController : MonoBehaviour
     #endregion
     [Header("---------------------------------------")]
 
-    //ç²’å­ç³»çµ±æè³ª
+    //²É¤l¨t²Î§÷½è
     public _Partical ParticalMaterial;
     #region
     [System.Serializable]
@@ -69,7 +78,7 @@ public class Level_FadeController : MonoBehaviour
 
     [Header("---------------------------------------")]
 
-    //å°æ‡‰é—œå¡çš„ç›®æ¨™æè³ª
+    //¹ïÀ³Ãö¥dªº¥Ø¼Ğ§÷½è
     public _Level BaseMaterial,  Level_0, Level_1, Level_2, Level_3;
     #region
     [System.Serializable]
@@ -80,6 +89,7 @@ public class Level_FadeController : MonoBehaviour
         public Material Env;
         public Material Env_far;
         public Material Env_near;
+        public Material Env_stuff;
         public GameObject Env_Spawner;
         [HideInInspector]
         public ObjectPool_Spawner[] Spawner_Emission;
@@ -99,22 +109,22 @@ public class Level_FadeController : MonoBehaviour
     public Material m_ToReality_Sky;
     public Material m_ToReality_Ground;
     public Animation ToReality_Animation;
-    public GameObject Space_CameraEffect;   //é¡é ­å‘¨åœç‰¹æ•ˆ
+    public GameObject Space_CameraEffect;   //ÃèÀY©P³ò¯S®Ä
 
     public GameObject Level_4;
     public Material Level_4_CloudTunnel;
     public Material Level_4_stone;
 
     public GameObject stone;
+    public GameObject stone_big;
     public GameObject stone_piece;
     public GameObject tunnel;
     
     public GameObject Level_5;
     public GameObject[] Level_4_Close;
-
     void Env_StartUp(_Level Lv)
     {
-        //Getæ¯å€‹é—œå¡çš„å ´æ™¯ç™¼å°„å™¨çš„é–‹é—œ
+        //Get¨C­ÓÃö¥dªº³õ´ºµo®g¾¹ªº¶}Ãö
         if (Level_0.Env_Spawner)
         {
             for (int i = 0; i < Level_0.Env_Spawner.transform.childCount; i++)
@@ -159,11 +169,20 @@ public class Level_FadeController : MonoBehaviour
     Material Space_CameraEffect_Material;
     void OnEnable()
     {
+        //­«¸m³»¥ú
+        ParticalMaterial.Partical[0].SetFloat("_Alpha", 1);
+        //´ºª«¤ô¤Ï®g¥ú
+        BaseMaterial.Env.SetFloat("_Reflect",1.5f);
+        BaseMaterial.Env_stuff.SetFloat("_Reflect", 1.5f);
 
-        Space_CameraEffect.SetActive(false);
+        //Âà²{¹ê¤§«á­ì¥»ªº¤ÑªÅ¤ô­±·|ÅÜ¦¨ToReallyªº§÷½è¡A¨C¦¸­«¸m´N´«¦^¨Ó­ì¥»ªº
+        Level_3_ToReality_Sky.GetComponent<MeshRenderer>().sharedMaterial = BaseMaterial.Sky;
+            Level_3_ToReality_Ground.GetComponent<MeshRenderer>().sharedMaterial = BaseMaterial.Ground;
 
-        Space_CameraEffect_Material = Space_CameraEffect.GetComponent<MeshRenderer>().sharedMaterial;
-        Space_CameraEffect_Material.SetFloat("_Dis", 1);
+        //²{¹êÃöªºÃèÀY©P³ò¯S®Ä
+            Space_CameraEffect.SetActive(false);
+            Space_CameraEffect_Material = Space_CameraEffect.GetComponent<MeshRenderer>().sharedMaterial;
+            Space_CameraEffect_Material.SetFloat("_Dis", 1);
 
         if (!GetComponent<ParticleSystem>())
         {
@@ -178,7 +197,7 @@ public class Level_FadeController : MonoBehaviour
         Level_3.Spawner_Emission = new ObjectPool_Spawner[10];
 
 
-        //Getæ¯å€‹é—œå¡çš„å ´æ™¯ç™¼å°„å™¨çš„é–‹é—œ
+        //Get¨C­ÓÃö¥dªº³õ´ºµo®g¾¹ªº¶}Ãö
         if (Level_0.Env_Spawner)
         {
             for (int i = 0; i < Level_0.Env_Spawner.transform.childCount; i++)
@@ -217,60 +236,65 @@ public class Level_FadeController : MonoBehaviour
     void Update()
     {
         Level_switch();
+
+        //ª½±µ½Õ¾ã³»¥ú³z©ú«×
+        ParticalMaterial.Partical[0].SetFloat("_Alpha", ParticalMaterial.Partical[0].GetFloat("_Alpha")*TopGlow_Alpha);
     }
 
     string Properties_name;
 
-    //å¤©ç©ºçƒè½‰æ›
+    //¤ÑªÅ²yÂà´«
     void ColorFade_Sky(Material m)
     {
-        //Coloré¡å‹çš„åƒæ•¸
+        //ColorÃş«¬ªº°Ñ¼Æ
         for (int i = 0; i < Shader_Properties.Sky_VarNames_Color.Length; i++)
         {
             Properties_name = Shader_Properties.Sky_VarNames_Color[i];
             BaseMaterial.Sky.SetColor(Properties_name, Color.Lerp(BaseMaterial.Sky.GetColor(Properties_name), m.GetColor(Properties_name), speed));
         }
 
-        //Floaté¡å‹çš„åƒæ•¸
+        //FloatÃş«¬ªº°Ñ¼Æ
         for (int i = 0; i < Shader_Properties.Sky_VarNames_Float.Length; i++)
         {
             Properties_name = Shader_Properties.Sky_VarNames_Float[i];
             BaseMaterial.Sky.SetFloat(Properties_name, Mathf.Lerp(BaseMaterial.Sky.GetFloat(Properties_name), m.GetFloat(Properties_name), speed));
         }
     }
-    //å ´æ™¯è½‰æ›
+    //³õ´ºÂà´«
     void ColorFade_Env(Material m, Material m_far, Material m_near)
     {
-        //Coloré¡å‹çš„åƒæ•¸
+        //ColorÃş«¬ªº°Ñ¼Æ
         for (int i = 0; i < Shader_Properties.Env_VarNames_Color.Length; i++)
         {
             Properties_name = Shader_Properties.Env_VarNames_Color[i];
             BaseMaterial.Env.SetColor(Properties_name, Color.Lerp(BaseMaterial.Env.GetColor(Properties_name), m.GetColor(Properties_name), speed));
             BaseMaterial.Env_far.SetColor(Properties_name, Color.Lerp(BaseMaterial.Env_far.GetColor(Properties_name), m_far.GetColor(Properties_name), speed));
             BaseMaterial.Env_near.SetColor(Properties_name, Color.Lerp(BaseMaterial.Env_near.GetColor(Properties_name), m_near.GetColor(Properties_name), speed));
+            BaseMaterial.Env_stuff.SetColor(Properties_name, Color.Lerp(BaseMaterial.Env_stuff.GetColor(Properties_name), m.GetColor(Properties_name), speed));
         }
 
-        //Floaté¡å‹çš„åƒæ•¸
+        //FloatÃş«¬ªº°Ñ¼Æ
         for (int i = 0; i < Shader_Properties.Env_VarNames_Float.Length; i++)
         {
             Properties_name = Shader_Properties.Env_VarNames_Float[i];
             BaseMaterial.Env.SetFloat(Properties_name, Mathf.Lerp(BaseMaterial.Env.GetFloat(Properties_name), m.GetFloat(Properties_name), speed));
             BaseMaterial.Env_far.SetFloat(Properties_name, Mathf.Lerp(BaseMaterial.Env_far.GetFloat(Properties_name), m_far.GetFloat(Properties_name), speed));
             BaseMaterial.Env_near.SetFloat(Properties_name, Mathf.Lerp(BaseMaterial.Env_near.GetFloat(Properties_name), m_near.GetFloat(Properties_name), speed));
+            BaseMaterial.Env_stuff.SetFloat(Properties_name, Mathf.Lerp(BaseMaterial.Env_stuff.GetFloat(Properties_name), m.GetFloat(Properties_name), speed));
         }
     }
 
-    //æ°´é¢è½‰æ›
+    //¤ô­±Âà´«
     void ColorFade_Ground(Material m)
     {
-        //Coloré¡å‹çš„åƒæ•¸
+        //ColorÃş«¬ªº°Ñ¼Æ
         for (int i = 0; i < Shader_Properties.Ground_VarNames_Color.Length; i++)
         {
             Properties_name = Shader_Properties.Ground_VarNames_Color[i];
             BaseMaterial.Ground.SetColor(Properties_name, Color.Lerp(BaseMaterial.Ground.GetColor(Properties_name), m.GetColor(Properties_name), speed));
         }
 
-        //Floaté¡å‹çš„åƒæ•¸
+        //FloatÃş«¬ªº°Ñ¼Æ
         for (int i = 0; i < Shader_Properties.Ground_VarNames_Float.Length; i++)
         {
             Properties_name = Shader_Properties.Ground_VarNames_Float[i];
@@ -278,7 +302,7 @@ public class Level_FadeController : MonoBehaviour
         }
     }
 
-    //é—œå¡é™å®šçš„ç²’å­ç‰¹æ•ˆ
+    //Ãö¥d­­©wªº²É¤l¯S®Ä
     void Specific_Partical(int k)
     {
         for (int i = 0; i < SpecificPartical.Partical.Length; i++)
@@ -292,7 +316,7 @@ public class Level_FadeController : MonoBehaviour
     }
 
 
-    //ç²’å­çš„æè³ªé¡è‰²è½‰æ›
+    //²É¤lªº§÷½èÃC¦âÂà´«
     void Level_Partical(Color[] _Color)
     {
         for (int i = 0; i < ParticalMaterial.Partical.Length; i++)
@@ -301,13 +325,13 @@ public class Level_FadeController : MonoBehaviour
         }
     }
 
-    //é›²æ´é¡è‰²æ­¸0
+    //¶³¬}ÃC¦âÂk0
     void Level_4_ColorFade_Set()
     {
         Level_4_CloudTunnel.SetFloat("_ColorLerp", 0);
         Level_4_stone.SetFloat("_ColorLerp", 0);
     }
-    //é›²æ´é¡è‰²æ¼¸è®Šï¼Œç”±é»‘æš—åˆ°æ˜äº®
+    //¶³¬}ÃC¦âº¥ÅÜ¡A¥Ñ¶Â·t¨ì©ú«G
     void Level_4_ColorFade()
     {
         Level_4_CloudTunnel.SetFloat("_ColorLerp", Mathf.Lerp(Level_4_CloudTunnel.GetFloat("_ColorLerp"), 1, speed));
@@ -395,28 +419,28 @@ public class Level_FadeController : MonoBehaviour
                 Enable_Env = false;
                 Level_4.SetActive(false);
 
-                //Coloré¡å‹çš„åƒæ•¸
+                //ColorÃş«¬ªº°Ñ¼Æ
                 for (int i = 0; i < Shader_Properties.Sky_VarNames_Color.Length; i++)
                 {
                     Properties_name = Shader_Properties.Sky_VarNames_Color[i];
                     m_ToReality_Sky.SetColor(Properties_name, BaseMaterial.Sky.GetColor(Properties_name));
                 }
 
-                //Floaté¡å‹çš„åƒæ•¸
+                //FloatÃş«¬ªº°Ñ¼Æ
                 for (int i = 0; i < Shader_Properties.Sky_VarNames_Float.Length; i++)
                 {
                     Properties_name = Shader_Properties.Sky_VarNames_Float[i];
                     m_ToReality_Sky.SetFloat(Properties_name, BaseMaterial.Sky.GetFloat(Properties_name));
                 }
 
-                //Coloré¡å‹çš„åƒæ•¸
+                //ColorÃş«¬ªº°Ñ¼Æ
                 for (int i = 0; i < Shader_Properties.Ground_VarNames_Color.Length; i++)
                 {
                     Properties_name = Shader_Properties.Ground_VarNames_Color[i];
                     m_ToReality_Ground.SetColor(Properties_name, BaseMaterial.Ground.GetColor(Properties_name));
                 }
 
-                //Floaté¡å‹çš„åƒæ•¸
+                //FloatÃş«¬ªº°Ñ¼Æ
                 for (int i = 0; i < Shader_Properties.Ground_VarNames_Float.Length; i++)
                 {
                     Properties_name = Shader_Properties.Ground_VarNames_Float[i];
@@ -430,7 +454,7 @@ public class Level_FadeController : MonoBehaviour
 
                 Space_CameraEffect.SetActive(true);
 
-                Space_CameraEffect_Material.SetFloat("_Dis", Mathf.Lerp(Space_CameraEffect_Material.GetFloat("_Dis"), 0.00235f, 0.1f));
+                Space_CameraEffect_Material.SetFloat("_Dis", Mathf.Lerp(Space_CameraEffect_Material.GetFloat("_Dis"), 0.00235f, 0.05f));
 
                 break;
                 
@@ -454,9 +478,16 @@ public class Level_FadeController : MonoBehaviour
 
             case Level._7_ToLevel_5_OutCloud:
 
-                stone_piece.transform.position -= new Vector3(0, 0, 0.01f);
-                stone.transform.position -= new Vector3(0, 0, 0.06f);
-                tunnel.transform.position -= new Vector3(0, 0, 0.05f);
+                //¥ú´î²H¨ì®ø¥¢
+                ParticalMaterial.Partical[0].SetFloat("_Alpha", Mathf.Lerp(ParticalMaterial.Partical[0].GetFloat("_Alpha"), 0, speed));
+
+                //´ºª«¤ô¤Ï®g®ÄªG
+                BaseMaterial.Env.SetFloat("_Reflect", Mathf.Lerp(BaseMaterial.Env.GetFloat("_Reflect"), 0, speed));
+
+                stone_piece.transform.position -= new Vector3(0, 0, 0.03f)* Level4To5_OutCloud_Speed;
+                stone.transform.position -= new Vector3(0, 0, 0.06f) * Level4To5_OutCloud_Speed;
+                stone_big.transform.position -= new Vector3(0, 0, 0.06f) * Level4To5_OutCloud_Speed;
+                tunnel.transform.position -= new Vector3(0, 0, 0.05f) * Level4To5_OutCloud_Speed;
 
                 Level_5.SetActive(true);
 
@@ -464,6 +495,7 @@ public class Level_FadeController : MonoBehaviour
                 {
                     Level_4_Close[i].SetActive(false);
                 }
+
 
                 break;
                 

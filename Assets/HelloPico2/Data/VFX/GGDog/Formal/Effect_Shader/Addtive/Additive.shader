@@ -3,6 +3,7 @@ Shader "Unlit/Additive"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _HDR("HDR",Range(1,7)) = 1
     }
     SubShader
     {
@@ -36,6 +37,8 @@ Shader "Unlit/Additive"
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
+            float _HDR;
+            
             v2f vert (appdata v)
             {
                 v2f o;
@@ -49,8 +52,12 @@ Shader "Unlit/Additive"
             {
 
                 fixed4 col = tex2D(_MainTex, i.uv);
+                
+                col*= i.color* i.color.a * _HDR;
+                
+                clip(col.a - 0.0015);
 
-                return col*i.color*i.color.a;
+                return col;
             }
             ENDCG
         }

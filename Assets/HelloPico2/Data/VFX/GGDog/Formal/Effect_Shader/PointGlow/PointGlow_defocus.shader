@@ -3,6 +3,7 @@ Shader "GGDog/Space_Test/PointGlow_defocus"
     Properties
     {
 		_Color("Color",Color) = (1,1,1,1)
+        _Alpha("Alpha",Range(0,1)) = 1
     }
     SubShader
     {
@@ -47,6 +48,8 @@ Shader "GGDog/Space_Test/PointGlow_defocus"
             }
             
             float4 _Color;
+            float _Alpha;
+
             float4 frag (v2f i) : SV_Target
             {
 				//¤¤¤ß¶ZÂ÷³õ
@@ -57,15 +60,17 @@ Shader "GGDog/Space_Test/PointGlow_defocus"
 
 				D = D2+smoothstep(0.5,1.5,D)*1.5;
 
-				D = lerp(smoothstep(0,1.25,smoothstep(0.1,0.125,D/3)/1.4) *(sin(_Time.y*1)*i.color.a+2)/2.2, D/3 ,smoothstep(90,120,i.CameraDistance) )*3;
+				D = lerp(smoothstep(0,1.25,smoothstep(0.05*smoothstep(10,90,i.CameraDistance),0.125,D/3)/1.4) *(sin(_Time.y*1)*i.color.a+2)/2.2, D/3 ,smoothstep(90,120,i.CameraDistance) )*3;
 
 				i.color = saturate(lerp(i.color*i.color,i.color,D));
 
 				float4 finalColor = saturate(i.color*D*i.color.a);
 				
-				finalColor.a *= smoothstep(50,90,i.CameraDistance);
+				finalColor.a *= smoothstep(10,90,i.CameraDistance);
 
-                return finalColor*_Color;
+               // clip(finalColor.a - 0.0015);
+
+                return finalColor*_Color*_Alpha;
             }
             ENDCG
         }
