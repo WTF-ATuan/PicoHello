@@ -86,9 +86,8 @@ public class SceneController : MonoBehaviour{
 				exists = true;
 		if(!exists) yield break;
 		var scene = SceneManager.GetSceneByName(sceneName);
-		var async = SceneManager.UnloadSceneAsync(scene, UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);
-		async.allowSceneActivation = true;
-		yield return async;
+		SceneManager.UnloadScene(scene);
+		yield return null;
 		fullyLoadedScenes.Remove(scene);
 	}
 }
