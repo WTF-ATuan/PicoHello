@@ -39,13 +39,20 @@ namespace HelloPico2.LevelTool
         public float _AutoGrabDuration = 5;
         [Header("Wave")]
         public float _NextItemDelayDuration = 5;
+        //[MinMaxSlider(0f, 360f,true)]
+        public Vector2[] _WaveStartHorizonRot;
 
-                
+        [ReadOnly][SerializeField] private float totalDuration;
+        [ReadOnly][SerializeField] private int currentWave;
+
         public HelloPico2.PlayerController.Arm.ArmorType currentType { get; set; }
         public HelloPico2.PlayerController.Arm.ArmorPart currentParts { get; set; }
 
         Coroutine typeChangerProcess;
-
+        private void OnValidate()
+        {
+            totalDuration = _DepthDuration + _AutoGrabDuration;
+        }
         public void StartSendingCollectableItem()
         {
             currentType = _StartingType;
@@ -84,6 +91,7 @@ namespace HelloPico2.LevelTool
 
             currentFloatingObject = clone.transform;
             SetUpFloating(currentFloatingObject);
+            UpdateWave();
         }
         private void ChangeObjectType(HelloPico2.PlayerController.Arm.ArmorType type, HelloPico2.PlayerController.Arm.ArmorPart part)
         {
@@ -102,7 +110,12 @@ namespace HelloPico2.LevelTool
 
             return clone;
         }
-        
+        private void UpdateWave() { 
+            if(currentWave < _WaveStartHorizonRot.Length - 1)
+                currentWave++;
+            else
+                currentWave = 0;            
+        }
         [Button]
         private void SetUpFloating(Transform obj) {
             var tiltPivot =  Instantiate(new GameObject(), _Container);
@@ -116,7 +129,8 @@ namespace HelloPico2.LevelTool
             depthPivot.name = "DepthPivot";
 
             var depth = Random.Range(_DepthRange.x, _DepthRange.y);
-            var hAngle = Random.Range(0, 360);
+            //var hAngle = Random.Range(0, 360);
+            var hAngle = Random.Range(_WaveStartHorizonRot[currentWave].x, _WaveStartHorizonRot[currentWave].y);
             var vAngle = Random.Range(_VerticalRotationRange.x, _VerticalRotationRange.y);
 
             obj.SetParent(depthPivot.transform);
@@ -126,7 +140,8 @@ namespace HelloPico2.LevelTool
 
             obj.transform.localPosition = new Vector3(0,0,0);
             depthPivot.transform.localPosition = new Vector3(0,0,depth);
-            tiltPivot.transform.localEulerAngles = new Vector3(0,hAngle,0);
+            //tiltPivot.transform.localEulerAngles = new Vector3(0,hAngle,0);
+            tiltPivot.transform.localEulerAngles = new Vector3(0,0,0);
             horizontalPivot.transform.localEulerAngles = new Vector3(0,hAngle,0);
             verticalPivot.transform.localEulerAngles = new Vector3(vAngle,0,0);
 
@@ -196,12 +211,9 @@ namespace HelloPico2.LevelTool
                     AutoGrabSeq(obj, horizontalDuration1, endDuration);
                 });
             };
-            endSeq.AppendCallback(StopHorizontalCallback);    
-
-            
+            endSeq.AppendCallback(StopHorizontalCallback);   
 
             endSeq.Play();
-
         }
         private void AutoGrabSeq(Transform obj, float hDur, float endDur) {
 
@@ -249,6 +261,12 @@ namespace HelloPico2.LevelTool
             if(foundIndex < 0) foundIndex = 0;
 
             return armorType[foundIndex];
-        }        
+        }
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(transform.position + transform.forward * _DepthRange.x, transform.position + transform.forward * _DepthRange.y);
+            Gizmos.DrawSphere(transform.position + transform.forward * _EndDepthValue, .1f);
+        }
     }
 }

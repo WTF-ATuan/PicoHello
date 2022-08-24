@@ -35,26 +35,8 @@ namespace HelloPico2.InteractableObjects
         public override void OnSelect(DeviceInputDetected obj)
         {
             base.OnSelect(obj);
-            if (used) return;
-
-            StartArmorUpgradeSequence();
-
-            foreach (var mesh in GetComponentsInChildren<Renderer>())
-            {
-                mesh.enabled = false;
-            }
-
-            // Add Armor
-            GainArmorUpgradeData eventDate = new GainArmorUpgradeData();
-            eventDate.armorType = _ArmorType;  
-            eventDate.armorPart = _ArmorParts;
-            Project.EventBus.Post(eventDate);
-
-            GetComponent<Collider>().enabled = false;
-
-            Destroy(gameObject);
-
-            used = true;
+            
+            OnAutoSelect();
 
             selectorTarget = obj.Selector.SelectorTransform;
         }
