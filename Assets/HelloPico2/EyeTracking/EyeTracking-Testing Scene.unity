@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.466132, g: 0.67239463, b: 0.871892, a: 1}
+  m_IndirectSpecularColor: {r: 0.46613103, g: 0.6723932, b: 0.8718905, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1869,7 +1869,7 @@ MonoBehaviour:
   detectedLayer:
     serializedVersion: 2
     m_Bits: 512
-  eyeTracking: 0
+  eyeTracking: 1
   eyeHitEvent:
     _PersistentCalls:
     - _Target: {fileID: 1499051568}
@@ -2115,6 +2115,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controlObject: {fileID: 664802117}
   during: 2
+  ignoreZ: 1
+  movingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!4 &1665950252 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 843479180749696018, guid: dd7b1e52d5a4eed4ab9233a4e355eaff, type: 3}
