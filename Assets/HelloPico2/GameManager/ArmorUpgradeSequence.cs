@@ -7,7 +7,8 @@ namespace HelloPico2.Singleton
 {
     public class ArmorUpgradeSequence : MonoBehaviour
     {
-        [SerializeField] private float _Speed;
+        [SerializeField] private float _Speed; 
+        [SerializeField] private float _OrbitDuration; 
         [SerializeField] private float _ArmorUpgradeStartScale = 5;
         [SerializeField] private float _ArmorUpgradeScaleOnApporach;
         [SerializeField] private Vector3 _PlayerPosOffset = new Vector3(0, 1, .8f);
@@ -20,6 +21,7 @@ namespace HelloPico2.Singleton
         public Vector3 _ScalePunch;
         public int _Vibrato = 10;
         public float _Duration = 1;
+        public float _AttractorVFXDuration = 3;
 
         public ParticleSystem[] _ArmorParticles;
         public HelloPico2.LevelTool.SkinnedMeshEffectPlacement[] _ParticlesTarget;
@@ -44,15 +46,6 @@ namespace HelloPico2.Singleton
             if (_ParticlesTarget.Length > 2)
                 throw new System.Exception("_ParticlesTarget can only have two target");
         }
-        private void Update()
-        {
-            for (int i = 0; i < _ArmorPosition.Length; i++)
-            {
-                if (_ArmorPosition[i] == null) continue;
-                
-                //_ParticlesTarget[i].position = _ArmorPosition[i].position;
-            }
-        }
         public void UpdatePlayerArmorPosition(GameObject armor)
         {
             if(!leftRight)
@@ -66,7 +59,7 @@ namespace HelloPico2.Singleton
         {
             var spiritTarget = HelloPico2.Singleton.GameManagerHelloPico.Instance.Spirit._GainArmorUpgradeRotationPivot;
             var playertarget = HelloPico2.Singleton.GameManagerHelloPico.Instance._Player;
-            var orbitDuration = HelloPico2.Singleton.GameManagerHelloPico.Instance.Spirit._OrbitDuration;
+            var orbitDuration = _OrbitDuration;
             var duration = GetDuration(armorUpgrade.position, spiritTarget.position);
 
             armorUpgrade.transform.localScale = Vector3.one;
@@ -113,14 +106,16 @@ namespace HelloPico2.Singleton
             seq.AppendCallback(ShowPlayerItem);
             seq.AppendInterval(_Duration);
             
-            seq.Append(armorUpgrade.DOScale(Vector3.zero, 1).OnComplete(() => { Destroy(armorUpgrade.gameObject); }));;
+            seq.Append(armorUpgrade.DOScale(Vector3.zero,.1f).OnComplete(() => { Destroy(armorUpgrade.gameObject); }));;
+
+            seq.AppendCallback(gainArmorCallback);
 
             TweenCallback SpawnVFX = () => {
                 PlayParticle(armorUpgrade);
+
+                // activate
             };
             seq.AppendCallback(SpawnVFX);
-
-            seq.AppendCallback(gainArmorCallback);
 
             seq.Play();
         }        

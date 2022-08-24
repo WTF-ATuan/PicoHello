@@ -69,6 +69,8 @@ namespace HelloPico2.PlayerController.Arm
                 process = StartCoroutine(ActivateArmorprocess());
         }
         private IEnumerator ActivateArmorprocess() {
+            yield return new WaitForSeconds(HelloPico2.Singleton.ArmorUpgradeSequence.Instance._AttractorVFXDuration);
+
             while (queueList.Count > 0) {
                 _Armor = queueList[0].GetComponent<Renderer>();
                 if (_Armor == null) { yield return null; continue; }

@@ -44,23 +44,28 @@ namespace HelloPico2.InteractableObjects
             if (used) return;
 
             StartArmorUpgradeSequence();
-
+            
+            // Hide Mesh
             foreach (var mesh in GetComponentsInChildren<Renderer>())
             {
                 mesh.enabled = false;
             }
-                        
+            
+            // Disable collider
+            GetComponent<Collider>().enabled = false;
+
+            //ActivateArmor();
+
+            used = true;
+        }
+        public void ActivateArmor() {
             // Add Armor
             GainArmorUpgradeData eventDate = new GainArmorUpgradeData();
             eventDate.armorType = _ArmorType;
             eventDate.armorPart = _ArmorParts;
             Project.EventBus.Post(eventDate);
 
-            GetComponent<Collider>().enabled = false;
-
             Destroy(gameObject);
-
-            used = true;
         }
         private void Update()
         {
@@ -78,7 +83,7 @@ namespace HelloPico2.InteractableObjects
             clone.SetParent(transform.root.parent);
             
             TweenCallback gainArmorCallback = () => {
-                
+                ActivateArmor();
             };
             HelloPico2.Singleton.ArmorUpgradeSequence.Instance.StartArmorUpgradeSequence(clone, gainArmorCallback);  
         }

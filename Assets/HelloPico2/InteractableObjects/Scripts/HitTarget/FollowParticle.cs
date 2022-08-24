@@ -53,6 +53,7 @@ namespace HelloPico2.InteractableObjects
                 {
                     var clone = Instantiate(obj);
                     cloneList.Add(clone);
+                    clone.transform.SetParent(transform);
                     clone.SetActive(!DisableFollowerOnAwake);
                 }
 
@@ -79,7 +80,7 @@ namespace HelloPico2.InteractableObjects
 
                     m_Follower[i].transform.forward = m_Particles[i].animatedVelocity.normalized;                    
 
-                    if (m_Particles[i].remainingLifetime > 0.1f)
+                    if (m_Particles[i].remainingLifetime > 0.2f)
                     {
                         m_Follower[i].SetActive(true);
                     }
@@ -100,6 +101,7 @@ namespace HelloPico2.InteractableObjects
         {
             yield return new WaitForSeconds(m_DelayDeactiveTime);
             follower.SetActive(false);
+            follower.transform.position = m_FollowThis.transform.position;
         }
     }
 }

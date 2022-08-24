@@ -228,7 +228,7 @@ namespace HelloPico2.PlayerController.Arm
             //EventBus.Post(needEnergyEventData);
         }
         private void ArmorUpgrade(GainArmorUpgradeData data) {
-            if(data.armorType != ArmorType.Nature)
+            if (data.armorType != ArmorType.Nature)
                 _data.ArmorController.ActiveArm(data.armorType, data.armorPart);
             else
                 _data.ArmorController.AutoActiveWithOrder(data.armorType);
