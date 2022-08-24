@@ -34,6 +34,12 @@ namespace HelloPico2.LevelTool
         public Ease _VerticalEase = Ease.InOutCubic;
         public Transform _Container;
         public Transform currentFloatingObject;
+
+        [Header("Auto Grab")]
+        public float _AutoGrabDuration = 5;
+        [Header("Wave")]
+        public float _NextItemDelayDuration = 5;
+
                 
         public HelloPico2.PlayerController.Arm.ArmorType currentType { get; set; }
         public HelloPico2.PlayerController.Arm.ArmorPart currentParts { get; set; }
@@ -63,13 +69,14 @@ namespace HelloPico2.LevelTool
 
             typeChangerProcess = StartCoroutine(TypeChanger());
         }
-        private float timer;
+        [SerializeField] private float timer;
         private void Update()
         {
             timer += Time.deltaTime;
             if (currentFloatingObject != null) return;            
             
-            NextArmorParts();
+            if(timer > _NextItemDelayDuration)
+                NextArmorParts();
         }
         private void CheckSpawnObject(HelloPico2.PlayerController.Arm.ArmorType type, HelloPico2.PlayerController.Arm.ArmorPart part) {
             var item = _CollectableItemsSO.GetItem(type, part);
@@ -85,8 +92,8 @@ namespace HelloPico2.LevelTool
             clone.transform.SetParent(currentFloatingObject.parent);
             clone.transform.localPosition = currentFloatingObject.localPosition;        
 
-            Destroy(currentFloatingObject.gameObject);
             currentFloatingObject = clone.transform;            
+            Destroy(currentFloatingObject.gameObject);
         }
         private GameObject CreateObject(InteractableObjects.InteractableArmorUpgrade item) {
             var clone = Instantiate(item).gameObject;
@@ -161,7 +168,7 @@ namespace HelloPico2.LevelTool
             endSeq.Append(depthPivot.transform.DOLocalMoveZ(_EndDepthValue, _DepthDuration).SetEase(Ease.InOutCubic));
 
             print("Start depth " + timer);
-
+            
             TweenCallback StopHorizontalCallback = () => {
                 print("Stop Horizontal " + timer);
                 tiltSeq.Kill();
@@ -171,20 +178,54 @@ namespace HelloPico2.LevelTool
                 DOTween.To(() => yValue, x => yValue = x, 0, .5f).OnUpdate(() => rotControl.rotateY = yValue);
 
                 var horizontalDuration1 = horizontalPivot.transform.localEulerAngles.y * _VerticalDuration / 360;
+
                 horizontalPivot.transform.DOLocalRotate(Vector3.zero, horizontalDuration1, RotateMode.Fast).SetEase(Ease.Linear).OnComplete(() => { 
                     depthPivot.transform.SetParent(_Container);
                     Destroy(tiltPivot);
 
                     var target = transform.position + transform.forward * _EndDepthValue;
                     var endDuration = Vector3.Distance(depthPivot.transform.position, target);
-                    depthPivot.transform.DOMove(target, endDuration).OnComplete(() => { obj.SetParent(_Container); Destroy(depthPivot.gameObject); });
-
+                    depthPivot.transform.DOMove(target, endDuration).OnComplete(() => { 
+                        obj.SetParent(_Container); 
+                        Destroy(depthPivot.gameObject); 
+                    });
                     print("Start lerping " + timer);
-                });
+                    print("horizontalDuration1 " + horizontalDuration1);
+                    print("endDuration " + endDuration);
 
+                    AutoGrabSeq(obj, horizontalDuration1, endDuration);
+                });
             };
-            endSeq.AppendCallback(StopHorizontalCallback);            
+            endSeq.AppendCallback(StopHorizontalCallback);    
+
+            
+
             endSeq.Play();
+
+        }
+        private void AutoGrabSeq(Transform obj, float hDur, float endDur) {
+
+            Sequence autoGrabSeq = DOTween.Sequence(); 
+            
+            autoGrabSeq.AppendInterval(hDur + endDur);
+
+            autoGrabSeq.AppendInterval(_AutoGrabDuration);
+
+            TweenCallback StartAutoGrab = () =>
+            {
+                print("start auto grab " + timer);
+                if (currentFloatingObject.TryGetComponent<InteractableObjects.InteractableArmorUpgrade>(out var interactablePower))
+                {
+                    interactablePower?.OnAutoSelect();
+
+                    print("auto grab " + timer);
+                }
+                print(currentFloatingObject.name);
+                timer = 0;
+            };
+            autoGrabSeq.AppendCallback(StartAutoGrab);
+
+            autoGrabSeq.Play();
         }
         private IEnumerator TypeChanger() {
             while (true)
@@ -208,6 +249,6 @@ namespace HelloPico2.LevelTool
             if(foundIndex < 0) foundIndex = 0;
 
             return armorType[foundIndex];
-        }
+        }        
     }
 }
