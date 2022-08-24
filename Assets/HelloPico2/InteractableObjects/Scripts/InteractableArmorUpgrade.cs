@@ -44,15 +44,6 @@ namespace HelloPico2.InteractableObjects
                 mesh.enabled = false;
             }
 
-            // Charge Energy            
-            TryGetComponent<IXRSelectInteractable>(out var Interactable);
-
-            GainEnergyEventData eventDate0 = new GainEnergyEventData();
-            eventDate0.Energy = _Energy;
-            eventDate0.Interactable = Interactable;
-            eventDate0.InputReceiver = obj;
-            Project.EventBus.Post(eventDate0);
-
             // Add Armor
             GainArmorUpgradeData eventDate = new GainArmorUpgradeData();
             eventDate.armorType = _ArmorType;  
@@ -60,10 +51,34 @@ namespace HelloPico2.InteractableObjects
             Project.EventBus.Post(eventDate);
 
             GetComponent<Collider>().enabled = false;
-            
+
+            Destroy(gameObject);
+
             used = true;
 
             selectorTarget = obj.Selector.SelectorTransform;
+        }
+        public void OnAutoSelect() {
+            if (used) return;
+
+            StartArmorUpgradeSequence();
+
+            foreach (var mesh in GetComponentsInChildren<Renderer>())
+            {
+                mesh.enabled = false;
+            }
+                        
+            // Add Armor
+            GainArmorUpgradeData eventDate = new GainArmorUpgradeData();
+            eventDate.armorType = _ArmorType;
+            eventDate.armorPart = _ArmorParts;
+            Project.EventBus.Post(eventDate);
+
+            GetComponent<Collider>().enabled = false;
+
+            Destroy(gameObject);
+
+            used = true;
         }
         private void Update()
         {
