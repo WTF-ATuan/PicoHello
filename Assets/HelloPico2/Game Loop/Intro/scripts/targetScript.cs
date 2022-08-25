@@ -22,7 +22,8 @@ public class targetScript : MonoBehaviour
     SphereCollider getCollider;
     public bool isHandTouch;
     float baseValue;
-    
+    public bool isAudio;
+    public GameObject aduioObj;
     private void Start()
     {
         countTimer = 0;
@@ -90,6 +91,10 @@ public class targetScript : MonoBehaviour
             {   
                 AddItemHeld();
                 ShowAnim();
+                if (isAudio)
+                {
+                    aduioObj.SetActive(true);
+                }
                 StartCoroutine(WaitTimeScaleCollider());                
             }
         }
