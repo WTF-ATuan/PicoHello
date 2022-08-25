@@ -28,6 +28,9 @@ namespace HelloPico2.Singleton
         public Transform[] _ArmorPosition;
         bool leftRight = false;
 
+        public delegate void NotifyMember();
+        public NotifyMember WhenStartArmorUpgradeSequence;
+
         public static ArmorUpgradeSequence _Instance;
         public static ArmorUpgradeSequence Instance
         {
@@ -57,6 +60,8 @@ namespace HelloPico2.Singleton
         }
         public void StartArmorUpgradeSequence(Transform armorUpgrade, TweenCallback gainArmorCallback)
         {
+            WhenStartArmorUpgradeSequence?.Invoke();
+
             var spiritTarget = HelloPico2.Singleton.GameManagerHelloPico.Instance.Spirit._GainArmorUpgradeRotationPivot;
             var playertarget = HelloPico2.Singleton.GameManagerHelloPico.Instance._Player;
             var orbitDuration = _OrbitDuration;
