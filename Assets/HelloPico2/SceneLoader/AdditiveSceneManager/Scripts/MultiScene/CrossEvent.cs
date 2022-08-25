@@ -19,5 +19,10 @@ namespace HelloPico2.SceneLoader.AdditiveSceneManager.Scripts.MultiScene{
 	public class TimelineChanged : CrossEvent{ }
 
 	[Serializable]
+	public class AudioInterrupted : CrossEvent{
+		public float fadeTime;
+	}
+
+	[Serializable]
 	public class CrossUnityEvent : UnityEvent<CrossEvent>{ }
 }
