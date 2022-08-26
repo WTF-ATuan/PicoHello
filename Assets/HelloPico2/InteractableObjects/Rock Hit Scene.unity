@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44098645, g: 0.4897195, b: 0.56980866, a: 1}
+  m_IndirectSpecularColor: {r: 0.44098672, g: 0.4897198, b: 0.5698094, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -599,7 +599,7 @@ PlayableDirector:
   - key: {fileID: 7413168193111553186, guid: 9985bea876897ec4d9c5d882cbc4e3ab, type: 2}
     value: {fileID: 1440724760}
   - key: {fileID: -7533461129145456961, guid: 9985bea876897ec4d9c5d882cbc4e3ab, type: 2}
-    value: {fileID: 1440724763}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References: []
 --- !u!1 &776830691
@@ -963,6 +963,7 @@ GameObject:
   - component: {fileID: 1440724761}
   - component: {fileID: 1440724762}
   - component: {fileID: 1440724763}
+  - component: {fileID: 1440724764}
   m_Layer: 0
   m_Name: RockSpawner
   m_TagString: Untagged
@@ -1014,25 +1015,66 @@ MonoBehaviour:
   - {fileID: 642928325}
   cloneList: []
   gizmosColor: {r: 0, g: 1, b: 0, a: 1}
---- !u!95 &1440724763
-Animator:
-  serializedVersion: 3
+--- !u!114 &1440724763
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1440724760}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f60e73510224122ac10a65be59e7ae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loopType: 0
+  during: 5
+  delayOpenTime: 3
+--- !u!114 &1440724764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1440724760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64c443153fe24ea58ed325ec6ee82917, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetType: 0
+  targetTransform: {fileID: 0}
+  targetVector: {x: 0, y: 0, z: 0}
+  targetBoxSize: {x: 4.8, y: 1, z: 1}
+  during: 4
+  movingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  completeAction: 1
+  delayTime: 1
+  debugLine: 1
+  debugColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1 &1512570307
 GameObject:
   m_ObjectHideFlags: 0
