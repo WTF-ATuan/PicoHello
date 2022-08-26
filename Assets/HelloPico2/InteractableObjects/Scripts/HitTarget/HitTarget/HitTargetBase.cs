@@ -34,7 +34,9 @@ namespace HelloPico2.InteractableObjects
         public UnityEvent WhenCollide;
         public UltEvents.UltEvent WhenCollideUlt;
         protected Game.Project.ColdDownTimer _timer;
-        private void Start()
+        protected float hitCDDuration { get { return _HitCDDuration; } }
+
+        protected virtual void Start()
         {
             _timer = new Game.Project.ColdDownTimer(_HitCDDuration);
         }
