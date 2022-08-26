@@ -18,13 +18,18 @@ namespace HelloPico2.InteractableObjects
         public UltEvents.UltEvent WhenCollideWithWhip;
         public UltEvents.UltEvent WhenCollideWithBeam;
         
-        private SpiritTimeline spiritTimeline;
+        private SpiritTimeline _SpiritTimeline;
+        private SpiritTimeline spiritTimeline { 
+            get { 
+                if(_SpiritTimeline == null)
+                    _SpiritTimeline = GameObject.FindObjectOfType<SpiritTimeline>();
+                return _SpiritTimeline;
+            } 
+        }
         private Collider col;
         Coroutine process;
         private void Awake()
         {
-            spiritTimeline = GameObject.FindObjectOfType<SpiritTimeline>(); 
-            
             col = GetComponent<Collider>();
 
             if (spiritTimeline == null)
