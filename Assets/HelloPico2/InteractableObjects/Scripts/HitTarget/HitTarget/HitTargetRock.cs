@@ -73,5 +73,6 @@ namespace HelloPico2.InteractableObjects
 
             transform.DOMove(targetPos, _PushBackDuration).SetEase(_PushBackEasingCureve);
         }
+        
     }
 }
