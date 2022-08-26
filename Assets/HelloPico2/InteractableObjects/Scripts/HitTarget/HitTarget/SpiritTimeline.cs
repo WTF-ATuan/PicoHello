@@ -13,11 +13,8 @@ namespace HelloPico2.InteractableObjects
         {
             var playable = GetTimeline(timelineName);
 
-            print("find " + timelineName);
-
             if (playable)
             {
-                print("Found " + timelineName);
                 if (process != null)
                 {
                     StopCoroutine(process);
