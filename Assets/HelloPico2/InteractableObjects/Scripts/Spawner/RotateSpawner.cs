@@ -120,18 +120,29 @@ namespace HelloPico2.InteractableObjects{
 				}
 				else{
 					var sharedMesh = spawnPrefab.GetComponent<MeshFilter>().sharedMesh;
-					Gizmos.DrawWireMesh(sharedMesh, Vector3.zero, Quaternion.identity, Vector3.one * 0.5f);
+					if(sharedMesh){
+						Gizmos.DrawWireMesh(sharedMesh, Vector3.zero, Quaternion.identity, Vector3.one * 0.5f);
+					}
+					else{
+						Gizmos.DrawWireCube(Vector3.zero, Vector3.one * 0.5f);
+					}
 				}
 			}
 		}
 
 		#if UNITY_EDITOR
-		[Button] [ShowIf("edit")] [ButtonGroup("Icon")]
+		[Button]
+		[ShowIf("edit")]
+		[ButtonGroup("Icon")]
 		private void SetEditIcon(){
 			foreach(var point in spawnPointList){
 				point.gameObject.SetIcon(ShapeIcon.DiamondRed);
 			}
-		}[Button] [ShowIf("edit")] [ButtonGroup("Icon")]
+		}
+
+		[Button]
+		[ShowIf("edit")]
+		[ButtonGroup("Icon")]
 		private void RemoveEditIcon(){
 			foreach(var point in spawnPointList){
 				point.gameObject.RemoveIcon();
