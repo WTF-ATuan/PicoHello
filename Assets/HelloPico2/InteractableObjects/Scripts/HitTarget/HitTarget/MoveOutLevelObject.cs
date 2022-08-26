@@ -13,6 +13,7 @@ namespace HelloPico2.LevelTool
         [Header("Thanks Player")]
         public float _Delay = 1f;
         public float _ThanksSpeed = 10f;
+        public bool _UseLeftRightPlacer = true;
         public Vector3 _ThanksPlayerPosition = Vector3.zero;
         public float _FacingSpeed = 0.1f;
         public string _ThanksPlayerAnimationName = "isCheer";
@@ -42,7 +43,7 @@ namespace HelloPico2.LevelTool
         public void MoveOut() {
             var thanksPlayerPos = _ThanksPlayerPosition;
             // pick left or right side of the player
-            if (_Obj.transform.position.x < 0) thanksPlayerPos.x *= -1;
+            if (_UseLeftRightPlacer && _Obj.transform.position.x < 0) thanksPlayerPos.x *= -1;
 
             var targetPos = GetTargetWorldPosition();
 
