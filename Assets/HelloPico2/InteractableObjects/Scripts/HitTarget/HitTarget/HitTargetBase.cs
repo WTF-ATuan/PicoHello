@@ -20,6 +20,7 @@ namespace HelloPico2.InteractableObjects
         [SerializeField] private int _DamageAmount = 0;
         [SerializeField] private float _HitCDDuration = .05f;
         [SerializeField] private InteractType _InteractType = InteractType.Energy;
+        [SerializeField] public bool _ShieldReflectableItem = true;
 
         public int damageAmount { get { return _DamageAmount; } }
         public InteractType interactType { get { return _InteractType; } }

@@ -24,7 +24,11 @@ namespace HelloPico2.InteractableObjects
             {
                 if (item != null)
                 {
-                    print("Collide " + collision.collider.name);
+                    //print("Collide " + collision.collider.name);
+                    if (collision.collider.TryGetComponent<HitTargetBase>(out var hitTarget)) {
+                        if (!hitTarget._ShieldReflectableItem) continue;
+                    }
+
                     var rigidbody = collision.collider.GetComponent<Rigidbody>();
                     rigidbody.isKinematic = false;
                     rigidbody.AddForce(transform.forward * _ForceAmount, ForceMode.Impulse);
