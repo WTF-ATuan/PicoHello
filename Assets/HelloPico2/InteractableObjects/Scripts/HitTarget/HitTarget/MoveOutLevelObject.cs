@@ -41,6 +41,8 @@ namespace HelloPico2.LevelTool
             MoveOut();
         }        
         public void MoveOut() {
+            _Obj.transform.SetParent(_Obj.transform.root.parent);
+
             var thanksPlayerPos = _ThanksPlayerPosition;
             // pick left or right side of the player
             if (_UseLeftRightPlacer && _Obj.transform.position.x < 0) thanksPlayerPos.x *= -1;
