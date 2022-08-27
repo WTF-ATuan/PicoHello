@@ -70,7 +70,7 @@ public class targetScript : MonoBehaviour
         {
                 AddItemHeld();
                 ShowAnim();
-                LoadTimeLine();            
+                StartCoroutine(WaitTimeScaleCollider());
         }
     }
     private void OnTriggerStay(Collider other)
