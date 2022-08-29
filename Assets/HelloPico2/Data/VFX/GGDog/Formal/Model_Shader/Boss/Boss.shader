@@ -1,4 +1,4 @@
-Shader "GGDog/SSS"
+Shader "GGDog/Boss"
 {
     Properties
     {
@@ -6,15 +6,10 @@ Shader "GGDog/SSS"
         _ShadowColor("ShadowColor",Color) = (0.25,0.25,0.25,1)
         [HDR]_BackRimColor("BackRim Color",Color) = (1,0.5,0.5,1)
         [HDR]_DirRimColor("DirRim Color",Color) = (1,0.5,0.5,1)
-        _ThicknessTex ("Thickness Tex", 2D) = "black" {}
         _Gloss("Gloss",Range(1,200)) = 10
-        _LightDir ("LightDir", Vector) = (0,0,0,0)
     }
     SubShader
     {
-            Tags { "LightMode"="ForwardBase" }
-        LOD 100
-
         Pass
         {
             CGPROGRAM
@@ -25,17 +20,17 @@ Shader "GGDog/SSS"
 
             struct appdata
             {
-                half4 vertex : POSITION;
-                half2 uv : TEXCOORD0;
-				half3 normal : NORMAL;
+                float4 vertex : POSITION;
+                float2 uv : TEXCOORD0;
+				float3 normal : NORMAL;
             };
 
             struct v2f
             {
-                half2 uv : TEXCOORD0;
-                half4 vertex : SV_POSITION;
-                half3 worldNormal : TEXCOORD1;
-                half3 worldPos : TEXCOORD2;
+                float2 uv : TEXCOORD0;
+                float4 vertex : SV_POSITION;
+                float3 worldNormal : TEXCOORD1;
+                float3 worldPos : TEXCOORD2;
             };
 
             v2f vert (appdata v)
@@ -44,42 +39,38 @@ Shader "GGDog/SSS"
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
 				
-				o.worldNormal = mul(v.normal,(half3x3)unity_WorldToObject);
+				o.worldNormal = mul(v.normal,(float3x3)unity_WorldToObject);
 				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 
                 return o;
             }
-			half4 _Color;
-			half4 _ShadowColor;
-			half4 _BackRimColor;
-			half4 _DirRimColor;
+			float4 _Color;
+			float4 _ShadowColor;
+			float4 _BackRimColor;
+			float4 _DirRimColor;
 			
-            sampler2D _ThicknessTex;
-            
             half _Gloss;
-            
-            half3 _LightDir;
-            half4 frag (v2f i) : SV_Target
+
+            float4 frag (v2f i) : SV_Target
             {
-                half4 thickness = tex2D(_ThicknessTex, i.uv+half2(0,0.05)*_Time.y);
+                float n =  smoothstep(0.5,1,distance(frac(20*i.uv+_Time.y*half2(0.7,1)*0.25),0.5));
+                float n2 =  smoothstep(0.3,1,distance(frac(10*i.uv+_Time.y*half2(0.9,0.75)*0.75),0.5));
+                n+=n2;
+                n = saturate(n+0.25);
 
-                half3 WorldNormal = normalize(i.worldNormal);
-                half3 LightDir = _LightDir;
-                half3 ViewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos );
 
-				half NdotL = saturate(dot(WorldNormal,LightDir));
-				half Rim = 1-saturate(smoothstep(0,1,dot(WorldNormal,ViewDir)));
+                float3 WorldNormal = normalize(i.worldNormal);
+                float3 LightDir = normalize(_WorldSpaceLightPos0.xyz);
+                fixed3 ViewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos );
 
-                half3 reflectDir = reflect(-LightDir,WorldNormal);
-                half Specular =  pow(max(0,dot(ViewDir,reflectDir)),_Gloss);
+				float NdotL = (dot(WorldNormal,LightDir));
+				float Rim = 1-saturate(smoothstep(0,1,dot(WorldNormal,ViewDir)));
 
-                half4 BackRimColor =  ( smoothstep(0,1,Rim*smoothstep(0.99,1.02,saturate(1-NdotL-0.0015)))  * _BackRimColor )*thickness;
-                half4 DirRimColor =  (smoothstep(-0.5,1,Rim*smoothstep(0,0.25,saturate(NdotL+0.0015)))  * _DirRimColor )*thickness;
+                float4 BackRimColor =  ( smoothstep(0,1,Rim*smoothstep(0.99,1.02,saturate(1-NdotL-0.0015)))  * _BackRimColor )*n;
+                float4 DirRimColor =  (smoothstep(-0.5,1,Rim*smoothstep(0,0.25,saturate(NdotL+0.0015)))  * _DirRimColor )*n;
 
-                _ShadowColor = lerp(_ShadowColor,_ShadowColor/2,smoothstep(-0.5,1,Rim));
-                _Color = lerp(_Color,_Color/2,smoothstep(-0.5,1,Rim));
 
-				half4 FinalColor = lerp(_ShadowColor + BackRimColor ,_Color + DirRimColor  ,NdotL ) +Specular*saturate(BackRimColor*3.5);
+				float4 FinalColor = lerp(_ShadowColor + BackRimColor ,_Color + DirRimColor  ,NdotL );
 
                 return FinalColor;
             }

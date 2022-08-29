@@ -6,9 +6,7 @@ Shader "GGDog/SSS"
         _ShadowColor("ShadowColor",Color) = (0.25,0.25,0.25,1)
         [HDR]_BackRimColor("BackRim Color",Color) = (1,0.5,0.5,1)
         [HDR]_DirRimColor("DirRim Color",Color) = (1,0.5,0.5,1)
-        _ThicknessTex ("Thickness Tex", 2D) = "black" {}
         _Gloss("Gloss",Range(1,200)) = 10
-        _LightDir ("LightDir", Vector) = (0,0,0,0)
     }
     SubShader
     {
@@ -55,15 +53,15 @@ Shader "GGDog/SSS"
 			half4 _BackRimColor;
 			half4 _DirRimColor;
 			
-            sampler2D _ThicknessTex;
-            
             half _Gloss;
             
             half3 _LightDir;
             half4 frag (v2f i) : SV_Target
             {
-                half4 thickness = tex2D(_ThicknessTex, i.uv+half2(0,0.05)*_Time.y);
-
+                float n =  smoothstep(0.5,1,distance(frac(20*i.uv+_Time.y*half2(0.7,1)*0.25),0.5));
+                float n2 =  smoothstep(0.3,1,distance(frac(10*i.uv+_Time.y*half2(0.9,0.75)*0.75),0.5));
+                n+=n2;
+                n = saturate(n+0.25);
                 half3 WorldNormal = normalize(i.worldNormal);
                 half3 LightDir = _LightDir;
                 half3 ViewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos );
@@ -74,8 +72,8 @@ Shader "GGDog/SSS"
                 half3 reflectDir = reflect(-LightDir,WorldNormal);
                 half Specular =  pow(max(0,dot(ViewDir,reflectDir)),_Gloss);
 
-                half4 BackRimColor =  ( smoothstep(0,1,Rim*smoothstep(0.99,1.02,saturate(1-NdotL-0.0015)))  * _BackRimColor )*thickness;
-                half4 DirRimColor =  (smoothstep(-0.5,1,Rim*smoothstep(0,0.25,saturate(NdotL+0.0015)))  * _DirRimColor )*thickness;
+                half4 BackRimColor =  ( smoothstep(0,1,Rim*smoothstep(0.99,1.02,saturate(1-NdotL-0.0015)))  * _BackRimColor )*n;
+                half4 DirRimColor =  (smoothstep(-0.5,1,Rim*smoothstep(0,0.25,saturate(NdotL+0.0015)))  * _DirRimColor )*n;
 
                 _ShadowColor = lerp(_ShadowColor,_ShadowColor/2,smoothstep(-0.5,1,Rim));
                 _Color = lerp(_Color,_Color/2,smoothstep(-0.5,1,Rim));
