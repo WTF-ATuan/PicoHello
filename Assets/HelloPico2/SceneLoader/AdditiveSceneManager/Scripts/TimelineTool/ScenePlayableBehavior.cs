@@ -34,6 +34,9 @@ public class ScenePlayableBehavior : PlayableBehaviour{
 			case LoadOptions.SetMainScene:
 				controller.ActiveToMainScene(sceneName);
 				break;
+			case LoadOptions.SingleLoad:
+				controller.SingleLoadScene(sceneName);
+				break;
 			default:
 				throw new ArgumentOutOfRangeException();
 		}
