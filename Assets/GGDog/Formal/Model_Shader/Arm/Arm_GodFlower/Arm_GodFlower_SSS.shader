@@ -1,4 +1,4 @@
-Shader "GGDog/SSS"
+Shader "GGDog/Arm_GodFlower"
 {
     Properties
     {
@@ -87,7 +87,7 @@ Shader "GGDog/SSS"
 				float3 H = normalize( ViewDir + WorldNormal * _Distortion);
 				float I = saturate(dot(ViewDir,-H));
 
-				float4 FinalColor = lerp(_ShadowColor + ( (Rim+I) * _SSSColor * thickness) ,_LightColor0 * _Color ,NdotL ) ;
+				float4 FinalColor = lerp(_ShadowColor + ( (Rim+I) * _SSSColor * thickness) ,_Color ,NdotL ) ;
 
                 return FinalColor;
             }
