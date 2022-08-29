@@ -5,8 +5,8 @@ Shader "GGDog/Space_Test/Sky_Color"
         _SkyColor ("Sky Color", Color) = (1, 1, 1, 1)
         [HDR]_HorizonColor ("Horizon Color", Color) = (1, 1, 1, 1)
 		
-        _SmoothStepMin ("漸層度(最低)", Range(0, 1)) = 0
-        _SmoothStepMax ("漸層度(最高)", Range(0, 1)) = 1
+        _SmoothStepMin ("Sky Gradient Min", Range(0, 1)) = 0
+        _SmoothStepMax ("Sky Gradient Max", Range(0, 1)) = 1
 
         _FogColor ("Fog Color", Color) = (1, 1, 1, 1)
         _FogPos ("Fog Pos", Range(-500,500)) = 0
@@ -70,7 +70,7 @@ Shader "GGDog/Space_Test/Sky_Color"
 
                 return o;
             }
-			
+
 			//snoise
 			half3 mod289(half3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
 			half2 mod289(half2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
@@ -131,7 +131,7 @@ Shader "GGDog/Space_Test/Sky_Color"
 
 				return 130.0 * dot(m, g);
 			}
-			
+
 
             half4 _FogColor;
             half _FogPos;
@@ -154,14 +154,14 @@ Shader "GGDog/Space_Test/Sky_Color"
 
 
 
-			    half n =0.5* _Dis* saturate(snoise(half2(2,2)*i.worldPos.xy/1000+_Time.y*half2(0,1.25)) + snoise(half2(5,5)*i.worldPos.xy/1000-_Time.y*half2(0,1)));
+				half n =0.25* _Dis* saturate(snoise(half2(2,2)*i.worldPos.xy/1000+_Time.y*half2(0,1.25)) + snoise(half2(5,5)*i.worldPos.xy/1000-_Time.y*half2(0,1)));
 
 
-				half fade =(i.worldPos.z+_Dis*(_OriScale+100))/_OriScale-0.05 ;
+				half fade =(i.worldPos.z+(_Dis*1.5)*(_OriScale+100))/_OriScale-0.15 ;
 
 				col.a = 1 - smoothstep(0.45,0.5,fade-n);
 
-				col = lerp(_SeethroughColor,col,col.a);
+				//col = lerp(_SeethroughColor,col,col.a);
 				
 				col = lerp(col,_EdgeColor,smoothstep(0.5,0.7,col.a)*smoothstep(0.425,0.5,fade-n));
 
