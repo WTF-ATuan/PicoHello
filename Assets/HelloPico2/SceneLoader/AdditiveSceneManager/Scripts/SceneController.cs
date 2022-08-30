@@ -19,6 +19,7 @@ public class SceneController : MonoBehaviour{
 
 	//如果有效能瓶頸 在來管控 Coroutine;
 	public void LoadScene(string sceneName){
+		StopAllCoroutines();
 		StartCoroutine(LoadingScene(sceneName, true));
 	}
 
@@ -37,10 +38,12 @@ public class SceneController : MonoBehaviour{
 	}
 
 	public void UnloadScene(string sceneName){
+		StopAllCoroutines();
 		StartCoroutine(UnloadingScene(sceneName));
 	}
 
 	public void BackGroundLoadScene(string sceneName){
+		StopAllCoroutines();
 		StartCoroutine(LoadingScene(sceneName));
 	}
 
