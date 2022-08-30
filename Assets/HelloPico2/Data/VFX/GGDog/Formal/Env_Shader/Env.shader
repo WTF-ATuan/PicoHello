@@ -17,7 +17,7 @@ Shader "GGDog/Space_Test/Env"
 		_LOD_LowColor("LOD LowColor",Color) = (1,1,1,1)
 		
         [Toggle(_False)]_ModelReflection("Model Reflection",Float) = 0
-        _Reflect("Reflection",Range(0,1.5)) = 1.5
+       // _Reflect("Reflection",Range(0,1.5)) = 1.5
     }
     SubShader
     {
@@ -52,7 +52,7 @@ Shader "GGDog/Space_Test/Env"
                 half3 normal : NORMAL;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
-            
+            /*
 			inline half2 unity_voronoi_noise_randomVector (half2 UV, half offset)
 			{
 			    half2x2 m = half2x2(15.27, 47.63, 99.41, 89.98);
@@ -83,6 +83,7 @@ Shader "GGDog/Space_Test/Env"
 				}
 			}
             float _ModelReflection;
+            */
             v2f vert (appdata v)
             {
                 v2f o;
@@ -96,7 +97,7 @@ Shader "GGDog/Space_Test/Env"
 				o.CameraDistance = length(mul(UNITY_MATRIX_MV,v.vertex).xyz);
 
 				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
-
+                /*
 			    half Out;
 			    half Cells;
                 Unity_Voronoi_half(o.worldPos.xy+o.worldPos.xz+o.worldPos.yz,_Time.y*0.01,0.007,Out,Cells);
@@ -104,7 +105,8 @@ Shader "GGDog/Space_Test/Env"
                 half worldPosY = step(o.worldPos.y,-30);
 
                 o.vertex = UnityObjectToClipPos(v.vertex + _ModelReflection * 0.1*half3(-1,0,-1)*Out*worldPosY);
-
+                */
+                o.vertex = UnityObjectToClipPos(v.vertex);
 				
 				o.worldNormal = mul(v.normal,(float3x3)unity_WorldToObject);
 
@@ -127,7 +129,7 @@ Shader "GGDog/Space_Test/Env"
             
             half _UV_Tilling;
             half _UV_Offset;
-            half _Reflect;
+           // half _Reflect;
             
             float4 frag (v2f i) : SV_Target
             {
@@ -166,7 +168,7 @@ Shader "GGDog/Space_Test/Env"
 				
 
 				col = lerp(col,_BackFogColor,1-saturate(smoothstep(-700,1000,i.worldPos.z)));
-				
+				/*
 			 half Out0;
 			 half Cells0;
 
@@ -196,8 +198,11 @@ Shader "GGDog/Space_Test/Env"
              half Reflect = smoothstep(1,1.75,(Out2+Out3) )*(smoothstep(0,2,(0.5-i.normal.y)));
 
              Reflect *= (1-saturate(smoothstep(0,1500,i.worldPos.z))) * (saturate(smoothstep(-150,1000,i.worldPos.z))) ;
+                
+                return col +Reflect*_FogColor*_Reflect; 
+             */
 
-                return col +Reflect*_FogColor*_Reflect;
+                return col;
             }
             ENDCG
         }
