@@ -42,6 +42,8 @@ namespace HelloPico2.PlayerController.Arm
 		public ValueAction OnTriggerDown;
 		public ValueAction OnPrimaryAxisTouchUp;
 		public ValueAction OnPrimaryAxisClick;
+		public ValueAction OnPrimaryButtonClick;
+		public ValueAction OnSecondaryButtonClick;
 		public AxisAction OnPrimaryAxisInput;
         public InputAction OnUpdateInput;
 		#endregion
@@ -92,6 +94,9 @@ namespace HelloPico2.PlayerController.Arm
             { 
                 rayInteractor.sphereCastRadius = data.GrabDetectionRadius; 
                 rayInteractor.maxRaycastDistance = data.GrabDistance; 
+
+                data.originalGrabDistance = data.GrabDistance;
+                data.originalGrabDetectionRadius = data.GrabDetectionRadius;
             }
             else
                 throw new System.Exception("missing XRRayIneractor");
@@ -121,6 +126,9 @@ namespace HelloPico2.PlayerController.Arm
             _controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxisClick, out var padAxisClick);
             _controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out var padAxis);
 
+            _controller.inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out var primaryButton);
+            _controller.inputDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out var secondaryButton);
+
             // PXR usage
             _controller.inputDevice.TryGetFeatureValue(PXR_Usages.grip1DAxis, out var grip1DAxis);
 
@@ -147,7 +155,20 @@ namespace HelloPico2.PlayerController.Arm
             if (!isGrip)
             {
                 OnGripUp?.Invoke(data);
+                data.currentGripFunctionTimer = 0;
+                rayInteractor.maxRaycastDistance = data.originalGrabDistance;
+                rayInteractor.sphereCastRadius = data.originalGrabDetectionRadius;
             }
+            else 
+            {
+                data.currentGripFunctionTimer += Time.deltaTime;
+                data.currentGripFunctionTimer = Mathf.Clamp(data.currentGripFunctionTimer,0,data.gripFunctionEffectiveTime);
+                
+                // Decreasing the raycast distance
+                rayInteractor.maxRaycastDistance = Mathf.Lerp(data.originalGrabDistance, 0, data.currentGripFunctionTimer / data.gripFunctionEffectiveTime);                
+                rayInteractor.sphereCastRadius = Mathf.Lerp(data.originalGrabDetectionRadius, 0, data.currentGripFunctionTimer / data.gripFunctionEffectiveTime);                
+            }
+
             if (!padAxisTouch)
             {
                 OnPrimaryAxisTouchUp?.Invoke(data);
@@ -160,6 +181,14 @@ namespace HelloPico2.PlayerController.Arm
             //{
             //    OnPrimaryAxisInput(padAxis);
             //}
+            if (primaryButton)
+            {
+                OnPrimaryButtonClick?.Invoke(data);
+            }
+            if (secondaryButton) 
+            { 
+                OnSecondaryButtonClick?.Invoke(data);                
+            }
             OnPrimaryAxisInput?.Invoke(padAxis);
         }
         private void OnDeviceInputDetected(DeviceInputDetected obj)
