@@ -96,6 +96,7 @@ namespace HelloPico2.PlayerController.Arm
                 rayInteractor.maxRaycastDistance = data.GrabDistance; 
 
                 data.originalGrabDistance = data.GrabDistance;
+                data.originalGrabDetectionRadius = data.GrabDetectionRadius;
             }
             else
                 throw new System.Exception("missing XRRayIneractor");
@@ -156,6 +157,7 @@ namespace HelloPico2.PlayerController.Arm
                 OnGripUp?.Invoke(data);
                 data.currentGripFunctionTimer = 0;
                 rayInteractor.maxRaycastDistance = data.originalGrabDistance;
+                rayInteractor.sphereCastRadius = data.originalGrabDetectionRadius;
             }
             else 
             {
@@ -164,6 +166,7 @@ namespace HelloPico2.PlayerController.Arm
                 
                 // Decreasing the raycast distance
                 rayInteractor.maxRaycastDistance = Mathf.Lerp(data.originalGrabDistance, 0, data.currentGripFunctionTimer / data.gripFunctionEffectiveTime);                
+                rayInteractor.sphereCastRadius = Mathf.Lerp(data.originalGrabDetectionRadius, 0, data.currentGripFunctionTimer / data.gripFunctionEffectiveTime);                
             }
 
             if (!padAxisTouch)

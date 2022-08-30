@@ -108,6 +108,7 @@ namespace HelloPico2.PlayerController.Arm
             //    armLogic.OnGripTouch += ShootChargedProjectile;
             
             armLogic.OnPrimaryButtonClick += ShootChargedProjectile;
+            armLogic.OnSecondaryButtonClick += ShootChargedProjectile;
 
             armLogic.OnPrimaryAxisInput += UpdateShape;
             armLogic.OnPrimaryAxisClick += ConfirmShape;
@@ -131,6 +132,7 @@ namespace HelloPico2.PlayerController.Arm
             //    armLogic.OnGripTouch -= ShootChargedProjectile;
             
             armLogic.OnPrimaryButtonClick -= ShootChargedProjectile;
+            armLogic.OnSecondaryButtonClick -= ShootChargedProjectile;
 
             armLogic.OnPrimaryAxisInput -= UpdateShape;
             armLogic.OnPrimaryAxisClick -= ConfirmShape;
