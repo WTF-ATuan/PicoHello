@@ -172,8 +172,8 @@ public class Level_FadeController : MonoBehaviour
         //重置頂光
         ParticalMaterial.Partical[0].SetFloat("_Alpha", 1);
         //景物水反射光
-        BaseMaterial.Env.SetFloat("_Reflect",1.5f);
-        BaseMaterial.Env_stuff.SetFloat("_Reflect", 1.5f);
+      //  BaseMaterial.Env.SetFloat("_Reflect",1.5f);
+      //  BaseMaterial.Env_stuff.SetFloat("_Reflect", 1.5f);
 
         //轉現實之後原本的天空水面會變成ToReally的材質，每次重置就換回來原本的
         Level_3_ToReality_Sky.GetComponent<MeshRenderer>().sharedMaterial = BaseMaterial.Sky;
@@ -482,7 +482,7 @@ public class Level_FadeController : MonoBehaviour
                 ParticalMaterial.Partical[0].SetFloat("_Alpha", Mathf.Lerp(ParticalMaterial.Partical[0].GetFloat("_Alpha"), 0, speed));
 
                 //景物水反射效果
-                BaseMaterial.Env.SetFloat("_Reflect", Mathf.Lerp(BaseMaterial.Env.GetFloat("_Reflect"), 0, speed));
+               // BaseMaterial.Env.SetFloat("_Reflect", Mathf.Lerp(BaseMaterial.Env.GetFloat("_Reflect"), 0, speed));
 
                 stone_piece.transform.position -= new Vector3(0, 0, 0.03f)* Level4To5_OutCloud_Speed;
                 stone.transform.position -= new Vector3(0, 0, 0.06f) * Level4To5_OutCloud_Speed;
