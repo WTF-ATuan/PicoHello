@@ -24,6 +24,8 @@ public class targetScript : MonoBehaviour
     float baseValue;
     public bool isAudio;
     public GameObject aduioObj;
+    public bool isEffect;
+    public GameObject EffectObj;
     private void Start()
     {
         countTimer = 0;
@@ -95,6 +97,10 @@ public class targetScript : MonoBehaviour
                 {
                     aduioObj.SetActive(true);
                 }
+                if (isEffect)
+                {
+                    EffectObj.SetActive(true);
+                }
                 StartCoroutine(WaitTimeScaleCollider());                
             }
         }
@@ -106,6 +112,11 @@ public class targetScript : MonoBehaviour
     }
     public void LoadTimeLine()
     {
+        if (isEffect)
+        {
+            EffectObj.SetActive(false);
+        }
+
         showObj[0].SetActive(true);
         hideList[0].SetActive(false);
         gameObject.transform.parent.gameObject.SetActive(false);
