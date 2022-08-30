@@ -14,8 +14,13 @@ namespace HelloPico2.PlayerController.Arm
         [SerializeField] private XRController _Controller;
         [SerializeField] private float _Energy;
         [SerializeField] private float _MaxEnergy;
+        [SerializeField] private int _BombAmount;
+        [SerializeField] private int _MaxBombAmount;
+        [SerializeField] private float _GripFunctionEffectiveTime;
+        public float currentGripFunctionTimer;// { get; set; }
         [SerializeField][Range(0.01f,30f)] private float _GrabDetectionRadius = 1;
         [SerializeField][Min(0.01f)] private float _GrabDistance = 30;
+        public float originalGrabDistance;
         [SerializeField][Range(0.001f,1)] private float _GrabReleaseValue = 0.05f;
         [SerializeField] private float _GrabEasingDuration;
         [SerializeField] private AnimationCurve _GrabEasingCurve;
@@ -27,6 +32,7 @@ namespace HelloPico2.PlayerController.Arm
         [FoldoutGroup("Audio Settings")][SerializeField] private string _ShootChargedEnergyBallClipName;
 
         [FoldoutGroup("Events Settings")] public UnityEngine.Events.UnityEvent WhenGainEnergy;
+        [FoldoutGroup("Events Settings")] public UnityEngine.Events.UnityEvent WhenGainBomb;
         [FoldoutGroup("Events Settings")] public UnityEngine.Events.UnityEvent WhenTouchTriggerOrGrip;
         [FoldoutGroup("Events Settings")] public UnityEngine.Events.UnityEvent WhenNotTouchTriggerAndGrip;
         [FoldoutGroup("Events Settings")] public UnityEngine.Events.UnityEvent WhenShootProjectile;
@@ -35,6 +41,9 @@ namespace HelloPico2.PlayerController.Arm
         public XRController Controller { get { return _Controller; } }
         public float Energy { get { return _Energy; } set { _Energy = Mathf.Clamp(value, 0, _MaxEnergy);} }
         public float MaxEnergy { get { return _MaxEnergy; } }
+        public int bombAmount { get { return _BombAmount; } set { _BombAmount = Mathf.Clamp(value, 0, _MaxBombAmount); } }
+        public int maxBombAmount{ get { return _MaxBombAmount; }set { _MaxBombAmount = value; } }
+        public float gripFunctionEffectiveTime { get { return _GripFunctionEffectiveTime; } }
         public float GrabDetectionRadius { get { return _GrabDetectionRadius; } set { _GrabDetectionRadius = value; } }
         public float GrabDistance { get { return _GrabDistance; } set { _GrabDistance = value; } }
         public float GrabReleaseValue { get { return _GrabReleaseValue; } }
@@ -47,5 +56,6 @@ namespace HelloPico2.PlayerController.Arm
         public string[] ShootEnergyBallClipName { get { return _ShootEnergyBallClipName; } }
         public string ShootChargedEnergyBallClipName{get{ return _ShootChargedEnergyBallClipName; }}
         public GameObject currentWeapon { get; set; }
+        
     }
 }

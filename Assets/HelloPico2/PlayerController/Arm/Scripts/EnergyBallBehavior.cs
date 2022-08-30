@@ -37,6 +37,7 @@ namespace HelloPico2.PlayerController.Arm
         [FoldoutGroup("Projectile")][SerializeField] private float _SpawnOffset;
         [FoldoutGroup("Projectile")][SerializeField] private float _ShootSpeed;
         [FoldoutGroup("Projectile")][SerializeField] private float _ChargeShootSpeed;
+        [FoldoutGroup("Projectile")][SerializeField] private float _ChargedShootCoolDown;
         [FoldoutGroup("Projectile")][SerializeField] private float _ShootCoolDown;
         [FoldoutGroup("Projectile")][SerializeField] private float _CostEnergy;
         [FoldoutGroup("Projectile")][Tooltip("Projectile Initial Speed Buffer")][Min(0.05f)][SerializeField] private float _SpeedBufferDuration;
@@ -66,6 +67,7 @@ namespace HelloPico2.PlayerController.Arm
         public LayerMask LayerMask { get { return _LayerMask; } set { _LayerMask = value; } }
 
         public Coroutine ShootCoolDownProcess { get; set; }
+        public Coroutine BombShootCoolDownProcess { get; set; }
 
         private ArmLogic _ArmLogic;
         ArmLogic armLogic { 
@@ -87,6 +89,8 @@ namespace HelloPico2.PlayerController.Arm
         {
             Project.EventBus.Subscribe<GainEnergyEventData>(ChargeEnergy);
             Project.EventBus.Subscribe<GainEnergyEventData>(ChargeEnergyBall);
+
+            Project.EventBus.Subscribe<GainBombEventData>(ChargeBomb);
         }
         private void Update()
         {
@@ -96,12 +100,14 @@ namespace HelloPico2.PlayerController.Arm
         private void OnEnable()
         {
             armLogic.OnEnergyChanged += UpdateScale;
-            armLogic.OnEnergyChanged += CheckEnableGrip;
+            //armLogic.OnEnergyChanged += CheckEnableGrip;
 
-            if(_GrabReleaseType == GrabReleaseType.OnGripUp)            
-                armLogic.OnGripUp += ShootChargedProjectile;
-            if(_GrabReleaseType == GrabReleaseType.OnGripTouchRelease)            
-                armLogic.OnGripTouch += ShootChargedProjectile;
+            //if(_GrabReleaseType == GrabReleaseType.OnGripUp)            
+            //    armLogic.OnGripUp += ShootChargedProjectile;
+            //if(_GrabReleaseType == GrabReleaseType.OnGripTouchRelease)            
+            //    armLogic.OnGripTouch += ShootChargedProjectile;
+            
+            armLogic.OnPrimaryButtonClick += ShootChargedProjectile;
 
             armLogic.OnPrimaryAxisInput += UpdateShape;
             armLogic.OnPrimaryAxisClick += ConfirmShape;
@@ -117,12 +123,14 @@ namespace HelloPico2.PlayerController.Arm
         private void OnDisable()
         {
             armLogic.OnEnergyChanged -= UpdateScale;
-            armLogic.OnEnergyChanged -= CheckEnableGrip;
+            //armLogic.OnEnergyChanged -= CheckEnableGrip;
 
-            if (_GrabReleaseType == GrabReleaseType.OnGripUp)
-                armLogic.OnGripUp -= ShootChargedProjectile;
-            if (_GrabReleaseType == GrabReleaseType.OnGripTouchRelease)
-                armLogic.OnGripTouch -= ShootChargedProjectile;
+            //if (_GrabReleaseType == GrabReleaseType.OnGripUp)
+            //    armLogic.OnGripUp -= ShootChargedProjectile;
+            //if (_GrabReleaseType == GrabReleaseType.OnGripTouchRelease)
+            //    armLogic.OnGripTouch -= ShootChargedProjectile;
+            
+            armLogic.OnPrimaryButtonClick -= ShootChargedProjectile;
 
             armLogic.OnPrimaryAxisInput -= UpdateShape;
             armLogic.OnPrimaryAxisClick -= ConfirmShape;
@@ -152,6 +160,25 @@ namespace HelloPico2.PlayerController.Arm
                 Destroy(eventData.Interactable.transform.gameObject);
 
                 armLogic.OnEnergyChanged?.Invoke(armLogic.data);
+            });
+        }
+        private void ChargeBomb(GainBombEventData eventData)
+        {
+            if (eventData.InputReceiver.Selector.HandType != armLogic.data.HandType) return;
+
+            armLogic.controllerInteractor.CancelSelect(eventData.Interactable);
+
+            var targetPos = currentEnergyBall.transform.position;
+
+            eventData.Interactable.transform.SetParent(eventData.Interactable.transform.root);
+
+            eventData.Interactable.transform.DOMove(targetPos, armLogic.data.GrabEasingDuration).SetEase(armLogic.data.GrabEasingCurve).OnComplete(() =>
+            {
+                armLogic.data.bombAmount += eventData.Amount;
+
+                armLogic.data.WhenGainBomb?.Invoke();
+
+                Destroy(eventData.Interactable.transform.gameObject);
             });
         }
         private Transform CheckTarget() {
@@ -196,21 +223,34 @@ namespace HelloPico2.PlayerController.Arm
         private void GetCurrentDeviceInput(DeviceInputDetected obj) {
             currentDeviceInputDetected = obj;
         }
+        //private void ShootChargedProjectile(ArmData data)
+        //{
+        //    if (data.Energy <= 0) return;
+        //    if (hasTransformProcess) return;
+
+        //    var chargeScale = _EnergyProjectile.transform.localScale + Vector3.one * (data.Energy / data.MaxEnergy);
+        //    GenerateProjectile(true, _ChargedEnergyProjectile, _ChargeShootSpeed, chargeScale.y);
+        //    data.Energy = 0;
+        //    armLogic.OnEnergyChanged?.Invoke(data);
+
+        //    UpdateScale(data);
+
+        //    data.WhenShootChargedProjectile?.Invoke();
+        //}
         private void ShootChargedProjectile(ArmData data)
         {
-            if (data.Energy <= 0) return;
+            if (data.bombAmount <= 0 || BombShootCoolDownProcess != null) return;
             if (hasTransformProcess) return;
 
-            var chargeScale = _EnergyProjectile.transform.localScale + Vector3.one * (data.Energy / data.MaxEnergy);
-            GenerateProjectile(true, _ChargedEnergyProjectile, _ChargeShootSpeed, chargeScale.y);
-            data.Energy = 0;
-            armLogic.OnEnergyChanged?.Invoke(data);
+            GenerateProjectile(true, _ChargedEnergyProjectile, _ChargeShootSpeed);
+            // CD
+            BombShootCoolDownProcess = StartCoroutine(BombCoolDown(_ChargedShootCoolDown));
 
-            UpdateScale(data);
+            data.bombAmount--;
 
             data.WhenShootChargedProjectile?.Invoke();
         }
-        private void ShootEnergyProjectile(ArmData data)
+    private void ShootEnergyProjectile(ArmData data)
         {
             if (data.Energy <= 0 || ShootCoolDownProcess != null) return;
             if (_OnlyShootProjectileOnEnergyBallState && currentShape != currentEnergyBall) return;
@@ -219,6 +259,8 @@ namespace HelloPico2.PlayerController.Arm
             data.Energy -= _CostEnergy;
             armLogic.OnEnergyChanged?.Invoke(data);
             GenerateProjectile(false, _EnergyProjectile, _ShootSpeed, 1, _Homing);
+            // CD
+            ShootCoolDownProcess = StartCoroutine(CoolDown(_ShootCoolDown));
 
             UpdateScale(data);
 
@@ -242,8 +284,6 @@ namespace HelloPico2.PlayerController.Arm
             clone.GetComponent<ProjectileController>().ProjectileSetUp(speed, _SpeedBufferDuration, _SpeedBufferEasingCurve, currentDeviceInputDetected, _TestTarget, homing);
 
             SendAimingPercisionData(currentEnergyBall.transform, _TestTarget);
-
-            ShootCoolDownProcess = StartCoroutine(CoolDown(_ShootCoolDown));
         }
         private void ChargeEnergyBall(GainEnergyEventData eventData) {
             // Check same arm
@@ -374,11 +414,20 @@ namespace HelloPico2.PlayerController.Arm
         }
         private IEnumerator CoolDown (float duration) {
             yield return new WaitForSeconds(duration);
-            
-            if(ShootCoolDownProcess != null)
+
+            if (ShootCoolDownProcess != null)
                 StopCoroutine(ShootCoolDownProcess);
 
             ShootCoolDownProcess = null;
+        }
+        private IEnumerator BombCoolDown(float duration)
+        {
+            yield return new WaitForSeconds(duration);
+
+            if (BombShootCoolDownProcess != null)
+                StopCoroutine(BombShootCoolDownProcess);
+
+            BombShootCoolDownProcess = null;
         }
         #region WeaponBehavior
         public override void Activate(ArmLogic Logic, ArmData data, GameObject Obj, Vector3 fromScale)
