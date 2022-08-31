@@ -17,7 +17,7 @@ namespace HelloPico2{
 		private void OnAudioEventPosted(AudioEventRequested obj){
 			var audioID = obj.AudioID;
 			var position = obj.PlayPosition;
-			var usingMultiple = obj.UsingMultiple;
+			var usingMultiple = obj.UsingMultipleAudioClips;
 			if(usingMultiple){
 				var audioData = dataOverview.FindEventData<MultiAudioData>(audioID);
 				var audioClip = audioData.GetAudio();
