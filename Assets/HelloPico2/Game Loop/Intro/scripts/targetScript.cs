@@ -26,6 +26,7 @@ public class targetScript : MonoBehaviour
     public GameObject aduioObj;
     public bool isEffect;
     public GameObject EffectObj;
+    public bool isStaff;
     private void Start()
     {
         countTimer = 0;
@@ -63,16 +64,22 @@ public class targetScript : MonoBehaviour
     }
     public void ShowAnim()
     {
-          _Animator.SetBool("isGet",true);
-          _Animator.SetTrigger("isGet");
+        
+        _Animator.SetBool("isGet", true);
+        
+        _Animator.SetTrigger("isGet");
+        
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (!isHandTouch && isTrigger && other.CompareTag("Player"))
         {
-                AddItemHeld();
-                ShowAnim();
-                StartCoroutine(WaitTimeScaleCollider());
+
+            AddItemHeld();
+            ShowAnim();
+            LoadTimeLine();
+    
         }
     }
     private void OnTriggerStay(Collider other)
@@ -106,8 +113,7 @@ public class targetScript : MonoBehaviour
     {
         if (isAudio)
         {
-            aduioObj.SetActive(true);
-            Debug.Log("Close");
+            aduioObj.SetActive(true);            
         }
         yield return new WaitForSeconds(2);
         LoadTimeLine();
@@ -121,7 +127,10 @@ public class targetScript : MonoBehaviour
 
         showObj[0].SetActive(true);
         hideList[0].SetActive(false);
-        gameObject.transform.parent.gameObject.SetActive(false);
+        if (!isStaff)
+        {
+            gameObject.transform.parent.gameObject.SetActive(false);
+        }        
         
         isTrigger = false;
         countTimer = 0;
