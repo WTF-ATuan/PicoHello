@@ -16,15 +16,24 @@ namespace HelloPico2{
 			var attachPoint = obj.AttachPoint;
 			var during = obj.During;
 			var isBinding = obj.IsBinding;
-			var particleData = dataOverview.FindEventData<ParticleData>(vfxID);
+			var usingMultipleVfXs = obj.UsingMultipleVfXs;
+			ParticleSystem particle;
+			if(usingMultipleVfXs){
+				var vfxData = dataOverview.FindEventData<MultiVFXData>(vfxID);
+				var particleSystem = vfxData.GetParticle();
+				particle = particleSystem;
+			}
+			else{
+				var particleData = dataOverview.FindEventData<VFXData>(vfxID);
+				particle = particleData.particle;
+			}
+
 			if(isBinding){
-				var particle = particleData.particle;
 				var particleObject = Instantiate(particle, attachPoint.position, Quaternion.identity, attachPoint);
 				particleObject.name = $"VFX{vfxID}";
 				return particleObject;
 			}
 			else{
-				var particle = particleData.particle;
 				var particleObject = Instantiate(particle, spawnPosition, Quaternion.identity);
 				particleObject.name = $"VFX{vfxID} (Temporary)";
 				Destroy(particleObject.gameObject, during);
