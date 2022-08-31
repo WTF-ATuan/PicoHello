@@ -24,7 +24,7 @@ namespace HelloPico2{
 				particle = particleSystem;
 			}
 			else{
-				var particleData = dataOverview.FindEventData<VFXData>(vfxID);
+				var particleData = dataOverview.FindEventData<ParticleData>(vfxID);
 				particle = particleData.particle;
 			}
 

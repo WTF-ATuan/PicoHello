@@ -9,7 +9,7 @@ namespace HelloPico2{
 		public Transform AttachPoint{ get; } //綁定狀態的情境下的父物件
 		public Vector3 SpawnPosition{ get; } //無綁定狀態下的生成位置
 
-		public bool UsingMultipleVfXs;
+		public bool UsingMultipleVfXs = false;
 
 		public VFXEventRequested(string vfxID, bool isBinding, Transform attachPoint,
 			float during = 0,
