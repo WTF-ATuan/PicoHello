@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Sirenix.OdinInspector;
 
 namespace HelloPico2.PlayerController
 {
-    public class HandOrbitFloatingObjects : MonoBehaviour
+    public class HandOrbitFloatingObjects : SerializedMonoBehaviour
     {
         [SerializeField] private Transform[] _OrbitPos;
         [SerializeField] private float _ScaleMultiplier = .3f;
@@ -19,22 +20,38 @@ namespace HelloPico2.PlayerController
 
         [SerializeField] private int currentObj = -1;
         [SerializeField] private List<GameObject> cloneList;
-        public void AddBomb() {
-            AddOrbitObject(_FloatingBombPrefab);
+        public IOribitMovement movement;
+        [SerializeField] private float _MovementTransitionDuration = .5f;
+        bool hasGrabbingProcess;
+        public void AddBomb()
+        {
+            if (!HasSlot() || hasGrabbingProcess) return;
+            hasGrabbingProcess = true;
+            var obj = GenerateOrbitObject(_FloatingBombPrefab);
+            if (movement != null)
+            {
+                System.Action act = () => { AddOrbitObject(obj); };
+                movement.Move(obj, act);
+            }
+            else {
+                AddOrbitObject(obj);
+            }
         }
-        public void AddOrbitObject(GameObject obj) {
-            if (currentObj >= _OrbitPos.Length - 1) return;
-            
+        private GameObject GenerateOrbitObject(GameObject obj) {
+            var clone = Instantiate(obj);
+            clone.transform.localScale = Vector3.one * _ScaleMultiplier;
+            cloneList.Add(clone);
+            return clone;
+        }
+        private void AddOrbitObject(GameObject obj) {            
             currentObj++;
 
-            var clone = Instantiate(obj, _OrbitPos[currentObj]);
-            clone.transform.SetParent(_OrbitPos[currentObj], false);
-            clone.transform.localPosition = Vector3.zero;
-            clone.transform.localEulerAngles = _Rotation;
-            clone.transform.localScale *= _ScaleMultiplier;
-            clone.transform.DOPunchScale(_ShowUpPunch * Vector3.one, _ShowUpPunchDuration, 2);
-
-            cloneList.Add(clone);
+            obj.transform.SetParent(_OrbitPos[currentObj]);
+            obj.transform.DOLocalMove(Vector3.zero, _MovementTransitionDuration);
+            obj.transform.DOLocalRotate(_Rotation, _MovementTransitionDuration).OnComplete(() => { 
+                obj.transform.DOPunchScale(_ShowUpPunch * Vector3.one, _ShowUpPunchDuration, 2);
+                hasGrabbingProcess = false;
+            });
         }
         public void RemoveOrbitObject()
         {
@@ -45,6 +62,9 @@ namespace HelloPico2.PlayerController
             cloneList.Remove(cloneList[currentObj]);
 
             currentObj--;
+        }
+        private bool HasSlot() {
+            return currentObj < _OrbitPos.Length - 1;
         }
     }
 }
