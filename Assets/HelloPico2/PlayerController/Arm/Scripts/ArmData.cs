@@ -32,6 +32,8 @@ namespace HelloPico2.PlayerController.Arm
         [FoldoutGroup("Audio Settings")][SerializeField] private string[] _ShootEnergyBallClipName;
         [FoldoutGroup("Audio Settings")][SerializeField] private string _ShootChargedEnergyBallClipName;
 
+        [FoldoutGroup("Events Settings")] public UltEvents.UltEvent WhenGrip;
+        [FoldoutGroup("Events Settings")] public UltEvents.UltEvent WhenNotGrip;
         [FoldoutGroup("Events Settings")] public UnityEngine.Events.UnityEvent WhenGainEnergy;
         [FoldoutGroup("Events Settings")] public UnityEngine.Events.UnityEvent WhenGainBomb;
         [FoldoutGroup("Events Settings")] public UnityEngine.Events.UnityEvent WhenTouchTriggerOrGrip;

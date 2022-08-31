@@ -38,6 +38,7 @@ namespace HelloPico2.PlayerController.Arm
 		public ValueAction OnEnergyChanged;
 		public ValueAction OnGripTouch;
 		public ValueAction OnGripUp;
+		public ValueAction OnGripDown;
 		public ValueAction OnTriggerUp;
 		public ValueAction OnTriggerDown;
 		public ValueAction OnPrimaryAxisTouchUp;
@@ -156,17 +157,22 @@ namespace HelloPico2.PlayerController.Arm
             {
                 OnGripUp?.Invoke(data);
                 data.currentGripFunctionTimer = 0;
-                rayInteractor.maxRaycastDistance = data.originalGrabDistance;
+                //rayInteractor.maxRaycastDistance = data.originalGrabDistance;
                 rayInteractor.sphereCastRadius = data.originalGrabDetectionRadius;
+
+                data.WhenNotGrip?.Invoke();
             }
             else 
             {
+                OnGripDown?.Invoke(data);
                 data.currentGripFunctionTimer += Time.deltaTime;
                 data.currentGripFunctionTimer = Mathf.Clamp(data.currentGripFunctionTimer,0,data.gripFunctionEffectiveTime);
                 
                 // Decreasing the raycast distance
-                rayInteractor.maxRaycastDistance = Mathf.Lerp(data.originalGrabDistance, 0, data.currentGripFunctionTimer / data.gripFunctionEffectiveTime);                
+                //rayInteractor.maxRaycastDistance = Mathf.Lerp(data.originalGrabDistance, 0, data.currentGripFunctionTimer / data.gripFunctionEffectiveTime);                
                 rayInteractor.sphereCastRadius = Mathf.Lerp(data.originalGrabDetectionRadius, 0, data.currentGripFunctionTimer / data.gripFunctionEffectiveTime);                
+                
+                data.WhenGrip?.Invoke();
             }
 
             if (!padAxisTouch)
