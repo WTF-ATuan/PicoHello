@@ -2,6 +2,7 @@
 using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace HelloPico2.InteractableObjects{
@@ -17,6 +18,8 @@ namespace HelloPico2.InteractableObjects{
 
 		[TitleGroup("Target Setting")] public Vector3 targetBoxSize = Vector3.one;
 
+		[TitleGroup("Duration Setting")] [EnumToggleButtons]
+		public RotationType rotateType = RotationType.FaceTarget;
 		[TitleGroup("Duration Setting")] public float during = 2;
 		[TitleGroup("Duration Setting")] public AnimationCurve movingCurve = AnimationCurve.Linear(0, 0, 1, 1);
 
@@ -48,10 +51,25 @@ namespace HelloPico2.InteractableObjects{
 			var currentScale = objTransform.localScale;
 			obj.transform.DOScale(Vector3.zero, 0f);
 			obj.transform.DOScale(currentScale, 0.5f);
-			objTransform.DOLookAt(targetRandomPosition, 0.1f);
+			SetRotation(objTransform, targetRandomPosition);
 			objTransform.DOMove(targetRandomPosition, during)
 					.SetEase(movingCurve)
 					.OnComplete(() => OnCompleteMoving(obj));
+		}
+
+		private void SetRotation(Transform objTransform, Vector3 targetRandomPosition){
+			switch(rotateType){
+				case RotationType.Default:
+					break;
+				case RotationType.Zero:
+					objTransform.rotation = Quaternion.identity;
+					break;
+				case RotationType.FaceTarget:
+					objTransform.DOLookAt(targetRandomPosition, 0.1f);
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
 		}
 
 		private void OnCompleteMoving(GameObject obj){
@@ -138,5 +156,11 @@ namespace HelloPico2.InteractableObjects{
 		None,
 		Destroy,
 		Inactive,
+	}
+
+	public enum RotationType{
+		Default,
+		Zero,
+		FaceTarget
 	}
 }
