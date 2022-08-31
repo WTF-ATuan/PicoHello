@@ -93,10 +93,7 @@ public class targetScript : MonoBehaviour
             {   
                 AddItemHeld();
                 ShowAnim();
-                if (isAudio)
-                {
-                    aduioObj.SetActive(true);
-                }
+
                 if (isEffect)
                 {
                     EffectObj.SetActive(true);
@@ -107,6 +104,11 @@ public class targetScript : MonoBehaviour
     }
     IEnumerator WaitTimeScaleCollider()
     {
+        if (isAudio)
+        {
+            aduioObj.SetActive(true);
+            Debug.Log("Close");
+        }
         yield return new WaitForSeconds(2);
         LoadTimeLine();
     }
