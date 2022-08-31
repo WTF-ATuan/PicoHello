@@ -299,6 +299,7 @@ MonoBehaviour:
   _DamageAmount: 0
   _HitCDDuration: 0.05
   _InteractType: 0
+  _ShieldReflectableItem: 1
   WhenCollide:
     m_PersistentCalls:
       m_Calls:
@@ -351,8 +352,8 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
-  _CanOnlyDestroyByInteractType: 0
-  _Lifetime: 90
+  beamHitCount: 1
+  ballHitCount: 3
   _DestroyDelayDuration: 2
   _HitEffectID: BulletDestroyVFX
   WhenCollideWithEnergyBall:
@@ -621,6 +622,7 @@ MonoBehaviour:
   WhenEnableDelay:
     _PersistentCalls: []
   m_DelayTime: 1
+  invokeByOrder: 0
 --- !u!1001 &1407933942624133220
 PrefabInstance:
   m_ObjectHideFlags: 0
