@@ -17,10 +17,10 @@ namespace HelloPico2{
 		private void OnAudioEventPosted(AudioEventRequested obj){
 			var audioID = obj.AudioID;
 			var position = obj.PlayPosition;
-			var allowMultiple = obj.AllowMultiple;
-			if(allowMultiple){
+			var usingMultiple = obj.UsingMultiple;
+			if(usingMultiple){
 				var audioData = dataOverview.FindEventData<MultiAudioData>(audioID);
-				var audioClip = audioData.GetItem();
+				var audioClip = audioData.GetAudio();
 				_audioSource.transform.position = position;
 				_audioSource.PlayOneShot(audioClip);
 			}
@@ -35,7 +35,7 @@ namespace HelloPico2{
 		[Button]
 		private void AudioTest(string id){
 			var multiAudioData = dataOverview.FindEventData<MultiAudioData>(id);
-			var audioClip = multiAudioData.GetItem();
+			var audioClip = multiAudioData.GetAudio();
 			_audioSource.PlayOneShot(audioClip);
 		}
 
