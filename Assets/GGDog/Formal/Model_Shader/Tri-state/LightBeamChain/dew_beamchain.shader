@@ -2,6 +2,7 @@
 {
 	Properties
 	{
+        [IntRange]_joint ("joint", Range(0,50)) = 50
         _Scale ("Scale", Range(0,1)) = 1
 
         _RenderTex("Render Tex", 2D) = "white" {}
@@ -129,6 +130,7 @@
 			}
 
 			half _Scale;
+            half _joint;
 
 			v2f vert (appdata v)
 			{
@@ -157,17 +159,12 @@
 				o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
 				
-				o.scrPos = ComputeScreenPos(o.vertex);  //抓取螢幕截圖的位置
+                v.uv.y = smoothstep(_joint/50,1,v.uv.y);
 
-				float Noise1 = snoise( v.vertex*_NoiseUV.x + _Time.y*(0.35,0.25)*2.5);
-				float Noise2 = snoise( v.vertex*_NoiseUV.y + _Time.y*(-0.45,0.45)*1.5);
-
-				float noise = (saturate(1.75-v.uv.x)*Noise1*(_NoisePower+1)*_NoiseUV.z + saturate(1.75-v.uv.x)*Noise2*(_NoisePower+1)*_NoiseUV.w);
-				
                 half scale = smoothstep(0,1.75,1-v.uv.y)*_Scale;
 
-				o.vertex = UnityObjectToClipPos( (_NoisePower/10+1) * v.vertex + 0.5*v.normal * saturate(noise*noise) - 0.01*v.normal*scale );
-				
+                o.vertex = UnityObjectToClipPos(v.vertex - 0.01*v.normal*scale);
+
 
 				return o;
 			}
