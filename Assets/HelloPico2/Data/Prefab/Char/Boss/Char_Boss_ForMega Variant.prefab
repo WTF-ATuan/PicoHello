@@ -1,5 +1,75 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4234817214726035046
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 104338230064519291}
+  - component: {fileID: 5842563284790501240}
+  - component: {fileID: 4265884917363514982}
+  - component: {fileID: 7378741293145742135}
+  m_Layer: 9
+  m_Name: hit Target ColliderCh4ForMega
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &104338230064519291
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4234817214726035046}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.08, y: 0.08, z: 0.08}
+  m_Children: []
+  m_Father: {fileID: 6535642571067256024}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &5842563284790501240
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4234817214726035046}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &4265884917363514982
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4234817214726035046}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: -0.35}
+--- !u!114 &7378741293145742135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4234817214726035046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bcc629ec2b04c819844ead86b41eb47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  elapsedTime: 0
+  defaultEffect: {fileID: 457994238020852147, guid: 6744e0468a4c03a428e696794b7e612c, type: 3}
+  defaultAudioClip: {fileID: 8300000, guid: bbb7f787365e7e947b61bb075cee5805, type: 3}
+  effectSettings: []
 --- !u!95 &7513967118547506634
 Animator:
   serializedVersion: 3
@@ -110,6 +180,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 725975714919074510, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 750042644696149076, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.26143208
@@ -154,6 +228,38 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1019793295759436348, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1019793295759436348, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: defaultAudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: bbb7f787365e7e947b61bb075cee5805, type: 3}
+    - target: {fileID: 1019793295759436348, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: effectSettings.Array.data[0].audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 5c75d3270456a0047bc367c3ae3b7db6, type: 3}
+    - target: {fileID: 1021817411099348972, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1021817411099348972, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: defaultAudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: bbb7f787365e7e947b61bb075cee5805, type: 3}
+    - target: {fileID: 1021817411099348972, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: effectSettings.Array.data[0].audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 5c75d3270456a0047bc367c3ae3b7db6, type: 3}
+    - target: {fileID: 1167430349358876290, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: defaultAudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: bbb7f787365e7e947b61bb075cee5805, type: 3}
+    - target: {fileID: 1167430349358876290, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: effectSettings.Array.data[0].audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 5c75d3270456a0047bc367c3ae3b7db6, type: 3}
     - target: {fileID: 1239353414300888387, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
       propertyPath: m_LocalRotation.w
       value: -0.26143208
@@ -286,6 +392,14 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 2035007588211274559, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035007588211274559, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: defaultAudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4ef1f1917eac41e48a8b2153bd1b1b16, type: 3}
     - target: {fileID: 2039893831052889391, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -530,6 +644,18 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2790913872831895875, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2826295452770135346, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2826295452770135346, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: defaultAudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4ef1f1917eac41e48a8b2153bd1b1b16, type: 3}
     - target: {fileID: 2886119849730533759, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
       propertyPath: m_UpdateWhenOffscreen
       value: 1
@@ -538,6 +664,22 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: c974fe422daf7de44978514f064e28aa, type: 2}
+    - target: {fileID: 2893704869988408946, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3070411639170953999, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3079352695427568215, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3079352695427568215, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: defaultAudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4ef1f1917eac41e48a8b2153bd1b1b16, type: 3}
     - target: {fileID: 3117833836107047060, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -642,6 +784,18 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3551019125767027166, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3551019125767027166, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: defaultAudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: bbb7f787365e7e947b61bb075cee5805, type: 3}
+    - target: {fileID: 3551019125767027166, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: effectSettings.Array.data[0].audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 5c75d3270456a0047bc367c3ae3b7db6, type: 3}
     - target: {fileID: 3593333655645754360, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.84594196
@@ -718,6 +872,14 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.0018341285
       objectReference: {fileID: 0}
+    - target: {fileID: 3948209063829709489, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3948209063829709489, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: defaultAudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4ef1f1917eac41e48a8b2153bd1b1b16, type: 3}
     - target: {fileID: 4073280633584313663, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.96874774
@@ -765,6 +927,10 @@ PrefabInstance:
     - target: {fileID: 4169488312484568231, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0.4972734
+      objectReference: {fileID: 0}
+    - target: {fileID: 4181247214068450520, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4185078366955098330, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
       propertyPath: m_LocalRotation.w
@@ -894,6 +1060,14 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.5737396
       objectReference: {fileID: 0}
+    - target: {fileID: 4994268253015031921, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4994268253015031921, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: defaultAudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4ef1f1917eac41e48a8b2153bd1b1b16, type: 3}
     - target: {fileID: 5086122718194098434, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -918,6 +1092,18 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5162180849153178511, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5162180849153178511, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: defaultAudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: bbb7f787365e7e947b61bb075cee5805, type: 3}
+    - target: {fileID: 5162180849153178511, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: effectSettings.Array.data[0].audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 5c75d3270456a0047bc367c3ae3b7db6, type: 3}
     - target: {fileID: 5296080816563061179, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.9685192
@@ -1082,6 +1268,18 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: c974fe422daf7de44978514f064e28aa, type: 2}
+    - target: {fileID: 5552031417499123979, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5552031417499123979, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: defaultAudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: bbb7f787365e7e947b61bb075cee5805, type: 3}
+    - target: {fileID: 5552031417499123979, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: effectSettings.Array.data[0].audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 5c75d3270456a0047bc367c3ae3b7db6, type: 3}
     - target: {fileID: 5595229181959231273, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.9685496
@@ -1114,6 +1312,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5644383616846318211, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5679973566982911823, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.9685496
@@ -1144,6 +1346,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5701770381155370947, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
       propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5714656912633285940, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6051830216938015036, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
@@ -1354,6 +1560,14 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: a8a05d615cf97ea409cdaf3f33211cc1, type: 2}
+    - target: {fileID: 7251615690781908241, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7251615690781908241, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: defaultAudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4ef1f1917eac41e48a8b2153bd1b1b16, type: 3}
     - target: {fileID: 7278200581051443417, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.6844381
@@ -1408,6 +1622,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7438130031528126888, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7448137616321978651, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7467131102212751781, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
@@ -1522,6 +1740,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8390955637067669026, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8439705330329572090, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8453203402003295796, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.9685496
@@ -1586,6 +1812,10 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 9006095960152194482, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9060677798182633010, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.8458767
@@ -1607,5 +1837,10 @@ PrefabInstance:
 --- !u!1 &2072269470609218970 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5525148601905696413, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
+  m_PrefabInstance: {fileID: 5795969425389212423}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6535642571067256024 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 782552324537794527, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
   m_PrefabInstance: {fileID: 5795969425389212423}
   m_PrefabAsset: {fileID: 0}
