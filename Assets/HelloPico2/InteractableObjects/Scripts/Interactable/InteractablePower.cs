@@ -34,7 +34,7 @@ namespace HelloPico2.InteractableObjects
             GetComponent<Collider>().enabled = false;
             used = true;
 
-            selectorTarget = obj.Selector.SelectorTransform;            
+            selectorTarget = obj.Selector.SelectorTransform;
         }
         private void Update()
         {

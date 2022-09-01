@@ -22,7 +22,6 @@ namespace HelloPico2.InteractableObjects
             base.OnSelect(obj);
             if (used) return;
 
-            // TODO: Charge Bomb
             TryGetComponent<IXRSelectInteractable>(out var Interactable);
 
             GainBombEventData eventDate = new GainBombEventData();

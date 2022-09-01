@@ -20,6 +20,7 @@ namespace HelloPico2.PlayerController.Arm
         [ReadOnly] public float currentGripFunctionTimer;// { get; set; }
         [SerializeField][Range(0.01f,30f)] private float _GrabDetectionRadiusMin = 0.1f;
         [SerializeField][Range(0.01f,30f)] private float _GrabDetectionRadius = 1;
+        [HideInInspector] public float _GripDeadRange = 0.1f;
         public float originalGrabDetectionRadius { get; set; }
         [SerializeField][Min(0.01f)] private float _GrabDistance = 30;
         public float originalGrabDistance { get; set; }
