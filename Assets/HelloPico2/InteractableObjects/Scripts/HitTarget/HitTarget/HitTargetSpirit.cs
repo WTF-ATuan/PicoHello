@@ -11,7 +11,6 @@ namespace HelloPico2.InteractableObjects
         public string _BulletReactTimelineName;
         public string _WhipReactTimelineName;
         public string _BeamReactTimelineName;
-        public string _EyeTrackingTimelineName;
         [SerializeField] private float _DestroyDelayDuration = 3;
         [SerializeField] private string _BulletReactHitEffectID = "";
         [SerializeField] private string _WhipReactHitEffectID = "";
@@ -37,18 +36,6 @@ namespace HelloPico2.InteractableObjects
             if (spiritTimeline == null)
                 Debug.Log("HitTargetSpirit couldn't get a spiritTimeline ref.");
         }
-        protected override void Start()
-        {
-            base.Start();           
-        }
-        public override void OnCollide(InteractType type, Collider selfCollider)
-        {
-            base.OnCollide(type, selfCollider);
-            if(type == InteractType.Eye) OnEyeCollide();
-        }
-
-        private void OnEyeCollide(){ }
-
         private void OnEnable(){
             if(spiritTimeline == null){
                 throw new Exception("Missing spiritTimeline reference.");  return; }
