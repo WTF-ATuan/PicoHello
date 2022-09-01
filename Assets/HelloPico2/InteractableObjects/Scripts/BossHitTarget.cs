@@ -46,6 +46,7 @@ namespace HelloPico2.InteractableObjects.Scripts{
 			var effectObject = Instantiate(effect, currentTransform.position, Quaternion.identity, currentTransform);
 			_currentEffect = effectObject;
 			_currentAudio = effectObject.gameObject.AddComponent<AudioSource>();
+			_currentAudio.playOnAwake = false;
 			_currentAudio.clip = audioClip;
 		}
 
