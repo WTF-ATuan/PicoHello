@@ -89,8 +89,16 @@ public class SceneController : MonoBehaviour{
 				exists = true;
 		if(!exists) yield break;
 		var scene = SceneManager.GetSceneByName(sceneName);
+		DestroyAllObject(scene);
 		SceneManager.UnloadScene(scene);
 		yield return null;
 		fullyLoadedScenes.Remove(scene);
+	}
+
+	private void DestroyAllObject(Scene scene){
+		var sceneGameObjects = scene.GetRootGameObjects();
+		foreach(var obj in sceneGameObjects){
+			Destroy(obj);
+		}
 	}
 }
