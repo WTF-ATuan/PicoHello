@@ -43,8 +43,12 @@ namespace HelloPico2{
 
 		private int GetRandomIndex(){
 			var audioClipsCount = audioClips.Count;
-			var randomValue = Random.Range(0, audioClipsCount - 1);
-			return randomValue;
+			if(audioClipsCount < 2) return _index;
+			var randomIndex = Random.Range(0, audioClipsCount);
+			while(randomIndex == _index) randomIndex = Random.Range(0, audioClipsCount);
+
+			_index = randomIndex;
+			return randomIndex;
 		}
 	}
 
