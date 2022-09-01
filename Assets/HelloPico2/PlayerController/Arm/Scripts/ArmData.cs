@@ -17,11 +17,12 @@ namespace HelloPico2.PlayerController.Arm
         [SerializeField] private int _BombAmount;
         [SerializeField] private int _MaxBombAmount;
         [SerializeField] private float _GripFunctionEffectiveTime;
-        public float currentGripFunctionTimer;// { get; set; }
+        [ReadOnly] public float currentGripFunctionTimer;// { get; set; }
+        [SerializeField][Range(0.01f,30f)] private float _GrabDetectionRadiusMin = 0.1f;
         [SerializeField][Range(0.01f,30f)] private float _GrabDetectionRadius = 1;
-        public float originalGrabDetectionRadius;
+        public float originalGrabDetectionRadius { get; set; }
         [SerializeField][Min(0.01f)] private float _GrabDistance = 30;
-        public float originalGrabDistance;
+        public float originalGrabDistance { get; set; }
         [SerializeField][Range(0.001f,1)] private float _GrabReleaseValue = 0.05f;
         [SerializeField] private float _GrabEasingDuration;
         [SerializeField] private AnimationCurve _GrabEasingCurve;
@@ -47,6 +48,7 @@ namespace HelloPico2.PlayerController.Arm
         public int bombAmount { get { return _BombAmount; } set { _BombAmount = Mathf.Clamp(value, 0, _MaxBombAmount); } }
         public int maxBombAmount{ get { return _MaxBombAmount; }set { _MaxBombAmount = value; } }
         public float gripFunctionEffectiveTime { get { return _GripFunctionEffectiveTime; } }
+        public float GrabDetectionRadiusMin { get { return _GrabDetectionRadiusMin; } set { _GrabDetectionRadiusMin = value; } }
         public float GrabDetectionRadius { get { return _GrabDetectionRadius; } set { _GrabDetectionRadius = value; } }
         public float GrabDistance { get { return _GrabDistance; } set { _GrabDistance = value; } }
         public float GrabReleaseValue { get { return _GrabReleaseValue; } }

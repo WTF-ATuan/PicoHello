@@ -170,7 +170,7 @@ namespace HelloPico2.PlayerController.Arm
                 
                 // Decreasing the raycast distance
                 //rayInteractor.maxRaycastDistance = Mathf.Lerp(data.originalGrabDistance, 0, data.currentGripFunctionTimer / data.gripFunctionEffectiveTime);                
-                rayInteractor.sphereCastRadius = Mathf.Lerp(data.originalGrabDetectionRadius, 0, data.currentGripFunctionTimer / data.gripFunctionEffectiveTime);                
+                rayInteractor.sphereCastRadius = Mathf.Lerp(data.originalGrabDetectionRadius, data.GrabDetectionRadiusMin, data.currentGripFunctionTimer / data.gripFunctionEffectiveTime);                
                 
                 data.WhenGrip?.Invoke();
             }
