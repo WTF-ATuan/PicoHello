@@ -33600,6 +33600,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e57ff1d86664ba241b48d62d6219cd3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _UseTween: 0
+  _Pivot: {fileID: 0}
+  _GrabbingDuration: 1
+  _GrabbingEaseX:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _GrabbingEaseY:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _GrabbingEaseZ:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _StartPosition: {x: 0, y: 0, z: 10}
   _Animator: {fileID: 3448280058390613228}
   _GrabObjectName: Grab
   _AnimationPivot: {fileID: 5379134988715719587}
@@ -34637,11 +34659,11 @@ MonoBehaviour:
   _MaxBombAmount: 5
   _GripFunctionEffectiveTime: 3
   currentGripFunctionTimer: 0
+  _GrabDetectionRadiusMin: 0.1
   _GrabDetectionRadius: 4
-  originalGrabDetectionRadius: 0
+  _GripDeadRange: 0.1
   _GrabDistance: 50
-  originalGrabDistance: 0
-  _GrabReleaseValue: 0.05
+  _GrabReleaseValue: 0.001
   _GrabEasingDuration: 0.2
   _GrabEasingCurve:
     serializedVersion: 2
@@ -60487,11 +60509,11 @@ MonoBehaviour:
   _MaxBombAmount: 5
   _GripFunctionEffectiveTime: 3
   currentGripFunctionTimer: 0
+  _GrabDetectionRadiusMin: 0.1
   _GrabDetectionRadius: 4
-  originalGrabDetectionRadius: 0
+  _GripDeadRange: 0.1
   _GrabDistance: 50
-  originalGrabDistance: 0
-  _GrabReleaseValue: 0.05
+  _GrabReleaseValue: 0.001
   _GrabEasingDuration: 0.2
   _GrabEasingCurve:
     serializedVersion: 2
@@ -69754,6 +69776,100 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e57ff1d86664ba241b48d62d6219cd3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _UseTween: 0
+  _Pivot: {fileID: 7600628233577564497}
+  _GrabbingDuration: 1
+  _GrabbingEaseX:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _GrabbingEaseY:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.3966153
+      value: 0.12965924
+      inSlope: 0.73708296
+      outSlope: 0.73708296
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.7036344
+      value: 20
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -3.5477853
+      outSlope: -3.5477853
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.12738165
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _GrabbingEaseZ:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _StartPosition: {x: 0, y: -0.01, z: 1}
   _Animator: {fileID: 133091511}
   _GrabObjectName: Grab
   _AnimationPivot: {fileID: 3515090311731163829}
@@ -73134,7 +73250,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ffede0c0f10889746b47a6239f1d5dec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ffede0c0f10889746b47a6239f1d5dec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -78653,7 +78769,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ffede0c0f10889746b47a6239f1d5dec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ffede0c0f10889746b47a6239f1d5dec, type: 3}
       propertyPath: m_LocalPosition.x

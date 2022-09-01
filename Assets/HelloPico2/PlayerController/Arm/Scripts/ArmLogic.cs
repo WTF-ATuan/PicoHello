@@ -208,14 +208,15 @@ namespace HelloPico2.PlayerController.Arm
 			var isTrigger = obj.IsTrigger;			
 			var isTriggerTouch = obj.TriggerValue;			
             var isGrip = obj.IsGrip;
+            var gripValue = obj.GripValue;
             var isGripTouch = obj.GripValue;
             var padAxisTouch = obj.IsPadTouch;
             var padAxisClick = obj.IsPadClick;
             var isPrimary = obj.IsPrimary;
             var padAxis = obj.TouchPadAxis;
 
-            #region Updat Object events
-            if (isGrip)
+            #region Updat Object events   
+            if (gripValue > data._GripDeadRange)
             {
                 interactable.OnSelect(obj);
             }

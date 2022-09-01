@@ -147,6 +147,8 @@ namespace HelloPico2.PlayerController.Arm
         {
             if (eventData.InputReceiver.Selector.HandType != armLogic.data.HandType) return;
 
+            print("Get Energy");
+
             armLogic.controllerInteractor.CancelSelect(eventData.Interactable);
 
             var targetPos = currentEnergyBall.transform.position;
