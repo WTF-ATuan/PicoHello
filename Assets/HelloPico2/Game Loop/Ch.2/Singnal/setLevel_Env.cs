@@ -15,7 +15,7 @@ public class setLevel_Env : MonoBehaviour
     {
         if (isfrist)
         {
-            setLevel.GetComponent<Level_FadeController>().Enable_Env = false;
+            setLevel.GetComponent<Level_FadeController>().Enable_Env = true;
         }
         SettingLevelEnv();
     }
