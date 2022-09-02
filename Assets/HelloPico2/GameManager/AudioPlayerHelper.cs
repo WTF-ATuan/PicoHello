@@ -5,7 +5,15 @@ public static class AudioPlayerHelper
     public static void PlayAudio(string clipName, Vector3 pos)
     {
         Project.EventBus.Post(new HelloPico2.AudioEventRequested(clipName, pos));
-    }    
+    }
+    public static void PlayMultipleAudio(string clipName, Vector3 pos)
+    {
+        var audioEvent = new HelloPico2.AudioEventRequested(clipName, pos);
+
+        audioEvent.UsingMultipleAudioClips = true;
+
+        Project.EventBus.Post(audioEvent);
+    }
     public static string PlayRandomAudio(string[] clipName, Vector3 pos)
     {
         var value = Random.Range(0, clipName.Length);
