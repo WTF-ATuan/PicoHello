@@ -7,7 +7,7 @@ using UnityEngine;
 public class LOD_GlobalController : MonoBehaviour
 {
 
-    public enum Max_LOD { Very_High_DepthTexture, High_Reflection, Medium_dew_and_Env, Low , None }
+    public enum Max_LOD { Very_High_DepthTexture, High_Reflection, Medium_dew_and_Env, Low , Partical, None }
 
     public Max_LOD _LOD;
 
@@ -59,6 +59,14 @@ public class LOD_GlobalController : MonoBehaviour
 
                 break;
 
+                
+            case Max_LOD.Partical:
+
+                Camera_RT.SetActive(false);
+                Camera.main.depthTextureMode |= DepthTextureMode.None;
+                Shader.globalMaximumLOD = 1;
+
+                break;
             case Max_LOD.None:
 
                 Camera_RT.SetActive(false);

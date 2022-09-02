@@ -8,7 +8,7 @@ Shader "GGDog/Space_Test/PointGlow_defocus"
     SubShader
     {
         Tags { "RenderType"="Transparent" }
-        LOD 100
+        LOD 1
 		
 		Zwrite Off
 		Blend One One
