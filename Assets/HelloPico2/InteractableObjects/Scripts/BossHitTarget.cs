@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Project;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -8,15 +9,14 @@ namespace HelloPico2.InteractableObjects.Scripts{
 	public class BossHitTarget : MonoBehaviour{
 		[ReadOnly] public float elapsedTime = 0;
 		[Required] public ParticleSystem defaultEffect;
-		[Required] public AudioClip defaultAudioClip;
+		[Required] public string defaultAudioName;
 		public List<HitEffect> effectSettings = new List<HitEffect>();
 
 		private ParticleSystem _currentEffect;
-		private AudioSource _currentAudio;
 
 
 		private void OnEnable(){
-			ChangeEffect(defaultEffect , defaultAudioClip);
+			ChangeEffect(defaultEffect);
 		}
 
 		private void OnDisable(){
@@ -31,12 +31,12 @@ namespace HelloPico2.InteractableObjects.Scripts{
 			foreach(var effect in effectSettings
 							.Where(effect => elapsedTime > effect.triggerTime)
 							.Where(effect => !effect.isTrigger)){
-				ChangeEffect(effect.effect , effect.audioClip);
+				ChangeEffect(effect.effect);
 				effect.isTrigger = true;
 			}
 		}
 
-		private void ChangeEffect(ParticleSystem effect, AudioClip audioClip){
+		private void ChangeEffect(ParticleSystem effect){
 			if(_currentEffect){
 				var currentEffectObject = _currentEffect.gameObject;
 				Destroy(currentEffectObject);
@@ -45,16 +45,16 @@ namespace HelloPico2.InteractableObjects.Scripts{
 			var currentTransform = transform;
 			var effectObject = Instantiate(effect, currentTransform.position, Quaternion.identity, currentTransform);
 			_currentEffect = effectObject;
-			_currentAudio = effectObject.gameObject.AddComponent<AudioSource>();
-			_currentAudio.playOnAwake = false;
-			_currentAudio.clip = audioClip;
 		}
 
 		private void OnTriggerEnter(Collider other){
 			var collisionPoint = other.ClosestPoint(transform.position);
 			_currentEffect.transform.position = collisionPoint;
 			_currentEffect.Play();
-			_currentAudio.Play();
+			var audioEventRequested = new AudioEventRequested(defaultAudioName, collisionPoint){
+				UsingMultipleAudioClips = true
+			};
+			EventBus.Post(audioEventRequested);
 		}
 
 		[Button]
@@ -68,7 +68,7 @@ namespace HelloPico2.InteractableObjects.Scripts{
 		public class HitEffect{
 			public float triggerTime = 20;
 			[Required] public ParticleSystem effect;
-			[Required] public AudioClip audioClip;
+			[Required] public string audioDataName;
 			public bool isTrigger;
 		}
 	}
