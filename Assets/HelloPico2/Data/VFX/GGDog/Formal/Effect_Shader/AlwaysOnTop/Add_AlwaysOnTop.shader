@@ -7,7 +7,7 @@ Shader "GGDog/Space_Test/Add_AlwaysOnTop"
     SubShader
     {
         Tags { "RenderType"="Transparent" }
-        LOD 100
+        LOD 1
 
 		ZWrite Off
 		ZTest Always

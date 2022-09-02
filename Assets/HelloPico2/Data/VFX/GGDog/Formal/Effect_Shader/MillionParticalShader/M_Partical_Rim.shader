@@ -20,6 +20,8 @@ Shader "Unlit/色調分離"
     SubShader
     {
         Tags { "RenderType"="Opaque" }
+        
+        LOD 1
 
         ZWrite Off
 

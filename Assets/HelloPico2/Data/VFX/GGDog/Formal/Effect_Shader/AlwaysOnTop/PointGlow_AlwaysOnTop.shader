@@ -8,7 +8,7 @@ Shader "GGDog/Space_Test/Glow_AlwaysOnTop"
     SubShader
     {
         Tags { "RenderType"="Transparent" }
-        LOD 100
+        LOD 1
 
 		Blend One One
 		Zwrite Off

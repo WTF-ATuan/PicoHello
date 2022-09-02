@@ -227,12 +227,11 @@ public class Level_FadeController : MonoBehaviour
             }
         }
 
-
-        Level_switch();
         Level_4.SetActive(false);
-
+        Level_5.SetActive(false);
+        Level_switch();
     }
-    
+
     void Update()
     {
         Level_switch();
@@ -344,7 +343,6 @@ public class Level_FadeController : MonoBehaviour
         switch (level)
         {
             case Level._0_Level_Intro:
-                Level_4.SetActive(false);
 
                 Specific_Partical(0);
 
@@ -363,7 +361,6 @@ public class Level_FadeController : MonoBehaviour
 
 
             case Level._1_Level_1:
-                Level_4.SetActive(false);
 
                 Specific_Partical(1);
 
@@ -381,7 +378,6 @@ public class Level_FadeController : MonoBehaviour
 
 
             case Level._2_Level_2:
-                Level_4.SetActive(false);
 
                 Specific_Partical(2);
 
@@ -399,7 +395,6 @@ public class Level_FadeController : MonoBehaviour
 
 
             case Level._3_Level_3:
-                Level_4.SetActive(false);
 
                 Specific_Partical(3);
                 ps_color[0] = Level_3.BG_GlowPoint;
@@ -417,7 +412,6 @@ public class Level_FadeController : MonoBehaviour
 
             case Level._4_Level_3_ToReality:
                 Enable_Env = false;
-                Level_4.SetActive(false);
 
                 //Color類型的參數
                 for (int i = 0; i < Shader_Properties.Sky_VarNames_Color.Length; i++)

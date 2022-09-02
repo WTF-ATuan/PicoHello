@@ -19,6 +19,8 @@ Shader "Unlit/色調分離"
     {
         Tags { "RenderType"="Opaque" }
 
+        LOD 1
+
         ZWrite Off
 
        // Cull Off

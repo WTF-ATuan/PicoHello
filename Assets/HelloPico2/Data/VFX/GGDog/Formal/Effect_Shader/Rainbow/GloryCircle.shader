@@ -11,7 +11,7 @@ Shader "GGDog/GloryCircle"
     SubShader
     {
         Tags { "RenderType"="Transparent" }
-        LOD 100
+        LOD 1
 		ZTest Always
 		Blend SrcAlpha One
 		ZWrite Off
