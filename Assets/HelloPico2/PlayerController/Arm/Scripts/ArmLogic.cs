@@ -62,7 +62,7 @@ namespace HelloPico2.PlayerController.Arm
             EnergyBallSound());            
 
             data.WhenShootChargedProjectile.AddListener(() =>
-            EventBus.Post(new AudioEventRequested(data.ShootChargedEnergyBallClipName, _controller.transform.position)));
+            EventBus.Post(new AudioEventRequested(data.ShootBombClipName, _controller.transform.position)));
         }
         List<string> GainEnergyClipNames = new List<string>();
         List<string> ShootEnergyBallClipNames = new List<string>();

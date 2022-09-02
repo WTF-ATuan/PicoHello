@@ -14,6 +14,9 @@ namespace HelloPico2.InteractableObjects
         [SerializeField] private float _ScalingDuration = .5f;
         [SerializeField] private AnimationCurve _EaseCurve;
 
+        [Header("Audio Settings")]
+        [SerializeField] private string _GainBombAudioClip;
+
         private Transform selectorTarget;
 
         bool used { get; set; }
@@ -34,6 +37,9 @@ namespace HelloPico2.InteractableObjects
             used = true;
 
             selectorTarget = obj.Selector.SelectorTransform;
+
+            if(_GainBombAudioClip != null)
+                AudioPlayerHelper.PlayAudio(_GainBombAudioClip, transform.position);
         }
         private void Update()
         {

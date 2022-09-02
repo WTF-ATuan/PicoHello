@@ -22,6 +22,10 @@ namespace HelloPico2.PlayerController
         [SerializeField] private List<GameObject> cloneList;
         public IOribitMovement movement;
         [SerializeField] private float _MovementTransitionDuration = .5f;
+
+        [Header("Audio Settings")]
+        public string _AddBombToOrbitClipName = "AddBombToOrbit";
+
         bool hasGrabbingProcess;
         public void AddBomb()
         {
@@ -51,6 +55,7 @@ namespace HelloPico2.PlayerController
             obj.transform.DOLocalRotate(_Rotation, _MovementTransitionDuration).OnComplete(() => { 
                 obj.transform.DOPunchScale(_ShowUpPunch * Vector3.one, _ShowUpPunchDuration, 2);
                 hasGrabbingProcess = false;
+                AudioPlayerHelper.PlayAudio(_AddBombToOrbitClipName, transform.position);
             });
         }
         public void RemoveOrbitObject()

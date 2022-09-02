@@ -182,6 +182,8 @@ namespace HelloPico2.PlayerController.Arm
 
                 armLogic.data.WhenGainBomb?.Invoke();
 
+                AudioPlayerHelper.PlayAudio(armLogic.data.GainBombClipName, transform.position);
+
                 Destroy(eventData.Interactable.transform.gameObject);
             });
         }
