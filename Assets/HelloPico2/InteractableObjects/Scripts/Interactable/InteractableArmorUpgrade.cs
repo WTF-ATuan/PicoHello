@@ -16,6 +16,9 @@ namespace HelloPico2.InteractableObjects
 
         [SerializeField] private HelloPico2.PlayerController.Arm.ArmorType _ArmorType;
         [SerializeField] private HelloPico2.PlayerController.Arm.ArmorPart _ArmorParts;
+
+        [Header("Audio Settings")]
+        [SerializeField] private string _GainClipName = "GainArmorUpgrade";
                 
         public HelloPico2.PlayerController.Arm.ArmorType armorType { get { return _ArmorType; } }
         public HelloPico2.PlayerController.Arm.ArmorPart armorParts { get { return _ArmorParts; } }
@@ -55,6 +58,8 @@ namespace HelloPico2.InteractableObjects
             GetComponent<Collider>().enabled = false;
 
             //ActivateArmor();
+
+            AudioPlayerHelper.PlayAudio(_GainClipName, transform.position);
 
             used = true;
         }

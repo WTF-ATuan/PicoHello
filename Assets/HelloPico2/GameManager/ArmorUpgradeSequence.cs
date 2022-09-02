@@ -23,6 +23,9 @@ namespace HelloPico2.Singleton
         public float _Duration = 1;
         public float _AttractorVFXDuration = 3;
 
+        [Header("Audio Settings")]
+        [SerializeField] private string _ArmorPopClipName = "ArmorPop";
+
         public ParticleSystem[] _ArmorParticles;
         public HelloPico2.LevelTool.SkinnedMeshEffectPlacement[] _ParticlesTarget;
         public Transform[] _ArmorPosition;
@@ -107,6 +110,7 @@ namespace HelloPico2.Singleton
             TweenCallback ShowPlayerItem = () => {
                 seq.Append(armorUpgrade.DOPunchRotation(_RotatePunch, _Duration, _Vibrato));                
                 seq.Append(armorUpgrade.DOPunchScale(_ScalePunch, _Duration, _Vibrato));
+                AudioPlayerHelper.PlayAudio( _ArmorPopClipName, transform.position);
             };
             seq.AppendCallback(ShowPlayerItem);
             seq.AppendInterval(_Duration);

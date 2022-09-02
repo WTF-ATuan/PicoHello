@@ -31,6 +31,9 @@ namespace HelloPico2.PlayerController.Arm
         public GameObject _AnimationEffect;
         public HelloPico2.LevelTool.SkinnedMeshEffectPlacement _EffectPlacement;
 
+        [Header("Audio Settings")]
+        [SerializeField] private string _ShowArmorClipName = "ShowArmor";
+
         Coroutine process;
         public Material[] originalMat;
 
@@ -126,6 +129,7 @@ namespace HelloPico2.PlayerController.Arm
         private void PlayGlowingAnimationEffect() {
             _EffectPlacement.SetPosition(_Armor, _AnimationEffect.transform);
             _AnimationEffect.SetActive(true);
+            AudioPlayerHelper.PlayAudio(_ShowArmorClipName, transform.position);
         }
         private void PlayBubbleVFX() {
             var vfxShape = _BubbleVFX.shape;
