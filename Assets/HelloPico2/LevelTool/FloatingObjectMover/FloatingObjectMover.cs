@@ -36,8 +36,12 @@ namespace HelloPico2.LevelTool
         public Transform _Container;
         public Transform currentFloatingObject;
 
+        [Header("Auto Update Wave")]
+        public bool _EnableAutoUpdateWave = true;
+
         [Header("Auto Grab")]
         public float _AutoGrabDuration = 5;
+
         [Header("Wave")]
         public float _NextItemDelayDuration = 5;
         //[MinMaxSlider(0f, 360f,true)]
@@ -100,7 +104,7 @@ namespace HelloPico2.LevelTool
             if(typeChangerProcess != null)
                 StopCoroutine(typeChangerProcess);
 
-            if (timer > _NextItemDelayDuration)
+            if (_EnableAutoUpdateWave && timer > _NextItemDelayDuration)
                 NextArmorParts();
         }
         private void CheckSpawnObject(HelloPico2.PlayerController.Arm.ArmorType type, HelloPico2.PlayerController.Arm.ArmorPart part) {
@@ -183,7 +187,8 @@ namespace HelloPico2.LevelTool
 
             // vertical
             Sequence verticalSeq = DOTween.Sequence();
-            var verticalDuration = Mathf.Abs(verticalPivot.transform.localEulerAngles.x - _VerticalRotationRange.y) * _VerticalDuration / Mathf.Abs(_VerticalRotationRange.y - _VerticalRotationRange.x);
+            var verticalDuration = Mathf.Abs(_VerticalRotationRange.y - verticalPivot.transform.localEulerAngles.x) * _VerticalDuration / Mathf.Abs(_VerticalRotationRange.y - _VerticalRotationRange.x);
+            verticalDuration *= .15f;
             verticalSeq.Append(verticalPivot.transform.DOLocalRotate(new Vector3(_VerticalRotationRange.y, 0, 0), verticalDuration).From(verticalPivot.transform.localEulerAngles).OnComplete(() => {
                 verticalPivot.transform.DOLocalRotate(new Vector3(_VerticalRotationRange.x, 0, 0), _VerticalDuration)
                 .From(new Vector3(_VerticalRotationRange.y, 0, 0))
@@ -203,10 +208,12 @@ namespace HelloPico2.LevelTool
                 float yValue = rotControl.rotateY;                
                 DOTween.To(() => yValue, x => yValue = x, 0, .5f).OnUpdate(() => rotControl.rotateY = yValue);
 
-                //var horizontalDuration1 = horizontalPivot.transform.localEulerAngles.y * _VerticalDuration / 360;
                 var horizontalDuration1 = horizontalPivot.transform.localEulerAngles.y / _HorizontalSpeed;
 
-                horizontalPivot.transform.DOLocalRotate(Vector3.zero, horizontalDuration1, RotateMode.Fast).SetEase(Ease.Linear).OnComplete(() => { 
+                tiltPivot.transform.DOLocalRotate(new Vector3(0, 0, 0), horizontalDuration1).SetEase(Ease.InOutSine);
+                verticalPivot.transform.DOLocalRotate(new Vector3(0, 0, 0), horizontalDuration1).SetEase(Ease.InOutSine);
+
+                horizontalPivot.transform.DOLocalRotate(Vector3.zero, horizontalDuration1, RotateMode.Fast).SetEase(Ease.InOutSine).OnComplete(() => { 
                     depthPivot.transform.SetParent(_Container);
                     Destroy(tiltPivot);
 
@@ -220,12 +227,14 @@ namespace HelloPico2.LevelTool
                     print("horizontalDuration1 " + horizontalDuration1);
                     print("endDuration " + endDuration);
 
-                    AutoGrabSeq(obj);
+                    //AutoGrabSeq(obj);
                 });
             };
             endSeq.AppendCallback(StopHorizontalCallback);   
 
             endSeq.Play();
+            
+            AutoGrabSeq(obj);
         }
         private void AutoGrabSeq(Transform obj) {
 
