@@ -7,7 +7,7 @@ Shader "Unlit/Explosion_Smoke"
     SubShader
     {
         Tags { "RenderType"="Opaque" }
-        LOD 100
+        LOD 1
 
         Pass
         {

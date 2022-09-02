@@ -11,7 +11,7 @@ Shader "Unlit/SpriteDefault"
 			"Queue"="Transparent"
 		}
 
-        LOD 100
+        LOD 1
 		
 		ZWrite Off
 

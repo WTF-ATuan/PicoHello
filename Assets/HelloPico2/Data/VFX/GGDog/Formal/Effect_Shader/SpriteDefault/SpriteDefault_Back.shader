@@ -11,7 +11,7 @@ Shader "Unlit/SpriteDefault_Back"
 			"Queue"="Transparent"
 		}
 
-        LOD 100
+        LOD 1
 		
 		Ztest Always
 

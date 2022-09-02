@@ -12,7 +12,7 @@ Shader "GGDog/Env_StoneParticle"
     SubShader
     {
         Tags { "RenderType"="Opaque" "LightMode"="ForwardBase" }
-        LOD 100
+        LOD 0
 
         Pass
         {
