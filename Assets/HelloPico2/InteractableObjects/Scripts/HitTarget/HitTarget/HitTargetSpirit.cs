@@ -1,7 +1,8 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
+using Project;
+using UltEvents;
 using UnityEngine;
-using DG.Tweening;
 
 namespace HelloPico2.InteractableObjects
 {    
@@ -14,15 +15,15 @@ namespace HelloPico2.InteractableObjects
         [SerializeField] private string _BulletReactHitEffectID = "";
         [SerializeField] private string _WhipReactHitEffectID = "";
         [SerializeField] private string _BeamReactHitEffectID = "";
-        public UltEvents.UltEvent WhenCollideWithEnergyBall;
-        public UltEvents.UltEvent WhenCollideWithWhip;
-        public UltEvents.UltEvent WhenCollideWithBeam;
+        public UltEvent WhenCollideWithEnergyBall;
+        public UltEvent WhenCollideWithWhip;
+        public UltEvent WhenCollideWithBeam;
         
         private SpiritTimeline _SpiritTimeline;
         private SpiritTimeline spiritTimeline { 
             get { 
                 if(_SpiritTimeline == null)
-                    _SpiritTimeline = GameObject.FindObjectOfType<SpiritTimeline>();
+                    _SpiritTimeline = FindObjectOfType<SpiritTimeline>();
                 return _SpiritTimeline;
             } 
         }
@@ -35,17 +36,9 @@ namespace HelloPico2.InteractableObjects
             if (spiritTimeline == null)
                 Debug.Log("HitTargetSpirit couldn't get a spiritTimeline ref.");
         }
-        protected override void Start()
-        {
-            base.Start();           
-        }
-        public override void OnCollide(InteractType type, Collider selfCollider)
-        {
-            base.OnCollide(type, selfCollider);
-        }
-        private void OnEnable()
-        {
-            if (spiritTimeline == null) { throw new System.Exception("Missing spiritTimeline reference.");  return; }
+        private void OnEnable(){
+            if(spiritTimeline == null){
+                throw new Exception("Missing spiritTimeline reference.");  return; }
 
             OnEnergyBallInteract += BulletReact;
             OnWhipInteract += WhipReact;
@@ -65,7 +58,7 @@ namespace HelloPico2.InteractableObjects
 
             var playableDuration = spiritTimeline.ActivateTimeline(_BulletReactTimelineName);
 
-            Project.EventBus.Post<VFXEventRequested, ParticleSystem>(new VFXEventRequested(
+            EventBus.Post<VFXEventRequested, ParticleSystem>(new VFXEventRequested(
                 _BulletReactHitEffectID,
                 false,
                 _DestroyDelayDuration,
@@ -84,7 +77,7 @@ namespace HelloPico2.InteractableObjects
 
             var playableDuration = spiritTimeline.ActivateTimeline(_WhipReactTimelineName);
 
-            Project.EventBus.Post<VFXEventRequested, ParticleSystem>(new VFXEventRequested(
+            EventBus.Post<VFXEventRequested, ParticleSystem>(new VFXEventRequested(
                 _WhipReactHitEffectID,
                 false,
                 _DestroyDelayDuration,
@@ -103,7 +96,7 @@ namespace HelloPico2.InteractableObjects
 
             var playableDuration = spiritTimeline.ActivateTimeline(_BeamReactTimelineName);
 
-            Project.EventBus.Post<VFXEventRequested, ParticleSystem>(new VFXEventRequested(
+            EventBus.Post<VFXEventRequested, ParticleSystem>(new VFXEventRequested(
                 _BeamReactHitEffectID,
                 false,
                 _DestroyDelayDuration,
