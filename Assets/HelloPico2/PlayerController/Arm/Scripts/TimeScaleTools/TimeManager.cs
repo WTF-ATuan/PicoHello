@@ -106,6 +106,13 @@ public class TimeManager : MonoBehaviour
         Time.timeScale = 0f;
         NotifyObservers();
     }
+
+    public void SetByPercent(float percent){
+        var timeScale = Mathf.Lerp(1 , m_SpeedControlMax , percent);
+        Time.timeScale = timeScale;
+        NotifyObservers();
+    }
+
     public void SetTo(float value) {
         Time.timeScale = value;
         NotifyObservers();
