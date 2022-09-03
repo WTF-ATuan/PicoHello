@@ -52,7 +52,6 @@ GameObject:
   - component: {fileID: 662569456474550798}
   - component: {fileID: 6547184679314800786}
   - component: {fileID: 4392325563657769589}
-  - component: {fileID: 4052806222846956409}
   - component: {fileID: 4790900831497673384}
   - component: {fileID: 3926513733786015191}
   - component: {fileID: 3926513733786015193}
@@ -255,25 +254,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &4052806222846956409
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8345127356588631329}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3adf33119decd7f4ba5ca0493602de33, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 15
-  ForwardX: 0
-  ForwardY: 0
-  ForwardZ: 1
-  ReverseX: 0
-  ReverseY: 0
-  ReverseZ: 0
 --- !u!114 &4790900831497673384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,10 +318,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 662569456474550798}
-        m_TargetAssemblyTypeName: UnityEngine.Collider, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
+      - m_Target: {fileID: 3926513733786015193}
+        m_TargetAssemblyTypeName: MoreMountains.Tools.ShaderController, MoreMountains.Tools
+        m_MethodName: OneTime
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -350,10 +330,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 3926513733786015193}
-        m_TargetAssemblyTypeName: MoreMountains.Tools.ShaderController, MoreMountains.Tools
-        m_MethodName: OneTime
-        m_Mode: 1
+      - m_Target: {fileID: 662569456474550798}
+        m_TargetAssemblyTypeName: UnityEngine.Collider, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -813,6 +793,10 @@ PrefabInstance:
     - target: {fileID: 400004, guid: 3af6f68141914ca43ba39b2403757bd0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: 3af6f68141914ca43ba39b2403757bd0, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 19800000, guid: 3af6f68141914ca43ba39b2403757bd0, type: 3}
       propertyPath: playOnAwake
