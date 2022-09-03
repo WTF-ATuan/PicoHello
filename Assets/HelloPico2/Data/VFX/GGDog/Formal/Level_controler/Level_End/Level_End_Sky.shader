@@ -2,13 +2,19 @@ Shader "Unlit/Level_End_Sky"
 {
     Properties
     {
+        _Alpha ("Alpha", Range(0,1)) = 1
         _Color1 ("Color1", Color) = (1,1,1,1)
         _Color2 ("Color2", Color) = (0,0,0,1)
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags { "Queue"="Transparent" }
+
         Cull Front
+        
+        ZWrite Off
+
+        Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
         {
@@ -40,10 +46,11 @@ Shader "Unlit/Level_End_Sky"
             
             float4 _Color1;
             float4 _Color2;
-
+            float _Alpha;
+            
             float4 frag (v2f i) : SV_Target
             {
-                return lerp(_Color2,_Color1,i.uv.y);
+                return float4(lerp(_Color2.rgb,_Color1.rgb,i.uv.y),_Alpha);
             }
             ENDCG
         }
