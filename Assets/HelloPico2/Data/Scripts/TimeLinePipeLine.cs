@@ -10,6 +10,8 @@ public class TimeLinePipeLine : MonoBehaviour
     public GameObject findEnvLevel5;
     public GameObject findEnvSky;
     public GameObject setTunnel;
+    public bool HideBoard;
+    public GameObject board;
     public enum timeLineType
     {
         build ,
@@ -265,6 +267,10 @@ public class TimeLinePipeLine : MonoBehaviour
         setTunnel.transform.position = Vector3.zero;
         setLevelEnv = selectEnv.GetComponent<Level_FadeController>();
         findEnvSky.SetActive(false);
+        if (HideBoard)
+        {
+            board.SetActive(false);
+        }
         TimePipeSetting_switch();
     }
 }
