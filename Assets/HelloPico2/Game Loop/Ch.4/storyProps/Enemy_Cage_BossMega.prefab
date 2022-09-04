@@ -38,20 +38,6 @@ MonoBehaviour:
   ReverseX: 0
   ReverseY: 0
   ReverseZ: 0
---- !u!114 &545515190894034955
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4335349768186660139}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a943e0e56a8dc84480599543127c2be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ScrollX: -0.1
-  ScrollY: 0
 --- !u!114 &545515192668207753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,20 +45,6 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2927528564531775460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a943e0e56a8dc84480599543127c2be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ScrollX: -0.2
-  ScrollY: 0
---- !u!114 &545515192355289001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4445822684793302359}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2a943e0e56a8dc84480599543127c2be, type: 3}
@@ -394,8 +366,8 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
-  _CanOnlyDestroyByInteractType: 0
-  _Lifetime: 9999
+  beamHitCount: 99
+  ballHitCount: 99
   _DestroyDelayDuration: 1
   _HitEffectID: BulletDestroyVFX
   WhenCollideWithEnergyBall:
@@ -653,6 +625,7 @@ MonoBehaviour:
   WhenEnableDelay:
     _PersistentCalls: []
   m_DelayTime: 1
+  invokeByOrder: 0
 --- !u!95 &7687868007921076679
 Animator:
   serializedVersion: 3
@@ -672,6 +645,34 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &545515190894034955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4335349768186660139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a943e0e56a8dc84480599543127c2be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ScrollX: -0.1
+  ScrollY: 0
+--- !u!114 &545515192355289001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4445822684793302359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a943e0e56a8dc84480599543127c2be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ScrollX: -0.2
+  ScrollY: 0
 --- !u!95 &7687868008223005333
 Animator:
   serializedVersion: 3
