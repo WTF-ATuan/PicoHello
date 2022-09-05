@@ -31,7 +31,7 @@ namespace HelloPico2.InteractableObjects{
 			var isBeam = type == InteractType.Beam || type == InteractType.Whip;
 			if(isBeam){
 				beamHitCount -= 1;
-				if(beamHitCount <= 1){
+				if(beamHitCount < 1){
 					DestroyBullet(selfCollider);
 				}
 				else{
@@ -40,7 +40,7 @@ namespace HelloPico2.InteractableObjects{
 			}
 			else{
 				ballHitCount -= 1;
-				if(ballHitCount <= 1){
+				if(ballHitCount < 1){
 					DestroyBullet(selfCollider);
 				}
 				else{

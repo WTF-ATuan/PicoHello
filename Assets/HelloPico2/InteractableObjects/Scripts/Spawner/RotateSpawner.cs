@@ -13,7 +13,7 @@ using TNRD.Utilities;
 
 namespace HelloPico2.InteractableObjects{
 	public class RotateSpawner : MonoBehaviour, ISpawner{
-		[Required] [InlineEditor(InlineEditorModes.GUIAndPreview, Expanded = true)]
+		[Required]
 		public GameObject spawnPrefab;
 
 
