@@ -17,7 +17,12 @@ Shader "GGDog/Space_Test/Env"
 		_LOD_LowColor("LOD LowColor",Color) = (1,1,1,1)
 		
         [Toggle(_False)]_ModelReflection("Model Reflection",Float) = 0
-        _Reflect("Reflection",Range(0,2)) = 1.5
+        _Reflect("Reflection",Range(0,3)) = 1.5
+
+        _ReflectRGBOffSet("Reflection RGBOffSet",Range(0,20)) = 10
+
+        
+		[KeywordEnum(World, Local)] _REFAXIS("Reflection Axis", Float) = 0.0
     }
     SubShader
     {
@@ -30,6 +35,8 @@ Shader "GGDog/Space_Test/Env"
             #pragma vertex vert
             #pragma fragment frag
 			
+			#pragma shader_feature _REFAXIS_WORLD  _REFAXIS_LOCAL
+
 			#pragma target 3.0
             #pragma multi_compile_instancing
             #include "UnityCG.cginc"
@@ -79,9 +86,7 @@ Shader "GGDog/Space_Test/Env"
 
                return saturate(n+0.25);
             }
-
-
-            float _ModelReflection;
+            half _ModelReflection;
             v2f vert (appdata v)
             {
                 v2f o;
@@ -96,14 +101,19 @@ Shader "GGDog/Space_Test/Env"
 
 				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 
-                half n = frac_Noise(2*o.worldPos.xy,1);
+#if _REFAXIS_WORLD
+                half3 YPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+                half n = frac_Noise(YPos.xy,1);
+                half worldPosY = step(YPos.y,-30);
+                half worldPosY_smoothstep = saturate(smoothstep(0,50,1-YPos.y));
+#elif _REFAXIS_LOCAL
+				half3 YPos = v.vertex.xyz;
+                half n = frac_Noise(1000*YPos.xy,1);
+                half worldPosY = step(YPos.y,0);
+                half worldPosY_smoothstep = 1;
+#endif
+                o.vertex = UnityObjectToClipPos(v.vertex + _ModelReflection * 0.1*half3(-sign(YPos.x),0,0.5)*n*worldPosY*worldPosY_smoothstep);
 
-                half worldPosY = step(o.worldPos.y,-30);
-                half worldPosY_smoothstep = saturate(smoothstep(0,50,1-o.worldPos.y));
-
-                o.vertex = UnityObjectToClipPos(v.vertex + _ModelReflection * 0.1*half3(-sign(o.worldPos.x),0,0.5)*n*worldPosY*worldPosY_smoothstep);
-
-				
 				o.worldNormal = mul(v.normal,(float3x3)unity_WorldToObject);
 
                 o.normal = v.normal;
@@ -126,6 +136,7 @@ Shader "GGDog/Space_Test/Env"
             half _UV_Tilling;
             half _UV_Offset;
             half _Reflect;
+            half _ReflectRGBOffSet;
             
             float4 frag (v2f i) : SV_Target
             {
@@ -162,14 +173,18 @@ Shader "GGDog/Space_Test/Env"
 				col = lerp(col,_BackFogColor,1-saturate(smoothstep(-700,1000,i.worldPos.z)));
 
 
-             half n = frac_Noise(i.worldPos.xy,0.5);
+             half n = frac_Noise(i.worldPos.xy+_ReflectRGBOffSet,0.5);
+             half n2 = frac_Noise(i.worldPos.xy,0.5);
+             half n3 = frac_Noise(i.worldPos.xy-_ReflectRGBOffSet,0.5);
 
-             half Reflect = n*(smoothstep(0,2,(0.5-i.normal.y)));
+             half4 Reflect = half4(n,n2,n3,1)*(smoothstep(0,2,(0.5-i.normal.y)));
 
              Reflect *= (1-saturate(smoothstep(0,1500,i.worldPos.z))) * (saturate(smoothstep(-150,1000,i.worldPos.z))) ;
 
                 return col +Reflect*_FogColor*_Reflect;
-            }
+
+                //return half4(i.worldPos,1);
+          }
             ENDCG
         }
     }
