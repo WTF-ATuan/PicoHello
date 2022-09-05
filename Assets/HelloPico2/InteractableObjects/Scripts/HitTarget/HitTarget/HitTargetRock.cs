@@ -85,7 +85,7 @@ namespace HelloPico2.InteractableObjects{
 			base.PushBackFeedback(hitCol);
 
 			var targetPos = transform.position + hitCol.transform.forward * _PushBackDist;
-
+			transform.DOKill();
 			transform.DOMove(targetPos, _PushBackDuration).SetEase(_PushBackEasingCureve);
 		}
 	}
