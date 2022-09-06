@@ -34,6 +34,7 @@ namespace HelloPico2.LevelTool
         public void ShowVFX() {
             for (int i = 0; i < _VFXs.Length; i++)
             {               
+                if(i >= originalcolorOverLifetime.Count || i >= originalGradient.Count) return;
                 var colorOverLifetime = _VFXs[i].colorOverLifetime;
                 
                 colorOverLifetime.enabled = originalcolorOverLifetime[i];
