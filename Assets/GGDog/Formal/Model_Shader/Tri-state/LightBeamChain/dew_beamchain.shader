@@ -156,7 +156,7 @@
                 }
 				
 				*/
-				o.vertex = UnityObjectToClipPos(v.vertex);
+				//o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
 				
                 v.uv.y = smoothstep(_joint/50,1,v.uv.y);
