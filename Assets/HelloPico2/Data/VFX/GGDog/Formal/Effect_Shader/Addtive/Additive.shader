@@ -1,4 +1,4 @@
-Shader "Unlit/Additive"
+Shader "GGDog/Additive_OneOne_CullOn"
 {
     Properties
     {
@@ -55,6 +55,8 @@ Shader "Unlit/Additive"
                 
                 col*= i.color* i.color.a * _HDR;
                 
+                col.rgb*=col.a;
+
                 clip(col.a - 0.0015);
 
                 return col;
