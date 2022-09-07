@@ -74,7 +74,7 @@ Shader "Unlit/NewUnlitShader"
 
                 col.a *= smoothstep(0.25,1.25,2*saturate(1.15-smoothstep(0.25,0.75,k)+_Alpha*_Alpha*_Alpha));
 
-                col.rgb *=i.color.rgb;
+                col.rgb *=i.color.rgb*0.75;
 
                 return col;
             }
