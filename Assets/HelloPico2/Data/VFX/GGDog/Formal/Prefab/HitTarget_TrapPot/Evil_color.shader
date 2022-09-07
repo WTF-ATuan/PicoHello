@@ -7,7 +7,7 @@ Shader "GGDog/Evil_color"
 		[HDR]_Color("Color",Color) = (1,1,1,1)
 		[HDR]_ShadowColor("Shadow Color",Color) = (0.5,0.5,0.5,1)
         
-        _ReflectTilling ("Reflect Tilling", Range(0,500)) = 100
+        _ReflectTilling ("Reflect Tilling", Range(0,5000)) = 100
         _Reflect ("Reflect", Range(0,1)) = 1
 		[HDR]_ReflectColor("Reflect Color",Color) = (1,1,1,1)
 
