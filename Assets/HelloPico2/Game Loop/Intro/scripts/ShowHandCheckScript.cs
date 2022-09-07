@@ -6,21 +6,43 @@ using UnityEngine;
 public class ShowHandCheckScript : MonoBehaviour
 {
     public GameObject showHandCheck;
+    public bool isTouchCheck;
+
+    public GameObject getGuide;
+    Animator guideAnimator;
+    public string triggetName;
 
     private void Start()
     {
-        
+        if (isTouchCheck)
+        {
+            guideAnimator = getGuide.GetComponent<Animator>();
+        }
     }
-    // Start is called before the first frame update
+    private void OnTriggerEnter(Collider other)
+    {
+        if (isTouchCheck )
+        {
+            guideAnimator.SetTrigger(triggetName);
+            showHandCheck.SetActive(true);
+        }
+    }
 
     private void OnTriggerStay(Collider other)
     {
-        showHandCheck.SetActive(true);
-        showHandCheck.GetComponent<ShackingDetector>().enabled = true;
+        if (!isTouchCheck)
+        {
+            showHandCheck.SetActive(true);
+            showHandCheck.GetComponent<ShackingDetector>().enabled = true;
+        }
+        
     }
     private void OnTriggerExit(Collider other)
     {
-        showHandCheck.SetActive(false);
-        showHandCheck.GetComponent<ShackingDetector>().enabled = false;
+        if (!isTouchCheck)
+        {
+            showHandCheck.SetActive(false);
+            showHandCheck.GetComponent<ShackingDetector>().enabled = false;
+        }
     }
 }
