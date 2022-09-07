@@ -156,9 +156,11 @@
                 }
 				
 				*/
-				//o.vertex = UnityObjectToClipPos(v.vertex);
+				o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
 				
+				o.scrPos = ComputeScreenPos(o.vertex);  //抓取螢幕截圖的位置
+
                 v.uv.y = smoothstep(_joint/50,1,v.uv.y);
 
                 half scale = smoothstep(0,1.75,1-v.uv.y)*_Scale;
