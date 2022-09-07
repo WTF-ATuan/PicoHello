@@ -55,7 +55,7 @@ Shader "GGDog/Additive_OneOne_CullOn"
                 
                 col*= i.color* i.color.a * _HDR;
                 
-                col.rgb*=col.a;
+               // col.rgb*=col.a;
 
                 clip(col.a - 0.0015);
 

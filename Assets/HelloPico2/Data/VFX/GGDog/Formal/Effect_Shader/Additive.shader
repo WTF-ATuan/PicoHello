@@ -56,7 +56,7 @@ Shader "GGDog/Additive_OneOne_CullOff"
                 
 				col.a *= smoothstep(10,90,i.CameraDistance);
                 
-                col.rgb*=col.a;
+               // col.rgb*=col.a;
 
                 clip(i.color.a-0.0015);
                 
