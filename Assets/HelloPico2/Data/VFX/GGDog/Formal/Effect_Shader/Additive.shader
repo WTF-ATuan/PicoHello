@@ -1,4 +1,4 @@
-Shader "Unlit/Additive"
+Shader "GGDog/Additive_OneOne_CullOff"
 {
     Properties
     {
@@ -55,9 +55,11 @@ Shader "Unlit/Additive"
                 col = lerp(col,col*fixed4(i.color.rgb*i.color.rgb,1),1-i.color.a);
                 
 				col.a *= smoothstep(10,90,i.CameraDistance);
+                
+                col.rgb*=col.a;
 
-                clip(i.color.a-0.5);
-
+                clip(i.color.a-0.0015);
+                
                 return col;
             }
             ENDCG
