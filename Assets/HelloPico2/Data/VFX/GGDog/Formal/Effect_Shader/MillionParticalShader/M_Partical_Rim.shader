@@ -1,4 +1,4 @@
-Shader "Unlit/色調分離"
+Shader "GGDog/M_Partical_Rim"
 {
     Properties
     {
