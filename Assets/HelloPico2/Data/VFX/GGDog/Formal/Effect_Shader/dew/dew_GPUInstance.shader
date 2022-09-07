@@ -194,9 +194,9 @@
 				
 				half3 worldNormal = normalize(i.worldNormal);
 
-
+				half NdotV = dot(worldNormal,worldViewDir);
 				//Rim
-				half Rim = saturate(1-smoothstep(0,1,dot(worldNormal,worldViewDir)));
+				half Rim = saturate(1-smoothstep(0,1,NdotV));
 
 				half DarkPart = lerp((1-i.uv.y),0,CameraDistance950_1500)/2;
 
@@ -205,7 +205,7 @@
                 half3 viewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos );
 
                 half Specular =  pow(max(0,dot(viewDir,reflectDir)),_Gloss);
-                half Specular2 = pow(max(0,dot(worldNormal,worldLightDir) ),_Gloss*100);
+                half Specular2 = pow(max(0,NdotV),_Gloss*100);
                 half Specular3 = pow(max(0,dot(worldNormal,worldLightDir-0.35)/1.157 ),_Gloss*10);
 
 				Specular = Specular+Specular2+Specular3;
@@ -231,8 +231,9 @@
 				f = lerp(f,0,CameraDistance950_1500);
 				Rim = lerp(Rim,0,CameraDistance950_1500);
 				
-
-				half4 refrCol = tex2D(_RenderTex, scruv) ;
+				
+                float Rimscruv = 1-saturate(smoothstep(0,0.75,NdotV));
+				half4 refrCol = tex2D(_RenderTex, scruv+Rimscruv/10) ;
 
 				//refrCol = lerp(refrCol,refrCol*_ShadowColor,smoothstep(-0.25,0.35,Rim*i.uv.y));
 
