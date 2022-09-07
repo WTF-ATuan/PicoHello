@@ -5,7 +5,7 @@ Shader "Unlit/SpriteDefault"
         _MainTex ("Texture", 2D) = "white" {}
         [HDR]_Color ("Color", Color) = (1,1,1,1)
 
-        _SrcUVTilling ("SrcUV Tilling", Range(0,1)) = 1
+        _SrcUVTilling ("SrcUV Tilling", Float) = 1
         _NoiseStrength ("Noise Strength", Float) = 1
     }
     SubShader
