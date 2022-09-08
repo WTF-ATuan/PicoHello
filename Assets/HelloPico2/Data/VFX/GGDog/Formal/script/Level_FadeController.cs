@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-[ExecuteInEditMode]
 public class Level_FadeController : MonoBehaviour
 {
     public enum Level
