@@ -25,8 +25,11 @@ public class GLOBAL_Pos : MonoBehaviour
             gos2[i] = pos;
             if (gos[i].layer == 8 && Vector3.Distance(gos[i].transform.position, pos)<= distance)
             {
-                gos2[j] = gos[i].transform.position;
-                j++;
+                if (gos[i].GetComponent<MeshRenderer>()&&gos[i].GetComponent<MeshRenderer>().sharedMaterial.name == "dew_GPUInstance") 
+                { 
+                    gos2[j] = gos[i].transform.position;
+                    j++;
+                }
             }
         }
         Shader.SetGlobalVectorArray("All_Pos", gos2);
