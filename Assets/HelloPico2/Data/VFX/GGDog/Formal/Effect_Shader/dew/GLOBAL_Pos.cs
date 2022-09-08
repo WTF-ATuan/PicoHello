@@ -14,7 +14,7 @@ public class GLOBAL_Pos : MonoBehaviour
         Vector4 pos = transform.position;
         Shader.SetGlobalVector("GLOBAL_Pos", pos);
 
-
+        /*
         gos = FindObjectsOfType(typeof(GameObject)) as GameObject[];
 
         Vector4[] gos2 = new Vector4[gos.Length];
@@ -32,15 +32,16 @@ public class GLOBAL_Pos : MonoBehaviour
                 }
             }
         }
-        Shader.SetGlobalVectorArray("All_Pos", gos2);
+        Shader.SetGlobalVectorArray("All_Pos", gos2);*/
     }
 
 
     [ContextMenu("[ResetPos]")]
     void ResetPos()
     {
-        Vector4[] gos2 = new Vector4[70];
-        for (int i = 0; i < gos.Length; i++)
+        Vector4[] gos2 = new Vector4[10];
+
+        for (int i = 0; i < 10; i++)
         {
             gos2[i] = transform.position;
         }

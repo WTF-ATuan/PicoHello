@@ -137,7 +137,7 @@
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 
                 half3 WorldPos = unity_ObjectToWorld._m03_m13_m23;
-
+				/*
 				half d;
 				half3 n;
 
@@ -149,7 +149,7 @@
 
                     v.vertex.xyz += saturate(smoothstep(0,0.5,saturate(distance( All_Pos[i],WorldPos))-0.2)) *n/(2+d);
                 }
-
+				*/
 				o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
 				
@@ -235,7 +235,7 @@
 				
 				
                 float Rimscruv = 1-saturate(smoothstep(0,0.75,NdotV));
-				half4 refrCol = tex2D(_RenderTex, scruv+Rimscruv/10) ;
+				half4 refrCol = tex2D(_RenderTex, scruv+Rimscruv/20) ;
 
 				//refrCol = lerp(refrCol,refrCol*_ShadowColor,smoothstep(-0.25,0.35,Rim*i.uv.y));
 
