@@ -77,7 +77,7 @@ namespace HelloPico2.InteractableObjects{
 
 			if(TryGetComponent<MoveObject>(out var moveObj))
 				moveObj.speed = 0;
-
+			transform.DOKill();
 			Destroy(gameObject, _DestroyDelayDuration);
 		}
 
