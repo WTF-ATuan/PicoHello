@@ -11,14 +11,23 @@ namespace HelloPico2.PlayerController.Arm
         [SerializeField] private float _DealDamageRange = 5;
         [SerializeField] private LayerMask _DamageDetectionLayer;
         [SerializeField] private ParticleSystem _ExplosionVFX;
+        [SerializeField] private float _InitialDelayDuration = 1;
         
         [FoldoutGroup("SFX Settings")][SerializeField] private string _ExplosionSFXName;
 
+        bool finishedInitialDelay;
         Coroutine timer;
 
         private void OnEnable()
         {
+            StartCoroutine(InitialDelayer());
             timer = StartCoroutine(Timer());
+        }
+        private IEnumerator InitialDelayer()
+        {
+            finishedInitialDelay = false;
+            yield return new WaitForSeconds(_InitialDelayDuration);
+            finishedInitialDelay = true;
         }
         private IEnumerator Timer() { 
             yield return new WaitForSeconds(_CountDownDuration);
@@ -27,7 +36,7 @@ namespace HelloPico2.PlayerController.Arm
         }
         protected override void OnTriggerEnter(Collider other)
         {
-            if (CheckSurroundedTarget())
+            if (finishedInitialDelay && CheckSurroundedTarget())
             {                
                 PlayExplosionEffect();
                 StopCoroutine(timer);

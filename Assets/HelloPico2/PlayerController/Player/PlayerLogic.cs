@@ -30,9 +30,26 @@ namespace HelloPico2.PlayerController.Player
             playerData.damageDetectionTrigger.TriggerEnter -= ReceiveDamage;
         }
 
-        private void ReceiveDamage(Collider other)
+        private void ReceiveFeedbacksDamage(Collider other)
         {
             playerData.receiveDamageFeedback.PlayFeedbacks();
+
+            var collide = other.GetComponent<IInteractCollide>();
+            collide?.OnCollide(InteractType.Eye, null);
+
+            ReceiveDamageData eventDate = new ReceiveDamageData();
+            var hitTarget = other.GetComponentInChildren<HitTargetBase>();
+            eventDate.DamageAmount = hitTarget.damageAmount;
+            eventDate.InteractType = hitTarget.interactType;
+
+            EventBus.Post(eventDate);
+
+            playerData.armLogic_L.OnEnergyChanged?.Invoke(playerData.armLogic_L.data);
+            playerData.armLogic_R.OnEnergyChanged?.Invoke(playerData.armLogic_R.data);
+        }
+        private void ReceiveDamage(Collider other)
+        {
+            playerData._OnReceiveDamage?.Invoke();
 
             var collide = other.GetComponent<IInteractCollide>();
             collide?.OnCollide(InteractType.Eye, null);
