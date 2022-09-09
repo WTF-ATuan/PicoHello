@@ -30,8 +30,12 @@ namespace HelloPico2.PlayerController.Arm
         [SerializeField] private InteractableSettings _InteractableSettings;
         [SerializeField] private Transform _SummonPoint;
         [SerializeField] private ArmorController _ArmorController;
+        [SerializeField] private float _ShootEmptyEnergyCoolDownDuration = 2;
+        [SerializeField] private float _ShootEmptyBombCoolDownDuration = 2;
         [FoldoutGroup("Audio Settings")][SerializeField] private string[] _GainEnergyBallClipName;
         [FoldoutGroup("Audio Settings")][SerializeField] private string[] _ShootEnergyBallClipName;
+        [FoldoutGroup("Audio Settings")][SerializeField] private string _ShootWhenNoEnergyClipName;
+        [FoldoutGroup("Audio Settings")][SerializeField] private string _ShootWhenNoBombClipName;
         [FoldoutGroup("Audio Settings")][SerializeField] private string _GainBombClipName;
         [FoldoutGroup("Audio Settings")][SerializeField] private string _ShootBombClipName;
 
@@ -43,6 +47,8 @@ namespace HelloPico2.PlayerController.Arm
         [FoldoutGroup("Events Settings")] public UnityEngine.Events.UnityEvent WhenNotTouchTriggerAndGrip;
         [FoldoutGroup("Events Settings")] public UnityEngine.Events.UnityEvent WhenShootProjectile;
         [FoldoutGroup("Events Settings")] public UnityEngine.Events.UnityEvent WhenShootChargedProjectile;
+        [FoldoutGroup("Events Settings")] public UltEvents.UltEvent WhenNoEnergyShoot;
+        [FoldoutGroup("Events Settings")] public UltEvents.UltEvent WhenNoBombShoot;
         public HandType HandType { get { return _HandType; } }
         public XRController Controller { get { return _Controller; } }
         public float Energy { get { return _Energy; } set { _Energy = Mathf.Clamp(value, 0, _MaxEnergy);} }
@@ -60,7 +66,11 @@ namespace HelloPico2.PlayerController.Arm
         public Transform SummonPoint { get { return _SummonPoint; } }
         public ArmorController ArmorController { get { return _ArmorController; } }
         public string[] GainEnergyBallClipName { get { return _GainEnergyBallClipName; } }
+        public float ShootEmptyEnergyCoolDownDuration { get { return _ShootEmptyEnergyCoolDownDuration; } }
+        public float ShootEmptyBombCoolDownDuration { get { return _ShootEmptyBombCoolDownDuration; } }
         public string[] ShootEnergyBallClipName { get { return _ShootEnergyBallClipName; } }
+        public string ShootWhenNoEnergyClipName { get{ return _ShootWhenNoEnergyClipName; }}
+        public string ShootWhenNoBombClipName { get{ return _ShootWhenNoBombClipName; }}
         public string GainBombClipName { get{ return _GainBombClipName; }}
         public string ShootBombClipName{get{ return _ShootBombClipName; }}
         public GameObject currentWeapon { get; set; }

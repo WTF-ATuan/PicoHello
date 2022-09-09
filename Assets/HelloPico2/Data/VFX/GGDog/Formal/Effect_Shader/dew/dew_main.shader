@@ -5,6 +5,7 @@
         _RenderTex("Render Tex", 2D) = "white" {}
 
 		_SpecularColor("Specular Color",Color) = (1,1,1,1)
+		_Color("Color",Color) = (0,0,0,1)
 
 		_ShadowColor("Shadow Color",Color) = (0,0,0,1)
 		
@@ -53,11 +54,12 @@
                 UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 			
+			half4 _Color;
 			half4 _RimColor;
 			half4 _ShadowColor;
 			half4 _SpecularColor;
 			
-			uniform	half3 All_Pos[10];
+			uniform	half3 Follow_Pos;
 			half _Distance_Intensive;
 			half _Distance_Radius;
 			
@@ -137,19 +139,16 @@
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 
                 half3 WorldPos = unity_ObjectToWorld._m03_m13_m23;
-				/*
+				
 				half d;
 				half3 n;
 
-                for(int i=0; i<10; i++)
-                {
-				    d = saturate(distance( All_Pos[i],o.worldPos/length(o.worldNormal)) / (_Distance_Radius/(1+distance( All_Pos[i],o.worldPos)) ));
+				d = saturate(distance( Follow_Pos,o.worldPos/length(o.worldNormal)) / (_Distance_Radius/(1+distance( Follow_Pos,o.worldPos)) ));
 
-                    n =  ((o.worldPos-(o.worldNormal)/(1+distance( All_Pos[i],WorldPos)))-All_Pos[i])  *_Distance_Intensive *smoothstep(0,2.7,1-d);
+                n =  ((o.worldPos-(o.worldNormal)/(1+distance( Follow_Pos,WorldPos)))-Follow_Pos)  *_Distance_Intensive *smoothstep(0,2.7,1-d);
 
-                    v.vertex.xyz += saturate(smoothstep(0,0.5,saturate(distance( All_Pos[i],WorldPos))-0.2)) *n/(2+d);
-                }
-				*/
+                v.vertex.xyz += saturate(smoothstep(0,0.25,saturate(distance( Follow_Pos,WorldPos))-0.2)) *n/(2+d);
+
 				o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
 				
@@ -234,8 +233,11 @@
 				Rim = lerp(Rim,0,CameraDistance950_1500);
 				
 				
-                float Rimscruv = 1-saturate(smoothstep(0,0.75,NdotV));
-				half4 refrCol = tex2D(_RenderTex, scruv+Rimscruv/20) ;
+                half Rimscruv = 1-saturate(smoothstep(0,0.5,NdotV));
+                half Rimscruv2 = saturate(smoothstep(0.25,0.75,NdotV));
+
+				Rimscruv+=Rimscruv2;
+				half4 refrCol = tex2D(_RenderTex, scruv + Rimscruv/20) ;
 
 				//refrCol = lerp(refrCol,refrCol*_ShadowColor,smoothstep(-0.25,0.35,Rim*i.uv.y));
 
@@ -246,7 +248,7 @@
 				FinalColor += Rim*smoothstep(0.25,1.15,1-i.uv.y)*_RimColor*1.5 + saturate(f)*_SpecularColor/5;
 				
 
-				return FinalColor;
+				return FinalColor+_Color*smoothstep(-0.5,1.15,i.uv.y);
 			}
 			ENDCG
 		}
