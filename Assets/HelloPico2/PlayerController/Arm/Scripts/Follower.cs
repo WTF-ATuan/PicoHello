@@ -9,6 +9,7 @@ public class Follower : MonoBehaviour{
 	[SerializeField] private bool m_FollowXAxis = true;
 	[SerializeField] private bool m_FollowZAxis = true;
 	[SerializeField] private bool m_FollowYAxis = false;
+	[SerializeField] private bool m_FollowRot = false;
 	[SerializeField] private bool m_FollowYRot = false;
 
 	public Vector3 m_AdditionalOffset;
@@ -56,7 +57,14 @@ public class Follower : MonoBehaviour{
 				moveXfer.z = m_Target.position.z + offset.z;
 			if(m_FollowYAxis)
 				moveXfer.y = m_Target.position.y + offset.y;
-			if(m_FollowYRot)
+
+			if (m_FollowRot)
+			{ 
+				moveXfer = m_Target.position - m_Target.forward * offset.z;
+				transform.forward = m_Target.forward; 
+			}
+
+			if (!m_FollowRot && m_FollowYRot)
 				transform.rotation =
 						Quaternion.LookRotation(Vector3.ProjectOnPlane(m_Target.forward, Vector3.up).normalized,
 							Vector3.up);
