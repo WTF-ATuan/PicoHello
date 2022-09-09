@@ -1,4 +1,4 @@
-Shader "GGDog/Space_Test/Lv3_CameraEffect"
+Shader "GGDog/CameraEffect/Lv3_Reality"
 {
     Properties
     {
