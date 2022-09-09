@@ -83,6 +83,8 @@ namespace HelloPico2.PlayerController.Arm
         private GameObject currentShape;
         private WeaponBehavior currentWeaponBehavior;
         private bool isShapeConfirmed = false;
+        Game.Project.ColdDownTimer EnergyBallEmptySoundCD;
+        Game.Project.ColdDownTimer BombEmptySoundCD;
         private DeviceInputDetected currentDeviceInputDetected { get; set; }
         #endregion
         private void Start()
@@ -91,6 +93,9 @@ namespace HelloPico2.PlayerController.Arm
             Project.EventBus.Subscribe<GainEnergyEventData>(ChargeEnergyBall);
 
             Project.EventBus.Subscribe<GainBombEventData>(ChargeBomb);
+
+            EnergyBallEmptySoundCD = new Game.Project.ColdDownTimer(armLogic.data.ShootEmptyEnergyCoolDownDuration);
+            BombEmptySoundCD = new Game.Project.ColdDownTimer(armLogic.data.ShootEmptyBombCoolDownDuration);
         }
         private void Update()
         {
@@ -160,6 +165,8 @@ namespace HelloPico2.PlayerController.Arm
                 armLogic.data.Energy += eventData.Energy;
 
                 armLogic.data.WhenGainEnergy?.Invoke();
+
+                //AudioPlayerHelper.PlayAudio(armLogic.data.GainEnergyClipName, transform.position);
 
                 Destroy(eventData.Interactable.transform.gameObject);
 
@@ -245,7 +252,16 @@ namespace HelloPico2.PlayerController.Arm
         //}
         private void ShootChargedProjectile(ArmData data)
         {
-            if (data.bombAmount <= 0 || BombShootCoolDownProcess != null) return;
+            if (data.bombAmount <= 0) {
+                if (BombEmptySoundCD.CanInvoke())
+                {
+                    AudioPlayerHelper.PlayAudio(data.ShootWhenNoBombClipName, transform.position);
+                    BombEmptySoundCD.Reset();
+                    data.WhenNoBombShoot?.Invoke();
+                }
+                return; 
+            }
+            if (BombShootCoolDownProcess != null) return;
             if (hasTransformProcess) return;
 
             GenerateProjectile(true, _ChargedEnergyProjectile, _ChargeShootSpeed);
@@ -258,7 +274,16 @@ namespace HelloPico2.PlayerController.Arm
         }
     private void ShootEnergyProjectile(ArmData data)
         {
-            if (data.Energy <= 0 || ShootCoolDownProcess != null) return;
+            if (data.Energy <= 0) {
+                if (EnergyBallEmptySoundCD.CanInvoke())
+                {
+                    AudioPlayerHelper.PlayAudio(data.ShootWhenNoEnergyClipName, transform.position);
+                    EnergyBallEmptySoundCD.Reset();
+                    data.WhenNoEnergyShoot?.Invoke();
+                }
+                return; 
+            }
+            if (ShootCoolDownProcess != null) return;
             if (_OnlyShootProjectileOnEnergyBallState && currentShape != currentEnergyBall) return;
             if (hasTransformProcess) return;
 
