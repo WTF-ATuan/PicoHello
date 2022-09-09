@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class GLOBAL_Pos : MonoBehaviour
+public class Shooting : MonoBehaviour
 {
     GameObject[] gos;
 
