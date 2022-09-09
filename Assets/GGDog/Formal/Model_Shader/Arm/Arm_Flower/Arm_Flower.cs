@@ -26,7 +26,7 @@ public class Arm_Flower : MonoBehaviour
     {
         ParticleSystem ps = PS;
         var em = ps.emission;
-        em.rateOverTime = _h * 200;
+        em.rateOverTime = 20+_h * 200;
 
         _m1.SetFloat("_h", _h);
         _m2.SetFloat("_h", (_h - 0.25f) * (4));
