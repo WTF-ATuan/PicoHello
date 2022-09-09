@@ -3,7 +3,7 @@ Shader "Unlit/Arm_Flower"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-		_RimColor("RimColor",Color) = (1,1,1,1)
+		[HDR]_RimColor("RimColor",Color) = (1,1,1,1)
         [HDR]_Color("Color",Color) = (1,1,1,1)
         _ShadowColor("Shadow Color",Color) = (1,1,1,1)
         _h("_h",Range(0,1)) = 0
@@ -162,7 +162,7 @@ Shader "Unlit/Arm_Flower"
 
                 FinalColor = lerp(FinalColor,float4(0,0,0,1),saturate((1-Out)));
                 
-                FinalColor += (1-Out2)*smoothstep(0.8,1.1,(1-Out))*_RimColor*5*saturate(1-_injured*_injured*_injured);
+               // FinalColor += (1-Out2)*smoothstep(0.8,1.1,(1-Out))*_RimColor*5*saturate(1-_injured*_injured*_injured);
 
                 clip(Out-0.01);
 
