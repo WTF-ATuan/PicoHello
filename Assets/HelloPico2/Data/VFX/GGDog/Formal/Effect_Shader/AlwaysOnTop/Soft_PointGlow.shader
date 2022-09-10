@@ -2,6 +2,7 @@ Shader "GGDog/Space_Test/Soft_PointGlow"
 {
     Properties
     {
+        [Enum(Order,4,AlwaysOnTop,8)] _ZTest("ZTest", Float) = 8
         _intense("Intense",Range(1,5)) = 1
     }
     SubShader
@@ -11,8 +12,8 @@ Shader "GGDog/Space_Test/Soft_PointGlow"
 		
 		Zwrite Off
 		Blend One One
-
-        ZTest Always
+        
+        ZTest[_ZTest]
         Pass
         {
             CGPROGRAM
