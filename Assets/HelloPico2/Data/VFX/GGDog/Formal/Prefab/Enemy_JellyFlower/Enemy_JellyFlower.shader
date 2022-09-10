@@ -6,6 +6,7 @@ Shader "GGDog/Enemy_JellyFlower"
         [HDR]_Color("_Color", Color) = (1,1,1,1)
         [HDR]_GlowColor("_GlowColor", Color) = (1,1,1,1)
         _noise("_noise", Range(0,0.01)) = 0
+        _noiseTilling("_noiseTilling", Float) = 1
 
         [IntRange]_Step ("_Step", Range(2,500)) = 150
         _Tilling ("_Tilling", Vector) = (1,1,0,0)
@@ -53,6 +54,9 @@ Shader "GGDog/Enemy_JellyFlower"
             };
             float _noise;
             float4 _Color;
+
+            float _noiseTilling;
+            
             v2f vert (appdata v)
             {
                 v2f o;
@@ -60,8 +64,8 @@ Shader "GGDog/Enemy_JellyFlower"
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.scrPos = ComputeScreenPos(o.vertex);  //抓取螢幕截圖的位置
 
-                float n =  smoothstep(0.01,1,distance(frac(float2(5,5)*v.uv+_Time.y*float2(1,0)*0.5),0.5));
-                float n2 =  smoothstep(0.05,1,distance(frac(float2(7,3)*v.uv+_Time.y*float2(-1,0)*0.25),0.5));
+                float n =  smoothstep(0.01,1,distance(frac(_noiseTilling*float2(5,5)*v.uv+_Time.y*float2(1,0)*0.5),0.5));
+                float n2 =  smoothstep(0.05,1,distance(frac(_noiseTilling*float2(7,3)*v.uv+_Time.y*float2(-1,0)*0.25),0.5));
                 n+=n2*_Color.a;
 
                 o.vertex = UnityObjectToClipPos(v.vertex + _noise*n*v.normal);
