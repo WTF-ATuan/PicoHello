@@ -2,7 +2,7 @@ Shader "Unlit/Rim"
 {
 	Properties
 	{
-		_RimColor("RimColor",Color) = (1,1,1,1)
+		[HDR]_RimColor("RimColor",Color) = (1,1,1,1)
 		_Gray("_Gray",Range(0,1)) = 1
 		_Width("_Width",Range(1,10)) = 5
 		_OffSet("OffSet",Range(-10,10)) = 0
@@ -11,6 +11,7 @@ Shader "Unlit/Rim"
 	{
         Tags { "Queue" = "Transparent+1"}
 		ZTest Always
+		ZWrite Off
 		Pass
 		{	
 			Blend SrcAlpha One

@@ -4,6 +4,7 @@ Shader "GGDog/Space_Test/Glow_AlwaysOnTop"
     {
 		_Color("Color",Color) = (1,1,1,1)
         _Alpha("Alpha",Range(0,1)) = 1
+        [Enum(Order,4,AlwaysOnTop,8)] _ZTest("ZTest", Float) = 8
     }
     SubShader
     {
@@ -12,7 +13,7 @@ Shader "GGDog/Space_Test/Glow_AlwaysOnTop"
 
 		Blend One One
 		Zwrite Off
-		ZTest Always
+        ZTest[_ZTest]
         Pass
         {
             CGPROGRAM
