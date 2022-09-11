@@ -43,50 +43,50 @@ Shader "GGDog/Space_Test/Env"
 
             struct appdata
             {
-                half4 vertex : POSITION;
-                half2 uv : TEXCOORD0;
-                half3 normal : NORMAL;
+                float4 vertex : POSITION;
+                float2 uv : TEXCOORD0;
+                float3 normal : NORMAL;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
             {
-                half2 uv : TEXCOORD0;
-                half4 vertex : SV_POSITION;
-				half4 CameraDistance : TEXCOORD1;
-				half3 worldPos : TEXCOORD2;
-                half3 worldNormal : TEXCOORD3;
-                half3 normal : NORMAL;
+                float2 uv : TEXCOORD0;
+                float4 vertex : SV_POSITION;
+				float4 CameraDistance : TEXCOORD1;
+				float3 worldPos : TEXCOORD2;
+                float3 worldNormal : TEXCOORD3;
+                float3 normal : NORMAL;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
             
-            half frac_Noise(half2 UV, half Tilling)
+            float frac_Noise(float2 UV, float Tilling)
             {
 
                 UV = UV*Tilling/100;
 
-                half2 n_UV =half2( UV.x *0.75 - UV.y*0.15 ,UV.x*0.15 + UV.y*0.75);
+                float2 n_UV =float2( UV.x *0.75 - UV.y*0.15 ,UV.x*0.15 + UV.y*0.75);
 
-                half2 n2_UV =half2( UV.x *0.25 - UV.y*0.5 ,UV.x*0.5 + UV.y*0.25);
+                float2 n2_UV =float2( UV.x *0.25 - UV.y*0.5 ,UV.x*0.5 + UV.y*0.25);
 
-                half timeY =_Time.y;
-                half n0 =  smoothstep(0.15,1,1-distance(frac(1*n_UV+timeY*half2(-0.3,-0.75)*0.55),0.5));
-                half n01 =  smoothstep(0.3,1,1-distance(frac(0.75*n2_UV+timeY*half2(0.75,0.5)*0.25),0.5));
+                float timeY =_Time.y;
+                float n0 =  smoothstep(0.15,1,1-distance(frac(1*n_UV+timeY*float2(-0.3,-0.75)*0.55),0.5));
+                float n01 =  smoothstep(0.3,1,1-distance(frac(0.75*n2_UV+timeY*float2(0.75,0.5)*0.25),0.5));
 
-                half n02 =  smoothstep(0.5,1,1-distance(frac(0.25*UV+timeY*half2(0.5,-0.25)*0.75),0.5));
+                float n02 =  smoothstep(0.5,1,1-distance(frac(0.25*UV+timeY*float2(0.5,-0.25)*0.75),0.5));
 
-                half n03 =  smoothstep(0.5,1,1-distance(frac(0.15*UV+timeY*half2(0.25,-0.5)*0.75),0.5));
+                float n03 =  smoothstep(0.5,1,1-distance(frac(0.15*UV+timeY*float2(0.25,-0.5)*0.75),0.5));
 
 
-                half n =  smoothstep(0.15,1,distance(frac(1*n_UV+n0/3-n02/1+timeY*half2(0.7,1)*0.25),0.5)) ;
+                float n =  smoothstep(0.15,1,distance(frac(1*n_UV+n0/3-n02/1+timeY*float2(0.7,1)*0.25),0.5)) ;
 
-                half n2 =  smoothstep(0.3,1,distance(frac(1.25*n2_UV-n01/3+n02/1.5+timeY*half2(-0.2,-0.75)*0.75),0.5)) ;
+                float n2 =  smoothstep(0.3,1,distance(frac(1.25*n2_UV-n01/3+n02/1.5+timeY*float2(-0.2,-0.75)*0.75),0.5)) ;
 
                 n+= n2;
 
                return saturate(n+0.25);
             }
-            half _ModelReflection;
+            float _ModelReflection;
             v2f vert (appdata v)
             {
                 v2f o;
@@ -102,65 +102,65 @@ Shader "GGDog/Space_Test/Env"
 				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 
 #if _REFAXIS_WORLD
-                half3 YPos = mul(unity_ObjectToWorld, v.vertex).xyz;
-                half n = frac_Noise(YPos.xy,1);
-                half worldPosY = step(YPos.y,-30);
-                half worldPosY_smoothstep = saturate(smoothstep(0,50,1-YPos.y));
+                float3 YPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+                float n = frac_Noise(YPos.xy,1);
+                float worldPosY = step(YPos.y,-30);
+                float worldPosY_smoothstep = saturate(smoothstep(0,50,1-YPos.y));
 #elif _REFAXIS_LOCAL
-				half3 YPos = v.vertex.xyz;
-                half n = frac_Noise(1000*YPos.xy,1);
-                half worldPosY = step(YPos.y,0);
-                half worldPosY_smoothstep = 1;
+				float3 YPos = v.vertex.xyz;
+                float n = frac_Noise(1000*YPos.xy,1);
+                float worldPosY = step(YPos.y,0);
+                float worldPosY_smoothstep = 1;
 #endif
-                o.vertex = UnityObjectToClipPos(v.vertex + _ModelReflection * 0.1*half3(-sign(YPos.x),0,0.5)*n*worldPosY*worldPosY_smoothstep);
+                o.vertex = UnityObjectToClipPos(v.vertex + _ModelReflection * 0.1*float3(-sign(YPos.x),0,0.5)*n*worldPosY*worldPosY_smoothstep);
 
-				o.worldNormal = mul(v.normal,(half3x3)unity_WorldToObject);
+				o.worldNormal = mul(v.normal,(float3x3)unity_WorldToObject);
 
                 o.normal = v.normal;
 
                 return o;
             }
-            half4 _Color;
-            half4 _ShadowColor;
+            float4 _Color;
+            float4 _ShadowColor;
 
-            half4 _SkyColor;
+            float4 _SkyColor;
 			
-            half4 _FarColor;
-            half4 _BackFogColor;
-            half4 _FogColor;
+            float4 _FarColor;
+            float4 _BackFogColor;
+            float4 _FogColor;
 
-            half _Rim;
+            float _Rim;
 			
-            half _FogPos;
+            float _FogPos;
             
-            half _UV_Tilling;
-            half _UV_Offset;
-            half _Reflect;
-            half _ReflectRGBOffSet;
+            float _UV_Tilling;
+            float _UV_Offset;
+            float _Reflect;
+            float _ReflectRGBOffSet;
             
-            half4 frag (v2f i) : SV_Target
+            float4 frag (v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
 
-                half3 normalDir = normalize(i.worldNormal);
+                float3 normalDir = normalize(i.worldNormal);
 
-                half3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
+                float3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
 
-                half3 viewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos );
+                float3 viewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos );
 				
-                half3 ShadowColor = _ShadowColor;
-                half3 LightColor  = _LightColor0* _Color ;
+                float3 ShadowColor = _ShadowColor;
+                float3 LightColor  = _LightColor0* _Color ;
 
-                half3 FinalColor =  lerp( ShadowColor, LightColor , (max(dot(normalDir,lightDir),0)+0.25) *smoothstep(-300,500,i.worldPos.z)   );
+                float3 FinalColor =  lerp( ShadowColor, LightColor , (max(dot(normalDir,lightDir),0)+0.25) *smoothstep(-300,500,i.worldPos.z)   );
 
 
 				//Ãä½t¥ú
-				half Rim = 1-saturate(smoothstep(0,0.75,dot(normalDir,viewDir)));
+				float Rim = 1-saturate(smoothstep(0,0.75,dot(normalDir,viewDir)));
 				Rim =  ( Rim + smoothstep(0.5,1,Rim) )/_Rim;
 
 				Rim*=smoothstep(300,700,i.CameraDistance);
 				
-                half4 col = half4(FinalColor,1);
+                float4 col = float4(FinalColor,1);
 
 				col += Rim*_SkyColor;
 
@@ -173,17 +173,17 @@ Shader "GGDog/Space_Test/Env"
 				col = lerp(col,_BackFogColor,1-saturate(smoothstep(-700,1000,i.worldPos.z)));
 
 
-             half n = frac_Noise(i.worldPos.xy+_ReflectRGBOffSet,0.5);
-             half n2 = frac_Noise(i.worldPos.xy,0.5);
-             half n3 = frac_Noise(i.worldPos.xy-_ReflectRGBOffSet,0.5);
+             float n = frac_Noise(i.worldPos.xy+_ReflectRGBOffSet,0.5);
+             float n2 = frac_Noise(i.worldPos.xy,0.5);
+             float n3 = frac_Noise(i.worldPos.xy-_ReflectRGBOffSet,0.5);
 
-             half4 Reflect = half4(n,n2,n3,1)*(smoothstep(0,2,(0.5-i.normal.y)));
+             float4 Reflect = float4(n,n2,n3,1)*(smoothstep(0,2,(0.5-i.normal.y)));
 
              Reflect *= (1-saturate(smoothstep(0,1500,i.worldPos.z))) * (saturate(smoothstep(-150,1000,i.worldPos.z))) ;
 
                 return col +Reflect*_FogColor*_Reflect;
 
-                //return half4(i.worldPos,1);
+                //return float4(i.worldPos,1);
           }
             ENDCG
         }
