@@ -79,7 +79,10 @@ public class targetScript : MonoBehaviour
             AddItemHeld();
             ShowAnim();
             LoadTimeLine();
-    
+            if (isAudio)
+            {
+                aduioObj.SetActive(true);
+            }
         }
     }
     private void OnTriggerStay(Collider other)
@@ -115,7 +118,7 @@ public class targetScript : MonoBehaviour
         {
             aduioObj.SetActive(true);            
         }
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(3);
         LoadTimeLine();
     }
     public void LoadTimeLine()
