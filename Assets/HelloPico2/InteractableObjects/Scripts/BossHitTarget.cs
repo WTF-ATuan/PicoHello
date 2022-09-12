@@ -11,7 +11,6 @@ namespace HelloPico2.InteractableObjects.Scripts{
 		[Required] public ParticleSystem defaultEffect;
 		[Required] public string defaultAudioName;
 		public List<HitEffect> effectSettings = new List<HitEffect>();
-
 		private ParticleSystem _currentEffect;
 
 
@@ -49,6 +48,7 @@ namespace HelloPico2.InteractableObjects.Scripts{
 
 		private void OnTriggerEnter(Collider other){
 			var collisionPoint = other.ClosestPoint(transform.position);
+			if(other.gameObject.layer == LayerMask.NameToLayer("InteractableObject")) return;
 			_currentEffect.transform.position = collisionPoint;
 			_currentEffect.Play();
 			var audioEventRequested = new AudioEventRequested(defaultAudioName, collisionPoint){
