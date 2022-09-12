@@ -7,13 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TrapPot_AnimMAT 3
-  m_Shader: {fileID: 4800000, guid: fd1b331e1d2e2d0408a3b388e935726e, type: 3}
-  m_ShaderKeywords: _ALPHABLEND_ON _EMISSION _GLOSSYREFLECTIONS_OFF _SPECULARHIGHLIGHTS_OFF
-  m_LightmapFlags: 1
+  m_Name: Bullet_hit 2
+  m_Shader: {fileID: 4800000, guid: d2d40e08ff8e39c4babfc710e3532b89, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3000
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -39,24 +39,16 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Flow:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 6cb89ad1a10023648a9372ece1f03b62, type: 3}
-        m_Scale: {x: 1.5, y: 1}
-        m_Offset: {x: -0.5, y: 0}
-    - _Mask:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 161d7895f9e51c5498d8d8143c2f3e2a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Noise:
-        m_Texture: {fileID: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -67,48 +59,27 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SpecGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _texcoord:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _AlphaClip: 0.2
     - _BumpScale: 1
-    - _CullMode: 0
     - _Cutoff: 0.5
-    - _Depthpower: 1
     - _DetailNormalMapScale: 1
-    - _DstBlend: 10
-    - _Emission: 1
-    - _FarDistance: 3
+    - _DstBlend: 0
     - _GlossMapScale: 1
-    - _Glossiness: 0
-    - _GlossyReflections: 0
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
     - _Metallic: 0
-    - _Mode: 2
+    - _Mode: 0
+    - _NoiseStrength: 1.81
     - _OcclusionStrength: 1
-    - _Opacity: 1
     - _Parallax: 0.02
-    - _Reflect: 0.53
-    - _ReflectTilling: 143
     - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 0
-    - _SrcBlend: 5
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _SrcUVTiling: 0.3
+    - _SrcUVTilling: 0.858
     - _UVSec: 0
-    - _Usecenterglow: 0
-    - _Usedepth: 0
-    - _ZWrite: 0
+    - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 2.4886825, g: 0.45782372, b: 0.45782372, a: 1}
-    - _DistortionSpeedXYPowerZ: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 0.8953272, g: 0.6428377, b: 0.50256574, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FarColor: {r: 0.2999733, g: 0.41866943, b: 0.5943396, a: 1}
-    - _ReflectColor: {r: 0.28595585, g: 0.29698288, b: 0.3962264, a: 1}
-    - _ShadowColor: {r: 0.19668572, g: 0.7857801, b: 1.2635566, a: 1}
-    - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
-    - _SpeedMainTexUVNoiseZW: {r: 0.1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
