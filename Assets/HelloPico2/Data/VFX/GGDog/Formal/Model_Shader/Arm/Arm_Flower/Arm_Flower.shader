@@ -175,6 +175,7 @@ Shader "Unlit/Arm_Flower"
         
         Pass
         {
+            ZWrite off
             Blend One One
             CGPROGRAM
             #pragma vertex vert
