@@ -235,10 +235,10 @@
 				
 				
                 half Rimscruv = 1-saturate(smoothstep(0,0.5,NdotV));
-                half Rimscruv2 = saturate(smoothstep(0.25,0.75,NdotV));
+                half Rimscruv2 = saturate(smoothstep(0.25,1,NdotV));
 
 				Rimscruv+=Rimscruv2;
-				half4 refrCol = tex2D(_RenderTex, scruv + Rimscruv/20) ;
+				half4 refrCol = tex2D(_RenderTex, scruv + Rimscruv/50) ;
 
 				//refrCol = lerp(refrCol,refrCol*_ShadowColor,smoothstep(-0.25,0.35,Rim*i.uv.y));
 
@@ -250,6 +250,8 @@
 				
 
 				return FinalColor+_Color*smoothstep(-0.5,1.15,i.uv.y);
+				
+				
 			}
 			ENDCG
 		}
