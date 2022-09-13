@@ -41,17 +41,19 @@ namespace HelloPico2.InteractableObjects
         }
         private void OnEnable(){
             OnEnergyBallInteract += ChargeBloom;          
-            OnBeamInteract += PlayHitEffect;          
-            OnWhipInteract += PlayHitEffect;              
-            OnShieldInteract += PlayHitEffect;              
-            OnEnergyInteract += PlayHitEffect;              
+            OnBeamInteract += ChargeBloom;          
+            OnWhipInteract += ChargeBloom;              
+            OnShieldInteract += ChargeBloom;              
+            OnEnergyInteract += ChargeBloom;   
+            
+            //OnEnergyInteract += PlayHitEffect;              
         }
         private void OnDisable(){
             OnEnergyBallInteract -= ChargeBloom;
-            OnBeamInteract -= PlayHitEffect;
-            OnWhipInteract -= PlayHitEffect;
-            OnShieldInteract -= PlayHitEffect;
-            OnEnergyInteract -= PlayHitEffect;
+            OnBeamInteract -= ChargeBloom;
+            OnWhipInteract -= ChargeBloom;
+            OnShieldInteract -= ChargeBloom;
+            OnEnergyInteract -= ChargeBloom;
         }
         private void PlayHitEffect(Collider selfCollider){
             if (!_timer.CanInvoke()) return;

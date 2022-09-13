@@ -3,6 +3,8 @@ Shader "GGDog/Evil_color"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+		_FarColor("Far Color",Color) = (1,1,1,1)
+		_FarDistance("Far Distance",Float) = 3
 
 		[HDR]_Color("Color",Color) = (1,1,1,1)
 		[HDR]_ShadowColor("Shadow Color",Color) = (0.5,0.5,0.5,1)
@@ -35,39 +37,39 @@ Shader "GGDog/Evil_color"
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
-                half3 normal : NORMAL;
+                float3 normal : NORMAL;
             };
 
             struct v2f
             {
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
-				half3 worldPos : TEXCOORD1;
-                half3 worldNormal : TEXCOORD2;
-                half3 normal : NORMAL;
+				float3 worldPos : TEXCOORD1;
+                float3 worldNormal : TEXCOORD2;
+                float3 normal : NORMAL;
             };
             
-            half frac_Noise(half2 UV, half Tilling)
+            float frac_Noise(float2 UV, float Tilling)
             {
 
                 UV = UV*Tilling/100;
 
-                half2 n_UV =half2( UV.x *0.75 - UV.y*0.15 ,UV.x*0.15 + UV.y*0.75);
+                float2 n_UV =float2( UV.x *0.75 - UV.y*0.15 ,UV.x*0.15 + UV.y*0.75);
 
-                half2 n2_UV =half2( UV.x *0.25 - UV.y*0.5 ,UV.x*0.5 + UV.y*0.25);
+                float2 n2_UV =float2( UV.x *0.25 - UV.y*0.5 ,UV.x*0.5 + UV.y*0.25);
 
-                half timeY =_Time.y;
-                half n0 =  smoothstep(0.15,1,1-distance(frac(1*n_UV+timeY*half2(-0.3,-0.75)*0.55),0.5));
-                half n01 =  smoothstep(0.3,1,1-distance(frac(0.75*n2_UV+timeY*half2(0.75,0.5)*0.25),0.5));
+                float timeY =_Time.y;
+                float n0 =  smoothstep(0.15,1,1-distance(frac(1*n_UV+timeY*float2(-0.3,-0.75)*0.55),0.5));
+                float n01 =  smoothstep(0.3,1,1-distance(frac(0.75*n2_UV+timeY*float2(0.75,0.5)*0.25),0.5));
 
-                half n02 =  smoothstep(0.5,1,1-distance(frac(0.25*UV+timeY*half2(0.5,-0.25)*0.75),0.5));
+                float n02 =  smoothstep(0.5,1,1-distance(frac(0.25*UV+timeY*float2(0.5,-0.25)*0.75),0.5));
 
-                half n03 =  smoothstep(0.5,1,1-distance(frac(0.15*UV+timeY*half2(0.25,-0.5)*0.75),0.5));
+                float n03 =  smoothstep(0.5,1,1-distance(frac(0.15*UV+timeY*float2(0.25,-0.5)*0.75),0.5));
 
 
-                half n =  smoothstep(0.15,1,distance(frac(1*n_UV+n0/3-n02/1+timeY*half2(0.7,1)*0.25),0.5)) ;
+                float n =  smoothstep(0.15,1,distance(frac(1*n_UV+n0/3-n02/1+timeY*float2(0.7,1)*0.25),0.5)) ;
 
-                half n2 =  smoothstep(0.3,1,distance(frac(1.25*n2_UV-n01/3+n02/1.5+timeY*half2(-0.2,-0.75)*0.75),0.5)) ;
+                float n2 =  smoothstep(0.3,1,distance(frac(1.25*n2_UV-n01/3+n02/1.5+timeY*float2(-0.2,-0.75)*0.75),0.5)) ;
 
                 n+= n2;
 
@@ -85,34 +87,41 @@ Shader "GGDog/Evil_color"
                 
 				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 
-				o.worldNormal = mul(v.normal,(half3x3)unity_WorldToObject);
+				o.worldNormal = mul(v.normal,(float3x3)unity_WorldToObject);
 
                 o.normal = v.normal;
+
+				o.worldPos.z = length(mul(UNITY_MATRIX_MV,v.vertex).xyz); //CameraDistance
 
                 return o;
             }
             float _AlphaClip;
             
-            half3 _Color;
-            half3 _ShadowColor;
-            half _Reflect;
-            half _ReflectTilling;
-            half3 _ReflectColor;
+            float3 _Color;
+            float3 _ShadowColor;
+            float _Reflect;
+            float _ReflectTilling;
+            float3 _ReflectColor;
             
+		    float4 _FarColor;
+		    float _FarDistance;
             fixed4 frag (v2f i) : SV_Target
             {
 
                 fixed4 col = tex2D(_MainTex, i.uv + _Time.y*_MainTex_ST.zw);
 
-                half3 normalDir = normalize(i.worldNormal);
+                float3 normalDir = normalize(i.worldNormal);
 
-                half3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
+                float3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
 
                 col.rgb =  lerp( _ShadowColor * col, _Color * col, (max(dot(normalDir,lightDir),0+0.25))) ;
 
                 col.rgb += frac_Noise(i.worldPos.xy,_ReflectTilling)*_Reflect*_ReflectColor;
 
                 clip(col.a-_AlphaClip);
+                
+                //¶ZÂ÷Ãú
+				col = lerp(col,float4(_FarColor.rgb,col.a), smoothstep(0,_FarDistance,i.worldPos.z));
 
                 return col;
             }
@@ -132,39 +141,39 @@ Shader "GGDog/Evil_color"
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
-                half3 normal : NORMAL;
+                float3 normal : NORMAL;
             };
 
             struct v2f
             {
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
-				half3 worldPos : TEXCOORD1;
-                half3 worldNormal : TEXCOORD2;
-                half3 normal : NORMAL;
+				float3 worldPos : TEXCOORD1;
+                float3 worldNormal : TEXCOORD2;
+                float3 normal : NORMAL;
             };
             
-            half frac_Noise(half2 UV, half Tilling)
+            float frac_Noise(float2 UV, float Tilling)
             {
 
                 UV = UV*Tilling/100;
 
-                half2 n_UV =half2( UV.x *0.75 - UV.y*0.15 ,UV.x*0.15 + UV.y*0.75);
+                float2 n_UV =float2( UV.x *0.75 - UV.y*0.15 ,UV.x*0.15 + UV.y*0.75);
 
-                half2 n2_UV =half2( UV.x *0.25 - UV.y*0.5 ,UV.x*0.5 + UV.y*0.25);
+                float2 n2_UV =float2( UV.x *0.25 - UV.y*0.5 ,UV.x*0.5 + UV.y*0.25);
 
-                half timeY =_Time.y;
-                half n0 =  smoothstep(0.15,1,1-distance(frac(1*n_UV+timeY*half2(-0.3,-0.75)*0.55),0.5));
-                half n01 =  smoothstep(0.3,1,1-distance(frac(0.75*n2_UV+timeY*half2(0.75,0.5)*0.25),0.5));
+                float timeY =_Time.y;
+                float n0 =  smoothstep(0.15,1,1-distance(frac(1*n_UV+timeY*float2(-0.3,-0.75)*0.55),0.5));
+                float n01 =  smoothstep(0.3,1,1-distance(frac(0.75*n2_UV+timeY*float2(0.75,0.5)*0.25),0.5));
 
-                half n02 =  smoothstep(0.5,1,1-distance(frac(0.25*UV+timeY*half2(0.5,-0.25)*0.75),0.5));
+                float n02 =  smoothstep(0.5,1,1-distance(frac(0.25*UV+timeY*float2(0.5,-0.25)*0.75),0.5));
 
-                half n03 =  smoothstep(0.5,1,1-distance(frac(0.15*UV+timeY*half2(0.25,-0.5)*0.75),0.5));
+                float n03 =  smoothstep(0.5,1,1-distance(frac(0.15*UV+timeY*float2(0.25,-0.5)*0.75),0.5));
 
 
-                half n =  smoothstep(0.15,1,distance(frac(1*n_UV+n0/3-n02/1+timeY*half2(0.7,1)*0.25),0.5)) ;
+                float n =  smoothstep(0.15,1,distance(frac(1*n_UV+n0/3-n02/1+timeY*float2(0.7,1)*0.25),0.5)) ;
 
-                half n2 =  smoothstep(0.3,1,distance(frac(1.25*n2_UV-n01/3+n02/1.5+timeY*half2(-0.2,-0.75)*0.75),0.5)) ;
+                float n2 =  smoothstep(0.3,1,distance(frac(1.25*n2_UV-n01/3+n02/1.5+timeY*float2(-0.2,-0.75)*0.75),0.5)) ;
 
                 n+= n2;
 
@@ -182,37 +191,42 @@ Shader "GGDog/Evil_color"
                 
 				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 
-				o.worldNormal = mul(v.normal,(half3x3)unity_WorldToObject);
+				o.worldNormal = mul(v.normal,(float3x3)unity_WorldToObject);
 
                 o.normal = v.normal;
+                
+				o.worldPos.z = length(mul(UNITY_MATRIX_MV,v.vertex).xyz); //CameraDistance
 
                 return o;
             }
             
             float _AlphaClip;
             
-            half3 _Color;
-            half3 _ShadowColor;
-            half _Reflect;
-            half _ReflectTilling;
-            half3 _ReflectColor;
+            float3 _Color;
+            float3 _ShadowColor;
+            float _Reflect;
+            float _ReflectTilling;
+            float3 _ReflectColor;
             
-
-            
-            fixed4 frag (v2f i) : SV_Target
+		    float4 _FarColor;
+		    float _FarDistance;
+            float4 frag (v2f i) : SV_Target
             {
 
-                fixed4 col = tex2D(_MainTex, i.uv + _Time.y*_MainTex_ST.zw);
+                float4 col = tex2D(_MainTex, i.uv + _Time.y*_MainTex_ST.zw);
 
-                half3 normalDir = normalize(i.worldNormal);
+                float3 normalDir = normalize(i.worldNormal);
 
-                half3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
+                float3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
 
                 col.rgb =  lerp( _ShadowColor * col, _Color * col, (max(dot(normalDir,lightDir),0+0.25))) ;
                 
                 col.rgb += frac_Noise(i.worldPos.xy,_ReflectTilling)*_Reflect*_ReflectColor;
 
                 clip(col.a-_AlphaClip);
+                
+                //¶ZÂ÷Ãú
+				col = lerp(col,float4(_FarColor.rgb,col.a), smoothstep(0,_FarDistance,i.worldPos.z));
 
                 return col;
             }
