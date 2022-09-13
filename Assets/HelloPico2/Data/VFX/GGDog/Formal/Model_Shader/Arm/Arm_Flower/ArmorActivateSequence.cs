@@ -28,6 +28,7 @@ namespace HelloPico2.PlayerController.Arm
 
         [Header("VFX")]
         public ParticleSystem _BubbleVFX;
+        public ParticleSystem _RoundingVFX;
         public GameObject _AnimationEffect;
         public HelloPico2.LevelTool.SkinnedMeshEffectPlacement _EffectPlacement;
 
@@ -98,7 +99,10 @@ namespace HelloPico2.PlayerController.Arm
             seq.Append(_Armor.materials[1].DOFloat(_ToRim, _RimStrengthName, _RimEffectDuration));
             seq.AppendInterval(_RimEffectStayDuration);
             seq.Append(_Armor.materials[1].DOFloat(_FromRim, _RimStrengthName, _RimEffectDuration));
-            TweenCallback SeqCompleteCallback = delegate { _Armor.materials = originalMat; TurnOffAnimationEffect(); };
+            TweenCallback SeqCompleteCallback = delegate { 
+                _Armor.materials = originalMat; 
+                TurnOffAnimationEffect();
+            };
             seq.AppendCallback(SeqCompleteCallback);
 
             // Fade
@@ -112,7 +116,20 @@ namespace HelloPico2.PlayerController.Arm
             //TweenCallback Seq1CompleteCallback = delegate { _Armor.materials[2] = originalMat[0]; };
             List<Material> mats = new List<Material>(_Armor.materials);
             mats.Add(originalMat[0]);
-            TweenCallback Seq1CompleteCallback = delegate { _Armor.materials = mats.ToArray(); PlayBubbleVFX(); };
+            TweenCallback Seq1CompleteCallback = delegate { 
+                _Armor.materials = mats.ToArray(); 
+                PlayBubbleVFX();
+
+                // VFX
+                var clone = Instantiate(_RoundingVFX, transform);
+                _EffectPlacement.SetPosition(_Armor, clone.transform);
+                clone.Play();
+                print("Play Rounding Effect");
+                Destroy(clone, 5);
+
+                GainArmorEvent GainArmroevent = new GainArmorEvent();
+                Project.EventBus.Post(GainArmroevent);
+            };
             seq1.AppendCallback(Seq1CompleteCallback);
             seq1.Append(_Armor.materials[0].DOColor(_FromColor, _FadeColorName, _FadeInDuration).From(_ToColor));
 

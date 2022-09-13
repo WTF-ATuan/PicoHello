@@ -85,6 +85,9 @@ namespace HelloPico2.PlayerController.Arm
         private bool isShapeConfirmed = false;
         Game.Project.ColdDownTimer EnergyBallEmptySoundCD;
         Game.Project.ColdDownTimer BombEmptySoundCD;
+        public List<IGainEnergyFeedback> GainEnergyFeedback = new List<IGainEnergyFeedback>();
+        public List<IShootingFeedback> ShootingFeedback = new List<IShootingFeedback>();
+
         private DeviceInputDetected currentDeviceInputDetected { get; set; }
         #endregion
         private void Start()
@@ -152,8 +155,6 @@ namespace HelloPico2.PlayerController.Arm
         {
             if (eventData.InputReceiver.Selector.HandType != armLogic.data.HandType) return;
 
-            print("Get Energy");
-
             armLogic.controllerInteractor.CancelSelect(eventData.Interactable);
 
             var targetPos = currentEnergyBall.transform.position;
@@ -167,6 +168,9 @@ namespace HelloPico2.PlayerController.Arm
                 armLogic.data.WhenGainEnergy?.Invoke();
 
                 //AudioPlayerHelper.PlayAudio(armLogic.data.GainEnergyClipName, transform.position);
+
+                // Feedbacks
+                GainEnergyFeedback.ForEach(x => x.OnNotify(armLogic.data.HandType));
 
                 Destroy(eventData.Interactable.transform.gameObject);
 
@@ -290,6 +294,10 @@ namespace HelloPico2.PlayerController.Arm
             data.Energy -= _CostEnergy;
             armLogic.OnEnergyChanged?.Invoke(data);
             GenerateProjectile(false, _EnergyProjectile, _ShootSpeed, 1, _Homing);
+
+            // Feedbacks
+            ShootingFeedback.ForEach(x => x.OnNotify(data.HandType));
+
             // CD
             ShootCoolDownProcess = StartCoroutine(CoolDown(_ShootCoolDown));
 
@@ -338,6 +346,13 @@ namespace HelloPico2.PlayerController.Arm
 
                 if (!armLogic.CheckHasEnergy())
                     currentEnergyBall.SetActive(false);
+
+                if (currentEnergyBall.TryGetComponent<IGainEnergyFeedback>(out var gainEnergyFeedback)){
+                    GainEnergyFeedback.Add(gainEnergyFeedback);
+                }
+                if (currentEnergyBall.TryGetComponent<IShootingFeedback>(out var shootingFeedback)) { 
+                    ShootingFeedback.Add(shootingFeedback);                
+                }
             }
         }
         private void UpdateScale(ArmData data) {
