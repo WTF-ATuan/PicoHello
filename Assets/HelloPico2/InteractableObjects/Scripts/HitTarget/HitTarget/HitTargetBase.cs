@@ -49,6 +49,7 @@ namespace HelloPico2.InteractableObjects
             mover.force = gravity;
         }
         public virtual void OnCollide(InteractType type, Collider selfCollider){
+            _timer ??= new Game.Project.ColdDownTimer(_HitCDDuration);
             if (!_timer.CanInvoke()) return;
 
             CheckInteractType(type, selfCollider);

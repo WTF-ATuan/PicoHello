@@ -97,6 +97,7 @@ Shader "GGDog/Arm_GodFlower"
         
         Pass
         {
+            ZWrite off
             Blend One One
             CGPROGRAM
             #pragma vertex vert
