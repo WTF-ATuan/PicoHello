@@ -4,6 +4,7 @@ Shader "Unlit/Low-Enemy_JellyFlower"
     {
         _MainTex ("Texture", 2D) = "white" {}
         [HDR]_Color ("Color", Color) = (1,1,1,1)
+        [HDR]_TexColor ("Tex Color", Color) = (1,1,1,1)
     }
     SubShader
     {
@@ -40,6 +41,7 @@ Shader "Unlit/Low-Enemy_JellyFlower"
             sampler2D _MainTex;
             float4 _MainTex_ST;
             float4 _Color;
+            float4 _TexColor;
             
             v2f vert (appdata v)
             {
@@ -49,13 +51,16 @@ Shader "Unlit/Low-Enemy_JellyFlower"
 
                 return o;
             }
-
+            
             fixed4 frag (v2f i) : SV_Target
             {
 
                 fixed4 col = tex2D(_MainTex, i.uv+_Time.y*_MainTex_ST.zw);
 
-                return col*col.a*_Color;
+                col *= col.a*_TexColor + col.a*_Color*_Color.a;
+
+
+                return col;
             }
             ENDCG
         }
