@@ -27,6 +27,8 @@ public class targetScript : MonoBehaviour
     public bool isEffect;
     public GameObject EffectObj;
     public bool isStaff;
+    public bool touchEffect;
+    public GameObject touchEffectObj;
     private void Start()
     {
         countTimer = 0;
@@ -89,6 +91,10 @@ public class targetScript : MonoBehaviour
     {
         if (isHandTouch && isTrigger && other.CompareTag("Player"))
         {
+            if (touchEffect)
+            {
+                touchEffectObj.SetActive(true);
+            }
             countTimer += Time.deltaTime;
             if (isHandTouch)
             {
