@@ -24,7 +24,7 @@ namespace HelloPico2.InputDevice.Scripts{
 		private void Start(){
 			_interactor = GetComponent<XRRayInteractor>();
 			_armData = GetComponent<ArmData>();
-			_armData.WhenGainEnergy.AddListener(OnGainEnergy);
+			_armData.WhenGrip += OnGainEnergy;
 		}
 
 		private void OnGainEnergy(){
@@ -54,10 +54,10 @@ namespace HelloPico2.InputDevice.Scripts{
 		private void VibrateNeo3(float amplitude){
 			switch(handIndex){
 				case 1:
-					PXR_Input.SetControllerVibration(amplitude, 1, PXR_Input.Controller.LeftController);
+					PXR_Input.SetControllerVibrationEvent((uint)handIndex - 1 , 100 ,amplitude, 200);
 					break;
 				case 2:
-					PXR_Input.SetControllerVibration(amplitude, 1, PXR_Input.Controller.RightController);
+					PXR_Input.SetControllerVibrationEvent((uint)handIndex - 1 , 100 ,amplitude, 200);
 					break;
 			}
 		}
