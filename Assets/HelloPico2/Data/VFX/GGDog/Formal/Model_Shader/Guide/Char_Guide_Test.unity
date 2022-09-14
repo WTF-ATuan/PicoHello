@@ -212,14 +212,14 @@ Material:
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
---- !u!21 &22312934
+--- !u!21 &8059948
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
+  m_Name: SSS (Instance) (Instance)
   m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -274,6 +274,7 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _DespairColor: 0
     - _DetailNormalMapScale: 1
     - _Distortion: 1
     - _DstBlend: 0
@@ -295,10 +296,101 @@ Material:
     m_Colors:
     - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.55633026, g: 0.7460959, b: 0.9359025, a: 1}
-    - _FadeColor2: {r: 0.90230274, g: 0.8832569, b: 0.7561226, a: 1}
+    - _FadeColor1: {r: 0.09644437, g: 0.53474635, b: 0.9296125, a: 1}
+    - _FadeColor2: {r: 0.976653, g: 0.45543438, b: 0.32421583, a: 1}
     - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _RandomOffset: {r: 0.8, g: 0.5, b: 0, a: 0}
+    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
+    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
+  m_BuildTextureStacks: []
+--- !u!21 &32138857
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SSS (Instance) (Instance)
+  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ThicknessTex:
+        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DespairColor: 0
+    - _DetailNormalMapScale: 1
+    - _Distortion: 1
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _OffSet: 0
+    - _Parallax: 0.02
+    - _Power: 7.34
+    - _Scale: 6.1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FadeColor1: {r: 0.6646533, g: 0.92644167, b: 0.9857713, a: 1}
+    - _FadeColor2: {r: 0.8876078, g: 0.44945437, b: 0.12400699, a: 1}
+    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
+    - _RandomOffset: {r: 0.2, g: 0.5, b: 0, a: 0}
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
@@ -480,6 +572,97 @@ Material:
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
+--- !u!21 &196197555
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SSS (Instance) (Instance)
+  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ThicknessTex:
+        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DespairColor: 0
+    - _DetailNormalMapScale: 1
+    - _Distortion: 1
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _OffSet: 0
+    - _Parallax: 0.02
+    - _Power: 7.34
+    - _Scale: 6.1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FadeColor1: {r: 0.0905031, g: 0.37847716, b: 0.027316213, a: 1}
+    - _FadeColor2: {r: 0.74605, g: 0.9220041, b: 0.5491813, a: 1}
+    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
+    - _RandomOffset: {r: 0.8, g: 0, b: 0, a: 0}
+    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
+    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
+  m_BuildTextureStacks: []
 --- !u!21 &240740194
 Material:
   serializedVersion: 6
@@ -564,6 +747,97 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FadeColor1: {r: 0.5666072, g: 0.17268133, b: 0.3469792, a: 1}
     - _FadeColor2: {r: 0.757072, g: 0.8684001, b: 0.20325935, a: 1}
+    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
+    - _RandomOffset: {r: 0.8, g: 0.5, b: 0, a: 0}
+    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
+    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
+  m_BuildTextureStacks: []
+--- !u!21 &261016773
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SSS (Instance) (Instance)
+  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ThicknessTex:
+        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DespairColor: 0
+    - _DetailNormalMapScale: 1
+    - _Distortion: 1
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _OffSet: 0
+    - _Parallax: 0.02
+    - _Power: 7.34
+    - _Scale: 6.1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FadeColor1: {r: 0.6896651, g: 0.39125878, b: 0.9872067, a: 1}
+    - _FadeColor2: {r: 0.89521205, g: 0.03707218, b: 0.33998674, a: 1}
     - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
     - _RandomOffset: {r: 0.8, g: 0.5, b: 0, a: 0}
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
@@ -658,6 +932,97 @@ Material:
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
+--- !u!21 &273228340
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SSS (Instance) (Instance)
+  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ThicknessTex:
+        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DespairColor: 0
+    - _DetailNormalMapScale: 1
+    - _Distortion: 1
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _OffSet: 0
+    - _Parallax: 0.02
+    - _Power: 7.34
+    - _Scale: 6.1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FadeColor1: {r: 0.63843596, g: 0.27594692, b: 0.04898572, a: 1}
+    - _FadeColor2: {r: 0.82129574, g: 0.29855937, b: 0.67629373, a: 1}
+    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
+    - _RandomOffset: {r: 0.8, g: 0.5, b: 0, a: 0}
+    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
+    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
+  m_BuildTextureStacks: []
 --- !u!21 &278666066
 Material:
   serializedVersion: 6
@@ -744,186 +1109,6 @@ Material:
     - _FadeColor2: {r: 0.8916961, g: 0.9870919, b: 0.48273975, a: 1}
     - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
     - _RandomOffset: {r: 0.6, g: 0, b: 0, a: 0}
-    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
-    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
-  m_BuildTextureStacks: []
---- !u!21 &286431869
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
-  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ThicknessTex:
-        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - _BumpScale: 1
-    - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
-    - _Distortion: 1
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _OffSet: 0
-    - _Parallax: 0.02
-    - _Power: 7.34
-    - _Scale: 6.1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _UVSec: 0
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.5172488, g: 0.51419145, b: 0.36141616, a: 1}
-    - _FadeColor2: {r: 0.6212507, g: 0.030325174, b: 0.853989, a: 1}
-    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0.4, g: 0.5, b: 0, a: 0}
-    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
-    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
-  m_BuildTextureStacks: []
---- !u!21 &316825590
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
-  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ThicknessTex:
-        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - _BumpScale: 1
-    - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
-    - _Distortion: 1
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _OffSet: 0
-    - _Parallax: 0.02
-    - _Power: 7.34
-    - _Scale: 6.1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _UVSec: 0
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.30716044, g: 0.22941077, b: 0.012067914, a: 1}
-    - _FadeColor2: {r: 0.44702846, g: 0.81275606, b: 0.5511257, a: 1}
-    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0, g: 0, b: 0, a: 0}
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
@@ -1105,14 +1290,14 @@ Material:
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
---- !u!21 &340077529
+--- !u!21 &341289440
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
+  m_Name: SSS (Instance) (Instance)
   m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -1167,6 +1352,7 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _DespairColor: 0
     - _DetailNormalMapScale: 1
     - _Distortion: 1
     - _DstBlend: 0
@@ -1188,10 +1374,10 @@ Material:
     m_Colors:
     - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.2194134, g: 0.21566033, b: 0.279867, a: 1}
-    - _FadeColor2: {r: 0.79564357, g: 0.19580054, b: 0.2916568, a: 1}
+    - _FadeColor1: {r: 0.7255777, g: 0.5971474, b: 0.9278511, a: 1}
+    - _FadeColor2: {r: 0.12574565, g: 0.1501044, b: 0.9761733, a: 1}
     - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0.6, g: 0, b: 0, a: 0}
+    - _RandomOffset: {r: 0.8, g: 0, b: 0, a: 0}
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
@@ -1284,276 +1470,6 @@ Material:
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
---- !u!21 &366831838
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
-  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ThicknessTex:
-        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - _BumpScale: 1
-    - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
-    - _Distortion: 1
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _OffSet: 0
-    - _Parallax: 0.02
-    - _Power: 7.34
-    - _Scale: 6.1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _UVSec: 0
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.7222073, g: 0.7758825, b: 0.32233196, a: 1}
-    - _FadeColor2: {r: 0.058250666, g: 0.5667712, b: 0.42783147, a: 1}
-    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0.6, g: 0.5, b: 0, a: 0}
-    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
-    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
-  m_BuildTextureStacks: []
---- !u!21 &382232813
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
-  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ThicknessTex:
-        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - _BumpScale: 1
-    - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
-    - _Distortion: 1
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _OffSet: 0
-    - _Parallax: 0.02
-    - _Power: 7.34
-    - _Scale: 6.1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _UVSec: 0
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.23192215, g: 0.7664089, b: 0.7752671, a: 1}
-    - _FadeColor2: {r: 0.63118565, g: 0.5157836, b: 0.4669556, a: 1}
-    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0.2, g: 0.5, b: 0, a: 0}
-    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
-    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
-  m_BuildTextureStacks: []
---- !u!21 &407255973
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
-  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ThicknessTex:
-        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - _BumpScale: 1
-    - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
-    - _Distortion: 1
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _OffSet: 0
-    - _Parallax: 0.02
-    - _Power: 7.34
-    - _Scale: 6.1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _UVSec: 0
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.980355, g: 0.5053453, b: 0.5611139, a: 1}
-    - _FadeColor2: {r: 0.42856735, g: 0.7892146, b: 0.74387944, a: 1}
-    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0, g: 0.5, b: 0, a: 0}
-    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
-    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
-  m_BuildTextureStacks: []
 --- !u!21 &428077682
 Material:
   serializedVersion: 6
@@ -1643,14 +1559,14 @@ Material:
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
---- !u!21 &432003700
+--- !u!21 &434922490
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
+  m_Name: SSS (Instance) (Instance)
   m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -1705,6 +1621,7 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _DespairColor: 0
     - _DetailNormalMapScale: 1
     - _Distortion: 1
     - _DstBlend: 0
@@ -1726,10 +1643,10 @@ Material:
     m_Colors:
     - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.1539638, g: 0.4307304, b: 0.3986966, a: 1}
-    - _FadeColor2: {r: 0.2849049, g: 0.7369237, b: 0.22770894, a: 1}
+    - _FadeColor1: {r: 0.79712355, g: 0.8293494, b: 0.06327689, a: 1}
+    - _FadeColor2: {r: 0.90669596, g: 0.5278179, b: 0.7256261, a: 1}
     - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0.2, g: 0.5, b: 0, a: 0}
+    - _RandomOffset: {r: 0.6, g: 0.5, b: 0, a: 0}
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
@@ -1822,6 +1739,97 @@ Material:
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
+--- !u!21 &446679095
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SSS (Instance) (Instance)
+  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ThicknessTex:
+        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DespairColor: 0
+    - _DetailNormalMapScale: 1
+    - _Distortion: 1
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _OffSet: 0
+    - _Parallax: 0.02
+    - _Power: 7.34
+    - _Scale: 6.1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FadeColor1: {r: 0.8825792, g: 0.67708933, b: 0.15549648, a: 1}
+    - _FadeColor2: {r: 0.4934234, g: 0.8682592, b: 0.7921374, a: 1}
+    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
+    - _RandomOffset: {r: 0.6, g: 0.5, b: 0, a: 0}
+    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
+    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
+  m_BuildTextureStacks: []
 --- !u!21 &498337647
 Material:
   serializedVersion: 6
@@ -1908,6 +1916,97 @@ Material:
     - _FadeColor2: {r: 0.8947104, g: 0.15191126, b: 0.9809172, a: 1}
     - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
     - _RandomOffset: {r: 0.8, g: 0.5, b: 0, a: 0}
+    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
+    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
+  m_BuildTextureStacks: []
+--- !u!21 &522475613
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SSS (Instance) (Instance)
+  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ThicknessTex:
+        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DespairColor: 0
+    - _DetailNormalMapScale: 1
+    - _Distortion: 1
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _OffSet: 0
+    - _Parallax: 0.02
+    - _Power: 7.34
+    - _Scale: 6.1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FadeColor1: {r: 0.7987125, g: 0.21336329, b: 0.58610684, a: 1}
+    - _FadeColor2: {r: 0.024471879, g: 0.9816804, b: 0.9720042, a: 1}
+    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
+    - _RandomOffset: {r: 0, g: 0.5, b: 0, a: 0}
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
@@ -2000,14 +2099,14 @@ Material:
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
---- !u!21 &557263433
+--- !u!21 &561223838
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
+  m_Name: SSS (Instance) (Instance) (Instance)
   m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -2062,6 +2161,7 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _DespairColor: 0
     - _DetailNormalMapScale: 1
     - _Distortion: 1
     - _DstBlend: 0
@@ -2083,21 +2183,21 @@ Material:
     m_Colors:
     - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.6135239, g: 0.68673027, b: 0.97115326, a: 1}
-    - _FadeColor2: {r: 0.5437955, g: 0.3239904, b: 0.87308776, a: 1}
+    - _FadeColor1: {r: 0.74445045, g: 0.19951344, b: 0.6412815, a: 1}
+    - _FadeColor2: {r: 0.093903065, g: 0.49129087, b: 0.79283905, a: 1}
     - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0.4, g: 0.5, b: 0, a: 0}
+    - _RandomOffset: {r: 0.2, g: 0, b: 0, a: 0}
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
---- !u!21 &573973409
+--- !u!21 &654703153
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
+  m_Name: SSS (Instance) (Instance)
   m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -2152,6 +2252,7 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _DespairColor: 0
     - _DetailNormalMapScale: 1
     - _Distortion: 1
     - _DstBlend: 0
@@ -2173,370 +2274,10 @@ Material:
     m_Colors:
     - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.45681018, g: 0.8753035, b: 0.17218316, a: 1}
-    - _FadeColor2: {r: 0.9878901, g: 0.09351814, b: 0.43557185, a: 1}
+    - _FadeColor1: {r: 0.36702675, g: 0.38687402, b: 0.4830132, a: 1}
+    - _FadeColor2: {r: 0.7706387, g: 0.2575869, b: 0.79171324, a: 1}
     - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0.2, g: 0.5, b: 0, a: 0}
-    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
-    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
-  m_BuildTextureStacks: []
---- !u!21 &600041711
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
-  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ThicknessTex:
-        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - _BumpScale: 1
-    - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
-    - _Distortion: 1
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _OffSet: 0
-    - _Parallax: 0.02
-    - _Power: 7.34
-    - _Scale: 6.1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _UVSec: 0
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.9082217, g: 0.11961305, b: 0.6651777, a: 1}
-    - _FadeColor2: {r: 0.86105347, g: 0.6425828, b: 0.5948667, a: 1}
-    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0.8, g: 0, b: 0, a: 0}
-    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
-    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
-  m_BuildTextureStacks: []
---- !u!21 &603262591
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
-  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ThicknessTex:
-        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - _BumpScale: 1
-    - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
-    - _Distortion: 1
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _OffSet: 0
-    - _Parallax: 0.02
-    - _Power: 7.34
-    - _Scale: 6.1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _UVSec: 0
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.94436514, g: 0.054859042, b: 0.8572537, a: 1}
-    - _FadeColor2: {r: 0.3656152, g: 0.41015583, b: 0.040317416, a: 1}
-    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0.8, g: 0, b: 0, a: 0}
-    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
-    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
-  m_BuildTextureStacks: []
---- !u!21 &620084875
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
-  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ThicknessTex:
-        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - _BumpScale: 1
-    - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
-    - _Distortion: 1
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _OffSet: 0
-    - _Parallax: 0.02
-    - _Power: 7.34
-    - _Scale: 6.1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _UVSec: 0
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.30497438, g: 0.9631561, b: 0.3578716, a: 1}
-    - _FadeColor2: {r: 0.8421216, g: 0.91804206, b: 0.55004185, a: 1}
-    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0.8, g: 0, b: 0, a: 0}
-    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
-    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
-  m_BuildTextureStacks: []
---- !u!21 &646625603
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
-  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ThicknessTex:
-        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - _BumpScale: 1
-    - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
-    - _Distortion: 1
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _OffSet: 0
-    - _Parallax: 0.02
-    - _Power: 7.34
-    - _Scale: 6.1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _UVSec: 0
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.95669615, g: 0.008918166, b: 0.28864044, a: 1}
-    - _FadeColor2: {r: 0.42846924, g: 0.4748407, b: 0.81325006, a: 1}
-    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _RandomOffset: {r: 0.6, g: 0, b: 0, a: 0}
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
@@ -2626,6 +2367,97 @@ Material:
     - _FadeColor2: {r: 0.78031635, g: 0.595784, b: 0.22172129, a: 1}
     - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
     - _RandomOffset: {r: 0.2, g: 0.5, b: 0, a: 0}
+    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
+    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
+  m_BuildTextureStacks: []
+--- !u!21 &691298312
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SSS (Instance) (Instance)
+  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ThicknessTex:
+        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DespairColor: 0
+    - _DetailNormalMapScale: 1
+    - _Distortion: 1
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _OffSet: 0
+    - _Parallax: 0.02
+    - _Power: 7.34
+    - _Scale: 6.1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FadeColor1: {r: 0.9785241, g: 0.14354873, b: 0.4780149, a: 1}
+    - _FadeColor2: {r: 0.33590037, g: 0.11647749, b: 0.9392543, a: 1}
+    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
+    - _RandomOffset: {r: 0.2, g: 0, b: 0, a: 0}
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
@@ -2807,14 +2639,14 @@ Material:
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
---- !u!21 &785766947
+--- !u!21 &784825009
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
+  m_Name: SSS (Instance) (Instance)
   m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -2869,6 +2701,7 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _DespairColor: 0
     - _DetailNormalMapScale: 1
     - _Distortion: 1
     - _DstBlend: 0
@@ -2890,21 +2723,21 @@ Material:
     m_Colors:
     - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.25030643, g: 0.5230246, b: 0.017857432, a: 1}
-    - _FadeColor2: {r: 0.6098084, g: 0.5019452, b: 0.9909965, a: 1}
+    - _FadeColor1: {r: 0.34161645, g: 0.4061473, b: 0.9542222, a: 1}
+    - _FadeColor2: {r: 0.317895, g: 0.5414532, b: 0.11698234, a: 1}
     - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0, g: 0.5, b: 0, a: 0}
+    - _RandomOffset: {r: 0.4, g: 0, b: 0, a: 0}
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
---- !u!21 &827662600
+--- !u!21 &808886781
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
+  m_Name: SSS (Instance) (Instance)
   m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -2959,6 +2792,7 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _DespairColor: 0
     - _DetailNormalMapScale: 1
     - _Distortion: 1
     - _DstBlend: 0
@@ -2980,190 +2814,10 @@ Material:
     m_Colors:
     - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.034989476, g: 0.9369041, b: 0.33290416, a: 1}
-    - _FadeColor2: {r: 0.5679156, g: 0.8652955, b: 0.35904866, a: 1}
+    - _FadeColor1: {r: 0.13685977, g: 0.69615126, b: 0.183738, a: 1}
+    - _FadeColor2: {r: 0.42700177, g: 0.06949949, b: 0.24361444, a: 1}
     - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0.6, g: 0, b: 0, a: 0}
-    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
-    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
-  m_BuildTextureStacks: []
---- !u!21 &858389967
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
-  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ThicknessTex:
-        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - _BumpScale: 1
-    - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
-    - _Distortion: 1
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _OffSet: 0
-    - _Parallax: 0.02
-    - _Power: 7.34
-    - _Scale: 6.1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _UVSec: 0
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.68149984, g: 0.34708613, b: 0.5255577, a: 1}
-    - _FadeColor2: {r: 0.96987295, g: 0.851869, b: 0.34874207, a: 1}
-    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0.6, g: 0, b: 0, a: 0}
-    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
-    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
-  m_BuildTextureStacks: []
---- !u!21 &894309898
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
-  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ThicknessTex:
-        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - _BumpScale: 1
-    - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
-    - _Distortion: 1
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _OffSet: 0
-    - _Parallax: 0.02
-    - _Power: 7.34
-    - _Scale: 6.1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _UVSec: 0
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.8277912, g: 0.07988596, b: 0.44191712, a: 1}
-    - _FadeColor2: {r: 0.86929846, g: 0.6214623, b: 0.7293588, a: 1}
-    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _RandomOffset: {r: 0.8, g: 0, b: 0, a: 0}
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
@@ -3345,14 +2999,14 @@ Material:
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
---- !u!21 &912156177
+--- !u!21 &928117465
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
+  m_Name: SSS (Instance) (Instance)
   m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -3407,6 +3061,7 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _DespairColor: 0
     - _DetailNormalMapScale: 1
     - _Distortion: 1
     - _DstBlend: 0
@@ -3428,21 +3083,21 @@ Material:
     m_Colors:
     - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.16209936, g: 0.86553204, b: 0.07319391, a: 1}
-    - _FadeColor2: {r: 0.32774574, g: 0.7058587, b: 0.9428605, a: 1}
+    - _FadeColor1: {r: 0.346327, g: 0.16869652, b: 0.15825951, a: 1}
+    - _FadeColor2: {r: 0.2755552, g: 0.05946088, b: 0.526586, a: 1}
     - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0, g: 0.5, b: 0, a: 0}
+    - _RandomOffset: {r: 0.4, g: 0.5, b: 0, a: 0}
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
---- !u!21 &930553348
+--- !u!21 &941395318
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
+  m_Name: SSS (Instance) (Instance)
   m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -3497,6 +3152,7 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _DespairColor: 0
     - _DetailNormalMapScale: 1
     - _Distortion: 1
     - _DstBlend: 0
@@ -3518,10 +3174,10 @@ Material:
     m_Colors:
     - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.9435338, g: 0.9008887, b: 0.03257692, a: 1}
-    - _FadeColor2: {r: 0.28369623, g: 0.7803451, b: 0.48276263, a: 1}
+    - _FadeColor1: {r: 0.48082262, g: 0.4674768, b: 0.9395162, a: 1}
+    - _FadeColor2: {r: 0.023908257, g: 0.1776706, b: 0.6239192, a: 1}
     - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _RandomOffset: {r: 0.4, g: 0, b: 0, a: 0}
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
@@ -3611,6 +3267,188 @@ Material:
     - _FadeColor2: {r: 0.91562974, g: 0.041796446, b: 0.25897866, a: 1}
     - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
     - _RandomOffset: {r: 0.6, g: 0.5, b: 0, a: 0}
+    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
+    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
+  m_BuildTextureStacks: []
+--- !u!21 &992035942
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SSS (Instance) (Instance)
+  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ThicknessTex:
+        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DespairColor: 0
+    - _DetailNormalMapScale: 1
+    - _Distortion: 1
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _OffSet: 0
+    - _Parallax: 0.02
+    - _Power: 7.34
+    - _Scale: 6.1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FadeColor1: {r: 0.25964326, g: 0.7423061, b: 0.2943421, a: 1}
+    - _FadeColor2: {r: 0.1254859, g: 0.48550314, b: 0.19858432, a: 1}
+    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
+    - _RandomOffset: {r: 0.4, g: 0, b: 0, a: 0}
+    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
+    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
+  m_BuildTextureStacks: []
+--- !u!21 &1000151843
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SSS (Instance) (Instance)
+  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ThicknessTex:
+        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DespairColor: 0
+    - _DetailNormalMapScale: 1
+    - _Distortion: 1
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _OffSet: 0
+    - _Parallax: 0.02
+    - _Power: 7.34
+    - _Scale: 6.1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FadeColor1: {r: 0.45001596, g: 0.03744459, b: 0.7358577, a: 1}
+    - _FadeColor2: {r: 0.3119617, g: 0.21413636, b: 0.77363026, a: 1}
+    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
+    - _RandomOffset: {r: 0.4, g: 0.5, b: 0, a: 0}
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
@@ -3792,14 +3630,14 @@ Material:
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
---- !u!21 &1071506103
+--- !u!21 &1046813447
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
+  m_Name: SSS (Instance) (Instance)
   m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -3854,6 +3692,7 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _DespairColor: 0
     - _DetailNormalMapScale: 1
     - _Distortion: 1
     - _DstBlend: 0
@@ -3875,10 +3714,101 @@ Material:
     m_Colors:
     - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.10545325, g: 0.06158817, b: 0.84808373, a: 1}
-    - _FadeColor2: {r: 0.08205998, g: 0.23411441, b: 0.6281786, a: 1}
+    - _FadeColor1: {r: 0.38509256, g: 0.98283327, b: 0.03790772, a: 1}
+    - _FadeColor2: {r: 0.38790578, g: 0.52884585, b: 0.42288214, a: 1}
     - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0.2, g: 0.5, b: 0, a: 0}
+    - _RandomOffset: {r: 0.8, g: 0.5, b: 0, a: 0}
+    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
+    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
+  m_BuildTextureStacks: []
+--- !u!21 &1082524314
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SSS (Instance) (Instance)
+  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ThicknessTex:
+        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DespairColor: 0
+    - _DetailNormalMapScale: 1
+    - _Distortion: 1
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _OffSet: 0
+    - _Parallax: 0.02
+    - _Power: 7.34
+    - _Scale: 6.1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FadeColor1: {r: 0.7222252, g: 0.022962213, b: 0.6666417, a: 1}
+    - _FadeColor2: {r: 0.34004933, g: 0.119771, b: 0.7796283, a: 1}
+    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
+    - _RandomOffset: {r: 0.6, g: 0.5, b: 0, a: 0}
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
@@ -3971,96 +3901,6 @@ Material:
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
---- !u!21 &1131645574
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
-  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ThicknessTex:
-        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - _BumpScale: 1
-    - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
-    - _Distortion: 1
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _OffSet: 0
-    - _Parallax: 0.02
-    - _Power: 7.34
-    - _Scale: 6.1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _UVSec: 0
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.7960007, g: 0.69715667, b: 0.48395938, a: 1}
-    - _FadeColor2: {r: 0.9657798, g: 0.64291024, b: 0.1112715, a: 1}
-    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0.4, g: 0, b: 0, a: 0}
-    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
-    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
-  m_BuildTextureStacks: []
 --- !u!21 &1144900622
 Material:
   serializedVersion: 6
@@ -4150,102 +3990,6 @@ Material:
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
---- !u!1 &1152376137
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1152376141}
-  - component: {fileID: 1152376140}
-  - component: {fileID: 1152376139}
-  - component: {fileID: 1152376138}
-  m_Layer: 0
-  m_Name: Plane
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!64 &1152376138
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1152376137}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &1152376139
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1152376137}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: bd5f858b86c915445b2722691d19f473, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1152376140
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1152376137}
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &1152376141
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1152376137}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!21 &1161934882
 Material:
   serializedVersion: 6
@@ -4596,14 +4340,14 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &1253427491
+--- !u!21 &1230496387
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
+  m_Name: SSS (Instance) (Instance)
   m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -4658,6 +4402,7 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _DespairColor: 0
     - _DetailNormalMapScale: 1
     - _Distortion: 1
     - _DstBlend: 0
@@ -4679,10 +4424,192 @@ Material:
     m_Colors:
     - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.5646116, g: 0.50474435, b: 0.5530376, a: 1}
-    - _FadeColor2: {r: 0.8039527, g: 0.29109913, b: 0.77340734, a: 1}
+    - _FadeColor1: {r: 0.28203982, g: 0.031948447, b: 0.78581274, a: 1}
+    - _FadeColor2: {r: 0.005174756, g: 0.8068074, b: 0.9526082, a: 1}
     - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0.4, g: 0, b: 0, a: 0}
+    - _RandomOffset: {r: 0.2, g: 0, b: 0, a: 0}
+    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
+    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
+  m_BuildTextureStacks: []
+--- !u!21 &1265006186
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SSS (Instance) (Instance)
+  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ThicknessTex:
+        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DespairColor: 0
+    - _DetailNormalMapScale: 1
+    - _Distortion: 1
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _OffSet: 0
+    - _Parallax: 0.02
+    - _Power: 7.34
+    - _Scale: 6.1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FadeColor1: {r: 0.9471034, g: 0.4488824, b: 0.8501314, a: 1}
+    - _FadeColor2: {r: 0.1273812, g: 0.7009152, b: 0.4769922, a: 1}
+    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
+    - _RandomOffset: {r: 0.6, g: 0.5, b: 0, a: 0}
+    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
+    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
+  m_BuildTextureStacks: []
+--- !u!21 &1288703490
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SSS (Instance) (Instance)
+  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ThicknessTex:
+        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DespairColor: 0
+    - _DetailNormalMapScale: 1
+    - _Distortion: 1
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _OffSet: 0
+    - _Parallax: 0.02
+    - _Power: 7.34
+    - _Scale: 6.1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FadeColor1: {r: 0.69313, g: 0.5219106, b: 0.86272573, a: 1}
+    - _FadeColor2: {r: 0.85680604, g: 0.3622933, b: 0.7584001, a: 1}
+    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
+    - _RandomOffset: {r: 0, g: 0.5, b: 0, a: 0}
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
@@ -4770,96 +4697,6 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FadeColor1: {r: 0.5806275, g: 0.70947754, b: 0.9500482, a: 1}
     - _FadeColor2: {r: 0.732975, g: 0.47852916, b: 0.21553528, a: 1}
-    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0.4, g: 0.5, b: 0, a: 0}
-    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
-    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
-  m_BuildTextureStacks: []
---- !u!21 &1337801145
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
-  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ThicknessTex:
-        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - _BumpScale: 1
-    - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
-    - _Distortion: 1
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _OffSet: 0
-    - _Parallax: 0.02
-    - _Power: 7.34
-    - _Scale: 6.1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _UVSec: 0
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.041552663, g: 0.8380569, b: 0.06001222, a: 1}
-    - _FadeColor2: {r: 0.6359104, g: 0.91345215, b: 0.43718547, a: 1}
     - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
     - _RandomOffset: {r: 0.4, g: 0.5, b: 0, a: 0}
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
@@ -9739,14 +9576,14 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &1378661634
+--- !u!21 &1364683660
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
+  m_Name: SSS (Instance) (Instance)
   m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -9801,6 +9638,7 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _DespairColor: 0
     - _DetailNormalMapScale: 1
     - _Distortion: 1
     - _DstBlend: 0
@@ -9822,10 +9660,10 @@ Material:
     m_Colors:
     - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.72037745, g: 0.22315204, b: 0.93590057, a: 1}
-    - _FadeColor2: {r: 0.5959175, g: 0.49303132, b: 0.71805024, a: 1}
+    - _FadeColor1: {r: 0.74984217, g: 0.34884244, b: 0.5497903, a: 1}
+    - _FadeColor2: {r: 0.98884034, g: 0.68312943, b: 0.36869782, a: 1}
     - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0.2, g: 0.5, b: 0, a: 0}
+    - _RandomOffset: {r: 0.8, g: 0.5, b: 0, a: 0}
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
@@ -10007,14 +9845,14 @@ Material:
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
---- !u!21 &1432464069
+--- !u!21 &1443601031
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
+  m_Name: SSS (Instance) (Instance)
   m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -10069,6 +9907,7 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _DespairColor: 0
     - _DetailNormalMapScale: 1
     - _Distortion: 1
     - _DstBlend: 0
@@ -10090,21 +9929,21 @@ Material:
     m_Colors:
     - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.11606574, g: 0.43469483, b: 0.57878643, a: 1}
-    - _FadeColor2: {r: 0.8023006, g: 0.50206834, b: 0.61184615, a: 1}
+    - _FadeColor1: {r: 0.7773596, g: 0.3599723, b: 0.5510078, a: 1}
+    - _FadeColor2: {r: 0.68711877, g: 0.34122568, b: 0.7741351, a: 1}
     - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0.6, g: 0.5, b: 0, a: 0}
+    - _RandomOffset: {r: 0.8, g: 0, b: 0, a: 0}
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
---- !u!21 &1458785227
+--- !u!21 &1492450878
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
+  m_Name: SSS (Instance) (Instance)
   m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -10159,6 +9998,7 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _DespairColor: 0
     - _DetailNormalMapScale: 1
     - _Distortion: 1
     - _DstBlend: 0
@@ -10180,190 +10020,10 @@ Material:
     m_Colors:
     - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.91262996, g: 0.61540693, b: 0.20086873, a: 1}
-    - _FadeColor2: {r: 0.77212477, g: 0.81339645, b: 0.91485023, a: 1}
+    - _FadeColor1: {r: 0.4571634, g: 0.46849805, b: 0.63941944, a: 1}
+    - _FadeColor2: {r: 0.09808588, g: 0.016756296, b: 0.6689793, a: 1}
     - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0.8, g: 0.5, b: 0, a: 0}
-    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
-    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
-  m_BuildTextureStacks: []
---- !u!21 &1462832332
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
-  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ThicknessTex:
-        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - _BumpScale: 1
-    - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
-    - _Distortion: 1
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _OffSet: 0
-    - _Parallax: 0.02
-    - _Power: 7.34
-    - _Scale: 6.1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _UVSec: 0
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.15515482, g: 0.23649395, b: 0.65258884, a: 1}
-    - _FadeColor2: {r: 0.27393275, g: 0.06446648, b: 0.5064779, a: 1}
-    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0.2, g: 0, b: 0, a: 0}
-    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
-    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
-  m_BuildTextureStacks: []
---- !u!21 &1488703409
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
-  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ThicknessTex:
-        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - _BumpScale: 1
-    - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
-    - _Distortion: 1
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _OffSet: 0
-    - _Parallax: 0.02
-    - _Power: 7.34
-    - _Scale: 6.1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _UVSec: 0
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.7279247, g: 0.9026511, b: 0.68020093, a: 1}
-    - _FadeColor2: {r: 0.9076699, g: 0.9665568, b: 0.34027034, a: 1}
-    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0.6, g: 0, b: 0, a: 0}
+    - _RandomOffset: {r: 0.4, g: 0, b: 0, a: 0}
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
@@ -10549,14 +10209,14 @@ Material:
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
---- !u!21 &1594051653
+--- !u!21 &1576009890
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
+  m_Name: SSS (Instance) (Instance)
   m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -10611,6 +10271,7 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _DespairColor: 0
     - _DetailNormalMapScale: 1
     - _Distortion: 1
     - _DstBlend: 0
@@ -10632,10 +10293,192 @@ Material:
     m_Colors:
     - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.773177, g: 0.6146683, b: 0.19052029, a: 1}
-    - _FadeColor2: {r: 0.51189035, g: 0.78192353, b: 0.7618557, a: 1}
+    - _FadeColor1: {r: 0.7679876, g: 0.15653849, b: 0.7895242, a: 1}
+    - _FadeColor2: {r: 0.3550927, g: 0.4724856, b: 0.84430003, a: 1}
     - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0.6, g: 0, b: 0, a: 0}
+    - _RandomOffset: {r: 0.2, g: 0.5, b: 0, a: 0}
+    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
+    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
+  m_BuildTextureStacks: []
+--- !u!21 &1579199570
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SSS (Instance) (Instance)
+  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ThicknessTex:
+        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DespairColor: 0
+    - _DetailNormalMapScale: 1
+    - _Distortion: 1
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _OffSet: 0
+    - _Parallax: 0.02
+    - _Power: 7.34
+    - _Scale: 6.1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FadeColor1: {r: 0.73124635, g: 0.5821273, b: 0.9750054, a: 1}
+    - _FadeColor2: {r: 0.56020564, g: 0.9955003, b: 0.71504736, a: 1}
+    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
+    - _RandomOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
+    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
+  m_BuildTextureStacks: []
+--- !u!21 &1594116127
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SSS (Instance) (Instance)
+  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ThicknessTex:
+        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DespairColor: 0
+    - _DetailNormalMapScale: 1
+    - _Distortion: 1
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _OffSet: 0
+    - _Parallax: 0.02
+    - _Power: 7.34
+    - _Scale: 6.1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FadeColor1: {r: 0.38041157, g: 0.41120583, b: 0.26815385, a: 1}
+    - _FadeColor2: {r: 0.2321353, g: 0.6851543, b: 0.7509186, a: 1}
+    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
+    - _RandomOffset: {r: 0.4, g: 0.5, b: 0, a: 0}
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
@@ -10725,6 +10568,97 @@ Material:
     - _FadeColor2: {r: 0.37797052, g: 0.70866513, b: 0.6755539, a: 1}
     - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
     - _RandomOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
+    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
+  m_BuildTextureStacks: []
+--- !u!21 &1643858399
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SSS (Instance) (Instance)
+  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ThicknessTex:
+        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DespairColor: 0
+    - _DetailNormalMapScale: 1
+    - _Distortion: 1
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _OffSet: 0
+    - _Parallax: 0.02
+    - _Power: 7.34
+    - _Scale: 6.1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FadeColor1: {r: 0.3452626, g: 0.17667139, b: 0.46200806, a: 1}
+    - _FadeColor2: {r: 0.04934156, g: 0.7253959, b: 0.030403972, a: 1}
+    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
+    - _RandomOffset: {r: 0.2, g: 0, b: 0, a: 0}
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
@@ -10906,96 +10840,6 @@ Material:
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
---- !u!21 &1688578662
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
-  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ThicknessTex:
-        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - _BumpScale: 1
-    - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
-    - _Distortion: 1
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _OffSet: 0
-    - _Parallax: 0.02
-    - _Power: 7.34
-    - _Scale: 6.1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _UVSec: 0
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.8877623, g: 0.12011206, b: 0.25477952, a: 1}
-    - _FadeColor2: {r: 0.03662181, g: 0.827947, b: 0.0507071, a: 1}
-    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0.6, g: 0.5, b: 0, a: 0}
-    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
-    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
-  m_BuildTextureStacks: []
 --- !u!21 &1720461220
 Material:
   serializedVersion: 6
@@ -11082,6 +10926,188 @@ Material:
     - _FadeColor2: {r: 0.86893713, g: 0.3069523, b: 0.58775824, a: 1}
     - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
     - _RandomOffset: {r: 0.6, g: 0.5, b: 0, a: 0}
+    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
+    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
+  m_BuildTextureStacks: []
+--- !u!21 &1725144737
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SSS (Instance) (Instance)
+  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ThicknessTex:
+        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DespairColor: 0
+    - _DetailNormalMapScale: 1
+    - _Distortion: 1
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _OffSet: 0
+    - _Parallax: 0.02
+    - _Power: 7.34
+    - _Scale: 6.1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FadeColor1: {r: 0.697343, g: 0.36927098, b: 0.27327114, a: 1}
+    - _FadeColor2: {r: 0.21663415, g: 0.15585196, b: 0.27382582, a: 1}
+    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
+    - _RandomOffset: {r: 0.4, g: 0.5, b: 0, a: 0}
+    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
+    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
+  m_BuildTextureStacks: []
+--- !u!21 &1780422185
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SSS (Instance) (Instance)
+  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ThicknessTex:
+        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DespairColor: 0
+    - _DetailNormalMapScale: 1
+    - _Distortion: 1
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _OffSet: 0
+    - _Parallax: 0.02
+    - _Power: 7.34
+    - _Scale: 6.1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FadeColor1: {r: 0.1145041, g: 0.73541236, b: 0.45670575, a: 1}
+    - _FadeColor2: {r: 0.71438503, g: 0.4336893, b: 0.78206503, a: 1}
+    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
+    - _RandomOffset: {r: 0.2, g: 0.5, b: 0, a: 0}
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
@@ -11174,14 +11200,14 @@ Material:
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
---- !u!21 &1791637665
+--- !u!21 &1825939621
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
+  m_Name: SSS (Instance) (Instance)
   m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -11236,6 +11262,7 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _DespairColor: 0
     - _DetailNormalMapScale: 1
     - _Distortion: 1
     - _DstBlend: 0
@@ -11257,100 +11284,10 @@ Material:
     m_Colors:
     - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.1010592, g: 0.49780267, b: 0.93796015, a: 1}
-    - _FadeColor2: {r: 0.66446245, g: 0.2384255, b: 0.096517324, a: 1}
+    - _FadeColor1: {r: 0.72982585, g: 0.4378044, b: 0.8763621, a: 1}
+    - _FadeColor2: {r: 0.4722275, g: 0.82381153, b: 0.36562413, a: 1}
     - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0, g: 0.5, b: 0, a: 0}
-    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
-    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
-  m_BuildTextureStacks: []
---- !u!21 &1824846285
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
-  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ThicknessTex:
-        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - _BumpScale: 1
-    - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
-    - _Distortion: 1
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _OffSet: 0
-    - _Parallax: 0.02
-    - _Power: 7.34
-    - _Scale: 6.1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _UVSec: 0
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.3077945, g: 0.7638264, b: 0.09440684, a: 1}
-    - _FadeColor2: {r: 0.45756358, g: 0.35998958, b: 0.29207462, a: 1}
-    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0.4, g: 0.5, b: 0, a: 0}
+    - _RandomOffset: {r: 0.6, g: 0, b: 0, a: 0}
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
@@ -11443,14 +11380,14 @@ Material:
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
---- !u!21 &1905195148
+--- !u!21 &1899314382
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
+  m_Name: SSS (Instance) (Instance)
   m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -11505,6 +11442,7 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _DespairColor: 0
     - _DetailNormalMapScale: 1
     - _Distortion: 1
     - _DstBlend: 0
@@ -11526,111 +11464,21 @@ Material:
     m_Colors:
     - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.85822034, g: 0.07588661, b: 0.581387, a: 1}
-    - _FadeColor2: {r: 0.4233634, g: 0.7191906, b: 0.31367618, a: 1}
-    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0.6, g: 0, b: 0, a: 0}
-    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
-    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
-  m_BuildTextureStacks: []
---- !u!21 &1960104472
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
-  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ThicknessTex:
-        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - _BumpScale: 1
-    - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
-    - _Distortion: 1
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _OffSet: 0
-    - _Parallax: 0.02
-    - _Power: 7.34
-    - _Scale: 6.1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _UVSec: 0
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.6435646, g: 0.79006493, b: 0.8516525, a: 1}
-    - _FadeColor2: {r: 0.5351779, g: 0.72791207, b: 0.2400546, a: 1}
+    - _FadeColor1: {r: 0.7040682, g: 0.01992488, b: 0.32284993, a: 1}
+    - _FadeColor2: {r: 0.5606846, g: 0.95132995, b: 0.6641979, a: 1}
     - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
     - _RandomOffset: {r: 0.2, g: 0.5, b: 0, a: 0}
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
---- !u!21 &2000207801
+--- !u!21 &1950892400
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
+  m_Name: SSS (Instance) (Instance)
   m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -11685,6 +11533,7 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _DespairColor: 0
     - _DetailNormalMapScale: 1
     - _Distortion: 1
     - _DstBlend: 0
@@ -11706,10 +11555,10 @@ Material:
     m_Colors:
     - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.5703396, g: 0.07925153, b: 0.8686203, a: 1}
-    - _FadeColor2: {r: 0.91072214, g: 0.11203098, b: 0.97739995, a: 1}
+    - _FadeColor1: {r: 0.81354, g: 0.694782, b: 0.3209023, a: 1}
+    - _FadeColor2: {r: 0.5157673, g: 0.93165207, b: 0.7106092, a: 1}
     - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0.4, g: 0, b: 0, a: 0}
+    - _RandomOffset: {r: 0.2, g: 0, b: 0, a: 0}
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
@@ -11891,14 +11740,14 @@ Material:
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
---- !u!21 &2115984688
+--- !u!21 &2065143924
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
+  m_Name: SSS (Instance) (Instance)
   m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -11953,6 +11802,7 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _DespairColor: 0
     - _DetailNormalMapScale: 1
     - _Distortion: 1
     - _DstBlend: 0
@@ -11974,21 +11824,21 @@ Material:
     m_Colors:
     - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.90245354, g: 0.82255447, b: 0.7739166, a: 1}
-    - _FadeColor2: {r: 0.19841337, g: 0.9284005, b: 0.07088721, a: 1}
+    - _FadeColor1: {r: 0.9706036, g: 0.8163024, b: 0.42429477, a: 1}
+    - _FadeColor2: {r: 0.76539314, g: 0.8058717, b: 0.34078437, a: 1}
     - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0.6, g: 0, b: 0, a: 0}
+    - _RandomOffset: {r: 0.4, g: 0, b: 0, a: 0}
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
---- !u!21 &2117273800
+--- !u!21 &2069215324
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SSS (Instance)
+  m_Name: SSS (Instance) (Instance)
   m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -12043,6 +11893,7 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _DespairColor: 0
     - _DetailNormalMapScale: 1
     - _Distortion: 1
     - _DstBlend: 0
@@ -12064,10 +11915,101 @@ Material:
     m_Colors:
     - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeColor1: {r: 0.50439113, g: 0.8348563, b: 0.48769253, a: 1}
-    - _FadeColor2: {r: 0.7787379, g: 0.91460824, b: 0.46759766, a: 1}
+    - _FadeColor1: {r: 0.5890501, g: 0.7267252, b: 0.27679282, a: 1}
+    - _FadeColor2: {r: 0.09127545, g: 0.22151458, b: 0.1954062, a: 1}
     - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
-    - _RandomOffset: {r: 0.6, g: 0, b: 0, a: 0}
+    - _RandomOffset: {r: 0.6, g: 0.5, b: 0, a: 0}
+    - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
+    - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
+  m_BuildTextureStacks: []
+--- !u!21 &2071115894
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SSS (Instance) (Instance)
+  m_Shader: {fileID: 4800000, guid: 8e74b4c6f05353c4b968611b579614b3, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: d15fa0bf05001e34b831bcfc9a0ca0e3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ThicknessTex:
+        m_Texture: {fileID: 2800000, guid: 401a1377fc3881c47bb8b72afc8c5d92, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DespairColor: 0
+    - _DetailNormalMapScale: 1
+    - _Distortion: 1
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _OffSet: 0
+    - _Parallax: 0.02
+    - _Power: 7.34
+    - _Scale: 6.1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.7773585, g: 0.9198939, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FadeColor1: {r: 0.09854388, g: 0.31802577, b: 0.181, a: 1}
+    - _FadeColor2: {r: 0.10823679, g: 0.41017455, b: 0.4542547, a: 1}
+    - _LightDir: {r: -0.19, g: 0, b: -0.82, a: 0}
+    - _RandomOffset: {r: 0.4, g: 0.5, b: 0, a: 0}
     - _SSSColor: {r: 0.5660378, g: 0.33358085, b: 0.253115, a: 1}
     - _ShadowColor: {r: 1, g: 0.8174732, b: 0.63584906, a: 1}
   m_BuildTextureStacks: []
@@ -12332,7 +12274,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 340077529}
+  - {fileID: 2065143924}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -12401,7 +12343,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1688578662}
+  - {fileID: 1825939621}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -12696,7 +12638,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1905195148}
+  - {fileID: 261016773}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -12834,7 +12776,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 573973409}
+  - {fileID: 32138857}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -13046,7 +12988,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1488703409}
+  - {fileID: 1576009890}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -13202,7 +13144,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 930553348}
+  - {fileID: 1643858399}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -13385,7 +13327,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 646625603}
+  - {fileID: 808886781}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -13452,7 +13394,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &550712020589359890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13498,7 +13440,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1071506103}
+  - {fileID: 273228340}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -15394,7 +15336,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1458785227}
+  - {fileID: 8059948}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -15949,7 +15891,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 603262591}
+  - {fileID: 1899314382}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -16241,7 +16183,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2011407835621781336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16828,7 +16770,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 382232813}
+  - {fileID: 1950892400}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -17819,7 +17761,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 22312934}
+  - {fileID: 2069215324}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -17918,7 +17860,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 286431869}
+  - {fileID: 196197555}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -18017,7 +17959,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 316825590}
+  - {fileID: 1725144737}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -18453,7 +18395,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1594051653}
+  - {fileID: 1288703490}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -18814,7 +18756,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 432003700}
+  - {fileID: 1364683660}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -19435,7 +19377,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2000207801}
+  - {fileID: 928117465}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -19706,7 +19648,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 894309898}
+  - {fileID: 784825009}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -20736,7 +20678,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1824846285}
+  - {fileID: 2071115894}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -20950,7 +20892,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 785766947}
+  - {fileID: 1082524314}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -21019,7 +20961,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1462832332}
+  - {fileID: 446679095}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -21216,7 +21158,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 912156177}
+  - {fileID: 1443601031}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -21585,7 +21527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71b7dba1cc7094a40a9d2f5f5daa23e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  I: 28
+  I: 0
 --- !u!4 &5150292987915449312
 Transform:
   m_ObjectHideFlags: 0
@@ -21636,7 +21578,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 620084875}
+  - {fileID: 1230496387}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -22679,7 +22621,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 858389967}
+  - {fileID: 691298312}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -23187,7 +23129,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 407255973}
+  - {fileID: 1046813447}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -24937,7 +24879,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1960104472}
+  - {fileID: 1492450878}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -25533,7 +25475,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1337801145}
+  - {fileID: 941395318}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -25671,7 +25613,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1131645574}
+  - {fileID: 1579199570}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -26173,7 +26115,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1253427491}
+  - {fileID: 434922490}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -26358,7 +26300,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 366831838}
+  - {fileID: 1000151843}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -26813,7 +26755,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 557263433}
+  - {fileID: 561223838}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -27049,7 +26991,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2115984688}
+  - {fileID: 654703153}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -27434,7 +27376,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1378661634}
+  - {fileID: 1780422185}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -27517,7 +27459,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1432464069}
+  - {fileID: 1594116127}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -27647,7 +27589,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 827662600}
+  - {fileID: 1265006186}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -27733,7 +27675,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1791637665}
+  - {fileID: 522475613}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -27990,7 +27932,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2117273800}
+  - {fileID: 341289440}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -29534,7 +29476,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 600041711}
+  - {fileID: 992035942}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
