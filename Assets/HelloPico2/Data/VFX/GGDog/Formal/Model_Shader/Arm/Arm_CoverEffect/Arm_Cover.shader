@@ -3,15 +3,12 @@ Shader "GGDog/Arm_cover"
     Properties
     {
 		_Color("Color",Color) = (1,1,1,1)
-		[HDR]_Color2("Color2",Color) = (1,1,1,1)
-		_h("_h",Range(0,1)) = 0
     }
     SubShader
     {
         Tags { "RenderType"="Transparent" }
-        LOD 100
-        
-		Zwrite Off
+
+		ZWrite Off
 		ZTest Always
 		Blend SrcAlpha OneMinusSrcAlpha
         Pass
@@ -59,9 +56,6 @@ Shader "GGDog/Arm_cover"
             }
             
             half4 _Color;
-            half4 _Color2;
-            
-            half _h;
             
             half4 frag (v2f i) : SV_Target
             {
@@ -88,8 +82,6 @@ Shader "GGDog/Arm_cover"
                 
                 clip(col.a - 0.005);
                 
-                _Color = lerp(_Color,_Color2,_h);
-
                 return col*_Color;
             }
             ENDCG

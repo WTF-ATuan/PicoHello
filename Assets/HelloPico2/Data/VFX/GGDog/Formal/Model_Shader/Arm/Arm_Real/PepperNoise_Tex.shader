@@ -10,6 +10,7 @@ Shader "Unlit/PepperNoise_Tex"
     SubShader
     {
         Tags { "RenderType"="Opaque" }
+
         Pass
         {
             CGPROGRAM
