@@ -21,9 +21,9 @@ namespace HelloPico2.PlayerController.Arm
             process = StartCoroutine(Delayer());
         }
         private IEnumerator Delayer() {
-            _EnergyBallDeformEffect.enabled = true;
-            yield return new WaitForSeconds(0.6f);
             _EnergyBallDeformEffect.enabled = false;
+            yield return new WaitForSeconds(0.1f);
+            _EnergyBallDeformEffect.enabled = true;
         }
     }
 }
