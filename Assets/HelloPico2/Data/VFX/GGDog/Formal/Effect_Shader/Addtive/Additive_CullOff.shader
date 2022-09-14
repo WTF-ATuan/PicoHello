@@ -59,7 +59,6 @@ Shader "GGDog/Additive_OneOne_CullOn"
                 
                // col.rgb*=col.a;
 
-                clip(col.a - 0.0015);
 
                 return col;
             }
