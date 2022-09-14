@@ -2,6 +2,8 @@ Shader "GGDog/SSS"
 {
     Properties
     {
+        _DespairColor("Despair Color",Range(0,1)) = 0
+
         _FadeColor1("Fade Color1",Color) = (0.75,0.75,0.75,1)
         _FadeColor2("Fade Color2",Color) = (0.75,0.75,0.75,1)
 
@@ -59,11 +61,13 @@ Shader "GGDog/SSS"
 
 			float4 _FadeColor1;
 			float4 _FadeColor2;
+
+			float _DespairColor;
             
             float4 frag (v2f i) : SV_Target
             {
 			
-				half Time_y = abs(fmod(_Time.y*3,1.0f)*2.0f-1.0f);
+				float Time_y = abs(fmod(_DespairColor * _Time.y*0.5,1.0f)*2.0f-1.0f);
 
                 _FadeColor1.rgb = clamp(_FadeColor1.rgb,0.5,1);
                 _FadeColor1 = lerp(_FadeColor1,0.75,0.5)*1.75*_Color;
@@ -73,7 +77,7 @@ Shader "GGDog/SSS"
                 _FadeColor2 = lerp(_FadeColor2,0.75,0.5)*1.75*_ShadowColor;
 
                 float3 WorldNormal = normalize(i.worldNormal);
-                fixed3 ViewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos );
+                float3 ViewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos );
 
 				float NdotL = saturate(dot(WorldNormal,_LightDir));
 				float Rim = 1-saturate(dot(WorldNormal,ViewDir));
@@ -90,7 +94,7 @@ Shader "GGDog/SSS"
 
 
 
-				float4 FinalColor = lerp(_FadeColor2*FadeUV + Rim* _SSSColor ,float4(1,0.96,0.84,1)* _FadeColor1*FadeUV ,NdotL ) ;
+				float4 FinalColor = lerp((_FadeColor2*FadeUV *Time_y + Rim* _SSSColor ),float4(1,0.96,0.84,1)* _FadeColor1*FadeUV ,NdotL ) ;
 
                 return saturate(FinalColor);
                 
