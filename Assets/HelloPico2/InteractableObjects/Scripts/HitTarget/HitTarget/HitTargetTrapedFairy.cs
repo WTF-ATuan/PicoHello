@@ -49,6 +49,7 @@ namespace HelloPico2.InteractableObjects
 
             if (_CollideCount < _DestroyCollideCount) {
                 CageReact(selfCollider);
+                WhenCollideUlt?.Invoke();
             }
             else
             {
