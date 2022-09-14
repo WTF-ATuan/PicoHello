@@ -8,10 +8,8 @@ Shader "Unlit/UI"
     {
         Tags
         {
-            "Queue" = "Transparent"
+            "Queue" = "Overlay"
         }
-
-        ZWrite Off
 
         Blend SrcAlpha OneMinusSrcAlpha
 

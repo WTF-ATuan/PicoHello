@@ -121,7 +121,7 @@ Shader "GGDog/Evil_color"
                 clip(col.a-_AlphaClip);
                 
                 //¶ZÂ÷Ãú
-				col = lerp(col,float4(_FarColor.rgb,col.a), smoothstep(0,_FarDistance,i.worldPos.z));
+				col = lerp(col,float4(_FarColor.rgb,col.a), smoothstep(-_FarDistance/3,_FarDistance,i.worldPos.z));
 
                 return col;
             }
