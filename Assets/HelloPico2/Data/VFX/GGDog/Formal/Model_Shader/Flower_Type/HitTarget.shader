@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'UNITY_INSTANCE_ID' with 'UNITY_VERTEX_INPUT_INSTANCE_ID'
+
 Shader "GGDog/HitTarget"
 {
     Properties
@@ -29,6 +31,7 @@ Shader "GGDog/HitTarget"
             {
                 float4 vertex : POSITION;
                 float3 normal : NORMAL;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
@@ -36,11 +39,16 @@ Shader "GGDog/HitTarget"
                 float4 vertex : SV_POSITION;
                 float3 worldNormal : TEXCOORD1;
 				float4 worldPos : TEXCOORD2;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             v2f vert (appdata v)
             {
                 v2f o;
+
+                UNITY_SETUP_INSTANCE_ID (v);
+                UNITY_TRANSFER_INSTANCE_ID (v, o);
+
                 o.vertex = UnityObjectToClipPos(v.vertex);
 				o.worldNormal = mul(v.normal,(float3x3)unity_WorldToObject);
 				o.worldPos.xyz = mul(unity_ObjectToWorld, v.vertex).xyz;
@@ -63,6 +71,8 @@ Shader "GGDog/HitTarget"
             
             float4 frag (v2f i) : SV_Target
             {
+                UNITY_SETUP_INSTANCE_ID (i);
+
                 float3 normalDir = normalize(i.worldNormal);
 
                 float3 lightDir = _LightPos;
@@ -73,7 +83,7 @@ Shader "GGDog/HitTarget"
                 
 				float NdotL = smoothstep(0,1,dot(normalDir,lightDir));
 
-				float Rim = (1-saturate(smoothstep(0,1.5,dot(worldNormal,worldViewDir))))*smoothstep(0.75,1.5,1-NdotL)*3.5;
+				float Rim = (1-saturate(smoothstep(0,1,dot(worldNormal,worldViewDir))))*smoothstep(0.75,1.5,1-NdotL)*3.5;
 
 				float Rim2 = (1-saturate(smoothstep(0,1.5,dot(worldNormal,worldViewDir))))*smoothstep(0.5,1,NdotL)*1.5;
                 

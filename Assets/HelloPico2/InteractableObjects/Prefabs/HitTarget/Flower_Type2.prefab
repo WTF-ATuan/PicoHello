@@ -48,7 +48,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
-  prewarm: 0
+  prewarm: 1
   playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
@@ -223,7 +223,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.2520915, g: 0.9716981, b: 0.7561864, a: 0.50980395}
+      maxColor: {r: 1, g: 0.43598053, b: 0.07075471, a: 0.39607844}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -285,7 +285,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.25
+      scalar: 0.75
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -1362,9 +1362,9 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 0}
+        key0: {r: 1, g: 1, b: 1, a: 0.5019608}
         key1: {r: 1, g: 1, b: 1, a: 1}
-        key2: {r: 0, g: 0, b: 0, a: 0}
+        key2: {r: 0, g: 0, b: 0, a: 0.5019608}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
@@ -4817,7 +4817,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e2b3e29c129409040bf65d8896e6781a, type: 2}
+  - {fileID: 2100000, guid: 0068b0d1420be96418f55168b788a145, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10441,12 +10441,32 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5302348656615526962}
     m_Modifications:
+    - target: {fileID: 6208540080608351392, guid: 02f122276b80b9d419fd244a45ac64f2, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0f08c5e251d2f2f4cb84a1e4fe37f6dd, type: 2}
     - target: {fileID: 6208540080608351395, guid: 02f122276b80b9d419fd244a45ac64f2, type: 3}
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6208540080608351395, guid: 02f122276b80b9d419fd244a45ac64f2, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.b
+      value: 0.48584908
+      objectReference: {fileID: 0}
+    - target: {fileID: 6208540080608351395, guid: 02f122276b80b9d419fd244a45ac64f2, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.g
+      value: 0.6365949
+      objectReference: {fileID: 0}
+    - target: {fileID: 6208540080608351395, guid: 02f122276b80b9d419fd244a45ac64f2, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6208540081240804324, guid: 02f122276b80b9d419fd244a45ac64f2, type: 3}
       propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6208540081240804331, guid: 02f122276b80b9d419fd244a45ac64f2, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6208540081317434692, guid: 02f122276b80b9d419fd244a45ac64f2, type: 3}
@@ -10531,6 +10551,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6208540082076127033, guid: 02f122276b80b9d419fd244a45ac64f2, type: 3}
       propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6208540082076127033, guid: 02f122276b80b9d419fd244a45ac64f2, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6208540082076127033, guid: 02f122276b80b9d419fd244a45ac64f2, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.46000004
+      objectReference: {fileID: 0}
+    - target: {fileID: 6208540082076127033, guid: 02f122276b80b9d419fd244a45ac64f2, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6208540082076127036, guid: 02f122276b80b9d419fd244a45ac64f2, type: 3}

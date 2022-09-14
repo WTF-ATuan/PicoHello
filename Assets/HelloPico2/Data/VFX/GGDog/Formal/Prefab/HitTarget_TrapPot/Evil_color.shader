@@ -1,7 +1,11 @@
+// Upgrade NOTE: replaced 'UNITY_INSTANCE_ID' with 'UNITY_VERTEX_INPUT_INSTANCE_ID'
+
 Shader "GGDog/Evil_color"
 {
     Properties
     {
+        _Alpha ("Alpha", Range(0,1)) = 1
+
         _MainTex ("Texture", 2D) = "white" {}
 		_FarColor("Far Color",Color) = (1,1,1,1)
 		_FarDistance("Far Distance",Float) = 3
@@ -38,6 +42,7 @@ Shader "GGDog/Evil_color"
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
                 float3 normal : NORMAL;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
@@ -47,6 +52,7 @@ Shader "GGDog/Evil_color"
 				float3 worldPos : TEXCOORD1;
                 float3 worldNormal : TEXCOORD2;
                 float3 normal : NORMAL;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
             
             float frac_Noise(float2 UV, float Tilling)
@@ -82,6 +88,9 @@ Shader "GGDog/Evil_color"
             v2f vert (appdata v)
             {
                 v2f o;
+                UNITY_SETUP_INSTANCE_ID (v);
+                UNITY_TRANSFER_INSTANCE_ID (v, o);
+
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 
@@ -105,8 +114,12 @@ Shader "GGDog/Evil_color"
             
 		    float4 _FarColor;
 		    float _FarDistance;
+            
+		    float _Alpha;
+
             fixed4 frag (v2f i) : SV_Target
             {
+                UNITY_SETUP_INSTANCE_ID (i);
 
                 fixed4 col = tex2D(_MainTex, i.uv + _Time.y*_MainTex_ST.zw);
 
@@ -123,7 +136,7 @@ Shader "GGDog/Evil_color"
                 //¶ZÂ÷Ãú
 				col = lerp(col,float4(_FarColor.rgb,col.a), smoothstep(-_FarDistance/3,_FarDistance,i.worldPos.z));
 
-                return col;
+                return float4(col.rgb,col.a*_Alpha);
             }
             ENDCG
         }
@@ -142,6 +155,7 @@ Shader "GGDog/Evil_color"
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
                 float3 normal : NORMAL;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
@@ -151,6 +165,7 @@ Shader "GGDog/Evil_color"
 				float3 worldPos : TEXCOORD1;
                 float3 worldNormal : TEXCOORD2;
                 float3 normal : NORMAL;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
             
             float frac_Noise(float2 UV, float Tilling)
@@ -186,6 +201,10 @@ Shader "GGDog/Evil_color"
             v2f vert (appdata v)
             {
                 v2f o;
+
+                UNITY_SETUP_INSTANCE_ID (v);
+                UNITY_TRANSFER_INSTANCE_ID (v, o);
+
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 
@@ -210,8 +229,12 @@ Shader "GGDog/Evil_color"
             
 		    float4 _FarColor;
 		    float _FarDistance;
+
+		    float _Alpha;
+
             float4 frag (v2f i) : SV_Target
             {
+                UNITY_SETUP_INSTANCE_ID (i);
 
                 float4 col = tex2D(_MainTex, i.uv + _Time.y*_MainTex_ST.zw);
 
@@ -227,8 +250,8 @@ Shader "GGDog/Evil_color"
                 
                 //¶ZÂ÷Ãú
 				col = lerp(col,float4(_FarColor.rgb,col.a), smoothstep(0,_FarDistance,i.worldPos.z));
-
-                return col;
+                
+                return float4(col.rgb,col.a*_Alpha);
             }
             ENDCG
         }

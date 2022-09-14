@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'UNITY_INSTANCE_ID' with 'UNITY_VERTEX_INPUT_INSTANCE_ID'
+
 Shader "Unlit/NewUnlitShader"
 {
     Properties
@@ -28,6 +30,7 @@ Shader "Unlit/NewUnlitShader"
                 half2 uv : TEXCOORD0;
                 half4 color : COLOR;
                 half4 normal : NORMAL;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
@@ -35,12 +38,16 @@ Shader "Unlit/NewUnlitShader"
                 half2 uv : TEXCOORD0;
                 half4 vertex : SV_POSITION;
                 half4 color : COLOR;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
             half _Size;
             
             v2f vert (appdata v)
             {
                 v2f o;
+                UNITY_SETUP_INSTANCE_ID (v);
+                UNITY_TRANSFER_INSTANCE_ID (v, o);
+
 				half4 srcUV = ComputeScreenPos(v.vertex);  //抓取螢幕截圖的位置
                 half n =  smoothstep(0.5,1,1-distance(frac(30*srcUV.xy/srcUV.w-_Time.y*half2(1,0.5)*0.25),0.5));
                 half n2 =  smoothstep(0.5,1,1-distance(frac(20*srcUV.xy/srcUV.w+_Time.y*half2(0.7,1)*0.75),0.5));
@@ -56,6 +63,7 @@ Shader "Unlit/NewUnlitShader"
             half4 frag (v2f i) : SV_Target
             {
                 
+                UNITY_SETUP_INSTANCE_ID (i);
                 _Alpha*=i.color.a;
 
                 half n =  smoothstep(0,0.75,distance(frac(2.3*i.uv+_Time.y*half2(0,0.5)*2.25),0.5));
