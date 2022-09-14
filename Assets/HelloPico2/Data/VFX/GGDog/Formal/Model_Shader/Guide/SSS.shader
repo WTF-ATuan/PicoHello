@@ -87,13 +87,18 @@ Shader "GGDog/SSS"
 
                 float FadeUV = saturate(frac(2*i.uv.y)+0.1);
 
+                FadeUV = lerp(FadeUV,1.5,floor(frac(8*i.uv.x)*2)/2);
+
                 _SSSColor = FadeUV*FadeUV/2;
 
 
 
 				float4 FinalColor = lerp(_FadeColor2*FadeUV + Rim* _SSSColor ,_LightColor0 * _FadeColor1*FadeUV ,NdotL ) ;
 
+               // return FinalColor;
+                
                 return FinalColor;
+                
             }
             ENDCG
         }

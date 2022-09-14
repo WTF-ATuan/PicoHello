@@ -1,4 +1,4 @@
-Shader "GGDog/Additive_OneOne_CullOn"
+Shader "GGDog/Additive_OneOne_CullOff"
 {
     Properties
     {
