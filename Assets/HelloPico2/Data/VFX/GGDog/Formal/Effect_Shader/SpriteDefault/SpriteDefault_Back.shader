@@ -13,7 +13,7 @@ Shader "Unlit/SpriteDefault_Back"
 
         LOD 1
 		
-		Ztest Always
+		ZTest Always
 
 		ZWrite Off
 

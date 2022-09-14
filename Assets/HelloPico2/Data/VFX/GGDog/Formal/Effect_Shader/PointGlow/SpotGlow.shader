@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'UNITY_INSTANCE_ID' with 'UNITY_VERTEX_INPUT_INSTANCE_ID'
+
 Shader "GGDog/Space_Test/PointGlow"
 {
     Properties
@@ -23,6 +25,7 @@ Shader "GGDog/Space_Test/PointGlow"
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
                 float4 color : COLOR;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
@@ -31,11 +34,15 @@ Shader "GGDog/Space_Test/PointGlow"
                 float4 vertex : SV_POSITION;
                 float4 color : COLOR;
 				float CameraDistance : TEXCOORD1;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             v2f vert (appdata v)
             {
                 v2f o;
+                UNITY_SETUP_INSTANCE_ID (v);
+                UNITY_TRANSFER_INSTANCE_ID (v, o);
+
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
 				o.color = v.color;
@@ -47,6 +54,7 @@ Shader "GGDog/Space_Test/PointGlow"
 
             float4 frag (v2f i) : SV_Target
             {
+                UNITY_SETUP_INSTANCE_ID (i);
 				//¤¤¤ß¶ZÂ÷³õ
 				float D =1- distance(float2(i.uv.x,i.uv.y),float2(0.5,0.5));
 

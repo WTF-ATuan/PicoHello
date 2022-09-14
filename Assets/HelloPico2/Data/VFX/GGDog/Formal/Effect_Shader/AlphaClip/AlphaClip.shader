@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'UNITY_INSTANCE_ID' with 'UNITY_VERTEX_INPUT_INSTANCE_ID'
+
 Shader "GGDog/AlphaClip"
 {
     Properties
@@ -74,6 +76,7 @@ Shader "GGDog/AlphaClip"
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
@@ -81,6 +84,7 @@ Shader "GGDog/AlphaClip"
                 float2 uv : TEXCOORD0;
 
                 float4 vertex : SV_POSITION;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             sampler2D _MainTex;
@@ -89,6 +93,10 @@ Shader "GGDog/AlphaClip"
             v2f vert (appdata v)
             {
                 v2f o;
+
+                UNITY_SETUP_INSTANCE_ID (v);
+                UNITY_TRANSFER_INSTANCE_ID (v, o);
+
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 
@@ -100,6 +108,8 @@ Shader "GGDog/AlphaClip"
             fixed4 frag (v2f i) : SV_Target
             {
                 
+                UNITY_SETUP_INSTANCE_ID (i);
+
                 fixed4 col = tex2D(_MainTex, i.uv + _Time.y*_MainTex_ST.zw);
                 
                 clip(col.a-_AlphaClip);
