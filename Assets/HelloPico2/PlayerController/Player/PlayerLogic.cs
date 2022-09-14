@@ -32,8 +32,6 @@ namespace HelloPico2.PlayerController.Player
 
         private void ReceiveFeedbacksDamage(Collider other)
         {
-            playerData.receiveDamageFeedback.PlayFeedbacks();
-
             var collide = other.GetComponent<IInteractCollide>();
             collide?.OnCollide(InteractType.Eye, null);
 
