@@ -7,7 +7,7 @@ Shader "GGDog/Additive_OneOne_CullOn"
     }
     SubShader
     {
-        Tags { "RenderType"="Transparent" }
+        Tags { "Queue"="Transparent" }
         LOD 1
 		
 		ZWrite Off
