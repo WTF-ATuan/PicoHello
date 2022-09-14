@@ -3,7 +3,7 @@ Shader "GGDog/Additive_OneOne_CullOff"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _HDR("HDR",Range(1,7)) = 1
+        _Color ("Color", Color) = (1,1,1,1)
     }
     SubShader
     {
@@ -11,7 +11,7 @@ Shader "GGDog/Additive_OneOne_CullOff"
         LOD 1
 		
 		ZWrite Off
-		Blend One One
+		Blend SrcAlpha One
 
         Cull Off
         Pass
@@ -38,8 +38,7 @@ Shader "GGDog/Additive_OneOne_CullOff"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
-
-            float _HDR;
+            float4 _Color;
             
             v2f vert (appdata v)
             {
@@ -55,12 +54,9 @@ Shader "GGDog/Additive_OneOne_CullOff"
 
                 fixed4 col = tex2D(_MainTex, i.uv);
                 
-                col*= i.color* i.color.a * _HDR;
+                col*= i.color* i.color.a;
                 
-               // col.rgb*=col.a;
-
-
-                return col;
+                return col*_Color;
             }
             ENDCG
         }
