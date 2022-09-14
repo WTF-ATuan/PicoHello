@@ -14,8 +14,7 @@ Shader "GGDog/SSS"
     }
     SubShader
     {
-            Tags { "LightMode"="ForwardBase" }
-        LOD 100
+        Tags {"RenderType"= "Geomotry" "Queue"="Geomotry" }
 
         Pass
         {
@@ -23,7 +22,6 @@ Shader "GGDog/SSS"
             #pragma vertex vert
             #pragma fragment frag
             #include "UnityCG.cginc"
-            #include "Lighting.cginc"
 
             struct appdata
             {
@@ -75,7 +73,6 @@ Shader "GGDog/SSS"
                 _FadeColor2 = lerp(_FadeColor2,0.75,0.5)*1.75*_ShadowColor;
 
                 float3 WorldNormal = normalize(i.worldNormal);
-                //float3 LightDir = normalize(_WorldSpaceLightPos0.xyz);
                 fixed3 ViewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos );
 
 				float NdotL = saturate(dot(WorldNormal,_LightDir));
@@ -93,11 +90,9 @@ Shader "GGDog/SSS"
 
 
 
-				float4 FinalColor = lerp(_FadeColor2*FadeUV + Rim* _SSSColor ,_LightColor0 * _FadeColor1*FadeUV ,NdotL ) ;
+				float4 FinalColor = lerp(_FadeColor2*FadeUV + Rim* _SSSColor ,float4(1,0.96,0.84,1)* _FadeColor1*FadeUV ,NdotL ) ;
 
-               // return FinalColor;
-                
-                return FinalColor;
+                return saturate(FinalColor);
                 
             }
             ENDCG
