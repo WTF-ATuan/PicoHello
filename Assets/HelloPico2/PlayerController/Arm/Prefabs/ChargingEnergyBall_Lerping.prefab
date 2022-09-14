@@ -113,6 +113,7 @@ MonoBehaviour:
   m_FollowXAxis: 1
   m_FollowZAxis: 1
   m_FollowYAxis: 1
+  m_FollowRot: 0
   m_FollowYRot: 0
   m_AdditionalOffset: {x: 0, y: 0, z: 0}
   m_HaveOffset: 1
@@ -161,7 +162,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e482124de454efe479dc738e849006da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: -1
 --- !u!1 &7744332965651290996
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,6 +171,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7744332965651290997}
+  - component: {fileID: 4597869135929499653}
   m_Layer: 8
   m_Name: ChargingEnergyBall_Lerping
   m_TagString: Untagged
@@ -193,3 +194,16 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4597869135929499653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7744332965651290996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8824ae57a56fa31408f166c2e7feb05d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _EnergyBallDeformEffect: {fileID: 1574755841551157886}
