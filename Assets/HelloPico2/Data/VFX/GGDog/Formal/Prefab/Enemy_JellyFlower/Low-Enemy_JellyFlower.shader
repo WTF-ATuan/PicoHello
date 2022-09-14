@@ -29,13 +29,15 @@ Shader "Unlit/Low-Enemy_JellyFlower"
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
+                float3 normal : NORMAL;
             };
 
             struct v2f
             {
                 float2 uv : TEXCOORD0;
-
                 float4 vertex : SV_POSITION;
+                float3 worldNormal : TEXCOORD2;
+                float3 worldPos : TEXCOORD1;
             };
 
             sampler2D _MainTex;
@@ -48,6 +50,9 @@ Shader "Unlit/Low-Enemy_JellyFlower"
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                
+                o.worldNormal = UnityObjectToWorldNormal(v.normal);
+                o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 
                 return o;
             }
@@ -59,8 +64,14 @@ Shader "Unlit/Low-Enemy_JellyFlower"
 
                 col *= col.a*_TexColor + col.a*_Color*_Color.a;
 
+                
+                half3 worldNormal = normalize(i.worldNormal);
+                half3 worldViewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos);
 
-                return col;
+                float Rim = 1-saturate(smoothstep(-0.25,0.25,dot(worldNormal,worldViewDir) ));
+
+
+                return col*Rim;
             }
             ENDCG
         }

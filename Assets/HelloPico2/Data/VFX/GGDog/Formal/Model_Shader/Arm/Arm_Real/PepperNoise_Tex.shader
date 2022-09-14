@@ -5,6 +5,7 @@ Shader "Unlit/PepperNoise_Tex"
         _MainTex ("Texture", 2D) = "white" {}
         [HDR]_ShadowColor("Shadow Color",Color) = (0,0,0,1)
         _NoiseTex ("Texture", 2D) = "white" {}
+        _NoiseTexTilling ("NoiseTex Tilling", Float) = 1
         _LightDir ("LightDir", Vector) = (0,0,0,0)
     }
     SubShader
@@ -21,30 +22,28 @@ Shader "Unlit/PepperNoise_Tex"
 
             struct appdata
             {
-                half4 vertex : POSITION;
-                half2 uv : TEXCOORD0;
-                half3 normal : NORMAL;
+                float4 vertex : POSITION;
+                float2 uv : TEXCOORD0;
+                float3 normal : NORMAL;
             };
 
             struct v2f
             {
-                half2 uv : TEXCOORD0;
-                half4 vertex : SV_POSITION;
-                half3 worldNormal : NORMAL;
-                half4 SrcUV : TEXCOORD1;
+                float2 uv : TEXCOORD0;
+                float4 vertex : SV_POSITION;
+                float3 worldNormal : NORMAL;
+                float4 SrcUV : TEXCOORD1;
             };
 
-            sampler2D _NoiseTex;
-            float4 _NoiseTex_ST;
-            
             sampler2D _MainTex;
             float4 _MainTex_ST;
             
-		     half2 unity_voronoi_noise_randomVector (half2 UV, half offset)
+            sampler2D _NoiseTex;
+		     float2 unity_voronoi_noise_randomVector (float2 UV, float offset)
 			{
-			    half2x2 m = half2x2(15.27, 47.63, 99.41, 89.98);
+			    float2x2 m = float2x2(15.27, 47.63, 99.41, 89.98);
 			    UV = frac(sin(mul(UV, m)) * 46839.32);
-				return half2(sin(UV.y*+offset)*0.5+0.5, cos(UV.x*offset)*0.5+0.5);
+				return float2(sin(UV.y*+offset)*0.5+0.5, cos(UV.x*offset)*0.5+0.5);
 			}
             
             v2f vert (appdata v)
@@ -64,15 +63,18 @@ Shader "Unlit/PepperNoise_Tex"
                 return o;
             }
             
-			half4 _LightDir;
-            half4 _ShadowColor;
-            half4 frag (v2f i) : SV_Target
+			float4 _LightDir;
+            float4 _ShadowColor;
+            
+            float _NoiseTexTilling;
+            
+            float4 frag (v2f i) : SV_Target
             {
 
-                half2 srcUV = i.SrcUV.xy/i.SrcUV.w;
+                float2 srcUV = i.SrcUV.xy/i.SrcUV.w;
 
-                half noise = tex2D(_NoiseTex,30*i.SrcUV.z* srcUV-10*_Time.y).r;
-                half noise2 = tex2D(_NoiseTex,30*i.SrcUV.z* srcUV+10*_Time.y).r;
+                float noise = tex2D(_NoiseTex,_NoiseTexTilling*30*i.SrcUV.z* srcUV-10*_Time.y).r;
+                float noise2 = tex2D(_NoiseTex,_NoiseTexTilling*30*i.SrcUV.z* srcUV+10*_Time.y).r;
 
                 noise = smoothstep(0.5,0.5, (noise+noise2)/2.5 );
 
@@ -83,9 +85,9 @@ Shader "Unlit/PepperNoise_Tex"
 
                 //noise = lerp(1,noise,smoothstep(0,0.5,NdotL+Rim));
                 
-                half4 tex = tex2D(_MainTex,i.uv);
+                float4 tex = tex2D(_MainTex,i.uv);
 
-                half4 col = lerp(tex,tex*_ShadowColor+_ShadowColor*noise/1,smoothstep(0,0.5,NdotL));
+                float4 col = lerp(tex,tex*_ShadowColor+_ShadowColor*noise/1,smoothstep(0,0.5,NdotL));
                       col = lerp(tex,col,smoothstep(0,0.75,1-i.uv.y));
                       
 
