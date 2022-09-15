@@ -90,6 +90,23 @@ namespace HelloPico2.PlayerController.Arm
 
         private DeviceInputDetected currentDeviceInputDetected { get; set; }
         #endregion
+
+        public void ChargeEnergyDirectly(float energy)
+        {
+            // Charge Energy
+            armLogic.data.Energy = energy;
+
+            armLogic.data.WhenGainEnergy?.Invoke();
+
+            armLogic.OnEnergyChanged?.Invoke(armLogic.data);
+
+            // Charge Energy ball
+            GenerateChargingEnergyBall();
+
+            if (energy != 0)
+                currentEnergyBall.SetActive(true);
+        }
+
         private void Start()
         {
             Project.EventBus.Subscribe<GainEnergyEventData>(ChargeEnergy);
