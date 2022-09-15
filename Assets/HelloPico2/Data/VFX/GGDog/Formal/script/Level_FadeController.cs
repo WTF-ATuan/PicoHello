@@ -480,8 +480,8 @@ public class Level_FadeController : MonoBehaviour
             case Level._7_ToLevel_5_OutCloud:
 
 
-                Level_4_GlowFog.SetFloat("_Alpha", Mathf.Lerp(Level_4_GlowFog.GetFloat("_Alpha"), 0, speed));
-                Level_4_GlowLine.SetFloat("_Alpha", Mathf.Lerp(Level_4_GlowLine.GetFloat("_Alpha"), 0, speed));
+                Level_4_GlowFog.SetFloat("_Alpha", Mathf.Lerp(Level_4_GlowFog.GetFloat("_Alpha"), 0, 0.05f));
+                Level_4_GlowLine.SetFloat("_Alpha", Mathf.Lerp(Level_4_GlowLine.GetFloat("_Alpha"), 0, 0.05f));
 
 
                 //光減淡到消失

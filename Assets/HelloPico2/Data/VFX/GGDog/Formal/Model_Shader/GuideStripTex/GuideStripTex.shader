@@ -17,10 +17,9 @@ Shader "Unlit/GGDog/Model_Shader/GuideStripTex"
         
         Pass
         {
-            Tags { "Queue"="5000" }
+            Tags { "Queue"="3000" }
             Blend SrcAlpha One
             ZWrite Off
-            ZTest Always
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag

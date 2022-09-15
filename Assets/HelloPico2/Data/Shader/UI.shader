@@ -1,4 +1,4 @@
-Shader "Unlit/UI"
+Shader "GGDog/UI"
 {
     Properties
     {
@@ -53,6 +53,7 @@ Shader "Unlit/UI"
             {
                 fixed4 col = tex2D(_MainTex, i.uv);
 
+                clip(col.a-0.25);
                 return col * i.color;
             }
             ENDCG
