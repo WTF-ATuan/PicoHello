@@ -464,8 +464,8 @@ public class Level_FadeController : MonoBehaviour
                 Level_4_ColorFade_Set();
                 Level_4.SetActive(true);
 
-                Level_4_GlowFog.SetFloat("_Alpha", Mathf.Lerp(Level_4_GlowFog.GetFloat("_Alpha"), 1, 0.001f));
-                Level_4_GlowLine.SetFloat("_Alpha", Mathf.Lerp(Level_4_GlowLine.GetFloat("_Alpha"), 1, 0.001f));
+                Level_4_GlowFog.SetFloat("_Alpha", Mathf.Lerp(Level_4_GlowFog.GetFloat("_Alpha"), 1, 0.05f));
+                Level_4_GlowLine.SetFloat("_Alpha", Mathf.Lerp(Level_4_GlowLine.GetFloat("_Alpha"), 1, 0.05f));
 
 
                 break;
@@ -480,8 +480,8 @@ public class Level_FadeController : MonoBehaviour
             case Level._7_ToLevel_5_OutCloud:
 
 
-                Level_4_GlowFog.SetFloat("_Alpha", Mathf.Lerp(Level_4_GlowFog.GetFloat("_Alpha"), 0, 0.05f));
-                Level_4_GlowLine.SetFloat("_Alpha", Mathf.Lerp(Level_4_GlowLine.GetFloat("_Alpha"), 0, 0.05f));
+                Level_4_GlowFog.SetFloat("_Alpha", Mathf.Lerp(Level_4_GlowFog.GetFloat("_Alpha"), 0, 0.025f));
+                Level_4_GlowLine.SetFloat("_Alpha", Mathf.Lerp(Level_4_GlowLine.GetFloat("_Alpha"), 0, 0.025f));
 
 
                 //光減淡到消失

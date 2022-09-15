@@ -10,18 +10,18 @@ Shader "GGDog/Additive_OneOne_CullOff"
     }
     SubShader
     {
+        Tags {"RenderType"="Transparent"  "Queue"="5000" }
+        
         LOD 1
-
+        
         ZTest[_ZTest]
 		
 		ZWrite Off
-		Blend SrcAlpha One
+		Blend One One
 
         Pass
         {
-        Tags { "Queue"="5000" }
             Cull Front
-            ZTest[_ZTest]
 		
             CGPROGRAM
             #pragma vertex vert
@@ -78,9 +78,7 @@ Shader "GGDog/Additive_OneOne_CullOff"
         }
         Pass
         {
-        Tags { "Queue"="5000" }
             Cull Back
-            ZTest[_ZTest]
 		
             CGPROGRAM
             #pragma vertex vert
