@@ -6,11 +6,14 @@ Shader "GGDog/Additive_OneOne_CullOff"
     {
         _MainTex ("Texture", 2D) = "white" {}
         _Color ("Color", Color) = (1,1,1,1)
+        [Enum(Order,4,AlwaysOnTop,8)] _ZTest("ZTest", Float) = 8
     }
     SubShader
     {
         Tags { "Queue"="Transparent" }
         LOD 1
+
+        ZTest[_ZTest]
 		
 		ZWrite Off
 		Blend SrcAlpha One
