@@ -23,6 +23,8 @@ Shader "Unlit/GGDog/Model_Shader/GuideStripTex"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+			#pragma target 3.0
+            #pragma multi_compile_instancing
 
             #include "UnityCG.cginc"
 
@@ -141,6 +143,8 @@ Shader "Unlit/GGDog/Model_Shader/GuideStripTex"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+			#pragma target 3.0
+            #pragma multi_compile_instancing
 
             #include "UnityCG.cginc"
 
