@@ -17,9 +17,10 @@ Shader "Unlit/GGDog/Model_Shader/GuideStripTex"
         
         Pass
         {
-            Tags { "Queue"="Transparent" }
+            Tags { "Queue"="5000" }
             Blend SrcAlpha One
             ZWrite Off
+            ZTest Always
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -32,12 +33,14 @@ Shader "Unlit/GGDog/Model_Shader/GuideStripTex"
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
             {
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             sampler2D _GlowTex;
@@ -46,6 +49,8 @@ Shader "Unlit/GGDog/Model_Shader/GuideStripTex"
             v2f vert (appdata v)
             {
                 v2f o;
+                UNITY_SETUP_INSTANCE_ID (v);
+                UNITY_TRANSFER_INSTANCE_ID (v, o);
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _GlowTex);
                 return o;
@@ -101,10 +106,10 @@ Shader "Unlit/GGDog/Model_Shader/GuideStripTex"
             
             float4 frag (v2f i) : SV_Target
             {
-                
+                UNITY_SETUP_INSTANCE_ID (i);
 
                 float4 k;
-                
+
                 Unity_Posterize_float4( float4( i.uv.x,1,1,1),8,k);
 
                 float RandomSpeed = (random(k.xy*_RandomrangeSpeed)/2+_BasicSpeed)*_Time.y/2;
@@ -128,9 +133,9 @@ Shader "Unlit/GGDog/Model_Shader/GuideStripTex"
                 
                 col.rgb = lerp(FadeColor_Shadow,col.rgb,saturate(smoothstep(0,1.25,colr)));
                 
-                col.rgb *= saturate((colr-0.17));
+                col.rgb *= saturate((colr));
                 
-                clip(colr-0.15);
+                clip(colr-0.015);
                 
                 return col;
             }

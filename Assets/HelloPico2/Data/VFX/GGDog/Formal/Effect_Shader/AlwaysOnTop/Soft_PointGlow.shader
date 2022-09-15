@@ -65,11 +65,11 @@ Shader "GGDog/Space_Test/Soft_PointGlow"
 				float D =1- distance(float2(i.uv.x,i.uv.y),float2(0.5,0.5));
 
 				//º¥¼h«×
-				D = smoothstep(0.5,1.75,D)*_intense;
+				D = smoothstep(0.5,2,D)*_intense;
 
 				float4 finalColor = saturate(i.color*D*i.color.a);
 				
-                clip(saturate(finalColor.a) - 0.000005);
+                clip(saturate(finalColor.a) - 0.00015);
 
                 return finalColor;
             }
