@@ -47,7 +47,7 @@ namespace HelloPico2.PlayerController.Arm
 		public ValueAction OnSecondaryButtonClick;
 		public AxisAction OnPrimaryAxisInput;
         public InputAction OnUpdateInput;
-		#endregion
+        #endregion
 
 		private void Start()
 		{

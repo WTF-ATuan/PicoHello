@@ -33,8 +33,9 @@ Shader "GGDog/Evil_color"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-
-
+            
+			#pragma target 3.0
+            #pragma multi_compile_instancing
             #include "UnityCG.cginc"
 
             struct appdata
@@ -88,8 +89,8 @@ Shader "GGDog/Evil_color"
             v2f vert (appdata v)
             {
                 v2f o;
-                UNITY_SETUP_INSTANCE_ID (v);
-                UNITY_TRANSFER_INSTANCE_ID (v, o);
+                UNITY_SETUP_INSTANCE_ID(v);
+                UNITY_TRANSFER_INSTANCE_ID(v, o);
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
@@ -119,7 +120,7 @@ Shader "GGDog/Evil_color"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                UNITY_SETUP_INSTANCE_ID (i);
+                UNITY_SETUP_INSTANCE_ID(i);
 
                 fixed4 col = tex2D(_MainTex, i.uv + _Time.y*_MainTex_ST.zw);
 

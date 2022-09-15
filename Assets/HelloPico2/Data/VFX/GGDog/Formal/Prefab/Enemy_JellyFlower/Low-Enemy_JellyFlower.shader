@@ -23,8 +23,9 @@ Shader "Unlit/Low-Enemy_JellyFlower"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-
-
+            
+			#pragma target 3.0
+            #pragma multi_compile_instancing
             #include "UnityCG.cginc"
 
             struct appdata
