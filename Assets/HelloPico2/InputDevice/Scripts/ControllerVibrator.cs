@@ -32,7 +32,6 @@ namespace HelloPico2.InputDevice.Scripts{
 			var min = _armData.GrabDetectionRadiusMin;
 			var current = _interactor.sphereCastRadius;
 			var lerpValue = (current - min) / (max - min);
-			if(lerpValue < 0.1) lerpValue = 0.1f;
 			switch(vrType){
 				case VRType.Phoenix:
 					break;
