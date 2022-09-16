@@ -10,7 +10,7 @@ Shader "GGDog/Additive_OneOne_CullOff"
     }
     SubShader
     {
-        Tags {"RenderType"="Transparent"  "Queue"="5000" }
+        Tags {"RenderType"="Transparent"  "Queue"="Transparent+2000" }
         
         LOD 1
         

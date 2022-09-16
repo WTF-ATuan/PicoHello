@@ -23,6 +23,8 @@ Shader "GGDog/Space_Test/Env"
 
         
 		[KeywordEnum(World, Local)] _REFAXIS("Reflection Axis", Float) = 0.0
+
+		[KeywordEnum(On, Off)] _REF("Reflection", Float) = 0
     }
     SubShader
     {
@@ -36,6 +38,7 @@ Shader "GGDog/Space_Test/Env"
             #pragma fragment frag
 			
 			#pragma shader_feature _REFAXIS_WORLD  _REFAXIS_LOCAL
+			#pragma shader_feature _REF_ON  _REF_OFF
 
 			#pragma target 3.0
             #pragma multi_compile_instancing
@@ -142,11 +145,11 @@ Shader "GGDog/Space_Test/Env"
             {
                 UNITY_SETUP_INSTANCE_ID(i);
 
-                float3 normalDir = normalize(i.worldNormal);
+                float3 normalDir = (i.worldNormal);
 
-                float3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
+                float3 lightDir = (_WorldSpaceLightPos0.xyz);
 
-                float3 viewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos );
+                float3 viewDir = (_WorldSpaceCameraPos.xyz - i.worldPos );
 				
                 float3 ShadowColor = _ShadowColor;
                 float3 LightColor  = _LightColor0* _Color ;
@@ -155,7 +158,7 @@ Shader "GGDog/Space_Test/Env"
 
 
 				//Ãä½t¥ú
-				float Rim = 1-saturate(smoothstep(0,0.75,dot(normalDir,viewDir)));
+				float Rim = 1-smoothstep(0,0.75,dot(normalDir,viewDir));
 				Rim =  ( Rim + smoothstep(0.5,1,Rim) )/_Rim;
 
 				Rim*=smoothstep(300,700,i.CameraDistance);
@@ -164,14 +167,16 @@ Shader "GGDog/Space_Test/Env"
 
 				col += Rim*_SkyColor;
 
-				col = lerp(col,_FarColor,saturate(smoothstep(0,1000,i.CameraDistance)));
+				col = lerp(col,_FarColor,smoothstep(0,1000,i.CameraDistance));
 				
-				col = lerp(col,_SkyColor,saturate(smoothstep(850,1000,i.worldPos.z)));
+				col = lerp(col,_SkyColor,smoothstep(850,1000,i.worldPos.z));
 				
-				col = lerp(col,_FogColor,(1-saturate(smoothstep(-100,300,i.worldPos.y+_FogPos))) *smoothstep(0,1000,i.CameraDistance)  );
+				col = lerp(col,_FogColor,(1-smoothstep(-100,300,i.worldPos.y+_FogPos)) *smoothstep(0,1000,i.CameraDistance)  );
 				
-				col = lerp(col,_BackFogColor,1-saturate(smoothstep(-700,1000,i.worldPos.z)));
+				col = lerp(col,_BackFogColor,1-smoothstep(-700,1000,i.worldPos.z));
 
+
+        #if _REF_ON
 
              float n = frac_Noise(i.worldPos.xy+_ReflectRGBOffSet,0.5);
              float n2 = frac_Noise(i.worldPos.xy,0.5);
@@ -179,11 +184,17 @@ Shader "GGDog/Space_Test/Env"
 
              float4 Reflect = float4(n,n2,n3,1)*(smoothstep(0,2,(0.5-i.normal.y)));
 
-             Reflect *= (1-saturate(smoothstep(0,1500,i.worldPos.z))) * (saturate(smoothstep(-150,1000,i.worldPos.z))) ;
+             Reflect *= (1-smoothstep(0,1500,i.worldPos.z)) * (smoothstep(-150,1000,i.worldPos.z)) ;
 
                 return col +Reflect*_FogColor*_Reflect;
 
-                //return float4(i.worldPos,1);
+
+        #elif _REF_OFF
+
+                return col;
+
+        #endif
+
           }
             ENDCG
         }
