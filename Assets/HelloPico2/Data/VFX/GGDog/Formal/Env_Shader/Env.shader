@@ -227,7 +227,7 @@ Shader "GGDog/Space_Test/Env"
 
             struct v2f
             {
-                float worldZ : TEXCOORD0;
+                float3 worldPos : TEXCOORD0;
                 float4 vertex : SV_POSITION;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
@@ -268,7 +268,7 @@ Shader "GGDog/Space_Test/Env"
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
 
-				o.worldZ = mul(unity_ObjectToWorld, v.vertex).z;
+				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 
 #if _REFAXIS_WORLD
                 float3 YPos = mul(unity_ObjectToWorld, v.vertex).xyz;
@@ -293,6 +293,7 @@ Shader "GGDog/Space_Test/Env"
             float4 _FarColor;
             float4 _BackFogColor;
             float4 _FogColor;
+            float _FogPos;
 
             float _Reflect;
             float _ReflectRGBOffSet;
@@ -301,7 +302,12 @@ Shader "GGDog/Space_Test/Env"
             {
                 UNITY_SETUP_INSTANCE_ID(i);
 
-                float4 col =  lerp( _BackFogColor, _SkyColor , smoothstep(-300,500,i.worldZ) );
+                float Z_smooth = smoothstep(600,1200,i.worldPos.z);
+
+                float4 col =  lerp( _BackFogColor/2, _SkyColor , Z_smooth );
+
+				col = lerp(col,_FogColor,Z_smooth*(1-smoothstep(-100,300,i.worldPos.y+_FogPos)));
+
 
                 return col;
           }
