@@ -17,7 +17,7 @@
     SubShader
     {
         Tags {"RenderType"="Transparent" "Queue"="Transparent" }
-        LOD 100
+		LOD 1
 		Cull Off
         Pass
         {

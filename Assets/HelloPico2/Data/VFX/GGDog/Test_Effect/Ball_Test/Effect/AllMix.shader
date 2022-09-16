@@ -8,7 +8,7 @@
 	SubShader
 	{
 		Tags { "RenderType"="Opaque" }
-		LOD 100
+		LOD 1
 		ZWrite Off
 		Blend One One
 		Pass
