@@ -72,7 +72,7 @@ Shader "GGDog/Additive_OneOne_CullOff"
                 
                 col*= i.color* i.color.a;
                 
-                return col*_Color;
+                return col*_Color*_Color.a;
             }
             ENDCG
         }
