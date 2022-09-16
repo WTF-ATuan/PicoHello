@@ -64,6 +64,8 @@ namespace HelloPico2.InteractableObjects{
 		private void DestroyBullet(Collider selfCollider){
 			if(_UsephPushBackFeedback) PushBackFeedback(selfCollider);
 
+			WhenCollideUlt?.Invoke();
+
 			Project.EventBus.Post<VFXEventRequested, ParticleSystem>(new VFXEventRequested(
 				_HitEffectID,
 				false,
@@ -74,7 +76,7 @@ namespace HelloPico2.InteractableObjects{
 
 			if(TryGetComponent<MoveObject>(out var moveObj))
 				moveObj.speed = 0;
-			transform.DOKill();
+			//transform.DOKill();
 			WhenCollide?.Invoke();
 			WhenCollideUlt?.Invoke();
 			Destroy(gameObject, _DestroyDelayDuration);
