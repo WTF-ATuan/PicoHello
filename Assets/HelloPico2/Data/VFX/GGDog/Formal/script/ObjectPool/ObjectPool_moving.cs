@@ -36,7 +36,7 @@ public class ObjectPool_moving : MonoBehaviour
 
         if (!Rotate_Moving)
         {
-            transform.position += new Vector3(0, 0, 1) * -speed * (ObjectPool_Spawner.SeedSpeed / ObjectPool_Spawner_Range.Range_Z) * Time.deltaTime;
+            transform.localPosition += new Vector3(0, 0, 1) * -speed * (ObjectPool_Spawner.SeedSpeed / ObjectPool_Spawner_Range.Range_Z) * Time.deltaTime;
             return;
         }
 
