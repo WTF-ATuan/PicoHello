@@ -16,7 +16,7 @@ Shader "GGDog/SSS"
     }
     SubShader
     {
-        Tags {"RenderType"= "Geomotry" "Queue"="Geomotry" }
+        Tags {"RenderType"= "Geometry" "Queue"="Geometry" }
 
         Pass
         {

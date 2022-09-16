@@ -53,7 +53,7 @@ public class LOD_GlobalController : MonoBehaviour
 
             case Max_LOD.Low:
 
-                Camera_RT.SetActive(false);
+                Camera_RT.SetActive(true);
                 Camera.main.depthTextureMode |= DepthTextureMode.None;
                 Shader.globalMaximumLOD = 100;
 
@@ -62,14 +62,14 @@ public class LOD_GlobalController : MonoBehaviour
                 
             case Max_LOD.Partical:
 
-                Camera_RT.SetActive(false);
+                Camera_RT.SetActive(true);
                 Camera.main.depthTextureMode |= DepthTextureMode.None;
                 Shader.globalMaximumLOD = 1;
 
                 break;
             case Max_LOD.None:
 
-                Camera_RT.SetActive(false);
+                Camera_RT.SetActive(true);
                 Camera.main.depthTextureMode |= DepthTextureMode.None;
                 Shader.globalMaximumLOD = 0;
 
