@@ -18,7 +18,7 @@ public class Level_FadeController : MonoBehaviour
     }
     public Level level;
 
-    [Range(0, 0.001f)]
+   // [Range(0, 0.001f)]
     public float speed;
     public bool Enable_Env = true;
     [Range(50, 175)]
@@ -113,6 +113,8 @@ public class Level_FadeController : MonoBehaviour
     public GameObject Level_4;
     public Material Level_4_CloudTunnel;
     public Material Level_4_stone;
+    public Material Level_4_GlowFog;
+    public Material Level_4_GlowLine;
 
     public GameObject stone;
     public GameObject stone_big;
@@ -449,6 +451,9 @@ public class Level_FadeController : MonoBehaviour
 
                 Space_CameraEffect_Material.SetFloat("_Dis", Mathf.Lerp(Space_CameraEffect_Material.GetFloat("_Dis"), 0.00235f, 0.05f));
 
+                Level_4_GlowFog.SetFloat("_Alpha", 0);
+                Level_4_GlowLine.SetFloat("_Alpha", 0);
+
                 break;
                 
             case Level._5_ToLevel_4_BackToGame:
@@ -458,6 +463,9 @@ public class Level_FadeController : MonoBehaviour
 
                 Level_4_ColorFade_Set();
                 Level_4.SetActive(true);
+
+                Level_4_GlowFog.SetFloat("_Alpha", Mathf.Lerp(Level_4_GlowFog.GetFloat("_Alpha"), 1, 0.05f));
+                Level_4_GlowLine.SetFloat("_Alpha", Mathf.Lerp(Level_4_GlowLine.GetFloat("_Alpha"), 1, 0.05f));
 
 
                 break;
@@ -470,6 +478,11 @@ public class Level_FadeController : MonoBehaviour
 
 
             case Level._7_ToLevel_5_OutCloud:
+
+
+                Level_4_GlowFog.SetFloat("_Alpha", Mathf.Lerp(Level_4_GlowFog.GetFloat("_Alpha"), 0, 0.025f));
+                Level_4_GlowLine.SetFloat("_Alpha", Mathf.Lerp(Level_4_GlowLine.GetFloat("_Alpha"), 0, 0.025f));
+
 
                 //光減淡到消失
                 ParticalMaterial.Partical[0].SetFloat("_Alpha", Mathf.Lerp(ParticalMaterial.Partical[0].GetFloat("_Alpha"), 0, speed));

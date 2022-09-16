@@ -4,6 +4,9 @@ Shader "GGDog/Space_Test/Soft_PointGlow"
 {
     Properties
     {
+		_Color("Color",Color) = (1,1,1,1)
+        _Alpha("Alpha",Range(0,1)) = 1
+
         [Enum(Order,4,AlwaysOnTop,8)] _ZTest("ZTest", Float) = 8
         _intense("Intense",Range(1,5)) = 1
     }
@@ -21,6 +24,8 @@ Shader "GGDog/Space_Test/Soft_PointGlow"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+			#pragma target 3.0
+            #pragma multi_compile_instancing
 
             #include "UnityCG.cginc"
 
@@ -56,6 +61,8 @@ Shader "GGDog/Space_Test/Soft_PointGlow"
                 return o;
             }
             float _intense;
+            float4 _Color;
+            float _Alpha;
             float4 frag (v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID (i);
@@ -63,13 +70,13 @@ Shader "GGDog/Space_Test/Soft_PointGlow"
 				float D =1- distance(float2(i.uv.x,i.uv.y),float2(0.5,0.5));
 
 				//º¥¼h«×
-				D = smoothstep(0.5,1.75,D)*_intense;
+				D = smoothstep(0.5,2,D)*_intense;
 
 				float4 finalColor = saturate(i.color*D*i.color.a);
 				
-                clip(saturate(finalColor.a) - 0.000005);
+                clip(saturate(finalColor.a) - 0.00015);
 
-                return finalColor;
+                return finalColor*_Color*_Alpha;
             }
             ENDCG
         }
