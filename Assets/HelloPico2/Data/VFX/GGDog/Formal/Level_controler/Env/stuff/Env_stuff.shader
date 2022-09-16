@@ -57,35 +57,32 @@ Shader "GGDog/Space_Test/Env_stuff"
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
             
-			inline half2 unity_voronoi_noise_randomVector (half2 UV, half offset)
-			{
-			    half2x2 m = half2x2(15.27, 47.63, 99.41, 89.98);
-			    UV = frac(sin(mul(UV, m)) * 46839.32);
-				return half2(sin(UV.y*+offset)*0.5+0.5, cos(UV.x*offset)*0.5+0.5);
-			}
-			void Unity_Voronoi_half(half2 UV, half AngleOffset, half CellDensity, out half Out, out half Cells)
-			{
-				half2 g = floor(UV * CellDensity);
-				half2 f = frac(UV * CellDensity);
-				half t = 8.0;
-				half3 res = half3(8.0, 0.0, 0.0);
+            float frac_Noise(float2 UV, float Tilling)
+            {
 
-				for(int y=-1; y<=1; y++)
-				{
-					for(int x=-1; x<=1; x++)
-					{
-						half2 lattice = half2(x,y);
-						half2 offset = unity_voronoi_noise_randomVector(lattice + g, AngleOffset);
-						half d = distance(lattice + offset, f);
-						if(d < res.x)
-						{
-							res = half3(d, offset.x, offset.y);
-							Out = res.x;
-							Cells = res.y;
-						}
-					}
-				}
-			}
+                UV = UV*Tilling/100;
+
+                float2 n_UV =float2( UV.x *0.75 - UV.y*0.15 ,UV.x*0.15 + UV.y*0.75);
+
+                float2 n2_UV =float2( UV.x *0.25 - UV.y*0.5 ,UV.x*0.5 + UV.y*0.25);
+
+                float timeY =_Time.y;
+                float n0 =  smoothstep(0.15,1,1-distance(frac(1*n_UV+timeY*float2(-0.3,-0.75)*0.55),0.5));
+                float n01 =  smoothstep(0.3,1,1-distance(frac(0.75*n2_UV+timeY*float2(0.75,0.5)*0.25),0.5));
+
+                float n02 =  smoothstep(0.5,1,1-distance(frac(0.25*UV+timeY*float2(0.5,-0.25)*0.75),0.5));
+
+                float n03 =  smoothstep(0.5,1,1-distance(frac(0.15*UV+timeY*float2(0.25,-0.5)*0.75),0.5));
+
+
+                float n =  smoothstep(0.15,1,distance(frac(1*n_UV+n0/3-n02/1+timeY*float2(0.7,1)*0.25),0.5)) ;
+
+                float n2 =  smoothstep(0.3,1,distance(frac(1.25*n2_UV-n01/3+n02/1.5+timeY*float2(-0.2,-0.75)*0.75),0.5)) ;
+
+                n+= n2;
+
+               return saturate(n+0.25);
+            }
             float _ModelReflection;
             v2f vert (appdata v)
             {
@@ -100,16 +97,14 @@ Shader "GGDog/Space_Test/Env_stuff"
 				o.CameraDistance = length(mul(UNITY_MATRIX_MV,v.vertex).xyz);
 
 				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
-
-			    half Out;
-			    half Cells;
-                Unity_Voronoi_half(o.worldPos.xy+o.worldPos.xz+o.worldPos.yz,_Time.y*0.01,0.007,Out,Cells);
                 
-                half worldPosY = step(o.worldPos.y,-30);
+                float3 YPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+                float n = frac_Noise(YPos.xy,1);
+                float worldPosY = step(YPos.y,-30);
+                float worldPosY_smoothstep = saturate(smoothstep(0,50,1-YPos.y));
+                
+                o.vertex = UnityObjectToClipPos(v.vertex + _ModelReflection * 0.1*float3(-sign(YPos.x),0,0.5)*n*worldPosY*worldPosY_smoothstep);
 
-                o.vertex = UnityObjectToClipPos(v.vertex + _ModelReflection * 0.1*half3(-1,0,-1)*Out*worldPosY);
-
-				
 				o.worldNormal = mul(v.normal,(float3x3)unity_WorldToObject);
 
                 o.normal = v.normal;
@@ -133,6 +128,7 @@ Shader "GGDog/Space_Test/Env_stuff"
             half _UV_Tilling;
             half _UV_Offset;
             half _Reflect;
+            float _ReflectRGBOffSet;
             
             float4 frag (v2f i) : SV_Target
             {
@@ -174,37 +170,15 @@ Shader "GGDog/Space_Test/Env_stuff"
 
 				col = lerp(col,_BackFogColor,1-saturate(smoothstep(-700,1000,i.worldPos.z)));
 				
-			 half Out0;
-			 half Cells0;
 
-			 Unity_Voronoi_half(i.uv,0,10,Out0,Cells0);
+             float n = frac_Noise(i.worldPos.xy+_ReflectRGBOffSet,0.5);
+             float n2 = frac_Noise(i.worldPos.xy,0.5);
+             float n3 = frac_Noise(i.worldPos.xy-_ReflectRGBOffSet,0.5);
 
-             i.uv = i.normal.xy * i.normal.yz * i.normal.xz;
+             float4 Reflect = float4(n,n2,n3,1)*(smoothstep(0,2,(0.5-i.normal.y)));
 
-			 half Out;
-			 half Cells;
-
-			 Unity_Voronoi_half(i.uv,_UV_Offset,_UV_Tilling,Out,Cells);
-
-             Out = smoothstep(0.5,0.75,1-Out);
-
-             Out *= Out0;
+             Reflect *= (1-smoothstep(0,1500,i.worldPos.z)) * (smoothstep(-150,1000,i.worldPos.z)) ;
              
-
-             
-			 half Out2;
-			 half Cells2;
-			 Unity_Voronoi_half(i.worldPos.xy+i.worldPos.yz-_Time.y*0.25,-_Time.y*1,0.005,Out2,Cells2);
-             
-			 half Out3;
-			 half Cells3;
-			 Unity_Voronoi_half(i.worldPos.xy+i.worldPos.yz+_Time.y*0.15,-_Time.y*1,0.0075,Out3,Cells3);
-
-             half Reflect = smoothstep(1,1.75,(Out2+Out3) )*(smoothstep(0,2,(0.5-i.normal.y)));
-
-             Reflect *= (1-saturate(smoothstep(0,1500,i.worldPos.z))) * (saturate(smoothstep(-150,1000,i.worldPos.z))) ;
-             
-
              clip(MainTex.a-0.03);
 
                 return col +Reflect*_FogColor*_Reflect;
@@ -213,8 +187,7 @@ Shader "GGDog/Space_Test/Env_stuff"
         }
     }
 
-
-	
+    
     SubShader
     {
 		LOD 0 
