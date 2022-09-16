@@ -29,6 +29,8 @@ public class targetScript : MonoBehaviour
     public bool isStaff;
     public bool touchEffect;
     public GameObject touchEffectObj;
+    public bool isGetItem;
+
     private void Start()
     {
         countTimer = 0;
@@ -89,6 +91,10 @@ public class targetScript : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
+        if (isAudio && isGetItem)
+        {
+            aduioObj.SetActive(true);
+        }
         if (isHandTouch && isTrigger && other.CompareTag("Player"))
         {
             if (touchEffect)
