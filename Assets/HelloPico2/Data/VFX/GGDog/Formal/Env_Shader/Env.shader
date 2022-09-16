@@ -200,7 +200,114 @@ Shader "GGDog/Space_Test/Env"
         }
     }
 
+    
+    SubShader
+    {
+		LOD 1
+        Pass
+        {
+			Tags {"Queue" = "Geometry"}
+            CGPROGRAM
+            #include "Lighting.cginc"
+            #pragma vertex vert
+            #pragma fragment frag
+			
+			#pragma shader_feature _REFAXIS_WORLD  _REFAXIS_LOCAL
+			#pragma shader_feature _REF_ON  _REF_OFF
 
+			#pragma target 3.0
+            #pragma multi_compile_instancing
+            #include "UnityCG.cginc"
+
+            struct appdata
+            {
+                float4 vertex : POSITION;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+            };
+
+            struct v2f
+            {
+                float worldZ : TEXCOORD0;
+                float4 vertex : SV_POSITION;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+            };
+            
+            float frac_Noise(float2 UV, float Tilling)
+            {
+
+                UV = UV*Tilling/100;
+
+                float2 n_UV =float2( UV.x *0.75 - UV.y*0.15 ,UV.x*0.15 + UV.y*0.75);
+
+                float2 n2_UV =float2( UV.x *0.25 - UV.y*0.5 ,UV.x*0.5 + UV.y*0.25);
+
+                float timeY =_Time.y;
+                float n0 =  smoothstep(0.15,1,1-distance(frac(1*n_UV+timeY*float2(-0.3,-0.75)*0.55),0.5));
+                float n01 =  smoothstep(0.3,1,1-distance(frac(0.75*n2_UV+timeY*float2(0.75,0.5)*0.25),0.5));
+
+                float n02 =  smoothstep(0.5,1,1-distance(frac(0.25*UV+timeY*float2(0.5,-0.25)*0.75),0.5));
+
+                float n03 =  smoothstep(0.5,1,1-distance(frac(0.15*UV+timeY*float2(0.25,-0.5)*0.75),0.5));
+
+
+                float n =  smoothstep(0.15,1,distance(frac(1*n_UV+n0/3-n02/1+timeY*float2(0.7,1)*0.25),0.5)) ;
+
+                float n2 =  smoothstep(0.3,1,distance(frac(1.25*n2_UV-n01/3+n02/1.5+timeY*float2(-0.2,-0.75)*0.75),0.5)) ;
+
+                n+= n2;
+
+               return saturate(n+0.25);
+            }
+            float _ModelReflection;
+            v2f vert (appdata v)
+            {
+                v2f o;
+
+                UNITY_SETUP_INSTANCE_ID(v);
+                UNITY_TRANSFER_INSTANCE_ID(v, o);
+
+                o.vertex = UnityObjectToClipPos(v.vertex);
+
+				o.worldZ = mul(unity_ObjectToWorld, v.vertex).z;
+
+#if _REFAXIS_WORLD
+                float3 YPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+                float n = frac_Noise(YPos.xy,1);
+                float worldPosY = step(YPos.y,-30);
+                float worldPosY_smoothstep = saturate(smoothstep(0,50,1-YPos.y));
+#elif _REFAXIS_LOCAL
+				float3 YPos = v.vertex.xyz;
+                float n = frac_Noise(1000*YPos.xy,1);
+                float worldPosY = step(YPos.y,0);
+                float worldPosY_smoothstep = 1;
+#endif
+                o.vertex = UnityObjectToClipPos(v.vertex + _ModelReflection * 0.1*float3(-sign(YPos.x),0,0.5)*n*worldPosY*worldPosY_smoothstep);
+
+                return o;
+            }
+            float4 _Color;
+            float4 _ShadowColor;
+
+            float4 _SkyColor;
+			
+            float4 _FarColor;
+            float4 _BackFogColor;
+            float4 _FogColor;
+
+            float _Reflect;
+            float _ReflectRGBOffSet;
+            
+            float4 frag (v2f i) : SV_Target
+            {
+                UNITY_SETUP_INSTANCE_ID(i);
+
+                float4 col =  lerp( _BackFogColor, _SkyColor , smoothstep(-300,500,i.worldZ) );
+
+                return col;
+          }
+            ENDCG
+        }
+    }
 	
     SubShader
     {
