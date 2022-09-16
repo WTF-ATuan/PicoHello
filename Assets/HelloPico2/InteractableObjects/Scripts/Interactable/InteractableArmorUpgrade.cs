@@ -12,6 +12,7 @@ namespace HelloPico2.InteractableObjects
         [SerializeField] private float _StartScalingDist = 10;
         [SerializeField] private float _ScalingDuration = .5f;
         [SerializeField] private AnimationCurve _EaseCurve;
+        [SerializeField] private bool _UseVFX;
         [SerializeField] private ParticleSystem _VFX;
 
         [SerializeField] private HelloPico2.PlayerController.Arm.ArmorType _ArmorType;
@@ -30,6 +31,9 @@ namespace HelloPico2.InteractableObjects
         private void OnEnable()
         {
             if (transform.GetChild(1) == null) return;
+
+            if (!_UseVFX) return;
+
             var clone = Instantiate(_VFX, transform.position, Quaternion.identity);
             clone.transform.SetParent(transform.GetChild(1));
         }
