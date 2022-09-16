@@ -18,7 +18,7 @@ Shader "GGDog/Space_Test/Sky_Color"
 		LOD 100 
         Tags { "RenderType"="Opaque" }
         Cull Front
-		Offset 10000, 10000
+		Offset 100000, 0
         Pass
         {
             CGPROGRAM
@@ -84,7 +84,7 @@ Shader "GGDog/Space_Test/Sky_Color"
 		LOD 1 
         Tags { "RenderType"="Opaque" }
         Cull Front
-		Offset 10000, 10000
+		Offset 100000, 0
         Pass
         {
             CGPROGRAM
