@@ -29,7 +29,7 @@ namespace HelloPico2.PlayerController.Arm
         [Header("VFX")]
         public ParticleSystem _BubbleVFX;
         public ParticleSystem _RoundingVFX;
-        public GameObject _AnimationEffect;
+        public EmissionRaiseSteps _AnimationEffect;
         public HelloPico2.LevelTool.SkinnedMeshEffectPlacement _EffectPlacement;
 
         [Header("Audio Settings")]
@@ -100,14 +100,21 @@ namespace HelloPico2.PlayerController.Arm
             seq.AppendInterval(_RimEffectStayDuration);
             seq.Append(_Armor.materials[1].DOFloat(_FromRim, _RimStrengthName, _RimEffectDuration));
             TweenCallback SeqCompleteCallback = delegate { 
-                _Armor.materials = originalMat; 
+                _Armor.materials = originalMat;
                 TurnOffAnimationEffect();
             };
             seq.AppendCallback(SeqCompleteCallback);
 
             // Fade
             _Armor.materials[0].SetColor(_FadeColorName, _FromColor);
-            seq1 = DOTween.Sequence();
+            seq1 = DOTween.Sequence(); 
+
+            TweenCallback Seq1StartCallback = delegate {
+                // Animation Effect            
+                PlayGlowingAnimationEffect();
+            };
+            seq1.AppendCallback(Seq1StartCallback);
+
             seq1.Append(_Armor.materials[0].DOColor(_FromColor, _FadeColorName, .01f));
             seq1.AppendInterval(_FadeInDelay);
             seq1.Append(_Armor.materials[0].DOColor(_ToColor, _FadeColorName, _FadeInDuration).From(_FromColor));
@@ -124,7 +131,6 @@ namespace HelloPico2.PlayerController.Arm
                 var clone = Instantiate(_RoundingVFX, transform);
                 _EffectPlacement.SetPosition(_Armor, clone.transform);
                 clone.Play();
-                print("Play Rounding Effect");
                 Destroy(clone, 5);
 
                 GainArmorEvent GainArmroevent = new GainArmorEvent();
@@ -136,16 +142,14 @@ namespace HelloPico2.PlayerController.Arm
             _Armor.gameObject.SetActive(true);
             seq.Play();
             seq1.Play();
-
-            // Animation Effect            
-            PlayGlowingAnimationEffect();
         }
         private void TurnOffAnimationEffect() {
-            _AnimationEffect.SetActive(false);
+            _AnimationEffect.gameObject.SetActive(false);
         }
         private void PlayGlowingAnimationEffect() {
             _EffectPlacement.SetPosition(_Armor, _AnimationEffect.transform);
-            _AnimationEffect.SetActive(true);
+            _AnimationEffect.gameObject.SetActive(true);
+            //_AnimationEffect.RaiseToColor(1);
             AudioPlayerHelper.PlayAudio(_ShowArmorClipName, transform.position);
         }
         private void PlayBubbleVFX() {
