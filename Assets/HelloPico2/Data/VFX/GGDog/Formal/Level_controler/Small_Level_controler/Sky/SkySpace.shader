@@ -3,19 +3,20 @@ Shader "Unlit/CameraDistance_Test"
     Properties
     {
 		_SkyColor("Sky Color",Color) = (1,1,1,1)
-		_Color("Color",Color) = (1,1,1,1)
 		_ShadowColor("Shadow Color",Color) = (1,1,1,1)
         _Far ("Vanishing Position", Float) = 70
 		[KeywordEnum(Vertex, WorldPosition)] _ToCamera("CameraDistance Mode", Float) = 0.0
 
-        _FarSmoothStep ("Far Contrast", Range(0,0.5)) = 0
-        _FarPosition ("Far Position", Range(-0.5,0.5)) = 0
+        
+        _SkyFarPos ("_SkyFarPos", Float) = 70
+
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags { "Queue"="Geometry-1000" }
 
-        
+        Cull Front
+
         Pass
         {
             CGPROGRAM
@@ -36,8 +37,6 @@ Shader "Unlit/CameraDistance_Test"
             {
                 float4 vertex : SV_POSITION;
 				half4 WorldPos_CD : TEXCOORD0;
-				half3 ViewDir : TEXCOORD1;
-                half3 WorldNormal : TEXCOORD2;
             };
 
             half _Far;
@@ -46,7 +45,7 @@ Shader "Unlit/CameraDistance_Test"
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
 				
-                o.WorldPos_CD.xyz = unity_ObjectToWorld._m03_m13_m23;
+                o.WorldPos_CD.xyz = mul(unity_ObjectToWorld, v.vertex).xyz;
 
             #if _TOCAMERA_VERTEX
 
@@ -58,43 +57,19 @@ Shader "Unlit/CameraDistance_Test"
 
             #endif
             
-                o.ViewDir.xyz = normalize(_WorldSpaceCameraPos.xyz - o.WorldPos_CD.xyz );
-
-				o.WorldNormal = normalize(mul(v.normal,(float3x3)unity_WorldToObject));
-
-
                 return o;
             }
             half4 _SkyColor;
-            half4 _Color;
             half4 _ShadowColor;
-
-            half _FarSmoothStep;
-            half _FarPosition;
-
+            half _SkyFarPos;
             
             half4 frag (v2f i) : SV_Target
             {
+               half4 FinalColor = lerp(_ShadowColor,_SkyColor*2, smoothstep(0,_SkyFarPos,i.WorldPos_CD.z-_SkyFarPos/2));
+               
+                FinalColor = lerp(FinalColor,_SkyColor*2,smoothstep(0,30,i.WorldPos_CD.y-0));
 
-                half CD = smoothstep(0+_FarSmoothStep+_FarPosition,1-_FarSmoothStep+_FarPosition,i.WorldPos_CD.w);
-                
-                half NdotL =  saturate(dot(i.WorldNormal,_WorldSpaceLightPos0));
-
-				half Rim = 1-smoothstep(-1,0.75,dot(i.WorldNormal,i.ViewDir.xyz));
-				half Rim_Shadow = 1-smoothstep(0,1,dot(i.WorldNormal,i.ViewDir.xyz));
-
-                half4 FinalColor = 1;
-
-                half4 RimCol = _SkyColor*Rim*(NdotL)*(1-CD);
-                half4 RimCol_Shadow = _SkyColor*Rim_Shadow*(1-NdotL)*(1-CD);
-
-                FinalColor = lerp(_ShadowColor,_SkyColor,CD*smoothstep(0,100,i.WorldPos_CD.z-20));
-
-                FinalColor = lerp(FinalColor,_Color,NdotL*(1-CD));
-
-                FinalColor = FinalColor+RimCol+RimCol_Shadow/10;
-                
-                
+                FinalColor = lerp(FinalColor,_SkyColor*2,1-smoothstep(-10,10,abs(i.WorldPos_CD.y)-10));
 
 				return FinalColor;            
 			}

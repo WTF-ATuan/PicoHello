@@ -19,7 +19,7 @@ public class RandomSizeXYZ : MonoBehaviour
         transform.localScale =
             new Vector3(
                 transform.localScale.x * (1 - Random.Range(0, 2) * 2),
-                transform.localScale.y * (1 - Random.Range(0, 2) * 2),
+                transform.localScale.y * (    Random.Range(0.5f, 1) * 2),
                 transform.localScale.z * (1 - Random.Range(0, 2) * 2)
                 );
 
