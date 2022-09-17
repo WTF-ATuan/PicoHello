@@ -7,7 +7,6 @@ Shader "Unlit/CameraDistance_Test"
     SubShader
     {
         Tags { "RenderType"="Opaque" }
-        LOD 100
 
         Pass
         {
@@ -38,7 +37,8 @@ Shader "Unlit/CameraDistance_Test"
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				
-				o.CameraDistance = distance(_WorldSpaceCameraPos, unity_ObjectToWorld._m03_m13_m23)/10 ;
+				o.CameraDistance = distance(_WorldSpaceCameraPos, unity_ObjectToWorld._m03_m13_m23)/70 ;
+				//o.CameraDistance = length(mul(UNITY_MATRIX_MV,v.vertex).xyz)/70;
 
                 return o;
             }
@@ -168,7 +168,7 @@ Shader "Unlit/CameraDistance_Test"
             fixed4 frag (v2f i) : SV_Target
             {
 			
-			 //return i.CameraDistance;
+			 return i.CameraDistance;
 
 			// return frac(sin(dot(i.uv, float2(12.9898, 78.233)))*43758.5453);
 
@@ -186,7 +186,7 @@ Shader "Unlit/CameraDistance_Test"
 
 
 
-			 return saturate(snoise(i.uv*3+_Time.y*float2(0.5,0.2)) + snoise(i.uv*5-_Time.y*float2(1,0.52)));
+			// return saturate(snoise(i.uv*3+_Time.y*float2(0.5,0.2)) + snoise(i.uv*5-_Time.y*float2(1,0.52)));
 			 
             }
 
