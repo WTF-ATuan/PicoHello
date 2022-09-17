@@ -264,7 +264,7 @@ public class TimeLinePipeLine : MonoBehaviour
     }
     private void Start()
     {
-        setTunnel.transform.position = Vector3.zero;
+        //setTunnel.transform.position = Vector3.zero;
         setLevelEnv = selectEnv.GetComponent<Level_FadeController>();
         findEnvSky.SetActive(false);
         if (HideBoard)
