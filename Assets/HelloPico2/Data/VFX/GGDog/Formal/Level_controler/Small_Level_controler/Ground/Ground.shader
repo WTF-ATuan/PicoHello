@@ -21,14 +21,14 @@ Shader "Unlit/Ground"
 
             struct appdata
             {
-                float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
+                half4 vertex : POSITION;
+                half2 uv : TEXCOORD0;
             };
 
             struct v2f
             {
-                float4 vertex : SV_POSITION;
-                float2 uv : TEXCOORD0;
+                half4 vertex : SV_POSITION;
+                half2 uv : TEXCOORD0;
             };
 
             v2f vert (appdata v)
@@ -47,14 +47,17 @@ Shader "Unlit/Ground"
             half4 frag (v2f i) : SV_Target
             {
 				//¤¤¤ß¶ZÂ÷³õ
-				float D =distance(float2(i.uv.x,i.uv.y),float2(0.5,0.5));
+				half D =distance(float2(i.uv.x,i.uv.y),float2(0.5,0.5));
 
 				D = smoothstep(0,0.5,D);
 
-               half4 FinalColor = lerp(_ShadowColor,_SkyColor*2, D );
+                half4 FinalColor = lerp(_ShadowColor,_SkyColor*2, D );
                
+                clip(0.65-D);
 
-                return half4(FinalColor.rgb,0.75);
+				half D2 = smoothstep(0.5,1,1-D);
+
+                return half4(FinalColor.rgb,0.75*D2);
             }
             ENDCG
         }

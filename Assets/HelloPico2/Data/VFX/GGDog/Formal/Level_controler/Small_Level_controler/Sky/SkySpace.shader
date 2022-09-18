@@ -29,13 +29,13 @@ Shader "Unlit/CameraDistance_Test"
 
             struct appdata
             {
-                float4 vertex : POSITION;
-                float3 normal : NORMAL;
+                half4 vertex : POSITION;
+                half3 normal : NORMAL;
             };
 
             struct v2f
             {
-                float4 vertex : SV_POSITION;
+                half4 vertex : SV_POSITION;
 				half4 WorldPos_CD : TEXCOORD0;
             };
 
@@ -59,19 +59,28 @@ Shader "Unlit/CameraDistance_Test"
             
                 return o;
             }
-            half4 _SkyColor;
-            half4 _ShadowColor;
+            half3 _SkyColor;
+            half3 _ShadowColor;
             half _SkyFarPos;
             
             half4 frag (v2f i) : SV_Target
             {
-               half4 FinalColor = lerp(_ShadowColor,_SkyColor*2, smoothstep(0,_SkyFarPos,i.WorldPos_CD.z-_SkyFarPos/2));
-               
-                FinalColor = lerp(FinalColor,_SkyColor*2,smoothstep(0,30,i.WorldPos_CD.y-0));
 
+               half3 FinalColor = _ShadowColor;
+               
+                //頂光色
+               FinalColor = lerp(FinalColor,_SkyColor*2,smoothstep(0,30,i.WorldPos_CD.y-0));
+
+               //地霧
                 FinalColor = lerp(FinalColor,_SkyColor*2,1-smoothstep(-10,10,abs(i.WorldPos_CD.y)-10));
 
-				return FinalColor;            
+                //後方暗漸層
+                FinalColor = lerp(_ShadowColor,FinalColor, smoothstep(-_SkyFarPos,_SkyFarPos,i.WorldPos_CD.z));
+                
+               //SSS發光地霧
+                FinalColor = lerp(FinalColor,FinalColor+_SkyColor,1-smoothstep(-5,10,abs(i.WorldPos_CD.y+1.5)));
+
+				return half4( FinalColor,1);            
 			}
             ENDCG
         }

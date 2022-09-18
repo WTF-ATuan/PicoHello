@@ -86,6 +86,7 @@ Shader "GGDog/GloryCircle"
 
 				col = lerp(col,float4(0.5,0.5,0.5,1),1-_Gray);
 
+                clip(DD-0.15);
 
                 return _Color*i.color*DD*saturate(col/10)*3*_Alpha;
 
