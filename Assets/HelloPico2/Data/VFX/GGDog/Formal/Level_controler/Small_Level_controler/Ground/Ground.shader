@@ -4,6 +4,8 @@ Shader "Unlit/Ground"
     {
 		_SkyColor("Sky Color",Color) = (1,1,1,1)
 		_ShadowColor("Shadow Color",Color) = (1,1,1,1)
+        
+        _SkyFarPos ("_SkyFarPos", Float) = 70
     }
     SubShader
     {
@@ -28,14 +30,15 @@ Shader "Unlit/Ground"
             struct v2f
             {
                 half4 vertex : SV_POSITION;
-                half2 uv : TEXCOORD0;
+                half3 uv : TEXCOORD0;
             };
 
             v2f vert (appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = v.uv;
+                o.uv.xy = v.uv;
+                o.uv.z = mul(unity_ObjectToWorld, v.vertex).z;
 
                 return o;
             }
@@ -57,7 +60,11 @@ Shader "Unlit/Ground"
 
 				half D2 = smoothstep(0.5,1,1-D);
 
-                return half4(FinalColor.rgb,0.75*D2);
+                
+                //«á¤è·tº¥¼h
+                half Back = smoothstep(-_SkyFarPos,_SkyFarPos,i.uv.z);
+
+                return half4(FinalColor.rgb,0.75*D2*Back);
             }
             ENDCG
         }

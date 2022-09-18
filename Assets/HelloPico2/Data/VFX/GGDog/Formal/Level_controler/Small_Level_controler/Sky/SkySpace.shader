@@ -77,8 +77,10 @@ Shader "Unlit/CameraDistance_Test"
                 //後方暗漸層
                 FinalColor = lerp(_ShadowColor,FinalColor, smoothstep(-_SkyFarPos,_SkyFarPos,i.WorldPos_CD.z));
                 
+                half Z =smoothstep(-20,_SkyFarPos,i.WorldPos_CD.z);
+
                //SSS發光地霧
-                FinalColor = lerp(FinalColor,FinalColor+_SkyColor,1-smoothstep(-5,10,abs(i.WorldPos_CD.y+1.5)));
+                FinalColor = lerp(FinalColor,_SkyColor*2, Z*(1-smoothstep(-3.5,7,abs(i.WorldPos_CD.y+1.5))) );
 
 				return half4( FinalColor,1);            
 			}

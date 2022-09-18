@@ -51,4 +51,19 @@ public class ObjectPool : MonoBehaviour
         m_pool.Enqueue(Reset);
         Reset.SetActive(false);
     }
+
+    //清空所有物件
+    [ContextMenu("[ Clear All Objects !!! ]")]
+    void ClearAllObjects()
+    {
+        int AllCount = transform.childCount;
+
+        for (int i=0; i< AllCount; i++)
+        {
+            DestroyImmediate(transform.GetChild(0).gameObject);
+        }
+
+        Debug.Log("Finish Clear All Objects ~ ~ ~ Woof Woof !!!");
+    }
+
 }

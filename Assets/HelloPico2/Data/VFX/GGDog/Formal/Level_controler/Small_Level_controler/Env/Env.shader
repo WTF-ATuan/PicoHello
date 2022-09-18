@@ -86,8 +86,10 @@ Shader "Unlit/CameraDistance_Test"
                 
                 FinalColor = FinalColor + _Color*i.Rim*(1-CD);
                 
+                half Z =smoothstep(-20,_SkyFarPos,i.WorldPos_CD.z);
+
                //SSSµo¥ú¦aÃú
-                FinalColor = lerp(FinalColor,FinalColor+_SkyColor,1-smoothstep(-5,10,abs(i.WorldPos_CD.y+1.5*(1-CD))));
+                FinalColor = lerp(FinalColor,_SkyColor*2, Z*(1-smoothstep(-3.5,7,abs(i.WorldPos_CD.y+1.5))) );
                 
 				return half4( FinalColor,1);            
 			}
