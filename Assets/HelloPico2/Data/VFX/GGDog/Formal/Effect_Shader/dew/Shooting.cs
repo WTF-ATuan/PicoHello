@@ -11,13 +11,13 @@ public class Shooting : MonoBehaviour
 
     private void OnEnable()
     {
-        followPos = new Vector3(transform.position.x, transform.position.y, 10f);
+        followPos = new Vector3(transform.position.x, transform.position.y, 5f);
     }
     void Update()
     {
         Vector3 pos = transform.position;
 
-        followPos = Vector3.Lerp(followPos, transform.position, 0.05f);
+        followPos = Vector3.Lerp(followPos, transform.position, 0.4f);
 
         Shader.SetGlobalVector("GLOBAL_Pos", pos);
 
