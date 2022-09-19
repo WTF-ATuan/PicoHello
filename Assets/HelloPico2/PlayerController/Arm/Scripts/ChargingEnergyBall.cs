@@ -18,7 +18,9 @@ namespace HelloPico2.PlayerController.Arm
                 StopCoroutine(process); 
             }
 
-            process = StartCoroutine(Delayer());
+            if(gameObject.activeSelf){
+                process = StartCoroutine(Delayer());
+            }
         }
         private IEnumerator Delayer() {
             _EnergyBallDeformEffect.enabled = false;
