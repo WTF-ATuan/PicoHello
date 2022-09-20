@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Game.Project;
 using Project;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -12,10 +13,11 @@ namespace HelloPico2.InteractableObjects.Scripts{
 		[Required] public string defaultAudioName;
 		public List<HitEffect> effectSettings = new List<HitEffect>();
 		private ParticleSystem _currentEffect;
-
+		private ColdDownTimer _timer;
 
 		private void OnEnable(){
 			ChangeEffect(defaultEffect);
+			_timer = new ColdDownTimer(0.2f);
 		}
 
 		private void OnDisable(){
@@ -49,12 +51,14 @@ namespace HelloPico2.InteractableObjects.Scripts{
 		private void OnTriggerEnter(Collider other){
 			var collisionPoint = other.ClosestPoint(transform.position);
 			if(other.gameObject.layer == LayerMask.NameToLayer("InteractableObject")) return;
+			if(!_timer.CanInvoke()) return;
 			_currentEffect.transform.position = collisionPoint;
 			_currentEffect.Play();
 			var audioEventRequested = new AudioEventRequested(defaultAudioName, collisionPoint){
 				UsingMultipleAudioClips = true
 			};
 			EventBus.Post(audioEventRequested);
+			_timer.Reset();
 		}
 
 		[Button]
