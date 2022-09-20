@@ -10,6 +10,9 @@ namespace HelloPico2.InteractableObjects{
 		[BoxGroup("Hit Count")] public int ballHitCount = 3;
 		[SerializeField] private float _DestroyDelayDuration = 3;
 		[SerializeField] private string _HitEffectID = "";
+		[SerializeField] private bool _UseDestroySFX = false;
+		[ShowIf("_UseDestroySFX")][SerializeField] private int[] _NormalAudioIndex;
+		[ShowIf("_UseDestroySFX")][SerializeField] private int[] _DestroyAudioIndex;
 
 		public UltEvents.UltEvent WhenCollideWithEnergyBall;
 
@@ -58,7 +61,10 @@ namespace HelloPico2.InteractableObjects{
 				_DestroyDelayDuration,
 				transform.position));
 
-			PlayRandomAudio();
+			if (_UseDestroySFX)
+				PlayAudio(_NormalAudioIndex);
+			else
+				PlayRandomAudio();
 		}
 
 		private void DestroyBullet(Collider selfCollider){
@@ -72,9 +78,12 @@ namespace HelloPico2.InteractableObjects{
 				_DestroyDelayDuration,
 				transform.position));
 
-			PlayRandomAudio();
+			if (_UseDestroySFX)
+				PlayAudio(_DestroyAudioIndex);
+			else
+				PlayRandomAudio();
 
-			if(TryGetComponent<MoveObject>(out var moveObj))
+			if (TryGetComponent<MoveObject>(out var moveObj))
 				moveObj.speed = 0;
 			//transform.DOKill();
 			WhenCollide?.Invoke();
