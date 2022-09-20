@@ -5,6 +5,7 @@ using Game.Project;
 using Project;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace HelloPico2.InteractableObjects.Scripts{
 	public class BossHitTarget : MonoBehaviour{
@@ -14,6 +15,12 @@ namespace HelloPico2.InteractableObjects.Scripts{
 		public List<HitEffect> effectSettings = new List<HitEffect>();
 		private ParticleSystem _currentEffect;
 		private ColdDownTimer _timer;
+
+		[FoldoutGroup("Call back")] public UnityEvent onBossHit;
+
+		[FoldoutGroup("Call back")] public int hitAmount = 3;
+		[FoldoutGroup("Call back")] public UnityEvent onBossHitMultiple;
+		private int _hitCount = 0;
 
 		private void OnEnable(){
 			ChangeEffect(defaultEffect);
@@ -50,7 +57,7 @@ namespace HelloPico2.InteractableObjects.Scripts{
 
 		private void OnTriggerEnter(Collider other){
 			var collisionPoint = other.ClosestPoint(transform.position);
-			if(other.gameObject.layer == LayerMask.NameToLayer("InteractableObject")) return;
+			if(other.gameObject.layer != LayerMask.NameToLayer("sampleball")) return;
 			if(!_timer.CanInvoke()) return;
 			_currentEffect.transform.position = collisionPoint;
 			_currentEffect.Play();
@@ -58,7 +65,17 @@ namespace HelloPico2.InteractableObjects.Scripts{
 				UsingMultipleAudioClips = true
 			};
 			EventBus.Post(audioEventRequested);
+			TriggerCallback();
 			_timer.Reset();
+		}
+
+		private void TriggerCallback(){
+			onBossHit?.Invoke();
+			_hitCount++;
+			if(_hitCount > hitAmount){
+				onBossHitMultiple?.Invoke();
+				_hitCount = 0;
+			}
 		}
 
 		[Button]
