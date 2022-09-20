@@ -46,6 +46,7 @@ Shader "Unlit/CameraDistance_Test"
                 o.vertex = UnityObjectToClipPos(v.vertex);
 				
                 o.WorldPos_CD.xyz = mul(unity_ObjectToWorld, v.vertex).xyz;
+				//o.WorldPos_CD.w = distance(_WorldSpaceCameraPos, unity_ObjectToWorld._m03_m13_m23)/_Far ;
 
 
 				o.WorldPos_CD.w = length(mul(UNITY_MATRIX_MV,v.vertex).xyz)/_Far;
