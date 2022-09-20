@@ -15,6 +15,8 @@ namespace HelloPico2.InteractableObjects
         [SerializeField][ReadOnly] private int _DestroyCollideCount = 3;
         [SerializeField] private int _CollideCount = 0;
         [SerializeField] private GameObject _Fairy;
+        [SerializeField] private int[] _NormalAudioIndex;
+        [SerializeField] private int[] _DestroyAudioIndex;
         public UltEvents.UltEvent WhenFirstCollide;
         public UltEvents.UltEvent WhenSecondCollide;
         public UltEvents.UltEvent WhenDestroy;
@@ -70,7 +72,8 @@ namespace HelloPico2.InteractableObjects
                 _DestroyDelayDuration,
                 transform.position));
 
-            PlayRandomAudio();
+            //PlayRandomAudio();
+            PlayAudio(_NormalAudioIndex);
         }
         private void DestroyCage(Collider selfCollider)
         {
@@ -84,7 +87,8 @@ namespace HelloPico2.InteractableObjects
                 _DestroyDelayDuration,
                 transform.position));
 
-            PlayRandomAudio();
+            //PlayRandomAudio();
+            PlayAudio(_DestroyAudioIndex);
 
             if (TryGetComponent<MoveObject>(out var moveObj))
                 moveObj.speed = 0;
