@@ -1,4 +1,4 @@
-Shader "Unlit/PepperNoise_Tex"
+Shader "GGDog/Real_PepperNoise_Tex"
 {
     Properties
     {
@@ -39,20 +39,14 @@ Shader "Unlit/PepperNoise_Tex"
             float4 _MainTex_ST;
             
             sampler2D _NoiseTex;
-		     float2 unity_voronoi_noise_randomVector (float2 UV, float offset)
-			{
-			    float2x2 m = float2x2(15.27, 47.63, 99.41, 89.98);
-			    UV = frac(sin(mul(UV, m)) * 46839.32);
-				return float2(sin(UV.y*+offset)*0.5+0.5, cos(UV.x*offset)*0.5+0.5);
-			}
-            
+
             v2f vert (appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = v.uv;
+                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 
-				o.worldNormal = mul(v.normal,(half3x3)unity_WorldToObject);
+				o.worldNormal = normalize(mul(v.normal,(half3x3)unity_WorldToObject));
 
                 //抓取螢幕截圖的位置
 				o.SrcUV = ComputeScreenPos(o.vertex);  
@@ -80,8 +74,7 @@ Shader "Unlit/PepperNoise_Tex"
 
                // half2 N = unity_voronoi_noise_randomVector(50*i.uv+_Time.y,500);
                
-                float3 WorldNormal = normalize(i.worldNormal);
-				float NdotL = saturate(dot(WorldNormal,_LightDir));
+				float NdotL = saturate(dot(i.worldNormal,_LightDir));
 
                 //noise = lerp(1,noise,smoothstep(0,0.5,NdotL+Rim));
                 
