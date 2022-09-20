@@ -6,6 +6,8 @@ Shader "Unlit/NewUnlitShader"
     {
         _Alpha ("Alpha", Range(0,1)) = 1
         _Size ("Size", Range(0,10)) = 1
+
+        _HDR ("HDR", Range(1,10)) = 1
     }
     SubShader
     {
@@ -15,7 +17,7 @@ Shader "Unlit/NewUnlitShader"
 
         Cull Off
 
-        Blend SrcAlpha OneMinusSrcAlpha
+        Blend SrcAlpha One
 
         Pass
         {
@@ -61,6 +63,7 @@ Shader "Unlit/NewUnlitShader"
                 return o;
             }
             half _Alpha;
+            half _HDR;
             
             half4 frag (v2f i) : SV_Target
             {
@@ -84,7 +87,7 @@ Shader "Unlit/NewUnlitShader"
 
                 col.a *= smoothstep(0.25,1.25,2*saturate(1.15-smoothstep(0,0.75,k)+_Alpha*_Alpha*_Alpha));
 
-                col.rgb *=i.color.rgb*0.85;
+                col.rgb *=i.color.rgb*0.85*_HDR;
 
                 return col;
             }
