@@ -14,7 +14,6 @@ namespace HelloPico2.InteractableObjects.Scripts{
 		[Required] public string defaultAudioName;
 		public List<HitEffect> effectSettings = new List<HitEffect>();
 		private ParticleSystem _currentEffect;
-		private ColdDownTimer _timer;
 
 		[FoldoutGroup("Call back")] public UnityEvent onBossHit;
 
@@ -24,7 +23,6 @@ namespace HelloPico2.InteractableObjects.Scripts{
 
 		private void OnEnable(){
 			ChangeEffect(defaultEffect);
-			_timer = new ColdDownTimer(0.2f);
 		}
 
 		private void OnDisable(){
@@ -58,7 +56,6 @@ namespace HelloPico2.InteractableObjects.Scripts{
 		private void OnTriggerEnter(Collider other){
 			var collisionPoint = other.ClosestPoint(transform.position);
 			if(other.gameObject.layer != LayerMask.NameToLayer("sampleball")) return;
-			if(!_timer.CanInvoke()) return;
 			_currentEffect.transform.position = collisionPoint;
 			_currentEffect.Play();
 			var audioEventRequested = new AudioEventRequested(defaultAudioName, collisionPoint){
@@ -66,7 +63,6 @@ namespace HelloPico2.InteractableObjects.Scripts{
 			};
 			EventBus.Post(audioEventRequested);
 			TriggerCallback();
-			_timer.Reset();
 		}
 
 		private void TriggerCallback(){
