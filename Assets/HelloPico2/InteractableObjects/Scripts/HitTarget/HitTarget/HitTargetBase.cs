@@ -97,7 +97,12 @@ namespace HelloPico2.InteractableObjects
 
             EventBus.Post(new AudioEventRequested(_CollideClipName[value], transform.position));
         }
+        protected void PlayAudio(int[] indexs)
+        {
+            var value = Random.Range(0, indexs.Length);
 
+            EventBus.Post(new AudioEventRequested(_CollideClipName[indexs[value]], transform.position));
+        }
         protected virtual void PushBackFeedback(Collider hitCol) {
             if (!_UsephPushBackFeedback) return;
         }
