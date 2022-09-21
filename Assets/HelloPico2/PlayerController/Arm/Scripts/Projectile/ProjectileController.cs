@@ -34,13 +34,12 @@ namespace HelloPico2.PlayerController.Arm
         Vector3 velocity;
         bool finishedVelocityBuffer;
 
-        public void ProjectileSetUp(float speed, float duration, AnimationCurve easingCurve, HelloPico2.InputDevice.Scripts.DeviceInputDetected deviceInput, Transform target = null, bool homing = false, float lifeTime = -1) {
+        public void ProjectileSetUp(float speed, float duration, AnimationCurve easingCurve, HelloPico2.InputDevice.Scripts.DeviceInputDetected deviceInput, Transform target = null, bool homing = false) {
             if (target) { _target = target; _AssignedTarget = true; }
             _rigidbody = GetComponent<Rigidbody>();
             _speed = speed;
             _duration = duration;
             _easingCurve = easingCurve;
-            _Lifetime = (lifeTime == -1)? _Lifetime: lifeTime;
             _ActivateHoming = homing;
             _deviceInput = deviceInput;
             originalDir = transform.forward;

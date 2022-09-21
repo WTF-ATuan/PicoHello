@@ -68,8 +68,6 @@ namespace HelloPico2.PlayerController.Arm
 
         public Coroutine ShootCoolDownProcess { get; set; }
         public Coroutine BombShootCoolDownProcess { get; set; }
-        public bool OverWriteProjectileLifeTime { get; set; }
-        public float ModifiedProjectileLifeTime { get; set; }
 
         private ArmLogic _ArmLogic;
         ArmLogic armLogic { 
@@ -92,7 +90,7 @@ namespace HelloPico2.PlayerController.Arm
 
         private DeviceInputDetected currentDeviceInputDetected { get; set; }
         #endregion
-        #region Public Method
+
         public void ChargeEnergyDirectly(float energy)
         {
             // Charge Energy
@@ -108,13 +106,6 @@ namespace HelloPico2.PlayerController.Arm
             if (energy != 0)
                 currentEnergyBall.SetActive(true);
         }
-        public void SetShootCoolDown(float duration) {
-            _ShootCoolDown = duration;
-        }
-        public void SetShootSpeed(float speed) { 
-            _ShootSpeed = speed;
-        }        
-        #endregion
 
         private void Start()
         {
@@ -345,10 +336,8 @@ namespace HelloPico2.PlayerController.Arm
                     _TestTarget = target;
                 }
             }
-            if(!OverWriteProjectileLifeTime)            
-                clone.GetComponent<ProjectileController>().ProjectileSetUp(speed, _SpeedBufferDuration, _SpeedBufferEasingCurve, currentDeviceInputDetected, _TestTarget, homing);
-            else
-                clone.GetComponent<ProjectileController>().ProjectileSetUp(speed, _SpeedBufferDuration, _SpeedBufferEasingCurve, currentDeviceInputDetected, _TestTarget, homing, ModifiedProjectileLifeTime);
+                        
+            clone.GetComponent<ProjectileController>().ProjectileSetUp(speed, _SpeedBufferDuration, _SpeedBufferEasingCurve, currentDeviceInputDetected, _TestTarget, homing);
 
             SendAimingPercisionData(currentEnergyBall.transform, _TestTarget);
         }

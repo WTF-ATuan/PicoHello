@@ -35,15 +35,6 @@ namespace HelloPico2.PlayerController.Arm
         [Header("Audio Settings")]
         [SerializeField] private string _ShowArmorClipName = "ShowArmor";
 
-        [System.Serializable]
-        public struct ArmorPair {
-            public GameObject _Armor;
-            public GameObject _PairArmor;
-        }
-        [Header("Additional Armor Activation Settings")]
-        public List<ArmorPair> _ArmorPairs = new List<ArmorPair>(); 
-        public List<GameObject> _ArmorSkipAnimationEffect = new List<GameObject>(); 
-
         Coroutine process;
         public Material[] originalMat;
 
@@ -89,10 +80,6 @@ namespace HelloPico2.PlayerController.Arm
                 if (_Armor == null) { yield return null; continue; }
                 ActivateArmor();
                 yield return new WaitUntil(() => !seq.IsPlaying() && !seq1.IsPlaying());
-                
-                // For turn On God armor
-                CheckTurnOnPair(queueList[0]);
-
                 queueList.RemoveAt(0);
             }
             queueList.Clear();
@@ -120,10 +107,9 @@ namespace HelloPico2.PlayerController.Arm
 
             // Fade
             _Armor.materials[0].SetColor(_FadeColorName, _FromColor);
-            seq1 = DOTween.Sequence();
-            
-            TweenCallback Seq1StartCallback = delegate
-            {
+            seq1 = DOTween.Sequence(); 
+
+            TweenCallback Seq1StartCallback = delegate {
                 // Animation Effect            
                 PlayGlowingAnimationEffect();
             };
@@ -162,15 +148,7 @@ namespace HelloPico2.PlayerController.Arm
         }
         private void PlayGlowingAnimationEffect() {
             _EffectPlacement.SetPosition(_Armor, _AnimationEffect.transform);
-
-            if (SkipAnimationEffect(_Armor.gameObject))
-            {
-                _AnimationEffect.transform.GetChild(0).gameObject.SetActive(false);
-                _AnimationEffect.transform.GetChild(1).gameObject.SetActive(false);
-            }
-
             _AnimationEffect.gameObject.SetActive(true);
-
             //_AnimationEffect.RaiseToColor(1);
             AudioPlayerHelper.PlayAudio(_ShowArmorClipName, transform.position);
         }
@@ -179,21 +157,6 @@ namespace HelloPico2.PlayerController.Arm
             vfxShape.skinnedMeshRenderer = _Armor.GetComponent<SkinnedMeshRenderer>();
 
             _BubbleVFX.Play();
-        }
-        private void CheckTurnOnPair(GameObject armor) {    
-            for (int i = 0; i < _ArmorPairs.Count; i++)
-            {
-                if (_ArmorPairs[i]._Armor == armor)
-                    _ArmorPairs[i]._PairArmor.SetActive(true);
-            }
-        }
-        private bool SkipAnimationEffect(GameObject armor) {
-            for (int i = 0; i < _ArmorSkipAnimationEffect.Count; i++)
-            {
-                if (_ArmorSkipAnimationEffect[i] == armor)
-                    return true;
-            }
-            return false;
         }
     }
 }
