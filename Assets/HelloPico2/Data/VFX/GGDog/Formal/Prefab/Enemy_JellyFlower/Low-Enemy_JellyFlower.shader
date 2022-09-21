@@ -5,6 +5,7 @@ Shader "Unlit/Low-Enemy_JellyFlower"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _MainTex2 ("Texture", 2D) = "white" {}
         [HDR]_Color ("Color", Color) = (1,1,1,1)
         [HDR]_TexColor ("Tex Color", Color) = (1,1,1,1)
     }
@@ -38,10 +39,9 @@ Shader "Unlit/Low-Enemy_JellyFlower"
 
             struct v2f
             {
-                float2 uv : TEXCOORD0;
+                float3 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
-                float3 worldNormal : TEXCOORD2;
-                float3 worldPos : TEXCOORD1;
+				half4 scrPos : TEXCOORD3;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -49,6 +49,7 @@ Shader "Unlit/Low-Enemy_JellyFlower"
             float4 _MainTex_ST;
             float4 _Color;
             float4 _TexColor;
+            sampler2D _MainTex2;
             
             v2f vert (appdata v)
             {
@@ -57,30 +58,39 @@ Shader "Unlit/Low-Enemy_JellyFlower"
                 UNITY_TRANSFER_INSTANCE_ID (v, o);
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.uv.xy = v.uv;
                 
-                o.worldNormal = UnityObjectToWorldNormal(v.normal);
-                o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+                half3 worldNormal = normalize(UnityObjectToWorldNormal(v.normal));
+                half3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+                half3 worldViewDir = normalize(_WorldSpaceCameraPos.xyz - worldPos);
+
+                o.uv.z = dot(worldNormal,worldViewDir);
+
+				o.scrPos = ComputeScreenPos(o.vertex);  //抓取螢幕截圖的位置
 
                 return o;
             }
             
-            fixed4 frag (v2f i) : SV_Target
+            float4 frag (v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID (i);
-
-                fixed4 col = tex2D(_MainTex, i.uv+_Time.y*_MainTex_ST.zw);
-
-                col *= col.a*_TexColor + col.a*_Color*_Color.a;
-
                 
-                half3 worldNormal = normalize(i.worldNormal);
-                half3 worldViewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos);
+				float2 scruv = i.scrPos.xy/i.scrPos.w;
 
-                float Rim = 1-saturate(smoothstep(-0.25,0.25,dot(worldNormal,worldViewDir) ));
+                float col = tex2D(_MainTex, 8*scruv+2*_Time.y*float2(-0.025,0.2)).b;
 
+                float col2 = tex2D(_MainTex,6*scruv+2*_Time.y*float2(0.015,0.3)).b;
 
-                return col*Rim;
+                col = min(col,col2);
+
+                float4 FinalColor = col*_Color;
+
+                float Rim = 1-saturate(smoothstep(-5,0,i.uv.z ));
+                float Rim2 = saturate(smoothstep(-1,0,i.uv.z ));
+                
+                float col3 = tex2D(_MainTex2, i.uv.xy*2+_Time.y*float2(0.75,0.15)).b;
+
+                return FinalColor*Rim*2 +Rim2*col3*_TexColor/2;
             }
             ENDCG
         }
