@@ -15,7 +15,7 @@ public class RandomMeetGuideScript : MonoBehaviour
         guideAnimator = guideAnimator.GetComponent<Animator>();
         if (!isTest)
         {
-            meetTypeRandom = Random.Range(0, 2);
+            meetTypeRandom = Random.Range(0, 3);
             meetList[meetTypeRandom].SetActive(true);
             guideAnimator.SetTrigger(meetList[meetTypeRandom].name);
         }
