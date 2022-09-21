@@ -52,7 +52,7 @@ namespace HelloPico2.PlayerController.Arm
         public HandType HandType { get { return _HandType; } }
         public XRController Controller { get { return _Controller; } }
         public float Energy { get { return _Energy; } set { _Energy = Mathf.Clamp(value, 0, _MaxEnergy);} }
-        public float MaxEnergy { get { return _MaxEnergy; } }
+        public float MaxEnergy { get { return _MaxEnergy; } set { _MaxEnergy = value; } }
         public int bombAmount { get { return _BombAmount; } set { _BombAmount = Mathf.Clamp(value, 0, _MaxBombAmount); } }
         public int maxBombAmount{ get { return _MaxBombAmount; }set { _MaxBombAmount = value; } }
         public float gripFunctionEffectiveTime { get { return _GripFunctionEffectiveTime; } }
