@@ -7,15 +7,19 @@ Shader "GGDog/Space_Test/Glow_AlwaysOnTop"
 		_Color("Color",Color) = (1,1,1,1)
         _Alpha("Alpha",Range(0,1)) = 1
         [Enum(Order,4,AlwaysOnTop,8)] _ZTest("ZTest", Float) = 8
+
+        
+        _a("a",Float) = 1
+        _b("b",Float) = 1
+        _c("c",Float) = 1
     }
     SubShader
     {
         Tags { "RenderType"="Transparent" }
-        LOD 1
-
 		Blend One One
 		Zwrite Off
         ZTest[_ZTest]
+
         Pass
         {
             CGPROGRAM
@@ -57,14 +61,16 @@ Shader "GGDog/Space_Test/Glow_AlwaysOnTop"
             float4 _Color;
             
             float _Alpha;
-
             
+            float _a;
+            float _b;
+            float _c;
+
             float4 frag (v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID (i);
 				//中心距離場
-				//float D =1- distance(float2(i.uv.x,i.uv.y),float2(0.5,0.5));
-				float D = smoothstep(-15.4,4.2,1-38.7*((i.uv.x-0.5)*(i.uv.x-0.5)+(i.uv.y-0.5)*(i.uv.y-0.5))-1);
+				float D = smoothstep(_b,_a,1-_c*((i.uv.x-0.5)*(i.uv.x-0.5)+(i.uv.y-0.5)*(i.uv.y-0.5))-1);
 
 				//漸層度
 				float D2 = smoothstep(0.75,1.5,D)*8;

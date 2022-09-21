@@ -32,10 +32,9 @@ Shader "GGDog/Space_Test/PointGlow"
 
             struct v2f
             {
-                float2 uv : TEXCOORD0;
+                float3 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
                 float4 color : COLOR;
-				float CameraDistance : TEXCOORD1;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -46,10 +45,10 @@ Shader "GGDog/Space_Test/PointGlow"
                 UNITY_TRANSFER_INSTANCE_ID (v, o);
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = v.uv;
+                o.uv.xy = v.uv;
 				o.color = v.color;
 				
-				o.CameraDistance = length(mul(UNITY_MATRIX_MV,v.vertex).xyz);
+				o.uv.z = length(mul(UNITY_MATRIX_MV,v.vertex).xyz);
 
                 return o;
             }
@@ -58,7 +57,8 @@ Shader "GGDog/Space_Test/PointGlow"
             {
                 UNITY_SETUP_INSTANCE_ID (i);
 				//中心距離場
-				float D =1- distance(float2(i.uv.x,i.uv.y),float2(0.5,0.5));
+				//float D =1- distance(float2(i.uv.x,i.uv.y),float2(0.5,0.5));
+				float D = smoothstep(-15.4,4.2,1-38.7*((i.uv.x-0.5)*(i.uv.x-0.5)+(i.uv.y-0.5)*(i.uv.y-0.5))-1);
 
 				//漸層度
 				float D2 = smoothstep(0.87,0.9,D);
@@ -69,7 +69,7 @@ Shader "GGDog/Space_Test/PointGlow"
 
 				float4 finalColor = saturate(i.color*D*i.color.a);
 				
-				finalColor.a *= smoothstep(0,50,i.CameraDistance);
+				finalColor.a *= smoothstep(0,50,i.uv.z);
 
                 clip(saturate(finalColor.a) - 0.000015);
 

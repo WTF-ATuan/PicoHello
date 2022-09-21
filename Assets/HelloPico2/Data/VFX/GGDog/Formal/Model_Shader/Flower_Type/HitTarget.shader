@@ -31,18 +31,19 @@ Shader "GGDog/HitTarget"
 
             struct appdata
             {
-                float4 vertex : POSITION;
-                float3 normal : NORMAL;
+                half4 vertex : POSITION;
+                half3 normal : NORMAL;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
             {
-                float4 vertex : SV_POSITION;
-                float3 worldNormal : TEXCOORD1;
-				float4 worldPos : TEXCOORD2;
+                half4 vertex : SV_POSITION;
+				half3 worldPos : TEXCOORD0;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
+            
+            half3 _LightPos;
 
             v2f vert (appdata v)
             {
@@ -52,46 +53,41 @@ Shader "GGDog/HitTarget"
                 UNITY_TRANSFER_INSTANCE_ID (v, o);
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
-				o.worldNormal = mul(v.normal,(float3x3)unity_WorldToObject);
-				o.worldPos.xyz = mul(unity_ObjectToWorld, v.vertex).xyz;
-				o.worldPos.w = length(mul(UNITY_MATRIX_MV,v.vertex).xyz);
+
+				half3 worldNormal = normalize(mul(v.normal,(float3x3)unity_WorldToObject));
+				half3 WP = mul(unity_ObjectToWorld, v.vertex).xyz;
+				half3 worldViewDir = normalize(_WorldSpaceCameraPos.xyz - WP);
+                
+				o.worldPos.x = smoothstep(0,1,dot(worldNormal,_LightPos)); //NDotL
+				o.worldPos.y = dot(worldNormal,worldViewDir); //NDotV
+
+				o.worldPos.z = length(mul(UNITY_MATRIX_MV,v.vertex).xyz);
+
                 return o;
             }
 
-		    float4 _Color;
+		    half4 _Color;
 
-		    float4 _LightColor;
-		    float4 _ShadowColor;
-		    float4 _RimColor;
-		    float4 _RimColor2;
-		    float4 _WarningRimColor;
+		    half4 _LightColor;
+		    half4 _ShadowColor;
+		    half4 _RimColor;
+		    half4 _RimColor2;
+		    half4 _WarningRimColor;
             
-            float3 _LightPos;
-
-		    float4 _FarColor;
-		    float _FarDistance;
+		    half4 _FarColor;
+		    half _FarDistance;
             
-            float4 frag (v2f i) : SV_Target
+            half4 frag (v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID (i);
 
-                float3 normalDir = normalize(i.worldNormal);
+				half Rim = (1-saturate(smoothstep(0,1,i.worldPos.y)))*smoothstep(0.75,1.5,1-i.worldPos.x)*3.5;
 
-                float3 lightDir = _LightPos;
-				
-				float3 worldViewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos.xyz);
-				
-				float3 worldNormal = normalize(i.worldNormal);
+				half Rim2 = (1-saturate(smoothstep(0,1.5,i.worldPos.y)))*smoothstep(0.5,1,i.worldPos.x)*1.5;
                 
-				float NdotL = smoothstep(0,1,dot(normalDir,lightDir));
-
-				float Rim = (1-saturate(smoothstep(0,1,dot(worldNormal,worldViewDir))))*smoothstep(0.75,1.5,1-NdotL)*3.5;
-
-				float Rim2 = (1-saturate(smoothstep(0,1.5,dot(worldNormal,worldViewDir))))*smoothstep(0.5,1,NdotL)*1.5;
+				half Rim3 = (1-saturate(smoothstep(0.25,1,i.worldPos.y)));
                 
-				float Rim3 = (1-saturate(smoothstep(0.25,1,dot(worldNormal,worldViewDir))));
-                
-                float4 col = lerp(_ShadowColor,_LightColor,NdotL);
+                half4 col = lerp(_ShadowColor,_LightColor,i.worldPos.x);
 
                 col+=Rim*_RimColor+Rim2*_RimColor2;
 
@@ -101,7 +97,7 @@ Shader "GGDog/HitTarget"
 
 
                 //¶ZÂ÷Ãú
-				col = lerp(col,_FarColor, smoothstep(0,_FarDistance,i.worldPos.w));
+				col = lerp(col,_FarColor, smoothstep(0,_FarDistance,i.worldPos.z));
 
 
                 return col ;

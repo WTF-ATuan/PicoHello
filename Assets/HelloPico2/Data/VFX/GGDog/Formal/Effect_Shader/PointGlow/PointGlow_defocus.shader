@@ -34,10 +34,9 @@ Shader "GGDog/Space_Test/PointGlow_defocus"
 
             struct v2f
             {
-                float2 uv : TEXCOORD0;
+                float3 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
                 float4 color : COLOR;
-				float CameraDistance : TEXCOORD1;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -48,10 +47,10 @@ Shader "GGDog/Space_Test/PointGlow_defocus"
                 UNITY_TRANSFER_INSTANCE_ID (v, o);
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = v.uv;
+                o.uv.xy = v.uv;
 				o.color = v.color;
 				
-				o.CameraDistance = length(mul(UNITY_MATRIX_MV,v.vertex).xyz);
+				o.uv.z = length(mul(UNITY_MATRIX_MV,v.vertex).xyz);
 
                 return o;
             }
@@ -63,20 +62,21 @@ Shader "GGDog/Space_Test/PointGlow_defocus"
             {
                 UNITY_SETUP_INSTANCE_ID (i);
 				//中心距離場
-				float D =1- distance(float2(i.uv.x,i.uv.y),float2(0.5,0.5));
+				//float D =1- distance(float2(i.uv.x,i.uv.y),float2(0.5,0.5));
+				float D = smoothstep(-15.4,4.2,1-38.7*((i.uv.x-0.5)*(i.uv.x-0.5)+(i.uv.y-0.5)*(i.uv.y-0.5))-1);
 
 				//漸層度
 				float D2 = smoothstep(0.75,1.5,D)*8;
 
 				D = D2+smoothstep(0.5,1.5,D)*1.5;
 
-				D = lerp(smoothstep(0,1.25,smoothstep(0.05*smoothstep(10,90,i.CameraDistance),0.125,D/3)/1.4) *(sin(_Time.y*1)*i.color.a+2)/2.2, D/3 ,smoothstep(90,120,i.CameraDistance) )*3;
+				D = lerp(smoothstep(0,1.25,smoothstep(0.05*smoothstep(10,90,i.uv.z),0.125,D/3)/1.4) *(sin(_Time.y*1)*i.color.a+2)/2.2, D/3 ,smoothstep(90,120,i.uv.z) )*3;
 
 				i.color = saturate(lerp(i.color*i.color,i.color,D));
 
 				float4 finalColor = saturate(i.color*D*i.color.a);
 				
-				finalColor.a *= smoothstep(10,90,i.CameraDistance);
+				finalColor.a *= smoothstep(10,90,i.uv.z);
 
                // clip(finalColor.a - 0.0015);
 
