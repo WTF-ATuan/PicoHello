@@ -2,19 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UltEvents;
 
 public class HitCageTrigget : MonoBehaviour
 {
-    public GameObject ActiveEffect;
+    public GameObject ActiveEffect;    
+    public UltEvent WhenTriggedByPlayer;
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("InteractCollider"))
         {
             ActiveEffect.SetActive(true);
             transform.GetComponent<SphereCollider>().enabled = false;
 
             OnScaleToZero();
+
+            WhenTriggedByPlayer?.Invoke();
         }
     }
     private void OnScaleToZero()
