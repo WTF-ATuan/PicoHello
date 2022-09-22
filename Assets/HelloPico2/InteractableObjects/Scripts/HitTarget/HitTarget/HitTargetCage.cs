@@ -59,7 +59,13 @@ namespace HelloPico2.InteractableObjects
 				}
 			}
 		}
-
+		public void BulletReact() { 
+			BulletReact(null);
+		}
+		public void DestroyBullet()
+		{
+			DestroyBullet(GetComponent<Collider>());
+		}
 		private void BulletReact(Collider selfCollider)
 		{
 			WhenCollideWithEnergyBall?.Invoke();
@@ -73,7 +79,7 @@ namespace HelloPico2.InteractableObjects
 			PlayRandomAudio();
 		}
 
-		private void DestroyBullet(Collider selfCollider)
+		public void DestroyBullet(Collider selfCollider)
 		{
 			if (_UsephPushBackFeedback) PushBackFeedback(selfCollider);
 
