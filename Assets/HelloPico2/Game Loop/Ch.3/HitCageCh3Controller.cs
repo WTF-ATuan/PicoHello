@@ -10,6 +10,7 @@ public class HitCageCh3Controller : MonoBehaviour
     public bool isShow;
     public float randomTime;
     public float maxTime;
+    public UltEvents.UltEvent WhenReleaseCage;
     float timeCount;
     float nextActiveTime;
     int randomRangeValue;
@@ -53,6 +54,8 @@ public class HitCageCh3Controller : MonoBehaviour
     {
         TragetCage.SetTrigger("Release");
         gameObject.SetActive(false);
+
+        WhenReleaseCage?.Invoke();
     }
     void  SetRandomActiveHide()
     { 

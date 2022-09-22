@@ -14,6 +14,10 @@ namespace HelloPico2.InteractableObjects
 		[SerializeField] private string _HitEffectID = "";
 
 		public UltEvents.UltEvent WhenCollideWithEnergyBall;
+		
+		[Header("Level3 Settings")]
+		public UltEvents.UltEvent WhenNormalHit;
+		public UltEvents.UltEvent WhenCriticalHit;
 
 		private void OnEnable()
 		{
@@ -58,6 +62,16 @@ namespace HelloPico2.InteractableObjects
 					BulletReact(selfCollider);
 				}
 			}
+		}
+		public void NormalHit()
+		{
+			WhenNormalHit?.Invoke();
+			PlayRandomAudio();
+		}
+		public void CriticalHit()
+		{
+			WhenCriticalHit?.Invoke();		
+			PlayRandomAudio();
 		}
 		public void BulletReact() { 
 			BulletReact(null);
