@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class MenuItemGetScript : MonoBehaviour
@@ -18,6 +19,8 @@ public class MenuItemGetScript : MonoBehaviour
     Animator rayObjAnimator;
     float timer;
     public targetScript _targetScript;
+
+    [SerializeField] private UnityEvent onGrab;
     // Start is called before the first frame update
     void Start()
     {
@@ -70,6 +73,7 @@ public class MenuItemGetScript : MonoBehaviour
             menuPrefabs.SetTrigger("isGet");
             _targetScript.AddItemHeld();
             _targetScript.LoadTimeLine();
+            onGrab?.Invoke();
         }
         
 

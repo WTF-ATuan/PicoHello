@@ -56,7 +56,14 @@ public class targetScript : MonoBehaviour
         
 
     }
+
     [Button]
+    private void Test(){
+        AddItemHeld();
+        ShowAnim();
+        LoadTimeLine();
+    }
+
     public void AddItemHeld(){
         menuCheck.targetItemHeld = checkHeld;
         var childRoot = gameObject.GetNamedChild("targetObjLocal");

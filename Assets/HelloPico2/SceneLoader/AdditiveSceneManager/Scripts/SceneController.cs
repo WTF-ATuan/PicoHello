@@ -56,6 +56,9 @@ public class SceneController : MonoBehaviour{
 		}
 		else{
 			asyncOperation.allowSceneActivation = true;
+			if(asyncOperation.isDone){
+				SceneFullyLoaded(sceneName);
+			}
 		}
 	}
 
@@ -78,7 +81,9 @@ public class SceneController : MonoBehaviour{
 		async.allowSceneActivation = autoActivation;
 		SceneLoadingList.Add(sceneName, async);
 		yield return async;
-		SceneFullyLoaded(sceneName);
+		if(async.isDone){
+			SceneFullyLoaded(sceneName);
+		}
 	}
 
 
