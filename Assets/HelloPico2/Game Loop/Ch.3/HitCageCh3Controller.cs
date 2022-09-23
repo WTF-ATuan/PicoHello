@@ -68,7 +68,7 @@ public class HitCageCh3Controller : MonoBehaviour
     void SetRandomActive()
     {
         
-        randomRangeValue = Random.Range(1, 3);
+        randomRangeValue = Random.Range(1, 2);
         if (randomRangeValue == 1)
         {
             randomRangeTriggetValue = Random.Range(0, triggetListLength + 1);
