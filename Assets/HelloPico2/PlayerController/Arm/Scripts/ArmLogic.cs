@@ -28,6 +28,8 @@ namespace HelloPico2.PlayerController.Arm
 
 		public XRController _controller;
         private XRRayInteractor rayInteractor;
+        [SerializeField] private bool _EnableGrip = true;
+        public bool enableGrip { get { return _EnableGrip; }set { _EnableGrip = value; } }
         public Interactor controllerInteractor { get; set; }
 
         #region Delegate
@@ -150,29 +152,34 @@ namespace HelloPico2.PlayerController.Arm
             {
                 data.WhenNotTouchTriggerAndGrip?.Invoke();
             }
-            if (isGripTouch <= data.GrabReleaseValue) {
-                OnGripTouch?.Invoke(data);
-            }
-            if (!isGrip)
-            {
-                OnGripUp?.Invoke(data);
-                data.currentGripFunctionTimer = 0;
-                //rayInteractor.maxRaycastDistance = data.originalGrabDistance;
-                rayInteractor.sphereCastRadius = data.originalGrabDetectionRadius;
 
-                data.WhenNotGrip?.Invoke();
-            }
-            else 
+            if (_EnableGrip)
             {
-                OnGripDown?.Invoke(data);
-                data.currentGripFunctionTimer += Time.deltaTime;
-                data.currentGripFunctionTimer = Mathf.Clamp(data.currentGripFunctionTimer,0,data.gripFunctionEffectiveTime);
-                
-                // Decreasing the raycast distance
-                //rayInteractor.maxRaycastDistance = Mathf.Lerp(data.originalGrabDistance, 0, data.currentGripFunctionTimer / data.gripFunctionEffectiveTime);                
-                rayInteractor.sphereCastRadius = Mathf.Lerp(data.originalGrabDetectionRadius, data.GrabDetectionRadiusMin, data.currentGripFunctionTimer / data.gripFunctionEffectiveTime);                
-                
-                data.WhenGrip?.Invoke();
+                if (isGripTouch <= data.GrabReleaseValue)
+                {
+                    OnGripTouch?.Invoke(data);
+                }
+                if (!isGrip)
+                {
+                    OnGripUp?.Invoke(data);
+                    data.currentGripFunctionTimer = 0;
+                    //rayInteractor.maxRaycastDistance = data.originalGrabDistance;
+                    rayInteractor.sphereCastRadius = data.originalGrabDetectionRadius;
+
+                    data.WhenNotGrip?.Invoke();
+                }
+                else
+                {
+                    OnGripDown?.Invoke(data);
+                    data.currentGripFunctionTimer += Time.deltaTime;
+                    data.currentGripFunctionTimer = Mathf.Clamp(data.currentGripFunctionTimer, 0, data.gripFunctionEffectiveTime);
+
+                    // Decreasing the raycast distance
+                    //rayInteractor.maxRaycastDistance = Mathf.Lerp(data.originalGrabDistance, 0, data.currentGripFunctionTimer / data.gripFunctionEffectiveTime);                
+                    rayInteractor.sphereCastRadius = Mathf.Lerp(data.originalGrabDetectionRadius, data.GrabDetectionRadiusMin, data.currentGripFunctionTimer / data.gripFunctionEffectiveTime);
+
+                    data.WhenGrip?.Invoke();
+                }
             }
 
             if (!padAxisTouch)
