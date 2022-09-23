@@ -9,7 +9,6 @@ namespace HelloPico2.Singleton
     {
         [SerializeField] private float _Speed; 
         [SerializeField] private float _OrbitDuration; 
-        [SerializeField] private float _ArmorUpgradeStartScale = 5;
         [SerializeField] private float _ArmorUpgradeScaleOnApporach;
         [SerializeField] private Vector3 _PlayerPosOffset = new Vector3(0, 1, .8f);
         [SerializeField] private AnimationCurve _XCurve;
@@ -22,6 +21,9 @@ namespace HelloPico2.Singleton
         public int _Vibrato = 10;
         public float _Duration = 1;
         public float _AttractorVFXDuration = 3;
+
+        [Header("Additional Settings")]
+        public bool _SkipRotatingSpirit = false;
 
         [Header("Audio Settings")]
         [SerializeField] private string _ArmorPopClipName = "ArmorPop";
@@ -74,30 +76,40 @@ namespace HelloPico2.Singleton
 
             Sequence seq = DOTween.Sequence();
 
-            TweenCallback LerpToSpirit = () => {                
-                armorUpgrade.DOMoveX(spiritTarget.position.x, duration);
-                armorUpgrade.DOMoveY(spiritTarget.position.y, duration);
-                armorUpgrade.DOMoveZ(spiritTarget.position.z, duration);
+            if (!_SkipRotatingSpirit)
+            {
+                TweenCallback LerpToSpirit = () =>
+                {
+                    armorUpgrade.DOMoveX(spiritTarget.position.x, duration);
+                    armorUpgrade.DOMoveY(spiritTarget.position.y, duration);
+                    armorUpgrade.DOMoveZ(spiritTarget.position.z, duration);
+                    armorUpgrade.DOScale(_ArmorUpgradeScaleOnApporach, duration);
+                };
+                seq.AppendCallback(LerpToSpirit);
+
+                TweenCallback EnterOrbitMode = () =>
+                {
+                    armorUpgrade.SetParent(spiritTarget);
+                    armorUpgrade.DOLocalMove(Vector3.zero, GetDuration(armorUpgrade.position, spiritTarget.position)).OnComplete(() =>
+                    {
+                        HelloPico2.Singleton.GameManagerHelloPico.Instance.Spirit.OnReceiveArmorUpgrade();
+                    });
+                };
+                seq.AppendCallback(EnterOrbitMode);
+
+                seq.AppendInterval(duration);
+
+                seq.AppendInterval(orbitDuration);
+
+                TweenCallback ExitOrbitMode = () =>
+                {
+                    armorUpgrade.SetParent(spiritTarget.root.parent);
+                };
+                seq.AppendCallback(ExitOrbitMode);
+            }
+            else {
                 armorUpgrade.DOScale(_ArmorUpgradeScaleOnApporach, duration);
-            };
-            seq.AppendCallback(LerpToSpirit);
-
-            TweenCallback EnterOrbitMode = () => {                
-                armorUpgrade.SetParent(spiritTarget);
-                armorUpgrade.DOLocalMove(Vector3.zero, GetDuration(armorUpgrade.position, spiritTarget.position)).OnComplete(() => {
-                    HelloPico2.Singleton.GameManagerHelloPico.Instance.Spirit.OnReceiveArmorUpgrade();
-                });
-            };
-            seq.AppendCallback(EnterOrbitMode);
-
-            seq.AppendInterval(duration);
-
-            seq.AppendInterval(orbitDuration);
-
-            TweenCallback ExitOrbitMode = () => {
-                armorUpgrade.SetParent(spiritTarget.root.parent);
-            };
-            seq.AppendCallback(ExitOrbitMode);
+            }
 
             var toPlayerDuration = GetDuration(armorUpgrade.position, spiritTarget.position);
             TweenCallback MoveToPlayerFront = () => {

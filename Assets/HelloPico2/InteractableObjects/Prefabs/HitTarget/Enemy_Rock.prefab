@@ -38,6 +38,35 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &584791234154090129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2254216162040519989}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bca7c063e5324c243bb4252a6576c859, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WhenEnable:
+    _PersistentCalls: []
+  WhenEnableDelay:
+    _PersistentCalls:
+    - _Target: {fileID: 2254216162040519989}
+      _MethodName: SetActive
+      _PersistentArguments:
+      - _Type: 1
+        _Int: 0
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  m_DelayTime: 1.5
+  invokeByOrder: 0
 --- !u!1 &3581324815055264958
 GameObject:
   m_ObjectHideFlags: 0
@@ -58,6 +87,7 @@ GameObject:
   - component: {fileID: 4041576183395541305}
   - component: {fileID: 3193679429061382246}
   - component: {fileID: 1576516207443032058}
+  - component: {fileID: 563512183}
   m_Layer: 9
   m_Name: Enemy_Rock
   m_TagString: target
@@ -421,10 +451,24 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
+    - _Target: {fileID: 584791234154090129}
+      _MethodName: set_enabled
+      _PersistentArguments:
+      - _Type: 1
+        _Int: 1
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
   beamHitCount: 1
   ballHitCount: 4
   _DestroyDelayDuration: 2
   _HitEffectID: BulletDestroyVFX
+  _UseDestroySFX: 0
+  _NormalAudioIndex: 
+  _DestroyAudioIndex: 
   WhenCollideWithEnergyBall:
     _PersistentCalls:
     - _Target: {fileID: 8359091592777641032}
@@ -611,6 +655,20 @@ MonoBehaviour:
   - 20
   - 150
   m_Index: 0
+--- !u!114 &563512183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3581324815055264958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33b2c39a162497847925a8fbe16ec6c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ControlTarget: {fileID: 0}
+  _ScaleRange: {x: 1, y: 1}
 --- !u!1001 &226607526126803784
 PrefabInstance:
   m_ObjectHideFlags: 0
