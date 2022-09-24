@@ -74,6 +74,7 @@ namespace HelloPico2.LevelTool
         }
         private void OnEnable()
         {
+            _PopOutCenter = HelloPico2.Singleton.GameManagerHelloPico.Instance.Spirit.transform;
             HelloPico2.Singleton.ArmorUpgradeSequence.Instance.WhenStartArmorUpgradeSequence += OnNotifyArmorUpgradeStart;
         }
         private void OnDisable()
