@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using DG.Tweening;
+using HelloPico2.InteractableObjects;
 using HelloPico2.PlayerController.Arm;
+using HelloPico2.Singleton;
 using Sirenix.OdinInspector;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace HelloPico2.LevelTool
@@ -15,7 +16,7 @@ namespace HelloPico2.LevelTool
         public enum ItemShowingType { 
             Floating, PopOut
         }
-        public InteractableObjects.CollectableItemTrackingList _CollectableItemsSO;
+        public CollectableItemTrackingList _CollectableItemsSO;
         public TargetItem_SO menuItemSo;
         public ArmorType _StartingType => GetArmorTypeFromSo();
         public ArmorPart _StartingParts;
@@ -64,8 +65,8 @@ namespace HelloPico2.LevelTool
         [ReadOnly][SerializeField] private float totalDuration;
         [ReadOnly][SerializeField] private int currentWave;
 
-        public HelloPico2.PlayerController.Arm.ArmorType currentType { get; set; }
-        public HelloPico2.PlayerController.Arm.ArmorPart currentParts { get; set; }
+        public ArmorType currentType { get; set; }
+        public ArmorPart currentParts { get; set; }
 
         Coroutine typeChangerProcess;
         private void OnValidate()
@@ -74,12 +75,12 @@ namespace HelloPico2.LevelTool
         }
         private void OnEnable()
         {
-            _PopOutCenter = HelloPico2.Singleton.GameManagerHelloPico.Instance.Spirit.transform;
-            HelloPico2.Singleton.ArmorUpgradeSequence.Instance.WhenStartArmorUpgradeSequence += OnNotifyArmorUpgradeStart;
+            _PopOutCenter = GameManagerHelloPico.Instance.Spirit.transform;
+            ArmorUpgradeSequence.Instance.WhenStartArmorUpgradeSequence += OnNotifyArmorUpgradeStart;
         }
         private void OnDisable()
         {
-            HelloPico2.Singleton.ArmorUpgradeSequence.Instance.WhenStartArmorUpgradeSequence -= OnNotifyArmorUpgradeStart;            
+            ArmorUpgradeSequence.Instance.WhenStartArmorUpgradeSequence -= OnNotifyArmorUpgradeStart;            
         }
         private void OnNotifyArmorUpgradeStart() {
             if (typeChangerProcess != null)
@@ -104,7 +105,7 @@ namespace HelloPico2.LevelTool
         }
         public void NextArmorParts()
         {
-            if (currentParts == PlayerController.Arm.ArmorPart.UpperArm)
+            if (currentParts == ArmorPart.UpperArm)
                 return;
             else
                 currentParts++;
@@ -132,7 +133,7 @@ namespace HelloPico2.LevelTool
             if (_EnableAutoUpdateWave && timer > _NextItemDelayDuration)
                 NextArmorParts();
         }
-        private void CheckSpawnObject(HelloPico2.PlayerController.Arm.ArmorType type, HelloPico2.PlayerController.Arm.ArmorPart part) {
+        private void CheckSpawnObject(ArmorType type, ArmorPart part) {
             var item = _CollectableItemsSO.GetItem(type, part);
             var clone = CreateObject(item);
 
@@ -145,7 +146,7 @@ namespace HelloPico2.LevelTool
 
             UpdateWave();
         }
-        private void ChangeObjectType(HelloPico2.PlayerController.Arm.ArmorType type, HelloPico2.PlayerController.Arm.ArmorPart part)
+        private void ChangeObjectType(ArmorType type, ArmorPart part)
         {
             var item = _CollectableItemsSO.GetItem(type, part);
             var clone = CreateObject(item);
@@ -156,7 +157,7 @@ namespace HelloPico2.LevelTool
             currentFloatingObject = clone.transform;
             print("Destroy currentfloatingObject");
         }
-        private GameObject CreateObject(InteractableObjects.InteractableArmorUpgrade item) {
+        private GameObject CreateObject(InteractableArmorUpgrade item) {
             var clone = Instantiate(item).gameObject;
 
             clone.transform.DOPunchScale(clone.transform.localScale * _SpawnScalingRatio, _SpawnScalingDuration, _vibrato);
@@ -295,7 +296,7 @@ namespace HelloPico2.LevelTool
             TweenCallback StartAutoGrab = () =>
             {
                 print("start auto grab " + timer);
-                var interactablePower = obj.GetComponentInChildren<InteractableObjects.InteractableArmorUpgrade>();
+                var interactablePower = obj.GetComponentInChildren<InteractableArmorUpgrade>();
                 
                 if (interactablePower)
                 {
@@ -320,7 +321,7 @@ namespace HelloPico2.LevelTool
 
                 yield return new WaitForSeconds(changeTypeTimer);                               
 
-                if (currentType != PlayerController.Arm.ArmorType.Mercy) currentType++;
+                if (currentType != ArmorType.Mercy) currentType++;
                 else currentType = 0;
 
                 ChangeObjectType(currentType, currentParts);
@@ -336,13 +337,15 @@ namespace HelloPico2.LevelTool
             var foundIndex = armorTypeNames.FindIndex(x => targetItemName.Contains(x));
             
             if(foundIndex < 0) foundIndex = 0;
+            Debug.Log($"name {targetItemName} , {foundIndex} type {armorType[foundIndex]}");
 
             return armorType[foundIndex];
         }
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawLine(transform.position + transform.forward * _DepthRange.x, transform.position + transform.forward * _DepthRange.y);
+            Gizmos.DrawLine(transform.position + transform.forward * _DepthRange.x, transform.position + transform
+                    .forward * _DepthRange.y);
             Gizmos.DrawSphere(transform.position + transform.forward * _EndDepthValue, .1f);
         }
     }
