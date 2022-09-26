@@ -30,5 +30,19 @@ namespace Actor.Scripts.EventMessage{
 			_streamWriter.Close();
 			_streamWriter.Dispose();
 		}
+		public static void PostTrackerEvent(string eventName,string jsonString) 
+		{
+			var cls = new AndroidJavaClass("os.teatracker.TeaAgent");
+			var jsonParam = new AndroidJavaObject("org.json.JSONObject",jsonString);
+			cls.CallStatic("onEvent", eventName, jsonParam);
+		}
+
+		public static void InitTracker(){
+			var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+			var currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+			var cls = new AndroidJavaClass("os.teatracker.TeaAgent");
+			cls.CallStatic("init", currentActivity, null);
+			cls.CallStatic("addTeaListener", currentActivity);
+		}
 	}
 }
