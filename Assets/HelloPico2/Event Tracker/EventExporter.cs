@@ -1,8 +1,8 @@
 ﻿using System.IO;
+using UnityEngine;
 
 namespace Actor.Scripts.EventMessage{
 	public class EventExporter{
-		public string FilePath{ get; }
 		public string FileName{ get; }
 
 		private readonly FileStream _file;
@@ -11,16 +11,15 @@ namespace Actor.Scripts.EventMessage{
 
 		private StreamWriter _streamWriter;
 
-		public EventExporter(string filePath, string fileName){
-			_fileFullName = filePath + "/" + $"{fileName}" + ".json";
+		public EventExporter(string fileName){
+			_fileFullName = Application.persistentDataPath + "/" + $"{fileName}" + ".json";
 			_file = new FileStream(_fileFullName, FileMode.CreateNew);
 			_streamWriter = new StreamWriter(_file);
-			FilePath = filePath;
 			FileName = fileName;
 		}
 
 
-		public void WriteMessage(){
+		public void WriteEvent(){
 			// var jsonString = JsonUtility.ToJson();
 			// _streamWriter.Write(jsonString + Environment.NewLine);
 			_streamWriter.Flush();
