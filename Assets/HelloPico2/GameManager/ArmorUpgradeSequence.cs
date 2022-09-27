@@ -133,10 +133,8 @@ namespace HelloPico2.Singleton
 
             TweenCallback SpawnVFX = () => {
                 PlayParticle(armorUpgrade);
-
-                // activate
             };
-            seq.AppendCallback(SpawnVFX);
+            seq.AppendCallback(SpawnVFX); 
 
             seq.Play();
         }        

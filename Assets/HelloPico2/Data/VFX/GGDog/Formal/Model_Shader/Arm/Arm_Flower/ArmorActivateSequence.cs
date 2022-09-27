@@ -147,6 +147,8 @@ namespace HelloPico2.PlayerController.Arm
                 clone.Play();
                 Destroy(clone, 5);
 
+                StopGlowingAnimationEffect();
+
                 GainArmorEvent GainArmroevent = new GainArmorEvent();
                 Project.EventBus.Post(GainArmroevent);
             };
@@ -171,8 +173,22 @@ namespace HelloPico2.PlayerController.Arm
 
             _AnimationEffect.gameObject.SetActive(true);
 
-            //_AnimationEffect.RaiseToColor(1);
+            _AnimationEffect.RaiseToColor(0);
             AudioPlayerHelper.PlayAudio(_ShowArmorClipName, transform.position);
+        }
+        private void StopGlowingAnimationEffect()
+        {
+            _EffectPlacement.SetPosition(_Armor, _AnimationEffect.transform);
+
+            if (SkipAnimationEffect(_Armor.gameObject))
+            {
+                _AnimationEffect.transform.GetChild(0).gameObject.SetActive(false);
+                _AnimationEffect.transform.GetChild(1).gameObject.SetActive(false);
+            }
+
+            _AnimationEffect.gameObject.SetActive(true);
+
+            _AnimationEffect.RaiseToColor(1);
         }
         private void PlayBubbleVFX() {
             var vfxShape = _BubbleVFX.shape;

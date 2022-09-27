@@ -63,7 +63,7 @@ namespace HelloPico2.InteractableObjects
         public void Update()
         {
             if (!Activate) return;
-
+            
             m_Particles = new ParticleSystem.Particle[m_FollowThis.main.maxParticles];
             int particlesAliveAmount = m_FollowThis.GetParticles(m_Particles);
 
@@ -80,7 +80,7 @@ namespace HelloPico2.InteractableObjects
 
                     m_Follower[i].transform.forward = m_Particles[i].animatedVelocity.normalized;                    
 
-                    if (m_Particles[i].remainingLifetime > 0.2f)
+                    if (m_Particles[i].remainingLifetime > 0.3f)
                     {
                         m_Follower[i].SetActive(true);
                     }
@@ -90,6 +90,9 @@ namespace HelloPico2.InteractableObjects
 
                         if (m_DeactivateAfterParticleDie)
                             StartCoroutine(Delayer(m_Follower[i]));
+
+                        m_Follower[i].SetActive(false);
+                        m_Follower[i].transform.position = m_FollowThis.transform.position;
                     }
 
                 }
