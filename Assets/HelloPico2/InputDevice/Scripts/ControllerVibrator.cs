@@ -109,7 +109,7 @@ namespace HelloPico2.InputDevice.Scripts{
 
 		private void VibrateXR(float amplitude, float time = 0.2f){
 			var xrController = GetComponent<XRController>();
-			xrController.SendHapticImpulse(amplitude, 0.2f);
+			xrController.SendHapticImpulse(amplitude, time);
 		}
 	}
 
