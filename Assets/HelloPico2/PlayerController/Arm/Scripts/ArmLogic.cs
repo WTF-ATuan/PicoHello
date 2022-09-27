@@ -59,6 +59,8 @@ namespace HelloPico2.PlayerController.Arm
 
             data.WhenGainEnergy.AddListener(() =>
             GainEnergySound());
+            data.WhenGainEnergy.AddListener(() =>
+            CheckFullEnergyBehavior());
 
             data.WhenShootProjectile.AddListener(() =>
             EnergyBallSound());            
@@ -84,6 +86,11 @@ namespace HelloPico2.PlayerController.Arm
             var pick = AudioPlayerHelper.PlayRandomAudio(ShootEnergyBallClipNames.ToArray(), _controller.transform.position);
 
             ShootEnergyBallClipNames.Remove(pick);
+        }
+        private void CheckFullEnergyBehavior() {
+            if (!CheckFullEnergy()) return;
+
+            data.WhenFullEnergy?.Invoke();
         }
         public void ChangeXRInteractSettings(float grabDetectionRadius, float grabDistance)
         {
