@@ -42,6 +42,7 @@ namespace HelloPico2.PlayerController.Arm
         [FoldoutGroup("Events Settings")] public UltEvents.UltEvent WhenGrip;
         [FoldoutGroup("Events Settings")] public UltEvents.UltEvent WhenNotGrip;
         [FoldoutGroup("Events Settings")] public UnityEngine.Events.UnityEvent WhenGainEnergy;
+        [FoldoutGroup("Events Settings")] public UnityEngine.Events.UnityEvent WhenFullEnergy;
         [FoldoutGroup("Events Settings")] public UnityEngine.Events.UnityEvent WhenGainBomb;
         [FoldoutGroup("Events Settings")] public UnityEngine.Events.UnityEvent WhenTouchTriggerOrGrip;
         [FoldoutGroup("Events Settings")] public UnityEngine.Events.UnityEvent WhenNotTouchTriggerAndGrip;
