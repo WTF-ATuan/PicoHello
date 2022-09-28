@@ -136,13 +136,14 @@ namespace HelloPico2.PlayerController.Arm
         private void OnEnable()
         {
             armLogic.OnEnergyChanged += UpdateScale;
+            armLogic.OnEnergyChanged += CheckChargingFeedbacks;
             //armLogic.OnEnergyChanged += CheckEnableGrip;
 
             //if(_GrabReleaseType == GrabReleaseType.OnGripUp)            
             //    armLogic.OnGripUp += ShootChargedProjectile;
             //if(_GrabReleaseType == GrabReleaseType.OnGripTouchRelease)            
             //    armLogic.OnGripTouch += ShootChargedProjectile;
-            
+
             armLogic.OnPrimaryButtonClick += ShootChargedProjectile;
             armLogic.OnSecondaryButtonClick += ShootChargedProjectile;
 
@@ -160,6 +161,7 @@ namespace HelloPico2.PlayerController.Arm
         private void OnDisable()
         {
             armLogic.OnEnergyChanged -= UpdateScale;
+            armLogic.OnEnergyChanged -= CheckChargingFeedbacks;
             //armLogic.OnEnergyChanged -= CheckEnableGrip;
 
             //if (_GrabReleaseType == GrabReleaseType.OnGripUp)
@@ -200,14 +202,21 @@ namespace HelloPico2.PlayerController.Arm
                 // Feedbacks
                 GainEnergyFeedback.ForEach(x => x.OnNotify(armLogic.data.HandType));
 
-                if(armLogic.CheckFullEnergy())
-                    FullEnergyFeedback.ForEach(x => x.OnFullEnergyNotify(armLogic.data.HandType));
+                CheckChargingFeedbacks(armLogic.data);
 
                 Destroy(eventData.Interactable.transform.gameObject);
 
                 armLogic.OnEnergyChanged?.Invoke(armLogic.data);
             });
         }
+        private void CheckChargingFeedbacks(ArmData data)
+        {
+            if (armLogic.CheckFullEnergy())
+                FullEnergyFeedback.ForEach(x => x.OnFullEnergyNotify(armLogic.data.HandType));
+            else
+                FullEnergyFeedback.ForEach(x => x.ExitFullEnergyNotify(armLogic.data.HandType));
+        }
+             
         private void ChargeBomb(GainBombEventData eventData)
         {
             if (eventData.InputReceiver.Selector.HandType != armLogic.data.HandType) return;

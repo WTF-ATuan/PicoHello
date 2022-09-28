@@ -16,11 +16,24 @@ namespace HelloPico2.PlayerController.Arm
         public Follower _Follower;
         public UltEvents.UltEvent _WhenChargeEnergy;
         public UltEvents.UltEvent _WhenFullyCharged;
+        public UltEvents.UltEvent _WhenExitFullyCharged;
 
+        bool isCharged { get; set; }
         Coroutine process;
+
+        public void ExitFullEnergyNotify(HandType hand)
+        {
+            if (!isCharged) return;
+
+            isCharged = false;
+            _WhenExitFullyCharged?.Invoke();
+        }
 
         public void OnFullEnergyNotify(HandType hand)
         {
+            if (isCharged) return;
+            
+            isCharged = true;
             _WhenFullyCharged?.Invoke();
         }
 

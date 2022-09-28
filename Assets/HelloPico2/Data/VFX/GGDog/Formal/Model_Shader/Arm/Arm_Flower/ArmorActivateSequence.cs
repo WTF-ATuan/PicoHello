@@ -143,6 +143,7 @@ namespace HelloPico2.PlayerController.Arm
 
                 // VFX
                 var clone = Instantiate(_RoundingVFX, transform);
+                print("Placement");
                 _EffectPlacement.SetPosition(_Armor, clone.transform);
                 clone.Play();
                 Destroy(clone, 5);
@@ -178,7 +179,7 @@ namespace HelloPico2.PlayerController.Arm
         }
         private void StopGlowingAnimationEffect()
         {
-            _EffectPlacement.SetPosition(_Armor, _AnimationEffect.transform);
+            //_EffectPlacement.SetPosition(_Armor, _AnimationEffect.transform);
 
             if (SkipAnimationEffect(_Armor.gameObject))
             {
