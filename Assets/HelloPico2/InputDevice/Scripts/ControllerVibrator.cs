@@ -1,6 +1,7 @@
 ﻿using System;
 using HelloPico2.InteractableObjects;
 using HelloPico2.PlayerController.Arm;
+using Sirenix.OdinInspector;
 using Unity.XR.PXR;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -9,7 +10,7 @@ namespace HelloPico2.InputDevice.Scripts{
 	public class ControllerVibrator : MonoBehaviour{
 		public HandType handType;
 		public VRType vrType;
-		public PhoenixVibrateData phoenixData;
+		[InlineEditor] public VibrateData vibrateData;
 		private XRRayInteractor _interactor;
 		private ArmData _armData;
 
@@ -36,7 +37,7 @@ namespace HelloPico2.InputDevice.Scripts{
 			var lerpValue = (current - min) / (max - min);
 			switch(vrType){
 				case VRType.Phoenix:
-					var gainClip = phoenixData.FindClip("Gain_Energy");
+					var gainClip = vibrateData.FindClip("Gain_Energy");
 					VibratePhoenix(gainClip);
 					break;
 				case VRType.Neo3:
@@ -58,11 +59,11 @@ namespace HelloPico2.InputDevice.Scripts{
 				case VRType.Phoenix:
 					AudioClip hitClip = null;
 					if(isShield){
-						hitClip = phoenixData.FindClip("Hit_Shield");
+						hitClip = vibrateData.FindClip("Hit_Shield");
 					}
 
 					if(isWhip){
-						hitClip = phoenixData.FindClip("Hit_Whip");
+						hitClip = vibrateData.FindClip("Hit_Whip");
 					}
 
 					VibratePhoenix(hitClip);

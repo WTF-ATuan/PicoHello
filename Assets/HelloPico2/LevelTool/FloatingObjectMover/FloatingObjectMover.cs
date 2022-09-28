@@ -50,6 +50,7 @@ namespace HelloPico2.LevelTool
         public float _ExplosionAngle;
         public float _OffsetTiming;
         public float _OffsetAutoGrabTiming;
+        public float _SpeedUpMul;
 
         [Header("Auto Update Wave")]
         public bool _EnableAutoUpdateWave = true;
@@ -289,7 +290,7 @@ namespace HelloPico2.LevelTool
             var duration = _AutoGrabDuration;
 
             if (_ItemShowingType == ItemShowingType.PopOut)
-                duration = _AutoGrabDuration + wave * _OffsetAutoGrabTiming;
+                duration = _AutoGrabDuration + wave * _OffsetAutoGrabTiming - Mathf.Pow(wave, 2) * _SpeedUpMul;
 
             autoGrabSeq.AppendInterval(duration);
 
