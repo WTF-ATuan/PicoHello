@@ -35,7 +35,9 @@ namespace HelloPico2.PlayerController.Arm
 
         public bool _TriggerControlBlendWeight = false;
 
-        private ArmLogic armLogic { get; set; }        
+        private ArmLogic armLogic { get; set; }
+        InteractableSettings.InteractableType currentInteractableType;
+        public UnityEngine.Events.UnityAction<InteractableSettings.InteractableType> WhenCollide;
         Coroutine TurnOffProcess;
         Coroutine stretchProcess;
         
@@ -106,13 +108,13 @@ namespace HelloPico2.PlayerController.Arm
             armLogic.SpentEnergy(_SpentEnergyWhenCollide);
             // Shorten Sword
             UpdateSwordLength(armLogic.data);
+            
+            print(WhenCollide);
+            WhenCollide?.Invoke(currentInteractableType);
         }
         #region LightBeamController
         private void ActivateSword(ArmData data) 
         {
-            print("Active Sword");
-            //if (_State == State.sword) return;
-
             lightBeamRigController.ModifyBlendWeight(-_SwitchTypeSpeed);
 
             _colorValue -= _SwitchTypeSpeed;
@@ -121,11 +123,10 @@ namespace HelloPico2.PlayerController.Arm
             _beamMesh.material.SetColor(_ColorName, lerpColor);
 
             _State = State.sword;
+            currentInteractableType = InteractableSettings.InteractableType.Sword;
         }
         private void ActivateWhip(ArmData data)
         {
-            //if(_State == State.whip) return;
-
             lightBeamRigController.ModifyBlendWeight(_SwitchTypeSpeed);
 
             _colorValue += _SwitchTypeSpeed;
@@ -135,6 +136,7 @@ namespace HelloPico2.PlayerController.Arm
             timer = 0;
 
             _State = State.whip;
+            currentInteractableType = InteractableSettings.InteractableType.Whip;
         }
         private void SetBlendWeight(DeviceInputDetected obj)
         {
