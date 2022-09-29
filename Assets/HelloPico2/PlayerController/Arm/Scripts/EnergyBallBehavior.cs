@@ -47,9 +47,7 @@ namespace HelloPico2.PlayerController.Arm
         [FoldoutGroup("Weapon Object")][SerializeField] private GameObject _Sword;
         [FoldoutGroup("Weapon Object")][SerializeField] private GameObject _Whip;
         [FoldoutGroup("Weapon Object")][SerializeField] private GameObject _Shield;
-        private EnergyBallBehavior energyBehavior;
-        private SwordBehavior swordBehavior;
-        private ShieldBehavior shieldBehavior;
+        
                 
         [FoldoutGroup("Transition")][SerializeField] private float _TransitionDuration = .5f;
         [FoldoutGroup("Transition")][SerializeField] private Vector3 _SwordFromScale;
@@ -58,7 +56,27 @@ namespace HelloPico2.PlayerController.Arm
         [FoldoutGroup("Debug")] public bool _OnlyShootProjectileOnEnergyBallState = true;
         
         [FoldoutGroup("Transition")][ReadOnly][SerializeField] private bool hasTransformProcess;
+        private SwordBehavior _SwordBehavior;
+        private ShieldBehavior _ShieldBehavior;
 
+        private EnergyBallBehavior energyBehavior;
+        public SwordBehavior swordBehavior { get { 
+                if(_SwordBehavior == null)
+                    _SwordBehavior = GetComponent<SwordBehavior>();
+
+                return _SwordBehavior;
+            } 
+        }
+        public ShieldBehavior shieldBehavior
+        {
+            get
+            {
+                if (_ShieldBehavior == null)
+                    _ShieldBehavior = GetComponent<ShieldBehavior>();
+
+                return _ShieldBehavior;
+            }
+        }
         public LockOnType ChangeLockOnType { get { return _LockOnType; } set { _LockOnType = value; } }
         public float CheckSphererRadius { get { return _CheckSphererRadius; } set { _CheckSphererRadius = value; } }
         public float CheckEndSphererRadius { get { return _CheckEndSphererRadius; } set { _CheckEndSphererRadius = value; } }
@@ -446,10 +464,7 @@ namespace HelloPico2.PlayerController.Arm
 
             if (!armLogic.CheckHasEnergy()) return;
 
-            if (axis.y > 0.1f) {
-                if (swordBehavior == null)
-                    swordBehavior = GetComponent<SwordBehavior>();
-
+            if (axis.y > 0.1f) {      
                 if (currentShape == _Sword) return;
 
                 var fromScale = (currentShape) ? currentShape.transform.localScale : Vector3.zero;
@@ -460,9 +475,6 @@ namespace HelloPico2.PlayerController.Arm
                 currentWeaponBehavior = swordBehavior;
             }
             if (axis.y < -0.1f) {
-                if (shieldBehavior == null)
-                    shieldBehavior = GetComponent<ShieldBehavior>();
-
                 if (currentShape == _Shield) return;
 
                 var fromScale = (currentShape) ? currentShape.transform.localScale : Vector3.zero;

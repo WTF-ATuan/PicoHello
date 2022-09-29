@@ -13,6 +13,7 @@ namespace HelloPico2.InputDevice.Scripts{
 		[InlineEditor] public VibrateData vibrateData;
 		private XRRayInteractor _interactor;
 		private ArmData _armData;
+		private EnergyBallBehavior _energyBallBehavior;
 
 		private int handIndex{
 			get{
@@ -27,7 +28,10 @@ namespace HelloPico2.InputDevice.Scripts{
 		private void Start(){
 			_interactor = GetComponent<XRRayInteractor>();
 			_armData = GetComponent<ArmData>();
+			_energyBallBehavior = GetComponent<EnergyBallBehavior>();
 			_armData.WhenGrip += OnGainEnergy;
+			_energyBallBehavior.swordBehavior.WhenCollide += HitVibrate;
+			_energyBallBehavior.shieldBehavior.WhenCollide += HitVibrate;
 		}
 
 		private void OnGainEnergy(){
@@ -52,6 +56,7 @@ namespace HelloPico2.InputDevice.Scripts{
 		}
 
 		public void HitVibrate(InteractableSettings.InteractableType interactableType){
+			print("Hit " + interactableType);
 			var isShield = interactableType == InteractableSettings.InteractableType.Shield;
 			var isWhip = interactableType == InteractableSettings.InteractableType.Whip |
 						 interactableType == InteractableSettings.InteractableType.Sword;

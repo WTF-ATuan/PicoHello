@@ -25,6 +25,7 @@ namespace HelloPico2.PlayerController.Arm{
 		GameObject shield{ get; set; }
 		ArmLogic armLogic{ get; set; }		
 		Game.Project.ColdDownTimer absorbCooldown { get; set; }
+		public UnityEngine.Events.UnityAction<InteractableSettings.InteractableType> WhenCollide;
 		Coroutine absorbProcess { get; set; }
         private void Start()
         {
@@ -117,6 +118,8 @@ namespace HelloPico2.PlayerController.Arm{
 			armLogic.SpentEnergy(_SpentEnergyWhenCollide);
 			// Shorten Sword
 			UpdateShieldScale(armLogic.data);
+
+			WhenCollide?.Invoke(InteractableSettings.InteractableType.Shield);
 		}
 		private IEnumerator Absorb(DeviceInputDetected inputDetected) {
 			absorbCooldown.Reset();
