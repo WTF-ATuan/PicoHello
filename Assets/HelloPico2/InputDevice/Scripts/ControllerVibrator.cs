@@ -102,6 +102,10 @@ namespace HelloPico2.InputDevice.Scripts{
 			VibratePhoenix(clip);
 		}
 
+		public void SetControllerAmp(float amp){
+			PXR_Input.SetControllerAmp(amp);
+		}
+
 		private void VibratePhoenix(AudioClip clip){
 			PXR_Input.StartVibrateBySharem(clip, handIndex, 0);
 		}
