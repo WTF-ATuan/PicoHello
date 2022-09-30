@@ -13,6 +13,7 @@ namespace HelloPico2.InteractableObjects{
 		[SerializeField] private bool _UseDestroySFX = false;
 		[ShowIf("_UseDestroySFX")][SerializeField] private int[] _NormalAudioIndex;
 		[ShowIf("_UseDestroySFX")][SerializeField] private int[] _DestroyAudioIndex;
+		[SerializeField] private bool _DestroyAfterHit = true;
 
 		public UltEvents.UltEvent WhenCollideWithEnergyBall;
 
@@ -88,7 +89,9 @@ namespace HelloPico2.InteractableObjects{
 			//transform.DOKill();
 			WhenCollide?.Invoke();
 			WhenCollideUlt?.Invoke();
-			Destroy(gameObject, _DestroyDelayDuration);
+
+			if(_DestroyAfterHit)
+				Destroy(gameObject, _DestroyDelayDuration);
 		}
 
 		protected override void PushBackFeedback(Collider hitCol){
