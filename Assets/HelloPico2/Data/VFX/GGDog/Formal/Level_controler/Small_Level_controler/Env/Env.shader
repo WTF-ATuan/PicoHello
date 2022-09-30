@@ -11,8 +11,11 @@ Shader "Unlit/CameraDistance_Test"
 
         _SkyFarPos ("_SkyFarPos", Range(0,200)) = 200
         _ViewFarPos ("_ViewFarPos", Float) = 70
+        _ViewYPos ("_ViewYPos", Float) = 1.5
+        _GroundFogWidth ("_GroundFogWidth", Float) = 7
         _TopGlowFogPos ("_TopGlowFogPos", Range(30,200)) = 30
         
+		[HDR]_UVColor("UV Color",Color) = (1,1,1,1)
     }
     SubShader
     {
@@ -31,6 +34,7 @@ Shader "Unlit/CameraDistance_Test"
             {
                 half4 vertex : POSITION;
                 half3 normal : NORMAL;
+                half2 uv : TEXCOORD0;
             };
 
             struct v2f
@@ -38,6 +42,7 @@ Shader "Unlit/CameraDistance_Test"
                 half4 vertex : SV_POSITION;
 				half4 WorldPos_CD : TEXCOORD0;
 				half Rim : TEXCOORD1;
+                half2 uv : TEXCOORD2;
             };
 
             half _Far;
@@ -62,6 +67,8 @@ Shader "Unlit/CameraDistance_Test"
                 half NdotV =  saturate(dot(WorldNormal,ViewDir.xyz));
 				o.Rim = 1-smoothstep(-1,0.75,NdotV);
 
+                o.uv = v.uv;
+
                 return o;
             }
             half3 _SkyColor;
@@ -70,14 +77,18 @@ Shader "Unlit/CameraDistance_Test"
 
             half _SkyFarPos;
             half _ViewFarPos;
+            half _ViewYPos;
             half _TopGlowFogPos;
+            half _GroundFogWidth;
+            
+            half3 _UVColor;
             
             half4 frag (v2f i) : SV_Target
             {
 
                 half CD = i.WorldPos_CD.w;
                 
-                half3 FinalColor = _ShadowColor;
+                half3 FinalColor = lerp(_ShadowColor,_UVColor,smoothstep(0,1.75,i.uv.x));
                 
                 //頂光色
                 FinalColor = lerp(FinalColor,_SkyColor*2,CD*(smoothstep(0,_TopGlowFogPos,i.WorldPos_CD.y-0)));
@@ -88,13 +99,14 @@ Shader "Unlit/CameraDistance_Test"
                 half Z =smoothstep(-20,_ViewFarPos,i.WorldPos_CD.z);
 
                //地霧
-                FinalColor = lerp(FinalColor,_SkyColor*2, Z*(1-smoothstep(-3.5,7,abs(i.WorldPos_CD.y+1.5))) );
+                FinalColor = lerp(FinalColor,_SkyColor*2, Z*(1-smoothstep(0,_GroundFogWidth,abs(i.WorldPos_CD.y+_ViewYPos))) );
                 
                 //後方暗漸層
-                FinalColor = lerp(FinalColor,_SkyColor*2, smoothstep(_SkyFarPos/5,_SkyFarPos,i.WorldPos_CD.z));
+                FinalColor = lerp(FinalColor,_SkyColor*2, smoothstep(_SkyFarPos/50,_SkyFarPos,i.WorldPos_CD.z));
                
 
-				return half4( FinalColor,1);            
+				return half4( FinalColor,1); 
+                
 			}
             ENDCG
         }

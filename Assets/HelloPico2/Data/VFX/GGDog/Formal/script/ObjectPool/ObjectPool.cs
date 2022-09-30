@@ -26,8 +26,8 @@ public class ObjectPool : MonoBehaviour
         if (m_pool.Count > 0)
         {
             GameObject reuse = m_pool.Dequeue();
-            reuse.transform.localPosition = position ;
-            reuse.transform.localRotation = rotation ;
+            reuse.transform.position = position ;
+            reuse.transform.rotation = rotation ;
             reuse.transform.localScale = new Vector3(size, size, size);
             reuse.SetActive(true);
         }
@@ -39,8 +39,8 @@ public class ObjectPool : MonoBehaviour
             go.GetComponent<ObjectPool_moving>().ObjectPool_Spawner = ObjectPool_Spawner;
             go.GetComponent<ObjectPool_moving>()._ObjectPool = _ObjectPool;
             go.transform.parent = transform;
-            go.transform.localPosition = position;
-            go.transform.localRotation = rotation;
+            go.transform.position = position;
+            go.transform.rotation = rotation;
             go.transform.localScale = new Vector3(size, size, size);
         }
     }

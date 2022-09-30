@@ -15,13 +15,13 @@ public class RandomSizeXYZ : MonoBehaviour
                 Random.Range(RandomSize_Adjust_min.y, RandomSize_Adjust_max.y),
                 Random.Range(RandomSize_Adjust_min.z, RandomSize_Adjust_max.z)
             );
-
+        /*
         transform.localScale =
             new Vector3(
                 transform.localScale.x * (1 - Random.Range(0, 2) * 2),
                 transform.localScale.y * (    Random.Range(0.5f, 1) * 2),
                 transform.localScale.z * (1 - Random.Range(0, 2) * 2)
                 );
-
+        */
     }
 }

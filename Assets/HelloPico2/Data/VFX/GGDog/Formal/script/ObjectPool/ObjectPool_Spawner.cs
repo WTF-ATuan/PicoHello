@@ -11,6 +11,7 @@ public class ObjectPool_Spawner : MonoBehaviour
 
     public bool Emission = true;
 
+    [Range(0,50)]
     public float SeedSpeed = 1;
 
     public Vector2 Random_spawnTime = new Vector2(1.5f,3f);  //Range(min,max)
@@ -37,7 +38,7 @@ public class ObjectPool_Spawner : MonoBehaviour
         {
             return;
         }
-        Vector3 Pos = transform.localPosition;
+        Vector3 Pos = transform.position;
         pool.Instantiate(
 
             Pos +
@@ -63,9 +64,9 @@ public class ObjectPool_Spawner : MonoBehaviour
             return;
         }
 
-        Vector3 Pos = transform.localPosition;
+        Vector3 Pos = transform.position;
         
-        if (Time.time > _timer + Random.Range(Random_spawnTime.x, Random_spawnTime.y))
+        if (Time.time > _timer + Random.Range(Random_spawnTime.x, Random_spawnTime.y)/SeedSpeed)
         {
             _timer = Time.time;
 
