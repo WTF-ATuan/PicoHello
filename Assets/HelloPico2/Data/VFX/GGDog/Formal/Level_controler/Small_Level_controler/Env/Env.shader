@@ -27,6 +27,8 @@ Shader "Unlit/CameraDistance_Test"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+			#pragma target 3.0
+            #pragma multi_compile_instancing
 
             #include "UnityCG.cginc"
 
@@ -35,6 +37,7 @@ Shader "Unlit/CameraDistance_Test"
                 half4 vertex : POSITION;
                 half3 normal : NORMAL;
                 half2 uv : TEXCOORD0;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
@@ -42,6 +45,7 @@ Shader "Unlit/CameraDistance_Test"
                 half4 vertex : SV_POSITION;
 				half4 WorldPos_CD : TEXCOORD0;
 				half3 uv_Rim : TEXCOORD1;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             half _Far;
@@ -51,6 +55,9 @@ Shader "Unlit/CameraDistance_Test"
             v2f vert (appdata v)
             {
                 v2f o;
+                UNITY_SETUP_INSTANCE_ID (v);
+                UNITY_TRANSFER_INSTANCE_ID (v, o);
+
                 o.vertex = UnityObjectToClipPos(v.vertex);
 				
                 o.WorldPos_CD.xyz = mul(unity_ObjectToWorld, v.vertex).xyz;
@@ -84,6 +91,8 @@ Shader "Unlit/CameraDistance_Test"
             
             half4 frag (v2f i) : SV_Target
             {
+                
+                UNITY_SETUP_INSTANCE_ID (i);
 
                 half CD = i.WorldPos_CD.w;
                 
