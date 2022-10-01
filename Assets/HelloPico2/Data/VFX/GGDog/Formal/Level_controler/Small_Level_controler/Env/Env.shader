@@ -41,8 +41,7 @@ Shader "Unlit/CameraDistance_Test"
             {
                 half4 vertex : SV_POSITION;
 				half4 WorldPos_CD : TEXCOORD0;
-				half Rim : TEXCOORD1;
-                half2 uv : TEXCOORD2;
+				half3 uv_Rim : TEXCOORD1;
             };
 
             half _Far;
@@ -65,9 +64,9 @@ Shader "Unlit/CameraDistance_Test"
                 half3 ViewDir = normalize(_WorldSpaceCameraPos.xyz - unity_ObjectToWorld._m03_m13_m23 );
 				half3 WorldNormal = normalize(mul(v.normal,(float3x3)unity_WorldToObject));
                 half NdotV =  saturate(dot(WorldNormal,ViewDir.xyz));
-				o.Rim = 1-smoothstep(-1,0.75,NdotV);
+				o.uv_Rim.z = 1-smoothstep(-1,0.75,NdotV);
 
-                o.uv = v.uv;
+                o.uv_Rim.xy = v.uv.xy;
 
                 return o;
             }
@@ -88,13 +87,13 @@ Shader "Unlit/CameraDistance_Test"
 
                 half CD = i.WorldPos_CD.w;
                 
-                half3 FinalColor = lerp(_ShadowColor,_UVColor,smoothstep(0,1.75,i.uv.x));
+                half3 FinalColor = lerp(_ShadowColor,_UVColor,smoothstep(0,1.75,i.uv_Rim.x));
                 
                 //頂光色
                 FinalColor = lerp(FinalColor,_SkyColor*2,CD*(smoothstep(0,_TopGlowFogPos,i.WorldPos_CD.y-0)));
 
                 //亮面色
-                FinalColor = FinalColor + _Color*i.Rim*(1-CD);
+                FinalColor = FinalColor + _Color*i.uv_Rim.z*(1-CD);
                 
                 half Z =smoothstep(-20,_ViewFarPos,i.WorldPos_CD.z);
 
