@@ -18,6 +18,8 @@ Shader "Unlit/mural"
     {
         Tags { "RenderType"="Opaque" }
 
+        Cull Off
+
         Pass
         {
             CGPROGRAM
@@ -104,7 +106,7 @@ Shader "Unlit/mural"
 
                 //D = 1-max(max(D,D2),D3);
                 
-                D = D+max(D2,1-D3);
+                D = (1-D)+max(D2,1-D3);
 
                 return D;
             }
@@ -117,10 +119,13 @@ Shader "Unlit/mural"
                 half col_glow = tex2D(_GlowTex, i.uv).r ;
 
                 half D =WaterTex(i,20,-1.5)+0.75;
+                
+                half D2 =WaterTex(i,3,-1.5);
+
                 i = MaskShape(i);
 
-                half Forward = saturate(D-0.35)*smoothstep(0,1,(i.uv.x+_OffSet));
-                half DoubleFade = D*D*D*smoothstep(_Gradient/2,_Gradient,4*(i.uv.x+_OffSet)*(1-i.uv.x-_OffSet));
+                half Forward =D2*saturate(D-0.35)*smoothstep(0,1,(i.uv.x+_OffSet));
+                half DoubleFade = D2*D*D*D*smoothstep(_Gradient/2,_Gradient,4*(i.uv.x+_OffSet)*(1-i.uv.x-_OffSet));
 
                 //ÂI«G«e¡A¯BÀJ¼Ë
                 half4 Finalcol = lerp(_Color,1, -col_glow/10 + col * (Forward+0.25) );
