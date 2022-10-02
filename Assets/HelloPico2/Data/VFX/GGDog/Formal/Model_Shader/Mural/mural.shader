@@ -2,23 +2,20 @@ Shader "Unlit/mural"
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
-        _GlowTex ("Glow Texture", 2D) = "white" {}
-        _Color ("Color", COLOR) = (0.5,0.5,0.5,1)
-        
-        [HDR]_DissolveColor ("DissolveColor", COLOR) = (0.5,0.5,0.5,1)
-        [HDR]_GlowColor ("GlowColor", COLOR) = (0.5,0.5,0.5,1)
         _OffSet ("OffSet", Range(-1,1)) = 0
         _Gradient ("Gradient", Range(1,2)) =1.5
+		[KeywordEnum(X, X_inverse,Y,Y_inverse,Dot,Dot_inverse,MaskTex)] _MASKSHAPE("Mask Shape", Float) = 0
+        [HDR]_DissolveColor ("DissolveColor", COLOR) = (0.5,0.5,0.5,1)
 
-        
-		[KeywordEnum(X, X_inverse,Y,Y_inverse,Dot,Dot_inverse)] _MASKSHAPE("Mask Shape", Float) = 0
+        _MainTex ("Texture", 2D) = "white" {}
+        _GlowTex ("Glow Texture", 2D) = "white" {}
+        _MaskTex ("Mask Texture", 2D) = "white" {}
+        _Color ("Color", COLOR) = (0.5,0.5,0.5,1)
+        [HDR]_GlowColor ("GlowColor", COLOR) = (0.5,0.5,0.5,1)
     }
     SubShader
     {
         Tags { "RenderType"="Opaque" }
-
-        Cull Off
 
         Pass
         {
@@ -26,7 +23,7 @@ Shader "Unlit/mural"
             #pragma vertex vert
             #pragma fragment frag
             
-			#pragma shader_feature _MASKSHAPE_X _MASKSHAPE_X_INVERSE _MASKSHAPE_Y _MASKSHAPE_Y_INVERSE  _MASKSHAPE_DOT _MASKSHAPE_DOT_INVERSE 
+			#pragma shader_feature _MASKSHAPE_X _MASKSHAPE_X_INVERSE _MASKSHAPE_Y _MASKSHAPE_Y_INVERSE  _MASKSHAPE_DOT _MASKSHAPE_DOT_INVERSE _MASKSHAPE_MASKTEX
 
             #include "UnityCG.cginc"
 
@@ -53,6 +50,7 @@ Shader "Unlit/mural"
                 return o;
             }
             
+            sampler2D _MaskTex;
             sampler2D _GlowTex;
             
             half4 _Color;
@@ -77,6 +75,8 @@ Shader "Unlit/mural"
                             i.uv.x = smoothstep(-20.4,7.2,1-38.7*((i.uv.x-0.5)*(i.uv.x-0.5)+(i.uv.y-0.5)*(i.uv.y-0.5))-1);
                 #elif _MASKSHAPE_DOT_INVERSE
                             i.uv.x = 1-smoothstep(-20.4,7.2,1-38.7*((i.uv.x-0.5)*(i.uv.x-0.5)+(i.uv.y-0.5)*(i.uv.y-0.5))-1);
+                #elif _MASKSHAPE_MASKTEX
+                            i.uv.x = tex2D(_MaskTex, i.uv).r ;
                 #endif
 
                 return i;
@@ -93,16 +93,16 @@ Shader "Unlit/mural"
                 half Time = _Time.y*FlowSpeed;
 
                 i.uv.xy = Rotate_UV(i.uv,0.34,0.14);
-                float2 UV = frac(i.uv.xy*0.75+Time* float2(-1,0.25));
-				float D = smoothstep(-10.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+                half2 UV = frac(i.uv.xy*0.75+Time* float2(-1,0.25));
+				half D = smoothstep(-10.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
                 
                 i.uv.xy = Rotate_UV(i.uv,0.94,0.44);
                 UV = frac(i.uv.xy*1.2+Time*0.33* float2(-0.24,-0.33));
-				float D2 = smoothstep(-18.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+				half D2 = smoothstep(-18.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
                 
                 i.uv.xy = Rotate_UV(i.uv,0.64,0.74);
                 UV = frac(i.uv.xy*1+Time*1.34* float2(0.54,0.33));
-				float D3 = smoothstep(-15.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+				half D3 = smoothstep(-15.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
 
                 //D = 1-max(max(D,D2),D3);
                 
@@ -134,7 +134,7 @@ Shader "Unlit/mural"
                 Finalcol = lerp(Finalcol,_GlowColor, col_glow * (Forward /3) );
                 
                 //點亮後持續著發光
-                Finalcol += col_glow*_DissolveColor* DoubleFade;
+                Finalcol += col_glow*_DissolveColor*saturate(_OffSet*2)*_DissolveColor.a* DoubleFade * (_OffSet*3);
 
                 return Finalcol;
             }
