@@ -62,22 +62,46 @@ Shader "GGDog/Real_PepperNoise_Tex"
             
             float _NoiseTexTilling;
             
+            half2 Rotate_UV(half2 uv , half sin , half cos)
+            {
+                return float2(uv.x*cos - uv.y*sin ,uv.x*sin + uv.y*cos);
+            }
+            half WaterTex(half2 uv,half Tilling,half FlowSpeed)
+            {
+                uv.xy*=Tilling;
+                half Time = _Time.y*FlowSpeed;
+
+                uv.xy = Rotate_UV(uv,0.34,0.14);
+                half2 UV = frac(uv.xy*0.75+Time* float2(-1,0.25));
+				half D = smoothstep(-10.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+                
+                uv.xy = Rotate_UV(uv,0.94,0.44);
+                UV = frac(uv.xy*1.2+Time*0.33* float2(-0.24,-0.33));
+				half D2 = smoothstep(-18.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+                
+                uv.xy = Rotate_UV(uv,0.64,0.74);
+                UV = frac(uv.xy*1+Time*1.34* float2(0.54,0.33));
+				half D3 = smoothstep(-15.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+
+                D = 1-max(max(D,D2),D3);
+                
+                return D;
+            }
+
             float4 frag (v2f i) : SV_Target
             {
 
                 float2 srcUV = i.SrcUV.xy/i.SrcUV.w;
-
+                /*
                 float noise = tex2D(_NoiseTex,_NoiseTexTilling*30*i.SrcUV.z* srcUV-10*_Time.y).r;
                 float noise2 = tex2D(_NoiseTex,_NoiseTexTilling*30*i.SrcUV.z* srcUV+10*_Time.y).r;
 
                 noise = smoothstep(0.5,0.5, (noise+noise2)/2.5 );
+                */
+                float noise = WaterTex(srcUV*i.SrcUV.z,50,5)*2;
 
-               // half2 N = unity_voronoi_noise_randomVector(50*i.uv+_Time.y,500);
-               
 				float NdotL = saturate(dot(i.worldNormal,_LightDir));
 
-                //noise = lerp(1,noise,smoothstep(0,0.5,NdotL+Rim));
-                
                 float4 tex = tex2D(_MainTex,i.uv);
 
                 float4 col = lerp(tex,tex*_ShadowColor+_ShadowColor*noise/1,smoothstep(0,0.5,NdotL));
