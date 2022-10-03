@@ -58,7 +58,7 @@ Shader "GGDog/Space_Test/Glow_AlwaysOnTop"
             
             float _Alpha;
 
-            
+            /*
             float4 frag (v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID (i);
@@ -78,7 +78,27 @@ Shader "GGDog/Space_Test/Glow_AlwaysOnTop"
                 clip(col.a - 0.0015);
 
                 return col*_Color* i.color.a*_Alpha;
+            }*/
+
+            //拿掉distance的省能版
+            float4 frag (v2f i) : SV_Target
+            {
+                UNITY_SETUP_INSTANCE_ID (i);
+				//中心距離場
+				float D = smoothstep(-16,9.6,1-49*((i.uv.x-0.5)*(i.uv.x-0.5)+(i.uv.y-0.5)*(i.uv.y-0.5))-1);
+				float D2 = smoothstep(-32.5,47,1-460.9*((i.uv.x-0.5)*(i.uv.x-0.5)+(i.uv.y-0.5)*(i.uv.y-0.5))-1);
+
+                D =D*D+D2*D2*13.5;
+
+				i.color = lerp(i.color*i.color,i.color,D);
+
+                float4 col = i.color * D ;
+
+                clip(col.a - 0.0015);
+
+                return col*_Color* i.color.a*_Alpha;
             }
+
             ENDCG
         }
     }

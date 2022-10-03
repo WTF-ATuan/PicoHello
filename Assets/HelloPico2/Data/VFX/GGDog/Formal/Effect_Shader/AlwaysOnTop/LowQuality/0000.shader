@@ -7,11 +7,16 @@ Shader "GGDog/Space_Test/Glow_AlwaysOnTop"
 		_Color("Color",Color) = (1,1,1,1)
         _Alpha("Alpha",Range(0,1)) = 1
         [Enum(Order,4,AlwaysOnTop,8)] _ZTest("ZTest", Float) = 8
-
+        
+        _i("i",Range(1,5)) = 1
         
         _a("a",Float) = 1
         _b("b",Float) = 1
         _c("c",Float) = 1
+
+        _a2("a2",Float) = 1
+        _b2("b2",Float) = 1
+        _c2("c2",Float) = 1
     }
     SubShader
     {
@@ -65,17 +70,19 @@ Shader "GGDog/Space_Test/Glow_AlwaysOnTop"
             float _a;
             float _b;
             float _c;
-
+            float _a2;
+            float _b2;
+            float _c2;
+            float _i;
+            
             float4 frag (v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID (i);
 				//中心距離場
 				float D = smoothstep(_b,_a,1-_c*((i.uv.x-0.5)*(i.uv.x-0.5)+(i.uv.y-0.5)*(i.uv.y-0.5))-1);
+				float D2 = smoothstep(_b2,_a2,1-_c2*((i.uv.x-0.5)*(i.uv.x-0.5)+(i.uv.y-0.5)*(i.uv.y-0.5))-1);
 
-				//漸層度
-				float D2 = smoothstep(0.75,1.5,D)*8;
-
-				D = D2+smoothstep(0.5,1.5,D)*1.5;
+                D =D*D+D2*D2*13.5;
 
 				i.color = lerp(i.color*i.color,i.color,D);
 
@@ -83,7 +90,7 @@ Shader "GGDog/Space_Test/Glow_AlwaysOnTop"
 
                 clip(col.a - 0.0015);
 
-                return col*_Color* i.color.a*_Alpha;
+                return col*_Color* i.color.a*_Alpha * _i;
             }
             ENDCG
         }
