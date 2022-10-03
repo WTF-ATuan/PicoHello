@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6922756332583352062}
   - component: {fileID: 6922756332583352063}
   - component: {fileID: 6922756332583352059}
-  - component: {fileID: 6922756332583352060}
+  - component: {fileID: 6922756332617404457}
   m_Layer: 9
   m_Name: HitTarget_Blank
   m_TagString: Untagged
@@ -28,13 +28,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6922756332583352049}
-  m_LocalRotation: {x: -0, y: 0.70710576, z: -0, w: 0.70710784}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 5.47, y: 0.84, z: 0.21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!33 &6922756332583352061
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -109,61 +109,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fb1c903b082dd846828bdd4a61ead46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _CollideClipName: []
-  _HitCDDuration: 0.05
+  _CollideClipName:
+  - HitTargetBlank
+  _HitCDDuration: 3
   _AffectByAllInteractType: 1
   _InteractType: 4
   WhenCollideUlt:
     _PersistentCalls:
-    - _Target: {fileID: 6922756332583352060}
-      _MethodName: StartScaling
-      _PersistentArguments: []
---- !u!114 &6922756332583352060
-MonoBehaviour:
+    - _Target: {fileID: 6922756332617404457}
+      _MethodName: SetTrigger
+      _PersistentArguments:
+      - _Type: 2
+        _Int: 0
+        _String: Pop
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+--- !u!95 &6922756332617404457
+Animator:
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6922756332583352049}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7baf3614bef84a04a8bea9e0888d466d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _ControlMode: 1
-  _RunOnEnable: 0
-  _ScalingObject: {fileID: 6922756332583352049}
-  _From: {x: 1, y: 1, z: 1}
-  _To: {x: 1.2, y: 1.2, z: 1.2}
-  _Duration: 0.1
-  _Loop: 0
-  _EaseCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  WhenStart:
-    m_PersistentCalls:
-      m_Calls: []
-  WhenFinished:
-    m_PersistentCalls:
-      m_Calls: []
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4795196bca7bfa74884ef3d220eb0a50, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
