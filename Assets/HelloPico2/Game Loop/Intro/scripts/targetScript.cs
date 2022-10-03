@@ -71,7 +71,9 @@ public class targetScript : MonoBehaviour
         childrenList.RemoveAt(0);
         var child = childrenList.First();
         var childrenName = child.name;
-        menuCheck.targetItemName = childrenName;
+        if(menuCheck.ContainTarget(childrenName)){
+            menuCheck.targetItemName = childrenName;
+        }
     }
     public void ShowAnim()
     {
