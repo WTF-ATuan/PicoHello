@@ -9,8 +9,8 @@ using UnityEngine.XR.Interaction.Toolkit;
 namespace HelloPico2.InputDevice.Scripts{
 	public class ControllerVibrator : MonoBehaviour{
 		public HandType handType;
-		public VRType vrType;
-		[InlineEditor] public VibrateData vibrateData;
+		[Required] [InlineEditor] public VibrateData vibrateData;
+		private VRType vrType => vibrateData.vrType;
 		private XRRayInteractor _interactor;
 		private ArmData _armData;
 		private EnergyBallBehavior _energyBallBehavior;
@@ -55,6 +55,24 @@ namespace HelloPico2.InputDevice.Scripts{
 			}
 		}
 
+		public void VibrateWithSetting(string settingName){
+			var setting = vibrateData.FindSetting(settingName);
+			switch(vrType){
+				case VRType.Phoenix:
+					VibratePhoenix(setting.phoenixClip);
+					break;
+				case VRType.Neo3:
+					VibrateNeo3(setting.amplitude, setting.time);
+					break;
+				case VRType.Oculus:
+					VibrateXR(setting.amplitude, setting.time);
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+		}
+		
+
 		public void HitVibrate(InteractableSettings.InteractableType interactableType){
 			print("Hit " + interactableType);
 			var isShield = interactableType == InteractableSettings.InteractableType.Shield;
@@ -75,21 +93,25 @@ namespace HelloPico2.InputDevice.Scripts{
 					break;
 				case VRType.Neo3:
 					if(isWhip){
-						VibrateNeo3(0.5f, 0.3f);
+						var setting = vibrateData.FindSetting("Hit_Whip");
+						VibrateNeo3(setting.amplitude, setting.time);
 					}
 
 					if(isShield){
-						VibrateNeo3(0.7f, 0.5f);
+						var setting = vibrateData.FindSetting("Hit_Shield");
+						VibrateNeo3(setting.amplitude, setting.time);
 					}
 
 					break;
 				case VRType.Oculus:
 					if(isWhip){
-						VibrateXR(0.5f, 0.3f);
+						var setting = vibrateData.FindSetting("Hit_Whip");
+						VibrateXR(setting.amplitude, setting.time);
 					}
 
 					if(isShield){
-						VibrateXR(0.7f, 0.5f);
+						var setting = vibrateData.FindSetting("Hit_Shield");
+						VibrateXR(setting.amplitude, setting.time);
 					}
 
 					break;
