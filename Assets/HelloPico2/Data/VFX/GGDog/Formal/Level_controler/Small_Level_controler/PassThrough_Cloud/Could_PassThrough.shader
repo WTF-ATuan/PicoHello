@@ -13,12 +13,12 @@ Shader "GGDog/Tunnel"
     {
         Tags { "Queue"="Geometry-50" }
 
-		ZWrite Off
-        ZTest[_ZTest]
+		//ZWrite Off
+        //ZTest[_ZTest]
 		
-		Blend SrcAlpha OneMinusSrcAlpha
+		//Blend SrcAlpha OneMinusSrcAlpha
 		
-		Cull Back
+		//Cull Back
         Pass
         {
             CGPROGRAM
