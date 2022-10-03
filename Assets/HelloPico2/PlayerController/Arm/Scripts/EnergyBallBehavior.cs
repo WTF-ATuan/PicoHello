@@ -85,6 +85,7 @@ namespace HelloPico2.PlayerController.Arm
         public float Distance { get { return _Distance; } set { _Distance = value; } }
         public LayerMask LayerMask { get { return _LayerMask; } set { _LayerMask = value; } }
 
+        public GameObject ChargedEnergyProjectile { get { return _ChargedEnergyProjectile; } set { _ChargedEnergyProjectile = value; } }
         public Coroutine ShootCoolDownProcess { get; set; }
         public Coroutine BombShootCoolDownProcess { get; set; }
         public bool OverWriteProjectileLifeTime { get; set; }
