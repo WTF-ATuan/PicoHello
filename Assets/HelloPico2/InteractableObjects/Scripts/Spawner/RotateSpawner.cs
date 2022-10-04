@@ -26,7 +26,7 @@ namespace HelloPico2.InteractableObjects{
 		public int spawnCount = 5;
 
 		[SerializeField] [TitleGroup("During Setting")] [MinMaxSlider(0, 20, true)]
-		private Vector2 duringMinMax = new Vector2(0.5f, 1f);
+		public Vector2 duringMinMax = new Vector2(0.5f, 1f);
 
 
 		[TitleGroup("Edit")] public bool edit;
