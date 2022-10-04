@@ -88,6 +88,7 @@ namespace HelloPico2.InputDevice.Scripts{
 				TouchPadAxis = touchPadAxis,
 				IsPadTouch = isPadTouch,
 				IsPadClick = isPadClick,
+				IsMenu = isMenu,
 				Selector = this,
 			};
 			EventBus.Post(inputDetected);
