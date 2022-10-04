@@ -1,4 +1,4 @@
-Shader "Unlit/NewUnlitShader"
+Shader "GGDog/Unlit_Use"
 {
     Properties
     {

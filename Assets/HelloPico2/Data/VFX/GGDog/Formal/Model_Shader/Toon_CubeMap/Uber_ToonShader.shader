@@ -5,17 +5,20 @@ Shader "GGDog/Uber_ToonShader"
 
 	Properties
 	{
+		_MainTex ("Base (RGB)", 2D) = "white" {}
 		[HDR]_Color ("Main Color", Color) = (.5,.5,.5,1)
+		
+        _LightSmooth("Light Edge Smooth",Range(0,1)) = 0.05
+        _LightRange("Light Edge Range",Range(-1,1)) = 0.25
+        _BloomFade("Bloom Fade",Range(0,1)) = 0.5
+		
 		[HDR]_ShadowColor ("Shadow Color", Color) = (.5,.5,.5,1)
-		[HDR]_SpecularColor ("Specular Color", Color) = (.5,.5,.5,1)
+		
+		[HDR]_EdgeRimColor ("Edge Rim Color", Color) = (.5,.5,.5,1)
+        _AmbientFade("Ambient Rim Fade",Range(0,1)) = 0.2
 		
         _AlphaClip("Alpha Clip",Range(0,1)) = 0.5
-		
-        _BloomFade("Bloom Fade",Range(0,1)) = 0.5
-        _AmbientFade("Ambient Fade",Range(0,1)) = 0.2
-
-		_MainTex ("Base (RGB)", 2D) = "white" {}
-		_LightDir ("Light Direction", Vector) = (0, 0, 0)
+		_LightDir ("Light Direction", Vector) = (0.25, 0.75, 0 ,0)
 		
 		[Enum(UnityEngine.Rendering.BlendMode)] _SourceBlend ("Source Blend Mode", Float) = 1
 		[Enum(UnityEngine.Rendering.BlendMode)] _DestBlend ("Dest Blend Mode", Float) = 0
@@ -82,10 +85,12 @@ Shader "GGDog/Uber_ToonShader"
 			
 			half4 _Color;
 			half4 _ShadowColor;
-			half4 _SpecularColor;
+			half4 _EdgeRimColor;
 			half _AlphaClip;
 			half _BloomFade;
 			half _AmbientFade;
+			half _LightSmooth;
+			half _LightRange;
 			
 			half4 frag (v2f i) : SV_Target
 			{
@@ -95,7 +100,7 @@ Shader "GGDog/Uber_ToonShader"
 
 				half Rim_Ambient = smoothstep(0,1,i.uv.z);
 
-				half specular = smoothstep(0.25,0.3,i.uv.w)/2  + smoothstep(0,1,i.uv.w) *_BloomFade;
+				half specular = smoothstep(0.5-_LightSmooth*0.5-_LightRange,0.5+_LightSmooth*0.5-_LightRange,i.uv.w)/2  + smoothstep(0,1,i.uv.w) *_BloomFade;
 
 				half4 col = tex2D(_MainTex,i.uv.xy);
 				clip(col.a-_AlphaClip);
@@ -103,7 +108,7 @@ Shader "GGDog/Uber_ToonShader"
 				col = lerp(col*_ShadowColor,col*_Color,specular);
 
 				//正邊緣光、環境邊緣光
-				col += _SpecularColor*specular*Rim +  _SpecularColor*(0.75-specular)*Rim_Ambient *_AmbientFade;
+				col += _EdgeRimColor*specular*Rim +  _EdgeRimColor*(0.75-specular)*Rim_Ambient *_AmbientFade;
 
 
 				return saturate(col);

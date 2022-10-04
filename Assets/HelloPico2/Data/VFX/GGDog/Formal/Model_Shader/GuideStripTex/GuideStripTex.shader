@@ -9,7 +9,7 @@ Shader "Unlit/NewUnlitShader"
     }
     SubShader
     {
-        Tags { "Queue"="Transparent" }
+        Tags { "Queue"="Transparent+1000" }
 
         ZWrite Off
         Blend SrcAlpha OneMinusSrcAlpha
@@ -31,7 +31,6 @@ Shader "Unlit/NewUnlitShader"
             struct v2f
             {
                 float2 uv : TEXCOORD0;
-
                 float4 vertex : SV_POSITION;
             };
 
@@ -50,12 +49,12 @@ Shader "Unlit/NewUnlitShader"
             float4 _Color;
             float _UVSpeed;
             
-            fixed4 frag (v2f i) : SV_Target
+            float4 frag (v2f i) : SV_Target
             {
 
-                fixed4 col = tex2D(_MainTex, i.uv+_Time.y*_UVSpeed*float2(0,-1));
+                float4 col = tex2D(_MainTex, i.uv+_Time.y*_UVSpeed*float2(0,-1));
                 
-                fixed glow = tex2D(_GlowTex, i.uv+_Time.y*_UVSpeed*float2(0,-1)).r;
+                float glow = tex2D(_GlowTex, i.uv+_Time.y*_UVSpeed*float2(0,-1)).r;
 
                 col = lerp(_Color.a*_Color*float4(1,1,1,glow)+col,col,col.a);
 
