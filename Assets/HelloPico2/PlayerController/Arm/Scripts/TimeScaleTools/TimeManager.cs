@@ -1,9 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using HelloPico2.InputDevice.Scripts;
+using Project;
 using Sirenix.OdinInspector;
+using UnityEngine;
 using UnityEngine.InputSystem;
-    
+
 public class TimeManager : MonoBehaviour
 {
     public float m_SpeedControlMax = 3;
@@ -13,7 +16,7 @@ public class TimeManager : MonoBehaviour
     public enum TimerMode { 
         Duration, OnOff
     }
-    [System.Serializable]
+    [Serializable]
     public struct TimeEvent {
         public string Name;
         public TimeEventType EventType;
@@ -39,7 +42,7 @@ public class TimeManager : MonoBehaviour
     public static TimeManager Instance {
         get {
             if (m_Instance == null)
-                return GameObject.FindObjectOfType<TimeManager>();
+                return FindObjectOfType<TimeManager>();
             else
                 return m_Instance;
         }
@@ -49,8 +52,28 @@ public class TimeManager : MonoBehaviour
 
     private void Start()
     {
-        playerInput = GetComponent<PlayerInput>();        
+        playerInput = GetComponent<PlayerInput>();
+        EventBus.Subscribe<DeviceInputDetected>(OnDeviceInputDetected);
     }
+
+    private bool _timeStop;
+    private bool _buttonDown;
+
+    private void OnDeviceInputDetected(DeviceInputDetected obj){
+        var isMenu = obj.IsMenu;
+        if(isMenu){
+            if(_buttonDown){
+                _timeStop = !_timeStop;
+                SetTo(_timeStop ? 0 : 1);
+            }
+
+            _buttonDown = false;
+        }
+        else{
+            _buttonDown = true;
+        }
+    }
+
     private void OnEnable()
     {
         playerInput.actions["+"].performed += (InputAction.CallbackContext callback) => { SpeedUp(); };

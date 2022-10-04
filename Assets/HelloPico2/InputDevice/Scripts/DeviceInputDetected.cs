@@ -11,6 +11,7 @@ namespace HelloPico2.InputDevice.Scripts{
 		public Vector2 TouchPadAxis{ get; set; }
 		public float TriggerValue{ get; set; }
 		public float GripValue{ get; set; }
+		public bool IsMenu{ get; set; }
 
 		public ISelector Selector;
 
