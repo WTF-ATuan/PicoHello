@@ -30,7 +30,10 @@ namespace HelloPico2.InteractableObjects{
 
 		[SerializeField] private AnimationCurve lengthChangedCurve;
 
-		public delegate void OnCollisionDel (InteractType interactType , Collider other);
+		public LightBeamLengthUpdated currentLengthUpdated{ get; private set; }
+
+		public delegate void OnCollisionDel(InteractType interactType, Collider other);
+
 		public OnCollisionDel OnCollision;
 
 		public void SetLengthLimit(float percentage){
@@ -134,6 +137,15 @@ namespace HelloPico2.InteractableObjects{
 			Init();
 		}
 
+		/// <summary>
+		///     OverwriteCurrentUpdatedState
+		///     and control dynamicBone by updateState
+		/// </summary>
+		/// <param name="updateState">
+		///     0 -> not start yet
+		///     1 -> updating
+		///     2 -> finish
+		/// </param>
 		private void PostLengthUpdatedEvent(int updateState){
 			var lengthUpdated = GetUpdateState();
 			lengthUpdated.UpdateState = updateState;
@@ -144,6 +156,8 @@ namespace HelloPico2.InteractableObjects{
 				UpdateBeamThickness(lengthUpdated);
 				SetDynamicBoneActive(true);
 			}
+
+			currentLengthUpdated = lengthUpdated;
 		}
 
 		private void SetDynamicBoneActive(bool enable){
@@ -177,13 +191,11 @@ namespace HelloPico2.InteractableObjects{
 			var collides = other.gameObject.GetComponents<IInteractCollide>();
 			collides.ForEach(c => c?.OnCollide(InteractType.Beam, _capsuleCollider));
 
-            foreach (var item in collides)
-            {
-				if (item != null) { 
+			foreach(var item in collides)
+				if(item != null){
 					print("Collide " + other.name);
 					OnCollision?.Invoke(InteractType.Beam, _capsuleCollider);
 				}
-            }
 		}
 
 		private bool IsLengthLessThanZero(Vector3 addOffset){

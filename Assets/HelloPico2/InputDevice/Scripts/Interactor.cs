@@ -77,6 +77,7 @@ namespace HelloPico2.InputDevice.Scripts{
 			inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxisClick, out var isPadClick);
 			inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out var isPrimary);
 			inputDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out var isSecondary);
+			inputDevice.TryGetFeatureValue(CommonUsages.menuButton, out var isMenu);
 			var inputDetected = new DeviceInputDetected{
 				IsTrigger = isTrigger,
 				TriggerValue = triggerValue,
