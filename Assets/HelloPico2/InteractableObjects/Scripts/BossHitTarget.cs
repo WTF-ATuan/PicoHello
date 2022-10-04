@@ -15,16 +15,23 @@ namespace HelloPico2.InteractableObjects.Scripts{
 		private ParticleSystem _currentEffect;
 		private ColdDownTimer _timer;
 
+		public Action _OnHitEvent;
+
 		private void OnEnable(){
 			ChangeEffect(defaultEffect);
 			_timer = new ColdDownTimer(0.2f);
+
+			_OnHitEvent += GetComponentInParent<BossVisualReaction>().OnHit;
 		}
 
 		private void OnDisable(){
 			elapsedTime = 0;
-			foreach(var effect in effectSettings){
-				effect.isTrigger = false;
-			}
+            foreach (var effect in effectSettings)
+            {
+                effect.isTrigger = false;
+            }
+
+            _OnHitEvent -= GetComponentInParent<BossVisualReaction>().OnHit;		
 		}
 
 		private void LateUpdate(){
@@ -59,6 +66,8 @@ namespace HelloPico2.InteractableObjects.Scripts{
 			};
 			EventBus.Post(audioEventRequested);
 			_timer.Reset();
+
+			_OnHitEvent?.Invoke();
 		}
 
 		[Button]
