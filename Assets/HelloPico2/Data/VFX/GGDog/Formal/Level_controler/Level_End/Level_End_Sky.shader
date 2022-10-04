@@ -26,14 +26,14 @@ Shader "Unlit/Level_End_Sky"
 
             struct appdata
             {
-                float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
+                half4 vertex : POSITION;
+                half2 uv : TEXCOORD0;
             };
 
             struct v2f
             {
-                float2 uv : TEXCOORD0;
-                float4 vertex : SV_POSITION;
+                half2 uv : TEXCOORD0;
+                half4 vertex : SV_POSITION;
             };
 
             v2f vert (appdata v)
@@ -44,11 +44,11 @@ Shader "Unlit/Level_End_Sky"
                 return o;
             }
             
-            float4 _Color1;
-            float4 _Color2;
-            float _Alpha;
+            half4 _Color1;
+            half4 _Color2;
+            half _Alpha;
             
-            float4 frag (v2f i) : SV_Target
+            half4 frag (v2f i) : SV_Target
             {
                 return float4(lerp(_Color2.rgb,_Color1.rgb,i.uv.y),_Alpha);
             }

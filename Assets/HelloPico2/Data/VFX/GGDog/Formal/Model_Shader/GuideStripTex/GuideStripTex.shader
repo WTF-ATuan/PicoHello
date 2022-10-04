@@ -11,6 +11,7 @@ Shader "Unlit/NewUnlitShader"
     {
         Tags { "Queue"="Transparent" }
 
+        ZWrite Off
         Blend SrcAlpha OneMinusSrcAlpha
 
         Pass

@@ -1,4 +1,4 @@
-﻿Shader "GGDog/dew_GPUInstance"
+﻿Shader "GGDog/dew/dew_GPUInstance"
 {
 	Properties
 	{

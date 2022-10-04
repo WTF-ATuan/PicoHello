@@ -101,10 +101,10 @@ Shader "GGDog/M_Partical"
                 r *= abs(fmod(random(kx*ky)* _Time.y*twinklingSpeed/2,1)*2-1)*twinklingAmp;
                 
 				//中心距離場
-				float D =1- distance(float2(uv.x,uv.y),float2(0.5,0.5))-r*r/(3+CameraDistance);
-				//漸層度
-				float D2 = smoothstep(0.8,0.85,D)*1.5;
-				D = D2+smoothstep(0.5,1.25,D);
+				float D = smoothstep(-16,9.6,1-49*((uv.x-0.5)*(uv.x-0.5)+(uv.y-0.5)*(uv.y-0.5))-1);
+				float D2 = smoothstep(-32.5,47,1-460.9*((uv.x-0.5)*(uv.x-0.5)+(uv.y-0.5)*(uv.y-0.5))-1);
+
+                D =D*D+D2*D2*13.5*2;
 
                 return r01*D;
             }

@@ -9,10 +9,7 @@ Shader "GGDog/SSS"
 
         _Color("Color",Color) = (0.75,0.75,0.75,1)
         _ShadowColor("ShadowColor",Color) = (0.25,0.25,0.25,1)
-        _Distortion ("Distortion", Range(0,1)) = 0.75
         [HDR]_SSSColor("SSS Color",Color) = (1,0.5,0.5,1)
-		
-        _LightDir ("LightDir", Vector) = (0,0,0,0)
     }
     SubShader
     {
@@ -29,18 +26,16 @@ Shader "GGDog/SSS"
 
             struct appdata
             {
-                float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
-				float3 normal : NORMAL;
+                half4 vertex : POSITION;
+                half2 uv : TEXCOORD0;
+				half3 normal : NORMAL;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
             {
-                float2 uv : TEXCOORD0;
-                float4 vertex : SV_POSITION;
-                float3 worldNormal : TEXCOORD1;
-                float3 worldPos : TEXCOORD2;
+                half4 uv : TEXCOORD0;
+                half4 vertex : SV_POSITION;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
             
@@ -51,32 +46,35 @@ Shader "GGDog/SSS"
                 UNITY_TRANSFER_INSTANCE_ID(v, o);
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = v.uv;
+                o.uv.xy = v.uv;
 				
-				o.worldNormal = mul(v.normal,(float3x3)unity_WorldToObject);
-                o.worldPos = mul(v.vertex,unity_WorldToObject).xyz;
+				half3 WorldNormal = normalize(mul(v.normal,(half3x3)unity_WorldToObject));
+                half3 worldPos = mul(v.vertex,unity_WorldToObject).xyz;
+                half3 ViewDir = normalize(_WorldSpaceCameraPos.xyz - worldPos );
+
+                half3 LightDir = half3(-0.19,0,-0.82);
+
+				o.uv.z = smoothstep(0,0.5,1-saturate(dot(WorldNormal,ViewDir)));
+				o.uv.w = saturate(dot(WorldNormal,LightDir));
 
                 return o;
             }
-			float _Distortion;
-
-			float4 _Color;
-			float4 _ShadowColor;
-			float4 _SSSColor;
+			half4 _Color;
+			half4 _ShadowColor;
+			half4 _SSSColor;
 			
-			float4 _LightDir;
 
-			float4 _FadeColor1;
-			float4 _FadeColor2;
+			half4 _FadeColor1;
+			half4 _FadeColor2;
 
-			float _DespairColor;
+			half _DespairColor;
             
-            float4 frag (v2f i) : SV_Target
+            half4 frag (v2f i) : SV_Target
             {
 			
                 UNITY_SETUP_INSTANCE_ID(i);
 
-				float Time_y = abs(fmod(_DespairColor * _Time.y*0.5,1.0f)*2.0f-1.0f);
+				half Time_y = abs(fmod(_DespairColor * _Time.y*0.5,1.0f)*2.0f-1.0f);
 
                 _FadeColor1.rgb = clamp(_FadeColor1.rgb,0.5,1);
                 _FadeColor1 = lerp(_FadeColor1,0.75,0.5)*1.75*_Color;
@@ -85,17 +83,7 @@ Shader "GGDog/SSS"
                 _FadeColor2.rgb = clamp(_FadeColor2.rgb,0.25,1);
                 _FadeColor2 = lerp(_FadeColor2,0.75,0.5)*1.75*_ShadowColor;
 
-                float3 WorldNormal = normalize(i.worldNormal);
-                float3 ViewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos );
-
-				float NdotL = saturate(dot(WorldNormal,_LightDir));
-				float Rim = 1-saturate(dot(WorldNormal,ViewDir));
-
-				float3 H = normalize( ViewDir + WorldNormal);
-				float I = saturate(dot(ViewDir,-H));
-
-
-                float FadeUV = saturate(frac(2*i.uv.y)+0.1);
+                half FadeUV = saturate(frac(2*i.uv.y)+0.1);
 
                 FadeUV = lerp(FadeUV,1.5,floor(frac(8*i.uv.x)*2)/2);
 
@@ -103,7 +91,7 @@ Shader "GGDog/SSS"
 
 
 
-				float4 FinalColor = lerp((_FadeColor2*FadeUV *Time_y + Rim* _SSSColor ),float4(1,0.96,0.84,1)* _FadeColor1*FadeUV ,NdotL ) ;
+				half4 FinalColor = lerp((_FadeColor2*FadeUV *Time_y + i.uv.z* _SSSColor ),float4(1,0.96,0.84,1)* _FadeColor1*FadeUV ,i.uv.w ) ;
 
                 return saturate(FinalColor);
                 

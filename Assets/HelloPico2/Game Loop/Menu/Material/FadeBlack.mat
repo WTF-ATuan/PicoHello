@@ -8,13 +8,13 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: FadeBlack
-  m_Shader: {fileID: 4800000, guid: 6436af33cf278464280b9532751bafb0, type: 3}
+  m_Shader: {fileID: 4800000, guid: e26bfa716af90bc47838cd7c6cc58f9f, type: 3}
   m_ShaderKeywords: _ALPHABLEND_ON _COLOROVERLAY_ON _GLOSSYREFLECTIONS_OFF _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
     _SPECULARHIGHLIGHTS_OFF
   m_LightmapFlags: 6
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -66,6 +66,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Alpha: 0.8
+    - _Alphadecrease: 1
     - _BlendOp: 0
     - _BumpScale: 1
     - _CameraFadingEnabled: 0
@@ -100,7 +101,10 @@ Material:
     - _SpecularHighlights: 0
     - _SrcBlend: 5
     - _UVSec: 0
+    - _ZTest: 4
     - _ZWrite: 0
+    - _p: 1
+    - _r: 1
     m_Colors:
     - _BackFogColor: {r: 0, g: 0, b: 0, a: 0}
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
