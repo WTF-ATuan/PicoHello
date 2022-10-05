@@ -142,16 +142,16 @@ Shader "Unlit/Arm_Flower"
 				half2 scruv = i.scrPos.xy/i.scrPos.w;
 
 				half Out_noise;
-                Unity_GradientNoise_float(scruv+_Time.y*0.075,150,Out_noise);
+                Unity_GradientNoise_float(2*scruv+_Time.y*0.075,150,Out_noise);
 				half Out_noise2;
-                Unity_GradientNoise_float(scruv-_Time.y*0.15,100,Out_noise2);
+                Unity_GradientNoise_float(2*scruv-_Time.y*0.15,100,Out_noise2);
                 scruv+= (Out_noise+Out_noise2)*half2(0.003,0.003);
 
 				half Out;
-                Unity_GradientNoise_float(scruv,30,Out);
+                Unity_GradientNoise_float(2*scruv,30,Out);
                 
 				half Out2;
-                Unity_GradientNoise_float(scruv,50,Out2);
+                Unity_GradientNoise_float(2*scruv,50,Out2);
 
                 Out*=Out2;
 
