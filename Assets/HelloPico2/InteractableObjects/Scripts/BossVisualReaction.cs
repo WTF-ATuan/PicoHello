@@ -8,24 +8,29 @@ namespace HelloPico2.InteractableObjects.Scripts
 {
     public class BossVisualReaction : MonoBehaviour
     {
-        [SerializeField] private float _HitReactionCD = 2f;
+        [SerializeField] private int _TriggerHitReactionHitCount = 5;
         [SerializeField] private string _HitAudioClipName;
-        ColdDownTimer coldDownTimer;
+        int currentHitCount;
 
         public UltEvent _HitReactionEvent;
-        private void Awake()
-        {
-            coldDownTimer = new ColdDownTimer(_HitReactionCD);
-        }
+        public UltEvent _HitReactionEventWithoutCD;
         public void OnHit() {
-            if (!coldDownTimer.CanInvoke()) return;
+            _HitReactionEventWithoutCD?.Invoke();
+
+            UpdateHitCount();
+
+            if (currentHitCount < _TriggerHitReactionHitCount) return;
 
             if(_HitAudioClipName != null)
                 AudioPlayerHelper.PlayAudio(_HitAudioClipName, transform.position);
 
             _HitReactionEvent?.Invoke();
-
-            coldDownTimer.Reset();        
         }
+        private void UpdateHitCount() {
+            if (currentHitCount < _TriggerHitReactionHitCount)
+                currentHitCount++;
+            else
+                currentHitCount = 0;
+        }        
     }
 }
