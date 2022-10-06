@@ -46,16 +46,41 @@ Shader "Unlit/NewUnlitShader"
             };
             half _Size;
             
+            
+            half2 Rotate_UV(half2 uv , half sin , half cos)
+            {
+                return float2(uv.x*cos - uv.y*sin ,uv.x*sin + uv.y*cos);
+            }
+            half WaterTex(half2 uv,half Tilling,half FlowSpeed)
+            {
+                uv.xy*=Tilling;
+                half Time = _Time.y*FlowSpeed;
+
+                uv.xy = Rotate_UV(uv,0.34,0.14);
+                half2 UV = frac(uv.xy*0.75+Time* float2(-1,0.25));
+				half D = smoothstep(-10.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+                
+                uv.xy = Rotate_UV(uv,0.94,0.44);
+                UV = frac(uv.xy*1.2+Time*0.33* float2(-0.24,-0.33));
+				half D2 = smoothstep(-18.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+                
+                uv.xy = Rotate_UV(uv,0.64,0.74);
+                UV = frac(uv.xy*1+Time*1.34* float2(0.54,0.33));
+				half D3 = smoothstep(-15.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+
+                D = 1-max(max(D,D2),D3);
+                
+                return D;
+            }
+
+
             v2f vert (appdata v)
             {
                 v2f o;
                 UNITY_SETUP_INSTANCE_ID (v);
                 UNITY_TRANSFER_INSTANCE_ID (v, o);
-
-				half4 srcUV = ComputeScreenPos(v.vertex);  //抓取螢幕截圖的位置
-                half n =  smoothstep(0.5,1,1-distance(frac(30*srcUV.xy/srcUV.w-_Time.y*half2(1,0.5)*0.25),0.5));
-                half n2 =  smoothstep(0.5,1,1-distance(frac(20*srcUV.xy/srcUV.w+_Time.y*half2(0.7,1)*0.75),0.5));
-                n+=n2;
+                
+                half n = 1-WaterTex(v.uv,7,3);
                 o.vertex = UnityObjectToClipPos(v.vertex + v.normal*n*0.01*_Size);
 
                 o.uv = v.uv;
@@ -69,25 +94,21 @@ Shader "Unlit/NewUnlitShader"
             {
                 
                 UNITY_SETUP_INSTANCE_ID (i);
-                _Alpha*=i.color.a;
-
-                half n =  smoothstep(0,0.75,distance(frac(2.3*i.uv+_Time.y*half2(0,0.5)*2.25),0.5));
-                half n2 =  smoothstep(0,0.25,distance(frac(2.7*i.uv+half2(0.2,0.4)-_Time.y*half2(0.7,1)*2.75),0.5));
-                
-                half n3 =  smoothstep(0.3,1,1-distance(frac(2.5*i.uv+_Time.y*half2(0.27,0.3)*1.75),0.5))*(1-_Alpha*2);
-
-                n= saturate(n * n2 + smoothstep(0.75,1,i.uv.y)) -n3 - (1-_Alpha*2);
-                
-                half k = n;
-
-                n = smoothstep(0.5,0.5,n);
+                i.color.a = smoothstep(0,0.75,i.color.a);
 
 
-                half4 col = half4(1,1,1,n/1.5);
+                half n = WaterTex(i.uv,6,1.5);
+                half k = WaterTex(i.uv+0.01,6,1.5);
+                //half k = n;
 
-                col.a *= smoothstep(0.25,1.25,2*saturate(1.15-smoothstep(0,0.75,k)+_Alpha*_Alpha*_Alpha));
+                n = smoothstep(0.5,0.5,n-saturate(0.5-i.color.a));
 
-                col.rgb *=i.color.rgb*0.85*_HDR;
+
+                half4 col = half4(1,1,1,n);
+
+                col.a *= (1-smoothstep(0.35,0.75,k-saturate(0.5-i.color.a))) *i.color.a;
+
+                col.rgb *=i.color.rgb*_HDR;
 
                 return col;
             }
