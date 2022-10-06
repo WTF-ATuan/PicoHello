@@ -5,6 +5,7 @@
 		EnergyBall,
 		Shield,
 		Energy,
-		Eye
+		Eye,
+		Bomb
 	}
 }

@@ -14,10 +14,10 @@ namespace HelloPico2.InteractableObjects.Scripts
 
         public UltEvent _HitReactionEvent;
         public UltEvent _HitReactionEventWithoutCD;
-        public void OnHit() {
+        public void OnHit(InteractType type) {
             _HitReactionEventWithoutCD?.Invoke();
 
-            UpdateHitCount();
+            UpdateHitCount(type);
 
             if (currentHitCount < _TriggerHitReactionHitCount) return;
 
@@ -26,9 +26,32 @@ namespace HelloPico2.InteractableObjects.Scripts
 
             _HitReactionEvent?.Invoke();
         }
-        private void UpdateHitCount() {
+        private void UpdateHitCount(InteractType type) {
             if (currentHitCount < _TriggerHitReactionHitCount)
+            {
                 currentHitCount++;
+
+                switch (type)
+                {
+                    case InteractType.Beam:
+                        break;
+                    case InteractType.Whip:
+                        break;
+                    case InteractType.EnergyBall:
+                        break;
+                    case InteractType.Shield:
+                        break;
+                    case InteractType.Energy:
+                        break;
+                    case InteractType.Eye:
+                        break;
+                    case InteractType.Bomb:
+                        currentHitCount = _TriggerHitReactionHitCount;
+                        break;
+                    default:
+                        break;
+                }
+            }
             else
                 currentHitCount = 0;
         }        

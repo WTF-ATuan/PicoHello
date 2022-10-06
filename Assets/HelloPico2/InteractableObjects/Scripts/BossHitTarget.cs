@@ -7,7 +7,8 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace HelloPico2.InteractableObjects.Scripts{
-	public class BossHitTarget : MonoBehaviour{
+	public class BossHitTarget : MonoBehaviour, IInteractCollide
+	{
 		[ReadOnly] public float elapsedTime = 0;
 		[Required] public ParticleSystem defaultEffect;
 		[Required] public string defaultAudioName;
@@ -15,9 +16,11 @@ namespace HelloPico2.InteractableObjects.Scripts{
 		private ParticleSystem _currentEffect;
 		private ColdDownTimer _timer;
 
-		public Action _OnHitEvent;
+		public Action<InteractType> _OnHitEvent;
 
-		private void OnEnable(){
+        public Action<InteractType, Collider> ColliderEvent { get; }
+
+        private void OnEnable(){
 			ChangeEffect(defaultEffect);
 			_timer = new ColdDownTimer(0.2f);
 
@@ -67,7 +70,7 @@ namespace HelloPico2.InteractableObjects.Scripts{
 			EventBus.Post(audioEventRequested);
 			_timer.Reset();
 
-			_OnHitEvent?.Invoke();
+			_OnHitEvent?.Invoke(InteractType.EnergyBall);
 		}
 
 		[Button]
@@ -77,7 +80,13 @@ namespace HelloPico2.InteractableObjects.Scripts{
 			_currentEffect.Play();
 		}
 
-		[Serializable]
+        public void OnCollide(InteractType type, Collider selfCollider)
+        {
+			if (!_timer.CanInvoke()) return;
+			_OnHitEvent?.Invoke(type);
+		}
+
+        [Serializable]
 		public class HitEffect{
 			public float triggerTime = 20;
 			[Required] public ParticleSystem effect;
