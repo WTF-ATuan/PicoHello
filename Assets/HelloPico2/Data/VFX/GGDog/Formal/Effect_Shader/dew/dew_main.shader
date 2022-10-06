@@ -2,6 +2,8 @@
 {
 	Properties
 	{
+        _OutGlowAlpha("OutGlowAlpha",Range(0,1)) = 1
+
         _RenderTex("Render Tex", 2D) = "white" {}
 
 		_SpecularColor("Specular Color",Color) = (1,1,1,1)
@@ -248,5 +250,62 @@
 			}
 			ENDCG
 		}
+
+
+        Pass
+        {
+			Blend SrcAlpha One
+
+			ZWrite Off
+
+			Cull Front
+
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+			#pragma target 3.0
+            #pragma multi_compile_instancing
+            #include "UnityCG.cginc"
+			
+			struct appdata
+			{
+				half4 vertex : POSITION;
+				half3 normal : NORMAL;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct v2f
+			{
+				half4 vertex : SV_POSITION;
+				half3 worldNormal : TEXCOORD1;
+				half3 worldPos : TEXCOORD2;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+			
+
+            v2f vert (appdata v)
+            {
+                v2f o;
+                o.vertex = UnityObjectToClipPos(v.vertex*2);
+                o.worldNormal  = UnityObjectToWorldNormal(v.normal);
+                o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+
+                return o;
+            }
+
+			half _OutGlowAlpha;
+            half4 frag (v2f i) : SV_Target
+            {
+				half3 worldNormal = normalize(i.worldNormal);
+				half3 worldViewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos);
+				
+				half NdotV = dot(worldNormal,worldViewDir);
+
+				half Rim = smoothstep(1,2.75,1-NdotV);
+
+                return Rim*_OutGlowAlpha;
+            }
+            ENDCG
+        }
 	}
 }

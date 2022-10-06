@@ -174,6 +174,7 @@ GameObject:
   - component: {fileID: 7744332965651290997}
   - component: {fileID: 4597869135929499653}
   - component: {fileID: 1148280176765592527}
+  - component: {fileID: 4592624480676025803}
   m_Layer: 8
   m_Name: ChargingEnergyBall_Lerping
   m_TagString: Untagged
@@ -230,78 +231,36 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
-    - _Target: {fileID: 1148280176765592527}
-      _MethodName: RaiseToValue
+    - _Target: {fileID: 4592624480676025803}
+      _MethodName: SetToDestinationValue
       _PersistentArguments:
-      - _Type: 3
-        _Int: 1
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
-      - _Type: 1
-        _Int: 0
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
-      - _Type: 1
-        _Int: 0
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
       - _Type: 5
         _Int: 0
         _String: 
-        _X: 0.5
+        _X: 1
         _Y: 0
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
+    - _Target: {fileID: 4592624480676025803}
+      _MethodName: ToDestination
+      _PersistentArguments: []
   _WhenExitFullyCharged:
     _PersistentCalls:
-    - _Target: {fileID: 1148280176765592527}
-      _MethodName: RaiseToValue
+    - _Target: {fileID: 4592624480676025803}
+      _MethodName: SetToDestinationValue
       _PersistentArguments:
-      - _Type: 3
-        _Int: 0
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
-      - _Type: 1
-        _Int: 0
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
-      - _Type: 1
-        _Int: 0
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
       - _Type: 5
         _Int: 0
         _String: 
-        _X: 0.5
+        _X: 0
         _Y: 0
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
+    - _Target: {fileID: 4592624480676025803}
+      _MethodName: ToDestination
+      _PersistentArguments: []
 --- !u!114 &1148280176765592527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,6 +308,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  m_CanInterupt: 1
   m_UseLoopControl: 0
   m_Loop: 0
   m_TriggerOnce: 0
@@ -364,6 +324,142 @@ MonoBehaviour:
   - 0
   - 1
   m_Index: 0
+--- !u!114 &4592624480676025803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7744332965651290996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ad986206bb726846a202cfdedd282dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetType: 0
+  TargetRenderer: {fileID: 1373342478479632864}
+  TargetMaterialID: 0
+  TargetImage: {fileID: 0}
+  UseMaterialForRendering: 0
+  TargetRawImage: {fileID: 0}
+  TargetText: {fileID: 0}
+  CacheMaterial: 1
+  CreateMaterialInstance: 0
+  TargetPropertyName: _Alpha
+  PropertyType: 1
+  X: 0
+  Y: 0
+  Z: 0
+  W: 0
+  FromColor: {r: 0, g: 0, b: 0, a: 1}
+  ToColor: {r: 1, g: 1, b: 1, a: 1}
+  ControlMode: 4
+  AddToInitialValue: 0
+  UseUnscaledTime: 1
+  RevertToInitialValueAfterEnd: 0
+  UseMaterialPropertyBlocks: 0
+  SafeMode: 0
+  Curve:
+    MMTweenDefinitionType: 0
+    MMTweenCurve: 0
+    Curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  MinValue: 0
+  MaxValue: 5
+  Duration: 1
+  PingPongPauseDuration: 1
+  DrivenLevel: 0
+  Amplitude: {x: 0, y: 5}
+  Frequency: {x: 1, y: 1}
+  Shift: {x: 0, y: 1}
+  RemapNoiseValues: 0
+  RemapNoiseZero: 0
+  RemapNoiseOne: 1
+  OneTimeDuration: 0.5
+  OneTimeAmplitude: 1
+  OneTimeRemapMin: 0
+  OneTimeRemapMax: 1
+  OneTimeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  OneTimeButton: 0
+  DisableAfterOneTime: 0
+  DisableGameObjectAfterOneTime: 0
+  AudioAnalyzer: {fileID: 0}
+  BeatID: 0
+  AudioAnalyzerMultiplier: 1
+  AudioAnalyzerOffset: 0
+  AudioAnalyzerLerp: 60
+  ToDestinationValue: 1
+  ToDestinationDuration: 1
+  ToDestinationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 0.6
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  ToDestinationButton: 0
+  DisableAfterToDestination: 0
+  InitialValue: 0
+  CurrentValue: 0
+  CurrentValueNormalized: 0
+  InitialColor: {r: 0, g: 0, b: 0, a: 0}
+  PropertyID: 0
+  PropertyFound: 0
+  TargetMaterial: {fileID: 0}
+  PingPong: 0
 --- !u!1001 &3293318092858402538
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -505,6 +601,14 @@ PrefabInstance:
     - target: {fileID: 2498402985396986969, guid: 686f792d7487b5a4fbaacfcdbdaeb223, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142943398507681572, guid: 686f792d7487b5a4fbaacfcdbdaeb223, type: 3}
+      propertyPath: prewarm
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142943398507681572, guid: 686f792d7487b5a4fbaacfcdbdaeb223, type: 3}
+      propertyPath: playOnAwake
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6807941231603685374, guid: 686f792d7487b5a4fbaacfcdbdaeb223, type: 3}
       propertyPath: m_Name
