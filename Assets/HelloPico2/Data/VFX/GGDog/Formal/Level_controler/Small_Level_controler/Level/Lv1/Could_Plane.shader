@@ -136,7 +136,7 @@ Shader "GGDog/Tunnel"
 				
 				half4 Rim = 1-saturate(smoothstep(-0.5,1.0,i.NdotV_FarFog.x));
 				
-				col.rgb = lerp(col*_ShadowColor,1.0,Rim);
+				col.rgb = lerp(col*_ShadowColor,_Color,Rim);
 
                 return col;
             }
