@@ -10,9 +10,9 @@ namespace HelloPico2.InteractableObjects{
 	public class WaveSpawnCycle : MonoBehaviour{
 		[ReadOnly] public int waveCount = 1;
 		[ChildGameObjectsOnly] public List<RotateSpawner> spawners;
-		[SerializeField] private AnimationCurve difficultyCurve = AnimationCurve.Linear(0, 0, 1, 1);
-
-
+		[SerializeField] private AnimationCurve waveDurationCurve = AnimationCurve.Linear(1, 10, 2, 20);
+		[SerializeField] private AnimationCurve spawnDurationCurve = AnimationCurve.Linear(1, 8, 2, 5);
+		[SerializeField] private AnimationCurve targetMovingSpeedCurve = AnimationCurve.Linear(1, 5, 2, 3.5f);
 		private CancellationToken _token;
 
 
@@ -43,7 +43,10 @@ namespace HelloPico2.InteractableObjects{
 
 		private float GetWaveDurationTime(){
 			//TODO : 依照目前Wave 數量調整Wave 時間 
-			return 10 * waveCount;
+			var index = (waveDurationCurve.length > waveCount ? waveCount : waveDurationCurve.length) - 1;
+			var key = waveDurationCurve[index];
+			var duration = key.value;
+			return duration;
 		}
 
 		private void SetSpawnerActive(bool active){
@@ -56,9 +59,12 @@ namespace HelloPico2.InteractableObjects{
 
 		private void ModifySpawnerSpeed(){
 			var activeSpawner = spawners.FindAll(x => x.gameObject.activeSelf);
+			var index = (spawnDurationCurve.length > waveCount ? waveCount : waveDurationCurve.length) - 1;
+			var key = spawnDurationCurve[index];
+			var duration = key.value;
 			activeSpawner.ForEach(x => {
-				x.duringMinMax.x *= 0.8f;
-				x.duringMinMax.y *= 0.8f;
+				x.duringMinMax.x = duration - 1;
+				x.duringMinMax.y = duration;
 			});
 		}
 
