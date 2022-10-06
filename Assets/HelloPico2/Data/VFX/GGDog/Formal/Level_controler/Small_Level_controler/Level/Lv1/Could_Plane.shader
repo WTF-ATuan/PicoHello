@@ -95,7 +95,7 @@ Shader "GGDog/Tunnel"
 
 				
 				half Out5;
-				Unity_GradientNoise_float(1.0*v.uv.xy-half2(-1.75,0.0)*T*0.4  +half2(1.0,0.0)*T*0.1,7,Out5);
+				Unity_GradientNoise_float(1.0*v.uv.xy-half2(-1.25,0.0)*T*0.4  +half2(1.0,0.0)*T*0.1,7,Out5);
 				Noise+=Out5*100;
 
 
