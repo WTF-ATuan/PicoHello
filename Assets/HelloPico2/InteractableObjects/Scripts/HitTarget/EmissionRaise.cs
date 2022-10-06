@@ -31,6 +31,7 @@ public class EmissionRaise : MonoBehaviour
     [SerializeField] protected float m_Duration;
     [SerializeField] protected AnimationCurve m_Movement;
 
+    public bool m_CanInterupt = false;
     [FoldoutGroup("loop control"), Indent, PropertyOrder(9)]
     public bool m_UseLoopControl = false;
     [FoldoutGroup("loop control"), ShowIf("m_UseLoopControl"), Indent, PropertyOrder(9)]
@@ -115,7 +116,8 @@ public class EmissionRaise : MonoBehaviour
     {
         m_ColTarget = col;
 
-        if (Process != null) return;
+        if (!m_CanInterupt && Process != null) return;
+        if (m_CanInterupt) StopCoroutine(Process);
 
         if (m_FlipFlop)
         {

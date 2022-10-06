@@ -6,6 +6,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 using HelloPico2.InputDevice.Scripts;
 using HelloPico2.InteractableObjects;
 using Sirenix.OdinInspector;
+using Game.Project;
 using DG.Tweening;
 
 namespace HelloPico2.PlayerController.Arm
@@ -41,6 +42,7 @@ namespace HelloPico2.PlayerController.Arm
         [FoldoutGroup("Projectile")][SerializeField] private float _ShootCoolDown;
         [FoldoutGroup("Projectile")][SerializeField] private float _CostEnergy;
         [FoldoutGroup("Projectile")][SerializeField] private float _FullEnergyBallCostEnergy;
+        [FoldoutGroup("Projectile")][SerializeField] private float _ShootingActionCDDurationAfterFullEnergyBall = 1;
         [FoldoutGroup("Projectile")][Tooltip("Projectile Initial Speed Buffer")][Min(0.05f)][SerializeField] private float _SpeedBufferDuration;
         [FoldoutGroup("Projectile")][SerializeField] private AnimationCurve _SpeedBufferEasingCurve;
                 
@@ -112,6 +114,7 @@ namespace HelloPico2.PlayerController.Arm
         public List<IFullEnergyFeedback> FullEnergyFeedback = new List<IFullEnergyFeedback>();
 
         private DeviceInputDetected currentDeviceInputDetected { get; set; }
+        private ColdDownTimer shootingCDAfterFullChargedShoot;
         #endregion
         #region Public Method
         public void ChargeEnergyDirectly(float energy)
@@ -146,6 +149,8 @@ namespace HelloPico2.PlayerController.Arm
 
             EnergyBallEmptySoundCD = new Game.Project.ColdDownTimer(armLogic.data.ShootEmptyEnergyCoolDownDuration);
             BombEmptySoundCD = new Game.Project.ColdDownTimer(armLogic.data.ShootEmptyBombCoolDownDuration);
+
+            shootingCDAfterFullChargedShoot = new ColdDownTimer(_ShootingActionCDDurationAfterFullEnergyBall);
         }
         private void Update()
         {
@@ -216,16 +221,14 @@ namespace HelloPico2.PlayerController.Arm
 
                 armLogic.data.WhenGainEnergy?.Invoke();
 
+                armLogic.OnEnergyChanged?.Invoke(armLogic.data);
+
                 //AudioPlayerHelper.PlayAudio(armLogic.data.GainEnergyClipName, transform.position);
 
                 // Feedbacks
                 GainEnergyFeedback.ForEach(x => x.OnNotify(armLogic.data.HandType));
 
-                CheckChargingFeedbacks(armLogic.data);
-
                 Destroy(eventData.Interactable.transform.gameObject);
-
-                armLogic.OnEnergyChanged?.Invoke(armLogic.data);
             });
         }
         private void CheckChargingFeedbacks(ArmData data)
@@ -324,6 +327,7 @@ namespace HelloPico2.PlayerController.Arm
         private void ShootFulEnergyProjectile(ArmData data)
         {
             data.Energy -= _FullEnergyBallCostEnergy;
+
             armLogic.OnEnergyChanged?.Invoke(data); 
             
             GenerateProjectile(true, _ChargedEnergyProjectile, _ChargeShootSpeed);
@@ -333,6 +337,7 @@ namespace HelloPico2.PlayerController.Arm
 
             // CD
             ShootCoolDownProcess = StartCoroutine(CoolDown(_ShootCoolDown));
+            shootingCDAfterFullChargedShoot.Reset();
 
             UpdateScale(data);
 
@@ -340,6 +345,7 @@ namespace HelloPico2.PlayerController.Arm
         }
         private void ShootEnergyProjectile(ArmData data)
         {
+            if (!shootingCDAfterFullChargedShoot.CanInvoke()) return;
             if (data.Energy <= 0) {
                 if (EnergyBallEmptySoundCD.CanInvoke())
                 {
