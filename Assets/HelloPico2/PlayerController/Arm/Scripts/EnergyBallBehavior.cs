@@ -221,16 +221,14 @@ namespace HelloPico2.PlayerController.Arm
 
                 armLogic.data.WhenGainEnergy?.Invoke();
 
+                armLogic.OnEnergyChanged?.Invoke(armLogic.data);
+
                 //AudioPlayerHelper.PlayAudio(armLogic.data.GainEnergyClipName, transform.position);
 
                 // Feedbacks
                 GainEnergyFeedback.ForEach(x => x.OnNotify(armLogic.data.HandType));
 
-                CheckChargingFeedbacks(armLogic.data);
-
                 Destroy(eventData.Interactable.transform.gameObject);
-
-                armLogic.OnEnergyChanged?.Invoke(armLogic.data);
             });
         }
         private void CheckChargingFeedbacks(ArmData data)
@@ -329,6 +327,7 @@ namespace HelloPico2.PlayerController.Arm
         private void ShootFulEnergyProjectile(ArmData data)
         {
             data.Energy -= _FullEnergyBallCostEnergy;
+
             armLogic.OnEnergyChanged?.Invoke(data); 
             
             GenerateProjectile(true, _ChargedEnergyProjectile, _ChargeShootSpeed);
