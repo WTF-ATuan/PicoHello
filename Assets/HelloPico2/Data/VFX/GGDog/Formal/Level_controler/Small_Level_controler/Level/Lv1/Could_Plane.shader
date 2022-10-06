@@ -75,31 +75,31 @@ Shader "GGDog/Tunnel"
 				half T =_Time.y*0.5;
 
 				half Out;
-				Unity_GradientNoise_float(v.uv.xy+half2(0.5,1)*T/10+half2(1,0)*T/10,30,Out);
+				Unity_GradientNoise_float(v.uv.xy+half2(0.5,1)*T*0.1+half2(1.0,0.0)*T*0.1,30,Out);
 
 				half Out2;
-				Unity_GradientNoise_float(v.uv.xy-half2(0.75,0.5)*T/10+half2(1,0)*T/10,70,Out2);
+				Unity_GradientNoise_float(v.uv.xy-half2(0.75,0.5)*T*0.1+half2(1.0,0.0)*T*0.1,70,Out2);
 
 				Out*=1;
 				Out2*=0.5;
 				Out*=Out2;
 				
 				half Out3;
-				Unity_GradientNoise_float(v.uv.xy-half2(-0.5,0)*T/8  +half2(1,0)*T/10,10,Out3);
+				Unity_GradientNoise_float(v.uv.xy-half2(-1.0,0.0)*T*0.125  +half2(1.0,0.0)*T*0.1,10,Out3);
 				
 				half Out4;
-				Unity_GradientNoise_float(v.uv.xy-half2(-1.5,0)*T/8  +half2(1,0)*T/10,7,Out4);
+				Unity_GradientNoise_float(v.uv.xy-half2(-3.0,0.0)*T*0.125  +half2(1.0,0.0)*T*0.1,7,Out4);
 				Out3*=Out4;
 
-				half Noise =  Out*50 + (0.5-Out3)*100;
+				half Noise =  Out*40 + (0.5-Out3)*80;
 
 				
 				half Out5;
-				Unity_GradientNoise_float(0.75*v.uv.xy-half2(-1.5,0)*T/8  +half2(1,0)*T/10,7,Out5);
-				Noise*=Out5*1.5;
+				Unity_GradientNoise_float(1.0*v.uv.xy-half2(-1.75,0.0)*T*0.4  +half2(1.0,0.0)*T*0.1,7,Out5);
+				Noise+=Out5*100;
 
 
-				half uv_dis = smoothstep(0,0.1,v.uv.xy.y*(1-v.uv.xy.y));
+				half uv_dis = smoothstep(0.0,0.1,v.uv.xy.y*(1-v.uv.xy.y));
 
                 o.vertex = UnityObjectToClipPos(v.vertex + 0.003*Noise*v.normal*uv_dis);
 
@@ -111,7 +111,7 @@ Shader "GGDog/Tunnel"
 				half3 worldViewDir = normalize(_WorldSpaceCameraPos.xyz - worldPos);
 				
 				//漸層外圍天空色
-				o.NdotV_FarFog.y = ((worldPos.z-0.5)*(worldPos.z-0.5)+(worldPos.x-0.5)*(worldPos.x-0.5))*1/30;
+				o.NdotV_FarFog.y = ((worldPos.z-0.5)*(worldPos.z-0.5)+(worldPos.x-0.5)*(worldPos.x-0.5))*0.03;
 
 				//Rim的NDotV
 				o.NdotV_FarFog.x = dot(worldNormal,worldViewDir);
@@ -129,14 +129,14 @@ Shader "GGDog/Tunnel"
 				
 				col.rgb = lerp(_ShadowColor,_Color,col.r);
 				
-				col.rgb = lerp(col,_Color,smoothstep(0.5,1,col.r));
+				col.rgb = lerp(col,_Color,smoothstep(0.5,1.0,col.r));
 				
 				//漸層外圍天空色
 				col.rgb = lerp(col,_ShadowColor,smoothstep(150,200,i.NdotV_FarFog.y));
 				
-				half4 Rim = 1-saturate(smoothstep(-0.5,1,i.NdotV_FarFog.x));
+				half4 Rim = 1-saturate(smoothstep(-0.5,1.0,i.NdotV_FarFog.x));
 				
-				col.rgb = lerp(col*_ShadowColor,1,Rim);
+				col.rgb = lerp(col*_ShadowColor,1.0,Rim);
 
                 return col;
             }
