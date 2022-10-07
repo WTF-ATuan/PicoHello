@@ -4,13 +4,14 @@ Shader "GGDog/Evil_color"
 {
     Properties
     {
+		[HDR]_Color("Color",Color) = (1,1,1,1)
         _Alpha ("Alpha", Range(0,1)) = 1
 
         _MainTex ("Texture", 2D) = "white" {}
 		_FarColor("Far Color",Color) = (1,1,1,1)
 		_FarDistance("Far Distance",Float) = 3
 
-		[HDR]_Color("Color",Color) = (1,1,1,1)
+		[HDR]_LightColor("Light Color",Color) = (1,1,1,1)
 		[HDR]_ShadowColor("Shadow Color",Color) = (0.5,0.5,0.5,1)
         
         _ReflectTilling ("Reflect Tilling", Range(0,5000)) = 100
@@ -107,7 +108,8 @@ Shader "GGDog/Evil_color"
             }
             float _AlphaClip;
             
-            float3 _Color;
+            float4 _Color;
+            float3 _LightColor;
             float3 _ShadowColor;
             float _Reflect;
             float _ReflectTilling;
@@ -128,7 +130,7 @@ Shader "GGDog/Evil_color"
 
                 float3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
 
-                col.rgb =  lerp( _ShadowColor * col, _Color * col, (max(dot(normalDir,lightDir),0+0.25))) ;
+                col.rgb =  lerp( _ShadowColor * col, _LightColor * col, (max(dot(normalDir,lightDir),0+0.25))) ;
 
                 col.rgb += frac_Noise(i.worldPos.xy,_ReflectTilling)*_Reflect*_ReflectColor;
 
@@ -137,7 +139,7 @@ Shader "GGDog/Evil_color"
                 //¶ZÂ÷Ãú
 				col = lerp(col,float4(_FarColor.rgb,col.a), smoothstep(-_FarDistance/3,_FarDistance,i.worldPos.z));
 
-                return float4(col.rgb,col.a*_Alpha);
+                return float4(col.rgb,col.a*_Alpha)*_Color;
             }
             ENDCG
         }
@@ -222,7 +224,8 @@ Shader "GGDog/Evil_color"
             
             float _AlphaClip;
             
-            float3 _Color;
+            float4 _Color;
+            float3 _LightColor;
             float3 _ShadowColor;
             float _Reflect;
             float _ReflectTilling;
@@ -243,7 +246,7 @@ Shader "GGDog/Evil_color"
 
                 float3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
 
-                col.rgb =  lerp( _ShadowColor * col, _Color * col, (max(dot(normalDir,lightDir),0+0.25))) ;
+                col.rgb =  lerp( _ShadowColor * col, _LightColor * col, (max(dot(normalDir,lightDir),0+0.25))) ;
                 
                 col.rgb += frac_Noise(i.worldPos.xy,_ReflectTilling)*_Reflect*_ReflectColor;
 
@@ -252,7 +255,7 @@ Shader "GGDog/Evil_color"
                 //¶ZÂ÷Ãú
 				col = lerp(col,float4(_FarColor.rgb,col.a), smoothstep(0,_FarDistance,i.worldPos.z));
                 
-                return float4(col.rgb,col.a*_Alpha);
+                return float4(col.rgb,col.a*_Alpha)*_Color;
             }
             ENDCG
         }
