@@ -3,7 +3,7 @@ Shader "GGDog/Unlit_Use"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-		_Color("Color",Color) = (1,1,1,1)
+		[HDR]_Color("Color",Color) = (1,1,1,1)
     }
     SubShader
     {
@@ -45,9 +45,7 @@ Shader "GGDog/Unlit_Use"
             {
                 fixed4 col = tex2D(_MainTex, i.uv);
 
-                col = lerp(col,_Color,_Color.a);
-                
-                return col;
+                return col*_Color;
             }
             ENDCG
         }

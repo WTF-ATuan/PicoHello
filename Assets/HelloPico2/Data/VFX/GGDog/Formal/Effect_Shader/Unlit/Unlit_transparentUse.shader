@@ -3,7 +3,7 @@ Shader "GGDog/Unlit_transparentUse"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-		_Color("Color",Color) = (1,1,1,1)
+		[HDR]_Color("Color",Color) = (1,1,1,1)
         _AlphaClip("Alpha Clip", Range(0,1)) = 0
 
         _X_Speed("X_Speed",Float) = 0
@@ -54,10 +54,8 @@ Shader "GGDog/Unlit_transparentUse"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed4 col = tex2D(_MainTex, i.uv + float2(_X_Speed,0)*_Time.y);
+                fixed4 col = tex2D(_MainTex, i.uv + float2(_X_Speed,0)*_Time.y)*_Color;
 
-                col = lerp(col,_Color,col.a*_Color.a);
-                
                 clip(col.a-_AlphaClip*1.01);
 
                 return col;
