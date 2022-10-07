@@ -6,20 +6,20 @@ Shader "GGDog/Uber_ToonShader"
 	Properties
 	{
 		_MainTex ("Base (RGB)", 2D) = "white" {}
-		[HDR]_Color ("Main Color", Color) = (.5,.5,.5,1)
+		[HDR]_Color ("Main Color", Color) = (1.35,1.08,0.97,1)
 		
-        _LightSmooth("Light Edge Smooth",Range(0,1)) = 0.05
-        _LightRange("Light Edge Range",Range(-1,1)) = 0.25
-        _BloomFade("Bloom Fade",Range(0,1)) = 0.5
+        _LightSmooth("Light Edge Smooth",Range(0,1)) = 0.1
+        _LightRange("Light Edge Range",Range(-1,1)) = 0.15
+        _BloomFade("Bloom Fade",Range(0,1)) = 1
 		
-		[HDR]_ShadowColor ("Shadow Color", Color) = (.5,.5,.5,1)
+		[HDR]_ShadowColor ("Shadow Color", Color) = (.53,.53,.6,1)
 		
-		[HDR]_EdgeRimColor ("Edge Rim Color", Color) = (.5,.5,.5,1)
-        _AmbientFade("Ambient Rim Fade",Range(0,1)) = 0.2
+		[HDR]_EdgeRimColor ("Edge Rim Color", Color) = (.67,.36,.2,1)
+        _AmbientFade("Ambient Rim Fade",Range(0,1)) = 0.3
 		
-        _AlphaClip("Alpha Clip",Range(0,1)) = 0.5
-		_LightDir ("Light Direction", Vector) = (0.25, 0.75, 0 ,0)
-		
+        _AlphaClip("Alpha Clip",Range(0,1)) = 0.35
+		_LightDir ("Light Direction", Vector) = (0.5, 1, 1 ,0)
+
 		[Enum(UnityEngine.Rendering.BlendMode)] _SourceBlend ("Source Blend Mode", Float) = 1
 		[Enum(UnityEngine.Rendering.BlendMode)] _DestBlend ("Dest Blend Mode", Float) = 0
 		[Enum(Off,0,On,2)] _Cull ("Cull Mode", Float) = 0
@@ -54,6 +54,7 @@ Shader "GGDog/Uber_ToonShader"
 			{
 				half4 uv : TEXCOORD0;
 				half4 vertex : SV_POSITION;
+                float3 normal_VS : TEXCOORD1;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 			
@@ -72,13 +73,14 @@ Shader "GGDog/Uber_ToonShader"
 				
 				o.uv.xy = TRANSFORM_TEX(v.uv, _MainTex);
 
+                float4 normal_OS = float4(v.normal.xyz,0);
+                o.normal_VS = mul(UNITY_MATRIX_MV,normal_OS);
+				
+
                 half3 worldNormal  = normalize(UnityObjectToWorldNormal(v.normal));
                 half3 viewDir = normalize(_WorldSpaceCameraPos.xyz - mul(unity_ObjectToWorld, v.vertex).xyz);
-                
 				o.uv.z = 1-dot(worldNormal, viewDir);
 				
-				half3 halfVector = normalize(_LightDir + viewDir );
-				o.uv.w = dot(worldNormal, halfVector);
 
 				return o;
 			}
@@ -95,20 +97,22 @@ Shader "GGDog/Uber_ToonShader"
 			half4 frag (v2f i) : SV_Target
 			{
                 UNITY_SETUP_INSTANCE_ID(i);
-
-				half Rim = smoothstep(0.7,0.9,i.uv.z);
-
-				half Rim_Ambient = smoothstep(0,1,i.uv.z);
-
-				half specular = smoothstep(0.5-_LightSmooth*0.5-_LightRange,0.5+_LightSmooth*0.5-_LightRange,i.uv.w)/2  + smoothstep(0,1,i.uv.w) *_BloomFade;
-
+				
 				half4 col = tex2D(_MainTex,i.uv.xy);
 				clip(col.a-_AlphaClip);
+				
+				half Rim = smoothstep(0.7,0.9,i.uv.z);
+				half Rim_Ambient = smoothstep(0,1,i.uv.z);
 
-				col = lerp(col*_ShadowColor,col*_Color,specular);
+                i.normal_VS = float4(normalize(i.normal_VS.xyz),1);
 
-				//正邊緣光、環境邊緣光
-				col += _EdgeRimColor*specular*Rim +  _EdgeRimColor*(0.75-specular)*Rim_Ambient *_AmbientFade;
+                half N_VS_Dot_L = smoothstep(0,_LightSmooth,dot(i.normal_VS.xyz,_LightDir)-_LightRange);
+
+				N_VS_Dot_L += smoothstep(0,1,dot(i.normal_VS.xyz,_LightDir)-0)*_BloomFade;
+
+				col = lerp(col*_ShadowColor,col*_Color,N_VS_Dot_L/2);
+
+				col += Rim*N_VS_Dot_L*_EdgeRimColor  +  _EdgeRimColor*saturate(0.75-N_VS_Dot_L)*Rim_Ambient *_AmbientFade;
 
 
 				return saturate(col);
