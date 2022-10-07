@@ -350,8 +350,8 @@ namespace HelloPico2.PlayerController.Arm
                 if (EnergyBallEmptySoundCD.CanInvoke())
                 {
                     AudioPlayerHelper.PlayAudio(data.ShootWhenNoEnergyClipName, transform.position);
-                    EnergyBallEmptySoundCD.Reset();
                     data.WhenNoEnergyShoot?.Invoke();
+                    EnergyBallEmptySoundCD.Reset();
                 }
                 return; 
             }
