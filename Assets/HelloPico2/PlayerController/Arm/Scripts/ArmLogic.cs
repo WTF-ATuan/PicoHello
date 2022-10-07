@@ -128,7 +128,7 @@ namespace HelloPico2.PlayerController.Arm
             CheckInput();
         }
         private void CheckInput() {
-            _controller.inputDevice.TryGetFeatureValue(CommonUsages.triggerButton, out var isTrigger);
+            _controller.inputDevice.TryGetFeatureValue(CommonUsages.triggerButton, out var isTrigger);            
             _controller.inputDevice.TryGetFeatureValue(CommonUsages.trigger, out var isTriggerTouch);            
             _controller.inputDevice.TryGetFeatureValue(CommonUsages.gripButton, out var isGrip);
             _controller.inputDevice.TryGetFeatureValue(CommonUsages.grip, out var isGripTouch);            

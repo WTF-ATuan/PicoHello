@@ -26,6 +26,10 @@ namespace HelloPico2.PlayerController.Arm
         [FoldoutGroup("Velocity Detection Settings")][SerializeField] private float _SpeedLimit;
         [FoldoutGroup("Velocity Detection Settings")][SerializeField] private float _ReturnDuring;
 
+        [FoldoutGroup("Events Settings")][SerializeField] private UltEvents.UltEvent _WhenCaculateLength;
+        [FoldoutGroup("Events Settings")][SerializeField] private UltEvents.UltEvent _WhenActivateSword;
+        [FoldoutGroup("Events Settings")][SerializeField] private UltEvents.UltEvent _WhenActivateWhip;
+
         public enum State { sword, whip}
         [FoldoutGroup("Debug")][ReadOnly][SerializeField] private State _State = State.whip;
         private LightBeamRigController lightBeamRigController;
@@ -69,6 +73,7 @@ namespace HelloPico2.PlayerController.Arm
                 armLogic.OnTriggerDown += ActivateSword;
             }
 
+            _WhenCaculateLength?.Invoke();
             base.Activate(Logic, data, lightBeam, fromScale);
         }
 
@@ -108,7 +113,6 @@ namespace HelloPico2.PlayerController.Arm
             // Shorten Sword
             UpdateSwordLength(armLogic.data);
             
-            print(WhenCollide);
             WhenCollide?.Invoke(currentInteractableType);
         }
         #region LightBeamController
@@ -120,6 +124,12 @@ namespace HelloPico2.PlayerController.Arm
             _colorValue = Mathf.Clamp(_colorValue, 0, 1);
             var lerpColor = Color.Lerp(_ColorSword, _ColorWhip, _colorValue);
             _beamMesh.material.SetColor(_ColorName, lerpColor);
+
+            if (currentInteractableType != InteractableSettings.InteractableType.Sword)
+            {
+                print("Vibrate sword");
+                _WhenActivateSword?.Invoke();
+            }
 
             _State = State.sword;
             currentInteractableType = InteractableSettings.InteractableType.Sword;
@@ -133,6 +143,9 @@ namespace HelloPico2.PlayerController.Arm
             var lerpColor = Color.Lerp(_ColorSword, _ColorWhip, _colorValue);
             _beamMesh.material.SetColor(_ColorName, lerpColor);
             timer = 0;
+
+            if (currentInteractableType != InteractableSettings.InteractableType.Whip)
+                _WhenActivateWhip?.Invoke();
 
             _State = State.whip;
             currentInteractableType = InteractableSettings.InteractableType.Whip;

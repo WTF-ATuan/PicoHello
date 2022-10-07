@@ -84963,7 +84963,7 @@ MonoBehaviour:
   _InteractableSettings: {fileID: 11400000, guid: ecdbec69f2c020441bd07a6377b457bd, type: 2}
   _SummonPoint: {fileID: 4939205608762558283}
   _ArmorController: {fileID: 1920843447}
-  _ShootEmptyEnergyCoolDownDuration: 2
+  _ShootEmptyEnergyCoolDownDuration: 0.8
   _ShootEmptyBombCoolDownDuration: 2
   _GainEnergyBallClipName:
   - GainEnergyBall1
@@ -85000,19 +85000,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 4892093407959751324}
-        m_TargetAssemblyTypeName: HelloPico2.InputDevice.Scripts.ControllerVibrator,
-          Assembly-CSharp
-        m_MethodName: VibrateByClip
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: 0f90e2a18b1071049bc5dede55948b02, type: 3}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
       - m_Target: {fileID: 1920843450}
         m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
         m_MethodName: SetTrigger
@@ -85027,7 +85014,20 @@ MonoBehaviour:
         m_CallState: 2
   WhenFullEnergy:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4939205608762558280}
+        m_TargetAssemblyTypeName: HelloPico2.InputDevice.Scripts.ControllerVibrator,
+          Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ReachFullEnergy
+          m_BoolArgument: 0
+        m_CallState: 2
   WhenGainBomb:
     m_PersistentCalls:
       m_Calls:
@@ -85202,7 +85202,7 @@ MonoBehaviour:
   _ShootCoolDown: 0.2
   _CostEnergy: 10
   _FullEnergyBallCostEnergy: 250
-  _ShootingActionCDDurationAfterFullEnergyBall: 0.9
+  _ShootingActionCDDurationAfterFullEnergyBall: 0.1
   _SpeedBufferDuration: 0.05
   _SpeedBufferEasingCurve:
     serializedVersion: 2
@@ -85262,6 +85262,34 @@ MonoBehaviour:
   _ColorWhip: {r: 1, g: 0.3176471, b: 0.3176471, a: 1}
   _SpeedLimit: 0.5
   _ReturnDuring: 0.4
+  _WhenCaculateLength:
+    _PersistentCalls: []
+  _WhenActivateSword:
+    _PersistentCalls:
+    - _Target: {fileID: 4892093407959751324}
+      _MethodName: VibrateWithSetting
+      _PersistentArguments:
+      - _Type: 2
+        _Int: 0
+        _String: ActivateSword
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  _WhenActivateWhip:
+    _PersistentCalls:
+    - _Target: {fileID: 4892093407959751324}
+      _MethodName: VibrateWithSetting
+      _PersistentArguments:
+      - _Type: 2
+        _Int: 0
+        _String: ActivateWhip
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
   _State: 1
   _TriggerControlBlendWeight: 1
 --- !u!114 &4939205608762558261
@@ -85289,6 +85317,19 @@ MonoBehaviour:
   range: 4
   speedLimit: 0.3
   speedDuring: 0.05
+  _WhenActivateShield:
+    _PersistentCalls:
+    - _Target: {fileID: 4892093407959751324}
+      _MethodName: VibrateWithSetting
+      _PersistentArguments:
+      - _Type: 2
+        _Int: 0
+        _String: ActivateShield
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
 --- !u!120 &4939205608762558259
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -110827,7 +110868,7 @@ MonoBehaviour:
   _InteractableSettings: {fileID: 11400000, guid: ecdbec69f2c020441bd07a6377b457bd, type: 2}
   _SummonPoint: {fileID: 4939205610337954855}
   _ArmorController: {fileID: 1399431539}
-  _ShootEmptyEnergyCoolDownDuration: 2
+  _ShootEmptyEnergyCoolDownDuration: 0.8
   _ShootEmptyBombCoolDownDuration: 2
   _GainEnergyBallClipName:
   - GainEnergyBall1
@@ -110878,7 +110919,20 @@ MonoBehaviour:
         m_CallState: 2
   WhenFullEnergy:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3738657697087634362}
+        m_TargetAssemblyTypeName: HelloPico2.InputDevice.Scripts.ControllerVibrator,
+          Assembly-CSharp
+        m_MethodName: VibrateWithSetting
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ReachFullEnergy
+          m_BoolArgument: 0
+        m_CallState: 2
   WhenGainBomb:
     m_PersistentCalls:
       m_Calls:
@@ -111053,7 +111107,7 @@ MonoBehaviour:
   _ShootCoolDown: 0.2
   _CostEnergy: 10
   _FullEnergyBallCostEnergy: 250
-  _ShootingActionCDDurationAfterFullEnergyBall: 0.9
+  _ShootingActionCDDurationAfterFullEnergyBall: 0.1
   _SpeedBufferDuration: 0.05
   _SpeedBufferEasingCurve:
     serializedVersion: 2
@@ -111113,6 +111167,34 @@ MonoBehaviour:
   _ColorWhip: {r: 1, g: 0.3176471, b: 0.3176471, a: 1}
   _SpeedLimit: 0.5
   _ReturnDuring: 0.4
+  _WhenCaculateLength:
+    _PersistentCalls: []
+  _WhenActivateSword:
+    _PersistentCalls:
+    - _Target: {fileID: 3738657697087634362}
+      _MethodName: VibrateWithSetting
+      _PersistentArguments:
+      - _Type: 2
+        _Int: 0
+        _String: ActivateSword
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  _WhenActivateWhip:
+    _PersistentCalls:
+    - _Target: {fileID: 3738657697087634362}
+      _MethodName: VibrateWithSetting
+      _PersistentArguments:
+      - _Type: 2
+        _Int: 0
+        _String: ActivateWhip
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
   _State: 1
   _TriggerControlBlendWeight: 1
 --- !u!114 &4939205610337954833
@@ -111140,6 +111222,19 @@ MonoBehaviour:
   range: 4
   speedLimit: 0.3
   speedDuring: 0.05
+  _WhenActivateShield:
+    _PersistentCalls:
+    - _Target: {fileID: 3738657697087634362}
+      _MethodName: VibrateWithSetting
+      _PersistentArguments:
+      - _Type: 2
+        _Int: 0
+        _String: ActivateShield
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
 --- !u!120 &4939205610337954861
 LineRenderer:
   m_ObjectHideFlags: 0

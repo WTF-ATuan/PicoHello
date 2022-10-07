@@ -268,21 +268,21 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7744332965651290996}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9430fccc00d42304386a28337c834844, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_CurrentType: 1
   m_ControlColorName: _EmissionColor
-  m_ControlValueName: _Alpha
+  m_ControlValueName: _OutGlowAlpha
   m_ColTarget: {r: 0, g: 0, b: 0, a: 0}
   m_ValueTarget: 0
   m_UsingGroupRenderer: 0
   m_GroupIndex: 0
   m_GroupRenderer: []
   m_TargetRenderer:
-  - {fileID: 1373342478479632864}
+  - {fileID: 4731241721660071946}
   m_Duration: 0.5
   m_Movement:
     serializedVersion: 2
@@ -337,7 +337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetType: 0
-  TargetRenderer: {fileID: 1373342478479632864}
+  TargetRenderer: {fileID: 4731241721660071946}
   TargetMaterialID: 0
   TargetImage: {fileID: 0}
   UseMaterialForRendering: 0
@@ -345,7 +345,7 @@ MonoBehaviour:
   TargetText: {fileID: 0}
   CacheMaterial: 1
   CreateMaterialInstance: 0
-  TargetPropertyName: _Alpha
+  TargetPropertyName: _OutGlowAlpha
   PropertyType: 1
   X: 0
   Y: 0
@@ -610,19 +610,22 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6527402874077357939, guid: 686f792d7487b5a4fbaacfcdbdaeb223, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6807941231603685374, guid: 686f792d7487b5a4fbaacfcdbdaeb223, type: 3}
       propertyPath: m_Name
       value: VFX_SampleBall_Glow
+      objectReference: {fileID: 0}
+    - target: {fileID: 6807941231603685374, guid: 686f792d7487b5a4fbaacfcdbdaeb223, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 686f792d7487b5a4fbaacfcdbdaeb223, type: 3}
 --- !u!4 &7725632306359691978 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2498402985396986969, guid: 686f792d7487b5a4fbaacfcdbdaeb223, type: 3}
-  m_PrefabInstance: {fileID: 5303808666838044307}
-  m_PrefabAsset: {fileID: 0}
---- !u!199 &1373342478479632864 stripped
-ParticleSystemRenderer:
-  m_CorrespondingSourceObject: {fileID: 6527402874077357939, guid: 686f792d7487b5a4fbaacfcdbdaeb223, type: 3}
   m_PrefabInstance: {fileID: 5303808666838044307}
   m_PrefabAsset: {fileID: 0}

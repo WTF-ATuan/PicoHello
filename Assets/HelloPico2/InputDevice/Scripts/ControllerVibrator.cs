@@ -45,10 +45,12 @@ namespace HelloPico2.InputDevice.Scripts{
 					VibratePhoenix(gainClip);
 					break;
 				case VRType.Neo3:
-					VibrateNeo3(lerpValue);
+					var settings = vibrateData.FindSetting("Gain_Energy");
+					VibrateNeo3(lerpValue * settings.amplitude);
 					break;
 				case VRType.Oculus:
-					VibrateXR(lerpValue);
+					settings = vibrateData.FindSetting("Gain_Energy");
+					VibrateXR(lerpValue * settings.amplitude);
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();
