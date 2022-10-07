@@ -466,6 +466,7 @@ namespace HelloPico2.PlayerController.Arm
                 ActivateWeapon(currentEnergyBall);
 
                 energyBehavior.Activate(armLogic, armLogic.data, currentEnergyBall, fromScale);
+
                 currentWeaponBehavior = energyBehavior;
             }
 
@@ -486,7 +487,7 @@ namespace HelloPico2.PlayerController.Arm
 
                 var fromScale = (currentShape) ? currentShape.transform.localScale : Vector3.zero;
 
-                ActivateWeapon(_Shield);                
+                ActivateWeapon(_Shield);
 
                 shieldBehavior.Activate(armLogic, armLogic.data, _Shield, fromScale);
                 currentWeaponBehavior = shieldBehavior;
@@ -508,7 +509,9 @@ namespace HelloPico2.PlayerController.Arm
                         hasTransformProcess = false;
                     };
 
-                    currentWeaponBehavior.Deactivate(currentShape); 
+                    currentWeaponBehavior.Deactivate(currentShape);
+                    if (currentShape.TryGetComponent<IActivationNotify>(out var notify))
+                        notify.OnNotifyDeactivate();
                 }
                 else
                 {
@@ -525,6 +528,8 @@ namespace HelloPico2.PlayerController.Arm
             weapon.transform.forward = armLogic.data.Controller.transform.forward;
             weapon.transform.SetParent(currentEnergyBall.transform.parent);
             currentShape = weapon;
+            if (weapon.TryGetComponent<IActivationNotify>(out var notifyActivate))
+                notifyActivate.OnNotifyActivate();
         }
         private IEnumerator CoolDown (float duration) {
             yield return new WaitForSeconds(duration);
@@ -555,8 +560,6 @@ namespace HelloPico2.PlayerController.Arm
                 Obj.SetActive(true);
                 //  TODO: Scaling control
                 Obj.transform.DOScale(Obj.transform.localScale, _TransitionDuration).From(_SwordFromScale).SetEase(_TrasitionEaseCurve);
-                //Obj.transform.DOScale(Obj.transform.localScale, _TransitionDuration).From(Vector3.one * fromScale.x).SetEase(_TrasitionEaseCurve);
-                //print("Energyball Deactivate");
 
                 hasTransformProcess = false;
             };

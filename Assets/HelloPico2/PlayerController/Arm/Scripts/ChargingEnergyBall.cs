@@ -6,7 +6,7 @@ using DG.Tweening;
 
 namespace HelloPico2.PlayerController.Arm
 {
-    public class ChargingEnergyBall : MonoBehaviour, IGainEnergyFeedback, IShootingFeedback, IFullEnergyFeedback
+    public class ChargingEnergyBall : MonoBehaviour, IActivationNotify, IGainEnergyFeedback, IShootingFeedback, IFullEnergyFeedback
     {
         public Shooting _EnergyBallDeformEffect;
         public float _Punch = 1.3f;
@@ -55,6 +55,26 @@ namespace HelloPico2.PlayerController.Arm
             yield return new WaitForSeconds(_PunchDuration);
             _Follower.m_Scale = true;
             process = null;
+        }
+
+        public void OnNotifyActivate()
+        {
+            print("isCharged " + isCharged);
+            if (isCharged)
+            {
+                print("Notify Activate");
+                _WhenFullyCharged?.Invoke();
+            }
+        }
+
+        public void OnNotifyDeactivate()
+        {
+            print("isCharged " + isCharged);
+            if (isCharged)
+            {
+                print("Notify Deactivate");
+                _WhenExitFullyCharged?.Invoke();
+            }
         }
     }
 }
