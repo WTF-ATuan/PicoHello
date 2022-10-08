@@ -32,6 +32,7 @@ Shader "GGDog/Uber_ToonShader"
 		Blend [_SourceBlend] [_DestBlend]
 		
 		Cull [_Cull]
+
 		Pass
 		{	
 			CGPROGRAM
@@ -112,7 +113,7 @@ Shader "GGDog/Uber_ToonShader"
 
 				col = lerp(col*_ShadowColor,col*_Color,N_VS_Dot_L/2);
 
-				col += Rim*N_VS_Dot_L*_EdgeRimColor  +  _EdgeRimColor*saturate(0.75-N_VS_Dot_L)*Rim_Ambient *_AmbientFade;
+				col += Rim*N_VS_Dot_L*_EdgeRimColor*col.a  +  _EdgeRimColor*saturate(0.75-N_VS_Dot_L)*Rim_Ambient *_AmbientFade*col.a;
 
 
 				return saturate(col);
