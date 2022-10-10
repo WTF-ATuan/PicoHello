@@ -1,8 +1,8 @@
-//2D¾B¸n_µo¥ú
 Shader "MyShader/Mask_In_Add"
 {
 	Properties
 	{
+		_Layer("Layer",Range(0,30)) = 0
 	}
 
 	SubShader
@@ -13,8 +13,8 @@ Shader "MyShader/Mask_In_Add"
 		
         ZWrite Off
         Stencil {
-            Ref 0
-            Comp Less
+            Ref [_Layer]
+            Comp Equal
             Pass Keep
         }
 		

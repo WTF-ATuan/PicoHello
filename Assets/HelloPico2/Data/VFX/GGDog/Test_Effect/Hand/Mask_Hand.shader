@@ -1,7 +1,8 @@
-Shader "Unlit/Hand"
+Shader "Unlit/Rim"
 {
 	Properties
 	{
+		_Layer("Layer",Range(0,30)) = 1
 		_RimColor("RimColor",Color) = (1,1,1,1)
 		_RimPow("RimPow",Range(0,1.5)) = 1
 		_RimPart("RimPart",Range(0,1)) = 0.15
@@ -11,7 +12,7 @@ Shader "Unlit/Hand"
         Tags { "RenderType" = "Opaque" "Queue" = "Geometry+1"}
         ZWrite off
         Stencil {
-            Ref 10
+            Ref [_Layer]
             Comp always
             Pass replace
         }
@@ -69,7 +70,7 @@ Shader "Unlit/Hand"
 
 				float Rim = 1-saturate(smoothstep(0,_RimPow,dot(worldNormal,worldViewDir)+(1-_RimPart) ));
 
-				return Rim*_RimColor*1.5*i.color.a;
+				return Rim*_RimColor*smoothstep(0.2,0.35,1-i.uv.y)*1.5*i.color.a;
 			}
 			ENDCG
 		}

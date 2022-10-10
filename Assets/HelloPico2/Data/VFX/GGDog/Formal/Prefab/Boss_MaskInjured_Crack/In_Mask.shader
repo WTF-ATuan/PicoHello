@@ -1,11 +1,9 @@
-Shader "GGDog/Space_Test/Soft_PointGlow"
+Shader "GGDog/In_Mask_BossInjured"
 {
     Properties
     {
 		_Layer("Layer",Range(0,30)) = 1
-		_Color("Color",Color) = (1,1,1,1)
-        _Alpha("Alpha",Range(0,1)) = 1
-        _intense("Intense",Range(1,5)) = 1
+        _MainTex ("Texture", 2D) = "white" {}
     }
     SubShader
     {
@@ -21,10 +19,9 @@ Shader "GGDog/Space_Test/Soft_PointGlow"
             Pass Keep
         }
         ZTest Always
-		
         Pass
         {
-		    Blend One One
+		    Blend SrcAlpha One
         
             CGPROGRAM
             #pragma vertex vert
@@ -49,7 +46,10 @@ Shader "GGDog/Space_Test/Soft_PointGlow"
                 float4 color : COLOR;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
-
+            
+            sampler2D _MainTex;
+            float4 _MainTex_ST;
+            
             v2f vert (appdata v)
             {
                 v2f o;
@@ -57,29 +57,29 @@ Shader "GGDog/Space_Test/Soft_PointGlow"
                 UNITY_TRANSFER_INSTANCE_ID (v, o);
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = v.uv;
+                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				o.color = v.color;
 				
                 return o;
             }
-            float _intense;
-            float4 _Color;
-            float _Alpha;
-            float4 frag (v2f i) : SV_Target
+            half4 frag (v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID (i);
-				//中心距離場
-				float D =1- distance(float2(i.uv.x,i.uv.y),float2(0.5,0.5));
-				//float D = smoothstep(-15.4,4.2,1-38.7*((i.uv.x-0.5)*(i.uv.x-0.5)+(i.uv.y-0.5)*(i.uv.y-0.5))-1);
 
-				//漸層度
-				D = smoothstep(0.5,2,D)*_intense;
+                half3 TexRGB = tex2D(_MainTex, i.uv).rgb;
 
-				float4 finalColor = saturate(i.color*D*i.color.a);
+                half col = TexRGB.g;
+                
+                half GlowTex = TexRGB.b;
+
+                half MaskTex = TexRGB.r;
 				
-                clip(saturate(finalColor.a) - 0.00015);
+                col *= step(1,MaskTex+i.color.a) *i.color.a;
+                GlowTex *= (MaskTex+i.color.a);
 
-                return finalColor*_Color*_Alpha;
+                col += GlowTex*smoothstep(0,0.5,i.color.a);
+
+                return half4(col*i.color.rgb,col);
             }
             ENDCG
         }
