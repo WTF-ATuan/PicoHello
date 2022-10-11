@@ -1,5 +1,3 @@
-// Upgrade NOTE: replaced 'UNITY_INSTANCE_ID' with 'UNITY_VERTEX_INPUT_INSTANCE_ID'
-
 Shader "GGDog/Additive_OneOne_CullOff"
 {
     Properties
@@ -8,8 +6,8 @@ Shader "GGDog/Additive_OneOne_CullOff"
     }
     SubShader
     {
-        Tags { "RenderType"="Transparent" }
-        LOD 100
+        Tags { "Queue"="Transparent" }
+        LOD 1
 
 		Blend One One
 		Zwrite Off

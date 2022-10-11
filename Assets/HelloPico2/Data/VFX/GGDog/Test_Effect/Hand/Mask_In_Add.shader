@@ -61,8 +61,7 @@ Shader "MyShader/Mask_In_Add"
 			float4 frag (v2f i) : SV_Target
 			{  
 				//中心距離場
-				float D =1- distance(float2(i.uv.x,i.uv.y),float2(0.5,0.5));
-				//float D = smoothstep(-15.4,4.2,1-38.7*((i.uv.x-0.5)*(i.uv.x-0.5)+(i.uv.y-0.5)*(i.uv.y-0.5))-1);
+				float D = smoothstep(-5.4,6.5,1-38.7*((i.uv.x-0.5)*(i.uv.x-0.5)+(i.uv.y-0.5)*(i.uv.y-0.5))-1)*2;
 
 				//漸層度
 				float D2 = smoothstep(0.75,1.5,D)*8;
