@@ -131,6 +131,8 @@ namespace HelloPico2.PlayerController.Arm
 
             if (energy != 0)
                 currentEnergyBall.SetActive(true);
+            else
+                currentEnergyBall.transform.localScale = Vector3.zero;
         }
         public void SetShootCoolDown(float duration) {
             _ShootCoolDown = duration;
@@ -426,6 +428,40 @@ namespace HelloPico2.PlayerController.Arm
                 }
                 if (currentEnergyBall.TryGetComponent<IFullEnergyFeedback>(out var fullEnergyFeedback)) {
                     FullEnergyFeedback.Add(fullEnergyFeedback);                
+                }
+            }
+        }
+        public void ChangeChargingEnergyBall(GameObject chargingEnergyball)
+        {
+            _ChargingEnergyBall = chargingEnergyball;
+
+            if (currentEnergyBall == null)
+            {
+                GenerateChargingEnergyBall();
+            }
+            else {
+                Destroy(currentEnergyBall);
+                currentEnergyBall = Instantiate(_ChargingEnergyBall, _Pivot);
+                currentEnergyBall.transform.localPosition = _DefaultOffset +
+                new Vector3(0, 0, _OffsetRange.x);
+
+                if (!armLogic.CheckHasEnergy())
+                    currentEnergyBall.SetActive(false);
+
+                if (currentEnergyBall.TryGetComponent<IGainEnergyFeedback>(out var gainEnergyFeedback))
+                {
+                    GainEnergyFeedback.Clear();
+                    GainEnergyFeedback.Add(gainEnergyFeedback);
+                }
+                if (currentEnergyBall.TryGetComponent<IShootingFeedback>(out var shootingFeedback))
+                {
+                    ShootingFeedback.Clear();
+                    ShootingFeedback.Add(shootingFeedback);
+                }
+                if (currentEnergyBall.TryGetComponent<IFullEnergyFeedback>(out var fullEnergyFeedback))
+                {
+                    FullEnergyFeedback.Clear();
+                    FullEnergyFeedback.Add(fullEnergyFeedback);
                 }
             }
         }
