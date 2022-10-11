@@ -21,6 +21,7 @@ namespace HelloPico2.PlayerController.Arm
             ArmorWeaponsData.ArmorWeapons armorWeaponsData = _ArmorWeaponsSetting.GetData(data.armorType);
 
             energyball.ChargedEnergyProjectile = armorWeaponsData.fullEnergyBall;
+            energyball.ChangeChargingEnergyBall(armorWeaponsData.ChargingEnergyBall);
         }
     }
 }
