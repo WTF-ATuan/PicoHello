@@ -24,7 +24,7 @@ public class SceneController : MonoBehaviour{
 	}
 
 	public void SingleLoadScene(string sceneName){
-		StartCoroutine(LoadingScene(sceneName, true, true));
+		SceneManager.LoadScene(sceneName , LoadSceneMode.Single);
 	}
 
 	public void ActiveToMainScene(string sceneName){

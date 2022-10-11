@@ -71,8 +71,8 @@ public class MenuItemGetScript : MonoBehaviour
         else
         {
             menuPrefabs.SetTrigger("isGet");
-            _targetScript.AddItemHeld();
-            _targetScript.LoadTimeLine();
+            _targetScript?.AddItemHeld();
+            _targetScript?.LoadTimeLine();
             onGrab?.Invoke();
         }
         
