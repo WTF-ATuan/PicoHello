@@ -50,13 +50,14 @@ Shader "Unlit/Ground"
             half4 frag (v2f i) : SV_Target
             {
 				//中心距離場
-				half D =distance(float2(i.uv.x,i.uv.y),float2(0.5,0.5));
-
-				D = smoothstep(0,0.5,D);
+				//half D =distance(float2(i.uv.x,i.uv.y),float2(0.5,0.5));
+                
+				float D = smoothstep(-35.8,30.6,1-80.1*((i.uv.x-0.5)*(i.uv.x-0.5)+(i.uv.y-0.5)*(i.uv.y-0.5))-1);
+				D = D*D;
 
                 half4 FinalColor = lerp(_ShadowColor,_SkyColor*2, D );
                
-                clip(0.65-D);
+            //    clip(0.65-D);
 
 				half D2 = smoothstep(0.5,1,1-D);
 
@@ -64,7 +65,7 @@ Shader "Unlit/Ground"
                 //後方暗漸層
                 half Back = smoothstep(-_SkyFarPos,_SkyFarPos,i.uv.z);
 
-                return half4(FinalColor.rgb,0.75*D2*Back);
+                return half4(FinalColor.rgb,D2*D);
             }
             ENDCG
         }
