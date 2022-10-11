@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Sirenix.Utilities;
 using UnityEngine;
 
 namespace Project{
@@ -23,6 +24,7 @@ namespace Project{
 				NonCallbackActions.Add(type, actions);
 			}
 		}
+
 		public static void Subscribe<T, TResult>(Func<T, TResult> callback){
 			var type = typeof(T);
 			var containsKey = CallbackActions.ContainsKey(type);
@@ -64,6 +66,17 @@ namespace Project{
 			}
 
 			return default;
+		}
+
+		public void DebugList(){
+			Debug.Log(NonCallbackActions.Count + "Non CallbackActions");
+			NonCallbackActions.ForEach(x => Debug.Log($"Event Name = {x.Key.Name}"));
+			CallbackActions.ForEach(x => Debug.Log(x.Key.Name));
+		}
+
+		public void Clear(){
+			NonCallbackActions.Clear();
+			CallbackActions.Clear();
 		}
 
 
