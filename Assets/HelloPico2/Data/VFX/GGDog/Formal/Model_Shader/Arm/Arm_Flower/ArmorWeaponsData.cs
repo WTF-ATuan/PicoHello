@@ -13,6 +13,7 @@ namespace HelloPico2.ScriptableObjects
         {
             public ArmorType armorType;
             public GameObject fullEnergyBall;
+            public GameObject ChargingEnergyBall;
         }
         public List<ArmorWeapons> armorWeapons = new List<ArmorWeapons>();
 

@@ -37,7 +37,8 @@ namespace HelloPico2.PlayerController.Arm
         protected override void OnTriggerEnter(Collider other)
         {
             if (finishedInitialDelay && CheckSurroundedTarget())
-            {                
+            {
+                Debug.Log("Collide with " + other.name);
                 PlayExplosionEffect();
                 StopCoroutine(timer);
             }
