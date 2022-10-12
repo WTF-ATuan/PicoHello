@@ -222,4 +222,67 @@ public class Level_FadeController : MonoBehaviour
         }
     }
 
+    private static class ShaderIDs
+    {
+        internal static readonly int 
+
+              SkyColor     = Shader.PropertyToID   ("_SkyColor"),
+                Color      = Shader.PropertyToID     ("_Color"),
+             ShadowColor   = Shader.PropertyToID  ("_ShadowColor"),
+                 Far       = Shader.PropertyToID      ("_Far"),
+            FarSmoothStep  = Shader.PropertyToID ("_FarSmoothStep"),
+             FarPosition   = Shader.PropertyToID  ("_FarPosition"),
+              SkyFarPos    = Shader.PropertyToID   ("_SkyFarPos"),
+              ViewFarPos   = Shader.PropertyToID   ("_ViewFarPos"),
+               ViewYPos    = Shader.PropertyToID    ("_ViewYPos"),
+            GroundFogWidth = Shader.PropertyToID ("_GroundFogWidth"),
+             TopGlowFogPos = Shader.PropertyToID  ("_TopGlowFogPos"),
+               UVColor     = Shader.PropertyToID    ("_UVColor");
+    }
+
+
+
+    //漸層轉換顏色
+    void M2M_Color(int PropertyID, Material M1, Material M2, float speed)
+    {
+        M1.SetColor(PropertyID, Color.Lerp(M1.GetColor(PropertyID), M2.GetColor(PropertyID), speed));
+    }
+    //漸層轉換數值
+    void M2M_Float(int PropertyID, Material M1, Material M2, float speed)
+    {
+        M1.SetFloat(PropertyID, Mathf.Lerp(M1.GetFloat(PropertyID), M2.GetFloat(PropertyID), speed));
+    }
+
+    //景物
+    void Mat2Mat_Env (Material M1 , Material M2 ,float speed)
+    {
+        M2M_Color(ShaderIDs.SkyColor, M1, M2, speed);
+        M2M_Color(ShaderIDs.Color, M1, M2, speed);
+        M2M_Color(ShaderIDs.ShadowColor, M1, M2, speed);
+        M2M_Float(ShaderIDs.Far, M1, M2, speed);
+        M2M_Float(ShaderIDs.FarSmoothStep, M1, M2, speed);
+        M2M_Float(ShaderIDs.FarPosition, M1, M2, speed);
+        M2M_Float(ShaderIDs.SkyFarPos, M1, M2, speed);
+        M2M_Float(ShaderIDs.ViewFarPos, M1, M2, speed);
+        M2M_Float(ShaderIDs.ViewYPos, M1, M2, speed);
+        M2M_Float(ShaderIDs.GroundFogWidth, M1, M2, speed);
+        M2M_Float(ShaderIDs.TopGlowFogPos, M1, M2, speed);
+        M2M_Color(ShaderIDs.UVColor, M1, M2, speed);
+    }
+    //雲材質
+    void Mat2Mat_Cloud(Material M1, Material M2, float speed)
+    {
+        M2M_Color(ShaderIDs.Color, M1, M2, speed);
+        M2M_Color(ShaderIDs.ShadowColor, M1, M2, speed);
+        M2M_Color(ShaderIDs.SkyColor, M1, M2, speed);
+        M2M_Float(ShaderIDs.ViewFarPos, M1, M2, speed);
+    }
+    //天空球
+    void Mat2Mat_Sky(Material M1, Material M2, float speed)
+    {
+        M2M_Color(ShaderIDs.SkyColor, M1, M2, speed);
+        M2M_Color(ShaderIDs.ShadowColor, M1, M2, speed);
+        M2M_Float(ShaderIDs.SkyFarPos, M1, M2, speed);
+    }
+
 }

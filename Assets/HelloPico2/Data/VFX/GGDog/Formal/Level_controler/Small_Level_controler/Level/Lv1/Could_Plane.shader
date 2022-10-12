@@ -2,8 +2,10 @@ Shader "GGDog/Tunnel"
 {
     Properties
     {
+		_SkyColor("Sky Color",Color) = (1,1,1,1)
         _Color ("Color", COLOR) = (1,1,1,1)
         _ShadowColor ("ShadowColor", COLOR) = (0.5,0.5,0.5,1)
+        _ViewFarPos ("_ViewFarPos", Float) = 70
     }
     SubShader
     {
@@ -106,12 +108,14 @@ Shader "GGDog/Tunnel"
 				
 				half3 worldNormal = normalize(mul(v.normal,(half3x3)unity_WorldToObject));
 				
-				half3 worldPos = mul(unity_ObjectToWorld, v.vertex+ 0.003*Noise*v.normal*uv_dis ).xyz;
+				half3 worldPos = mul(unity_ObjectToWorld, v.vertex+ 0.003*Noise*v.normal ).xyz;
 				
 				half3 worldViewDir = normalize(_WorldSpaceCameraPos.xyz - worldPos);
 				
 				//漸層外圍天空色
-				o.NdotV_FarFog.y = ((worldPos.z-0.5)*(worldPos.z-0.5)+(worldPos.x-0.5)*(worldPos.x-0.5))*0.03;
+				//o.NdotV_FarFog.y = ((worldPos.z-0.5)*(worldPos.z-0.5)+(worldPos.x-0.5)*(worldPos.x-0.5))*0.03;
+				half worldPos2 = mul(unity_ObjectToWorld, v.vertex).z;
+                o.NdotV_FarFog.y = worldPos2;
 
 				//Rim的NDotV
 				o.NdotV_FarFog.x = dot(worldNormal,worldViewDir);
@@ -119,8 +123,10 @@ Shader "GGDog/Tunnel"
                 return o;
             }
 			
+            half4 _SkyColor;
 			half4 _Color;
 			half4 _ShadowColor;
+            half _ViewFarPos;
             half4 frag (v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
@@ -131,12 +137,15 @@ Shader "GGDog/Tunnel"
 				
 				col.rgb = lerp(col,_Color,smoothstep(0.5,1.0,col.r));
 				
-				//漸層外圍天空色
-				col.rgb = lerp(col,_ShadowColor,smoothstep(150,200,i.NdotV_FarFog.y));
-				
 				half4 Rim = 1-saturate(smoothstep(-0.5,1.0,i.NdotV_FarFog.x));
 				
 				col.rgb = lerp(col*_ShadowColor,_Color,Rim);
+				
+				
+                half Z =smoothstep(100,_ViewFarPos,i.NdotV_FarFog.y);
+                //後方暗漸層
+                col.rgb = lerp(col.rgb,_SkyColor, Z);
+
 
                 return col;
             }
