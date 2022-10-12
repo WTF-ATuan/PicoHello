@@ -32,6 +32,8 @@ namespace HelloPico2.PlayerController.Arm
         public bool enableGrip { get { return _EnableGrip; }set { _EnableGrip = value; } }
         public Interactor controllerInteractor { get; set; }
 
+        private bool triggerValue { get; set; }
+
         #region Delegate
         public delegate void ValueAction (ArmData data);
 		public delegate void FloatAction (float data);
@@ -43,6 +45,7 @@ namespace HelloPico2.PlayerController.Arm
 		public ValueAction OnGripDown;
 		public ValueAction OnTriggerUp;
 		public ValueAction OnTriggerDown;
+		public ValueAction OnTriggerDownOnce;
 		public ValueAction OnPrimaryAxisTouchUp;
 		public ValueAction OnPrimaryAxisClick;
 		public ValueAction OnPrimaryButtonClick;
@@ -127,7 +130,7 @@ namespace HelloPico2.PlayerController.Arm
 		{
             CheckInput();
         }
-        private void CheckInput() {
+        private void CheckInput() {            
             _controller.inputDevice.TryGetFeatureValue(CommonUsages.triggerButton, out var isTrigger);            
             _controller.inputDevice.TryGetFeatureValue(CommonUsages.trigger, out var isTriggerTouch);            
             _controller.inputDevice.TryGetFeatureValue(CommonUsages.gripButton, out var isGrip);
@@ -149,6 +152,14 @@ namespace HelloPico2.PlayerController.Arm
             else
             { 
                 OnTriggerUp?.Invoke(data);
+            }
+
+            if (triggerValue != isTrigger)
+            {
+                triggerValue = isTrigger;
+
+                if(triggerValue)
+                    OnTriggerDownOnce?.Invoke(data);
             }
 
             if (isTriggerTouch > 0 || isGripTouch > 0)
