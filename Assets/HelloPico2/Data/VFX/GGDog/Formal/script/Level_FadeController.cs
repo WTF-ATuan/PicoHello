@@ -34,6 +34,11 @@ public class Level_FadeController : MonoBehaviour
     [Tooltip("Transition: ToReality")]
     public Anime_Play Boss_Explosion;
 
+    public Material Env_Base;
+    public Material Cloud_Base;
+    public Material Sky_Base;
+    public Material PassageWay_Env_Base;
+    public Material PassageWay_Env_Lv1;
     //關卡
     public TheLevel The_Level;
     #region
@@ -59,7 +64,6 @@ public class Level_FadeController : MonoBehaviour
     }
     #endregion
 
-    public Material PassageWay_Env;
     private void OnEnable()
     {
         Now_Level = The_Level.The_Level[0];
@@ -131,6 +135,11 @@ public class Level_FadeController : MonoBehaviour
                     Level_Spawner_Switch(Level_0, false, 50);  //穿越加速，並關閉Emission
                     CloudPassThrough_Level_Switch(The_Level.The_Level[1]);
                     CloudPassThrough.enabled = true;
+
+                    //材質初始化還原
+                    LevelMaterial_Reset_Env_Cloud_Sky_(Level_1);
+                    Mat2Mat_Env(PassageWay_Env_Base, PassageWay_Env_Lv1, 1);
+
                     pre_level = now_level;
                 }
 
@@ -152,12 +161,12 @@ public class Level_FadeController : MonoBehaviour
                 }
 
                 //雲海內的所有材質漸變
-                Mat2Mat_Cloud(Level_1.Cloud, Level_2.Cloud, Level_1.M2M_speed);
-                Mat2Mat_Env(Level_1.Env, Level_2.Env, Level_1.M2M_speed);
-                Mat2Mat_Sky(Level_1.Sky, Level_2.Sky, Level_1.M2M_speed);
+                Mat2Mat_Cloud(Cloud_Base, Level_2.Cloud, Level_1.M2M_speed);
+                Mat2Mat_Env(Env_Base, Level_2.Env, Level_1.M2M_speed);
+                Mat2Mat_Sky(Sky_Base, Level_2.Sky, Level_1.M2M_speed);
 
                 //巨大螺貝通道的材質漸變
-                Mat2Mat_Env(PassageWay_Env, Level_2.Env, Level_1.M2M_speed);
+                Mat2Mat_Env(PassageWay_Env_Base, Level_2.Env, Level_1.M2M_speed);
 
                 break;
 
@@ -255,6 +264,13 @@ public class Level_FadeController : MonoBehaviour
     }
 
 
+
+    void LevelMaterial_Reset_Env_Cloud_Sky_(_Level Level)
+    {
+        Mat2Mat_Env(Env_Base, Level.Env, 1);
+        Mat2Mat_Cloud(Cloud_Base, Level.Cloud, 1);
+        Mat2Mat_Sky(Sky_Base, Level.Sky, 1);
+    }
 
     //漸層轉換顏色
     void M2M_Color(int PropertyID, Material M1, Material M2, float speed)
