@@ -51,9 +51,15 @@ public class Level_FadeController : MonoBehaviour
     public struct _Level
     {
         public ObjectPool_Spawner[] Spawner;
+
+        public Material Env;
+        public Material Cloud;
+        public Material Sky;
+        public float M2M_speed;
     }
     #endregion
 
+    public Material PassageWay_Env;
     private void OnEnable()
     {
         Now_Level = The_Level.The_Level[0];
@@ -140,10 +146,18 @@ public class Level_FadeController : MonoBehaviour
                 if (pre_level != now_level)
                 {
                     Level_Spawner_Switch(Level_1, false, 50);  //穿越加速，並關閉Emission
-                    CloudPassThrough_Level_Switch(The_Level.The_Level[2]);
-                    CloudPassThrough.enabled = true;
+                    //CloudPassThrough_Level_Switch(The_Level.The_Level[2]);
+                    //CloudPassThrough.enabled = true;
                     pre_level = now_level;
                 }
+
+                //雲海內的所有材質漸變
+                Mat2Mat_Cloud(Level_1.Cloud, Level_2.Cloud, Level_1.M2M_speed);
+                Mat2Mat_Env(Level_1.Env, Level_2.Env, Level_1.M2M_speed);
+                Mat2Mat_Sky(Level_1.Sky, Level_2.Sky, Level_1.M2M_speed);
+
+                //巨大螺貝通道的材質漸變
+                Mat2Mat_Env(PassageWay_Env, Level_2.Env, Level_1.M2M_speed);
 
                 break;
 
