@@ -13,6 +13,9 @@ public class Anime_Play : MonoBehaviour
 
     Animation anim;
 
+
+    public GameObject Level_0to3;
+
     private void Awake()
     {
         anim = GetComponent<Animation>();
@@ -36,7 +39,13 @@ public class Anime_Play : MonoBehaviour
         Next_Level.SetActive(true);
     }
 
+    //關閉0~3關場景
+    void Level_0to3_Off()
+    {
+        Level_0to3.SetActive(false);
+    }
 
+    
     //現實畫面: On
     public void On_SeeThroughManual()
     {

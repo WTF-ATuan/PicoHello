@@ -39,6 +39,7 @@ public class Level_FadeController : MonoBehaviour
     public Material Sky_Base;
     public Material PassageWay_Env_Base;
     public Material PassageWay_Env_Lv1;
+    public GameObject PassageWay;
     //關卡
     public TheLevel The_Level;
     #region
@@ -61,6 +62,8 @@ public class Level_FadeController : MonoBehaviour
         public Material Cloud;
         public Material Sky;
         public float M2M_speed;
+
+
     }
     #endregion
 
@@ -154,9 +157,11 @@ public class Level_FadeController : MonoBehaviour
                 now_level = 2;
                 if (pre_level != now_level)
                 {
-                    Level_Spawner_Switch(Level_1, false, 50);  //穿越加速，並關閉Emission
-                    //CloudPassThrough_Level_Switch(The_Level.The_Level[2]);
+                    Level_Spawner_Switch(Level_1, false, 20);  //穿越加速，並關閉Emission
+                    CloudPassThrough_Level_Switch(The_Level.The_Level[2]);
                     //CloudPassThrough.enabled = true;
+
+                    PassageWay.SetActive(true);
                     pre_level = now_level;
                 }
 
@@ -260,7 +265,9 @@ public class Level_FadeController : MonoBehaviour
                ViewYPos    = Shader.PropertyToID    ("_ViewYPos"),
             GroundFogWidth = Shader.PropertyToID ("_GroundFogWidth"),
              TopGlowFogPos = Shader.PropertyToID  ("_TopGlowFogPos"),
-               UVColor     = Shader.PropertyToID    ("_UVColor");
+               UVColor     = Shader.PropertyToID    ("_UVColor"),
+
+               Intense     = Shader.PropertyToID("_intense");
     }
 
 
