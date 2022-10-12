@@ -24,12 +24,22 @@ public class Follower : MonoBehaviour{
 	[ShowIf("m_Sync")] public bool m_Rotation;
 	[ShowIf("m_Sync")] public Vector3 m_AdditionalRotOffset;
 	[ShowIf("m_Sync")] public bool m_Scale;
+	
+	private MeshRenderer _MeshRenderer;
+	private MeshRenderer MeshRenderer
+    {
+		get { 
+			if (_MeshRenderer == null)
+				_MeshRenderer = GetComponent<MeshRenderer>();
+
+			return _MeshRenderer;
+		}
+	}
 
 	public Transform Target{
 		get{ return m_Target; }
 		set{ m_Target = value; }
 	}
-
 	public Vector3 offset{ get; set; }
 	public Vector3 PosPre{ get; set; }
 
@@ -77,11 +87,11 @@ public class Follower : MonoBehaviour{
 			PosPre = transform.position;
 		}
 	}
-
+	
 	private void SyncState(){
 		if(!m_Sync) return;
 
-		if(m_Activation) gameObject.GetComponent<MeshRenderer>().enabled = m_Target.gameObject.activeSelf;
+		if(m_Activation) MeshRenderer.enabled = m_Target.gameObject.activeSelf;
 		if(m_Rotation){
 			var followRotationOffset = m_Target.rotation * Quaternion.Euler(m_AdditionalRotOffset);
 			transform.rotation = followRotationOffset;

@@ -129,10 +129,13 @@ namespace HelloPico2.PlayerController.Arm
             // Charge Energy ball
             GenerateChargingEnergyBall();
 
+            // Feedbacks
+            GainEnergyFeedback.ForEach(x => x.OnNotify(armLogic.data));
+
             if (energy != 0)
                 currentEnergyBall.SetActive(true);
-            else
-                currentEnergyBall.transform.localScale = Vector3.zero;
+            else            
+                currentEnergyBall.transform.localScale = Vector3.zero;             
         }
         public void SetShootCoolDown(float duration) {
             _ShootCoolDown = duration;
@@ -232,7 +235,7 @@ namespace HelloPico2.PlayerController.Arm
                 //AudioPlayerHelper.PlayAudio(armLogic.data.GainEnergyClipName, transform.position);
 
                 // Feedbacks
-                GainEnergyFeedback.ForEach(x => x.OnNotify(armLogic.data.HandType));
+                GainEnergyFeedback.ForEach(x => x.OnNotify(armLogic.data));
 
                 Destroy(eventData.Interactable.transform.gameObject);
             });

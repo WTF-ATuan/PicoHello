@@ -18,9 +18,17 @@ namespace HelloPico2.PlayerController.Arm
         public UltEvents.UltEvent _WhenFullyCharged;
         public UltEvents.UltEvent _WhenExitFullyCharged;
 
+        private Renderer _MeshRenderer;
+        private Renderer meshRenderer { 
+            get { 
+                if (_MeshRenderer == null)
+                    _MeshRenderer = _Mesh.GetComponent<Renderer>();
+                return _MeshRenderer;
+            }
+        }
         bool isCharged { get; set; }
         Coroutine process;
-
+        
         public void ExitFullEnergyNotify(HandType hand)
         {
             if (!isCharged) return;
@@ -36,16 +44,37 @@ namespace HelloPico2.PlayerController.Arm
             isCharged = true;
             _WhenFullyCharged?.Invoke();
         }
-
         public void OnNotify(HandType hand)
         {
+            if (process != null) return;
+
+            process = StartCoroutine(Delayer());
+
+            PunchScale();
+
+            _WhenChargeEnergy?.Invoke();
+        }
+        public void OnNotify(HelloPico2.PlayerController.Arm.ArmData armData)
+        {
+            if (armData.Energy <= 0)
+            {                
+                meshRenderer.GetComponent<Follower>().m_Activation = false;
+                meshRenderer.enabled = false;
+                return;
+            }
+            else
+            {
+                meshRenderer.GetComponent<Follower>().m_Activation = true;
+                meshRenderer.enabled = true;
+            }
+
             if (process != null) return;                
 
             process = StartCoroutine(Delayer());
 
             PunchScale();
             
-            _WhenChargeEnergy?.Invoke();
+            _WhenChargeEnergy?.Invoke();            
         }
         public void PunchScale() {
             _Mesh.transform.DOPunchScale(_Mesh.transform.localScale * _Punch, _PunchDuration, _Vibrato);
