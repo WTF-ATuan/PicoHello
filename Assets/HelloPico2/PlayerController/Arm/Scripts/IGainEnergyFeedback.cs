@@ -2,5 +2,5 @@
 
 public interface IGainEnergyFeedback
 {
-    void OnNotify(HandType hand);
+    void OnNotify(HelloPico2.PlayerController.Arm.ArmData armdata);
 }

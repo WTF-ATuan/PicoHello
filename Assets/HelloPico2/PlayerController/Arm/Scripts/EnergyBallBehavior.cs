@@ -129,10 +129,13 @@ namespace HelloPico2.PlayerController.Arm
             // Charge Energy ball
             GenerateChargingEnergyBall();
 
+            // Feedbacks
+            GainEnergyFeedback.ForEach(x => x.OnNotify(armLogic.data));
+
             if (energy != 0)
                 currentEnergyBall.SetActive(true);
-            else
-                currentEnergyBall.transform.localScale = Vector3.zero;
+            else            
+                currentEnergyBall.transform.localScale = Vector3.zero;             
         }
         public void SetShootCoolDown(float duration) {
             _ShootCoolDown = duration;
@@ -180,6 +183,8 @@ namespace HelloPico2.PlayerController.Arm
             armLogic.OnUpdateInput += GetCurrentDeviceInput;
             armLogic.OnTriggerDown += ShootEnergyProjectile;
 
+            armLogic.OnTriggerDownOnce += InvalidShoot;
+
             currentShape = currentEnergyBall;
 
             GenerateChargingEnergyBall();
@@ -202,7 +207,9 @@ namespace HelloPico2.PlayerController.Arm
             armLogic.OnPrimaryAxisClick -= ConfirmShape;
             armLogic.OnPrimaryAxisTouchUp -= ExitShapeControlling;
 
-            armLogic.OnTriggerDown -= ShootEnergyProjectile;
+            armLogic.OnTriggerDown -= InvalidShoot;
+
+            armLogic.OnTriggerDownOnce -= ShootEnergyProjectile;
         }
         private void CheckEnableGrip(ArmData data) {
             armLogic.data.Controller.selectUsage = (data.Energy < data.MaxEnergy)? InputHelpers.Button.Grip : InputHelpers.Button.None;
@@ -228,7 +235,7 @@ namespace HelloPico2.PlayerController.Arm
                 //AudioPlayerHelper.PlayAudio(armLogic.data.GainEnergyClipName, transform.position);
 
                 // Feedbacks
-                GainEnergyFeedback.ForEach(x => x.OnNotify(armLogic.data.HandType));
+                GainEnergyFeedback.ForEach(x => x.OnNotify(armLogic.data));
 
                 Destroy(eventData.Interactable.transform.gameObject);
             });
@@ -348,14 +355,15 @@ namespace HelloPico2.PlayerController.Arm
         private void ShootEnergyProjectile(ArmData data)
         {
             if (!shootingCDAfterFullChargedShoot.CanInvoke()) return;
-            if (data.Energy <= 0) {
+            if (data.Energy <= 0)
+            {
                 if (EnergyBallEmptySoundCD.CanInvoke())
                 {
                     AudioPlayerHelper.PlayAudio(data.ShootWhenNoEnergyClipName, transform.position);
                     data.WhenNoEnergyShoot?.Invoke();
                     EnergyBallEmptySoundCD.Reset();
                 }
-                return; 
+                return;
             }
             if (ShootCoolDownProcess != null) return;
             if (_OnlyShootProjectileOnEnergyBallState && currentShape != currentEnergyBall) return;
@@ -375,6 +383,14 @@ namespace HelloPico2.PlayerController.Arm
             UpdateScale(data);
 
             data.WhenShootProjectile?.Invoke();
+        }
+        private void InvalidShoot(ArmData data) {
+            if (data.Energy <= 0)
+            {
+                AudioPlayerHelper.PlayAudio(data.ShootWhenNoEnergyClipName, transform.position);
+                data.WhenNoEnergyShoot?.Invoke();
+                EnergyBallEmptySoundCD.Reset();
+            }
         }
         private void GenerateProjectile(bool overwriteScale, GameObject prefab, float speed, float scale = 1, bool homing = false)
         {
