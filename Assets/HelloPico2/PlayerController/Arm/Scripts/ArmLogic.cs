@@ -33,8 +33,6 @@ namespace HelloPico2.PlayerController.Arm
         public Interactor controllerInteractor { get; set; }
 
         private bool triggerValue { get; set; }
-        private bool primaryButtonValue { get; set; }
-        private bool secondaryButtonValue { get; set; }
 
         #region Delegate
         public delegate void ValueAction (ArmData data);
@@ -46,15 +44,12 @@ namespace HelloPico2.PlayerController.Arm
 		public ValueAction OnGripUp;
 		public ValueAction OnGripDown;
 		public ValueAction OnTriggerUp;
-		public ValueAction OnTriggerUpOnce;
 		public ValueAction OnTriggerDown;
 		public ValueAction OnTriggerDownOnce;
 		public ValueAction OnPrimaryAxisTouchUp;
 		public ValueAction OnPrimaryAxisClick;
 		public ValueAction OnPrimaryButtonClick;
-		public ValueAction OnPrimaryButtonClickOnce;
 		public ValueAction OnSecondaryButtonClick;
-		public ValueAction OnSecondaryButtonClickOnce;
 		public AxisAction OnPrimaryAxisInput;
         public InputAction OnUpdateInput;
         #endregion
@@ -144,7 +139,7 @@ namespace HelloPico2.PlayerController.Arm
             _controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxisClick, out var padAxisClick);
             _controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out var padAxis);
 
-            _controller.inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out var primaryButton);            
+            _controller.inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out var primaryButton);
             _controller.inputDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out var secondaryButton);
 
             // PXR usage
@@ -163,10 +158,8 @@ namespace HelloPico2.PlayerController.Arm
             {
                 triggerValue = isTrigger;
 
-                if (triggerValue)
+                if(triggerValue)
                     OnTriggerDownOnce?.Invoke(data);
-                else
-                    OnTriggerUpOnce?.Invoke(data);
             }
 
             if (isTriggerTouch > 0 || isGripTouch > 0)
@@ -227,20 +220,6 @@ namespace HelloPico2.PlayerController.Arm
             { 
                 OnSecondaryButtonClick?.Invoke(data);                
             }
-
-            if (primaryButtonValue != primaryButton) 
-            {
-                primaryButtonValue = primaryButton;
-
-                if (primaryButton) OnPrimaryButtonClickOnce?.Invoke(data);
-            }
-            if (secondaryButtonValue != secondaryButton) 
-            {
-                secondaryButtonValue = secondaryButton;
-
-                if(secondaryButton) OnSecondaryButtonClickOnce?.Invoke(data);
-            }
-
             OnPrimaryAxisInput?.Invoke(padAxis);
         }
         private void OnDeviceInputDetected(DeviceInputDetected obj)

@@ -57,7 +57,7 @@ namespace HelloPico2.PlayerController.Arm
 
         [FoldoutGroup("Debug")] public bool _OnlyShootProjectileOnEnergyBallState = true;
         
-        [FoldoutGroup("Transition")][ReadOnly][SerializeField] private bool _HasTransformProcess;
+        [FoldoutGroup("Transition")][ReadOnly][SerializeField] private bool hasTransformProcess;
         private SwordBehavior _SwordBehavior;
         private ShieldBehavior _ShieldBehavior;
 
@@ -88,7 +88,6 @@ namespace HelloPico2.PlayerController.Arm
         public LayerMask LayerMask { get { return _LayerMask; } set { _LayerMask = value; } }
 
         public GameObject ChargedEnergyProjectile { get { return _ChargedEnergyProjectile; } set { _ChargedEnergyProjectile = value; } }
-        public bool hasTransformProcess { get { return _HasTransformProcess; } }
         public Coroutine ShootCoolDownProcess { get; set; }
         public Coroutine BombShootCoolDownProcess { get; set; }
         public bool OverWriteProjectileLifeTime { get; set; }
@@ -117,10 +116,7 @@ namespace HelloPico2.PlayerController.Arm
         private DeviceInputDetected currentDeviceInputDetected { get; set; }
         private ColdDownTimer shootingCDAfterFullChargedShoot;
         #endregion
-        #region Public Method    
-        public bool isCurrentWeaponEnergyBall() {
-            return currentWeaponBehavior == energyBehavior;
-        }
+        #region Public Method
         public void ChargeEnergyDirectly(float energy)
         {
             // Charge Energy
@@ -134,7 +130,7 @@ namespace HelloPico2.PlayerController.Arm
             GenerateChargingEnergyBall();
 
             // Feedbacks
-            GainEnergyFeedback.ForEach(x => x.OnNotify(armLogic.data, this));
+            GainEnergyFeedback.ForEach(x => x.OnNotify(armLogic.data));
 
             if (energy != 0)
                 currentEnergyBall.SetActive(true);
@@ -180,9 +176,6 @@ namespace HelloPico2.PlayerController.Arm
             armLogic.OnPrimaryButtonClick += ShootChargedProjectile;
             armLogic.OnSecondaryButtonClick += ShootChargedProjectile;
 
-            armLogic.OnPrimaryButtonClickOnce += InvalidBombShoot;
-            armLogic.OnSecondaryButtonClickOnce += InvalidBombShoot;
-
             armLogic.OnPrimaryAxisInput += UpdateShape;
             armLogic.OnPrimaryAxisClick += ConfirmShape;
             armLogic.OnPrimaryAxisTouchUp += ExitShapeControlling;
@@ -209,9 +202,6 @@ namespace HelloPico2.PlayerController.Arm
             
             armLogic.OnPrimaryButtonClick -= ShootChargedProjectile;
             armLogic.OnSecondaryButtonClick -= ShootChargedProjectile;
-
-            armLogic.OnPrimaryButtonClickOnce -= InvalidBombShoot;
-            armLogic.OnSecondaryButtonClickOnce -= InvalidBombShoot;
 
             armLogic.OnPrimaryAxisInput -= UpdateShape;
             armLogic.OnPrimaryAxisClick -= ConfirmShape;
@@ -245,7 +235,7 @@ namespace HelloPico2.PlayerController.Arm
                 //AudioPlayerHelper.PlayAudio(armLogic.data.GainEnergyClipName, transform.position);
 
                 // Feedbacks
-                GainEnergyFeedback.ForEach(x => x.OnNotify(armLogic.data, this));
+                GainEnergyFeedback.ForEach(x => x.OnNotify(armLogic.data));
 
                 Destroy(eventData.Interactable.transform.gameObject);
             });
@@ -333,7 +323,7 @@ namespace HelloPico2.PlayerController.Arm
                 return; 
             }
             if (BombShootCoolDownProcess != null) return;
-            if (_HasTransformProcess) return;
+            if (hasTransformProcess) return;
 
             GenerateProjectile(true, _ChargedEnergyProjectile, _ChargeShootSpeed);
             // CD
@@ -377,7 +367,7 @@ namespace HelloPico2.PlayerController.Arm
             }
             if (ShootCoolDownProcess != null) return;
             if (_OnlyShootProjectileOnEnergyBallState && currentShape != currentEnergyBall) return;
-            if (_HasTransformProcess) return;
+            if (hasTransformProcess) return;
             if (armLogic.CheckFullEnergy()) { ShootFulEnergyProjectile(data); return; }
 
             data.Energy -= _CostEnergy;
@@ -400,15 +390,6 @@ namespace HelloPico2.PlayerController.Arm
                 AudioPlayerHelper.PlayAudio(data.ShootWhenNoEnergyClipName, transform.position);
                 data.WhenNoEnergyShoot?.Invoke();
                 EnergyBallEmptySoundCD.Reset();
-            }
-        }
-        private void InvalidBombShoot(ArmData data)
-        {
-            if (data.bombAmount <= 0)
-            {
-                AudioPlayerHelper.PlayAudio(data.ShootWhenNoBombClipName, transform.position);
-                data.WhenNoBombShoot?.Invoke();
-                BombEmptySoundCD.Reset();
             }
         }
         private void GenerateProjectile(bool overwriteScale, GameObject prefab, float speed, float scale = 1, bool homing = false)
@@ -520,7 +501,7 @@ namespace HelloPico2.PlayerController.Arm
         private void UpdateShape(Vector2 axis) {
             //if (isShapeConfirmed) return;
             
-            if (_HasTransformProcess) return;
+            if (hasTransformProcess) return;
 
             // Force activate Energy ball when player has no energy
             if (Mathf.Abs(axis.y) <= 0.1f || !armLogic.CheckHasEnergy())
@@ -568,7 +549,7 @@ namespace HelloPico2.PlayerController.Arm
         private void ActivateWeapon(GameObject weapon) {            
             if (currentShape)
             {
-                _HasTransformProcess = true;
+                hasTransformProcess = true;
 
                 if (currentWeaponBehavior)
                 {
@@ -577,7 +558,7 @@ namespace HelloPico2.PlayerController.Arm
                     {
                         weapon.SetActive(true);
 
-                        _HasTransformProcess = false;
+                        hasTransformProcess = false;
                     };
 
                     currentWeaponBehavior.Deactivate(currentShape);
@@ -590,7 +571,7 @@ namespace HelloPico2.PlayerController.Arm
                     currentShape?.SetActive(false);
                     weapon.SetActive(true);
 
-                    _HasTransformProcess = false;
+                    hasTransformProcess = false;
                 }
             }
             
@@ -632,7 +613,7 @@ namespace HelloPico2.PlayerController.Arm
                 //  TODO: Scaling control
                 Obj.transform.DOScale(Obj.transform.localScale, _TransitionDuration).From(_SwordFromScale).SetEase(_TrasitionEaseCurve);
 
-                _HasTransformProcess = false;
+                hasTransformProcess = false;
             };
         }
         public override void Deactivate(GameObject obj)

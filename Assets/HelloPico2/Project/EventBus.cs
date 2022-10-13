@@ -68,13 +68,13 @@ namespace Project{
 			return default;
 		}
 
-		public static void DebugList(){
+		public void DebugList(){
 			Debug.Log(NonCallbackActions.Count + "Non CallbackActions");
 			NonCallbackActions.ForEach(x => Debug.Log($"Event Name = {x.Key.Name}"));
 			CallbackActions.ForEach(x => Debug.Log(x.Key.Name));
 		}
 
-		public static void Clear(){
+		public void Clear(){
 			NonCallbackActions.Clear();
 			CallbackActions.Clear();
 		}

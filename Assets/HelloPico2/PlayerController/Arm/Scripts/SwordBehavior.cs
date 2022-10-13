@@ -71,15 +71,9 @@ namespace HelloPico2.PlayerController.Arm
             {
                 armLogic.OnTriggerUp += ActivateWhip;
                 armLogic.OnTriggerDown += ActivateSword;
-
-                armLogic.OnTriggerUpOnce += PlayWhipSound;
-                armLogic.OnTriggerDownOnce += PlaySwordSound;
             }
 
-            AudioPlayerHelper.PlayAudio(data.toWhipClipName, transform.position);
-
             _WhenCaculateLength?.Invoke();
-
             base.Activate(Logic, data, lightBeam, fromScale);
         }
 
@@ -93,11 +87,8 @@ namespace HelloPico2.PlayerController.Arm
                     armLogic.OnUpdateInput -= SetBlendWeight;
                 else
                 { 
-                    armLogic.OnTriggerUp -= ActivateWhip;
+                    armLogic.OnTriggerUp -= ActivateWhip; 
                     armLogic.OnTriggerDown -= ActivateSword; 
-
-                    armLogic.OnTriggerUpOnce -= PlayWhipSound;
-                    armLogic.OnTriggerDownOnce -= PlaySwordSound;
                 }
             }
 
@@ -136,18 +127,12 @@ namespace HelloPico2.PlayerController.Arm
 
             if (currentInteractableType != InteractableSettings.InteractableType.Sword)
             {
+                print("Vibrate sword");
                 _WhenActivateSword?.Invoke();
             }
 
             _State = State.sword;
             currentInteractableType = InteractableSettings.InteractableType.Sword;
-        }
-        private void PlayWhipSound(ArmData data)
-        {
-            AudioPlayerHelper.PlayAudio(data.toWhipClipName, transform.position);
-        }
-        private void PlaySwordSound(ArmData data) {
-            AudioPlayerHelper.PlayAudio(data.toSwordClipName, transform.position);
         }
         private void ActivateWhip(ArmData data)
         {
