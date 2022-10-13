@@ -1,6 +1,7 @@
 ﻿using HelloPico2.InputDevice.Scripts;
+using HelloPico2.PlayerController.Arm;
 
 public interface IGainEnergyFeedback
 {
-    void OnNotify(HelloPico2.PlayerController.Arm.ArmData armdata);
+    void OnNotify(ArmData armdata, EnergyBallBehavior energyBallBehavior);
 }
