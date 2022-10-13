@@ -18,6 +18,8 @@ namespace HelloPico2.PlayerController.Arm
         public UltEvents.UltEvent _WhenFullyCharged;
         public UltEvents.UltEvent _WhenExitFullyCharged;
 
+        private Sequence punchSeq;
+
         private Renderer _MeshRenderer;
         private Renderer meshRenderer { 
             get { 
@@ -54,10 +56,12 @@ namespace HelloPico2.PlayerController.Arm
 
             _WhenChargeEnergy?.Invoke();
         }
-        public void OnNotify(HelloPico2.PlayerController.Arm.ArmData armData)
+        public void OnNotify(HelloPico2.PlayerController.Arm.ArmData armData, HelloPico2.PlayerController.Arm.EnergyBallBehavior energyBallBehavior)
         {
+            if (!energyBallBehavior.isCurrentWeaponEnergyBall() || energyBallBehavior.hasTransformProcess) return;
+
             if (armData.Energy <= 0)
-            {                
+            {
                 meshRenderer.GetComponent<Follower>().m_Activation = false;
                 meshRenderer.enabled = false;
                 return;
@@ -68,40 +72,49 @@ namespace HelloPico2.PlayerController.Arm
                 meshRenderer.enabled = true;
             }
 
-            if (process != null) return;                
-
-            process = StartCoroutine(Delayer());
-
             PunchScale();
-            
+
+            // TOFIX: Process will always have value 
+            if (process == null)
+            {
+                process = StartCoroutine(Delayer());
+            }
+
             _WhenChargeEnergy?.Invoke();            
         }
-        public void PunchScale() {
-            _Mesh.transform.DOPunchScale(_Mesh.transform.localScale * _Punch, _PunchDuration, _Vibrato);
+        public void PunchScale()
+        {
+            if (process != null) return;
+
+            _Follower.m_Scale = false;
+            punchSeq.Append(
+            _Mesh.transform.DOPunchScale(_Mesh.transform.localScale * _Punch, _PunchDuration, _Vibrato).OnComplete(() => {
+                _Follower.m_Scale = true;
+            })
+            );
+            punchSeq.Play();
         }
         private IEnumerator Delayer() {
-            _Follower.m_Scale = false; 
             yield return new WaitForSeconds(_PunchDuration);
-            _Follower.m_Scale = true;
             process = null;
         }
 
         public void OnNotifyActivate()
         {
-            print("isCharged " + isCharged);
+            //print("isCharged " + isCharged);
             if (isCharged)
             {
-                print("Notify Activate");
+                //print("Notify Activate");
                 _WhenFullyCharged?.Invoke();
             }
         }
 
         public void OnNotifyDeactivate()
         {
-            print("isCharged " + isCharged);
+            //print("isCharged " + isCharged);
             if (isCharged)
             {
-                print("Notify Deactivate");
+                //print("Notify Deactivate");
                 _WhenExitFullyCharged?.Invoke();
             }
         }
