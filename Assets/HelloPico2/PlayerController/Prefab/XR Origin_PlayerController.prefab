@@ -82727,7 +82727,7 @@ MonoBehaviour:
   m_GroupRenderer: []
   m_TargetRenderer:
   - {fileID: 5992297049724138123}
-  m_Duration: 0.2
+  m_Duration: 0.1
   m_Movement:
     serializedVersion: 2
     m_Curve:
@@ -82790,7 +82790,7 @@ MonoBehaviour:
   m_GroupRenderer: []
   m_TargetRenderer:
   - {fileID: 5992297050330209697}
-  m_Duration: 0.2
+  m_Duration: 0.1
   m_Movement:
     serializedVersion: 2
     m_Curve:
@@ -84979,6 +84979,9 @@ MonoBehaviour:
   - ShootEnergyBall3
   - ShootEnergyBall4
   - ShootEnergyBall5
+  _ToWhipClipName: ToWhip
+  _ToSwordClipName: ToSword
+  _ToShieldClipName: ToShield
   _ShootWhenNoEnergyClipName: ShootWhenNoEnergyClipName
   _ShootWhenNoBombClipName: ShootWhenNoBombClipName
   _GainBombClipName: GainChargedEnergyBall
@@ -85237,7 +85240,7 @@ MonoBehaviour:
   _SwordFromScale: {x: 0.2, y: 0.2, z: 0.2}
   _TrasitionEaseCurve: 1
   _OnlyShootProjectileOnEnergyBallState: 1
-  hasTransformProcess: 0
+  _HasTransformProcess: 0
 --- !u!114 &4939205608762558258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110884,6 +110887,9 @@ MonoBehaviour:
   - ShootEnergyBall3
   - ShootEnergyBall4
   - ShootEnergyBall5
+  _ToWhipClipName: ToWhip
+  _ToSwordClipName: ToSword
+  _ToShieldClipName: ToShield
   _ShootWhenNoEnergyClipName: ShootWhenNoEnergyClipName
   _ShootWhenNoBombClipName: ShootWhenNoBombClipName
   _GainBombClipName: GainChargedEnergyBall
@@ -111142,7 +111148,7 @@ MonoBehaviour:
   _SwordFromScale: {x: 0.2, y: 0.2, z: 0.2}
   _TrasitionEaseCurve: 1
   _OnlyShootProjectileOnEnergyBallState: 1
-  hasTransformProcess: 0
+  _HasTransformProcess: 0
 --- !u!114 &4939205610337954859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117036,19 +117042,10 @@ MonoBehaviour:
         _W: 0
         _Object: {fileID: 0}
   WhenJoyStickTouch:
-    _PersistentCalls:
-    - _Target: {fileID: 165973253}
-      _MethodName: RaiseToValue
-      _PersistentArguments:
-      - _Type: 3
-        _Int: 1
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
+    _PersistentCalls: []
   WhenJoyStickNotTouch:
+    _PersistentCalls: []
+  WhenJoyStickStay:
     _PersistentCalls:
     - _Target: {fileID: 165973253}
       _MethodName: RaiseToValue
@@ -117061,9 +117058,9 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
-  WhenPrimaryButtonTouch:
+  WhenJoyStickMove:
     _PersistentCalls:
-    - _Target: {fileID: 1162219772}
+    - _Target: {fileID: 165973253}
       _MethodName: RaiseToValue
       _PersistentArguments:
       - _Type: 3
@@ -117074,6 +117071,8 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
+  WhenPrimaryButtonTouch:
+    _PersistentCalls: []
   WhenPrimaryButtonNotTouch:
     _PersistentCalls:
     - _Target: {fileID: 1162219772}
@@ -117088,18 +117087,7 @@ MonoBehaviour:
         _W: 0
         _Object: {fileID: 0}
   WhenSecondaryButtonTouch:
-    _PersistentCalls:
-    - _Target: {fileID: 729154106}
-      _MethodName: RaiseToValue
-      _PersistentArguments:
-      - _Type: 3
-        _Int: 1
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
+    _PersistentCalls: []
   WhenSecondaryButtonNotTouch:
     _PersistentCalls:
     - _Target: {fileID: 729154106}
@@ -117182,6 +117170,17 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
+    - _Target: {fileID: 1162219772}
+      _MethodName: RaiseToValue
+      _PersistentArguments:
+      - _Type: 3
+        _Int: 0
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
   WhenSecondaryButtonDown:
     _PersistentCalls:
     - _Target: {fileID: 4939205609080404724}
@@ -117244,6 +117243,17 @@ MonoBehaviour:
         _W: 0
         _Object: {fileID: 0}
       - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+    - _Target: {fileID: 729154106}
+      _MethodName: RaiseToValue
+      _PersistentArguments:
+      - _Type: 3
         _Int: 0
         _String: 
         _X: 0
@@ -117909,19 +117919,10 @@ MonoBehaviour:
         _W: 0
         _Object: {fileID: 0}
   WhenJoyStickTouch:
-    _PersistentCalls:
-    - _Target: {fileID: 1379219316}
-      _MethodName: RaiseToValue
-      _PersistentArguments:
-      - _Type: 3
-        _Int: 1
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
+    _PersistentCalls: []
   WhenJoyStickNotTouch:
+    _PersistentCalls: []
+  WhenJoyStickStay:
     _PersistentCalls:
     - _Target: {fileID: 1379219316}
       _MethodName: RaiseToValue
@@ -117934,9 +117935,9 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
-  WhenPrimaryButtonTouch:
+  WhenJoyStickMove:
     _PersistentCalls:
-    - _Target: {fileID: 1685076338}
+    - _Target: {fileID: 1379219316}
       _MethodName: RaiseToValue
       _PersistentArguments:
       - _Type: 3
@@ -117947,6 +117948,8 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
+  WhenPrimaryButtonTouch:
+    _PersistentCalls: []
   WhenPrimaryButtonNotTouch:
     _PersistentCalls:
     - _Target: {fileID: 1685076338}
@@ -117961,18 +117964,7 @@ MonoBehaviour:
         _W: 0
         _Object: {fileID: 0}
   WhenSecondaryButtonTouch:
-    _PersistentCalls:
-    - _Target: {fileID: 852383388}
-      _MethodName: RaiseToValue
-      _PersistentArguments:
-      - _Type: 3
-        _Int: 1
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
+    _PersistentCalls: []
   WhenSecondaryButtonNotTouch:
     _PersistentCalls:
     - _Target: {fileID: 852383388}
@@ -118055,6 +118047,17 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
+    - _Target: {fileID: 1685076338}
+      _MethodName: RaiseToValue
+      _PersistentArguments:
+      - _Type: 3
+        _Int: 0
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
   WhenSecondaryButtonDown:
     _PersistentCalls:
     - _Target: {fileID: 4939205609080404725}
@@ -118117,6 +118120,17 @@ MonoBehaviour:
         _W: 0
         _Object: {fileID: 0}
       - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+    - _Target: {fileID: 852383388}
+      _MethodName: RaiseToValue
+      _PersistentArguments:
+      - _Type: 3
         _Int: 0
         _String: 
         _X: 0
@@ -122821,6 +122835,10 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
+  WhenJoyStickStay:
+    _PersistentCalls: []
+  WhenJoyStickMove:
+    _PersistentCalls: []
   WhenPrimaryButtonTouch:
     _PersistentCalls:
     - _Target: {fileID: 467915634700922120}
@@ -122975,6 +122993,10 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
+  WhenJoyStickStay:
+    _PersistentCalls: []
+  WhenJoyStickMove:
+    _PersistentCalls: []
   WhenPrimaryButtonTouch:
     _PersistentCalls:
     - _Target: {fileID: 2108118710}
@@ -127472,7 +127494,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3787270604144632581, guid: 4a9d37b5f8ef09e438e669c7f25fe99d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4885783875371593022, guid: 4a9d37b5f8ef09e438e669c7f25fe99d, type: 3}
       propertyPath: m_RootOrder

@@ -34,6 +34,9 @@ namespace HelloPico2.PlayerController.Arm
         [SerializeField] private float _ShootEmptyBombCoolDownDuration = 2;
         [FoldoutGroup("Audio Settings")][SerializeField] private string[] _GainEnergyBallClipName;
         [FoldoutGroup("Audio Settings")][SerializeField] private string[] _ShootEnergyBallClipName;
+        [FoldoutGroup("Audio Settings")][SerializeField] private string _ToWhipClipName;
+        [FoldoutGroup("Audio Settings")][SerializeField] private string _ToSwordClipName;
+        [FoldoutGroup("Audio Settings")][SerializeField] private string _ToShieldClipName;
         [FoldoutGroup("Audio Settings")][SerializeField] private string _ShootWhenNoEnergyClipName;
         [FoldoutGroup("Audio Settings")][SerializeField] private string _ShootWhenNoBombClipName;
         [FoldoutGroup("Audio Settings")][SerializeField] private string _GainBombClipName;
@@ -70,6 +73,9 @@ namespace HelloPico2.PlayerController.Arm
         public float ShootEmptyEnergyCoolDownDuration { get { return _ShootEmptyEnergyCoolDownDuration; } }
         public float ShootEmptyBombCoolDownDuration { get { return _ShootEmptyBombCoolDownDuration; } }
         public string[] ShootEnergyBallClipName { get { return _ShootEnergyBallClipName; } }
+        public string toWhipClipName { get{ return _ToWhipClipName; }}
+        public string toSwordClipName { get{ return _ToSwordClipName; }}
+        public string toShieldClipName { get{ return _ToShieldClipName; }}
         public string ShootWhenNoEnergyClipName { get{ return _ShootWhenNoEnergyClipName; }}
         public string ShootWhenNoBombClipName { get{ return _ShootWhenNoBombClipName; }}
         public string GainBombClipName { get{ return _GainBombClipName; }}
