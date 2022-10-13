@@ -15,6 +15,7 @@ namespace HelloPico2.InteractableObjects
         [SerializeField] private float _RequireEnergy;
         [FoldoutGroup("Spawn Energy")][SerializeField] private GameObject _SpawnThisWhenBloomed;
         [FoldoutGroup("Spawn Energy")][SerializeField] private bool _SpawnEnergyFromAnimationEvent = false;
+        [FoldoutGroup("Spawn Energy")][SerializeField] private bool _AutoGainEnergy = true;
         [FoldoutGroup("Spawn Energy")][SerializeField] private int _SpawnAmount;
         [FoldoutGroup("Spawn Energy")][SerializeField] private float _DelayToActivate = .5f;
         [FoldoutGroup("Spawn Energy")][SerializeField] private AnimationCurve _SpawnedEnergyEasingCurve;
@@ -113,7 +114,7 @@ namespace HelloPico2.InteractableObjects
                 clone.transform.SetParent(transform.parent);
                 clone.transform.position = _FollowVFXPosition.transform.position;
                 cloneList.Add(clone);
-
+                if(!_AutoGainEnergy) continue;
                 var Seq = DOTween.Sequence();
                 Seq.Append(clone.transform.DOScale(clone.transform.localScale, _DelayToActivate).From(Vector3.zero).SetEase(_SpawnedEnergyEasingCurve));
                 Seq.AppendInterval(lifeTime).OnComplete(() => {
