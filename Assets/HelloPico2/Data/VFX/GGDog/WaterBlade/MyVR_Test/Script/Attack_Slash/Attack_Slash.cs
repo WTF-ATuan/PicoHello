@@ -23,7 +23,8 @@ public class Attack_Slash : MonoBehaviour
         
         if (Vector3.Magnitude(deltaDir) >= Sensitive && !IsGo)
         {
-            Instantiate(GO, HandController.transform.position, HandController.transform.rotation);
+            GameObject go = Instantiate(GO, HandController.transform.position, HandController.transform.rotation) as GameObject;
+
             IsGo = true;
         }
         if (Vector3.Magnitude(deltaDir) < 0.03F && IsGo)
