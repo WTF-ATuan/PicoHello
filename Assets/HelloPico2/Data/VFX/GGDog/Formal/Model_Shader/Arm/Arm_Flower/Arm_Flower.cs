@@ -17,16 +17,30 @@ public class Arm_Flower : MonoBehaviour
 
     public ParticleSystem PS;
 
-    void Start()
+    ParticleSystem injured_PS_PointGlow;
+    ParticleSystem injured_PS_BlackPiece;
+    void OnEnable()
     {
-
+        injured_PS_PointGlow = PS.transform.GetChild(0).GetComponent<ParticleSystem>();
+        injured_PS_BlackPiece = PS.transform.GetChild(1).GetComponent<ParticleSystem>();
     }
 
     void Update()
     {
         ParticleSystem ps = PS;
         var em = ps.emission;
-        em.rateOverTime = 20+_h * 200;
+        em.rateOverTime = 20+_h * 70;
+
+
+        float i = _injured * (1 - _injured) * 4;
+
+        ParticleSystem ps_injured = injured_PS_PointGlow;
+        var em_injured = ps_injured.emission;
+        em_injured.rateOverTime = i * 120;
+
+        ParticleSystem ps_injured2 = injured_PS_BlackPiece;
+        var em_injured2 = ps_injured2.emission;
+        em_injured2.rateOverTime = i * 150;
 
         _m1.SetFloat("_h", _h);
         _m2.SetFloat("_h", (_h - 0.25f) * (4));
