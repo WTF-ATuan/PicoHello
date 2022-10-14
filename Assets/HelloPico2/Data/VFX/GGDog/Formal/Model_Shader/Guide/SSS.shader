@@ -15,6 +15,9 @@ Shader "GGDog/SSS"
         _LightSmooth("Light Edge Smooth",Range(0,1)) = 0.1
         _LightRange("Light Edge Range",Range(-1,1)) = 0.15
         _BloomFade("Bloom Fade",Range(0,1)) = 1
+
+        
+        _LightDir("Light Dir",Vector) = (-2,4,-1,0)
     }
     SubShader
     {
@@ -55,16 +58,16 @@ Shader "GGDog/SSS"
                 o.uv.xy = v.uv;
 				
 				half3 WorldNormal = normalize(mul(v.normal,(half3x3)unity_WorldToObject));
-                half3 worldPos = mul(v.vertex,unity_WorldToObject).xyz;
+                half3 worldPos = mul(unity_ObjectToWorld,v.vertex).xyz;
                 half3 ViewDir = normalize(_WorldSpaceCameraPos.xyz - worldPos );
 
                 half3 LightDir = half3(-0.19,0,-0.82);
 
-				o.uv.z = smoothstep(0,0.5,1-saturate(dot(WorldNormal,ViewDir)));
+				o.uv.z = 1-smoothstep(0,0.5,(dot(WorldNormal,ViewDir)));
 				o.uv.w = saturate(dot(WorldNormal,LightDir));
                 
                 //Toon光影用的normal
-                float4 normal_OS = float4(v.normal.xyz,0);
+                half4 normal_OS = half4(v.normal.xyz,0);
                 o.normal_VS = mul(UNITY_MATRIX_MV,normal_OS);
 
                 return o;
@@ -83,6 +86,8 @@ Shader "GGDog/SSS"
 			half _LightSmooth;
 			half _LightRange;
 
+			half3 _LightDir;
+            
             half4 frag (v2f i) : SV_Target
             {
 			
@@ -90,12 +95,10 @@ Shader "GGDog/SSS"
 
 				half Time_y = abs(fmod(_DespairColor * _Time.y*0.5,1.0f)*2.0f-1.0f);
 
-                _FadeColor1.rgb = clamp(_FadeColor1.rgb,0.5,1);
-                _FadeColor1 = lerp(_FadeColor1,0.75,0.5)*1.75*_Color;
+                _FadeColor1.rgb = clamp(_FadeColor1.rgb,0.75,1)*1.5;
 
                 
-                _FadeColor2.rgb = clamp(_FadeColor2.rgb,0.25,1);
-                _FadeColor2 = lerp(_FadeColor2,0.75,0.5)*1.75*_ShadowColor;
+                _FadeColor2.rgb = clamp(_FadeColor2.rgb,0.25,0.5);
 
                 half FadeUV = saturate(frac(2*i.uv.y)+0.1);
 
@@ -106,24 +109,28 @@ Shader "GGDog/SSS"
                 
 
 
-				half4 FinalColor = lerp((_FadeColor2*FadeUV *Time_y  + i.uv.z* _SSSColor),float4(1,0.96,0.84,1)* _FadeColor1*FadeUV ,i.uv.w ) ;
+				half4 FinalColor = lerp((_FadeColor2*FadeUV *Time_y ),float4(1,0.96,0.84,1)* _FadeColor1*FadeUV ,FadeUV ) ;
 
                 
                 //Toon光影
 
                 i.normal_VS = float4(normalize(i.normal_VS.xyz),1);
 
-                half3 _LightDir = half3(2,3,1);
+                //half3 _LightDir = half3(2,3,1);
 
                 half N_VS_Dot_L = smoothstep(0,_LightSmooth,dot(i.normal_VS.xyz,_LightDir)-_LightRange);
 
-				N_VS_Dot_L += smoothstep(0,1,dot(i.normal_VS.xyz,_LightDir)-0)*_BloomFade;
+				N_VS_Dot_L += smoothstep(0,1.5,dot(i.normal_VS.xyz,_LightDir)-0)*_BloomFade;
                 
-				FinalColor = lerp(FinalColor*_ShadowColor,FinalColor,N_VS_Dot_L/2 + i.uv.z)  ;
+                //_ShadowColor = lerp(_FadeColor1,_ShadowColor,0.5);
+
+				FinalColor = lerp(FinalColor*_ShadowColor,FinalColor*1.5+i.uv.z*_FadeColor2,N_VS_Dot_L/2)  ;
 
 
 
                 return saturate(FinalColor);
+                
+
                 
             }
             ENDCG
