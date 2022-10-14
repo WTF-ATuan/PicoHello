@@ -38,6 +38,8 @@ namespace HelloPico2.PlayerController.Arm{
 			shield = shieldObj;
 			_shieldCollider = shieldObj.GetComponentInChildren<Collider>();
 			_shieldController = shieldObj.GetComponentInChildren<ShieldController>();
+			print(shieldObj.name);
+			print(_shieldController.name);
 			UpdateShieldScale(data); 
 			UpdateShieldPosition(data);
 
@@ -48,6 +50,8 @@ namespace HelloPico2.PlayerController.Arm{
 
 			// Hard fix Shield position issue
 			shieldObj.transform.GetChild(0).transform.localPosition = Vector3.zero;
+
+			AudioPlayerHelper.PlayAudio(data.toShieldClipName, transform.position);
 
 			_WhenActivateShield?.Invoke();
 			base.Activate(Logic, data, shieldObj, fromScale);
