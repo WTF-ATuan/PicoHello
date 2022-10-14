@@ -30,9 +30,17 @@ namespace HelloPico2.Singleton
         }
         private void Start()
         {
-            _MainCamera = Camera.main;
-            _Player = GameObject.FindGameObjectWithTag("Player");
-            _Spirit = GameObject.FindObjectOfType<HelloPico2.PlayerController.SpiritBehavior>();
+            if(!_MainCamera){
+                _MainCamera = Camera.main;
+            }
+            if(!_Player){
+                _Player = GameObject.FindGameObjectWithTag("Player");
+            }
+            if(!_Spirit){
+                _Spirit = FindObjectOfType<HelloPico2.PlayerController.SpiritBehavior>();
+            }
+            
+
         }
     }
 }
