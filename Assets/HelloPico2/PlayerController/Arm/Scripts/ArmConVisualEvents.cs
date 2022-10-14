@@ -22,6 +22,8 @@ namespace HelloPico2.PlayerController.Arm
         public UltEvents.UltEvent WhenGripNotTouch;
         public UltEvents.UltEvent WhenJoyStickTouch;
         public UltEvents.UltEvent WhenJoyStickNotTouch;
+        public UltEvents.UltEvent WhenJoyStickStay;
+        public UltEvents.UltEvent WhenJoyStickMove;
         public UltEvents.UltEvent WhenPrimaryButtonTouch;
         public UltEvents.UltEvent WhenPrimaryButtonNotTouch;
         public UltEvents.UltEvent WhenSecondaryButtonTouch;
@@ -29,7 +31,9 @@ namespace HelloPico2.PlayerController.Arm
         public UltEvents.UltEvent WhenPrimaryButtonDown;
         public UltEvents.UltEvent WhenPrimaryButtonUp;
         public UltEvents.UltEvent WhenSecondaryButtonDown;
-        public UltEvents.UltEvent WhenSecondaryButtonUp;   
+        public UltEvents.UltEvent WhenSecondaryButtonUp;
+
+        private Vector2 primary2DAxisValueCurrent;
 
         private void Update()
         {
@@ -98,6 +102,14 @@ namespace HelloPico2.PlayerController.Arm
             if (!secondaryTouchValue)
                 WhenSecondaryButtonNotTouch?.Invoke();
 
+            if (Mathf.Abs(primary2DAxisValue.x) >= 0.1f || Mathf.Abs(primary2DAxisValue.y) >= 0.1f)
+            {
+                WhenJoyStickMove?.Invoke();
+            }
+            if (Mathf.Abs(primary2DAxisValue.x) <= 0.1f && Mathf.Abs(primary2DAxisValue.y) <= 0.1f)
+            {
+                WhenJoyStickStay?.Invoke();
+            }
         }
     }
 }

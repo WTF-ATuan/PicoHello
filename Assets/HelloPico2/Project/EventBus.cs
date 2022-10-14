@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using Sirenix.Utilities;
 using UnityEngine;
 
@@ -43,7 +44,18 @@ namespace Project{
 			var containsKey = NonCallbackActions.ContainsKey(type);
 			if(containsKey){
 				var actions = NonCallbackActions[type];
-				actions.ForEach(o => o.Invoke(obj));
+				foreach(var o in actions){
+					try{
+						o.Invoke(obj);
+					}
+					catch(Exception exception){
+						actions.Remove(o);
+						NonCallbackActions[type] = actions;
+						Debug.Log(
+							$"Removed Event from {type.Name} : {exception}");
+						return;
+					}
+				}
 			}
 			else{
 				var fullName = type.Name;
@@ -68,13 +80,13 @@ namespace Project{
 			return default;
 		}
 
-		public void DebugList(){
+		public static void DebugList(){
 			Debug.Log(NonCallbackActions.Count + "Non CallbackActions");
 			NonCallbackActions.ForEach(x => Debug.Log($"Event Name = {x.Key.Name}"));
 			CallbackActions.ForEach(x => Debug.Log(x.Key.Name));
 		}
 
-		public void Clear(){
+		public static void Clear(){
 			NonCallbackActions.Clear();
 			CallbackActions.Clear();
 		}
