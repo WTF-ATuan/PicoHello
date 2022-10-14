@@ -85121,6 +85121,18 @@ MonoBehaviour:
           m_StringArgument: Shoot
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 3429785798303183249}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Shoot
+          m_BoolArgument: 0
+        m_CallState: 2
   WhenShootChargedProjectile:
     m_PersistentCalls:
       m_Calls:
@@ -85140,6 +85152,17 @@ MonoBehaviour:
   WhenNoEnergyShoot:
     _PersistentCalls:
     - _Target: {fileID: 1920843450}
+      _MethodName: SetTrigger
+      _PersistentArguments:
+      - _Type: 2
+        _Int: 0
+        _String: ShootNoBullet
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+    - _Target: {fileID: 3429785798303183249}
       _MethodName: SetTrigger
       _PersistentArguments:
       - _Type: 2
@@ -111029,6 +111052,18 @@ MonoBehaviour:
           m_StringArgument: Shoot
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 3429785798355722249}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Shoot
+          m_BoolArgument: 0
+        m_CallState: 2
   WhenShootChargedProjectile:
     m_PersistentCalls:
       m_Calls:
@@ -111048,6 +111083,17 @@ MonoBehaviour:
   WhenNoEnergyShoot:
     _PersistentCalls:
     - _Target: {fileID: 1399431540}
+      _MethodName: SetTrigger
+      _PersistentArguments:
+      - _Type: 2
+        _Int: 0
+        _String: ShootNoBullet
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+    - _Target: {fileID: 3429785798355722249}
       _MethodName: SetTrigger
       _PersistentArguments:
       - _Type: 2
@@ -122810,19 +122856,10 @@ MonoBehaviour:
         _W: 0
         _Object: {fileID: 0}
   WhenJoyStickTouch:
-    _PersistentCalls:
-    - _Target: {fileID: 6063266684642829077}
-      _MethodName: RaiseToColor
-      _PersistentArguments:
-      - _Type: 3
-        _Int: 1
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
+    _PersistentCalls: []
   WhenJoyStickNotTouch:
+    _PersistentCalls: []
+  WhenJoyStickStay:
     _PersistentCalls:
     - _Target: {fileID: 6063266684642829077}
       _MethodName: RaiseToColor
@@ -122835,24 +122872,41 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
-  WhenJoyStickStay:
-    _PersistentCalls: []
   WhenJoyStickMove:
-    _PersistentCalls: []
+    _PersistentCalls:
+    - _Target: {fileID: 6063266684642829077}
+      _MethodName: RaiseToColor
+      _PersistentArguments:
+      - _Type: 3
+        _Int: 1
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
   WhenPrimaryButtonTouch:
-    _PersistentCalls:
-    - _Target: {fileID: 467915634700922120}
-      _MethodName: RaiseToColor
-      _PersistentArguments:
-      - _Type: 3
-        _Int: 1
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
+    _PersistentCalls: []
   WhenPrimaryButtonNotTouch:
+    _PersistentCalls: []
+  WhenSecondaryButtonTouch:
+    _PersistentCalls: []
+  WhenSecondaryButtonNotTouch:
+    _PersistentCalls: []
+  WhenPrimaryButtonDown:
+    _PersistentCalls:
+    - _Target: {fileID: 467915634700922120}
+      _MethodName: RaiseToColor
+      _PersistentArguments:
+      - _Type: 3
+        _Int: 1
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  WhenPrimaryButtonUp:
     _PersistentCalls:
     - _Target: {fileID: 467915634700922120}
       _MethodName: RaiseToColor
@@ -122865,7 +122919,7 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
-  WhenSecondaryButtonTouch:
+  WhenSecondaryButtonDown:
     _PersistentCalls:
     - _Target: {fileID: 2106645954723699116}
       _MethodName: RaiseToColor
@@ -122878,7 +122932,7 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
-  WhenSecondaryButtonNotTouch:
+  WhenSecondaryButtonUp:
     _PersistentCalls:
     - _Target: {fileID: 2106645954723699116}
       _MethodName: RaiseToColor
@@ -122891,14 +122945,6 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
-  WhenPrimaryButtonDown:
-    _PersistentCalls: []
-  WhenPrimaryButtonUp:
-    _PersistentCalls: []
-  WhenSecondaryButtonDown:
-    _PersistentCalls: []
-  WhenSecondaryButtonUp:
-    _PersistentCalls: []
 --- !u!114 &1801099523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122968,19 +123014,10 @@ MonoBehaviour:
         _W: 0
         _Object: {fileID: 0}
   WhenJoyStickTouch:
-    _PersistentCalls:
-    - _Target: {fileID: 1375529873}
-      _MethodName: RaiseToColor
-      _PersistentArguments:
-      - _Type: 3
-        _Int: 1
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
+    _PersistentCalls: []
   WhenJoyStickNotTouch:
+    _PersistentCalls: []
+  WhenJoyStickStay:
     _PersistentCalls:
     - _Target: {fileID: 1375529873}
       _MethodName: RaiseToColor
@@ -122993,24 +123030,41 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
-  WhenJoyStickStay:
-    _PersistentCalls: []
   WhenJoyStickMove:
-    _PersistentCalls: []
+    _PersistentCalls:
+    - _Target: {fileID: 1375529873}
+      _MethodName: RaiseToColor
+      _PersistentArguments:
+      - _Type: 3
+        _Int: 1
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
   WhenPrimaryButtonTouch:
-    _PersistentCalls:
-    - _Target: {fileID: 2108118710}
-      _MethodName: RaiseToColor
-      _PersistentArguments:
-      - _Type: 3
-        _Int: 1
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
+    _PersistentCalls: []
   WhenPrimaryButtonNotTouch:
+    _PersistentCalls: []
+  WhenSecondaryButtonTouch:
+    _PersistentCalls: []
+  WhenSecondaryButtonNotTouch:
+    _PersistentCalls: []
+  WhenPrimaryButtonDown:
+    _PersistentCalls:
+    - _Target: {fileID: 2108118710}
+      _MethodName: RaiseToColor
+      _PersistentArguments:
+      - _Type: 3
+        _Int: 1
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  WhenPrimaryButtonUp:
     _PersistentCalls:
     - _Target: {fileID: 2108118710}
       _MethodName: RaiseToColor
@@ -123023,7 +123077,7 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
-  WhenSecondaryButtonTouch:
+  WhenSecondaryButtonDown:
     _PersistentCalls:
     - _Target: {fileID: 1946021010}
       _MethodName: RaiseToColor
@@ -123036,7 +123090,7 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
-  WhenSecondaryButtonNotTouch:
+  WhenSecondaryButtonUp:
     _PersistentCalls:
     - _Target: {fileID: 1946021010}
       _MethodName: RaiseToColor
@@ -123049,14 +123103,6 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
-  WhenPrimaryButtonDown:
-    _PersistentCalls: []
-  WhenPrimaryButtonUp:
-    _PersistentCalls: []
-  WhenSecondaryButtonDown:
-    _PersistentCalls: []
-  WhenSecondaryButtonUp:
-    _PersistentCalls: []
 --- !u!114 &4939205609653513761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126117,7 +126163,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: a07bcb86ed35cc04987c2034b03a0c8b, type: 2}
     - target: {fileID: 7715397707008146337, guid: 71cc0c42eed50734895c3b15f20b984d, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7715397707008146337, guid: 71cc0c42eed50734895c3b15f20b984d, type: 3}
       propertyPath: m_Controller
@@ -127742,6 +127788,10 @@ PrefabInstance:
     - target: {fileID: 2243321543154914821, guid: 38057b1edc305f84e87df2a76b7b5282, type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 2243321543909548293, guid: 38057b1edc305f84e87df2a76b7b5282, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38057b1edc305f84e87df2a76b7b5282, type: 3}
