@@ -60,7 +60,7 @@ namespace HelloPico2.InteractableObjects.Scripts{
 
 		private void OnTriggerEnter(Collider other){
 			var collisionPoint = other.ClosestPoint(transform.position);
-			if(other.gameObject.layer == LayerMask.NameToLayer("InteractableObject")) return;
+			if(!other.gameObject.CompareTag($"PlayerWeapon")) return;
 			if(!_timer.CanInvoke()) return;
 			_currentEffect.transform.position = collisionPoint;
 			_currentEffect.Play();
