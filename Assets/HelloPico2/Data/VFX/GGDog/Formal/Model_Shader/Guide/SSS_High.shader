@@ -7,9 +7,9 @@ Shader "GGDog/Guide_Toon"
         _FadeColor1("FadeUV Color1 (Script Random)",Color) = (0.9,0.82,0.48,1)
         _FadeColor2("FadeUV Color2 (Script Random)",Color) = (1,0.94,0.7,1)
         
-		_MainTex ("Rim Base (RGB)", 2D) = "white" {}
+		_RimTex ("Rim Base (RGB)", 2D) = "white" {}
 		_MainTex ("Base (RGB)", 2D) = "white" {}
-		_MainTex ("Shadow Base (RGB)", 2D) = "white" {}
+		_ShadowTex ("Shadow Base (RGB)", 2D) = "white" {}
 
         _MainColor("Main Color",Color) = (1,0.82,0.64,1)
         _ShadowColor("Shadow Color",Color) = (0.49,0.5,0.8,1)
