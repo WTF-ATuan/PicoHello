@@ -217,9 +217,10 @@ namespace HelloPico2.PlayerController.Arm
             armLogic.OnPrimaryAxisClick -= ConfirmShape;
             armLogic.OnPrimaryAxisTouchUp -= ExitShapeControlling;
 
-            armLogic.OnTriggerDown -= InvalidShoot;
+            armLogic.OnUpdateInput -= GetCurrentDeviceInput;
+            armLogic.OnTriggerDown -= ShootEnergyProjectile;
 
-            armLogic.OnTriggerDownOnce -= ShootEnergyProjectile;
+            armLogic.OnTriggerDownOnce -= InvalidShoot;
         }
         private void CheckEnableGrip(ArmData data) {
             armLogic.data.Controller.selectUsage = (data.Energy < data.MaxEnergy)? InputHelpers.Button.Grip : InputHelpers.Button.None;
