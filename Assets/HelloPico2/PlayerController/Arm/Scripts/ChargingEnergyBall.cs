@@ -118,9 +118,5 @@ namespace HelloPico2.PlayerController.Arm
                 _WhenExitFullyCharged?.Invoke();
             }
         }
-        private void OnDestroy()
-        {
-            Destroy(_Mesh);
-        }
     }
 }
