@@ -13,14 +13,14 @@ Shader "GGDog/Guide_Toon"
 
         _LightSmooth("Light Edge Smooth",Range(0,20)) = 0.3
         _LightRange("Light Edge Range",Range(-1,1)) = 1
-        _BloomFade("Bloom Fade",Range(0,1)) = 1
+        _BloomFade("Bloom Fade",Range(0,1)) = 0.5
 
         
         _ShadowSmooth("Shadow Edge Smooth",Range(0,20)) = 0.25
         _ShadowRange("Shadow Edge Range",Range(-1,1)) = 1
         _ShadowFadeUV("Shadow Fade Out With UV",Range(0,1)) = 0.45
         
-        _LightDir("Light Dir",Vector) = (-2,2,-1,0)
+        _LightDir("Light Dir",Vector) = (-1.5,1.5,-2,0)
         _ShadowDir("Shadow Dir",Vector) = (-2,2,-1,0)
 
     }
