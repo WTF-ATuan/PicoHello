@@ -13,7 +13,7 @@ namespace HelloPico2.PlayerController.Arm
         EnergyBallBehavior energyball;
         private void OnEnable()
         {
-            //EventBus.Subscribe<GainArmorUpgradeData>(ArmorUpgrade);
+            EventBus.Subscribe<GainArmorUpgradeData>(ArmorUpgrade);
             energyball = GetComponent<EnergyBallBehavior>();
         }
         private void ArmorUpgrade(GainArmorUpgradeData data)
