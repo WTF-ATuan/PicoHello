@@ -1,23 +1,26 @@
-Shader "GGDog/SSS"
+Shader "GGDog/Guide_Toon"
 {
     Properties
     {
         _DespairColor("Despair Color",Range(0,1)) = 0
 
-        _FadeColor1("Fade Color1",Color) = (0.75,0.75,0.75,1)
-        _FadeColor2("Fade Color2",Color) = (0.75,0.75,0.75,1)
+        _FadeColor1("FadeUV Color1 (Script Random)",Color) = (0.9,0.82,0.48,1)
+        _FadeColor2("FadeUV Color2 (Script Random)",Color) = (1,0.94,0.7,1)
 
-        _Color("Color",Color) = (0.75,0.75,0.75,1)
-        _ShadowColor("ShadowColor",Color) = (0.25,0.25,0.25,1)
-        [HDR]_SSSColor("SSS Color",Color) = (1,0.5,0.5,1)
+        _MainColor("Main Color",Color) = (1,0.82,0.64,1)
+        _ShadowColor("Shadow Color",Color) = (0.49,0.5,0.8,1)
 
 
-        _LightSmooth("Light Edge Smooth",Range(0,1)) = 0.1
-        _LightRange("Light Edge Range",Range(-1,1)) = 0.15
+        _LightSmooth("Light Edge Smooth",Range(0,20)) = 0.3
+        _LightRange("Light Edge Range",Range(-1,1)) = 1
         _BloomFade("Bloom Fade",Range(0,1)) = 1
 
         
-        _LightDir("Light Dir",Vector) = (-2,4,-1,0)
+        _ShadowSmooth("Shadow Edge Smooth",Range(0,20)) = 0.25
+        _ShadowRange("Shadow Edge Range",Range(-1,1)) = 1
+        _ShadowFadeUV("Shadow Fade Out With UV",Range(0,1)) = 0.45
+        
+        _LightDir("Light Dir",Vector) = (-2,2,-1,0)
     }
     SubShader
     {
@@ -28,8 +31,6 @@ Shader "GGDog/SSS"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-			#pragma target 3.0
-            #pragma multi_compile_instancing
             #include "UnityCG.cginc"
 
             struct appdata
@@ -37,7 +38,6 @@ Shader "GGDog/SSS"
                 half4 vertex : POSITION;
                 half2 uv : TEXCOORD0;
 				half3 normal : NORMAL;
-                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
@@ -45,15 +45,11 @@ Shader "GGDog/SSS"
                 half4 uv : TEXCOORD0;
                 half4 vertex : SV_POSITION;
                 half3 normal_VS : TEXCOORD1;
-                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
             
             v2f vert (appdata v)
             {
                 v2f o;
-                UNITY_SETUP_INSTANCE_ID(v);
-                UNITY_TRANSFER_INSTANCE_ID(v, o);
-
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv.xy = v.uv;
 				
@@ -72,9 +68,8 @@ Shader "GGDog/SSS"
 
                 return o;
             }
-			half4 _Color;
+			half4 _MainColor;
 			half4 _ShadowColor;
-			half4 _SSSColor;
 			
 
 			half4 _FadeColor1;
@@ -88,23 +83,22 @@ Shader "GGDog/SSS"
 
 			half3 _LightDir;
             
+			half _ShadowSmooth;
+			half _ShadowRange;
+			half _ShadowFadeUV;
+            
             half4 frag (v2f i) : SV_Target
             {
 			
-                UNITY_SETUP_INSTANCE_ID(i);
-
 				half Time_y = abs(fmod(_DespairColor * _Time.y*0.5,1.0f)*2.0f-1.0f);
 
                 _FadeColor1.rgb = clamp(_FadeColor1.rgb,0.75,1)*1.5;
 
-                
                 _FadeColor2.rgb = clamp(_FadeColor2.rgb,0.25,0.5);
 
                 half FadeUV = saturate(frac(2*i.uv.y)+0.1);
 
                 FadeUV = lerp(FadeUV,1.5,floor(frac(8*i.uv.x)*2)/2);
-
-                _SSSColor = FadeUV*FadeUV/2;
 
                 
 
@@ -124,9 +118,18 @@ Shader "GGDog/SSS"
                 
                 //_ShadowColor = lerp(_FadeColor1,_ShadowColor,0.5);
 
-				FinalColor = lerp(FinalColor*_ShadowColor,FinalColor*1.5+i.uv.z*_FadeColor2,N_VS_Dot_L/2)  ;
+				FinalColor = lerp(FinalColor*_MainColor*1.25,FinalColor*1.5+i.uv.z*_FadeColor2,N_VS_Dot_L/2)  ;
 
+                
+                half N_VS_Dot_L_shadow = smoothstep(0,_ShadowSmooth*0.5,dot(i.normal_VS.xyz,_LightDir)-_ShadowRange+3.5);
+                
+				//N_VS_Dot_L_shadow += 1-smoothstep(0,3,dot(i.normal_VS.xyz,_LightDir)+4)*_BloomFade;
 
+                half4 shadowcol =_ShadowColor;
+
+                shadowcol = lerp(shadowcol,FinalColor,smoothstep(_ShadowFadeUV,1,FadeUV));
+
+				FinalColor = lerp( shadowcol +smoothstep(-0.5,1.5,i.uv.z)/3.5,FinalColor,N_VS_Dot_L_shadow)  ;
 
                 return saturate(FinalColor);
                 

@@ -26,8 +26,6 @@ Shader "GGDog/Tunnel"
             #pragma vertex vert
             #pragma fragment frag
 			
-			#pragma target 3.0
-            #pragma multi_compile_instancing
             #include "UnityCG.cginc"
 
             struct appdata
@@ -35,7 +33,6 @@ Shader "GGDog/Tunnel"
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
                 float3 normal : NORMAL;
-                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
@@ -44,7 +41,6 @@ Shader "GGDog/Tunnel"
                 float4 vertex : SV_POSITION;
 				float3 worldNormal : TEXCOORD1;
 				float3 worldPos : TEXCOORD2;
-                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             sampler2D _MainTex;
@@ -82,9 +78,6 @@ Shader "GGDog/Tunnel"
             {
                 v2f o;
 				
-                UNITY_SETUP_INSTANCE_ID(v);
-                UNITY_TRANSFER_INSTANCE_ID(v, o);
-
 				//float noise = saturate( frac(sin(dot(v.uv, float2(12.9898, 78.233)+sin(_Time.y*0.00015) ))*43758.5453));
 
 				float Out;
@@ -133,8 +126,6 @@ Shader "GGDog/Tunnel"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                UNITY_SETUP_INSTANCE_ID(i);
-
                 fixed4 col = tex2D(_MainTex, i.uv+float2(-0.5,1)*_Time.y/10);
                 fixed4 col2 = tex2D(_MainTex, i.uv+float2(0.25,1)*_Time.y/10);
 				col*=col2;

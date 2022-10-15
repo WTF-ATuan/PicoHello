@@ -24,8 +24,6 @@ Shader "Unlit/NewUnlitShader"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-			#pragma target 3.0
-            #pragma multi_compile_instancing
             #include "UnityCG.cginc"
 
             struct appdata
@@ -34,7 +32,6 @@ Shader "Unlit/NewUnlitShader"
                 half2 uv : TEXCOORD0;
                 half4 color : COLOR;
                 half4 normal : NORMAL;
-                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
@@ -42,7 +39,6 @@ Shader "Unlit/NewUnlitShader"
                 half2 uv : TEXCOORD0;
                 half4 vertex : SV_POSITION;
                 half4 color : COLOR;
-                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
             half _Size;
             
@@ -77,9 +73,6 @@ Shader "Unlit/NewUnlitShader"
             v2f vert (appdata v)
             {
                 v2f o;
-                UNITY_SETUP_INSTANCE_ID (v);
-                UNITY_TRANSFER_INSTANCE_ID (v, o);
-                
                 half n = 1-WaterTex(v.uv,7,3);
                 o.vertex = UnityObjectToClipPos(v.vertex + v.normal*n*0.01*_Size);
 
@@ -93,7 +86,6 @@ Shader "Unlit/NewUnlitShader"
             half4 frag (v2f i) : SV_Target
             {
                 
-                UNITY_SETUP_INSTANCE_ID (i);
                 i.color.a = smoothstep(0,0.75,i.color.a);
 
 

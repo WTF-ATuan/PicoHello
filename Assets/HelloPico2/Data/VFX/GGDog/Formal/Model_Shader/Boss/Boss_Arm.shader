@@ -98,8 +98,6 @@ Shader "GGDog/SSS"
             #pragma vertex vert
             #pragma fragment frag
 			
-			#pragma target 3.0
-            #pragma multi_compile_instancing
             #include "UnityCG.cginc"
             #include "Lighting.cginc"
 
@@ -107,23 +105,17 @@ Shader "GGDog/SSS"
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
-                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
             {
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
-                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             v2f vert (appdata v)
             {
                 v2f o;
-
-                UNITY_SETUP_INSTANCE_ID(v);
-                UNITY_TRANSFER_INSTANCE_ID(v, o);
-
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
 
@@ -131,8 +123,6 @@ Shader "GGDog/SSS"
             }
             float4 frag (v2f i) : SV_Target
             {
-                UNITY_SETUP_INSTANCE_ID(i);
-
                 return 0.25 ;
             }
             ENDCG
