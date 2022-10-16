@@ -52,18 +52,22 @@ Shader "GGDog/Effect/ShockWave"
 			half _Intense;
             fixed4 frag (v2f i) : SV_Target
             {
-                
-				float D = smoothstep(-13,4.2,1-38.7*((i.uv.x-0.5)*(i.uv.x-0.5)+(i.uv.y-0.5)*(i.uv.y-0.5))-1);
+                i.uv*=2;
+                i.uv-=0.5;
+				float D = smoothstep(-13,10.2*i.color.a,1-38.7*((i.uv.x-0.5)*(i.uv.x-0.5)+(i.uv.y-0.5)*(i.uv.y-0.5))-1);
                 D  = D*D;
                 D -= D*D*1.5*(1+i.color.a*2);
                 D *=15;
-                
+                D = saturate(D);
+
 				//¤º®e©³­I´º
 				half2 scruv = i.scrPos.xy/i.scrPos.w;
 
 				half4 refrCol = tex2D(_RenderTex, scruv + D*_Intense*0.1*i.color.a) ;
 
-                refrCol.a = saturate(D)*i.color.a;
+                clip(D-0.05);
+
+                refrCol.a = D*i.color.a;
 
                 return refrCol;
             }
