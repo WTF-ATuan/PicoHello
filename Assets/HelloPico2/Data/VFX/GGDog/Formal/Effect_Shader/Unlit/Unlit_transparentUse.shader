@@ -14,6 +14,7 @@ Shader "GGDog/Unlit_transparentUse"
 
         ZWrite Off
         Blend SrcAlpha OneMinusSrcAlpha
+        Cull Off //JK Edit
 
         Pass
         {
