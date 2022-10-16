@@ -12,6 +12,7 @@ Shader "GGDog/Env_StoneParticle"
     SubShader
     {
         Tags { "RenderType"="Opaque" "LightMode"="ForwardBase" }
+
         Pass
         {
             CGPROGRAM

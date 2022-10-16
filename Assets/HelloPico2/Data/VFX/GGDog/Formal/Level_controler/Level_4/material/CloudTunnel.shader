@@ -18,7 +18,6 @@ Shader "GGDog/Tunnel"
     SubShader
     {
         Tags { "RenderType"="Opaque" }
-        LOD 0
 
         Pass
         {
