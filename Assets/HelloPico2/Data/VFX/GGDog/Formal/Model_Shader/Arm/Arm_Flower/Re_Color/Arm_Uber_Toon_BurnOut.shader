@@ -41,8 +41,6 @@ Shader "GGDog/Arm_Uber_Toon"
 			#pragma vertex vert
 			#pragma fragment frag
 
-			#pragma target 3.0
-            #pragma multi_compile_instancing
             #include "UnityCG.cginc"
 
 			struct appdata
@@ -50,7 +48,6 @@ Shader "GGDog/Arm_Uber_Toon"
 				half4 vertex : POSITION;
 				half2 uv : TEXCOORD0;
 				half3 normal : NORMAL;
-                UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
 			struct v2f
@@ -59,7 +56,6 @@ Shader "GGDog/Arm_Uber_Toon"
 				half4 vertex : SV_POSITION;
                 half3 normal_VS : TEXCOORD1;
 				half3 vertexUV : TEXCOORD2;
-                UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 			
 			half2 unity_gradientNoise_dir(half2 p)
@@ -95,9 +91,6 @@ Shader "GGDog/Arm_Uber_Toon"
 			{
 				v2f o;
 
-                UNITY_SETUP_INSTANCE_ID(v);
-                UNITY_TRANSFER_INSTANCE_ID(v, o);
-				
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				
 				o.uv.xy = TRANSFORM_TEX(v.uv, _MainTex);
@@ -126,8 +119,6 @@ Shader "GGDog/Arm_Uber_Toon"
 
 			half4 frag (v2f i) : SV_Target
 			{
-                UNITY_SETUP_INSTANCE_ID(i);
-				
 				half4 col = tex2D(_MainTex,i.uv.xy);
 				half Rim = smoothstep(0.7,0.9,i.uv.z);
 				half Rim_Ambient = smoothstep(0,1,i.uv.z);
@@ -148,7 +139,11 @@ Shader "GGDog/Arm_Uber_Toon"
 
 				half D;
 				Unity_GradientNoise_float((i.vertexUV.xy+i.vertexUV.yz)*0.5 + D_noise*0.01,55,D);
-				D-=_injured - smoothstep(-0.15,0,i.vertexUV.z)/(_injured*1.8);
+
+				_injured+=0.01;
+				_injured*=1.5;
+
+				D-=_injured - smoothstep(-0.15,0,i.vertexUV.z)/_injured;
 				clip(D+0.05);
 				
 				return saturate(col *smoothstep(0,0.25,saturate(D+smoothstep(0.75,1,1-_injured)*0.5)));

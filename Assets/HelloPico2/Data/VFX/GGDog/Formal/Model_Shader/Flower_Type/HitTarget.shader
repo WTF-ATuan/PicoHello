@@ -24,23 +24,18 @@ Shader "GGDog/HitTarget"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-			#pragma target 3.0
-            #pragma multi_compile_instancing
-
             #include "UnityCG.cginc"
 
             struct appdata
             {
                 half4 vertex : POSITION;
                 half3 normal : NORMAL;
-                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
             {
                 half4 vertex : SV_POSITION;
 				half3 worldPos : TEXCOORD0;
-                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
             
             half3 _LightPos;
@@ -48,9 +43,6 @@ Shader "GGDog/HitTarget"
             v2f vert (appdata v)
             {
                 v2f o;
-
-                UNITY_SETUP_INSTANCE_ID (v);
-                UNITY_TRANSFER_INSTANCE_ID (v, o);
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
 
@@ -79,8 +71,6 @@ Shader "GGDog/HitTarget"
             
             half4 frag (v2f i) : SV_Target
             {
-                UNITY_SETUP_INSTANCE_ID (i);
-
 				half Rim = (1-saturate(smoothstep(0,1,i.worldPos.y)))*smoothstep(0.75,1.5,1-i.worldPos.x)*3.5;
 
 				half Rim2 = (1-saturate(smoothstep(0,1.5,i.worldPos.y)))*smoothstep(0.5,1,i.worldPos.x)*1.5;

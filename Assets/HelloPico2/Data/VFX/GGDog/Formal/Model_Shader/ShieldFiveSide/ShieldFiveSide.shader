@@ -19,22 +19,18 @@ Shader "Unlit/ShieldFiveSide"
             #pragma vertex vert
             #pragma fragment frag
             
-			#pragma target 3.0
-            #pragma multi_compile_instancing
             #include "UnityCG.cginc"
 
             struct appdata
             {
                 half4 vertex : POSITION;
                 half2 uv : TEXCOORD0;
-                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
             {
                 half2 uv : TEXCOORD0;
                 half4 vertex : SV_POSITION;
-                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             sampler2D _MainTex;
@@ -43,9 +39,6 @@ Shader "Unlit/ShieldFiveSide"
             v2f vert (appdata v)
             {
                 v2f o;
-                UNITY_SETUP_INSTANCE_ID(v);
-                UNITY_TRANSFER_INSTANCE_ID(v, o);
-				
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 return o;
@@ -54,8 +47,6 @@ Shader "Unlit/ShieldFiveSide"
             
             half4 frag (v2f i) : SV_Target
             {
-                UNITY_SETUP_INSTANCE_ID(i);
-
                 half4 col = tex2D(_MainTex, i.uv + _Time.y*half2(1,0.05));
 
                 col*=col.a ;
