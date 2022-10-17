@@ -365,6 +365,7 @@ namespace HelloPico2.PlayerController.Arm
         }
         private void ShootEnergyProjectile(ArmData data)
         {
+            if(_HasTransformProcess) print("_HasTransformProcess");
             if (!shootingCDAfterFullChargedShoot.CanInvoke()) return;
             if (data.Energy <= 0)
             {
@@ -520,7 +521,8 @@ namespace HelloPico2.PlayerController.Arm
         }
         private void UpdateShape(Vector2 axis) {
             //if (isShapeConfirmed) return;
-            
+
+            if (_HasTransformProcess) print("_HasTransformProcess");
             if (_HasTransformProcess) return;
 
             // Force activate Energy ball when player has no energy
@@ -569,6 +571,7 @@ namespace HelloPico2.PlayerController.Arm
         private void ActivateWeapon(GameObject weapon) {            
             if (currentShape)
             {
+                print(currentShape.name + " _HasTransformProcess");
                 _HasTransformProcess = true;
 
                 if (currentWeaponBehavior)
