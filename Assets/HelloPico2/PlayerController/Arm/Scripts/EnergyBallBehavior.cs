@@ -217,9 +217,10 @@ namespace HelloPico2.PlayerController.Arm
             armLogic.OnPrimaryAxisClick -= ConfirmShape;
             armLogic.OnPrimaryAxisTouchUp -= ExitShapeControlling;
 
-            armLogic.OnTriggerDown -= InvalidShoot;
+            armLogic.OnUpdateInput -= GetCurrentDeviceInput;
+            armLogic.OnTriggerDown -= ShootEnergyProjectile;
 
-            armLogic.OnTriggerDownOnce -= ShootEnergyProjectile;
+            armLogic.OnTriggerDownOnce -= InvalidShoot;
         }
         private void CheckEnableGrip(ArmData data) {
             armLogic.data.Controller.selectUsage = (data.Energy < data.MaxEnergy)? InputHelpers.Button.Grip : InputHelpers.Button.None;
@@ -364,7 +365,6 @@ namespace HelloPico2.PlayerController.Arm
         }
         private void ShootEnergyProjectile(ArmData data)
         {
-            if(_HasTransformProcess) print("_HasTransformProcess");
             if (!shootingCDAfterFullChargedShoot.CanInvoke()) return;
             if (data.Energy <= 0)
             {
@@ -520,8 +520,7 @@ namespace HelloPico2.PlayerController.Arm
         }
         private void UpdateShape(Vector2 axis) {
             //if (isShapeConfirmed) return;
-
-            if (_HasTransformProcess) print("_HasTransformProcess");
+            
             if (_HasTransformProcess) return;
 
             // Force activate Energy ball when player has no energy
@@ -570,7 +569,6 @@ namespace HelloPico2.PlayerController.Arm
         private void ActivateWeapon(GameObject weapon) {            
             if (currentShape)
             {
-                print(currentShape.name + " _HasTransformProcess");
                 _HasTransformProcess = true;
 
                 if (currentWeaponBehavior)
