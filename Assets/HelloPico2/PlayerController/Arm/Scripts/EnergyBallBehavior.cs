@@ -61,8 +61,9 @@ namespace HelloPico2.PlayerController.Arm
         [FoldoutGroup("Transition")][ReadOnly][SerializeField] private bool _HasTransformProcess;
         private SwordBehavior _SwordBehavior;
         private ShieldBehavior _ShieldBehavior;
-
         private EnergyBallBehavior energyBehavior;
+        private bool _Charged;
+
         public SwordBehavior swordBehavior { get { 
                 if(_SwordBehavior == null)
                     _SwordBehavior = GetComponent<SwordBehavior>();
@@ -255,14 +256,20 @@ namespace HelloPico2.PlayerController.Arm
         private void CheckChargingFeedbacks(ArmData data)
         {
             if (armLogic.CheckFullEnergy())
-            { 
+            {
                 FullEnergyFeedback.ForEach(x => x.OnFullEnergyNotify(armLogic.data.HandType));
 
-                // TODO Audio: Full Energy 
-                AudioPlayerHelper.PlayAudio(armLogic.data.EnergyballFullyCharged, transform.position);
+                if (!_Charged)
+                {
+                    _Charged = true;
+                    AudioPlayerHelper.PlayAudio(armLogic.data.EnergyballFullyCharged, transform.position);
+                }
             }
             else
+            {
+                _Charged = false;
                 FullEnergyFeedback.ForEach(x => x.ExitFullEnergyNotify(armLogic.data.HandType));
+            }
         }
              
         private void ChargeBomb(GainBombEventData eventData)
