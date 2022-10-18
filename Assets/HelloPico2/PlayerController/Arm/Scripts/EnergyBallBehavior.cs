@@ -8,6 +8,7 @@ using HelloPico2.InteractableObjects;
 using Sirenix.OdinInspector;
 using Game.Project;
 using DG.Tweening;
+using HelloPico2.LevelTool;
 
 namespace HelloPico2.PlayerController.Arm
 {
@@ -254,7 +255,12 @@ namespace HelloPico2.PlayerController.Arm
         private void CheckChargingFeedbacks(ArmData data)
         {
             if (armLogic.CheckFullEnergy())
+            { 
                 FullEnergyFeedback.ForEach(x => x.OnFullEnergyNotify(armLogic.data.HandType));
+
+                // TODO Audio: Full Energy 
+                AudioPlayerHelper.PlayAudio(armLogic.data.EnergyballFullyCharged, transform.position);
+            }
             else
                 FullEnergyFeedback.ForEach(x => x.ExitFullEnergyNotify(armLogic.data.HandType));
         }
@@ -478,6 +484,9 @@ namespace HelloPico2.PlayerController.Arm
             else {
                 Destroy(currentEnergyBall);
                 currentEnergyBall = Instantiate(_ChargingEnergyBall, _Pivot);
+
+                currentShape = currentEnergyBall;
+
                 currentEnergyBall.transform.localPosition = _DefaultOffset +
                 new Vector3(0, 0, _OffsetRange.x);
 

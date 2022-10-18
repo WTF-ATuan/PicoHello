@@ -41,6 +41,7 @@ namespace HelloPico2.PlayerController.Arm
         [FoldoutGroup("Audio Settings")][SerializeField] private string _ShootWhenNoBombClipName;
         [FoldoutGroup("Audio Settings")][SerializeField] private string _GainBombClipName;
         [FoldoutGroup("Audio Settings")][SerializeField] private string _ShootBombClipName;
+        [FoldoutGroup("Audio Settings")][SerializeField] private string _EnergyballFullyCharged;
 
         [FoldoutGroup("Events Settings")] public UltEvents.UltEvent WhenGrip;
         [FoldoutGroup("Events Settings")] public UltEvents.UltEvent WhenNotGrip;
@@ -80,6 +81,7 @@ namespace HelloPico2.PlayerController.Arm
         public string ShootWhenNoBombClipName { get{ return _ShootWhenNoBombClipName; }}
         public string GainBombClipName { get{ return _GainBombClipName; }}
         public string ShootBombClipName{get{ return _ShootBombClipName; }}
+        public string EnergyballFullyCharged { get{ return _EnergyballFullyCharged; }}
         public GameObject currentWeapon { get; set; }
         
     }
