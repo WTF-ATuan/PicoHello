@@ -69,13 +69,14 @@ Shader "Unlit/JellyShader"
             
             half3 _LightDir;
             
+            uniform	 half3 Jelly_LerpPos;
             v2f vert (appdata v)
             {
                 v2f o;
                 
 				half4 scrPos = ComputeScreenPos(UnityObjectToClipPos(v.vertex));  //抓取螢幕截圖的位置
-                o.uv.zw = scrPos.xy/scrPos.w;
-                half Noise =WaterTex(o.uv.z,50,0.5)+WaterTex(o.uv.z,30,-1); 
+                o.uv.zw = scrPos.xy/scrPos.w  + Jelly_LerpPos.xy;
+                half Noise =WaterTex(o.uv.zw,50,0.5)+WaterTex(o.uv.zw,30,-1); 
 
                 o.vertex = UnityObjectToClipPos(v.vertex + v.normal*(Noise*2-1)*0.5);
                 o.uv.xy = TRANSFORM_TEX(v.uv, _MainTex);
