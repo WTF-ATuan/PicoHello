@@ -18,7 +18,9 @@ namespace HelloPico2.PlayerController.Arm{
 		[FoldoutGroup("Velocity Detection Settings")][SerializeField] private float speedLimit;
 		[FoldoutGroup("Velocity Detection Settings")][SerializeField] private float speedDuring;
 
-		[FoldoutGroup("Event Settings")][SerializeField] private UltEvents.UltEvent _WhenActivateShield;
+        [FoldoutGroup("Audio Settings")][SerializeField] private string _ShieldCollideClipName;
+
+        [FoldoutGroup("Event Settings")][SerializeField] private UltEvents.UltEvent _WhenActivateShield;
 				
 		private float timer;
 		private Collider _shieldCollider;
@@ -126,7 +128,9 @@ namespace HelloPico2.PlayerController.Arm{
 			// Shorten Sword
 			UpdateShieldScale(armLogic.data);
 
-			WhenCollide?.Invoke(InteractableSettings.InteractableType.Shield);
+            AudioPlayerHelper.PlayAudio(_ShieldCollideClipName, transform.position);
+
+            WhenCollide?.Invoke(InteractableSettings.InteractableType.Shield);
 		}
 		private IEnumerator Absorb(DeviceInputDetected inputDetected) {
 			absorbCooldown.Reset();

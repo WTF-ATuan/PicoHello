@@ -4,6 +4,7 @@ public static class AudioPlayerHelper
 {    
     public static void PlayAudio(string clipName, Vector3 pos)
     {
+        if (clipName == "") return;
         Project.EventBus.Post(new HelloPico2.AudioEventRequested(clipName, pos));
     }
     public static void PlayMultipleAudio(string clipName, Vector3 pos)
