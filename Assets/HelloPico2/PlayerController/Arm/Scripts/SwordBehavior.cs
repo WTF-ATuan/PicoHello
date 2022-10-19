@@ -26,6 +26,11 @@ namespace HelloPico2.PlayerController.Arm
         [FoldoutGroup("Velocity Detection Settings")][SerializeField] private float _SpeedLimit;
         [FoldoutGroup("Velocity Detection Settings")][SerializeField] private float _ReturnDuring;
 
+        [FoldoutGroup("Audio Settings")][SerializeField] private string _WhipIdleClipName;
+        [FoldoutGroup("Audio Settings")][SerializeField] private string _WhipCollideClipName;
+        [FoldoutGroup("Audio Settings")][SerializeField] private string _SwordIdleClipName;
+        [FoldoutGroup("Audio Settings")][SerializeField] private string _SwordCollideClipName;
+
         [FoldoutGroup("Events Settings")][SerializeField] private UltEvents.UltEvent _WhenCaculateLength;
         [FoldoutGroup("Events Settings")][SerializeField] private UltEvents.UltEvent _WhenActivateSword;
         [FoldoutGroup("Events Settings")][SerializeField] private UltEvents.UltEvent _WhenActivateWhip;
@@ -78,6 +83,18 @@ namespace HelloPico2.PlayerController.Arm
 
             AudioPlayerHelper.PlayAudio(data.toWhipClipName, transform.position);
 
+            switch (_State)
+            {
+                case State.sword:
+                    AudioPlayerHelper.PlayAudio(_SwordIdleClipName, transform.position);
+                    break;
+                case State.whip:
+                    AudioPlayerHelper.PlayAudio(_WhipIdleClipName, transform.position);
+                    break;
+                default:
+                    break;
+            }
+
             _WhenCaculateLength?.Invoke();
 
             base.Activate(Logic, data, lightBeam, fromScale);
@@ -121,7 +138,19 @@ namespace HelloPico2.PlayerController.Arm
             armLogic.SpentEnergy(_SpentEnergyWhenCollide);
             // Shorten Sword
             UpdateSwordLength(armLogic.data);
-            
+
+            switch (_State)
+            {
+                case State.sword:
+                    AudioPlayerHelper.PlayAudio(_SwordCollideClipName, transform.position);
+                    break;
+                case State.whip:
+                    AudioPlayerHelper.PlayAudio(_WhipCollideClipName, transform.position);
+                    break;
+                default:
+                    break;
+            }
+
             WhenCollide?.Invoke(currentInteractableType);
         }
         #region LightBeamController
