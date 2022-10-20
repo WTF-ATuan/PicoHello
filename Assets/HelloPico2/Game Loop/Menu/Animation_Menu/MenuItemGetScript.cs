@@ -21,6 +21,9 @@ public class MenuItemGetScript : MonoBehaviour
     public targetScript _targetScript;
 
     [SerializeField] private UnityEvent onGrab;
+    [SerializeField] private UnityEvent onTouch;
+
+    private bool _isTouch;
     // Start is called before the first frame update
     void Start()
     {
@@ -57,6 +60,10 @@ public class MenuItemGetScript : MonoBehaviour
     
     private void OnTriggerStay(Collider other)
     {
+        if(!_isTouch){
+            onTouch?.Invoke();
+            _isTouch = true;
+        }
         if (other.CompareTag("Player") && roundAnimator.speed > 0 )
         {
             roundAnimator.speed -= 0.2f;
@@ -82,5 +89,6 @@ public class MenuItemGetScript : MonoBehaviour
     {
         rayObjAnimator.SetBool("isGet", false);
         isNotTouch = true;
+        _isTouch = false;
     }
 }
