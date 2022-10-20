@@ -7,7 +7,7 @@ Shader "GGDog/Evil_color"
 		[HDR]_Color("Color",Color) = (1,1,1,1)
         _Alpha ("Alpha", Range(0,1)) = 1
 
-        _MainTex ("Texture", 2D) = "white" {}
+        _MainTex ("Texture     ( Offset Sets UVScroll Speed )", 2D) = "white" {} //JK Edited
 		_FarColor("Far Color",Color) = (1,1,1,1)
 		_FarDistance("Far Distance",Float) = 3
 
