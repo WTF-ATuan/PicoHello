@@ -67,7 +67,7 @@ public class ArmPostureCorrection : MonoBehaviour
         if (WristRoationCheckerAngleZ > 180) WristRoationCheckerAngleZ -= 360;
         if (WristRoationCheckerAngleZ < -180) WristRoationCheckerAngleZ += 360;
         
-        print(WristRoationCheckerAngleZ);
+        //print(WristRoationCheckerAngleZ);
 
         if (WristRoationCheckerAngleZ > m_ElbowRotateLimit.x && WristRoationCheckerAngleZ < m_ElbowRotateLimit.y)
         {
