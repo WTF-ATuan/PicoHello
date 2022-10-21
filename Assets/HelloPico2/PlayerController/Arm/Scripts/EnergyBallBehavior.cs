@@ -9,6 +9,7 @@ using Sirenix.OdinInspector;
 using Game.Project;
 using DG.Tweening;
 using HelloPico2.LevelTool;
+using HelloPico2.Helper;
 
 namespace HelloPico2.PlayerController.Arm
 {
@@ -312,6 +313,7 @@ namespace HelloPico2.PlayerController.Arm
                 var radiusDecrement = _CheckSphererRadius / percision;
                 var endRradiusDecrement = _CheckEndSphererRadius / percision;
                 RaycastHit hitInfo;
+                List<Transform> availableTarget = new List<Transform>();
 
                 for (int i = 0; i < percision; i++)
                 {
@@ -324,14 +326,21 @@ namespace HelloPico2.PlayerController.Arm
                         var Pos = ray.origin + angleDir * currentRadius;
                         var target = ray.origin + armLogic.data.Controller.transform.forward * _Distance + angleDir * currentEndRadius;
                         var dir = (target - Pos).normalized;
-                        
-                        if(Physics.Raycast(Pos, dir, out hitInfo, _Distance, _LayerMask))
-                            return hitInfo.transform;
+
+                        //if(Physics.Raycast(Pos, dir, out hitInfo, _Distance, _LayerMask))
+                        //    return hitInfo.transform;
+                        if (Physics.Raycast(Pos, dir, out hitInfo, _Distance, _LayerMask))
+                        {
+                            availableTarget.Add(hitInfo.transform);
+                        }
                     }
                 }
+
+                if (availableTarget.Count != 0)
+                    return SortingHelper.FindAimingClosest(availableTarget.ToArray(), armLogic.data.Controller.transform);
             }
             return null;
-        }
+        }        
         private void GetCurrentDeviceInput(DeviceInputDetected obj) {
             currentDeviceInputDetected = obj;
         }
