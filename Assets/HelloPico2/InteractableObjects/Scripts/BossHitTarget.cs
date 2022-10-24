@@ -7,8 +7,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace HelloPico2.InteractableObjects.Scripts{
-	public class BossHitTarget : MonoBehaviour, IInteractCollide
-	{
+	public class BossHitTarget : MonoBehaviour, IInteractCollide{
 		[ReadOnly] public float elapsedTime = 0;
 		[Required] public ParticleSystem defaultEffect;
 		[Required] public string defaultAudioName;
@@ -18,23 +17,22 @@ namespace HelloPico2.InteractableObjects.Scripts{
 
 		public Action<InteractType> _OnHitEvent;
 
-        public Action<InteractType, Collider> ColliderEvent { get; }
+		public Action<InteractType, Collider> ColliderEvent{ get; }
 
-        private void OnEnable(){
+		private void OnEnable(){
 			ChangeEffect(defaultEffect);
-			_timer = new ColdDownTimer(0.2f);
+			_timer = new ColdDownTimer(0.5f);
 
 			_OnHitEvent += GetComponentInParent<BossVisualReaction>().OnHit;
 		}
 
 		private void OnDisable(){
 			elapsedTime = 0;
-            foreach (var effect in effectSettings)
-            {
-                effect.isTrigger = false;
-            }
+			foreach(var effect in effectSettings){
+				effect.isTrigger = false;
+			}
 
-            _OnHitEvent -= GetComponentInParent<BossVisualReaction>().OnHit;		
+			_OnHitEvent -= GetComponentInParent<BossVisualReaction>().OnHit;
 		}
 
 		private void LateUpdate(){
@@ -60,7 +58,7 @@ namespace HelloPico2.InteractableObjects.Scripts{
 
 		private void OnTriggerEnter(Collider other){
 			var collisionPoint = other.ClosestPoint(transform.position);
-			if(!other.gameObject.CompareTag($"PlayerWeapon")) return;
+			if(!other.gameObject.CompareTag("PlayerWeapon")) return;
 			if(!_timer.CanInvoke()) return;
 			_currentEffect.transform.position = collisionPoint;
 			_currentEffect.Play();
@@ -80,13 +78,12 @@ namespace HelloPico2.InteractableObjects.Scripts{
 			_currentEffect.Play();
 		}
 
-        public void OnCollide(InteractType type, Collider selfCollider)
-        {
-			if (!_timer.CanInvoke()) return;
+		public void OnCollide(InteractType type, Collider selfCollider){
+			if(!_timer.CanInvoke()) return;
 			_OnHitEvent?.Invoke(type);
 		}
 
-        [Serializable]
+		[Serializable]
 		public class HitEffect{
 			public float triggerTime = 20;
 			[Required] public ParticleSystem effect;
