@@ -115,7 +115,7 @@ Shader "GGDog/Guide_Toon"
                 
                 //Toon¥ú¼v
 
-                i.normal_VS = float4(normalize(i.normal_VS.xyz),1);
+                i.normal_VS = float4(i.normal_VS.xyz,1);
 
                 //half3 _LightDir = half3(2,3,1);
 
