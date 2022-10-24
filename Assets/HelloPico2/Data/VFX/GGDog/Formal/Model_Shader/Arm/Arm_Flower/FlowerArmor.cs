@@ -23,6 +23,13 @@ public class FlowerArmor : MonoBehaviour
     int maxArmor = 5;
     Sequence dotweeenSep;
 
+    ParticleSystem injured_PS_PointGlow;
+    ParticleSystem injured_PS_BlackPiece;
+    void OnEnable()
+    {
+        injured_PS_PointGlow = PS.transform.GetChild(0).GetComponent<ParticleSystem>();
+        injured_PS_BlackPiece = PS.transform.GetChild(1).GetComponent<ParticleSystem>();
+    }
     private void Start()
     {
         //Project.EventBus.Subscribe<HelloPico2.InteractableObjects.NeedEnergyEventData>(EnergyUpdate);
@@ -108,7 +115,17 @@ public class FlowerArmor : MonoBehaviour
     {
         ParticleSystem ps = PS;
         var em = ps.emission;
-        em.rateOverTime = _h * 200;
+        em.rateOverTime = 20 + _h * 70;
+
+        float i = _injured * (1 - _injured) * 4;
+
+        ParticleSystem ps_injured = injured_PS_PointGlow;
+        var em_injured = ps_injured.emission;
+        em_injured.rateOverTime = i * 120;
+
+        ParticleSystem ps_injured2 = injured_PS_BlackPiece;
+        var em_injured2 = ps_injured2.emission;
+        em_injured2.rateOverTime = i * 150;
 
         // Glow Control
         _m1.ForEach(m => m.material.SetFloat("_h", _h));
