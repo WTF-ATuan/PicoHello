@@ -38,7 +38,6 @@ Shader "GGDog/Space_Test/Soft_PointGlow"
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
                 float4 color : COLOR;
-				float CameraDistance : TEXCOORD1;
             };
 
             v2f vert (appdata v)
@@ -48,32 +47,12 @@ Shader "GGDog/Space_Test/Soft_PointGlow"
                 o.uv = v.uv;
 				o.color = v.color;
 				
-				o.CameraDistance = length(mul(UNITY_MATRIX_MV,v.vertex).xyz);
-
                 return o;
             }
             float _intense;
             float4 _Color;
             float _Alpha;
-            /*
-            float4 frag (v2f i) : SV_Target
-            {
-                UNITY_SETUP_INSTANCE_ID (i);
-				//中心距離場
-				float D =1- distance(float2(i.uv.x,i.uv.y),float2(0.5,0.5));
-				//float D = smoothstep(-15.4,4.2,1-38.7*((i.uv.x-0.5)*(i.uv.x-0.5)+(i.uv.y-0.5)*(i.uv.y-0.5))-1);
 
-				//漸層度
-				D = smoothstep(0.5,2,D)*_intense;
-
-				float4 finalColor = saturate(i.color*D*i.color.a);
-				
-                clip(saturate(finalColor.a) - 0.00015);
-
-                return finalColor*_Color*_Alpha;
-            }*/
-            
-            //拿掉distance的省能版
             float4 frag (v2f i) : SV_Target
             {
 				//中心距離場

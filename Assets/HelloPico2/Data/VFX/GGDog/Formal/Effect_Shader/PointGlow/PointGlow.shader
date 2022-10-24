@@ -28,7 +28,7 @@ Shader "GGDog/Space_Test/PointGlow"
 
             struct v2f
             {
-                float3 uv : TEXCOORD0;
+                float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
                 float4 color : COLOR;
             };
@@ -38,34 +38,26 @@ Shader "GGDog/Space_Test/PointGlow"
                 v2f o;
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv.xy = v.uv;
+                o.uv = v.uv;
 				o.color = v.color;
 				
-				o.uv.z = length(mul(UNITY_MATRIX_MV,v.vertex).xyz);
-
                 return o;
             }
 
             float4 frag (v2f i) : SV_Target
             {
 				//中心距離場
-				float D =1- distance(float2(i.uv.x,i.uv.y),float2(0.5,0.5));
-				//float D = smoothstep(-15.4,4.2,1-38.7*((i.uv.x-0.5)*(i.uv.x-0.5)+(i.uv.y-0.5)*(i.uv.y-0.5))-1);
 
-				//漸層度
-				float D2 = smoothstep(0.75,1.5,D)*8;
+                float2 CenterUV = (i.uv.x-0.5)*(i.uv.x-0.5)+(i.uv.y-0.5)*(i.uv.y-0.5);
 
-				D = D2+smoothstep(0.5,1.5,D)*1.5;
+				float D = smoothstep(-16,9.6,1-49*CenterUV-1)*0.85;
+				float D2 = smoothstep(-31.5,47,1-460.9*CenterUV-1);
 
-				i.color = saturate(lerp(i.color*i.color,i.color,D));
+                D = i.color.a*(D*D+D2*D2*20.5);
 
-				float4 finalColor = saturate(i.color*D*i.color.a);
-				
-				finalColor.a *= smoothstep(0,50,i.uv.z);
-
-                clip(saturate(finalColor.a) - 0.000015);
-
-                return finalColor;
+                clip(D - 0.0015);
+                
+                return i.color*D;
             }
             ENDCG
         }

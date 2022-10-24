@@ -96,7 +96,7 @@ Shader "GGDog/Uber_ToonShader"
 				half Rim = smoothstep(0.7,0.9,i.uv.z);
 				half Rim_Ambient = smoothstep(0,1,i.uv.z);
 
-                i.normal_VS = float4(normalize(i.normal_VS.xyz),1);
+                i.normal_VS = float4(i.normal_VS.xyz,1);
 
                 half N_VS_Dot_L = smoothstep(0,_LightSmooth,dot(i.normal_VS.xyz,_LightDir)-_LightRange);
 

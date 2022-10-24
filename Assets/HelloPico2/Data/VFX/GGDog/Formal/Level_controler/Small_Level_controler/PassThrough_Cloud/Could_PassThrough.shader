@@ -3,7 +3,6 @@ Shader "GGDog/Tunnel"
     Properties
     {
         _Color ("Color", COLOR) = (1,1,1,1)
-        _ShadowColor ("ShadowColor", COLOR) = (0.5,0.5,0.5,1)
         _DarkColor ("DarkColor", COLOR) = (0.5,0.5,0.5,1)
 		_Alpha ("Alpha", Range(0,1)) = 1
 		_FlowSpeed ("FlowSpeed", Range(2.5,10)) = 2.5
@@ -112,9 +111,6 @@ Shader "GGDog/Tunnel"
 				
 				half3 worldViewDir = normalize(_WorldSpaceCameraPos.xyz - worldPos);
 				
-				//漸層外圍天空色
-				o.NdotV_FarFog.y = smoothstep(1,5,worldPos.z);
-
 				//Rim的NDotV
 				o.NdotV_FarFog.x = dot(worldNormal,worldViewDir);
 
@@ -124,7 +120,6 @@ Shader "GGDog/Tunnel"
             }
 			
 			half4 _Color;
-			half4 _ShadowColor;
 			half4 _DarkColor;
 			
 			half _Alpha;
@@ -133,17 +128,14 @@ Shader "GGDog/Tunnel"
             {
                 half4 col = 1;
 				
-				col.rgb = lerp(_ShadowColor,_Color,col.r);
+				col.rgb = lerp(_DarkColor,_Color,col.r);
 				
 				col.rgb = lerp(col,_Color,smoothstep(0.5,1,col.r));
 				
 				half4 Rim = 1-saturate(smoothstep(-0.5,1,i.NdotV_FarFog.x));
 				
-				_ShadowColor = lerp(_DarkColor,_ShadowColor,i.NdotV_FarFog.y);
-
-				col.rgb = lerp(_ShadowColor,_Color,Rim);
+				col.rgb = lerp(_DarkColor,_Color,Rim);
 				
-
                 return half4(col.rgb,_Alpha);
             }
             ENDCG

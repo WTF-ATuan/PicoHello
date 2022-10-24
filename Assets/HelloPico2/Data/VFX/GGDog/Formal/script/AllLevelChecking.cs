@@ -14,7 +14,7 @@ public class AllLevelChecking : MonoBehaviour
 
     IEnumerator ABC()
     {
-        yield return new WaitForSeconds(15);
+        yield return new WaitForSeconds(7);
 
         lv.level = Level_FadeController.Level._1_Level_1;
 
@@ -30,7 +30,7 @@ public class AllLevelChecking : MonoBehaviour
 
         lv.level = Level_FadeController.Level._4_Level_3_ToReality;
 
-        yield return new WaitForSeconds(15);
+        yield return new WaitForSeconds(10);
 
         lv.level = Level_FadeController.Level._5_ToLevel_4_BackToGame;
 
