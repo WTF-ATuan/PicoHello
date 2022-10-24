@@ -12,6 +12,7 @@ namespace HelloPico2{
 		private void Start(){
 			EventBus.Subscribe<AudioEventRequested>(OnAudioEventPosted);
 			_audioSource = GetComponent<AudioSource>();
+			_audioSource.priority = 999;
 		}
 
 		private void OnAudioEventPosted(AudioEventRequested obj){
