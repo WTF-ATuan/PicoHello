@@ -15,12 +15,19 @@ namespace HelloPico2.InteractableObjects{
         private CancellationToken _token;
 
         private void OnEnable(){
-            _token = new CancellationToken(false);
-            Loop();
+            StartLoop();
         }
 
         private void OnDestroy(){
+            StopLoop();
+        }
+
+        public void StopLoop(){
             _token = new CancellationToken(true);
+        }
+        public void StartLoop(){
+            _token = new CancellationToken(false);
+            Loop();
         }
 
         private async void Loop(){
