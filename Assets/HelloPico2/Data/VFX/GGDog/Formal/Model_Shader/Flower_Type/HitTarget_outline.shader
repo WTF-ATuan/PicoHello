@@ -21,10 +21,11 @@ Shader "GGDog/HitTarget_outline"
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
         
         Pass
         {
+            Tags { "Queue"="Geometry-1000"}
+            ZWrite Off
             Cull Front
             Blend One One
             CGPROGRAM
@@ -93,6 +94,7 @@ Shader "GGDog/HitTarget_outline"
 
         Pass
         {
+            Tags { "Queue"="Geometry"}
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
