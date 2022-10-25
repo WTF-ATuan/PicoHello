@@ -31,10 +31,10 @@ namespace HelloPico2.InteractableObjects{
         }
 
         private async void Loop(){
-            await Task.Delay(Mathf.FloorToInt(during * 1000));
+            await Task.Delay(Mathf.FloorToInt(during * 1000), _token);
             if(_token.IsCancellationRequested) return;
             gameObject.SetActive(false);
-            await Task.Delay(Mathf.FloorToInt(delayOpenTime * 1000));
+            await Task.Delay(Mathf.FloorToInt(delayOpenTime * 1000), _token);
             if(_token.IsCancellationRequested) return;
             gameObject.SetActive(true);
         }
