@@ -37,8 +37,19 @@ Shader "Unlit/CameraDistance_Test"
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				
+				//物件中心到鏡頭距離
 				o.CameraDistance = distance(_WorldSpaceCameraPos, unity_ObjectToWorld._m03_m13_m23)/70 ;
 				//o.CameraDistance = length(mul(UNITY_MATRIX_MV,v.vertex).xyz)/70;
+
+				//物件的世界中心
+				half3 WorldPos = unity_ObjectToWorld._m03_m13_m23;
+
+				//物件的Scale
+				half3 WorldSize = half3(
+				length(unity_ObjectToWorld._m00_m10_m20),
+				length(unity_ObjectToWorld._m01_m11_m21),
+				length(unity_ObjectToWorld._m02_m12_m22)
+				);
 
                 return o;
             }

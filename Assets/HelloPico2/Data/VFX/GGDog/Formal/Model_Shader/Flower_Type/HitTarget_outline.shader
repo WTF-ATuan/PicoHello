@@ -21,10 +21,10 @@ Shader "GGDog/HitTarget_outline"
     }
     SubShader
     {
-        
+        Tags { "Queue"="Geometry"}
+
         Pass
         {
-            Tags { "Queue"="Geometry-1000"}
             ZWrite Off
             Cull Front
             Blend One One
@@ -42,6 +42,7 @@ Shader "GGDog/HitTarget_outline"
             struct v2f
             {
                 half4 vertex : SV_POSITION;
+                half2 Objectuv : TEXCOORD0;
             };
             
             half2 Rotate_UV(half2 uv , half sin , half cos)
@@ -76,8 +77,8 @@ Shader "GGDog/HitTarget_outline"
             {
                 v2f o;
 
-                o.vertex = UnityObjectToClipPos(v.vertex + v.normal*_OutLine);
-
+                o.vertex = UnityObjectToClipPos(v.vertex *(1+_OutLine));
+                o.Objectuv = v.vertex.xy;
                 return o;
             }
             half4 _OutLineColor;
@@ -85,16 +86,20 @@ Shader "GGDog/HitTarget_outline"
             
             half4 frag (v2f i) : SV_Target
             {
-                half d =smoothstep(0.15,0.5,WaterTex(i.vertex.xy +half2(0,-100)*_Time.y,_OutLineNoiseTiling,0));
+
+                half n = WaterTex(i.Objectuv +half2(0,-0.35)*_Time.y,_OutLineNoiseTiling,0);
+
+                half d =smoothstep(0.15,0.35,n);
 
                 return _OutLineColor*_OutLineColor.a*d;
+
+                
             }
             ENDCG
         }
 
         Pass
         {
-            Tags { "Queue"="Geometry"}
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
