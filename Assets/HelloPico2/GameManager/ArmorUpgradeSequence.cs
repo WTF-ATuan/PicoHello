@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using HelloPico2.InteractableObjects;
 
 namespace HelloPico2.Singleton
 {
@@ -63,7 +64,7 @@ namespace HelloPico2.Singleton
 
             leftRight = !leftRight;
         }
-        public void StartArmorUpgradeSequence(Transform armorUpgrade, TweenCallback gainArmorCallback)
+        public void StartArmorUpgradeSequence(Transform armorUpgrade, ArmorTransformSequence armorTransformControl, TweenCallback gainArmorCallback)
         {
             WhenStartArmorUpgradeSequence?.Invoke();
 
@@ -114,18 +115,27 @@ namespace HelloPico2.Singleton
             var toPlayerDuration = GetDuration(armorUpgrade.position, spiritTarget.position);
             TweenCallback MoveToPlayerFront = () => {
                 seq.Append(armorUpgrade.DOMove(playertarget.transform.position + _PlayerPosOffset, toPlayerDuration));
-                seq.Append(armorUpgrade.DORotate(new Vector3(0,180,0), toPlayerDuration));                    
+                seq.Append(armorUpgrade.DORotate(new Vector3(0,180,0), toPlayerDuration));                
             };
             seq.AppendCallback(MoveToPlayerFront);
             seq.AppendInterval(toPlayerDuration);
 
             TweenCallback ShowPlayerItem = () => {
+                // Skip poping to save time
                 seq.Append(armorUpgrade.DOPunchRotation(_RotatePunch, _Duration, _Vibrato));                
-                seq.Append(armorUpgrade.DOPunchScale(_ScalePunch, _Duration, _Vibrato));
+                seq.Append(armorUpgrade.DOPunchScale(_ScalePunch, _Duration, _Vibrato));                
                 AudioPlayerHelper.PlayAudio( _ArmorPopClipName, transform.position);
             };
             seq.AppendCallback(ShowPlayerItem);
-            seq.AppendInterval(_Duration);
+
+            seq.AppendInterval(_Duration * .2f);
+
+            TweenCallback Transformation = () => {
+                armorTransformControl.StartTransform();
+            };
+            seq.AppendCallback(Transformation);
+
+            seq.AppendInterval(_Duration * .8f);
             
             seq.Append(armorUpgrade.DOScale(Vector3.zero,.1f).OnComplete(() => { Destroy(armorUpgrade.gameObject); }));;
 
@@ -134,7 +144,7 @@ namespace HelloPico2.Singleton
             TweenCallback SpawnVFX = () => {
                 PlayParticle(armorUpgrade);
             };
-            seq.AppendCallback(SpawnVFX); 
+            seq.AppendCallback(SpawnVFX);
 
             seq.Play();
         }        

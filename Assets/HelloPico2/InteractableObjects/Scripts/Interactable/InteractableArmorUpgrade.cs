@@ -20,6 +20,7 @@ namespace HelloPico2.InteractableObjects
 
         [Header("Audio Settings")]
         [SerializeField] private string _GainClipName = "GainArmorUpgrade";
+        public ArmorTransformSequence _ArmorTransformation;        
                 
         public HelloPico2.PlayerController.Arm.ArmorType armorType { get { return _ArmorType; } }
         public HelloPico2.PlayerController.Arm.ArmorPart armorParts { get { return _ArmorParts; } }
@@ -87,14 +88,33 @@ namespace HelloPico2.InteractableObjects
         }
         public void StartArmorUpgradeSequence()
         {
+            var pivot = new GameObject();
+            pivot.transform.position = transform.position;
+            pivot.transform.SetParent(transform.root.parent);
+
             var clone = Instantiate(transform.GetChild(1));
             clone.transform.position = transform.position;
-            clone.SetParent(transform.root.parent);
-            
+            //clone.SetParent(transform.root.parent);
+            pivot.transform.localScale = clone.transform.localScale;
+            clone.SetParent(pivot.transform);
+
+            var armorScale = _ArmorTransformation._Armor.localScale;
+            _ArmorTransformation._Armor.SetParent(pivot.transform);
+            _ArmorTransformation._Armor.localScale = armorScale;
+
+            print(_ArmorTransformation._Armor.localScale);
+
+            var glowScale = _ArmorTransformation._Glow.transform.localScale;
+            _ArmorTransformation._Glow.transform.SetParent(pivot.transform);
+            _ArmorTransformation._Glow.transform.localScale = glowScale;
+
+            _ArmorTransformation.SetUp(clone);
+
             TweenCallback gainArmorCallback = () => {
                 ActivateArmor();
             };
-            HelloPico2.Singleton.ArmorUpgradeSequence.Instance.StartArmorUpgradeSequence(clone, gainArmorCallback);  
+
+            HelloPico2.Singleton.ArmorUpgradeSequence.Instance.StartArmorUpgradeSequence(pivot.transform, _ArmorTransformation, gainArmorCallback);  
         }
         private void OnDisable()
         {
