@@ -18,7 +18,7 @@ namespace HelloPico2.LevelTool
         [FoldoutGroup("To Settings")] public ArmControllerInputMeshNameData.InputMesh _ShowOnThisInputMesh; 
         
         public Vector3 _FromOffset;
-        public float _ToOffsetStart = 0.8f;
+        [Range(0,1f)]public float _ToOffsetStart = 0.8f;
         public Vector3 _ToOffset;
         public Vector3 _CurveOffset;
         public int _Percision = 100;
