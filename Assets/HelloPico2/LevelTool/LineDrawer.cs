@@ -9,6 +9,7 @@ namespace HelloPico2.LevelTool
 {
     public class LineDrawer : MonoBehaviour
     {
+        public Follower _CameraFollower;
         public LineRenderer _LineRenderer;
         public Transform _From;
 
@@ -45,6 +46,8 @@ namespace HelloPico2.LevelTool
                 FindSeperateInputMesh();
             if (_UseController == ArmControllerInputMeshNameData.Controller.Combined)
                 FindCombinedInputMesh();
+
+            _CameraFollower.Target = HelloPico2.Singleton.GameManagerHelloPico.Instance._MainCamera.transform;
         }
         private void FindSeperateInputMesh() {
             var name = _InputMeshData.GetMeshName(_UseController, _ShowOnThisInputMesh);

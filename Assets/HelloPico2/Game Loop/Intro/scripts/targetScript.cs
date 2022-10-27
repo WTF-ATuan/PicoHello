@@ -97,6 +97,10 @@ public class targetScript : MonoBehaviour
                 aduioObj.SetActive(true);
             }
         }
+        if (touchEffect)
+        {
+            touchEffectObj.SetActive(true);
+        }
     }
     private void OnTriggerStay(Collider other)
     {
@@ -106,10 +110,7 @@ public class targetScript : MonoBehaviour
         }
         if (isHandTouch && isTrigger && other.CompareTag("Player"))
         {
-            if (touchEffect)
-            {
-                touchEffectObj.SetActive(true);
-            }
+
             countTimer += Time.deltaTime;
             if (isHandTouch)
             {
