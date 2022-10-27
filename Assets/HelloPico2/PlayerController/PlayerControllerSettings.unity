@@ -8949,13 +8949,14 @@ GameObject:
   m_Component:
   - component: {fileID: 421878251}
   - component: {fileID: 421878252}
+  - component: {fileID: 421878253}
   m_Layer: 0
   m_Name: 'BulletSpawner '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &421878251
 Transform:
   m_ObjectHideFlags: 0
@@ -8988,12 +8989,55 @@ MonoBehaviour:
   _SpawnOffset: 3.24
   _SpawnRotation: {x: 0, y: -90, z: 90}
   _MaxAmount: 5
-  _RefillDelayDuration: 4
+  _RefillDelayDuration: 1e+9
   _Clonelist: []
   _SpawnWavesAmount: 99
   _WaveDelayDuration: 1
   _UseTimedRefill: 0
   _DrawColor: {r: 0, g: 1, b: 0.22601199, a: 0.39607844}
+--- !u!114 &421878253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421878250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bca7c063e5324c243bb4252a6576c859, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WhenEnable:
+    _PersistentCalls:
+    - _Target: {fileID: 421878252}
+      _MethodName: set_enabled
+      _PersistentArguments:
+      - _Type: 1
+        _Int: 0
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  WhenEnableDelay:
+    _PersistentCalls:
+    - _Target: {fileID: 421878252}
+      _MethodName: set_enabled
+      _PersistentArguments:
+      - _Type: 1
+        _Int: 1
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+    - _Target: {fileID: 421878253}
+      _MethodName: OnEnable
+      _PersistentArguments: []
+  m_DelayTime: 2
+  invokeByOrder: 0
 --- !u!1 &422407147
 GameObject:
   m_ObjectHideFlags: 0
@@ -11413,7 +11457,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-7987350
+  m_Name: pb_Mesh-2163838
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -48603,7 +48647,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1538528890
 Transform:
   m_ObjectHideFlags: 0
@@ -53858,7 +53902,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5525148601320186568, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5525148601320186571, guid: 3773f60ba8fd33141b52d8f092647033, type: 3}
       propertyPath: m_RootOrder
@@ -63453,10 +63497,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2931097102080447178, guid: 02cc178e04105b547a52cb2df2c96218, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 02cc178e04105b547a52cb2df2c96218, type: 3}
 --- !u!1 &2725228752567457381
@@ -64929,46 +64969,6 @@ PrefabInstance:
       propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[0]
       value: 
       objectReference: {fileID: 284468909}
-    - target: {fileID: 461195454680922334, guid: 89956970cb2154b47b10f221b5f4e682, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 461195455156967412, guid: 89956970cb2154b47b10f221b5f4e682, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2983680875948984916, guid: 89956970cb2154b47b10f221b5f4e682, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2983680876567651710, guid: 89956970cb2154b47b10f221b5f4e682, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3701782712456581454, guid: 89956970cb2154b47b10f221b5f4e682, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3701782712651628132, guid: 89956970cb2154b47b10f221b5f4e682, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4939205608762558258, guid: 89956970cb2154b47b10f221b5f4e682, type: 3}
-      propertyPath: _WhipIdleClipName
-      value: WhipIdle
-      objectReference: {fileID: 0}
-    - target: {fileID: 4939205608762558258, guid: 89956970cb2154b47b10f221b5f4e682, type: 3}
-      propertyPath: _SwordIdleClipName
-      value: SwordIdle
-      objectReference: {fileID: 0}
-    - target: {fileID: 4939205608762558258, guid: 89956970cb2154b47b10f221b5f4e682, type: 3}
-      propertyPath: _WhipCollideClipName
-      value: WhipCollide
-      objectReference: {fileID: 0}
-    - target: {fileID: 4939205608762558258, guid: 89956970cb2154b47b10f221b5f4e682, type: 3}
-      propertyPath: _SwordCollideClipName
-      value: SwordCollide
-      objectReference: {fileID: 0}
     - target: {fileID: 4939205608762558263, guid: 89956970cb2154b47b10f221b5f4e682, type: 3}
       propertyPath: serializationData.Prefab
       value: 
@@ -65009,22 +65009,6 @@ PrefabInstance:
       propertyPath: m_InteractionManager
       value: 
       objectReference: {fileID: 795733365}
-    - target: {fileID: 4939205610337954859, guid: 89956970cb2154b47b10f221b5f4e682, type: 3}
-      propertyPath: _WhipIdleClipName
-      value: WhipIdle
-      objectReference: {fileID: 0}
-    - target: {fileID: 4939205610337954859, guid: 89956970cb2154b47b10f221b5f4e682, type: 3}
-      propertyPath: _SwordIdleClipName
-      value: SwordIdle
-      objectReference: {fileID: 0}
-    - target: {fileID: 4939205610337954859, guid: 89956970cb2154b47b10f221b5f4e682, type: 3}
-      propertyPath: _WhipCollideClipName
-      value: WhipCollide
-      objectReference: {fileID: 0}
-    - target: {fileID: 4939205610337954859, guid: 89956970cb2154b47b10f221b5f4e682, type: 3}
-      propertyPath: _SwordCollideClipName
-      value: SwordCollide
-      objectReference: {fileID: 0}
     - target: {fileID: 4939205610602506869, guid: 89956970cb2154b47b10f221b5f4e682, type: 3}
       propertyPath: m_Name
       value: XR Origin_PlayerController
@@ -65071,30 +65055,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4939205610602506871, guid: 89956970cb2154b47b10f221b5f4e682, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6370798544637338696, guid: 89956970cb2154b47b10f221b5f4e682, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8228903880705438033, guid: 89956970cb2154b47b10f221b5f4e682, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8398170182537596829, guid: 89956970cb2154b47b10f221b5f4e682, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8398170182606807223, guid: 89956970cb2154b47b10f221b5f4e682, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9066957150570149529, guid: 89956970cb2154b47b10f221b5f4e682, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9066957150773565875, guid: 89956970cb2154b47b10f221b5f4e682, type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -67485,6 +67445,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1714888818, guid: c57221d0e3c3841488cb059b1b0a8c75, type: 3}
+      propertyPath: _ArmorUpgradeScaleOnApporach
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 8554737487048622937, guid: c57221d0e3c3841488cb059b1b0a8c75, type: 3}
       propertyPath: m_RootOrder
       value: 8

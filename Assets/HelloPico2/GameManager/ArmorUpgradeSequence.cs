@@ -115,7 +115,7 @@ namespace HelloPico2.Singleton
             var toPlayerDuration = GetDuration(armorUpgrade.position, spiritTarget.position);
             TweenCallback MoveToPlayerFront = () => {
                 seq.Append(armorUpgrade.DOMove(playertarget.transform.position + _PlayerPosOffset, toPlayerDuration));
-                seq.Append(armorUpgrade.DORotate(new Vector3(0,180,0), toPlayerDuration));                
+                seq.Append(armorUpgrade.DORotate(new Vector3(0,0,0), toPlayerDuration));                
             };
             seq.AppendCallback(MoveToPlayerFront);
             seq.AppendInterval(toPlayerDuration);
