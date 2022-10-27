@@ -6,6 +6,8 @@ public class Camera_FarUp : MonoBehaviour
 {
     public float Range_X=3.5F;
     public float Range_Y=1;
+    [Range(0,1)]
+    public float Lerp = 0.1F;
     void Update()
     {
 
@@ -15,8 +17,15 @@ public class Camera_FarUp : MonoBehaviour
 
         Vector2 Camera_Forward = Camera.main.transform.TransformDirection(Vector3.forward);
 
-        transform.position = Vector3.Lerp(transform.position, new Vector3(-Camera_Forward.x* Range_X, -Camera_Forward.y * Range_Y, 0) ,0.5f*(1- CameraDot/2));
+        if(Camera_Forward.y<0)
+        {
+            Camera_Forward.y = 0;
+        }
 
+        Vector3 Camera_Move = Vector3.Lerp(transform.position, new Vector3(-Camera_Forward.x* Range_X, -Camera_Forward.y * Range_Y, 0) ,0.5f*(1- CameraDot/2));
+
+
+        transform.position = Vector3.Lerp(transform.position, Camera_Move, Lerp);
 
     }
 
