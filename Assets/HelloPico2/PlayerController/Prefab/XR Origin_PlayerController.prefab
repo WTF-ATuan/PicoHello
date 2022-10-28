@@ -81498,9 +81498,9 @@ MonoBehaviour:
       - _Type: 7
         _Int: 0
         _String: 
-        _X: 0.05
-        _Y: 0.05
-        _Z: 0.05
+        _X: 0.07
+        _Y: 0.07
+        _Z: 0.07
         _W: 0
         _Object: {fileID: 0}
       - _Type: 3
@@ -103013,6 +103013,8 @@ MonoBehaviour:
   _ArmData: {fileID: 4939205608762558257}
   _h: 0
   _injured: 0
+  _GetDamageInjuredTransitDuration: 0.5
+  _GetDamageInjuredTarget: 0.2
   _Speed: 0.3
   _EaseCurve:
     serializedVersion: 2
@@ -103082,6 +103084,8 @@ MonoBehaviour:
   _ArmData: {fileID: 4939205610337954862}
   _h: 0
   _injured: 0
+  _GetDamageInjuredTransitDuration: 0.5
+  _GetDamageInjuredTarget: 0.2
   _Speed: 0.3
   _EaseCurve:
     serializedVersion: 2
@@ -104715,6 +104719,7 @@ MonoBehaviour:
   _ArmorController: {fileID: 1920843447}
   _ShootEmptyEnergyCoolDownDuration: 1
   _ShootEmptyBombCoolDownDuration: 2
+  _DisableInputCoolDownDuration: 1
   _GainEnergyBallClipName:
   - GainEnergyBall1
   - GainEnergyBall2
@@ -130652,6 +130657,7 @@ MonoBehaviour:
   _ArmorController: {fileID: 1399431539}
   _ShootEmptyEnergyCoolDownDuration: 1
   _ShootEmptyBombCoolDownDuration: 2
+  _DisableInputCoolDownDuration: 1
   _GainEnergyBallClipName:
   - GainEnergyBall1
   - GainEnergyBall2
@@ -136414,7 +136420,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ShakeObject: {fileID: 4939205610362721199}
   _Duration: 0.5
-  _Strength: 1
+  _Strength: 2
   _Vibrato: 10
 --- !u!1 &4939205610602506869
 GameObject:
@@ -136546,6 +136552,40 @@ MonoBehaviour:
     - _Target: {fileID: 800928060}
       _MethodName: DoTimeEvent
       _PersistentArguments: []
+    - _Target: {fileID: 4939205610337954863}
+      _MethodName: DisableInput
+      _PersistentArguments: []
+    - _Target: {fileID: 4939205608762558286}
+      _MethodName: DisableInput
+      _PersistentArguments: []
+    - _Target: {fileID: 4939205610337954860}
+      _MethodName: ChangeToEnergyball
+      _PersistentArguments: []
+    - _Target: {fileID: 4939205608762558287}
+      _MethodName: ChangeToEnergyball
+      _PersistentArguments: []
+    - _Target: {fileID: 1635876155}
+      _MethodName: InjuredEffect
+      _PersistentArguments:
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 1.5
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+    - _Target: {fileID: 1076859600}
+      _MethodName: InjuredEffect
+      _PersistentArguments:
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 1.5
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
 --- !u!114 &4939205610602506870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148902,7 +148942,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -5762392984847523015, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5741886205856479011, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -148930,7 +148970,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -5089111387092788675, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4890213145482591272, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -149150,7 +149190,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -1304992039237359888, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -911684410183843407, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_Layer
@@ -149774,7 +149814,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4822769744933059408, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4832250335907381867, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_RootOrder
@@ -149990,7 +150030,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8634749134914698730, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8696262470231751198, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -152442,7 +152482,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -5762392984847523015, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5741886205856479011, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -152466,7 +152506,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -5089111387092788675, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4890213145482591272, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -152682,7 +152722,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -1304992039237359888, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -911684410183843407, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_Layer
@@ -153298,7 +153338,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4822769744933059408, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4832250335907381867, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_RootOrder
@@ -153514,7 +153554,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8634749134914698730, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8696262470231751198, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

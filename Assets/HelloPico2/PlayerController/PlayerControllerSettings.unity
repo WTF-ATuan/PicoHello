@@ -1009,7 +1009,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-171596
+  m_Name: pb_Mesh-1861854
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -8988,7 +8988,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &421878251
 Transform:
   m_ObjectHideFlags: 0
@@ -11489,7 +11489,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-2163838
+  m_Name: pb_Mesh-1857094
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -14835,6 +14835,11 @@ MonoBehaviour:
   _WaveDelayDuration: 5
   _UseTimedRefill: 1
   _DrawColor: {r: 0, g: 1, b: 0.22601199, a: 0.011764706}
+--- !u!95 &719107509 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 3706683991352795107, guid: 760fb36291e95574e9afd1dac54f8812, type: 3}
+  m_PrefabInstance: {fileID: 1351994845}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &721205974 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4746122482040835861, guid: dd7b1e52d5a4eed4ab9233a4e355eaff, type: 3}
@@ -20873,7 +20878,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1137854804
 Transform:
   m_ObjectHideFlags: 0
@@ -33069,7 +33074,7 @@ PrefabInstance:
       objectReference: {fileID: 551941562}
     - target: {fileID: 3706683991418070964, guid: 760fb36291e95574e9afd1dac54f8812, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3706683991418070964, guid: 760fb36291e95574e9afd1dac54f8812, type: 3}
       propertyPath: m_LocalPosition.x
@@ -33114,6 +33119,30 @@ PrefabInstance:
     - target: {fileID: 3706683991418070967, guid: 760fb36291e95574e9afd1dac54f8812, type: 3}
       propertyPath: m_Name
       value: HitTarget_BigCage
+      objectReference: {fileID: 0}
+    - target: {fileID: 3706683993061059832, guid: 760fb36291e95574e9afd1dac54f8812, type: 3}
+      propertyPath: WhenEnable._PersistentCalls.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3706683993061059832, guid: 760fb36291e95574e9afd1dac54f8812, type: 3}
+      propertyPath: WhenEnable._PersistentCalls.Array.data[2]._Target
+      value: 
+      objectReference: {fileID: 719107509}
+    - target: {fileID: 3706683993061059832, guid: 760fb36291e95574e9afd1dac54f8812, type: 3}
+      propertyPath: WhenEnable._PersistentCalls.Array.data[2]._MethodName
+      value: SetTrigger
+      objectReference: {fileID: 0}
+    - target: {fileID: 3706683993061059832, guid: 760fb36291e95574e9afd1dac54f8812, type: 3}
+      propertyPath: WhenEnable._PersistentCalls.Array.data[2]._PersistentArguments.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3706683993061059832, guid: 760fb36291e95574e9afd1dac54f8812, type: 3}
+      propertyPath: WhenEnable._PersistentCalls.Array.data[2]._PersistentArguments.Array.data[0]._Type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3706683993061059832, guid: 760fb36291e95574e9afd1dac54f8812, type: 3}
+      propertyPath: WhenEnable._PersistentCalls.Array.data[2]._PersistentArguments.Array.data[0]._String
+      value: Impact
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 760fb36291e95574e9afd1dac54f8812, type: 3}
@@ -36902,6 +36931,8 @@ MonoBehaviour:
   _ArmData: {fileID: 0}
   _h: 0
   _injured: 0
+  _GetDamageInjuredTransitDuration: 0.3
+  _GetDamageInjuredTarget: 0.5
   _Speed: 0.3
   _EaseCurve:
     serializedVersion: 2

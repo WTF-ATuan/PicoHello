@@ -35,6 +35,7 @@ namespace HelloPico2.PlayerController.Arm
         private bool triggerValue { get; set; }
         private bool primaryButtonValue { get; set; }
         private bool secondaryButtonValue { get; set; }
+        private Game.Project.ColdDownTimer disableTimer { get; set; }
 
         #region Delegate
         public delegate void ValueAction (ArmData data);
@@ -75,6 +76,8 @@ namespace HelloPico2.PlayerController.Arm
 
             data.WhenShootChargedProjectile.AddListener(() =>
             EventBus.Post(new AudioEventRequested(data.ShootBombClipName, _controller.transform.position)));
+
+            disableTimer = new Game.Project.ColdDownTimer(data.DisableInputCoolDownDuration);            
         }
         List<string> GainEnergyClipNames = new List<string>();
         List<string> ShootEnergyBallClipNames = new List<string>();
@@ -133,7 +136,8 @@ namespace HelloPico2.PlayerController.Arm
         }
         private void Update()
 		{
-            CheckInput();
+            if(disableTimer.CanInvoke())
+                CheckInput();
         }
         private void CheckInput() {            
             _controller.inputDevice.TryGetFeatureValue(CommonUsages.triggerButton, out var isTrigger);            
@@ -245,7 +249,9 @@ namespace HelloPico2.PlayerController.Arm
         }
         private void OnDeviceInputDetected(DeviceInputDetected obj)
         {
-            if(obj.Selector.HandType == data.HandType)
+            //if (disableTimer.CanInvoke()) return;
+
+            if (obj.Selector.HandType == data.HandType)
                 OnUpdateInput?.Invoke(obj);
 
 			if (obj.Selector.SelectableObject == null) return;
@@ -287,6 +293,9 @@ namespace HelloPico2.PlayerController.Arm
             // Has 2 hands so split into half
             SpentEnergy(data.DamageAmount / 2);
         }
+        public void DisableInput() {
+            disableTimer.Reset();
+        }
         public void SpentEnergy(float amount) {
             if (data.Energy - amount > 0)
                 data.Energy -= amount;
@@ -314,7 +323,7 @@ namespace HelloPico2.PlayerController.Arm
                 _data.ArmorController.ActiveArm(data.armorType, data.armorPart);
             else
                 _data.ArmorController.AutoActiveWithOrder(data.armorType);
-        }
+        }        
     }
 
     public class ArmGizmoDrawer
