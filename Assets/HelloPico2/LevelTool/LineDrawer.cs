@@ -25,6 +25,7 @@ namespace HelloPico2.LevelTool
         public int _Percision = 100;
         public AnimationCurve _Curve;
         public AnimationCurve _ToOffsetCurve;
+        public bool _EnableFindInputMeshDebber = false;
         ArmData armData;
         [ReadOnly][SerializeField] private Transform to;
         List<Vector3> points = new List<Vector3>();
@@ -42,7 +43,10 @@ namespace HelloPico2.LevelTool
 
             _LineRenderer.positionCount = _Percision;
             
-            if(_UseController == ArmControllerInputMeshNameData.Controller.Seperate)
+            _From.SetParent(transform);
+
+
+            if (_UseController == ArmControllerInputMeshNameData.Controller.Seperate)
                 FindSeperateInputMesh();
             if (_UseController == ArmControllerInputMeshNameData.Controller.Combined)
                 FindCombinedInputMesh();
@@ -56,7 +60,7 @@ namespace HelloPico2.LevelTool
             Transform searchThis = armData.transform;
             for (int i = 0; i < splitedName.Length; i++)
             {
-                print(splitedName[i].ToString());
+                if(_EnableFindInputMeshDebber) print(splitedName[i].ToString());
                 searchThis = searchThis.Find(splitedName[i].ToString());
             }
 
@@ -70,7 +74,7 @@ namespace HelloPico2.LevelTool
             Transform searchThis = armData.ArmorController.transform;
             for (int i = 0; i < splitedName.Length; i++)
             {
-                print(splitedName[i].ToString());
+                if(_EnableFindInputMeshDebber) print(splitedName[i].ToString());
                 searchThis = searchThis.Find(splitedName[i].ToString());
             }
             to = searchThis;            
