@@ -4,6 +4,8 @@ Shader "Unlit/Low-Enemy_JellyFlower"
 {
     Properties
     {
+        _NoiseTiling ("Noise Density", Float) = 1
+        _NoiseStrength ("Noise Strength", Range(0,5)) = 1.5
         _MainTex ("Texture", 2D) = "white" {}
         _MainTex2 ("Texture", 2D) = "white" {}
         [HDR]_Color ("Color", Color) = (1,1,1,1)
@@ -51,13 +53,48 @@ Shader "Unlit/Low-Enemy_JellyFlower"
             float4 _TexColor;
             sampler2D _MainTex2;
             
+            half2 Rotate_UV(half2 uv , half sin , half cos)
+            {
+                return float2(uv.x*cos - uv.y*sin ,uv.x*sin + uv.y*cos);
+            }
+            half WaterTex(half2 uv,half Tilling,half FlowSpeed)
+            {
+                uv.xy*=Tilling;
+                half Time = _Time.y*FlowSpeed;
+
+                uv.xy = Rotate_UV(uv,0.34,0.14);
+                half2 UV = frac(uv.xy*0.75+Time* half2(-1,-0.25));
+				half D = smoothstep(-10.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+                
+                uv.xy = Rotate_UV(uv,0.94,0.44);
+                UV = frac(uv.xy*1.2+Time*0.33* half2(-0.24,0.33));
+				half D2 = smoothstep(-18.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+                
+                uv.xy = Rotate_UV(uv,0.64,0.74);
+                UV = frac(uv.xy*1+Time*1.34* half2(0.54,-0.33));
+				half D3 = smoothstep(-15.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+
+                //D = 1-max(max(D,D2),D3);
+                D = smoothstep(-3.5,3.5,D+D2+D3);
+                
+                return D;
+            }
+            
+            half _NoiseTiling;
+            half _NoiseStrength;
             v2f vert (appdata v)
             {
                 v2f o;
                 UNITY_SETUP_INSTANCE_ID (v);
                 UNITY_TRANSFER_INSTANCE_ID (v, o);
+                
+				half2 worldpos = mul(unity_ObjectToWorld, v.vertex).xy;
 
-                o.vertex = UnityObjectToClipPos(v.vertex);
+                half Noise =WaterTex(v.vertex.xy*_NoiseTiling,50,0.5) + WaterTex(v.vertex.xy*_NoiseTiling,30,-1); 
+
+                o.vertex = UnityObjectToClipPos(v.vertex + v.normal*(Noise*0.75-1)*0.001*_NoiseStrength);
+
+               // o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv.xy = v.uv;
                 
                 half3 worldNormal = normalize(UnityObjectToWorldNormal(v.normal));

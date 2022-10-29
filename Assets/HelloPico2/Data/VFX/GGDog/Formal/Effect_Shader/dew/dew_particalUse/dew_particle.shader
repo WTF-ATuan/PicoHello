@@ -103,6 +103,8 @@ Shader "Unlit/SpriteDefault"
                 
                 n *= smoothstep(0,0.5,i.uv.y);
 
+                i.uv =(i.uv+0.5*(1.75-1))/1.75;
+
                 half4 col = tex2D(_MainTex, i.uv +n/15)*i.color*_Color;
 
                 clip(col.a-0.03);
