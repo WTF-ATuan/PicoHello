@@ -51,6 +51,8 @@ public class Player_BeamCharge_Controller : MonoBehaviour
                     gameObject.SetActive(false);
                     gameObject.SetActive(true);
                     Shot.gameObject.SetActive(false);
+                    PS_Shot[1].gameObject.SetActive(true);
+
                     EmissionControl(Loop.transform.childCount, PS_Loop, true);
                     EmissionControl(Loop_InShot.transform.childCount, PS_Loop_InShot, true);
                     pre_switch = now_switch;
@@ -81,6 +83,10 @@ public class Player_BeamCharge_Controller : MonoBehaviour
                     EmissionControl(Shot.transform.childCount, PS_Shot, false);
                     //關掉發射內的集氣Loop
                     EmissionControl(Loop_InShot.transform.childCount, PS_Loop_InShot, false);
+
+                    //單獨關掉泡泡延遲太久的
+                    PS_Shot[1].gameObject.SetActive(false);
+
                     pre_switch = now_switch;
                 }
                 break;
