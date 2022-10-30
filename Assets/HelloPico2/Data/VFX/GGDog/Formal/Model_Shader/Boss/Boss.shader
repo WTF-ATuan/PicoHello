@@ -2,6 +2,7 @@ Shader "GGDog/Boss"
 {
     Properties
     {
+		_Layer("Mask Layer",Range(0,30)) = 3
         _NoiseTiling ("Noise Density", Float) = 1
         _NoiseStrength ("Noise Strength", Range(0,5)) = 1.5
         _Color("Color",Color) = (0.75,0.75,0.75,1)
@@ -9,6 +10,12 @@ Shader "GGDog/Boss"
     }
     SubShader
     {
+        Stencil {
+            Ref [_Layer]
+            Comp always
+            Pass replace
+        }
+
         Pass
         {
             CGPROGRAM
