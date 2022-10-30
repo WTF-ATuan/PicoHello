@@ -48,6 +48,11 @@ public class Player_BeamCharge_Controller : MonoBehaviour
                 now_switch = 0;
                 if (pre_switch != now_switch)
                 {
+                    gameObject.SetActive(false);
+                    gameObject.SetActive(true);
+                    Shot.gameObject.SetActive(false);
+                    EmissionControl(Loop.transform.childCount, PS_Loop, true);
+                    EmissionControl(Loop_InShot.transform.childCount, PS_Loop_InShot, true);
                     pre_switch = now_switch;
                 }
                 break;
