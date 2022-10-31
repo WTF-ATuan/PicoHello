@@ -85,9 +85,10 @@ namespace HelloPico2.LevelTool
         }
         private void DrawLine() {
             //to = armData.transform.position;
-
             points.Clear();
-            dist = Vector3.Distance(_From.position + _FromOffset, to.position + _ToOffset);
+            //var from = _From.position + _FromOffset;
+            var from = _From.TransformPoint(_FromOffset);
+            dist = Vector3.Distance(from, to.position + _ToOffset);
             var toOffset = _ToOffset;
             for (int i = 0; i < _Percision; i++)
             {
@@ -99,7 +100,7 @@ namespace HelloPico2.LevelTool
                     toOffset = Vector3.Lerp(_ToOffset, Vector3.zero, _ToOffsetCurve.Evaluate(approachingStep));
                 }
 
-                var Pos = Vector3.Lerp(_From.position + _FromOffset, to.position + toOffset, step);
+                var Pos = Vector3.Lerp(from, to.position + toOffset, step);
                 var curve = Vector3.Lerp(Vector3.zero, _CurveOffset, _Curve.Evaluate(step));
                 Pos = Pos + curve;
                 points.Add(Pos);
