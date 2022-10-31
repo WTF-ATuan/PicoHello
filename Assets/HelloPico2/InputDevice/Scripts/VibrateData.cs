@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using HelloPico2.InputDevice.Scripts;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -21,7 +22,9 @@ namespace HelloPico2.InputDevice{
 
 		public PhoenixVibrateData FindSetting(string vibrateName){
 			var vibrateData = phoenixVibrateDataList.Find(x => x.vibrateName.Equals(vibrateName));
-			if(vibrateData == null) throw new Exception($"{vibrateName} is not found in {this}");
+			if(vibrateData != null) return vibrateData;
+			vibrateData = phoenixVibrateDataList.First();
+			Debug.LogWarning($"{vibrateName} is not found in {this}");
 			return vibrateData;
 		}
 	}
