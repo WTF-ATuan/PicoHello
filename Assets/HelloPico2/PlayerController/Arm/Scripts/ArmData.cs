@@ -32,6 +32,7 @@ namespace HelloPico2.PlayerController.Arm
         [SerializeField] private ArmorController _ArmorController;
         [SerializeField] private float _ShootEmptyEnergyCoolDownDuration = 2;
         [SerializeField] private float _ShootEmptyBombCoolDownDuration = 2;
+        [SerializeField] private float _DisableInputCoolDownDuration = 1;
         [FoldoutGroup("Audio Settings")][SerializeField] private string[] _GainEnergyBallClipName;
         [FoldoutGroup("Audio Settings")][SerializeField] private string[] _ShootEnergyBallClipName;
         [FoldoutGroup("Audio Settings")][SerializeField] private string _ToWhipClipName;
@@ -70,6 +71,7 @@ namespace HelloPico2.PlayerController.Arm
         public InteractableSettings InteractableSettings { get { return _InteractableSettings; } }
         public Transform SummonPoint { get { return _SummonPoint; } }
         public ArmorController ArmorController { get { return _ArmorController; } }
+        public float DisableInputCoolDownDuration { get { return _DisableInputCoolDownDuration; } }
         public string[] GainEnergyBallClipName { get { return _GainEnergyBallClipName; } }
         public float ShootEmptyEnergyCoolDownDuration { get { return _ShootEmptyEnergyCoolDownDuration; } }
         public float ShootEmptyBombCoolDownDuration { get { return _ShootEmptyBombCoolDownDuration; } }

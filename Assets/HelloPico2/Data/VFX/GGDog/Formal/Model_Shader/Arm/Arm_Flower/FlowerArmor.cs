@@ -9,6 +9,10 @@ public class FlowerArmor : MonoBehaviour
     public float _h;
     [Range(0, 1)]
     public float _injured;
+    
+    public float _GetDamageInjuredTransitDuration = 0.3f;
+    public float _GetDamageInjuredTarget = 0.5f;
+
     [Range(0, 1)][Tooltip("??????SetGlowValue???")]
     public float _Speed = 1;
     public AnimationCurve _EaseCurve;
@@ -110,6 +114,14 @@ public class FlowerArmor : MonoBehaviour
         );
         
         dotweeenSep.Play();
+    }
+    public void InjuredEffect(float duration) {
+
+        Sequence seq = DOTween.Sequence();
+        seq.Append(DOTween.To(() => _injured, x => _injured = x, _GetDamageInjuredTarget, _GetDamageInjuredTransitDuration));
+        seq.AppendInterval(duration - 2 * _GetDamageInjuredTransitDuration);
+        seq.Append(DOTween.To(() => _injured, x => _injured = x, 0, _GetDamageInjuredTransitDuration));
+        seq.Play();
     }
     private void Update()
     {

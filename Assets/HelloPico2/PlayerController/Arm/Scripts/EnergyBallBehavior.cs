@@ -526,6 +526,22 @@ namespace HelloPico2.PlayerController.Arm
                 }
             }
         }
+        public void ChangeToEnergyball()
+        {
+            if (energyBehavior == null)
+                energyBehavior = GetComponent<EnergyBallBehavior>();
+
+            if (currentShape == currentEnergyBall) return;
+
+            var fromScale = (currentShape) ? currentShape.transform.localScale : Vector3.zero;
+            if (!armLogic.CheckHasEnergy()) currentEnergyBall.transform.localScale = Vector3.zero;
+
+            ActivateWeapon(currentEnergyBall);
+
+            energyBehavior.Activate(armLogic, armLogic.data, currentEnergyBall, fromScale);
+
+            currentWeaponBehavior = energyBehavior;
+        }
         private void UpdateScale(ArmData data) {
             var targetScale = Vector3.one * Mathf.Lerp(_ScaleRange.x, _ScaleRange.y, data.Energy / data.MaxEnergy) ;
             if (data.Energy == 0) targetScale = Vector3.zero;
@@ -551,20 +567,21 @@ namespace HelloPico2.PlayerController.Arm
             // Force activate Energy ball when player has no energy
             if (Mathf.Abs(axis.y) <= 0.1f || !armLogic.CheckHasEnergy())
             {
-                if (energyBehavior == null)
-                    energyBehavior = GetComponent<EnergyBallBehavior>();
+                ChangeToEnergyball();
+                //if (energyBehavior == null)
+                //    energyBehavior = GetComponent<EnergyBallBehavior>();
 
-                if (currentShape == currentEnergyBall) return;
+                //if (currentShape == currentEnergyBall) return;
 
-                var fromScale = (currentShape)? currentShape.transform.localScale: Vector3.zero;
-                if(!armLogic.CheckHasEnergy()) currentEnergyBall.transform.localScale = Vector3.zero;
+                //var fromScale = (currentShape)? currentShape.transform.localScale: Vector3.zero;
+                //if(!armLogic.CheckHasEnergy()) currentEnergyBall.transform.localScale = Vector3.zero;
 
-                // Ball
-                ActivateWeapon(currentEnergyBall);
+                //// Ball
+                //ActivateWeapon(currentEnergyBall);
 
-                energyBehavior.Activate(armLogic, armLogic.data, currentEnergyBall, fromScale);
+                //energyBehavior.Activate(armLogic, armLogic.data, currentEnergyBall, fromScale);
 
-                currentWeaponBehavior = energyBehavior;
+                //currentWeaponBehavior = energyBehavior;
             }
 
             if (!armLogic.CheckHasEnergy()) return;
