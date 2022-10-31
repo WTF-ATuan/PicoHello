@@ -8,24 +8,41 @@ public class Camera_FarUp : MonoBehaviour
     public float Range_Y=1;
     [Range(0,1)]
     public float Lerp = 0.1F;
+
+    public GameObject[] GO;
+
+    Vector3[] GO_OriPos = new Vector3[100];
+
+    private void Awake()
+    {
+        for (int i = 0; i < GO.Length; i++)
+        {
+            GO_OriPos[i]= GO[i].transform.position ;
+        }
+    }
+
+
     void Update()
     {
-
-        // Vector2 CameraAngle = new Vector2(Camera.main.transform.rotation.eulerAngles.x, Camera.main.transform.rotation.eulerAngles.y);
 
         float CameraDot = Vector3.Dot(Vector3.Normalize(Camera.main.transform.TransformDirection(Vector3.forward)), Vector3.forward);
 
         Vector2 Camera_Forward = Camera.main.transform.TransformDirection(Vector3.forward);
+        Vector2 Camera_Up = Camera.main.transform.TransformDirection(Vector3.up);
 
-        if(Camera_Forward.y<0)
+        if (Camera_Forward.y<0)
         {
             Camera_Forward.y = 0;
         }
 
-        Vector3 Camera_Move = Vector3.Lerp(transform.position, new Vector3(-Camera_Forward.x* Range_X, -Camera_Forward.y * Range_Y, 0) ,0.5f*(1- CameraDot/2));
 
+        for (int i = 0; i < GO.Length; i++)
+        {
 
-        transform.position = Vector3.Lerp(transform.position, Camera_Move, Lerp);
+            Vector3 Camera_Move = Vector3.Lerp(GO_OriPos[i], new Vector3(-(Camera_Forward.x + Camera_Up.x) * Range_X, -Camera_Forward.y * Range_Y, 0), 0.5f * (1 - CameraDot / 2));
+
+            GO[i].transform.position = Vector3.Lerp(GO[i].transform.position, Camera_Move, Lerp) ;
+        }
 
     }
 

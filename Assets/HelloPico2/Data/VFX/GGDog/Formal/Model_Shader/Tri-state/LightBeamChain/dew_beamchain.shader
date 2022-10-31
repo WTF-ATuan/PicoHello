@@ -2,6 +2,9 @@
 {
 	Properties
 	{
+        _NoiseTiling ("Noise Density", Float) = 1
+        _NoiseStrength ("Noise Strength", Range(0,5)) = 1.5
+
         [IntRange]_joint ("joint", Range(0,50)) = 50
         _Scale ("Scale", Range(0,1)) = 1
 
@@ -131,6 +134,36 @@
 
 			half _Scale;
             half _joint;
+			
+            half2 Rotate_UV(half2 uv , half sin , half cos)
+            {
+                return float2(uv.x*cos - uv.y*sin ,uv.x*sin + uv.y*cos);
+            }
+            half WaterTex(half2 uv,half Tilling,half FlowSpeed)
+            {
+                uv.xy*=Tilling;
+                half Time = _Time.y*FlowSpeed;
+
+                uv.xy = Rotate_UV(uv,0.34,0.14);
+                half2 UV = frac(uv.xy*0.75+Time* half2(-1,-0.25));
+				half D = smoothstep(-10.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+                
+                uv.xy = Rotate_UV(uv,0.94,0.44);
+                UV = frac(uv.xy*1.2+Time*0.33* half2(-0.24,0.33));
+				half D2 = smoothstep(-18.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+                
+                uv.xy = Rotate_UV(uv,0.64,0.74);
+                UV = frac(uv.xy*1+Time*1.34* half2(0.54,-0.33));
+				half D3 = smoothstep(-15.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+
+                //D = 1-max(max(D,D2),D3);
+                D = smoothstep(-3.5,3.5,D+D2+D3);
+                
+                return D;
+            }
+            
+            half _NoiseTiling;
+            half _NoiseStrength;
 
 			v2f vert (appdata v)
 			{
@@ -156,16 +189,23 @@
                 }
 				
 				*/
-				o.vertex = UnityObjectToClipPos(v.vertex);
+
+                o.vertex = UnityObjectToClipPos(v.vertex );
+
                 o.uv = v.uv;
 				
 				o.scrPos = ComputeScreenPos(o.vertex);  //抓取螢幕截圖的位置
 
                 v.uv.y = smoothstep(_joint/50,1,v.uv.y);
+				
+				half Noise_dis = smoothstep(0,0.01,1-v.uv.y);
 
-                half scale = smoothstep(0,1.75,1-v.uv.y)*_Scale;
+                half scale = smoothstep(0,1.75,1-v.uv.y)*_Scale/Noise_dis;
+				
+                half Noise =WaterTex(v.vertex.xy*_NoiseTiling+_Time.y*float2(0,0.125),50,0.25) + WaterTex(v.vertex.xy*_NoiseTiling+_Time.y*float2(0,0.25),30,-0.5); 
 
-                o.vertex = UnityObjectToClipPos(v.vertex - 0.01*v.normal*scale);
+
+                o.vertex = UnityObjectToClipPos(v.vertex - 0.01*v.normal*scale    +  v.normal*(Noise*0.75-1)*0.01*_NoiseStrength*(1-scale)*Noise_dis);
 
 
 				return o;

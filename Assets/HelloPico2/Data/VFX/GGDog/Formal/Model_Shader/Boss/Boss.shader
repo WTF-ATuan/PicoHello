@@ -2,85 +2,111 @@ Shader "GGDog/Boss"
 {
     Properties
     {
+		_Layer("Mask Layer",Range(0,30)) = 3
+        _NoiseTiling ("Noise Density", Float) = 1
+        _NoiseStrength ("Noise Strength", Range(0,5)) = 1.5
         _Color("Color",Color) = (0.75,0.75,0.75,1)
         _ShadowColor("ShadowColor",Color) = (0.25,0.25,0.25,1)
-        [HDR]_BackRimColor("BackRim Color",Color) = (1,0.5,0.5,1)
-        [HDR]_DirRimColor("DirRim Color",Color) = (1,0.5,0.5,1)
-        _Gloss("Gloss",Range(1,200)) = 10
     }
     SubShader
     {
-        LOD 100
+        Stencil {
+            Ref [_Layer]
+            Comp always
+            Pass replace
+        }
 
         Pass
         {
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+			#pragma target 3.0
+            #pragma multi_compile_instancing
             #include "UnityCG.cginc"
-            #include "Lighting.cginc"
 
             struct appdata
             {
-                float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
-				float3 normal : NORMAL;
+                half4 vertex : POSITION;
+                half2 uv : TEXCOORD0;
+				half3 normal : NORMAL;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
             {
-                float2 uv : TEXCOORD0;
-                float4 vertex : SV_POSITION;
-                float3 worldNormal : TEXCOORD1;
-                float3 worldPos : TEXCOORD2;
+                half3 uv : TEXCOORD0;
+                half4 vertex : SV_POSITION;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
+            
+            half2 Rotate_UV(half2 uv , half sin , half cos)
+            {
+                return float2(uv.x*cos - uv.y*sin ,uv.x*sin + uv.y*cos);
+            }
+            half WaterTex(half2 uv,half Tilling,half FlowSpeed)
+            {
+                uv.xy*=Tilling;
+                half Time = _Time.y*FlowSpeed;
+
+                uv.xy = Rotate_UV(uv,0.34,0.14);
+                half2 UV = frac(uv.xy*0.75+Time* half2(-1,-0.25));
+				half D = smoothstep(-10.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+                
+                uv.xy = Rotate_UV(uv,0.94,0.44);
+                UV = frac(uv.xy*1.2+Time*0.33* half2(-0.24,0.33));
+				half D2 = smoothstep(-18.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+                
+                uv.xy = Rotate_UV(uv,0.64,0.74);
+                UV = frac(uv.xy*1+Time*1.34* half2(0.54,-0.33));
+				half D3 = smoothstep(-15.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+
+                //D = 1-max(max(D,D2),D3);
+                D = smoothstep(-3.5,3.5,D+D2+D3);
+                
+                return D;
+            }
+            
+            half _NoiseTiling;
+            half _NoiseStrength;
 
             v2f vert (appdata v)
             {
                 v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = v.uv;
+                UNITY_SETUP_INSTANCE_ID (v);
+                UNITY_TRANSFER_INSTANCE_ID (v, o);
+                
+                half Noise =WaterTex(v.vertex.xy*_NoiseTiling+_Time.y*float2(0,0.125),50,0.5) + WaterTex(v.vertex.xy*_NoiseTiling+_Time.y*float2(0,0.125),30,-1); 
+
+                o.vertex = UnityObjectToClipPos(v.vertex + v.normal*(Noise*0.75-1)*0.001*_NoiseStrength);
+
+                o.uv.xy = v.uv;
 				
-				o.worldNormal = mul(v.normal,(float3x3)unity_WorldToObject);
-				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+				half3 worldNormal = mul(v.normal,(half3x3)unity_WorldToObject);
+				half3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+                
+                half3 WorldNormal = normalize(worldNormal);
+                half3 ViewDir = normalize(_WorldSpaceCameraPos.xyz - worldPos );
+
+				o.uv.z = smoothstep(0.65,0.75,1-saturate(dot(WorldNormal,ViewDir)));
+
 
                 return o;
             }
-			float4 _Color;
-			float4 _ShadowColor;
-			float4 _BackRimColor;
-			float4 _DirRimColor;
-			
-            half _Gloss;
+			half4 _Color;
+			half4 _ShadowColor;
 
-            float4 frag (v2f i) : SV_Target
+            half4 frag (v2f i) : SV_Target
             {
-                float n =  smoothstep(0.5,1,distance(frac(20*i.uv+_Time.y*half2(0.7,1)*0.25),0.5));
-                float n2 =  smoothstep(0.3,1,distance(frac(10*i.uv+_Time.y*half2(0.9,0.75)*0.75),0.5));
-                n+=n2;
-                n = saturate(n+0.25);
+                UNITY_SETUP_INSTANCE_ID (i);
 
-
-                float3 WorldNormal = normalize(i.worldNormal);
-                float3 LightDir = normalize(_WorldSpaceLightPos0.xyz);
-                fixed3 ViewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos );
-
-				float NdotL = (dot(WorldNormal,LightDir));
-				float Rim = 1-saturate(smoothstep(0,1,dot(WorldNormal,ViewDir)));
-
-                float4 BackRimColor =  ( smoothstep(0,1,Rim*smoothstep(0.99,1.02,saturate(1-NdotL-0.0015)))  * _BackRimColor )*n;
-                float4 DirRimColor =  (smoothstep(-0.5,1,Rim*smoothstep(0,0.25,saturate(NdotL+0.0015)))  * _DirRimColor )*n;
-
-
-				float4 FinalColor = lerp(_ShadowColor + BackRimColor ,_Color + DirRimColor  ,NdotL );
+				half4 FinalColor = lerp(_ShadowColor +(1-WaterTex(i.vertex.xy/50,1,1))*_Color*0.75,_Color ,i.uv.z );
 
                 return FinalColor;
             }
             ENDCG
         }
     }
-
-    
     SubShader
     {
 		LOD 0 
@@ -110,7 +136,6 @@ Shader "GGDog/Boss"
             v2f vert (appdata v)
             {
                 v2f o;
-
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
 

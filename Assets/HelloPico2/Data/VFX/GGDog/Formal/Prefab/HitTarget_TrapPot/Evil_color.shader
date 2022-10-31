@@ -57,32 +57,33 @@ Shader "GGDog/Evil_color"
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
             
-            float frac_Noise(float2 UV, float Tilling)
+            half2 Rotate_UV(half2 uv , half sin , half cos)
             {
-
-                UV = UV*Tilling/100;
-
-                float2 n_UV =float2( UV.x *0.75 - UV.y*0.15 ,UV.x*0.15 + UV.y*0.75);
-
-                float2 n2_UV =float2( UV.x *0.25 - UV.y*0.5 ,UV.x*0.5 + UV.y*0.25);
-
-                float timeY =_Time.y;
-                float n0 =  smoothstep(0.15,1,1-distance(frac(1*n_UV+timeY*float2(-0.3,-0.75)*0.55),0.5));
-                float n01 =  smoothstep(0.3,1,1-distance(frac(0.75*n2_UV+timeY*float2(0.75,0.5)*0.25),0.5));
-
-                float n02 =  smoothstep(0.5,1,1-distance(frac(0.25*UV+timeY*float2(0.5,-0.25)*0.75),0.5));
-
-                float n03 =  smoothstep(0.5,1,1-distance(frac(0.15*UV+timeY*float2(0.25,-0.5)*0.75),0.5));
-
-
-                float n =  smoothstep(0.15,1,distance(frac(1*n_UV+n0/3-n02/1+timeY*float2(0.7,1)*0.25),0.5)) ;
-
-                float n2 =  smoothstep(0.3,1,distance(frac(1.25*n2_UV-n01/3+n02/1.5+timeY*float2(-0.2,-0.75)*0.75),0.5)) ;
-
-                n+= n2;
-
-               return saturate(n+0.25);
+                return float2(uv.x*cos - uv.y*sin ,uv.x*sin + uv.y*cos);
             }
+            half WaterTex(half2 uv,half Tilling,half FlowSpeed)
+            {
+                uv.xy*=Tilling/50;
+                half Time = _Time.y*FlowSpeed;
+
+                uv.xy = Rotate_UV(uv,0.34,0.14);
+                half2 UV = frac(uv.xy*0.75+Time* half2(-1,-0.25));
+				half D = smoothstep(-10.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+                
+                uv.xy = Rotate_UV(uv,0.94,0.44);
+                UV = frac(uv.xy*1.2+Time*0.33* half2(-0.24,0.33));
+				half D2 = smoothstep(-18.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+                
+                uv.xy = Rotate_UV(uv,0.64,0.74);
+                UV = frac(uv.xy*1+Time*1.34* half2(0.54,-0.33));
+				half D3 = smoothstep(-15.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+
+                D = 1-max(max(D,D2),D3);
+                //D = smoothstep(-3.5,3.5,D+D2+D3);
+                
+                return D;
+            }
+
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
@@ -132,7 +133,7 @@ Shader "GGDog/Evil_color"
 
                 col.rgb =  lerp( _ShadowColor * col, _LightColor * col, (max(dot(normalDir,lightDir),0+0.25))) ;
 
-                col.rgb += frac_Noise(i.worldPos.xy,_ReflectTilling)*_Reflect*_ReflectColor;
+                col.rgb += WaterTex(i.worldPos.xy,_ReflectTilling,1.25)*_Reflect*_ReflectColor;
 
                 clip(col.a-_AlphaClip);
                 
@@ -149,8 +150,9 @@ Shader "GGDog/Evil_color"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-
-
+            
+			#pragma target 3.0
+            #pragma multi_compile_instancing
             #include "UnityCG.cginc"
 
             struct appdata
@@ -171,32 +173,33 @@ Shader "GGDog/Evil_color"
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
             
-            float frac_Noise(float2 UV, float Tilling)
+            half2 Rotate_UV(half2 uv , half sin , half cos)
             {
-
-                UV = UV*Tilling/100;
-
-                float2 n_UV =float2( UV.x *0.75 - UV.y*0.15 ,UV.x*0.15 + UV.y*0.75);
-
-                float2 n2_UV =float2( UV.x *0.25 - UV.y*0.5 ,UV.x*0.5 + UV.y*0.25);
-
-                float timeY =_Time.y;
-                float n0 =  smoothstep(0.15,1,1-distance(frac(1*n_UV+timeY*float2(-0.3,-0.75)*0.55),0.5));
-                float n01 =  smoothstep(0.3,1,1-distance(frac(0.75*n2_UV+timeY*float2(0.75,0.5)*0.25),0.5));
-
-                float n02 =  smoothstep(0.5,1,1-distance(frac(0.25*UV+timeY*float2(0.5,-0.25)*0.75),0.5));
-
-                float n03 =  smoothstep(0.5,1,1-distance(frac(0.15*UV+timeY*float2(0.25,-0.5)*0.75),0.5));
-
-
-                float n =  smoothstep(0.15,1,distance(frac(1*n_UV+n0/3-n02/1+timeY*float2(0.7,1)*0.25),0.5)) ;
-
-                float n2 =  smoothstep(0.3,1,distance(frac(1.25*n2_UV-n01/3+n02/1.5+timeY*float2(-0.2,-0.75)*0.75),0.5)) ;
-
-                n+= n2;
-
-               return saturate(n+0.25);
+                return float2(uv.x*cos - uv.y*sin ,uv.x*sin + uv.y*cos);
             }
+            half WaterTex(half2 uv,half Tilling,half FlowSpeed)
+            {
+                uv.xy*=Tilling/50;
+                half Time = _Time.y*FlowSpeed;
+
+                uv.xy = Rotate_UV(uv,0.34,0.14);
+                half2 UV = frac(uv.xy*0.75+Time* half2(-1,-0.25));
+				half D = smoothstep(-10.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+                
+                uv.xy = Rotate_UV(uv,0.94,0.44);
+                UV = frac(uv.xy*1.2+Time*0.33* half2(-0.24,0.33));
+				half D2 = smoothstep(-18.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+                
+                uv.xy = Rotate_UV(uv,0.64,0.74);
+                UV = frac(uv.xy*1+Time*1.34* half2(0.54,-0.33));
+				half D3 = smoothstep(-15.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+
+                D = 1-max(max(D,D2),D3);
+                //D = smoothstep(-3.5,3.5,D+D2+D3);
+                
+                return D;
+            }
+
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
@@ -248,7 +251,7 @@ Shader "GGDog/Evil_color"
 
                 col.rgb =  lerp( _ShadowColor * col, _LightColor * col, (max(dot(normalDir,lightDir),0+0.25))) ;
                 
-                col.rgb += frac_Noise(i.worldPos.xy,_ReflectTilling)*_Reflect*_ReflectColor;
+                col.rgb += WaterTex(i.worldPos.xy,_ReflectTilling,1.25)*_Reflect*_ReflectColor;
 
                 clip(col.a-_AlphaClip);
                 
