@@ -19,6 +19,8 @@ Shader "GGDog/Uber_ToonShader"
 		
         _AlphaClip("Alpha Clip",Range(0,1)) = 0.35
 		_LightDir ("Light Direction", Vector) = (0.5, 1, 1 ,0)
+		
+        _SelfShadowSmooth("Self Shadow Gradient Smooth",Range(0,1)) = 0.3
 
 		[Enum(UnityEngine.Rendering.BlendMode)] _SourceBlend ("Source Blend Mode", Float) = 1
 		[Enum(UnityEngine.Rendering.BlendMode)] _DestBlend ("Dest Blend Mode", Float) = 0
@@ -75,6 +77,7 @@ Shader "GGDog/Uber_ToonShader"
                 half3 viewDir = normalize(_WorldSpaceCameraPos.xyz - mul(unity_ObjectToWorld, v.vertex).xyz);
 				o.uv.z = 1-dot(worldNormal, viewDir);
 				
+				o.uv.w = v.vertex.y;
 
 				return o;
 			}
@@ -87,6 +90,7 @@ Shader "GGDog/Uber_ToonShader"
 			half _AmbientFade;
 			half _LightSmooth;
 			half _LightRange;
+			half _SelfShadowSmooth;
 			
 			half4 frag (v2f i) : SV_Target
 			{
@@ -107,7 +111,7 @@ Shader "GGDog/Uber_ToonShader"
 				col += Rim*N_VS_Dot_L*_EdgeRimColor*col.a  +  _EdgeRimColor*saturate(0.75-N_VS_Dot_L)*Rim_Ambient *_AmbientFade*col.a;
 
 
-				return saturate(col);
+				return saturate(col*smoothstep(-_SelfShadowSmooth,_SelfShadowSmooth,i.uv.w));
 				
 			}
 			ENDCG
