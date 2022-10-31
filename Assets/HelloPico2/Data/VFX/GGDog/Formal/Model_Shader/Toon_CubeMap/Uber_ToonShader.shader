@@ -20,7 +20,9 @@ Shader "GGDog/Uber_ToonShader"
         _AlphaClip("Alpha Clip",Range(0,1)) = 0.35
 		_LightDir ("Light Direction", Vector) = (0.5, 1, 1 ,0)
 		
+		[HDR]_SelfShadowColor ("Self Shadow Color", Color) = (0.5,0.5,0.5,1)
         _SelfShadowSmooth("Self Shadow Gradient Smooth",Range(0,1)) = 0.3
+        _SelfShadowOffSet("Self Shadow Gradient OffSet",Range(-1,1)) = 0
 
 		[Enum(UnityEngine.Rendering.BlendMode)] _SourceBlend ("Source Blend Mode", Float) = 1
 		[Enum(UnityEngine.Rendering.BlendMode)] _DestBlend ("Dest Blend Mode", Float) = 0
@@ -90,7 +92,10 @@ Shader "GGDog/Uber_ToonShader"
 			half _AmbientFade;
 			half _LightSmooth;
 			half _LightRange;
+
+			half4 _SelfShadowColor;
 			half _SelfShadowSmooth;
+			half _SelfShadowOffSet;
 			
 			half4 frag (v2f i) : SV_Target
 			{
@@ -110,7 +115,9 @@ Shader "GGDog/Uber_ToonShader"
 
 				col += Rim*N_VS_Dot_L*_EdgeRimColor*col.a  +  _EdgeRimColor*saturate(0.75-N_VS_Dot_L)*Rim_Ambient *_AmbientFade*col.a;
 
-				col*=smoothstep(-_SelfShadowSmooth,_SelfShadowSmooth,i.uv.w);
+				i.uv.w =1-smoothstep(-_SelfShadowSmooth,_SelfShadowSmooth,i.uv.w+_SelfShadowOffSet);
+
+				col = lerp(col,_SelfShadowColor,i.uv.w*_SelfShadowColor.a);
 
 				return saturate(col);
 				
