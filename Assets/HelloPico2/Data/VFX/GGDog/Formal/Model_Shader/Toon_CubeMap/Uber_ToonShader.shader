@@ -100,7 +100,7 @@ Shader "GGDog/Uber_ToonShader"
 				half Rim = smoothstep(0.7,0.9,i.uv.z);
 				half Rim_Ambient = smoothstep(0,1,i.uv.z);
 
-                i.normal_VS = float4(i.normal_VS.xyz,1);
+                i.normal_VS = half4(i.normal_VS.xyz,1);
 
                 half N_VS_Dot_L = smoothstep(0,_LightSmooth,dot(i.normal_VS.xyz,_LightDir)-_LightRange);
 
@@ -110,8 +110,9 @@ Shader "GGDog/Uber_ToonShader"
 
 				col += Rim*N_VS_Dot_L*_EdgeRimColor*col.a  +  _EdgeRimColor*saturate(0.75-N_VS_Dot_L)*Rim_Ambient *_AmbientFade*col.a;
 
+				col*=smoothstep(-_SelfShadowSmooth,_SelfShadowSmooth,i.uv.w);
 
-				return saturate(col*smoothstep(-_SelfShadowSmooth,_SelfShadowSmooth,i.uv.w));
+				return saturate(col);
 				
 			}
 			ENDCG
