@@ -25,6 +25,7 @@ namespace HelloPico2.LevelTool
         public int _Percision = 100;
         public AnimationCurve _Curve;
         public AnimationCurve _ToOffsetCurve;
+        public ParticleSystem _DotIndicator;
         public bool _EnableFindInputMeshDebber = false;
         ArmData armData;
         [ReadOnly][SerializeField] private Transform to;
@@ -105,11 +106,9 @@ namespace HelloPico2.LevelTool
                 Pos = Pos + curve;
                 points.Add(Pos);
             }
-            
+
+            _DotIndicator.transform.position = to.position;
             _LineRenderer.SetPositions(points.ToArray());
-        }
-        private void GetToPosition() { 
-            
         }
     }
 }
