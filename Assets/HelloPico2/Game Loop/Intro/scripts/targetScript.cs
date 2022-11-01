@@ -13,7 +13,7 @@ public class targetScript : MonoBehaviour
     public GameObject[] hideList;
     public int checkHeld;
     public bool isTrigger;
-    public int coldTime;
+    public float coldTime;
     float countTimer;
     public bool isAnim;
     public Animator _Animator;
@@ -23,6 +23,7 @@ public class targetScript : MonoBehaviour
     public bool isHandTouch;
     float baseValue;
     public bool isAudio;
+    public int isAudioDelay;
     public GameObject aduioObj;
     public bool isEffect;
     public GameObject EffectObj;
@@ -92,7 +93,7 @@ public class targetScript : MonoBehaviour
             AddItemHeld();
             ShowAnim();
             LoadTimeLine();
-            if (isAudio)
+            if (isAudio && isAudioDelay==0)
             {
                 aduioObj.SetActive(true);
             }
@@ -104,14 +105,16 @@ public class targetScript : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if (isAudio && isGetItem)
+
+        countTimer += Time.deltaTime;
+
+        if (isAudio && isGetItem &&  isAudioDelay ==0)
         {
             aduioObj.SetActive(true);
         }
         if (isHandTouch && isTrigger && other.CompareTag("Player"))
         {
 
-            countTimer += Time.deltaTime;
             if (isHandTouch)
             {
                 transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, 0.02f);
@@ -130,34 +133,47 @@ public class targetScript : MonoBehaviour
                 {
                     EffectObj.SetActive(true);
                 }
+                
                 StartCoroutine(WaitTimeScaleCollider());                
             }
         }
     }
     IEnumerator WaitTimeScaleCollider()
     {
+
         if (isAudio)
         {
             aduioObj.SetActive(true);            
         }
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(isAudioDelay);
+
         LoadTimeLine();
     }
+    
+
     public void LoadTimeLine()
     {
+        if (isAudio)
+        {
+            aduioObj.SetActive(true);
+        }
         if (isEffect)
         {
             EffectObj.SetActive(false);
         }
-
-        showObj[0].SetActive(true);
-        hideList[0].SetActive(false);
         if (!isStaff)
         {
             gameObject.transform.parent.gameObject.SetActive(false);
-        }        
-        
+        }
         isTrigger = false;
+
+        Invoke("ShowElement", isAudioDelay);
+
         countTimer = 0;
+    }
+    void ShowElement()
+    {
+        showObj[0].SetActive(true);
+        hideList[0].SetActive(false);
     }
 }
