@@ -71,7 +71,7 @@ public class HitCageCh3Controller : MonoBehaviour
         randomRangeValue = Random.Range(1, 2);
         if (randomRangeValue == 1)
         {
-            randomRangeTriggetValue = Random.Range(0, triggetListLength + 1);
+            randomRangeTriggetValue = Random.Range(0, triggetListLength);
             getTriggetList[randomRangeTriggetValue].SetActive(true);
             OnScaleToStar(getTriggetList[randomRangeTriggetValue]);
             isShow = false;
@@ -79,10 +79,10 @@ public class HitCageCh3Controller : MonoBehaviour
         }
         else
         {
-            randomRangeTriggetValue = Random.Range(0, triggetListLength + 1);
+            randomRangeTriggetValue = Random.Range(0, triggetListLength);
             getTriggetList[randomRangeTriggetValue].SetActive(true);
             OnScaleToStar(getTriggetList[randomRangeTriggetValue]);
-            randomRangeTriggetValue = Random.Range(0, triggetListLength + 1);
+            randomRangeTriggetValue = Random.Range(0, triggetListLength);
             getTriggetList[randomRangeTriggetValue].SetActive(true);
             OnScaleToStar(getTriggetList[randomRangeTriggetValue]);
             isShow = false;

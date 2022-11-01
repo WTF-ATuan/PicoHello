@@ -8,7 +8,7 @@ public class HitCageTrigget : MonoBehaviour
 {
     public GameObject ActiveEffect;    
     public UltEvent WhenTriggedByPlayer;
-
+    public ICollideFeedback collideFeedback;
     public void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("InteractCollider"))
@@ -17,6 +17,8 @@ public class HitCageTrigget : MonoBehaviour
             transform.GetComponent<SphereCollider>().enabled = false;
 
             OnScaleToZero();
+
+            other.TryGetComponent<ICollideFeedback>(out collideFeedback);
 
             WhenTriggedByPlayer?.Invoke();
         }
@@ -31,4 +33,6 @@ public class HitCageTrigget : MonoBehaviour
                 gameObject.SetActive(false);
             });
     }
+    public void PlayNormalFeedback() { if(collideFeedback != null) collideFeedback.NormalCollide(); }
+    public void PlayCriticalFeedback() { if (collideFeedback != null) collideFeedback.CriticalCollide(); }
 }

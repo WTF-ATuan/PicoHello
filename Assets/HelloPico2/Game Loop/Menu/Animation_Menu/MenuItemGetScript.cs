@@ -28,20 +28,20 @@ public class MenuItemGetScript : MonoBehaviour
     void Start()
     {
         timer = coldTime;
-        roundAnimator = roundObj.GetComponent<Animator>();
-        menuPrefabs = menuPrefabs.GetComponent<Animator>();
-        rayObjAnimator = rayObj.GetComponent<Animator>();
+        if(roundObj) roundAnimator = roundObj.GetComponent<Animator>();
+        if(menuPrefabs) menuPrefabs = menuPrefabs.GetComponent<Animator>();
+        if(rayObj) rayObjAnimator = rayObj.GetComponent<Animator>();
 
         findPlayer = GameObject.Find("MenuItemLookPos");
-        
-        filledImage = filledImage.GetComponent<Image>();
+
+        if(rayObj) filledImage = filledImage.GetComponent<Image>();
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        gameObject.transform.LookAt(findPlayer.transform.position);
+        if(findPlayer) gameObject.transform.LookAt(findPlayer.transform.position);
         
 
         if (isNotTouch && roundAnimator.speed <1)
