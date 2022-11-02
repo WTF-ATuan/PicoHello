@@ -103,23 +103,26 @@ Shader "GGDog/Uber_ToonShader"
 				clip(col.a-_AlphaClip);
 				
 				half Rim = smoothstep(0.7,0.9,i.uv.z);
-				half Rim_Ambient = smoothstep(0,1,i.uv.z);
+				half Rim_Ambient = i.uv.z;
+				
+				half n_vs_dot_l = dot(i.normal_VS.xyz,_LightDir);
 
-                i.normal_VS = half4(i.normal_VS.xyz,1);
-
-                half N_VS_Dot_L = smoothstep(0,_LightSmooth,dot(i.normal_VS.xyz,_LightDir)-_LightRange);
-
-				N_VS_Dot_L += smoothstep(0,1,dot(i.normal_VS.xyz,_LightDir)-0)*_BloomFade;
+				//NDotL
+                half N_VS_Dot_L = smoothstep( 0.0 , _LightSmooth , n_vs_dot_l-_LightRange );
+				
+				//BloomFade
+				N_VS_Dot_L += smoothstep( -3.0 , 1.0 ,n_vs_dot_l)*_BloomFade*0.75;
 
 				col = lerp(col*_ShadowColor,col*_Color,N_VS_Dot_L/2);
 
 				col += Rim*N_VS_Dot_L*_EdgeRimColor*col.a  +  _EdgeRimColor*saturate(0.75-N_VS_Dot_L)*Rim_Ambient *_AmbientFade*col.a;
 
-				i.uv.w =1-smoothstep(-_SelfShadowSmooth,_SelfShadowSmooth,i.uv.w+_SelfShadowOffSet);
+				//¦Û³±¼v
+				i.uv.w = 1-smoothstep(-_SelfShadowSmooth,_SelfShadowSmooth,i.uv.w+_SelfShadowOffSet);
 
 				col = lerp(col,_SelfShadowColor,i.uv.w*_SelfShadowColor.a);
 
-				return saturate(col);
+				return col;
 				
 			}
 			ENDCG

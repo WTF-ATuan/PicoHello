@@ -117,7 +117,7 @@ Shader "GGDog/Guide_Toon"
 
                 half N_VS_Dot_L = smoothstep(0,_LightSmooth,dot(i.normal_VS.xyz,_LightDir)-_LightRange + _LightSmooth/2);
 
-				N_VS_Dot_L += smoothstep(0,1.5,dot(i.normal_VS.xyz,_LightDir)-0)*_BloomFade;
+				N_VS_Dot_L += smoothstep(-3.0,1.0,dot(i.normal_VS.xyz,_LightDir))*_BloomFade*0.75;
                 
                 //_ShadowColor = lerp(_FadeColor1,_ShadowColor,0.5);
 

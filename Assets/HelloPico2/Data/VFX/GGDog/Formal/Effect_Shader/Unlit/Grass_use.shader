@@ -1,13 +1,10 @@
-Shader "GGDog/Unlit_transparentUse"
+Shader "GGDog/Grass_use"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
 		[HDR]_Color("Color",Color) = (1,1,1,1)
         _AlphaClip("Alpha Clip", Range(0,1)) = 0
-		[Enum(Off,0,On,2)] _Cull ("Cull Mode", Float) = 0
-
-        _X_Speed("X_Speed",Float) = 0
     }
     SubShader
     {
@@ -15,7 +12,7 @@ Shader "GGDog/Unlit_transparentUse"
 
         ZWrite Off
         Blend SrcAlpha OneMinusSrcAlpha
-		Cull [_Cull]
+        Cull Off //JK Edit
 
         Pass
         {
@@ -52,12 +49,11 @@ Shader "GGDog/Unlit_transparentUse"
             
             float _AlphaClip;
             
-            float _X_Speed;
-
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed4 col = tex2D(_MainTex, i.uv + float2(_X_Speed,0)*_Time.y)*_Color;
+                fixed4 col = tex2D(_MainTex, i.uv)*_Color;
 
+                col.rgb*=smoothstep(-1,1.5,i.uv.y);
                 clip(col.a-_AlphaClip*1.01);
 
                 return col;
