@@ -8,6 +8,8 @@ Shader "GGDog/Uber_ToonShader"
 		_MainTex ("Base (RGB)", 2D) = "white" {}
 		[HDR]_Color ("Main Color", Color) = (1.35,1.08,0.97,1)
 		
+		[KeywordEnum(ViewNormal, ObjectNormal)] _PROJECTION("Light ProjectMode", Float) = 0.0
+
         _LightSmooth("Light Edge Smooth",Range(0,1)) = 0.1
         _LightRange("Light Edge Range",Range(-1,1)) = 0.15
         _BloomFade("Bloom Fade",Range(0,1)) = 1
@@ -42,6 +44,8 @@ Shader "GGDog/Uber_ToonShader"
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
+			
+			#pragma shader_feature _PROJECTION_VIEWNORMAL _PROJECTION_OBJECTNORMAL
 
             #include "UnityCG.cginc"
 
@@ -70,10 +74,18 @@ Shader "GGDog/Uber_ToonShader"
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				
 				o.uv.xy = TRANSFORM_TEX(v.uv, _MainTex);
+				
+				//ViewNormal
+#if _PROJECTION_VIEWNORMAL
 
                 float4 normal_OS = float4(v.normal.xyz,0);
                 o.normal_VS = mul(UNITY_MATRIX_MV,normal_OS);
 				
+				//Normal
+#elif _PROJECTION_OBJECTNORMAL
+
+                o.normal_VS = v.normal;
+#endif
 
                 half3 worldNormal  = normalize(UnityObjectToWorldNormal(v.normal));
                 half3 viewDir = normalize(_WorldSpaceCameraPos.xyz - mul(unity_ObjectToWorld, v.vertex).xyz);

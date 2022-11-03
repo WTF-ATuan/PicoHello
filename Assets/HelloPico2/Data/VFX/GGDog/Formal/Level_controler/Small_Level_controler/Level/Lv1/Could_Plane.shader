@@ -6,6 +6,7 @@ Shader "GGDog/Tunnel"
         _Color ("Color", COLOR) = (1,1,1,1)
         _ShadowColor ("ShadowColor", COLOR) = (0.5,0.5,0.5,1)
         _ViewFarPos ("_ViewFarPos", Float) = 70
+        _CloudFlowSpeed ("Cloud Flow Speed", Range(0,1)) = 0.25
     }
     SubShader
     {
@@ -64,7 +65,7 @@ Shader "GGDog/Tunnel"
 				Out = unity_gradientNoise(UV * Scale) + 0.5;
 			}
 
-
+			half _CloudFlowSpeed;
             v2f vert (appdata v)
             {
                 v2f o;
@@ -74,7 +75,7 @@ Shader "GGDog/Tunnel"
 
 				//float noise = saturate( frac(sin(dot(v.uv, float2(12.9898, 78.233)+sin(_Time.y*0.00015) ))*43758.5453));
 
-				half T =_Time.y*0.5;
+				half T =_Time.y*_CloudFlowSpeed;
 
 				half Out;
 				Unity_GradientNoise_float(v.uv.xy+half2(0.5,1)*T*0.1+half2(1.0,0.0)*T*0.1,30,Out);
