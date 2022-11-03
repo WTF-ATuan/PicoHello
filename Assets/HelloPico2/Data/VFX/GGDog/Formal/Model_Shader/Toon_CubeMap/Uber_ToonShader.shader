@@ -60,7 +60,7 @@ Shader "GGDog/Uber_ToonShader"
 			{
 				half4 uv : TEXCOORD0;
 				half4 vertex : SV_POSITION;
-                float3 normal_VS : TEXCOORD1;
+                half3 normal_VS : TEXCOORD1;
 			};
 			
             sampler2D _MainTex;
