@@ -1,3 +1,5 @@
+
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,19 +14,28 @@ namespace HelloPico2.InteractableObjects
         public float _SpawnOffset;
         public Vector3 _SpawnRotation;
         public int _MaxAmount = 5;
+        public float _LifeTime = 10;
         public float _RefillDelayDuration;
         public List<GameObject> _Clonelist = new List<GameObject>();
 
         [Header("Loop Settings")]
+        public bool _UseWaveModule = false;
         [Min(1)]public int _SpawnWavesAmount = 1;
         public float _WaveDelayDuration = 5f;
 
         [Header("Timed Refill")]
         public bool _UseTimedRefill = false;
 
+        [Header("Moving")]
+        public bool _UseMovingModule = false;
+        public Vector3 _MoveDirection;
+        public float _MoveSpeed;
+
         [Header("Gizmos Settings")]
         public Color _DrawColor;
-        
+
+        private Coroutine WaveProcess;
+
         private void SpawnSingleWave() {
             for (int i = 0; i < _MaxAmount; i++)
             {
@@ -63,7 +74,16 @@ namespace HelloPico2.InteractableObjects
 
         private void OnEnable(){
             if(_Clonelist.Count >= 1) return;
-            SpawnSingleWave();
+
+            if (_UseWaveModule)
+            {
+                if (WaveProcess != null)
+                    StopCoroutine(WaveProcess);
+
+                WaveProcess = StartCoroutine(WaveControl()); 
+            }
+            else
+                SpawnSingleWave();
         }
 
         private void OnDisable()
@@ -83,10 +103,20 @@ namespace HelloPico2.InteractableObjects
             
             if (clone.TryGetComponent<InteractableBase>(out var interactable))
             {
-                interactable.OnInteractableDisable += UpdateWhenDestroy;                
+                interactable.OnInteractableDisable += UpdateWhenDestroy;                         
             }
 
+            if (_UseMovingModule) AddMovingModule(clone, interactable);
+
             return clone;
+        }
+        private void AddMovingModule(GameObject clone, InteractableBase interactable) {
+            var moveObject = clone.AddComponent<MoveObject>();
+            moveObject.relativeDirection = _MoveDirection;
+            moveObject.speed = _MoveSpeed;
+
+            if(interactable)
+                interactable.OnInteractableDisable += (InteractableBase interactable) => Destroy(clone.GetComponent<MoveObject>());
         }
         private void UpdateWhenDestroy(InteractableBase interactable) {
             if (_Clonelist.Count <= _MaxAmount)
@@ -115,8 +145,11 @@ namespace HelloPico2.InteractableObjects
                 
                 Gizmos.color = _DrawColor;
 
-                var sharedMesh = _SpawnThis.GetComponent<MeshFilter>().sharedMesh;
+                if(!_SpawnThis.TryGetComponent<MeshFilter>(out var mesh)) return;
+
+                var sharedMesh = mesh.sharedMesh;
                 var childMesh = _SpawnThis.GetComponentInChildren<MeshFilter>().sharedMesh;
+
                 Gizmos.DrawWireMesh(!sharedMesh ? childMesh : sharedMesh, pos, Quaternion.Euler(_SpawnRotation),
                     _SpawnThis.transform.localScale);
             }
