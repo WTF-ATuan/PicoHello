@@ -1,5 +1,4 @@
-﻿using System;
-using Game.Project;
+﻿using Game.Project;
 using HelloPico2.InputDevice.Scripts;
 using Project;
 using UnityEngine;
@@ -7,7 +6,6 @@ using UnityEngine;
 namespace HelloPico2.PlayerController.Arm.Scripts{
 	public class AutoGainEnergy : MonoBehaviour{
 		[SerializeField] private AnimationCurve curve = AnimationCurve.Linear(1, 1, 0, 0);
-		private const float UpdateFrameTime = 0.2f;
 
 		private ArmData _armData;
 		private EnergyBallBehavior _energyBehavior;
@@ -21,13 +19,11 @@ namespace HelloPico2.PlayerController.Arm.Scripts{
 			_armData = GetComponent<ArmData>();
 			_energyBehavior = GetComponent<EnergyBallBehavior>();
 			EventBus.Subscribe<DeviceInputDetected>(OnInputDetected);
-			_frameTimer = new ColdDownTimer(UpdateFrameTime);
+			_frameTimer = new ColdDownTimer(0.2f);
 		}
 
 		private void OnInputDetected(DeviceInputDetected obj){
-			if(!_frameTimer.CanInvoke()) return;
-			if(!obj.Selector.HandType.Equals(_armData.HandType)) return;
-			if(!obj.IsGrip){
+			if(Condition(obj)){
 				_timer = 0;
 				return;
 			}
@@ -35,6 +31,10 @@ namespace HelloPico2.PlayerController.Arm.Scripts{
 			_timer += Time.deltaTime;
 			CalculateEnergy();
 			_frameTimer.Reset();
+		}
+
+		private bool Condition(DeviceInputDetected obj){
+			return !obj.Selector.HandType.Equals(_armData.HandType) || !obj.IsGrip || !_frameTimer.CanInvoke();
 		}
 
 		private void CalculateEnergy(){
