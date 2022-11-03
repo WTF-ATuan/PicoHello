@@ -26,6 +26,7 @@ namespace HelloPico2.PlayerController.Arm.Scripts{
 
 		private void OnInputDetected(DeviceInputDetected obj){
 			if(!_frameTimer.CanInvoke()) return;
+			if(!obj.Selector.HandType.Equals(_armData.HandType)) return;
 			if(!obj.IsGrip){
 				_timer = 0;
 				return;
@@ -41,6 +42,10 @@ namespace HelloPico2.PlayerController.Arm.Scripts{
 			var timeValue = curve.Evaluate(lerpTime);
 			var energy = Mathf.Lerp(0, _armData.MaxEnergy, timeValue);
 			energy += _armData.Energy;
+			if(energy >= _armData.MaxEnergy){
+				return;
+			}
+
 			_energyBehavior.ChargeEnergyDirectly(energy);
 		}
 	}
