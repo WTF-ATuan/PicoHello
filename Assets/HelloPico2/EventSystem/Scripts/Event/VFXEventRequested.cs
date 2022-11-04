@@ -12,23 +12,21 @@ namespace HelloPico2{
 		public bool UsingMultipleVfXs = false;
 
 		public VFXEventRequested(string vfxID, bool isBinding, Transform attachPoint,
-			float during = 0,
-			Vector3 spawnPosition = default){
+			float during = 0){
 			VfxID = vfxID;
 			IsBinding = isBinding;
 			During = during;
 			AttachPoint = attachPoint;
-			SpawnPosition = spawnPosition;
+			SpawnPosition = default;
 			CheckData();
 		}
 
 		public VFXEventRequested(string vfxID, bool isBinding, float during,
-			Vector3 spawnPosition,
-			Transform attachPoint = null){
+			Vector3 spawnPosition){
 			VfxID = vfxID;
 			IsBinding = isBinding;
 			During = during;
-			AttachPoint = attachPoint;
+			AttachPoint = null;
 			SpawnPosition = spawnPosition;
 			CheckData();
 		}

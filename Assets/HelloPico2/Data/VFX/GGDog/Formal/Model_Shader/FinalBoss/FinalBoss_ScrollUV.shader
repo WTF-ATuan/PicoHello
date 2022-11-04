@@ -47,7 +47,7 @@ Shader "GGDog/FinalBoss_ScrollUV"
                 half4 vertex : POSITION;
                 half2 uv : TEXCOORD0;
                 half4 color : COLOR;
-                float3 normal : NORMAL;
+                half3 normal : NORMAL;
             };
 
             struct v2f

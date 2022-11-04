@@ -7,6 +7,45 @@ Shader "GGDog/Badge"
     SubShader
     {
         Tags { "RenderType"="Opaque" }
+
+        Pass
+        {
+            Blend One One
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+
+            #include "UnityCG.cginc"
+
+            struct appdata
+            {
+                half4 vertex : POSITION;
+				half3 normal : NORMAL;
+				half4 color : COLOR;
+            };
+
+            struct v2f
+            {
+                half4 vertex : SV_POSITION;
+				half4 color : COLOR;
+            };
+
+            v2f vert (appdata v)
+            {
+                v2f o;
+                o.vertex = UnityObjectToClipPos(v.vertex - v.normal*0.0035);
+                o.color = v.color;
+
+                return o;
+            }
+            half4 _Color;
+            half4 frag (v2f i) : SV_Target
+            {
+                return _Color*i.color.a/2;
+            }
+            ENDCG
+        }
+
         Pass
         {
             Blend One One
@@ -46,8 +85,8 @@ Shader "GGDog/Badge"
 
                 return o;
             }
-            fixed4 _Color;
-            fixed4 frag (v2f i) : SV_Target
+            half4 _Color;
+            half4 frag (v2f i) : SV_Target
             {
                 half3 worldNormal  = normalize(i.normal);
                 half3 viewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos);
