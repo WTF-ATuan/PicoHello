@@ -32,6 +32,8 @@ namespace HelloPico2.PlayerController.BeamCharge
             _Energy.DOLocalMoveZ(_EnergyZOffset, _EnergyMovingDuration).SetEase(Ease.InOutCubic);
             _Follower.Target = interactCollider.transform;
             OnPlayerGetEnergy(this, interactCollider);
+            
+            _CurrentState = State.Picked;
         }
     }
 }
