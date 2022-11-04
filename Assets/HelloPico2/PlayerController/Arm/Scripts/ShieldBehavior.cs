@@ -40,8 +40,6 @@ namespace HelloPico2.PlayerController.Arm{
 			shield = shieldObj;
 			_shieldCollider = shieldObj.GetComponentInChildren<Collider>();
 			_shieldController = shieldObj.GetComponentInChildren<ShieldController>();
-			print(shieldObj.name);
-			print(_shieldController.name);
 			UpdateShieldScale(data); 
 			UpdateShieldPosition(data);
 

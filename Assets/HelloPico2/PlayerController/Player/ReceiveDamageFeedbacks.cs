@@ -13,7 +13,7 @@ namespace HelloPico2.LevelTool
         public float _ToAlpha = 0.3f;
         public float _StayDuration = 3;
         public float _Duration = 3;
-
+        public string _DamageAudioClipName = "";
         public void PlayDamageFeedbacks() {
             Sequence seq = DOTween.Sequence();
             seq.Append(_DamageVignetteImage.DOFade(_ToAlpha, _Duration));
@@ -21,6 +21,9 @@ namespace HelloPico2.LevelTool
             seq.Append(_DamageVignetteImage.DOFade(0, _Duration));
 
             seq.Play();
+        }
+        public void PlayDamageAudio() { 
+            AudioPlayerHelper.PlayAudio(_DamageAudioClipName, transform.position);            
         }
     }
 }
