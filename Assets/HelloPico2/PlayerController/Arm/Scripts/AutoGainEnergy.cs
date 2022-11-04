@@ -25,6 +25,7 @@ namespace HelloPico2.PlayerController.Arm.Scripts{
 			if(Condition(obj)){
 				return;
 			}
+
 			var invokeDuring = curve.Evaluate(_armData.currentGripFunctionTimer);
 			print(invokeDuring);
 			_frameTimer.ModifyDuring(invokeDuring);
@@ -33,7 +34,8 @@ namespace HelloPico2.PlayerController.Arm.Scripts{
 		}
 
 		private bool Condition(DeviceInputDetected obj){
-			return !obj.Selector.HandType.Equals(_armData.HandType) || !obj.IsGrip || !_frameTimer.CanInvoke();
+			return !obj.Selector.HandType.Equals(_armData.HandType) || !obj.IsGrip || !_frameTimer.CanInvoke() ||
+				   !_energyBehavior.isCurrentWeaponEnergyBall();
 		}
 
 		private void CalculateEnergy(){
