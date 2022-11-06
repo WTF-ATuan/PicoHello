@@ -11,6 +11,9 @@ Shader "GGDog/Evil_color"
 		_FarColor("Far Color",Color) = (1,1,1,1)
 		_FarDistance("Far Distance",Float) = 3
 
+		_NearColor("Near Color",Color) = (0,0,0,1)
+		_NearDistance("Near Distance",Float) = 3
+
 		[HDR]_LightColor("Light Color",Color) = (1,1,1,1)
 		[HDR]_ShadowColor("Shadow Color",Color) = (0.5,0.5,0.5,1)
         
@@ -120,6 +123,9 @@ Shader "GGDog/Evil_color"
 		    float _FarDistance;
             
 		    float _Alpha;
+            
+		    float4 _NearColor;
+		    float _NearDistance;
 
             fixed4 frag (v2f i) : SV_Target
             {
@@ -139,6 +145,8 @@ Shader "GGDog/Evil_color"
                 
                 //¶ZÂ÷Ãú
 				col = lerp(col,float4(_FarColor.rgb,col.a), smoothstep(-_FarDistance/3,_FarDistance,i.worldPos.z));
+                //·¥ªñ¶ZÂ÷³æ¦â
+				col = lerp(col,float4(_NearColor.rgb,col.a),1- smoothstep(0,_NearDistance,i.worldPos.z));
 
                 return float4(col.rgb,col.a*_Alpha)*_Color;
             }
@@ -238,6 +246,9 @@ Shader "GGDog/Evil_color"
 		    float _FarDistance;
 
 		    float _Alpha;
+            
+		    float4 _NearColor;
+		    float _NearDistance;
 
             float4 frag (v2f i) : SV_Target
             {
@@ -257,6 +268,8 @@ Shader "GGDog/Evil_color"
                 
                 //¶ZÂ÷Ãú
 				col = lerp(col,float4(_FarColor.rgb,col.a), smoothstep(0,_FarDistance,i.worldPos.z));
+                //·¥ªñ¶ZÂ÷³æ¦â
+				col = lerp(col,float4(_NearColor.rgb,col.a),1- smoothstep(0,_NearDistance,i.worldPos.z));
                 
                 return float4(col.rgb,col.a*_Alpha)*_Color;
             }
