@@ -1,11 +1,7 @@
 using DG.Tweening;
 using HelloPico2.PlayerController.Arm;
 using Sirenix.OdinInspector;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEditorInternal;
 using UnityEngine;
 
 namespace HelloPico2.PlayerController.BeamCharge
