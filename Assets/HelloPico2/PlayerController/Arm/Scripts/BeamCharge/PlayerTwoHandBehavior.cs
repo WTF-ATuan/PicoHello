@@ -1,11 +1,7 @@
 using DG.Tweening;
 using HelloPico2.PlayerController.Arm;
 using Sirenix.OdinInspector;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEditorInternal;
 using UnityEngine;
 
 namespace HelloPico2.PlayerController.BeamCharge
@@ -34,6 +30,7 @@ namespace HelloPico2.PlayerController.BeamCharge
         [SerializeField] private PunchData _MergingPunchData;
 
         [Header("Charging")]
+        public float _StartChargingWaitTime = 8;
         public float _StartChargingDistance = 10;
         [SerializeField] private bool _InvertStartEndScale = false;
         [SerializeField] private Vector3 _StartChargingScale = Vector3.one;
@@ -163,13 +160,16 @@ namespace HelloPico2.PlayerController.BeamCharge
             }
         }
         private IEnumerator ChargingBallControlling() {
+            float waitDuration = 0;            
             float currentDuration = 0;            
 
             _BeamChargeController.transform.DOScale(_StartChargingScale, _StartChargingDuration);
 
-            while (currentDuration < _RequireChargingDuration) {                
+            while (currentDuration < _RequireChargingDuration) {
 
-                if (EnergyDistance() < _StartChargingDistance)
+                waitDuration += Time.deltaTime;
+
+                if (EnergyDistance() < _StartChargingDistance || waitDuration >= _StartChargingWaitTime)
                 {
                     currentDuration += Time.deltaTime;
 
