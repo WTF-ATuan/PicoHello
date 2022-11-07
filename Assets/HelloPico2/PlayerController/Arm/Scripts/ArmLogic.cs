@@ -293,6 +293,16 @@ namespace HelloPico2.PlayerController.Arm
             // Has 2 hands so split into half
             SpentEnergy(data.DamageAmount / 2);
         }
+        public void DisableInputContinuously()
+        {
+            disableTimer.ModifyDuring(float.MaxValue);
+            disableTimer.Reset();
+        }
+        public void EnableInput()
+        {
+            disableTimer.ModifyDuring(data.DisableInputCoolDownDuration);
+            disableTimer.Reset();
+        }
         public void DisableInput() {
             disableTimer.Reset();
         }
