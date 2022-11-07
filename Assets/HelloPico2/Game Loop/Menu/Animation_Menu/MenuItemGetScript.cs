@@ -19,6 +19,7 @@ public class MenuItemGetScript : MonoBehaviour
     Animator rayObjAnimator;
     float timer;
     public targetScript _targetScript;
+    public bool isCh3HitCage;
 
     [SerializeField] private UnityEvent onGrab;
     [SerializeField] private UnityEvent onTouch;
@@ -27,6 +28,7 @@ public class MenuItemGetScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         timer = coldTime;
         if(roundObj) roundAnimator = roundObj.GetComponent<Animator>();
         if(menuPrefabs) menuPrefabs = menuPrefabs.GetComponent<Animator>();
@@ -64,20 +66,24 @@ public class MenuItemGetScript : MonoBehaviour
             onTouch?.Invoke();
             _isTouch = true;
         }
-        if (other.CompareTag("Player") && roundAnimator.speed > 0 )
+        if (other.CompareTag("Player") &&  !isCh3HitCage && roundObj)
         {
-            roundAnimator.speed -= 0.2f;
+            if(roundAnimator.speed > 0)
+            {
+                roundAnimator.speed -= 0.2f;
+            }
+            
         }
         
         if (timer > 0 )
         {
             timer -= Time.deltaTime;
             filledImage.fillAmount = (coldTime -timer)/ coldTime;
-            rayObjAnimator.SetBool("isGet",true);
+            if(roundObj) rayObjAnimator.SetBool("isGet", true);
         }
         else
         {
-            menuPrefabs.SetTrigger("isGet");
+            if(menuPrefabs) menuPrefabs.SetTrigger("isGet");
             _targetScript?.AddItemHeld();
             _targetScript?.LoadTimeLine();
             onGrab?.Invoke();
@@ -87,8 +93,11 @@ public class MenuItemGetScript : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        rayObjAnimator.SetBool("isGet", false);
-        isNotTouch = true;
-        _isTouch = false;
+        if (!isCh3HitCage && roundObj)
+        {
+            rayObjAnimator.SetBool("isGet", false);
+            isNotTouch = true;
+            _isTouch = false;
+        }
     }
 }
