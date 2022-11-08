@@ -6,7 +6,7 @@ using UnityEngine;
 namespace HelloPico2.PlayerController.Arm.Scripts{
 	public class AutoGainEnergy : MonoBehaviour{
 		[SerializeField] private AnimationCurve curve = AnimationCurve.Linear(0, 0, 6, 0);
-
+		public bool active = true;
 		private ArmData _armData;
 		private EnergyBallBehavior _energyBehavior;
 
@@ -35,7 +35,7 @@ namespace HelloPico2.PlayerController.Arm.Scripts{
 
 		private bool Condition(DeviceInputDetected obj){
 			return !obj.Selector.HandType.Equals(_armData.HandType) || !obj.IsGrip || !_frameTimer.CanInvoke() ||
-				   !_energyBehavior.isCurrentWeaponEnergyBall();
+				   !_energyBehavior.isCurrentWeaponEnergyBall() || !active;
 		}
 
 		private void CalculateEnergy(){
@@ -47,6 +47,10 @@ namespace HelloPico2.PlayerController.Arm.Scripts{
 			}
 
 			_energyBehavior.ChargeEnergyDirectly(energy);
+		}
+
+		public void Active(bool isActive){
+			active = isActive;
 		}
 	}
 }
