@@ -16,7 +16,7 @@ public class WeaponItem : MonoBehaviour, IWeaponFeedbacks
     public InteractableSettings.InteractableType _EnableFeedback;
     protected virtual void OnEnable()
     {
-        OnSwithWeapon(_EnableFeedback);
+        //OnSwithWeapon(_EnableFeedback);
     }
     public virtual void OnSwithWeapon(InteractableSettings.InteractableType interactableType)
     {
