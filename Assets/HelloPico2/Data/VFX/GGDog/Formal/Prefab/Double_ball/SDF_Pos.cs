@@ -11,7 +11,8 @@ public class SDF_Pos : MonoBehaviour
 
     void OnEnable()
     {
-        _m = GetComponent<MeshRenderer>().sharedMaterial;
+        _m = GetComponent<MeshRenderer>().material;
+
     }
 
     void Update()

@@ -1,4 +1,4 @@
-Shader "Unlit/NewUnlitShader"
+Shader "GGDog/AttractDew"
 {
     Properties
     {
@@ -62,7 +62,7 @@ Shader "Unlit/NewUnlitShader"
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
-
+            
             float3 SDF_Pos;
 
             v2f vert (appdata v)
@@ -74,7 +74,7 @@ Shader "Unlit/NewUnlitShader"
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
                 o.worldNormal  = UnityObjectToWorldNormal(v.normal);
 
-
+                /*
                 half d = 1-smoothstep(0,1,distance(o.worldPos,SDF_Pos)*3-1);
 
                 half3 n = (normalize(SDF_Pos-WorldPos)/length(SDF_Pos-WorldPos))*smoothstep(0.15,0.5,dot((v.normal),(SDF_Pos-WorldPos))*d) *0.5;
@@ -86,7 +86,23 @@ Shader "Unlit/NewUnlitShader"
                 half Noise_always =WaterTex(v.vertex.xy,3,0.75) + WaterTex(v.vertex.xy,1,-1.5); 
 
                 o.vertex = UnityObjectToClipPos(v.vertex + d*n*(Noise-1) +(Noise2-1)*smoothstep(0,3,1/distance(o.worldPos,SDF_Pos)-3.5)*v.normal*0.25 + (Noise_always-1.5)*v.normal*0.25*(1-d/2));
+                */
 
+                
+                half d = 1-smoothstep(0,1,distance(o.worldPos,SDF_Pos)*3-1);
+
+                half d_near = 2.5*smoothstep(0,0.35,distance(o.worldPos,SDF_Pos)*3);
+
+                half3 n = normalize(SDF_Pos-WorldPos) * smoothstep(0.35,1.5,dot(normalize(o.worldNormal),normalize(SDF_Pos-WorldPos))*d) *0.5;
+                
+                half Noise =WaterTex(v.vertex.xy,25,2.5) + WaterTex(v.vertex.xy,15,-5); 
+                
+                half Noise2 =WaterTex(v.vertex.xy,5,2.5) + WaterTex(v.vertex.xy,5,-5); 
+                
+                half Noise_always =WaterTex(v.vertex.xy,3,0.75) + WaterTex(v.vertex.xy,1,-1.5); 
+
+                o.vertex = UnityObjectToClipPos(v.vertex + d*d_near*n*(Noise-1) +(Noise2-1)*smoothstep(6,10,1/distance(o.worldPos,SDF_Pos)-3.5)*o.worldNormal*0.25 + (Noise_always-1.5)*o.worldNormal*0.35*(1-d/2));
+                
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 return o;
             }
