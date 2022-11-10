@@ -6,7 +6,7 @@ using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
 using HelloPico2.InteractableObjects;
 using HelloPico2.InputDevice.Scripts;
-using Unity.XR.PXR;
+//using Unity.XR.PXR;
 
 public class HandAnim : MonoBehaviour
 {
@@ -91,7 +91,7 @@ public class HandAnim : MonoBehaviour
 			_controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 primary2DAxisValue);
 			_controller.inputDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out bool secondaryButtonValue);
 			_controller.inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out bool primaryButtonValue);
-			_controller.inputDevice.TryGetFeatureValue(PXR_Usages.grip1DAxis, out var grip1DAxis);
+			//_controller.inputDevice.TryGetFeatureValue(PXR_Usages.grip1DAxis, out var grip1DAxis);
 			
 
 

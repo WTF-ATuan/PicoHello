@@ -128,8 +128,8 @@ namespace HelloPico2.InteractableObjects{
 		private void ModifyThickness(float percent){
 			var localScale = transform.localScale;
 			thickness = percent;
-			localScale.x = Mathf.Lerp(2.5f, 5, thickness);
-			localScale.y = Mathf.Lerp(2.5f, 5, thickness);
+			localScale.x = Mathf.Lerp(5, 10, thickness);
+			localScale.y = Mathf.Lerp(5, 10, thickness);
 			transform.localScale = localScale;
 		}
 

@@ -31,7 +31,8 @@ public class targetScript : MonoBehaviour
     public bool touchEffect;
     public GameObject touchEffectObj;
     public bool isGetItem;
-
+    public bool isMenuAnim;
+    public Animator menuAnimator;
     private void Start()
     {
         countTimer = 0;
@@ -54,7 +55,7 @@ public class targetScript : MonoBehaviour
            //getCollider.radius = 0;
            isTrigger = true;
         }
-        
+        if (menuAnimator) menuAnimator = menuAnimator.GetComponent<Animator>();
 
     }
 
@@ -102,6 +103,10 @@ public class targetScript : MonoBehaviour
         {
             touchEffectObj.SetActive(true);
         }
+        if (isMenuAnim)
+        {
+            menuAnimator.SetTrigger("isGet");
+        }
     }
     private void OnTriggerStay(Collider other)
     {
@@ -120,10 +125,7 @@ public class targetScript : MonoBehaviour
                 transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, 0.02f);
                 getCollider.radius += countTimer;
             }
-            if (rayAnimator != null)
-            {
-                rayAnimator.SetBool("isGet",true);
-            }
+
             if (countTimer > coldTime)
             {   
                 AddItemHeld();
@@ -145,6 +147,7 @@ public class targetScript : MonoBehaviour
         {
             aduioObj.SetActive(true);            
         }
+
         yield return new WaitForSeconds(isAudioDelay);
 
         LoadTimeLine();
