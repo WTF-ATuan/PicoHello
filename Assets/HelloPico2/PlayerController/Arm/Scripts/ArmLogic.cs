@@ -151,9 +151,6 @@ namespace HelloPico2.PlayerController.Arm
             _controller.inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out var primaryButton);            
             _controller.inputDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out var secondaryButton);
 
-            // PXR usage
-            _controller.inputDevice.TryGetFeatureValue(PXR_Usages.grip1DAxis, out var grip1DAxis);
-
             if (isTrigger)
             {
                 OnTriggerDown?.Invoke(data);
