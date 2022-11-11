@@ -112,7 +112,7 @@ public class EmissionRaise : MonoBehaviour
             }
         }
     }
-    public void Raise(Renderer[] targets, Color col)
+    public void Raise(Renderer[] targets, Color col, int matID = -1)
     {
         m_ColTarget = col;
 
@@ -121,14 +121,14 @@ public class EmissionRaise : MonoBehaviour
 
         if (m_FlipFlop)
         {
-            Process = StartCoroutine(RaiseColor(targets));
+            Process = StartCoroutine(RaiseColor(targets, matID));
         }
         else
         {
-            Process = StartCoroutine(RaiseColorWithoutFlipflop(targets));
+            Process = StartCoroutine(RaiseColorWithoutFlipflop(targets, matID));
         }
     }
-    public void Raise(Renderer[] targets, float value)
+    public void Raise(Renderer[] targets, float value, int matID = -1)
     {
         m_ValueTarget = value;
 
@@ -136,23 +136,22 @@ public class EmissionRaise : MonoBehaviour
 
         if (m_FlipFlop)
         {
-            Process = StartCoroutine(RaiseValue(targets));
+            Process = StartCoroutine(RaiseValue(targets, matID));
         }
         else
         {
-            Process = StartCoroutine(RaiseValueWithoutFlipflop(targets));
+            Process = StartCoroutine(RaiseValueWithoutFlipflop(targets, matID));
         }
     }
-    private IEnumerator RaiseColor(Renderer[] targets) {        
+    private IEnumerator RaiseColor(Renderer[] targets, int matID = -1) {        
         int counter = 2;
-        var Origin = targets[0].material.GetColor(m_ControlColorName);
+        Color Origin = (targets[0].material.HasProperty(m_ControlColorName)) ? targets[0].material.GetColor(m_ControlColorName): Color.white;
         var Target = m_ColTarget;
 
         while (counter > 0) { 
 
             var StartTime = Time.time;
             var endTime = m_Duration;
-            //print("for loop");
 
             while (Time.time - StartTime < endTime)
             {
@@ -163,37 +162,19 @@ public class EmissionRaise : MonoBehaviour
                 if (Flipflop)
                     col = Color.Lerp(Target, Origin, m_Movement.Evaluate((Time.time - StartTime) / endTime));
 
-                foreach (var obj in targets)
-                {
-                    foreach (var mat in obj.materials)
-                    {
-                        mat.SetColor(m_ControlColorName, col);
-                    }
-                }                      
+                SetMatColor(targets, matID, col);              
 
                 yield return null;
             }
 
             if (!Flipflop)
             {
-                foreach (var obj in targets)
-                {
-                    foreach (var mat in obj.materials)
-                    {
-                        mat.SetColor(m_ControlColorName, Target);
-                    }
-                }
+                SetMatColor(targets, matID, Target);
             }
-            else {
-                foreach (var obj in targets)
-                {
-                    foreach (var mat in obj.materials)
-                    {
-                        mat.SetColor(m_ControlColorName, Origin);
-                    }
-                }
+            else
+            {
+                SetMatColor(targets, matID, Origin);
             }
-            //yield return new WaitForSeconds(endTime / 2);
 
             Flipflop = !Flipflop;
 
@@ -208,9 +189,9 @@ public class EmissionRaise : MonoBehaviour
         else
             m_TriggerOnce = false;
     }
-    private IEnumerator RaiseColorWithoutFlipflop(Renderer[] targets)
+    private IEnumerator RaiseColorWithoutFlipflop(Renderer[] targets, int matID = -1)
     {
-        var Origin = targets[0].material.GetColor(m_ControlColorName);
+        Color Origin = (targets[0].material.HasProperty(m_ControlColorName)) ? targets[0].material.GetColor(m_ControlColorName): Color.white;
         var Target = m_ColTarget;
 
         var StartTime = Time.time;
@@ -221,25 +202,13 @@ public class EmissionRaise : MonoBehaviour
             Color col = ColOrigin;
 
             col = Color.Lerp(Origin, Target, m_Movement.Evaluate((Time.time - StartTime) / endTime));
-
-            foreach (var obj in targets)
-            {
-                foreach (var mat in obj.materials)
-                {
-                    mat.SetColor(m_ControlColorName, col);
-                }
-            }
+            
+            SetMatColor(targets, matID, col);
 
             yield return null;
         }
-        
-        foreach (var obj in targets)
-        {
-            foreach (var mat in obj.materials)
-            {
-                mat.SetColor(m_ControlColorName, Target);
-            }
-        }
+
+        SetMatColor(targets, matID, Target);
 
         Process = null;
 
@@ -248,13 +217,27 @@ public class EmissionRaise : MonoBehaviour
         else
             m_TriggerOnce = false;
     }
-    private IEnumerator RaiseValue(Renderer[] targets)
+    private void SetMatColor(Renderer[] targets, int matID, Color col)
+    {
+        foreach (var obj in targets)
+        {
+            if (matID == -1)
+            {
+                foreach (var mat in obj.materials)
+                {
+                    mat.SetColor(m_ControlColorName, col);
+                }
+            }
+            else
+            {
+                obj.materials[matID].SetColor(m_ControlColorName, col);
+            }
+        }
+    }
+    private IEnumerator RaiseValue(Renderer[] targets, int matID = -1)
     {
         int counter = 2;
-        float Origin = 0;
-        
-        if(targets[0].material.HasProperty(m_ControlValueName))
-            Origin = targets[0].material.GetFloat(m_ControlValueName);
+        float Origin = (targets[0].material.HasProperty(m_ControlValueName)) ? targets[0].material.GetFloat(m_ControlValueName): 0;
 
         var Target = m_ValueTarget;
 
@@ -263,7 +246,6 @@ public class EmissionRaise : MonoBehaviour
 
             var StartTime = Time.time;
             var endTime = m_Duration;
-            //print("for loop");
 
             while (Time.time - StartTime < endTime)
             {
@@ -274,28 +256,15 @@ public class EmissionRaise : MonoBehaviour
                 if (Flipflop)
                     value = Mathf.Lerp(Target, Origin, m_Movement.Evaluate((Time.time - StartTime) / endTime));
 
-                foreach (var obj in targets)
-                {
-                    foreach (var mat in obj.materials)
-                    {                        
-                        mat.SetFloat(m_ControlValueName, value);
-                    }
-                }
-
+                SetMatValue(targets, matID, value);
+                
                 yield return null;
             }
 
             if (Flipflop)
             {
-                foreach (var obj in targets)
-                {
-                    foreach (var mat in obj.materials)
-                    {
-                        mat.SetFloat(m_ControlValueName, Origin);
-                    }
-                }
+                SetMatValue(targets, matID, Origin);
             }
-            //yield return new WaitForSeconds(endTime / 2);
 
             Flipflop = !Flipflop;
 
@@ -312,9 +281,9 @@ public class EmissionRaise : MonoBehaviour
         else
             m_TriggerOnce = false;
     }
-    private IEnumerator RaiseValueWithoutFlipflop(Renderer[] targets)
+    private IEnumerator RaiseValueWithoutFlipflop(Renderer[] targets, int matID = -1)
     {
-        var Origin = targets[0].material.GetFloat(m_ControlValueName);
+        float Origin = (targets[0].material.HasProperty(m_ControlValueName))? targets[0].material.GetFloat(m_ControlValueName): 0;       
         var Target = m_ValueTarget;
 
         var StartTime = Time.time;
@@ -326,24 +295,12 @@ public class EmissionRaise : MonoBehaviour
 
             value = Mathf.Lerp(Origin, Target, m_Movement.Evaluate((Time.time - StartTime) / endTime));
             
-            foreach (var obj in targets)
-            {
-                foreach (var mat in obj.materials)
-                {
-                    mat.SetFloat(m_ControlValueName, value);
-                }
-            }
+            SetMatValue(targets, matID, value);
 
             yield return null;
         }
 
-        foreach (var obj in targets)
-        {
-            foreach (var mat in obj.materials)
-            {
-                mat.SetFloat(m_ControlValueName, Target);
-            }
-        }
+        SetMatValue(targets, matID, Target);
 
         Process = null;
 
@@ -353,5 +310,21 @@ public class EmissionRaise : MonoBehaviour
             StartCoroutine(RaiseValue(targets));
         else
             m_TriggerOnce = false;
+    }
+    private void SetMatValue(Renderer[] targets, int matID, float value) {
+        foreach (var obj in targets)
+        {
+            if (matID == -1)
+            {
+                foreach (var mat in obj.materials)
+                {
+                    mat.SetFloat(m_ControlValueName, value);
+                }
+            }
+            else
+            {
+                obj.materials[matID].SetFloat(m_ControlValueName, value);
+            }
+        }
     }
 }

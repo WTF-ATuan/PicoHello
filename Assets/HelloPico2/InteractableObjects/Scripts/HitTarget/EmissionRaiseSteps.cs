@@ -38,6 +38,15 @@ public class EmissionRaiseSteps : EmissionRaise
         else
             Raise(m_GroupRenderer[m_GroupIndex].TargetRenderer, m_ColTargets[Index]);
     }
+    public void RaiseToColor(int Index, bool loop, bool flipflop, float duration, int matID)
+    {
+        StartCoroutine(ChangeDuration(loop, flipflop, duration));
+
+        if (!m_UsingGroupRenderer)
+            Raise(m_TargetRenderer, m_ColTargets[Index], matID);
+        else
+            Raise(m_GroupRenderer[m_GroupIndex].TargetRenderer, m_ColTargets[Index], matID);
+    }
     public void SetValue(int Index) {
         SetValue(m_TargetRenderer, m_ValueTargets[Index]);
     }
@@ -70,6 +79,15 @@ public class EmissionRaiseSteps : EmissionRaise
             Raise(m_TargetRenderer, m_ValueTargets[Index]);
         else
             Raise(m_GroupRenderer[m_GroupIndex].TargetRenderer, m_ValueTargets[Index]);
+    }
+    public void RaiseToValue(int Index, bool loop, bool flipflop, float duration, int matID)
+    {
+        StartCoroutine(ChangeDuration(loop, flipflop, duration));
+
+        if (!m_UsingGroupRenderer)
+            Raise(m_TargetRenderer, m_ValueTargets[Index], matID);
+        else
+            Raise(m_GroupRenderer[m_GroupIndex].TargetRenderer, m_ValueTargets[Index], matID);
     }
     private IEnumerator ChangeDuration(bool loop, bool flipflop, float duration) {
         var loopOrigin = m_Loop;
