@@ -23,6 +23,7 @@ Shader "GGDog/Uber_ToonShader_GPU_Instance"
 		[Enum(UnityEngine.Rendering.BlendMode)] _SourceBlend ("Source Blend Mode", Float) = 1
 		[Enum(UnityEngine.Rendering.BlendMode)] _DestBlend ("Dest Blend Mode", Float) = 0
 		[Enum(Off,0,On,2)] _Cull ("Cull Mode", Float) = 0
+        [Enum(Order,4,AlwaysOnTop,8)] _ZTest("ZTest", Float) = 4
 	}
 
 	SubShader
@@ -32,6 +33,8 @@ Shader "GGDog/Uber_ToonShader_GPU_Instance"
 		Blend [_SourceBlend] [_DestBlend]
 		
 		Cull [_Cull]
+		
+		ZTest [_ZTest]
 
 		Pass
 		{	
