@@ -15,7 +15,7 @@ Shader "GGDog/Tunnel"
 		//ZWrite Off
         //ZTest[_ZTest]
 		
-		//Blend SrcAlpha OneMinusSrcAlpha
+		Blend SrcAlpha OneMinusSrcAlpha
 		
 		//Cull Back
         Pass
@@ -36,8 +36,8 @@ Shader "GGDog/Tunnel"
             struct v2f
             {
                 half4 vertex : SV_POSITION;
-
-                half4 NdotV_FarFog : TEXCOORD0;
+                half2 uv : TEXCOORD0;
+                half4 NdotV_FarFog : TEXCOORD1;
 
             };
 
@@ -116,6 +116,7 @@ Shader "GGDog/Tunnel"
 
 				o.NdotV_FarFog.zw = v.uv.xy;
 
+				o.uv = v.uv;
                 return o;
             }
 			
@@ -136,7 +137,9 @@ Shader "GGDog/Tunnel"
 				
 				col.rgb = lerp(_DarkColor,_Color,Rim);
 				
-                return half4(col.rgb,_Alpha);
+				half dis = smoothstep(0.1,0.25,i.uv.y)*(smoothstep(0.1,0.25,1-i.uv.y));
+
+                return half4(col.rgb,dis);
             }
             ENDCG
         }

@@ -202,7 +202,7 @@
 
                 half scale = smoothstep(0,1.75,1-v.uv.y)*_Scale/Noise_dis;
 				
-                half Noise =WaterTex(v.vertex.xy*_NoiseTiling+_Time.y*float2(0,0.125),50,0.25) + WaterTex(v.vertex.xy*_NoiseTiling+_Time.y*float2(0,0.25),30,-0.5); 
+                half Noise =WaterTex(v.vertex.xy*_NoiseTiling/500+_Time.y*float2(0,0.125),50,0.25) + WaterTex(v.vertex.xy*_NoiseTiling/500+_Time.y*float2(0,0.25),30,-0.5); 
 
 
                 o.vertex = UnityObjectToClipPos(v.vertex - 0.01*v.normal*scale    +  v.normal*(Noise*0.75-1)*0.01*_NoiseStrength*(1-scale)*Noise_dis);
