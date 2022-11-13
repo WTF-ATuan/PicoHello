@@ -20,6 +20,7 @@ public class MenuItemGetScript : MonoBehaviour
     float timer;
     public targetScript _targetScript;
     public bool isCh3HitCage;
+    bool isCh3Count;
 
     [SerializeField] private UnityEvent onGrab;
     [SerializeField] private UnityEvent onTouch;
@@ -36,7 +37,7 @@ public class MenuItemGetScript : MonoBehaviour
 
         findPlayer = GameObject.Find("MenuItemLookPos");
 
-        if(rayObj) filledImage = filledImage.GetComponent<Image>();
+        if(filledImage) filledImage = filledImage.GetComponent<Image>();
         
     }
 
@@ -44,9 +45,8 @@ public class MenuItemGetScript : MonoBehaviour
     void Update()
     {
         if(findPlayer) gameObject.transform.LookAt(findPlayer.transform.position);
-        
-
-        if (isNotTouch && roundAnimator.speed <1)
+ 
+        if (isNotTouch && roundAnimator.speed <1 && !isCh3HitCage)
         {
             roundAnimator.speed += 0.2f ;
             filledImage.fillAmount -= Time.deltaTime;
@@ -57,29 +57,29 @@ public class MenuItemGetScript : MonoBehaviour
                 filledImage.fillAmount = 0;
             }
         }
-        
     }
-    
+
+        
     private void OnTriggerStay(Collider other)
     {
         if(!_isTouch){
             onTouch?.Invoke();
             _isTouch = true;
         }
+        
         if (other.CompareTag("Player") &&  !isCh3HitCage && roundObj)
         {
             if(roundAnimator.speed > 0)
             {
                 roundAnimator.speed -= 0.2f;
             }
-            
         }
         
-        if (timer > 0 )
+        if (timer > 0 && !isCh3HitCage)
         {
             timer -= Time.deltaTime;
-            filledImage.fillAmount = (coldTime -timer)/ coldTime;
-            if(roundObj) rayObjAnimator.SetBool("isGet", true);
+            filledImage.fillAmount = (coldTime - timer) / coldTime;
+            if (roundObj) rayObjAnimator.SetBool("isGet", true);
         }
         else
         {
