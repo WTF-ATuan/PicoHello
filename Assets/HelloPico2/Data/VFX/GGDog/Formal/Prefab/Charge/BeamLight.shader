@@ -7,7 +7,8 @@ Shader "GGDog/Effect/BeamLight"
     {
         Tags { "Queue"="Transparent" }
         ZWrite Off
-        Blend SrcAlpha OneMinusSrcAlpha
+        Blend SrcAlpha One
+        ZTest Always
 
         Pass
         {
