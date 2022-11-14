@@ -3,6 +3,7 @@ Shader "GGDog/Evil_color_injured"
     Properties
     {
         _Crack ("Crack", Range(0,1)) = 1
+        _CrackTiling ("Crack Tiling",Float ) = 1
 		[HDR]_Color("Color",Color) = (1,1,1,1)
         _Alpha ("Alpha", Range(0,1)) = 1
 
@@ -126,6 +127,7 @@ Shader "GGDog/Evil_color_injured"
 		    float _NearDistance;
 
 		    float _Crack;
+		    float _CrackTiling;
             
             fixed4 frag (v2f i) : SV_Target
             {
@@ -148,7 +150,7 @@ Shader "GGDog/Evil_color_injured"
                 //極近距離單色
 				col = lerp(col,float4(_NearColor.rgb,col.a),1- smoothstep(0,_NearDistance,i.worldPos.z));
                 
-                clip((WaterTex(i.uv + _Time.y*_MainTex_ST.zw,_ReflectTilling/2,0))-(_Crack));
+                clip((WaterTex(i.uv + _Time.y*_MainTex_ST.zw,_CrackTiling*_ReflectTilling/2,0))-(_Crack));
 
                 return float4(col.rgb,col.a*_Alpha)*_Color;
             }
@@ -251,7 +253,10 @@ Shader "GGDog/Evil_color_injured"
             
 		    float4 _NearColor;
 		    float _NearDistance;
-
+            
+		    float _Crack;
+		    float _CrackTiling;
+            
             float4 frag (v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID (i);
@@ -273,7 +278,7 @@ Shader "GGDog/Evil_color_injured"
                 //極近距離單色
 				col = lerp(col,float4(_NearColor.rgb,col.a),1- smoothstep(0,_NearDistance,i.worldPos.z));
                 
-                clip(WaterTex(i.worldPos.xy,_ReflectTilling,0)-1);
+                clip((WaterTex(i.uv + _Time.y*_MainTex_ST.zw,_CrackTiling*_ReflectTilling/2,0))-(_Crack));
 
                 return float4(col.rgb,col.a*_Alpha)*_Color;
             }
