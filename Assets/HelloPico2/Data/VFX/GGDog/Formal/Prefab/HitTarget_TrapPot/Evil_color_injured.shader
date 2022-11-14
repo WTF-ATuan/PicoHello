@@ -253,7 +253,10 @@ Shader "GGDog/Evil_color_injured"
             
 		    float4 _NearColor;
 		    float _NearDistance;
-
+            
+		    float _Crack;
+		    float _CrackTiling;
+            
             float4 frag (v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID (i);
@@ -275,6 +278,8 @@ Shader "GGDog/Evil_color_injured"
                 //·¥ªñ¶ZÂ÷³æ¦â
 				col = lerp(col,float4(_NearColor.rgb,col.a),1- smoothstep(0,_NearDistance,i.worldPos.z));
                 
+                clip((WaterTex(i.uv + _Time.y*_MainTex_ST.zw,_CrackTiling*_ReflectTilling/2,0))-(_Crack));
+
                 return float4(col.rgb,col.a*_Alpha)*_Color;
             }
             ENDCG
