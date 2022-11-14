@@ -3,7 +3,7 @@ Shader "GGDog/Evil_color_injured"
     Properties
     {
         _Crack ("Crack", Range(0,1)) = 1
-        _CrackTiling ("Crack Tiling", ) = 1
+        _CrackTiling ("Crack Tiling",Float ) = 1
 		[HDR]_Color("Color",Color) = (1,1,1,1)
         _Alpha ("Alpha", Range(0,1)) = 1
 
