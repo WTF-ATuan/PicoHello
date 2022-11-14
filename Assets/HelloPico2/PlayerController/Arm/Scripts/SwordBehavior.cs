@@ -179,10 +179,10 @@ namespace HelloPico2.PlayerController.Arm
         }
         private void PlayWhipSound(ArmData data)
         {
-            AudioPlayerHelper.PlayAudio(data.toWhipClipName, transform.position);
+            AudioPlayerHelper.PlayMultipleAudio(data.toWhipClipName, transform.position);
         }
         private void PlaySwordSound(ArmData data) {
-            AudioPlayerHelper.PlayAudio(data.toSwordClipName, transform.position);
+            AudioPlayerHelper.PlayMultipleAudio(data.toSwordClipName, transform.position);
         }
         private void ActivateWhip(ArmData data)
         {
