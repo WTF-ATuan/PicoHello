@@ -10,12 +10,12 @@ namespace HelloPico2.InputDevice.Scripts{
 	public class ControllerVibrator : MonoBehaviour{
 		public HandType handType;
 		[Required] [InlineEditor] public VibrateData vibrateData;
-		private VRType vrType => vibrateData.vrType;
+		private VRType VRType => vibrateData.vrType;
 		private XRRayInteractor _interactor;
 		private ArmData _armData;
 		private EnergyBallBehavior _energyBallBehavior;
 
-		private int handIndex{
+		private int HandIndex{
 			get{
 				return handType switch{
 					HandType.Left => 1,
@@ -29,9 +29,12 @@ namespace HelloPico2.InputDevice.Scripts{
 			_interactor = GetComponent<XRRayInteractor>();
 			_armData = GetComponent<ArmData>();
 			_energyBallBehavior = GetComponent<EnergyBallBehavior>();
-			_armData.WhenGrip += OnGainEnergy;
-			_energyBallBehavior.swordBehavior.WhenCollide += HitVibrate;
-			_energyBallBehavior.shieldBehavior.WhenCollide += HitVibrate;
+			if(_armData) _armData.WhenGrip += OnGainEnergy;
+
+			if(_energyBallBehavior){
+				_energyBallBehavior.swordBehavior.WhenCollide += HitVibrate;
+				_energyBallBehavior.shieldBehavior.WhenCollide += HitVibrate;
+			}
 		}
 
 		private void OnGainEnergy(){
@@ -39,7 +42,7 @@ namespace HelloPico2.InputDevice.Scripts{
 			var min = _armData.GrabDetectionRadiusMin;
 			var current = _interactor.sphereCastRadius;
 			var lerpValue = (current - min) / (max - min);
-			switch(vrType){
+			switch(VRType){
 				case VRType.Phoenix:
 					var gainClip = vibrateData.FindClip("Gain_Energy");
 					VibratePhoenix(gainClip);
@@ -59,7 +62,7 @@ namespace HelloPico2.InputDevice.Scripts{
 
 		public void VibrateWithSetting(string settingName){
 			var setting = vibrateData.FindSetting(settingName);
-			switch(vrType){
+			switch(VRType){
 				case VRType.Phoenix:
 					VibratePhoenix(setting.phoenixClip);
 					break;
@@ -73,14 +76,14 @@ namespace HelloPico2.InputDevice.Scripts{
 					throw new ArgumentOutOfRangeException();
 			}
 		}
-		
+
 
 		public void HitVibrate(InteractableSettings.InteractableType interactableType){
 			print("Hit " + interactableType);
 			var isShield = interactableType == InteractableSettings.InteractableType.Shield;
 			var isWhip = interactableType == InteractableSettings.InteractableType.Whip |
 						 interactableType == InteractableSettings.InteractableType.Sword;
-			switch(vrType){
+			switch(VRType){
 				case VRType.Phoenix:
 					AudioClip hitClip = null;
 					if(isShield){
@@ -131,16 +134,16 @@ namespace HelloPico2.InputDevice.Scripts{
 		}
 
 		private void VibratePhoenix(AudioClip clip){
-			PXR_Input.StartVibrateBySharem(clip, handIndex, 0);
+			PXR_Input.StartVibrateBySharem(clip, HandIndex, 0);
 		}
 
 		private void VibrateNeo3(float amplitude, float time = 0.2f){
-			switch(handIndex){
+			switch(HandIndex){
 				case 1:
-					PXR_Input.SetControllerVibrationEvent((uint)handIndex - 1, 100, amplitude, (int)time * 100);
+					PXR_Input.SetControllerVibrationEvent((uint)HandIndex - 1, 100, amplitude, (int)time * 100);
 					break;
 				case 2:
-					PXR_Input.SetControllerVibrationEvent((uint)handIndex - 1, 100, amplitude, (int)time * 100);
+					PXR_Input.SetControllerVibrationEvent((uint)HandIndex - 1, 100, amplitude, (int)time * 100);
 					break;
 			}
 		}
