@@ -6,7 +6,7 @@ using UltEvents;
 
 public class HitCageTrigget : MonoBehaviour
 {
-    public GameObject ActiveEffect;    
+    public GameObject ActiveEffect;
     public UltEvent WhenTriggedByPlayer;
     public ICollideFeedback collideFeedback;
     public void OnTriggerEnter(Collider other)
