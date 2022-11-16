@@ -59,7 +59,20 @@ public class MenuItemGetScript : MonoBehaviour
         }
     }
 
-        
+    IEnumerator WaitCount()
+    {
+        yield return new WaitForSeconds(0.5f);
+        rayObj.SetActive(false);
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("InteractCollider")&& isCh3HitCage)
+        {
+            rayObj.SetActive(true);
+            StartCoroutine(WaitCount());
+        }
+    }
+
     private void OnTriggerStay(Collider other)
     {
         if(!_isTouch){
