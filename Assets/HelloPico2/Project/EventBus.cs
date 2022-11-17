@@ -51,8 +51,8 @@ namespace Project{
 					catch(Exception exception){
 						actions.Remove(o);
 						NonCallbackActions[type] = actions;
-						Debug.Log(
-							$"Removed Event from {type.Name} : {exception}");
+						Debug.LogWarning(
+							$"Removed Event from {type.Name }<\br> : {exception}");
 						return;
 					}
 				}
