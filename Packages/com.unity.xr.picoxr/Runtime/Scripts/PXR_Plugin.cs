@@ -1,4 +1,14 @@
-﻿// Copyright © 2015-2021 Pico Technology Co., Ltd. All Rights Reserved.
+﻿/*******************************************************************************
+Copyright © 2015-2022 PICO Technology Co., Ltd.All rights reserved.  
+
+NOTICE：All information contained herein is, and remains the property of 
+PICO Technology Co., Ltd. The intellectual and technical concepts 
+contained hererin are proprietary to PICO Technology Co., Ltd. and may be 
+covered by patents, patents in process, and are protected by trade secret or 
+copyright law. Dissemination of this information or reproduction of this 
+material is strictly forbidden unless prior written permission is obtained from
+PICO Technology Co., Ltd. 
+*******************************************************************************/
 
 using System.ComponentModel;
 using System.Drawing;
@@ -14,10 +24,8 @@ namespace Unity.XR.PXR
     {
         public ushort stereoRenderingMode;
         public ushort colorSpace;
-        public int antiAliasing;
-        public int renderTextureDepth;
-        public bool useContentProtect;
-        public float systemDisplayFrequency;
+        public ushort systemDisplayFrequency;
+        public ushort useContentProtect;
     }
 
     public enum RenderEvent
@@ -86,6 +94,7 @@ namespace Unity.XR.PXR
         PxrMrcPosiyionYOffset,
         PxrMrcTextureWidth,
         PxrMrcTextureHeight,
+        PxrAndroidLayerDimensions = 34
     };
 
     public enum FoveationLevel
@@ -230,7 +239,25 @@ namespace Unity.XR.PXR
         SFS_SHORTCUT_SHOW_CAPTURE_UI,
         SFS_STOP_MEM_INFO_SERVICE,
         SFS_USB_FORCE_HOST,
+        SFS_SET_DEFAULT_SAFETY_ZONE,
+        SFS_ALLOW_RESET_BOUNDARY,
+        SFS_BOUNDARY_CONFIRMATION_SCREEN,
+        SFS_LONG_PRESS_HOME_TO_RECENTER,
+        SFS_POWER_CTRL_WIFI_ENABLE,
+        SFS_WIFI_DISABLE,
+        SFS_SIX_DOF_SWITCH,
+        SFS_INVERSE_DISPERSION
 
+    }
+    public enum StartVRSettingsEnum
+    {
+        START_VR_SETTINGS_ITEM_WIFI,
+        START_VR_SETTINGS_ITEM_BLUETOOTH,
+        START_VR_SETTINGS_ITEM_CONTROLLER,
+        START_VR_SETTINGS_ITEM_LAB,
+        START_VR_SETTINGS_ITEM_BRIGHTNESS,
+        START_VR_SETTINGS_ITEM_GENERAL,
+        START_VR_SETTINGS_ITEM_NOTIFICATION
     }
 
     public enum USBConfigModeEnum
@@ -245,6 +272,8 @@ namespace Unity.XR.PXR
         PxrLayerFlagProtectedContent = 1 << 1,
         PxrLayerFlagStaticImage = 1 << 2,
         PxrLayerFlagUseExternalImages = 1 << 4,
+        PxrLayerFlag3DLeftRightSurface = 1 << 5,
+        PxrLayerFlag3DTopBottomSurface = 1 << 6
     }
 
     public enum PxrLayerSubmitFlagsEXT
@@ -259,6 +288,28 @@ namespace Unity.XR.PXR
         PxrLayerFlagLayerPoseNotInTrackingSpace = 1 << 6,
         PxrLayerFlagHeadLocked = 1 << 7,
         PxrLayerFlagUseExternalImageIndex = 1 << 8,
+    }
+
+    public enum PxrControllerKeyMap
+    {
+        PXR_CONTROLLER_KEY_HOME = 0,
+        PXR_CONTROLLER_KEY_AX = 1,
+        PXR_CONTROLLER_KEY_BY = 2,
+        PXR_CONTROLLER_KEY_BACK = 3,
+        PXR_CONTROLLER_KEY_TRIGGER = 4,
+        PXR_CONTROLLER_KEY_VOL_UP = 5,
+        PXR_CONTROLLER_KEY_VOL_DOWN = 6,
+        PXR_CONTROLLER_KEY_ROCKER = 7,
+        PXR_CONTROLLER_KEY_GRIP = 8,
+        PXR_CONTROLLER_KEY_TOUCHPAD = 9,
+        PXR_CONTROLLER_KEY_LASTONE = 127,
+
+        PXR_CONTROLLER_TOUCH_AX = 128,
+        PXR_CONTROLLER_TOUCH_BY = 129,
+        PXR_CONTROLLER_TOUCH_ROCKER = 130,
+        PXR_CONTROLLER_TOUCH_TRIGGER = 131,
+        PXR_CONTROLLER_TOUCH_THUMB = 132,
+        PXR_CONTROLLER_TOUCH_LASTONE = 255
     }
 
     public struct FoveationParams
@@ -314,7 +365,7 @@ namespace Unity.XR.PXR
         PxrInputG2 = 3,
         PxrInputNeo2 = 4,
         PxrInputNeo3 = 5,
-        PxrInputNeo3Phoenix = 6
+        PxrInputPICO_4 = 6
     }
 
     public enum PxrControllerDof
@@ -327,6 +378,70 @@ namespace Unity.XR.PXR
     {
         PxrControllerIsBond,
         PxrControllerUnBond
+    }
+
+    public enum PxrBlendFactor
+    {
+        PxrBlendFactorZero = 0,
+        PxrBlendFactorOne = 1,
+        PxrBlendFactorSrcAlpha = 2,
+        PxrBlendFactorOneMinusSrcAlpha = 3,
+        PxrBlendFactorDstAlpha = 4,
+        PxrBlendFactorOneMinusDstAlpha = 5
+    };
+
+    public enum PxrDeviceAbilities
+    {
+        PxrTrackingModeRotationBit,
+        PxrTrackingModePositionBit,
+        PxrTrackingModeEyeBit,
+        PxrTrackingModeFaceBit,
+        PxrTrackingModeBroadBandMontorBit,
+        PxrTrackingModeHandBit
+    }
+
+    public enum PICOCastUrlTypeEnum {
+        NORMAL_URL,
+        NO_CONFIRM_URL,
+        RTMP_URL
+    }
+
+    public enum PICOCastOptionOrStatusEnum {
+        OPTION_RESOLUTION_LEVEL,
+        OPTION_BITRATE_LEVEL,
+        OPTION_AUDIO_ENABLE,
+        PICO_CAST_STATUS
+    }
+
+    public enum PICOCastOptionValueEnum {
+        OPTION_VALUE_RESOLUTION_HIGH,
+        OPTION_VALUE_RESOLUTION_MIDDL,
+        OPTION_VALUE_RESOLUTION_AUTO,
+        OPTION_VALUE_RESOLUTION_HIGH_2K,
+        OPTION_VALUE_RESOLUTION_HIGH_4K,
+
+        OPTION_VALUE_BITRATE_HIGH,
+        OPTION_VALUE_BITRATE_MIDDLE,
+        OPTION_VALUE_BITRATE_LOW,
+
+        OPTION_VALUE_AUDIO_ON,
+        OPTION_VALUE_AUDIO_OFF,
+
+        STATUS_VALUE_STATE_STARTED,
+        STATUS_VALUE_STATE_STOPPED,
+        STATUS_VALUE_ERROR
+    }
+
+    public enum ControllerKeyEnum {
+        CONTROLLER_KEY_JOYSTICK,
+        CONTROLLER_KEY_MENU,
+        CONTROLLER_KEY_TRIGGER,
+        CONTROLLER_KEY_RIGHT_A,
+        CONTROLLER_KEY_RIGHT_B,
+        CONTROLLER_KEY_LEFT_X,
+        CONTROLLER_KEY_LEFT_Y,
+        CONTROLLER_KEY_LEFT_GRIP,
+        CONTROLLER_KEY_RIGHT_GRIP
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -376,6 +491,13 @@ namespace Unity.XR.PXR
     };
 
     [StructLayout(LayoutKind.Sequential)]
+    public struct PxrVector2f
+    {
+        public float x;
+        public float y;
+    };
+
+    [StructLayout(LayoutKind.Sequential)]
     public struct PxrBoundaryTriggerInfo
     {
         public bool isTriggering;
@@ -402,6 +524,15 @@ namespace Unity.XR.PXR
     };
 
     [StructLayout(LayoutKind.Sequential)]
+    public struct PxrLayerBlend
+    {
+        public PxrBlendFactor srcColor;
+        public PxrBlendFactor dstColor;
+        public PxrBlendFactor srcAlpha;
+        public PxrBlendFactor dstAlpha;
+    };
+
+    [StructLayout(LayoutKind.Sequential)]
     public struct PxrLayerHeader
     {
         public int layerId;
@@ -421,12 +552,51 @@ namespace Unity.XR.PXR
     };
 
     [StructLayout(LayoutKind.Sequential)]
+    public struct PxrLayerHeader2
+    {
+        public int layerId;
+        public UInt32 layerFlags;
+        public float colorScaleX;
+        public float colorScaleY;
+        public float colorScaleZ;
+        public float colorScaleW;
+        public float colorBiasX;
+        public float colorBiasY;
+        public float colorBiasZ;
+        public float colorBiasW;
+        public int compositionDepth;
+        public int sensorFrameIndex;
+        public int imageIndex;
+        public PxrPosef headPose;
+        public PXR_OverLay.OverlayShape layerShape;
+        public UInt32 useLayerBlend;
+        public PxrLayerBlend layerBlend;
+        public UInt32 useImageRect;
+        public PxrRecti imageRectLeft;
+        public PxrRecti imageRectRight;
+        public UInt64 reserved0;
+        public UInt64 reserved1;
+        public UInt64 reserved2;
+        public UInt64 reserved3;
+    };
+
+    [StructLayout(LayoutKind.Sequential)]
     public struct PxrLayerQuad
     {
         public PxrLayerHeader header;
         public PxrPosef pose;
         public float width;
         public float height;
+    };
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct PxrLayerQuad2
+    {
+        public PxrLayerHeader2 header;
+        public PxrPosef poseLeft;
+        public PxrPosef poseRight;
+        public PxrVector2f sizeLeft;
+        public PxrVector2f sizeRight;
     };
 
     [StructLayout(LayoutKind.Sequential)]
@@ -440,32 +610,95 @@ namespace Unity.XR.PXR
     };
 
     [StructLayout(LayoutKind.Sequential)]
+    public struct PxrLayerCylinder2
+    {
+        public PxrLayerHeader2 header;
+        public PxrPosef poseLeft;
+        public PxrPosef poseRight;
+        public float radiusLeft;
+        public float radiusRight;
+        public float centralAngleLeft;
+        public float centralAngleRight;
+        public float heightLeft;
+        public float heightRight;
+    };
+
+    [StructLayout(LayoutKind.Sequential)]
     public struct PxrLayerEquirect
     {
-        public PxrLayerHeader header;
-        public PxrPosef pose;
-        public float radius;
-        public float centralHorizontalAngle;
-        public float upperVerticalAngle;
-        public float lowerVerticalAngle;
+        public PxrLayerHeader2 header;
+        public PxrPosef poseLeft;
+        public PxrPosef poseRight;
+        public float radiusLeft;
+        public float radiusRight;
+        public float scaleXLeft;
+        public float scaleXRight;
+        public float scaleYLeft;
+        public float scaleYRight;
+        public float biasXLeft;
+        public float biasXRight;
+        public float biasYLeft;
+        public float biasYRight;
+    };
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct PxrLayerEquirect2
+    {
+        public PxrLayerHeader2 header;
+        public PxrPosef poseLeft;
+        public PxrPosef poseRight;
+        public float radiusLeft;
+        public float radiusRight;
+        public float centralHorizontalAngleLeft;
+        public float centralHorizontalAngleRight;
+        public float upperVerticalAngleLeft;
+        public float upperVerticalAngleRight;
+        public float lowerVerticalAngleLeft;
+        public float lowerVerticalAngleRight;
+    };
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct PxrLayerCube2
+    {
+        public PxrLayerHeader2 header;
+        public PxrPosef poseLeft;
+        public PxrPosef poseRight;
     };
 
     [StructLayout(LayoutKind.Sequential)]
     public struct AudioClipData
     {
-        public uint delaytag;
-        public uint slot;
-        public uint buffersize;
-        public uint sampleRate;
-        public uint channelMask;
-        public uint bitrate;
-        public uint slotconfig;
-        public uint datatype;
+        public int slot;//手柄
+        public UInt64 buffersize;//数据大小
+        public int sampleRate;// 采样率
+        public int channelCounts;//通道数
+        public int bitrate;//bit率
+        public int reversal;//反转
+        public int isCache;//是否缓存
     };
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct VibrateInfo {
+        public uint slot;
+        public uint reversal;
+        public float amp;
+    };
+
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct PxrFaceTrackingData
+    {
+        public double timestamp;                         // us?
+        [MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.R4, SizeConst = 52)]
+        public float[] blendShapeWeight;   //52（51+1）表情分量权重系?
+        [MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.R4, SizeConst = 16)]
+        public float[] reserved;           //16
+    };
+
 
     public static class PXR_Plugin
     {
-        private const string PXR_SDK_Version = "2.2.0.1";
+        private const string PXR_SDK_Version = "2.1.1.3";
         private const string PXR_PLATFORM_DLL = "PxrPlatform";
         public const string PXR_API_DLL = "pxr_api";
 
@@ -512,6 +745,9 @@ namespace Unity.XR.PXR
         public static extern void Pxr_UnloadPlugin();
 
         [DllImport(PXR_PLATFORM_DLL, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Pxr_SetSRPState(bool value);
+
+        [DllImport(PXR_PLATFORM_DLL, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool Pxr_GetHomeKey();
 
         [DllImport(PXR_PLATFORM_DLL, CallingConvention = CallingConvention.Cdecl)]
@@ -531,6 +767,8 @@ namespace Unity.XR.PXR
 
         [DllImport(PXR_PLATFORM_DLL, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool Pxr_GetFocusState();
+        [DllImport(PXR_PLATFORM_DLL, CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool Pxr_IsSensorReady();
 
         [DllImport(PXR_PLATFORM_DLL, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Pxr_GetSensorStatus();
@@ -545,7 +783,13 @@ namespace Unity.XR.PXR
         private static extern void Pxr_DestroyLayerByRender(int layerId);
 
         [DllImport(PXR_PLATFORM_DLL, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void Pxr_InitEyeTracking();
+        private static extern void Pxr_EnableEyeTracking(bool enable);
+
+        [DllImport(PXR_PLATFORM_DLL, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Pxr_EnableFaceTracking(bool enable);
+
+        [DllImport(PXR_PLATFORM_DLL, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Pxr_SetInputDeviceChangedCallBack(InputDeviceChangedCallBack callback);
 
         [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Pxr_SetGraphicOption(GraphicsAPI option);
@@ -563,6 +807,9 @@ namespace Unity.XR.PXR
         private static extern int Pxr_GetLayerImage(int layerId, EyeType eye, int imageIndex, ref UInt64 image);
 
         [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int Pxr_SetConfigIntArray(ConfigType configIndex, int[] configSetData, int dataCount);
+
+        [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
         private static extern int Pxr_GetLayerAndroidSurface(int layerId, EyeType eye, ref IntPtr androidSurface);
 
         [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
@@ -575,10 +822,22 @@ namespace Unity.XR.PXR
         private static extern int Pxr_SubmitLayerQuad(PxrLayerQuad layer);
 
         [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
+        private static extern int Pxr_SubmitLayerQuad2(PxrLayerQuad2 layer);
+
+        [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
         private static extern int Pxr_SubmitLayerCylinder(PxrLayerCylinder layer);
 
         [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
+        private static extern int Pxr_SubmitLayerCylinder2(PxrLayerCylinder2 layer);
+
+        [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
         private static extern int Pxr_SubmitLayerEquirect(PxrLayerEquirect layer);
+
+        [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
+        private static extern int Pxr_SubmitLayerEquirect2(PxrLayerEquirect2 layer);
+
+        [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
+        private static extern int Pxr_SubmitLayerCube2(PxrLayerCube2 layer);
 
         [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
         private static extern FoveationLevel Pxr_GetFoveationLevel();
@@ -631,6 +890,9 @@ namespace Unity.XR.PXR
         [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool Pxr_SetExtraLatencyMode(int mode);
 
+        [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int Pxr_GetTrackingMode(ref UInt64 trackingModeFlags);
+
         //Tracking Sensor
         [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Pxr_GetPredictedMainSensorState2(double predictTimeMs, ref PxrSensorState2 sensorState, ref int sensorFrameIndex);
@@ -652,6 +914,11 @@ namespace Unity.XR.PXR
         private static extern int Pxr_SetControllerVibration(UInt32 deviceID, float strength, int time);
 
         [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
+        private static extern int Pxr_SetControllerEnableKey(bool isEnable, PxrControllerKeyMap Key);
+
+        //Vibration
+
+        [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
         private static extern int Pxr_SetControllerVibrationEvent(UInt32 deviceID, int frequency, float strength, int time);
 
         [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
@@ -661,7 +928,7 @@ namespace Unity.XR.PXR
         private static extern int Pxr_StopControllerVCMotor(int clientId);
 
         [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
-        private static extern int Pxr_StartControllerVCMotor(string file, int slot, int slotconfig);
+        private static extern int Pxr_StartControllerVCMotor(string file, int slot);
 
         [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
         private static extern int Pxr_SetControllerAmp(float mode);
@@ -673,16 +940,27 @@ namespace Unity.XR.PXR
         private static extern string Pxr_GetVibrateDelayTime(ref int length);
 
         [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
-        private static extern int Pxr_StartVibrateBySharemF(float[] data,ref AudioClipData parameter);
+        private static extern int Pxr_StartVibrateBySharemF(float[] data, ref AudioClipData parameter, ref int source_id);
+
+        [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
+        private static extern int Pxr_StartVibrateByCache(int clicpid);
+
+        [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
+        private static extern int Pxr_ClearVibrateByCache(int clicpid);
+
+        [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
+        private static extern int Pxr_StartVibrateByPHF(string data, int buffersize, ref int sourceID, ref VibrateInfo vibrateInfo);
+
+        [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
+        private static extern int Pxr_PauseVibrate(int sourceID);
+
+        [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
+        private static extern int Pxr_ResumeVibrate(int sourceID);
+
+        [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
+        private static extern int Pxr_UpdateVibrateParams(int clicp_id, ref VibrateInfo vibrateInfo);
 
 
-        //Large Space
-        [DllImport(PXR_PLATFORM_DLL, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void Pxr_SetLargeSpaceStatus(bool value);
-
-        [DllImport(PXR_PLATFORM_DLL, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void Pxr_SetLargeSpaceEnable(bool value);
-        
         [DllImport(PXR_PLATFORM_DLL, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Pxr_SetLogInfoActive(bool value);
 
@@ -691,7 +969,7 @@ namespace Unity.XR.PXR
         //Boundary
         [DllImport(PXR_PLATFORM_DLL, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Pxr_GetSeeThroughState();
-        
+
         [DllImport(PXR_PLATFORM_DLL, CallingConvention = CallingConvention.Cdecl)]
         public static extern void Pxr_SetVideoSeethroughState(bool value);
 
@@ -763,16 +1041,29 @@ namespace Unity.XR.PXR
         [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Pxr_SetMrcPose(ref PxrPosef pose);
 
+        [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int Pxr_SetIsSupportMovingMrc(bool support);
+
+        //Face tracking
+        [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int Pxr_SetTrackingMode(double trackingMode);
+
+        [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int Pxr_GetFaceTrackingData(Int64 ts, int flags, ref UInt64 timestamp, ref IntPtr blendShapeWeight, ref IntPtr reserved);
+
         #endregion
 
         public static class System
         {
+            public static Action RecenterSuccess;
             public static Action FocusStateAcquired;
             public static Action FocusStateLost;
+            public static Action SensorReady;
+            public static Action<int> InputDeviceChanged;
 
-            public static bool UPxr_LoadPicoPlugin()
+            public static bool UPxr_LoadPICOPlugin()
             {
-                PLog.d(TAG, "UPxr_LoadPicoPlugin");
+                PLog.d(TAG, "UPxr_Load PICO Plugin");
 #if UNITY_ANDROID && !UNITY_EDITOR
                 return Pxr_LoadPlugin();
 #else  
@@ -780,22 +1071,71 @@ namespace Unity.XR.PXR
 #endif
             }
 
-            public static void UPxr_UnloadPicoPlugin()
+            public static void UPxr_UnloadPICOPlugin()
             {
-                PLog.d(TAG, "UPxr_UnloadPicoPlugin");
+                PLog.d(TAG, "UPxr_Unload PICO Plugin");
 #if UNITY_ANDROID && !UNITY_EDITOR
                 Pxr_UnloadPlugin();
 #endif
             }
 
+            public static bool UPxr_QueryDeviceAbilities(PxrDeviceAbilities abilities)
+            {
+                UInt64 flags = UInt64.MinValue;
+#if UNITY_ANDROID && !UNITY_EDITOR
+                if (UPxr_GetAPIVersion() >= 0x2000304)
+                {
+                    Pxr_GetTrackingMode(ref flags);
+                }
+#endif
+                switch (abilities)
+                {
+                    case PxrDeviceAbilities.PxrTrackingModeRotationBit:
+                        {
+                            return Convert.ToBoolean(flags & 0x00000001);
+                        }
+                    case PxrDeviceAbilities.PxrTrackingModePositionBit:
+                        {
+                            return Convert.ToBoolean(flags & 0x00000002);
+                        }
+                    case PxrDeviceAbilities.PxrTrackingModeEyeBit:
+                        {
+                            return Convert.ToBoolean(flags & 0x00000004);
+                        }
+                    case PxrDeviceAbilities.PxrTrackingModeFaceBit:
+                        {
+                            return Convert.ToBoolean(flags & 0x00000008);
+                        }
+                    case PxrDeviceAbilities.PxrTrackingModeBroadBandMontorBit:
+                        {
+                            return Convert.ToBoolean(flags & 0x00000010);
+                        }
+                    case PxrDeviceAbilities.PxrTrackingModeHandBit:
+                        {
+                            return Convert.ToBoolean(flags & 0x00000020);
+                        }
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(abilities), abilities, null);
+                }
+            }
+
             public static void UPxr_InitializeFocusCallback()
             {
                 Application.onBeforeRender += UPxr_FocusUpdate;
+                Application.onBeforeRender += UPxr_SensorReadyStateUpdate;
             }
 
             public static void UPxr_DeinitializeFocusCallback()
             {
                 Application.onBeforeRender -= UPxr_FocusUpdate;
+                Application.onBeforeRender -= UPxr_SensorReadyStateUpdate;
+            }
+
+            public static void UPxr_SetInputDeviceChangedCallBack(InputDeviceChangedCallBack callback)
+            {
+#if !UNITY_EDITOR && UNITY_ANDROID
+                Pxr_SetInputDeviceChangedCallBack(callback);
+#endif
             }
 
             public static bool UPxr_GetFocusState()
@@ -804,6 +1144,22 @@ namespace Unity.XR.PXR
                 return Pxr_GetFocusState();
 #else
                 return false;
+#endif
+            }
+
+            public static bool UPxr_IsSensorReady()
+            {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                return Pxr_IsSensorReady();
+#else
+                return false;
+#endif
+            }
+
+            public static void UPxr_SetSRPState(bool value)
+            {
+#if UNITY_EDITOR
+                Pxr_SetSRPState(value);
 #endif
             }
 
@@ -828,6 +1184,21 @@ namespace Unity.XR.PXR
                 }
 
                 lastAppFocusState = appfocus;
+            }
+
+            private static bool lastSensorReadyState = false;
+            private static void UPxr_SensorReadyStateUpdate()
+            {
+                bool sensorReady = UPxr_IsSensorReady();
+                if (sensorReady && !lastSensorReadyState)
+                {
+                    if (SensorReady != null)
+                    {
+                        SensorReady();
+                    }
+                }
+
+                lastSensorReadyState = sensorReady;
             }
 
             public static string UPxr_GetSDKVersion()
@@ -859,18 +1230,18 @@ namespace Unity.XR.PXR
 #if UNITY_ANDROID && !UNITY_EDITOR
                 Pxr_GetPredictedDisplayTime(ref predictedDisplayTime);
 #endif
-                PLog.i(TAG, "UPxr_GetPredictedDisplayTime() predictedDisplayTime："+predictedDisplayTime);
+                PLog.i(TAG, "UPxr_GetPredictedDisplayTime() predictedDisplayTime：" + predictedDisplayTime);
                 return predictedDisplayTime;
             }
 
             public static bool UPxr_SetExtraLatencyMode(int mode)
             {
-                PLog.i(TAG, "UPxr_SetExtraLatencyMode() mode:"+mode);
+                PLog.i(TAG, "UPxr_SetExtraLatencyMode() mode:" + mode);
                 bool result = false;
 #if UNITY_ANDROID && !UNITY_EDITOR
                 result = Pxr_SetExtraLatencyMode(mode);
 #endif
-                PLog.i(TAG, "UPxr_SetExtraLatencyMode() result:"+result);
+                PLog.i(TAG, "UPxr_SetExtraLatencyMode() result:" + result);
                 return result;
             }
 
@@ -978,6 +1349,16 @@ namespace Unity.XR.PXR
                 return true;
             }
 
+            public static void UPxr_SetIsSupportMovingMrc(bool support)
+            {
+                if (PXR_Plugin.System.UPxr_GetAPIVersion() >= 0x2000306)
+                {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                Pxr_SetIsSupportMovingMrc(support);
+#endif
+                }
+            }
+
             public static bool UPxr_GetMrcStatus()
             {
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -991,12 +1372,35 @@ namespace Unity.XR.PXR
 #endif
             }
 
-            public static void UPxr_InitEyeTracking()
+            public static void UPxr_EnableEyeTracking(bool enable)
             {
+                Debug.Log(TAG + "UPxr_EnableEyeTracking() enable:" + enable);
 #if UNITY_ANDROID && !UNITY_EDITOR
-                Pxr_InitEyeTracking();
+                Pxr_EnableEyeTracking(enable);
 #endif
             }
+
+            public static void UPxr_EnableFaceTracking(bool enable)
+            {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                Pxr_EnableFaceTracking(enable);
+#endif
+            }
+
+            public static int UPxr_GetFaceTrackingData(Int64 ts, int flags, ref UInt64 timestamp, ref float[] blendShapeWeight, ref float[] reserved)
+            {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                if(PXR_Plugin.System.UPxr_GetAPIVersion()>= 0x2000305) {
+                    IntPtr blendShapeWeightconfigHandle = IntPtr.Zero;
+                    IntPtr reservedconfigHandle = IntPtr.Zero;
+                    Pxr_GetFaceTrackingData(ts, flags, ref timestamp, ref blendShapeWeightconfigHandle, ref reservedconfigHandle);
+                    Marshal.Copy(blendShapeWeightconfigHandle, blendShapeWeight, 0, 52);
+                    Marshal.Copy(reservedconfigHandle, reserved, 0, 16 * sizeof(float));
+                }
+#endif
+                return 0;
+            }
+
 
             private const string TAG = "[PXR_Plugin/System]";
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -1017,38 +1421,39 @@ namespace Unity.XR.PXR
 
             public static float UPxr_GetConfigFloat(ConfigType type)
             {
-                PLog.i(TAG, "UPxr_GetConfigFloat() type:"+type);
+                PLog.i(TAG, "UPxr_GetConfigFloat() type:" + type);
                 float value = 0;
 #if UNITY_ANDROID && !UNITY_EDITOR
                 Pxr_GetConfigFloat(type, ref value);
 #endif
-                PLog.i(TAG, "UPxr_GetConfigFloat() value:"+value);
+                PLog.i(TAG, "UPxr_GetConfigFloat() value:" + value);
                 return value;
             }
 
             public static int UPxr_GetConfigInt(ConfigType type)
             {
-                PLog.i(TAG, "UPxr_GetConfigInt() type:"+type);
+                PLog.i(TAG, "UPxr_GetConfigInt() type:" + type);
                 int value = 0;
 #if UNITY_ANDROID && !UNITY_EDITOR
                 Pxr_GetConfigInt(type, ref value);
 #endif
-                PLog.i(TAG, "UPxr_GetConfigInt() value:"+value);
+                PLog.i(TAG, "UPxr_GetConfigInt() value:" + value);
                 return value;
             }
 
             public static int UPxr_SetConfigInt(ConfigType configSetIndex, int configSetData)
             {
-                PLog.i(TAG, "UPxr_SetConfigInt() configSetIndex:"+configSetIndex+" configSetData:"+configSetData);
+                PLog.i(TAG, "UPxr_SetConfigInt() configSetIndex:" + configSetIndex + " configSetData:" + configSetData);
                 int result = 0;
 #if UNITY_ANDROID && !UNITY_EDITOR
                 result = Pxr_SetConfigInt(configSetIndex, configSetData);
 #endif
-                PLog.i(TAG, "UPxr_SetConfigInt() result:"+result);
+                PLog.i(TAG, "UPxr_SetConfigInt() result:" + result);
                 return result;
             }
 
-            public static int UPxr_ContentProtect(int data) {
+            public static int UPxr_ContentProtect(int data)
+            {
                 int num = 0;
 #if UNITY_ANDROID && !UNITY_EDITOR
                 num = Pxr_SetConfigInt(ConfigType.EnableCPT, data);
@@ -1058,23 +1463,23 @@ namespace Unity.XR.PXR
 
             public static int UPxr_SetConfigString(ConfigType configSetIndex, string configSetData)
             {
-                PLog.i(TAG, "UPxr_SetConfigString() configSetIndex:"+configSetIndex+" configSetData:"+configSetData);
+                PLog.i(TAG, "UPxr_SetConfigString() configSetIndex:" + configSetIndex + " configSetData:" + configSetData);
                 int result = 0;
 #if UNITY_ANDROID && !UNITY_EDITOR
                 result = Pxr_SetConfigString(configSetIndex, configSetData);
 #endif
-                PLog.i(TAG, "UPxr_SetConfigString() result:"+result);
+                PLog.i(TAG, "UPxr_SetConfigString() result:" + result);
                 return result;
             }
 
             public static int UPxr_SetSystemDisplayFrequency(float rate)
             {
-                PLog.i(TAG, "UPxr_SetDisplayRefreshRate() rate:"+rate);
+                PLog.i(TAG, "UPxr_SetDisplayRefreshRate() rate:" + rate);
                 int result = 0;
 #if UNITY_ANDROID && !UNITY_EDITOR
                 result = Pxr_SetDisplayRefreshRate(rate);
 #endif
-                PLog.i(TAG, "UPxr_SetDisplayRefreshRate() result:"+result);
+                PLog.i(TAG, "UPxr_SetDisplayRefreshRate() result:" + result);
                 return result;
             }
 
@@ -1739,6 +2144,95 @@ namespace Unity.XR.PXR
 #endif
             }
 
+            public static float[] UPxr_GetCpuUsages()
+            {
+                float[] data = null;
+#if UNITY_ANDROID && !UNITY_EDITOR
+                data = tobHelper.Call<float[]>("pbsGetCpuUsages");
+#endif
+                return data;
+            }
+
+            public static float[] UPxr_GetDeviceTemperatures(int type, int source)
+            {
+                float[] data = null;
+#if UNITY_ANDROID && !UNITY_EDITOR
+                data = tobHelper.Call<float[]>("pbsGetDeviceTemperatures", type, source);
+#endif
+
+                return data;
+            }
+
+            public static void UPxr_Capture()
+            {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                tobHelper.Call("pbsCapture");
+#endif
+            }
+
+            public static void UPxr_Record()
+            {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                tobHelper.Call("pbsRecord");
+#endif
+            }
+
+            public static void UPxr_ControlSetAutoConnectWIFIWithErrorCodeCallback(String ssid, String pwd, int ext, Action<int> callback)
+            {
+#if UNITY_ANDROID && !UNITY_EDITOR
+            if (callback != null) IntCallback = callback;
+            tobHelper.Call("pbsControlSetAutoConnectWIFIWithErrorCodeCallback",ssid,pwd,ext,null);
+#endif
+            }
+
+            public static void UPxr_AppKeepAlive(String appPackageName, bool keepAlive, int ext)
+            {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                tobHelper.Call("pbsAppKeepAlive",appPackageName,keepAlive,ext);
+#endif
+            }
+
+            public static void UPxr_TimingStartup(int year, int month, int day, int hour, int minute, bool open)
+            {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                tobHelper.Call("pbsTimingStartup", year, month, day, hour, minute, open);
+#endif
+            }
+            public static void UPxr_TimingShutdown(int year, int month, int day, int hour, int minute, bool open)
+            {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                tobHelper.Call("pbsTimingShutdown", year, month, day, hour, minute, open);
+#endif
+            }
+            public static void UPxr_StartVrSettingsItem(StartVRSettingsEnum settingsEnum, bool hideOtherItem, int ext)
+            {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                tobHelper.Call("pbsStartVrSettingsItem", GetEnumType(settingsEnum), hideOtherItem, ext);
+#endif
+            }
+            public static void UPxr_SwitchVolumeToHomeAndEnter(SwitchEnum switchEnum, int ext)
+            {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                tobHelper.Call("pbsSwitchVolumeToHomeAndEnter", GetEnumType(switchEnum), ext);
+#endif
+            }
+            public static SwitchEnum UPxr_IsVolumeChangeToHomeAndEnter()
+            {
+                int num = 0;
+                SwitchEnum switchEnum = SwitchEnum.S_OFF;
+#if UNITY_ANDROID && !UNITY_EDITOR
+                num = tobHelper.Call<int>("pbsIsVolumeChangeToHomeAndEnter");
+                if (num == 0)
+                {
+                    switchEnum = SwitchEnum.S_ON;
+                }
+                else if (num == 1) {
+                    switchEnum = SwitchEnum.S_OFF;
+                }
+#endif
+                return switchEnum;
+            }
+
             public static void UPxr_SetSecure(bool isOpen)
             {
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -1940,6 +2434,9 @@ namespace Unity.XR.PXR
                 Pxr_GetDisplayRefreshRatesAvailable(ref configCount, ref configHandle);
                 configArray = new float[configCount];
                 Marshal.Copy(configHandle, configArray, 0, configCount);
+                for (int i = 0; i < configCount; i++) {
+                    Debug.Log("LLRR: UPxr_GetDisplayFrequenciesAvailable " + configArray[i]);
+                }
 #endif
                 return configArray;
             }
@@ -1978,29 +2475,312 @@ namespace Unity.XR.PXR
 #endif
             }
 
-
-            public static void UPxr_SetLargeSpaceStatus(bool value)
-            {
-#if UNITY_ANDROID && !UNITY_EDITOR
-                Pxr_SetLargeSpaceStatus(value);
-#endif
-
-            }
-
-            public static void UPxr_SetLargeSpaceEnable(bool value)
-            {
-#if UNITY_ANDROID && !UNITY_EDITOR
-                Pxr_SetLargeSpaceEnable(value);
-#endif
-
-            }
-
             public static void UPxr_SetLogInfoActive(bool value)
             {
 #if UNITY_ANDROID && !UNITY_EDITOR
                 Pxr_SetLogInfoActive(value);
 #endif
             }
+
+            public static int UPxr_InstallOTAPackage(String otaPackagePath) {
+                int value = 0;
+#if UNITY_ANDROID && !UNITY_EDITOR
+            value = tobHelper.Call<int>("pbsInstallOTAPackage",otaPackagePath, 0);
+#endif
+                return value;
+            }
+
+            public static string UPxr_GetAutoConnectWiFiConfig() {
+                string str = "";
+#if UNITY_ANDROID && !UNITY_EDITOR
+                str = tobHelper.Call<string>("pbsGetAutoConnectWiFiConfig", 0);
+#endif
+                return str;
+            }
+
+            public static string UPxr_GetTimingStartupStatus()
+            {
+                string str = "";
+#if UNITY_ANDROID && !UNITY_EDITOR
+                str = tobHelper.Call<string>("pbsGetTimingStartupStatus", 0);
+#endif
+                return str;
+            }
+
+            public static string UPxr_GetTimingShutdownStatus()
+            {
+                string str = "";
+#if UNITY_ANDROID && !UNITY_EDITOR
+                str = tobHelper.Call<string>("pbsGetTimingShutdownStatus", 0);
+#endif
+                return str;
+            }
+
+            public static int UPxr_GetControllerKeyState(ControllerKeyEnum pxrControllerKey) {
+                int volue = 1;
+#if UNITY_ANDROID && !UNITY_EDITOR
+                volue = tobHelper.Call<int>("pbsGetControllerKeyState", GetEnumType(pxrControllerKey),0);
+#endif
+                return volue;
+            }
+
+            public static int UPxr_SetControllerKeyState(ControllerKeyEnum controllerKeyEnum, SwitchEnum status) {
+                int volue = 1;
+#if UNITY_ANDROID && !UNITY_EDITOR
+                volue = tobHelper.Call<int>("pbsSetControllerKeyState", GetEnumType(controllerKeyEnum),GetEnumType(status),0);
+#endif
+                return volue;
+            }
+
+            public static SwitchEnum UPxr_ControlGetPowerOffWithUSBCable() {
+                int num = 0;
+                SwitchEnum switchEnum = SwitchEnum.S_OFF;
+#if UNITY_ANDROID && !UNITY_EDITOR
+                num = tobHelper.Call<int>("pbsControlGetPowerOffWithUSBCable",0);
+                if (num == 0)
+                {
+                    switchEnum = SwitchEnum.S_ON;
+                }
+                else if (num == 1) {
+                    switchEnum = SwitchEnum.S_OFF;
+                }
+#endif
+                return switchEnum;
+            }
+
+            public static ScreenOffDelayTimeEnum UPxr_PropertyGetScreenOffDelay() {
+                int num = 0;
+                ScreenOffDelayTimeEnum screenOffDelayTimeEnum = ScreenOffDelayTimeEnum.NEVER;
+#if UNITY_ANDROID && !UNITY_EDITOR
+                num = tobHelper.Call<int>("pbsPropertyGetScreenOffDelay", 0);
+                switch (num) {
+                    case 0:
+                        screenOffDelayTimeEnum = ScreenOffDelayTimeEnum.THREE;
+                        break;
+                    case 1:
+                        screenOffDelayTimeEnum = ScreenOffDelayTimeEnum.TEN;
+                        break;
+                    case 2:
+                        screenOffDelayTimeEnum = ScreenOffDelayTimeEnum.THIRTY;
+                        break;
+                    case 3:
+                        screenOffDelayTimeEnum = ScreenOffDelayTimeEnum.SIXTY;
+                        break;
+                    case 4:
+                        screenOffDelayTimeEnum = ScreenOffDelayTimeEnum.THREE_HUNDRED;
+                        break;
+                    case 5:
+                        screenOffDelayTimeEnum = ScreenOffDelayTimeEnum.SIX_HUNDRED;
+                        break;
+                    case 6:
+                        screenOffDelayTimeEnum = ScreenOffDelayTimeEnum.NEVER;
+                        break;
+                }
+#endif
+                return screenOffDelayTimeEnum;
+            }
+
+            public static SleepDelayTimeEnum UPxr_PropertyGetSleepDelay() {
+                int num = 0;
+                SleepDelayTimeEnum sleepDelayTime = SleepDelayTimeEnum.NEVER;
+#if UNITY_ANDROID && !UNITY_EDITOR
+                num = tobHelper.Call<int>("pbsPropertyGetSleepDelay", 0);
+                switch (num)
+                {
+                    case 0:
+                        sleepDelayTime = SleepDelayTimeEnum.FIFTEEN;
+                        break;
+                    case 1:
+                        sleepDelayTime = SleepDelayTimeEnum.THIRTY;
+                        break;
+                    case 2:
+                        sleepDelayTime = SleepDelayTimeEnum.SIXTY;
+                        break;
+                    case 3:
+                        sleepDelayTime = SleepDelayTimeEnum.THREE_HUNDRED;
+                        break;
+                    case 4:
+                        sleepDelayTime = SleepDelayTimeEnum.SIX_HUNDRED;
+                        break;
+                    case 5:
+                        sleepDelayTime = SleepDelayTimeEnum.ONE_THOUSAND_AND_EIGHT_HUNDRED;
+                        break;
+                    case 6:
+                        sleepDelayTime = SleepDelayTimeEnum.NEVER;
+                        break;
+                }
+#endif
+                return sleepDelayTime;
+            }
+
+            public static string UPxr_PropertyGetPowerKeyStatus() {
+                string str = "";
+#if UNITY_ANDROID && !UNITY_EDITOR
+                str = tobHelper.Call<string>("pbsPropertyGetPowerKeyStatus", 0);
+#endif
+                return str;
+            }
+
+            public static int UPxr_GetEnterKeyStatus() {
+                int volue = 1;
+#if UNITY_ANDROID && !UNITY_EDITOR
+                volue = tobHelper.Call<int>("pbsGetEnterKeyStatus",0);
+#endif
+                return volue;
+            }
+
+            public static int UPxr_GetVolumeKeyStatus()
+            {
+                int volue = 1;
+#if UNITY_ANDROID && !UNITY_EDITOR
+                volue = tobHelper.Call<int>("pbsGetVolumeKeyStatus",0);
+#endif
+                return volue;
+            }
+
+            public static int UPxr_GetBackKeyStatus()
+            {
+                int volue = 1;
+#if UNITY_ANDROID && !UNITY_EDITOR
+                volue = tobHelper.Call<int>("pbsGetBackKeyStatus",0);
+#endif
+                return volue;
+            }
+
+            public static string UPxr_PropertyGetHomKeyStatus(HomeEventEnum homeEvent) {
+                string volue = "";
+#if UNITY_ANDROID && !UNITY_EDITOR
+                volue = tobHelper.Call<string>("pbsPropertyGetHomKeyStatus", GetEnumType(homeEvent),0);
+#endif
+                return volue;
+            }
+
+            public static void UPxr_GetSwitchSystemFunctionStatus(SystemFunctionSwitchEnum systemFunction,Action<int> callback) {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                if (callback != null) IntCallback = callback;
+                tobHelper.Call("pbsGetSwitchSystemFunctionStatus", GetEnumType(systemFunction),null,0);
+#endif
+            }
+
+            public static string UPxr_SwitchGetUsbConfigurationOption() {
+                string volue = "";
+#if UNITY_ANDROID && !UNITY_EDITOR
+                volue = tobHelper.Call<string>("pbsSwitchGetUsbConfigurationOption", 0);
+#endif
+                return volue;
+            }
+
+            public static string UPxr_GetCurrentLauncher()
+            {
+                string volue = "";
+#if UNITY_ANDROID && !UNITY_EDITOR
+                volue = tobHelper.Call<string>("pbsGetCurrentLauncher", 0);
+#endif
+                return volue;
+            }
+
+            public static int UPxr_PICOCastInit(Action<int> callback) {
+                int value = 0;
+#if UNITY_ANDROID && !UNITY_EDITOR
+                if (callback != null) IntCallback = callback;
+                value = tobHelper.Call<int>("pbsPicoCastInit",null,0);
+#endif
+                return value;
+            }
+
+            public static int UPxr_PICOCastSetShowAuthorization(int authZ) {
+                int value = 0;
+#if UNITY_ANDROID && !UNITY_EDITOR
+                value = tobHelper.Call<int>("pbsPicoCastSetShowAuthorization",authZ,0);
+#endif
+                return value;
+            }
+
+            public static int UPxr_PICOCastGetShowAuthorization() {
+                int value = 0;
+#if UNITY_ANDROID && !UNITY_EDITOR
+                value = tobHelper.Call<int>("pbsPicoCastGetShowAuthorization",0);
+#endif
+                return value;
+            }
+
+            public static string UPxr_PICOCastGetUrl(PICOCastUrlTypeEnum urlType) {
+                string volue = "";
+#if UNITY_ANDROID && !UNITY_EDITOR
+                volue = tobHelper.Call<string>("pbsPicoCastGetUrl",GetEnumType(urlType), 0);
+#endif
+                return volue;
+            }
+
+            public static int UPxr_PICOCastStopCast()
+            {
+                int value = 0;
+#if UNITY_ANDROID && !UNITY_EDITOR
+                value = tobHelper.Call<int>("pbsPicoCastStopCast",0);
+#endif
+                return value;
+            }
+
+            public static int UPxr_PICOCastSetOption(PICOCastOptionOrStatusEnum castOptionOrStatus, PICOCastOptionValueEnum castOptionValue) {
+                int value = 0;
+#if UNITY_ANDROID && !UNITY_EDITOR
+                value = tobHelper.Call<int>("pbsPicoCastSetOption",GetEnumType(castOptionOrStatus),GetEnumType(castOptionValue),0);
+#endif
+                return value;
+            }
+
+            public static PICOCastOptionValueEnum UPxr_PICOCastGetOptionOrStatus(PICOCastOptionOrStatusEnum castOptionOrStatus) {
+                PICOCastOptionValueEnum value = PICOCastOptionValueEnum.STATUS_VALUE_ERROR;
+                int num = 0;
+#if UNITY_ANDROID && !UNITY_EDITOR
+                num = tobHelper.Call<int>("pbsPicoCastGetOptionOrStatus", GetEnumType(castOptionOrStatus), 0);
+                switch (num)
+                {
+                    case 0:
+                        value = PICOCastOptionValueEnum.OPTION_VALUE_RESOLUTION_HIGH;
+                        break;
+                    case 1:
+                        value = PICOCastOptionValueEnum.OPTION_VALUE_RESOLUTION_MIDDL;
+                        break;
+                    case 2:
+                        value = PICOCastOptionValueEnum.OPTION_VALUE_RESOLUTION_AUTO;
+                        break;
+                    case 3:
+                        value = PICOCastOptionValueEnum.OPTION_VALUE_RESOLUTION_HIGH_2K;
+                        break;
+                    case 4:
+                        value = PICOCastOptionValueEnum.OPTION_VALUE_RESOLUTION_HIGH_4K;
+                        break;
+                    case 5:
+                        value = PICOCastOptionValueEnum.OPTION_VALUE_BITRATE_HIGH;
+                        break;
+                    case 6:
+                        value = PICOCastOptionValueEnum.OPTION_VALUE_BITRATE_MIDDLE;
+                        break;
+                    case 7:
+                        value = PICOCastOptionValueEnum.OPTION_VALUE_BITRATE_LOW;
+                        break;
+                    case 8:
+                        value = PICOCastOptionValueEnum.OPTION_VALUE_AUDIO_ON;
+                        break;
+                    case 9:
+                        value = PICOCastOptionValueEnum.OPTION_VALUE_AUDIO_OFF;
+                        break;
+                    case 10:
+                        value = PICOCastOptionValueEnum.STATUS_VALUE_STATE_STARTED;
+                        break;
+                    case 11:
+                        value = PICOCastOptionValueEnum.STATUS_VALUE_STATE_STOPPED;
+                        break;
+                    case 12:
+                        value = PICOCastOptionValueEnum.STATUS_VALUE_ERROR;
+                        break;
+                }
+#endif
+                return value;
+            }
+
+
         }
 
         public static class Boundary
@@ -2270,7 +3050,7 @@ namespace Unity.XR.PXR
 
             public static void UPxr_SetFoveationLevel(FoveationLevel level)
             {
-                PLog.i(TAG, "UPxr_SetFoveationLevel() level:"+level);
+                PLog.i(TAG, "UPxr_SetFoveationLevel() level:" + level);
 #if UNITY_ANDROID && !UNITY_EDITOR
                 Pxr_SetFoveationLevelEnable((int)level);
 #endif
@@ -2282,13 +3062,13 @@ namespace Unity.XR.PXR
 #if UNITY_ANDROID && !UNITY_EDITOR
                 result = Pxr_GetFoveationLevel();
 #endif
-                PLog.i(TAG, "UPxr_GetFoveationLevel() result:"+result);
+                PLog.i(TAG, "UPxr_GetFoveationLevel() result:" + result);
                 return result;
             }
 
             public static int UPxr_SetFoveationParameters(float foveationGainX, float foveationGainY, float foveationArea, float foveationMinimum)
             {
-                PLog.i(TAG, "UPxr_SetFoveationParameters() foveationGainX:"+foveationGainX+" foveationGainY:"+foveationGainY+" foveationArea:"+foveationArea+" foveationMinimum:"+foveationMinimum);
+                PLog.i(TAG, "UPxr_SetFoveationParameters() foveationGainX:" + foveationGainX + " foveationGainY:" + foveationGainY + " foveationArea:" + foveationArea + " foveationMinimum:" + foveationMinimum);
                 int result = 0;
 #if UNITY_ANDROID && !UNITY_EDITOR
 
@@ -2300,7 +3080,7 @@ namespace Unity.XR.PXR
 
                 result = Pxr_SetFoveationParams(foveationParams);
 #endif
-                PLog.i(TAG, "UPxr_SetFoveationParameters() result:"+result);
+                PLog.i(TAG, "UPxr_SetFoveationParameters() result:" + result);
                 return result;
             }
 
@@ -2310,7 +3090,7 @@ namespace Unity.XR.PXR
 #if UNITY_ANDROID && !UNITY_EDITOR
                 result = Pxr_GetFrustum(eye, ref fovLeft, ref fovRight, ref fovUp, ref fovDown, ref near, ref far);
 #endif
-                PLog.i(TAG, "UPxr_GetFrustum() result:"+result+" eye:"+eye+" fovLeft:"+fovLeft+" fovRight:"+fovRight+" fovUp:"+fovUp+" fovDown:"+fovDown+" near:"+near+" far:"+far);
+                PLog.i(TAG, "UPxr_GetFrustum() result:" + result + " eye:" + eye + " fovLeft:" + fovLeft + " fovRight:" + fovRight + " fovUp:" + fovUp + " fovDown:" + fovDown + " near:" + near + " far:" + far);
                 return result;
             }
 
@@ -2320,11 +3100,13 @@ namespace Unity.XR.PXR
 #if UNITY_ANDROID && !UNITY_EDITOR
                 result = Pxr_SetFrustum(eye, fovLeft, fovRight, fovUp, fovDown, near, far);
 #endif
-                PLog.i(TAG, "UPxr_SetFrustum() result:"+result+" eye:"+eye+" fovLeft:"+fovLeft+" fovRight:"+fovRight+" fovUp:"+fovUp+" fovDown:"+fovDown+" near:"+near+" far:"+far);
+                PLog.i(TAG, "UPxr_SetFrustum() result:" + result + " eye:" + eye + " fovLeft:" + fovLeft + " fovRight:" + fovRight + " fovUp:" + fovUp + " fovDown:" + fovDown + " near:" + near + " far:" + far);
                 return result;
             }
+
             public static void UPxr_CreateLayer(IntPtr layerParam)
             {
+                PLog.i(TAG, "UPxr_CreateLayer() ");
 #if UNITY_ANDROID && !UNITY_EDITOR
                 Pxr_CreateLayer(layerParam);
 #endif
@@ -2332,6 +3114,7 @@ namespace Unity.XR.PXR
 
             public static void UPxr_CreateLayerParam(PxrLayerParam layerParam)
             {
+                PLog.i(TAG, "UPxr_CreateLayerParam() ");
 #if UNITY_ANDROID && !UNITY_EDITOR
                 Pxr_CreateLayerParam(layerParam);
 #endif
@@ -2339,29 +3122,32 @@ namespace Unity.XR.PXR
 
             public static int UPxr_GetLayerNextImageIndex(int layerId, ref int imageIndex)
             {
+                int result = 0;
 #if UNITY_ANDROID && !UNITY_EDITOR
-                return Pxr_GetLayerNextImageIndex(layerId, ref imageIndex);
-#else
-                return 0;
+                result = Pxr_GetLayerNextImageIndex(layerId, ref imageIndex);
 #endif
+                PLog.i(TAG, "UPxr_GetLayerNextImageIndex() layerId:" + layerId + " imageIndex:" + imageIndex + " result:" + result);
+                return result;
             }
 
             public static int UPxr_GetLayerImageCount(int layerId, EyeType eye, ref UInt32 imageCount)
             {
+                int result = 0;
 #if UNITY_ANDROID && !UNITY_EDITOR
-                return Pxr_GetLayerImageCount(layerId, eye, ref imageCount);
-#else
-                return 0;
+                result = Pxr_GetLayerImageCount(layerId, eye, ref imageCount);
 #endif
+                PLog.i(TAG, "UPxr_GetLayerImageCount() layerId:" + layerId + " eye:" + eye + " imageCount:" + imageCount + " result:" + result);
+                return result;
             }
 
             public static int UPxr_GetLayerImage(int layerId, EyeType eye, int imageIndex, ref UInt64 image)
             {
+                int result = 0;
 #if UNITY_ANDROID && !UNITY_EDITOR
-                return Pxr_GetLayerImage(layerId, eye, imageIndex, ref image);
-#else
-                return 0;
+                result = Pxr_GetLayerImage(layerId, eye, imageIndex, ref image);
 #endif
+                PLog.i(TAG, "UPxr_GetLayerImage() layerId:" + layerId + " eye:" + eye + " imageIndex:" + imageIndex + " image:" + image + " result:" + result);
+                return result;
             }
 
             public static void UPxr_GetLayerImagePtr(int layerId, EyeType eye, int imageIndex, ref IntPtr image)
@@ -2369,28 +3155,43 @@ namespace Unity.XR.PXR
 #if UNITY_ANDROID && !UNITY_EDITOR
                 Pxr_GetLayerImagePtr(layerId, eye, imageIndex, ref image);
 #endif
+                PLog.i(TAG, "UPxr_GetLayerImagePtr() layerId:" + layerId + " eye:" + eye + " imageIndex:" + imageIndex + " image:" + image);
+            }
+
+            public static int UPxr_SetConfigIntArray(int[] configSetData)
+            {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                if (PXR_Plugin.System.UPxr_GetAPIVersion() >= 0x2000300)
+                {
+                    return Pxr_SetConfigIntArray(ConfigType.PxrAndroidLayerDimensions, configSetData, 3);
+                }
+#endif
+                return 0;
             }
 
             public static int UPxr_GetLayerAndroidSurface(int layerId, EyeType eye, ref IntPtr androidSurface)
             {
+                int result = 0;
 #if UNITY_ANDROID && !UNITY_EDITOR
-                return Pxr_GetLayerAndroidSurface(layerId, eye, ref androidSurface);
-#else
-                return 0;
+                result = Pxr_GetLayerAndroidSurface(layerId, eye, ref androidSurface);
 #endif
+                PLog.i(TAG, "UPxr_GetLayerAndroidSurface() layerId:" + layerId + " eye:" + eye + " androidSurface:" + androidSurface + " result:" + result);
+                return result;
             }
 
             public static int UPxr_DestroyLayer(int layerId)
             {
+                int result = 0;
 #if UNITY_ANDROID && !UNITY_EDITOR
-                return Pxr_DestroyLayer(layerId);
-#else
-                return 0;
+                result = Pxr_DestroyLayer(layerId);
 #endif
+                PLog.i(TAG, "UPxr_DestroyLayer() layerId:" + layerId + " result:" + result);
+                return result;
             }
 
             public static void UPxr_DestroyLayerByRender(int layerId)
             {
+                PLog.i(TAG, "UPxr_DestroyLayerByRender() layerId:" + layerId);
 #if UNITY_ANDROID && !UNITY_EDITOR
                 Pxr_DestroyLayerByRender(layerId);
 #endif
@@ -2398,40 +3199,83 @@ namespace Unity.XR.PXR
 
             public static int UPxr_SubmitLayer(IntPtr layer)
             {
+                int result = 0;
 #if UNITY_ANDROID && !UNITY_EDITOR
-                return Pxr_SubmitLayer(layer);
-#else
-                return 0;
+                result = Pxr_SubmitLayer(layer);
 #endif
+                PLog.i(TAG, "UPxr_SubmitLayer() layer:" + layer + " result:" + result);
+                return result;
             }
 
             public static int UPxr_SubmitLayerQuad(PxrLayerQuad layer)
             {
+                int result = 0;
 #if UNITY_ANDROID && !UNITY_EDITOR
-                return Pxr_SubmitLayerQuad(layer);
-#else
-                return 0;
+                result = Pxr_SubmitLayerQuad(layer);
 #endif
+                PLog.i(TAG, "UPxr_SubmitLayerQuad() layer:" + layer + " result:" + result);
+                return result;
+            }
+
+            public static bool UPxr_SubmitLayerQuad2(PxrLayerQuad2 layer)
+            {
+                int result = 0;
+#if UNITY_ANDROID && !UNITY_EDITOR
+                result = Pxr_SubmitLayerQuad2(layer);
+#endif
+                PLog.i(TAG, "UPxr_SubmitLayerQuad2() layer:" + layer + " result:" + result);
+                return result == -8;
             }
 
             public static int UPxr_SubmitLayerCylinder(PxrLayerCylinder layer)
             {
+                int result = 0;
 #if UNITY_ANDROID && !UNITY_EDITOR
-                return Pxr_SubmitLayerCylinder(layer);
-#else
-                return 0;
+                result = Pxr_SubmitLayerCylinder(layer);
 #endif
+                PLog.i(TAG, "UPxr_SubmitLayerCylinder() layer:" + layer + " result:" + result);
+                return result;
             }
 
-            public static int UPxr_SubmitLayerEquirect(PxrLayerEquirect layer)
+            public static bool UPxr_SubmitLayerCylinder2(PxrLayerCylinder2 layer)
             {
+                int result = 0;
 #if UNITY_ANDROID && !UNITY_EDITOR
-                return Pxr_SubmitLayerEquirect(layer);
-#else
-                return 0;
+                result = Pxr_SubmitLayerCylinder2(layer);
 #endif
+                PLog.i(TAG, "UPxr_SubmitLayerCylinder2() layer:" + layer + " result:" + result);
+                return result == -8;
             }
 
+            public static int UPxr_SubmitLayerEquirect(PxrLayerEquirect layer) // shape 3
+            {
+                int result = 0;
+#if UNITY_ANDROID && !UNITY_EDITOR
+                result = Pxr_SubmitLayerEquirect(layer);
+#endif
+                PLog.i(TAG, "UPxr_SubmitLayerEquirect() layer:" + layer + " result:" + result);
+                return result;
+            }
+
+            public static bool UPxr_SubmitLayerEquirect2(PxrLayerEquirect2 layer) // shape 4
+            {
+                int result = 0;
+#if UNITY_ANDROID && !UNITY_EDITOR
+                result = Pxr_SubmitLayerEquirect2(layer);
+#endif
+                PLog.i(TAG, "UPxr_SubmitLayerEquirect2() layer:" + layer + " result:" + result);
+                return result == -8;
+            }
+
+            public static int UPxr_SubmitLayerCube2(PxrLayerCube2 layer)
+            {
+                int result = 0;
+#if UNITY_ANDROID && !UNITY_EDITOR
+                result = Pxr_SubmitLayerCube2(layer);
+#endif
+                PLog.i(TAG, "UPxr_SubmitLayerCube2() layer:" + layer + " result:" + result);
+                return result;
+            }
         }
 
         public static class Sensor
@@ -2494,7 +3338,7 @@ namespace Unity.XR.PXR
                     PLog.e(TAG, "Error :" + e.ToString());
                 }
 #endif
-                PLog.i(TAG, "UPxr_GetPSensorState() psensor:"+psensor);
+                PLog.i(TAG, "UPxr_GetPSensorState() psensor:" + psensor);
                 return psensor;
             }
 
@@ -2542,6 +3386,7 @@ namespace Unity.XR.PXR
             private static AndroidJavaClass MRCCalibration = new AndroidJavaClass("com.psmart.aosoperation.MRCCalibration");
             private static AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
             private static AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+            private static AndroidJavaObject verifyToolObj = new AndroidJavaObject("com.psmart.aosoperation.VerifyTool");
 #endif
             public static PXR_PlatformSetting.simulationType UPxr_IsCurrentDeviceValid()
             {
@@ -2585,18 +3430,17 @@ namespace Unity.XR.PXR
 
             public static void UPxr_BindVerifyService(string objectName)
             {
-                AndroidJavaObject VerifyTool = new AndroidJavaObject("com.psmart.aosoperation.VerifyTool");
-                PLog.i(TAG, "UPxr_BindVerifyService() objectName:"+objectName);
+                PLog.i(TAG, "UPxr_BindVerifyService() objectName:" + objectName);
                 bool state = false;
 #if UNITY_ANDROID && !UNITY_EDITOR
-                state = VerifyTool.Call<bool>("bindVerifyService", currentActivity, objectName);
+                state = verifyToolObj.Call<bool>("bindVerifyService", currentActivity, objectName);
 #endif
-                PLog.i(TAG, "UPxr_BindVerifyService() state:"+state);
+                PLog.i(TAG, "UPxr_BindVerifyService() state:" + state);
             }
 
             public static bool UPxr_AppEntitlementCheck(string appid)
             {
-                PLog.i(TAG, "UPxr_AppEntitlementCheck() appid:"+appid);
+                PLog.i(TAG, "UPxr_AppEntitlementCheck() appid:" + appid);
                 bool state = false;
 #if UNITY_ANDROID && !UNITY_EDITOR
                 try
@@ -2608,13 +3452,13 @@ namespace Unity.XR.PXR
                     PLog.e(TAG, "UPxr_AppEntitlementCheck Error :" + e.ToString());
                 }
 #endif
-                PLog.i(TAG, "UPxr_AppEntitlementCheck() state:"+state);
+                PLog.i(TAG, "UPxr_AppEntitlementCheck() state:" + state);
                 return state;
             }
 
             public static bool UPxr_KeyEntitlementCheck(string publicKey)
             {
-                PLog.i(TAG, "UPxr_KeyEntitlementCheck() publicKey:"+publicKey);
+                PLog.i(TAG, "UPxr_KeyEntitlementCheck() publicKey:" + publicKey);
                 bool state = false;
 #if UNITY_ANDROID && !UNITY_EDITOR
                 try
@@ -2626,14 +3470,14 @@ namespace Unity.XR.PXR
                     PLog.e(TAG, "UPxr_KeyEntitlementCheck Error :" + e.ToString());
                 }
 #endif
-                PLog.i(TAG, "UPxr_KeyEntitlementCheck() state:"+state);
+                PLog.i(TAG, "UPxr_KeyEntitlementCheck() state:" + state);
                 return state;
             }
 
             //0:success -1:invalid params -2:service not exist -3:time out
             public static int UPxr_AppEntitlementCheckExtra(string appId)
             {
-                PLog.i(TAG, "UPxr_AppEntitlementCheckExtra() appId:"+appId);
+                PLog.i(TAG, "UPxr_AppEntitlementCheckExtra() appId:" + appId);
                 int state = -1;
 #if UNITY_ANDROID && !UNITY_EDITOR
                 try
@@ -2645,14 +3489,14 @@ namespace Unity.XR.PXR
                     PLog.e(TAG, "UPxr_AppEntitlementCheckExtra Error :" + e.ToString());
                 }
 #endif
-                PLog.i(TAG, "UPxr_AppEntitlementCheckExtra() state:"+state);
+                PLog.i(TAG, "UPxr_AppEntitlementCheckExtra() state:" + state);
                 return state;
             }
 
             //0:success -1:invalid params -2:service not exist -3:time out
             public static int UPxr_KeyEntitlementCheckExtra(string publicKey)
             {
-                PLog.i(TAG, "UPxr_KeyEntitlementCheckExtra() publicKey:"+publicKey);
+                PLog.i(TAG, "UPxr_KeyEntitlementCheckExtra() publicKey:" + publicKey);
                 int state = -1;
 #if UNITY_ANDROID && !UNITY_EDITOR
                 try
@@ -2664,7 +3508,7 @@ namespace Unity.XR.PXR
                     PLog.e(TAG, "UPxr_KeyEntitlementCheckExtra Error :" + e.ToString());
                 }
 #endif
-                PLog.i(TAG, "UPxr_KeyEntitlementCheckExtra() state:"+state);
+                PLog.i(TAG, "UPxr_KeyEntitlementCheckExtra() state:" + state);
                 return state;
             }
         }
@@ -2682,17 +3526,27 @@ namespace Unity.XR.PXR
 #endif
             }
 
-            public static int UPxr_SetControllerVibrationEvent(UInt32 hand, int frequency, float strength, int time) 
+            public static int UPxr_SetControllerEnableKey(bool isEnable, PxrControllerKeyMap Key)
             {
 #if UNITY_ANDROID && !UNITY_EDITOR
-                Debug.Log("[Phoenix_VCMotor_SDK] UPxr_SetControllerVibrationEvent " + hand + " frequency: " + frequency.ToString() + " strength:" + strength.ToString() + " time:" + time.ToString());
-                return Pxr_SetControllerVibrationEvent(hand, frequency,strength, time);
+                return Pxr_SetControllerEnableKey(isEnable, Key);
 #else
                 return 0;
 #endif
-
             }
 
+
+            public static int UPxr_SetControllerVibrationEvent(UInt32 hand, int frequency, float strength, int time)
+            {
+                if (PXR_Plugin.System.UPxr_GetAPIVersion() >= 0x2000305)
+                {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                Debug.Log("[VCMotor_SDK] UPxr_SetControllerVibrationEvent " + hand + " frequency: " + frequency.ToString() + " strength:" + strength.ToString() + " time:" + time.ToString());
+                return Pxr_SetControllerVibrationEvent(hand, frequency,strength, time);
+#endif
+                }
+                return 0;
+            }
 
             public static int UPxr_GetControllerType()
             {
@@ -2708,32 +3562,47 @@ namespace Unity.XR.PXR
 
             //Pxr_StopControllerVCMotor
 
-            public static int UPxr_StopControllerVCMotor(int id) {
+            public static int UPxr_StopControllerVCMotor(int id)
+            {
+                if (PXR_Plugin.System.UPxr_GetAPIVersion() >= 0x2000308)
+                {
 #if UNITY_ANDROID && !UNITY_EDITOR
-                Debug.Log("[Phoenix_VCMotor_SDK] StopControllerVCMotor :" + id.ToString());
+                Debug.Log("[VCMotor_SDK] StopControllerVCMotor :" + id.ToString());
                 return Pxr_StopControllerVCMotor(id);
 #endif
+                }
                 return 0;
             }
 
-            public static int UPxr_StartControllerVCMotor(string file, int slot, int slotconfig) {
+            public static int UPxr_StartControllerVCMotor(string file, int slot)
+            {
                 //0-Left And Right 1-Left 2-Right 3-Left And Right
                 //0-Reversal 1-No Reversal
+                if (PXR_Plugin.System.UPxr_GetAPIVersion() >= 0x2000308)
+                {
 #if UNITY_ANDROID && !UNITY_EDITOR
-                Debug.Log("[Phoenix_VCMotor_SDK] StartControllerVCMotor " + file + " slot: " + slot.ToString() + " slotconfig:" + slotconfig.ToString());
-                return Pxr_StartControllerVCMotor(file,slot,slotconfig);
+                Debug.Log("[VCMotor_SDK] StartControllerVCMotor " + file + " slot: " + slot.ToString());
+                return Pxr_StartControllerVCMotor(file,slot);
 #endif
+                }
                 return 0;
             }
 
-            public static int UPxr_SetControllerAmp(float mode) {
+            public static int UPxr_SetControllerAmp(float mode)
+            {
+                if (PXR_Plugin.System.UPxr_GetAPIVersion() >= 0x2000305)
+                {
 #if UNITY_ANDROID && !UNITY_EDITOR
                 return Pxr_SetControllerAmp(mode);
 #endif
+                }
                 return 0;
             }
 
-            public static int UPxr_SetControllerDelay() {
+            public static int UPxr_SetControllerDelay()
+            {
+                if (PXR_Plugin.System.UPxr_GetAPIVersion() >= 0x2000305)
+                {
 #if UNITY_ANDROID && !UNITY_EDITOR
                 int delay = 3;
                 int Length;
@@ -2748,34 +3617,139 @@ namespace Unity.XR.PXR
                 } else if (Length == 1024) {
                     delay = 3;
                 }
-                Debug.Log("[Phoenix_VCMotor_SDK] UPxr_SetControllerDelay " + delay.ToString());
+                Debug.Log("[VCMotor_SDK] UPxr_SetControllerDelay " + delay.ToString());
                 return Pxr_SetControllerDelay(delay);
 #endif
+                }
                 return 0;
 
             }
 
-            public static string UPxr_GetVibrateDelayTime(ref int x) {
+            public static string UPxr_GetVibrateDelayTime(ref int x)
+            {
+                if (PXR_Plugin.System.UPxr_GetAPIVersion() >= 0x2000305)
+                {
 #if UNITY_ANDROID && !UNITY_EDITOR
                 return Pxr_GetVibrateDelayTime(ref x);
 #endif
+                }
                 return " ";
             }
 
-            public static int UPxr_StartVibrateBySharem(float[] data, int slot, int buffersize, int sampleRate, int channelMask, int bitrate, int slotconfig) {
+            public static int UPxr_StartVibrateBySharem(float[] data, int slot, int buffersize, int sampleRate, int channelMask, int bitrate ,int channelFlip, ref int sourceId)
+            {
+                if (PXR_Plugin.System.UPxr_GetAPIVersion() >= 0x2000308)
+                {
 #if UNITY_ANDROID && !UNITY_EDITOR
                 AudioClipData audioClipData = new AudioClipData();
-                audioClipData.delaytag = 0;
-                audioClipData.slot = (uint)slot;
-                audioClipData.buffersize = (uint)buffersize;
-                audioClipData.sampleRate = (uint)sampleRate;
-                audioClipData.channelMask = (uint)channelMask;
-                audioClipData.bitrate = (uint)bitrate;
-                audioClipData.slotconfig = (uint)slotconfig;
-                audioClipData.datatype = 0;
-                Debug.Log("[Phoenix_VCMotor_SDK] Pxr_StartVibrateBySharem " + " slot: " + audioClipData.slot.ToString() + " buffersize:" + audioClipData.buffersize.ToString() + " sampleRate" + audioClipData.sampleRate.ToString() + " channelMask:" + audioClipData.channelMask.ToString()+" bitrate:" + audioClipData.bitrate.ToString());
-                return Pxr_StartVibrateBySharemF(data, ref audioClipData);
+                audioClipData.slot = slot;
+                audioClipData.channelCounts = channelMask;
+                audioClipData.buffersize = (UInt64)buffersize;
+                audioClipData.sampleRate = sampleRate;
+                audioClipData.reversal = channelFlip;
+                audioClipData.bitrate = bitrate;
+                audioClipData.isCache = 0;
+                Debug.Log("[VCMotor_SDK] Pxr_StartVibrateBySharem " + " slot: " + audioClipData.slot.ToString() + " buffersize:" + audioClipData.buffersize.ToString() + " sampleRate" + audioClipData.sampleRate.ToString() + " channelCounts:" + audioClipData.channelCounts.ToString()+" bitrate:" + audioClipData.bitrate.ToString());
+                return Pxr_StartVibrateBySharemF(data, ref audioClipData, ref sourceId);
 #endif
+                }
+                return 0;
+            }
+
+            public static int UPxr_SaveVibrateByCache(float[] data, int slot, int buffersize, int sampleRate, int channelMask, int bitrate, int slotconfig, int enableV , ref int sourceId)
+            {
+
+                if (PXR_Plugin.System.UPxr_GetAPIVersion() >= 0x2000308)
+                {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                    AudioClipData audioClipData = new AudioClipData();
+                    audioClipData.slot = slot;
+                    audioClipData.buffersize = (UInt64)buffersize;
+                    audioClipData.sampleRate = sampleRate;
+                    audioClipData.channelCounts = channelMask;
+                    audioClipData.bitrate = bitrate;
+                    audioClipData.reversal = slotconfig;
+                    audioClipData.isCache = enableV;
+                    Debug.Log("[VCMotor_SDK] UPxr_SaveVibrateByCache " + " slot: " + audioClipData.slot.ToString() + " buffersize:" + audioClipData.buffersize.ToString() + " sampleRate" + audioClipData.sampleRate.ToString() + " channelMask:" + audioClipData.channelCounts.ToString() + " bitrate:" + audioClipData.bitrate.ToString());
+                    return Pxr_StartVibrateBySharemF(data, ref audioClipData, ref sourceId);
+#endif
+                }
+                return 0;
+            }
+
+            public static int UPxr_StartVibrateByCache(int clicpid)
+            {
+                if (PXR_Plugin.System.UPxr_GetAPIVersion() >= 0x2000308)
+                {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                    Debug.Log("[VCMotor_SDK] UPxr_StartVibrateByCache " + clicpid.ToString());
+                    return Pxr_StartVibrateByCache(clicpid);
+#endif
+                }
+                return 0;
+            }
+
+            public static int UPxr_ClearVibrateByCache(int clicpid)
+            {
+                if (PXR_Plugin.System.UPxr_GetAPIVersion() >= 0x2000308)
+                {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                    Debug.Log("[VCMotor_SDK] UPxr_ClearVibrateByCache " + clicpid.ToString());
+                    return Pxr_ClearVibrateByCache(clicpid);
+#endif
+                }
+                return 0;
+            }
+
+            public static int UPxr_StartVibrateByPHF(string data, int buffersize, ref int sourceId, int slot, int reversal, float amp) {
+                if (PXR_Plugin.System.UPxr_GetAPIVersion() >= 0x2000308)
+                {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                    VibrateInfo vibrateInfo = new VibrateInfo();
+                    vibrateInfo.slot = (uint)slot;
+                    vibrateInfo.reversal = (uint)reversal;
+                    vibrateInfo.amp = amp;
+                    Debug.Log("[VCMotor_SDK] Pxr_StartVibrateByPHF " + buffersize.ToString());
+                    return Pxr_StartVibrateByPHF(data, buffersize, ref sourceId, ref vibrateInfo);
+#endif
+                }
+                return 0;
+            }
+
+            public static int UPxr_PauseVibrate(int sourceID) {
+                if (PXR_Plugin.System.UPxr_GetAPIVersion() >= 0x2000308)
+                {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                    Debug.Log("[VCMotor_SDK] Pxr_PauseVibrate " + sourceID.ToString());
+                    return Pxr_PauseVibrate(sourceID);
+#endif
+                }
+                return 0;
+            }
+
+            public static int UPxr_ResumeVibrate(int sourceID) {
+                if (PXR_Plugin.System.UPxr_GetAPIVersion() >= 0x2000308)
+                {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                    Debug.Log("[VCMotor_SDK] Pxr_ResumeVibrate " + sourceID.ToString());
+                    return Pxr_ResumeVibrate(sourceID);
+#endif
+                }
+                return 0;
+            }
+
+            public static int UPxr_UpdateVibrateParams(int clicp_id,int slot, int reversal, float amp) {
+                if (PXR_Plugin.System.UPxr_GetAPIVersion() >= 0x2000308)
+                {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                    VibrateInfo vibrateInfo = new VibrateInfo();
+                    vibrateInfo.slot = (uint)slot;
+                    vibrateInfo.reversal = (uint)reversal;
+                    vibrateInfo.amp = amp;
+                    Debug.Log("[VCMotor_SDK] UPxr_UpdateVibrateParams " + clicp_id.ToString() + " solt: " + slot.ToString() + " reversal:" + reversal.ToString() + " AMP:" + amp.ToString());
+                    return Pxr_UpdateVibrateParams(clicp_id, ref vibrateInfo);         
+#endif
+                }
                 return 0;
             }
 
@@ -2815,92 +3789,75 @@ namespace Unity.XR.PXR
             }
         }
 
-        public static class PassThrough
+        public static class HandTracking
         {
-            public static int UPxr_PassThroughStart()
+            [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
+            private static extern int Pxr_GetHandTrackerSettingState(ref bool settingState);
+
+            [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
+            private static extern int Pxr_GetHandTrackerActiveInputType(ref ActiveInputDevice activeInputDevice);
+
+            [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
+            private static extern int Pxr_GetHandTrackerAimState(HandType hand, ref HandAimState aimState);
+
+            [DllImport(PXR_API_DLL, CallingConvention = CallingConvention.Cdecl)]
+            private static extern int Pxr_GetHandTrackerJointLocations(HandType hand, ref HandJointLocations jointLocations);
+
+
+            public static bool UPxr_GetHandTrackerSettingState()
             {
-#if UNITY_ANDROID && !UNITY_EDITOR
-                return Pxr_CameraStart();
-#else
-                return 0;
+                bool val = false;
+                if (System.UPxr_GetAPIVersion() >= 0x2000306)
+                {
+#if !UNITY_EDITOR && UNITY_ANDROID
+                Pxr_GetHandTrackerSettingState(ref val);
 #endif
+                }
+                return val;
             }
 
-            public static int UPxr_PassThroughStop()
+            public static ActiveInputDevice UPxr_GetHandTrackerActiveInputType()
             {
-#if UNITY_ANDROID && !UNITY_EDITOR
-                return Pxr_CameraStop();
-#else
-                return 0;
+                ActiveInputDevice val = ActiveInputDevice.HeadActive;
+                if (System.UPxr_GetAPIVersion() >= 0x2000307)
+                {
+#if !UNITY_EDITOR && UNITY_ANDROID
+                    Pxr_GetHandTrackerActiveInputType(ref val);
 #endif
+                }
+                return val;
             }
 
-            public static int UPxr_PassThroughDestroy()
+            public static bool UPxr_GetHandTrackerAimState(HandType hand, ref HandAimState aimState)
             {
-#if UNITY_ANDROID && !UNITY_EDITOR
-                return Pxr_CameraDestroy();
-#else
-                return 0;
+                bool val = false;
+                if (System.UPxr_GetAPIVersion() >= 0x2000306)
+                {
+#if !UNITY_EDITOR && UNITY_ANDROID
+                val = Pxr_GetHandTrackerAimState(hand,ref aimState) == 0;
+                aimState.aimRayPose.ToHandPosef(hand);
 #endif
+                }
+                return val;
             }
 
-            public static IntPtr UPxr_PassThroughGetRenderEventFunc()
+            public static bool UPxr_GetHandTrackerJointLocations(HandType hand, ref HandJointLocations jointLocations)
             {
-#if UNITY_ANDROID && !UNITY_EDITOR
-                return Pxr_CameraGetRenderEventFunc();
-#else
-                return IntPtr.Zero;
+                bool val = false;
+                if (System.UPxr_GetAPIVersion() >= 0x2000306)
+                {
+#if !UNITY_EDITOR && UNITY_ANDROID
+                    val = Pxr_GetHandTrackerJointLocations(hand, ref jointLocations) == 0;
+                    for (int i = 0; i < jointLocations.jointLocations.Length; i++)
+                    {
+                        if (i == 1)
+                            jointLocations.jointLocations[i].pose.ToHandPosef(hand);
+                        else
+                            jointLocations.jointLocations[i].pose.ToJointPosef(hand);
+                    }
 #endif
-            }
-
-            public static void UPxr_PassThroughSetRenderEventPending()
-            {
-#if UNITY_ANDROID && !UNITY_EDITOR
-                Pxr_CameraSetRenderEventPending();
-#endif
-            }
-
-            public static void UPxr_PassThroughWaitForRenderEvent()
-            {
-#if UNITY_ANDROID && !UNITY_EDITOR
-                Pxr_CameraWaitForRenderEvent();
-#endif
-            }
-
-            public static int UPxr_PassThroughUpdateFrame(int eye)
-            {
-#if UNITY_ANDROID && !UNITY_EDITOR
-                return Pxr_CameraUpdateFrame(eye);
-#else
-                return 0;
-#endif
-            }
-
-            public static int UPxr_PassThroughCreateTexturesMainThread()
-            {
-#if UNITY_ANDROID && !UNITY_EDITOR
-                return Pxr_CameraCreateTexturesMainThread();
-#else
-                return 0;
-#endif
-            }
-
-            public static int UPxr_PassThroughDeleteTexturesMainThread()
-            {
-#if UNITY_ANDROID && !UNITY_EDITOR
-                return Pxr_CameraDeleteTexturesMainThread();
-#else
-                return 0;
-#endif
-            }
-
-            public static int UPxr_PassThroughUpdateTexturesMainThread()
-            {
-#if UNITY_ANDROID && !UNITY_EDITOR
-                return Pxr_CameraUpdateTexturesMainThread();
-#else
-                return 0;
-#endif
+                }
+                return val;
             }
         }
     }

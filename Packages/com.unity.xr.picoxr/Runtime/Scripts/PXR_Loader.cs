@@ -1,4 +1,14 @@
-﻿// Copyright © 2015-2021 Pico Technology Co., Ltd. All Rights Reserved.
+﻿/*******************************************************************************
+Copyright © 2015-2022 PICO Technology Co., Ltd.All rights reserved.  
+
+NOTICE：All information contained herein is, and remains the property of 
+PICO Technology Co., Ltd. The intellectual and technical concepts 
+contained hererin are proprietary to PICO Technology Co., Ltd. and may be 
+covered by patents, patents in process, and are protected by trade secret or 
+copyright law. Dissemination of this information or reproduction of this 
+material is strictly forbidden unless prior written permission is obtained from
+PICO Technology Co., Ltd. 
+*******************************************************************************/
 
 using System;
 using System.Collections.Generic;
@@ -36,8 +46,8 @@ namespace Unity.XR.PXR
 
         public static void RegisterInputLayouts()
         {
-            InputSystem.RegisterLayout<PXR_HMD>(matches: new InputDeviceMatcher().WithInterface(XRUtilities.InterfaceMatchAnyVersion).WithProduct(@"^(PicoXR HMD)|^(Pico Neo)|^(Pico G)"));
-            InputSystem.RegisterLayout<PXR_Controller>(matches: new InputDeviceMatcher().WithInterface(XRUtilities.InterfaceMatchAnyVersion).WithProduct(@"^(PicoXR Controller)"));
+            InputSystem.RegisterLayout<PXR_HMD>(matches: new InputDeviceMatcher().WithInterface(XRUtilities.InterfaceMatchAnyVersion).WithProduct(@"^(PICO HMD)|^(PICO Neo)|^(PICO G)"));
+            InputSystem.RegisterLayout<PXR_Controller>(matches: new InputDeviceMatcher().WithInterface(XRUtilities.InterfaceMatchAnyVersion).WithProduct(@"^(PICO Controller)"));
         }
     }
 #endif
@@ -49,9 +59,7 @@ namespace Unity.XR.PXR
     {
         private static List<XRDisplaySubsystemDescriptor> displaySubsystemDescriptors = new List<XRDisplaySubsystemDescriptor>();
         private static List<XRInputSubsystemDescriptor> inputSubsystemDescriptors = new List<XRInputSubsystemDescriptor>();
-#if UNITY_ANDROID
-        private static List<PXR_PassThroughDescriptor> cameraSubsystemDescriptors = new List<PXR_PassThroughDescriptor>();
-#endif
+
         public delegate Quaternion ConvertRotationWith2VectorDelegate(Vector3 from, Vector3 to);
 
         public XRDisplaySubsystem displaySubsystem
@@ -69,15 +77,7 @@ namespace Unity.XR.PXR
                 return GetLoadedSubsystem<XRInputSubsystem>();
             }
         }
-#if UNITY_ANDROID
-        public PXR_PassThroughSystem passThroughSystem
-        {
-            get
-            {
-                return GetLoadedSubsystem<PXR_PassThroughSystem>();
-            }
-        }
-#endif
+
         public override bool Initialize()
         {
 #if UNITY_INPUT_SYSTEM
@@ -85,53 +85,33 @@ namespace Unity.XR.PXR
 #endif
 #if UNITY_ANDROID
             PXR_Settings settings = GetSettings();
-            float rate = -1.0f;
-            switch (settings.systemDisplayFrequency)
-            {
-                case PXR_Settings.SystemDisplayFrequency.Default:
-                    {
-                        rate = 0.0f;
-                        break;
-                    }
-                case PXR_Settings.SystemDisplayFrequency.RefreshRate72:
-                    {
-                        rate = 72.0f;
-                        break;
-                    }
-                case PXR_Settings.SystemDisplayFrequency.RefreshRate90:
-                    {
-                        rate = 90.0f;
-                        break;
-                    }
-                case PXR_Settings.SystemDisplayFrequency.RefreshRate120:
-                    {
-                        rate = 120.0f;
-                        break;
-                    }
-            }
             if (settings != null)
             {
                 UserDefinedSettings userDefinedSettings = new UserDefinedSettings
                 {
-                    stereoRenderingMode = (ushort)settings.GetStereoRenderingMode(),
+                    stereoRenderingMode = settings.GetStereoRenderingMode(),
                     colorSpace = (ushort)((QualitySettings.activeColorSpace == ColorSpace.Linear) ? 1 : 0),
-                    useContentProtect = PXR_ProjectSetting.GetProjectConfig().useContentProtect,
-                    systemDisplayFrequency = rate,
+                    useContentProtect = Convert.ToUInt16(PXR_ProjectSetting.GetProjectConfig().useContentProtect),
+                    systemDisplayFrequency = settings.GetSystemDisplayFrequency(),
                 };
 
                 PXR_Plugin.System.UPxr_Construct(ConvertRotationWith2Vector);
                 PXR_Plugin.System.UPxr_SetUserDefinedSettings(userDefinedSettings);
             }
 #endif
-            CreateSubsystem<XRDisplaySubsystemDescriptor, XRDisplaySubsystem>(displaySubsystemDescriptors, "PicoXR Display");
-            CreateSubsystem<XRInputSubsystemDescriptor, XRInputSubsystem>(inputSubsystemDescriptors, "PicoXR Input");
-#if UNITY_ANDROID
-            CreateSubsystem<PXR_PassThroughDescriptor, PXR_PassThroughSystem>(cameraSubsystemDescriptors, "PicoXR Camera");
+
+#if UNITY_2020_1_OR_NEWER
+            PXR_Plugin.System.UPxr_SetSRPState(GraphicsSettings.currentRenderPipeline != null);
+#else
+            PXR_Plugin.System.UPxr_SetSRPState(false);
 #endif
+
+            CreateSubsystem<XRDisplaySubsystemDescriptor, XRDisplaySubsystem>(displaySubsystemDescriptors, "PICO Display");
+            CreateSubsystem<XRInputSubsystemDescriptor, XRInputSubsystem>(inputSubsystemDescriptors, "PICO Input");
 
             if (displaySubsystem == null && inputSubsystem == null)
             {
-                Debug.LogError("PXRLog Unable to start Pico XR Plugin.");
+                Debug.LogError("PXRLog Unable to start PICO Plugin.");
             }
             else if (displaySubsystem == null)
             {
@@ -145,13 +125,6 @@ namespace Unity.XR.PXR
             {
                 PXR_Plugin.System.UPxr_InitializeFocusCallback();
             }
-
-#if UNITY_ANDROID
-            if (passThroughSystem == null)
-            {
-                Debug.LogError("PXRLog Failed to load passThrough system.");
-            }
-#endif
  
             return displaySubsystem != null;
         }
@@ -176,9 +149,8 @@ namespace Unity.XR.PXR
         {
             DestroySubsystem<XRDisplaySubsystem>();
             DestroySubsystem<XRInputSubsystem>();
-#if UNITY_ANDROID
-            DestroySubsystem<PXR_PassThroughSystem>();
-#endif
+
+            PXR_Plugin.System.UPxr_DeinitializeFocusCallback();
             return true;
         }
 
@@ -186,6 +158,15 @@ namespace Unity.XR.PXR
         static Quaternion ConvertRotationWith2Vector(Vector3 from, Vector3 to)
         {
             return Quaternion.FromToRotation(from, to);
+        }
+
+        [MonoPInvokeCallback(typeof(InputDeviceChangedCallBack))]
+        static void InputDeviceChangedFunction(int value)
+        {
+            if (PXR_Plugin.System.InputDeviceChanged != null)
+            {
+                PXR_Plugin.System.InputDeviceChanged(value);
+            }
         }
 
         public PXR_Settings GetSettings()
@@ -211,7 +192,7 @@ namespace Unity.XR.PXR
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
         static void RuntimeLoadPicoPlugin()
         {
-            PXR_Plugin.System.UPxr_LoadPicoPlugin();
+            PXR_Plugin.System.UPxr_LoadPICOPlugin();
             string version = "UnityXR_" + PXR_Plugin.System.UPxr_GetSDKVersion();
             PXR_Plugin.System.UPxr_SetConfigString( ConfigType.EngineVersion, version );
         }

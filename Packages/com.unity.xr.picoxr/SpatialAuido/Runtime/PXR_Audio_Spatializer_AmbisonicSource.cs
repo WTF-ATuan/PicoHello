@@ -15,14 +15,17 @@ public class PXR_Audio_Spatializer_AmbisonicSource : MonoBehaviour
     /// </summary>
     public void Resume()
     {
-        nativeSource.time = playheadPosition;
-        if (wasPlaying)
+        if (nativeSource)
         {
-            nativeSource.Play();
+            nativeSource.time = playheadPosition;
+            if (wasPlaying)
+            {
+                nativeSource.Play();
+            }
         }
     }
-    
-    void Start()
+
+    void Awake()
     {
         nativeSource = GetComponent<AudioSource>();
     }

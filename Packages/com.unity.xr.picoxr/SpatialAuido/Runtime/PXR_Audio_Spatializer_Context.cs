@@ -2,10 +2,50 @@
 
 using System;
 using System.Collections;
+using PXR_Audio.Spatializer;
 using UnityEngine;
+using UnityEngine.Events;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
 {
+    [SerializeField] public SpatializerApiImpl spatializerApiImpl = SpatializerApiImpl.unity;
+
+    private static PXR_Audio.Spatializer.Api _api = null;
+
+#if UNITY_EDITOR
+    private static SpatializerApiImpl _lastSpatializerApiImpl;
+#endif
+    public PXR_Audio.Spatializer.Api PXR_Audio_Spatializer_Api
+    {
+        get
+        {
+#if UNITY_EDITOR
+            if (_api == null ||
+                (_lastSpatializerApiImpl != spatializerApiImpl && !EditorApplication.isPlaying))
+#else
+            if (_api == null)
+#endif
+            {
+                if (spatializerApiImpl == SpatializerApiImpl.unity)
+                    _api = new ApiUnityImpl();
+                else if (spatializerApiImpl == SpatializerApiImpl.wwise)
+                    _api = new ApiWwiseImpl();
+#if UNITY_EDITOR
+                _lastSpatializerApiImpl = spatializerApiImpl;
+#endif
+            }
+
+            return _api;
+        }
+    }
+    
+    private static PXR_Audio_Spatializer_Context _instance;
+
+    public static PXR_Audio_Spatializer_Context Instance => _instance;
+
     private IntPtr context = IntPtr.Zero;
 
     private bool initialized = false;
@@ -18,24 +58,37 @@ public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
     [SerializeField]
     private PXR_Audio.Spatializer.RenderingMode renderingQuality = PXR_Audio.Spatializer.RenderingMode.MediumQuality;
 
-    public PXR_Audio.Spatializer.RenderingMode RenderingQuality
-    {
-        get => renderingQuality;
-    }
+    #region EDITOR-ONLY SerializedFields
+
+#if UNITY_EDITOR
+    [SerializeField, HideInInspector] private LayerMask meshBakingLayerMask = ~0;
+#endif
+
+    #endregion
+
+    public PXR_Audio.Spatializer.RenderingMode RenderingQuality => renderingQuality;
+    
+    [SerializeField] private UnityEvent lateInitEvent;
 
     private AudioConfiguration audioConfig;
 
-    public AudioConfiguration AudioConfig
-    {
-        get => audioConfig;
-    }
+    public AudioConfiguration AudioConfig => audioConfig;
 
     private bool bypass = true;
 
-    private bool Bypass
+    private bool Bypass => bypass;
+
+    static int uuidCounter = 0;
+
+    private static int GetUuid()
     {
-        get => bypass;
+        var temp = uuidCounter;
+        uuidCounter = (uuidCounter == Int32.MaxValue) ? 0 : (uuidCounter + 1);
+        return temp;
     }
+
+    private int uuid = -1;
+    public int UUID => uuid;
 
     public PXR_Audio.Spatializer.Result SubmitMesh(
         float[] vertices,
@@ -45,7 +98,7 @@ public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
         PXR_Audio.Spatializer.AcousticsMaterial material,
         ref int geometryId)
     {
-        return PXR_Audio.Spatializer.Api.SubmitMesh(
+        return PXR_Audio_Spatializer_Api.SubmitMesh(
             context,
             vertices,
             verticesCount,
@@ -65,7 +118,7 @@ public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
         float transmissionFactor,
         ref int geometryId)
     {
-        return PXR_Audio.Spatializer.Api.SubmitMeshAndMaterialFactor(
+        return PXR_Audio_Spatializer_Api.SubmitMeshAndMaterialFactor(
             context,
             vertices,
             verticesCount,
@@ -83,7 +136,7 @@ public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
         ref int sourceId,
         bool isAsync = false)
     {
-        return PXR_Audio.Spatializer.Api.AddSource(
+        return PXR_Audio_Spatializer_Api.AddSource(
             context,
             sourceMode,
             position,
@@ -100,7 +153,7 @@ public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
         ref int sourceId,
         bool isAsync)
     {
-        return PXR_Audio.Spatializer.Api.AddSourceWithOrientation(
+        return PXR_Audio_Spatializer_Api.AddSourceWithOrientation(
             context,
             mode,
             position,
@@ -116,7 +169,7 @@ public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
         ref int sourceId,
         bool isAsync)
     {
-        return PXR_Audio.Spatializer.Api.AddSourceWithConfig(context, ref sourceConfig, ref sourceId, isAsync);
+        return PXR_Audio_Spatializer_Api.AddSourceWithConfig(context, ref sourceConfig, ref sourceId, isAsync);
     }
 
     public PXR_Audio.Spatializer.Result SetSourceAttenuationMode(int sourceId,
@@ -124,18 +177,18 @@ public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
         PXR_Audio.Spatializer.DistanceAttenuationCallback directDistanceAttenuationCallback = null,
         PXR_Audio.Spatializer.DistanceAttenuationCallback indirectDistanceAttenuationCallback = null)
     {
-        return PXR_Audio.Spatializer.Api.SetSourceAttenuationMode(context, sourceId, mode,
+        return PXR_Audio_Spatializer_Api.SetSourceAttenuationMode(context, sourceId, mode,
             directDistanceAttenuationCallback, indirectDistanceAttenuationCallback);
     }
 
     public PXR_Audio.Spatializer.Result SetSourceRange(int sourceId, float rangeMin, float rangeMax)
     {
-        return PXR_Audio.Spatializer.Api.SetSourceRange(context, sourceId, rangeMin, rangeMax);
+        return PXR_Audio_Spatializer_Api.SetSourceRange(context, sourceId, rangeMin, rangeMax);
     }
 
     public PXR_Audio.Spatializer.Result RemoveSource(int sourceId)
     {
-        return PXR_Audio.Spatializer.Api.RemoveSource(context, sourceId);
+        return PXR_Audio_Spatializer_Api.RemoveSource(context, sourceId);
     }
 
     public PXR_Audio.Spatializer.Result SubmitSourceBuffer(
@@ -143,7 +196,7 @@ public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
         float[] inputBufferPtr,
         uint numFrames)
     {
-        return PXR_Audio.Spatializer.Api.SubmitSourceBuffer(
+        return PXR_Audio_Spatializer_Api.SubmitSourceBuffer(
             context,
             sourceId,
             inputBufferPtr,
@@ -157,7 +210,7 @@ public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
         PXR_Audio.Spatializer.AmbisonicNormalizationType normType,
         float gain)
     {
-        return PXR_Audio.Spatializer.Api.SubmitAmbisonicChannelBuffer(
+        return PXR_Audio_Spatializer_Api.SubmitAmbisonicChannelBuffer(
             context,
             ambisonicChannelBuffer,
             order,
@@ -172,7 +225,7 @@ public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
         PXR_Audio.Spatializer.AmbisonicNormalizationType normType,
         float gain)
     {
-        return PXR_Audio.Spatializer.Api.SubmitInterleavedAmbisonicBuffer(
+        return PXR_Audio_Spatializer_Api.SubmitInterleavedAmbisonicBuffer(
             context,
             ambisonicBuffer,
             ambisonicOrder,
@@ -184,7 +237,7 @@ public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
         float[] inputBuffer,
         int inputChannelIndex)
     {
-        return PXR_Audio.Spatializer.Api.SubmitMatrixInputBuffer(
+        return PXR_Audio_Spatializer_Api.SubmitMatrixInputBuffer(
             context,
             inputBuffer,
             inputChannelIndex);
@@ -195,7 +248,7 @@ public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
         uint numFrames,
         bool isAccumulative)
     {
-        return PXR_Audio.Spatializer.Api.GetInterleavedBinauralBuffer(
+        return PXR_Audio_Spatializer_Api.GetInterleavedBinauralBuffer(
             context,
             outputBufferPtr,
             numFrames,
@@ -207,7 +260,7 @@ public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
         uint numFrames,
         bool isAccumulative)
     {
-        return PXR_Audio.Spatializer.Api.GetPlanarBinauralBuffer(
+        return PXR_Audio_Spatializer_Api.GetPlanarBinauralBuffer(
             context,
             outputBufferPtr,
             numFrames,
@@ -218,7 +271,7 @@ public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
         float[] outputBufferPtr,
         uint numFrames)
     {
-        return PXR_Audio.Spatializer.Api.GetInterleavedLoudspeakersBuffer(
+        return PXR_Audio_Spatializer_Api.GetInterleavedLoudspeakersBuffer(
             context,
             outputBufferPtr,
             numFrames);
@@ -228,7 +281,7 @@ public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
         float[][] outputBufferPtr,
         uint numFrames)
     {
-        return PXR_Audio.Spatializer.Api.GetPlanarLoudspeakersBuffer(
+        return PXR_Audio_Spatializer_Api.GetPlanarLoudspeakersBuffer(
             context,
             outputBufferPtr,
             numFrames);
@@ -237,7 +290,7 @@ public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
     public PXR_Audio.Spatializer.Result SetPlaybackMode(
         PXR_Audio.Spatializer.PlaybackMode playbackMode)
     {
-        return PXR_Audio.Spatializer.Api.SetPlaybackMode(
+        return PXR_Audio_Spatializer_Api.SetPlaybackMode(
             context,
             playbackMode);
     }
@@ -246,7 +299,7 @@ public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
         float[] positions,
         int numLoudspeakers)
     {
-        return PXR_Audio.Spatializer.Api.SetLoudspeakerArray(
+        return PXR_Audio_Spatializer_Api.SetLoudspeakerArray(
             context,
             positions,
             numLoudspeakers);
@@ -257,7 +310,7 @@ public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
         int numInputChannels,
         int numOutputChannels)
     {
-        return PXR_Audio.Spatializer.Api.SetMappingMatrix(
+        return PXR_Audio_Spatializer_Api.SetMappingMatrix(
             context,
             matrix,
             numInputChannels,
@@ -267,7 +320,7 @@ public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
     public PXR_Audio.Spatializer.Result SetListenerPosition(
         float[] position)
     {
-        return PXR_Audio.Spatializer.Api.SetListenerPosition(
+        return PXR_Audio_Spatializer_Api.SetListenerPosition(
             context,
             position);
     }
@@ -276,7 +329,7 @@ public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
         float[] front,
         float[] up)
     {
-        return PXR_Audio.Spatializer.Api.SetListenerOrientation(
+        return PXR_Audio_Spatializer_Api.SetListenerOrientation(
             context,
             front,
             up);
@@ -287,7 +340,7 @@ public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
         float[] front,
         float[] up)
     {
-        return PXR_Audio.Spatializer.Api.SetListenerPose(
+        return PXR_Audio_Spatializer_Api.SetListenerPose(
             context,
             position,
             front,
@@ -298,7 +351,7 @@ public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
         int sourceId,
         float[] position)
     {
-        return PXR_Audio.Spatializer.Api.SetSourcePosition(
+        return PXR_Audio_Spatializer_Api.SetSourcePosition(
             context,
             sourceId,
             position);
@@ -308,7 +361,7 @@ public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
         int sourceId,
         float gain)
     {
-        return PXR_Audio.Spatializer.Api.SetSourceGain(
+        return PXR_Audio_Spatializer_Api.SetSourceGain(
             context,
             sourceId,
             gain);
@@ -318,7 +371,7 @@ public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
         int sourceId,
         float volumetricSize)
     {
-        return PXR_Audio.Spatializer.Api.SetSourceSize(
+        return PXR_Audio_Spatializer_Api.SetSourceSize(
             context,
             sourceId,
             volumetricSize);
@@ -328,7 +381,7 @@ public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
         int sourceId,
         PXR_Audio.Spatializer.SourceMode mode)
     {
-        return PXR_Audio.Spatializer.Api.UpdateSourceMode(
+        return PXR_Audio_Spatializer_Api.UpdateSourceMode(
             context,
             sourceId,
             mode);
@@ -336,7 +389,7 @@ public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
 
     public PXR_Audio.Spatializer.Result SetDopplerEffect(int sourceId, bool on)
     {
-        return PXR_Audio.Spatializer.Api.SetDopplerEffect(context, sourceId, on);
+        return PXR_Audio_Spatializer_Api.SetDopplerEffect(context, sourceId, on);
     }
 
     void OnAudioConfigurationChangedEventHandler(bool deviceWasChanged)
@@ -356,54 +409,99 @@ public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
         Debug.Log("Pico Spatializer has set rendering quality to: " + renderingQuality);
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        AudioSettings.OnAudioConfigurationChanged += OnAudioConfigurationChangedEventHandler;
-
-        //  Create context
-        audioConfig = AudioSettings.GetConfiguration();
-        PXR_Audio.Spatializer.Result ret = PXR_Audio.Spatializer.Api.CreateContext(
-            ref context,
-            renderingQuality,
-            (uint)audioConfig.dspBufferSize,
-            (uint)audioConfig.sampleRate);
-        if (ret != PXR_Audio.Spatializer.Result.Success)
+        if (_instance == null)
         {
-            Debug.LogError("Failed to create context, Error code is: " + ret);
-            return;
+            _instance = this;
+
+            AudioSettings.OnAudioConfigurationChanged += OnAudioConfigurationChangedEventHandler;
+
+            //  Create context
+            StartInternal(renderingQuality);
+            Debug.Log("Pico Spatializer Initialized.");
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
+
+    private void StartInternal(PXR_Audio.Spatializer.RenderingMode quality)
+    {
+        PXR_Audio.Spatializer.Result ret = Result.Success;
+        if (spatializerApiImpl != SpatializerApiImpl.wwise)
+        {
+            audioConfig = AudioSettings.GetConfiguration();
+            ret = PXR_Audio_Spatializer_Api.CreateContext(
+                ref context,
+                quality,
+                (uint)audioConfig.dspBufferSize,
+                (uint)audioConfig.sampleRate);
+            if (ret != PXR_Audio.Spatializer.Result.Success)
+            {
+                Debug.LogError("Failed to create context, error code: " + ret);
+            }
+
+            ret = PXR_Audio_Spatializer_Api.InitializeContext(context);
+            if (ret != PXR_Audio.Spatializer.Result.Success)
+            {
+                Debug.LogError("Failed to initialize context, error code: " + ret);
+            }
+        }
+        else
+        {
+            PXR_Audio_Spatializer_Api.ResetContext();
         }
 
-        ret = PXR_Audio.Spatializer.Api.InitializeContext(context);
-        if (ret != PXR_Audio.Spatializer.Result.Success)
-        {
-            Debug.LogError("Failed to initialize context, Error code is: " + ret);
-        }
-
-        //  Find all game objects in the scene that have Pico scene geometry and Pico scene material components
+        //  Add all the geometries back
         PXR_Audio_Spatializer_SceneGeometry[] geometries = FindObjectsOfType<PXR_Audio_Spatializer_SceneGeometry>();
         for (int geoId = 0; geoId < geometries.Length; ++geoId)
         {
             //  For all found geometry and material pair, submit them into Pico spatializer
-            ret = geometries[geoId].SubmitToContext(context);
+            geometries[geoId].SubmitMeshToContext();
+            geometries[geoId].SubmitStaticMeshToContext();
             if (ret != PXR_Audio.Spatializer.Result.Success)
             {
                 Debug.LogError("Failed to submit geometry #" + geoId + ", error code: " + ret);
             }
         }
 
-        ret = PXR_Audio.Spatializer.Api.CommitScene(context);
+        ret = PXR_Audio_Spatializer_Api.CommitScene(context);
         if (ret != PXR_Audio.Spatializer.Result.Success)
         {
             Debug.LogError("Failed to commit scene, error code: " + ret);
         }
+        
+        lateInitEvent.Invoke();
 
         initialized = true;
-        Debug.Log("Pico Spatializer Initialized.");
+        uuid = GetUuid();
+        if (spatializerApiImpl != SpatializerApiImpl.wwise)
+        {
+            //  Add all the sources back
+            PXR_Audio_Spatializer_AudioSource[] sources = FindObjectsOfType<PXR_Audio_Spatializer_AudioSource>();
+            for (int i = 0; i < sources.Length; ++i)
+            {
+                sources[i].RegisterInternal();
+            }
+        }
+
+        //  Add listener back
+        PXR_Audio_Spatializer_AudioListener listener = FindObjectOfType<PXR_Audio_Spatializer_AudioListener>();
+        listener.RegisterInternal();
     }
 
-    private void DestroyContextInternal()
+    private void DestroyInternal()
     {
+        if (spatializerApiImpl == SpatializerApiImpl.wwise)
+        {
+            context = IntPtr.Zero;
+            return;
+        }
+
         initialized = false;
+        uuid = -1;
 
         //  Wait until all sources and listener's on-going audio DSP process had finished
         bool canContinue = true;
@@ -431,77 +529,51 @@ public partial class PXR_Audio_Spatializer_Context : MonoBehaviour
             }
         } while (!canContinue);
 
-        PXR_Audio.Spatializer.Api.Destroy(context);
+        PXR_Audio_Spatializer_Api.Destroy(context);
         context = IntPtr.Zero;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
-        //  Remove context reset handler when destructing context
-        //  https://docs.microsoft.com/en-us/dotnet/desktop/winforms/controls/how-to-add-an-event-handler?view=netdesktop-6.0
-        AudioSettings.OnAudioConfigurationChanged -= OnAudioConfigurationChangedEventHandler;
-        DestroyContextInternal();
+        if (_instance != null)
+        {
+            _instance = null;
+
+            //  Remove context reset handler when destructing context
+            //  https://docs.microsoft.com/en-us/dotnet/desktop/winforms/controls/how-to-add-an-event-handler?view=netdesktop-6.0
+            AudioSettings.OnAudioConfigurationChanged -= OnAudioConfigurationChangedEventHandler;
+            DestroyInternal();
+        }
     }
 
     void Update()
     {
-        PXR_Audio.Spatializer.Api.UpdateScene(context);
+        PXR_Audio_Spatializer_Api.UpdateScene(context);
     }
 
     void ResetContext(PXR_Audio.Spatializer.RenderingMode quality)
     {
-        DestroyContextInternal();
+        DestroyInternal();
+        StartInternal(quality);
 
-        audioConfig = AudioSettings.GetConfiguration();
-        PXR_Audio.Spatializer.Result ret = PXR_Audio.Spatializer.Api.CreateContext(
-            ref context,
-            quality,
-            (uint)audioConfig.dspBufferSize,
-            (uint)audioConfig.sampleRate);
-        if (ret != PXR_Audio.Spatializer.Result.Success)
+        if (spatializerApiImpl == SpatializerApiImpl.wwise)
         {
-            Debug.LogError("Failed to create context, error code: " + ret);
+            return;
         }
 
-        ret = PXR_Audio.Spatializer.Api.InitializeContext(context);
-        if (ret != PXR_Audio.Spatializer.Result.Success)
+        //  Resume all sources playback
+        var sources = FindObjectsOfType<PXR_Audio_Spatializer_AudioSource>();
+        foreach (var source in sources)
         {
-            Debug.LogError("Failed to initialize context, error code: " + ret);
+            source.Resume();
         }
 
-        //  Add all the geometries back
-        PXR_Audio_Spatializer_SceneGeometry[] geometries = FindObjectsOfType<PXR_Audio_Spatializer_SceneGeometry>();
-        for (int geoId = 0; geoId < geometries.Length; ++geoId)
-        {
-            //  For all found geometry and material pair, submit them into Pico spatializer
-            ret = geometries[geoId].SubmitToContext(context);
-            if (ret != PXR_Audio.Spatializer.Result.Success)
-            {
-                Debug.LogError("Failed to submit geometry #" + geoId + ", error code: " + ret);
-            }
-        }
-
-        ret = PXR_Audio.Spatializer.Api.CommitScene(context);
-        if (ret != PXR_Audio.Spatializer.Result.Success)
-        {
-            Debug.LogError("Failed to commit scene, error code: " + ret);
-        }
-
-        initialized = true;
-
-        //  Add all the sources back
-        PXR_Audio_Spatializer_AudioSource[] sources = FindObjectsOfType<PXR_Audio_Spatializer_AudioSource>();
-        for (int i = 0; i < sources.Length; ++i)
-        {
-            sources[i].RegisterSourceInternal();
-            sources[i].Resume();
-        }
-
-        PXR_Audio_Spatializer_AmbisonicSource[] ambisonicSources =
+        //  Resume all ambisonic sources playback
+        var ambisonicSources =
             FindObjectsOfType<PXR_Audio_Spatializer_AmbisonicSource>();
-        for (int i = 0; i < ambisonicSources.Length; ++i)
+        foreach (var source in ambisonicSources)
         {
-            ambisonicSources[i].Resume();
+            source.Resume();
         }
 
         Debug.Log("Pico Spatializer Context restarted.");

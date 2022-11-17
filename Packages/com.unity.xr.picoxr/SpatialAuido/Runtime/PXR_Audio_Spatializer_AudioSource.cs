@@ -9,11 +9,12 @@ using UnityEngine;
 public class PXR_Audio_Spatializer_AudioSource : MonoBehaviour
 {
     [SerializeField] [Range(0.0f, 24.0f)] private float sourceGainDB = 0.0f;
+    private float sourceGainAmplitude = 1.0f;
     private bool sourceGainChanged = false;
 
     [SerializeField] [Range(0.0f, 100000.0f)] private float sourceSize = 0.0f;
     private bool sourceSizeChanged = false;
-    
+
     [SerializeField] private bool enableDoppler = true;
     private bool enableDopplerChanged = false;
 
@@ -37,7 +38,7 @@ public class PXR_Audio_Spatializer_AudioSource : MonoBehaviour
         get
         {
             if (context == null)
-                context = FindObjectOfType<PXR_Audio_Spatializer_Context>();
+                context = PXR_Audio_Spatializer_Context.Instance;
             return context;
         }
     }
@@ -46,40 +47,42 @@ public class PXR_Audio_Spatializer_AudioSource : MonoBehaviour
 
     private int sourceId = -1;
 
+    private int currentContextUuid = -2;
+
     private float[] positionArray = new float[3] { 0.0f, 0.0f, 0.0f };
 
     private float playheadPosition = 0.0f;
     private bool wasPlaying = false;
 
-    IEnumerator Start()
-    {
-        yield return new WaitUntil(() =>
-        {
-            return Context != null && Context.Initialized;
-        });
-
-        RegisterSourceInternal();
-    }
-    
     private void OnEnable()
     {
-        isActive = true;
+        if (Context != null && Context.Initialized)
+        {
+            if (Context.UUID == currentContextUuid)
+                isActive = true;
+            else
+                RegisterInternal();
+        }
+        else
+        {
+            sourceId = -1;
+            currentContextUuid = -2;
+        }
     }
-    
+
     /// <summary>
     /// Register this audio source in spatializer
     /// </summary>
-    internal void RegisterSourceInternal()
+    internal void RegisterInternal()
     {
         nativeSource = GetComponent<AudioSource>();
-        
+
         positionArray[0] = transform.position.x;
         positionArray[1] = transform.position.y;
         positionArray[2] = -transform.position.z;
 
-        SourceConfig sourceConfig = new SourceConfig();
+        SourceConfig sourceConfig = new SourceConfig(PXR_Audio.Spatializer.SourceMode.Spatialize);
 
-        sourceConfig.mode = PXR_Audio.Spatializer.SourceMode.Spatialize;
         sourceConfig.position.x = positionArray[0];
         sourceConfig.position.y = positionArray[1];
         sourceConfig.position.z = positionArray[2];
@@ -89,8 +92,9 @@ public class PXR_Audio_Spatializer_AudioSource : MonoBehaviour
         sourceConfig.up.x = transform.up.x;
         sourceConfig.up.y = transform.up.y;
         sourceConfig.up.z = -transform.up.z;
-        sourceConfig.radius = 0.1f;
         sourceConfig.enableDoppler = enableDoppler;
+        sourceGainAmplitude = DB2Mag(sourceGainDB);
+        sourceConfig.sourceGain = sourceGainAmplitude;
         
         PXR_Audio.Spatializer.Result ret = Context.AddSourceWithConfig(
             ref sourceConfig,
@@ -102,18 +106,10 @@ public class PXR_Audio_Spatializer_AudioSource : MonoBehaviour
             return;
         }
 
-        SetGainDB(sourceGainDB);
-
         ret = Context.SetSourceSize(sourceId, sourceSize);
         if (ret != PXR_Audio.Spatializer.Result.Success)
         {
             Debug.LogError("Failed to recover source size.");
-        }
-        
-        ret = Context.SetDopplerEffect(sourceId, enableDoppler);
-        if (ret != PXR_Audio.Spatializer.Result.Success)
-        {
-            Debug.LogError("Failed to initialize source #" + sourceId + " doppler effect.");
         }
 
         ret = Context.SetSourceAttenuationMode(sourceId, sourceAttenuationMode, null, null);
@@ -121,7 +117,7 @@ public class PXR_Audio_Spatializer_AudioSource : MonoBehaviour
         {
             Debug.LogError("Failed to initialize source #" + sourceId + " attenuation mode.");
         }
-        
+
         ret = Context.SetSourceRange(sourceId, minAttenuationDistance, maxAttenuationDistance);
         if (ret != PXR_Audio.Spatializer.Result.Success)
         {
@@ -129,6 +125,7 @@ public class PXR_Audio_Spatializer_AudioSource : MonoBehaviour
         }
 
         isActive = true;
+        currentContextUuid = Context.UUID;
 
         Debug.Log("Source #" + sourceId + " is added.");
     }
@@ -152,6 +149,18 @@ public class PXR_Audio_Spatializer_AudioSource : MonoBehaviour
     public void SetGainDB(float gainDB)
     {
         sourceGainDB = gainDB;
+        sourceGainAmplitude = DB2Mag(gainDB);
+        sourceGainChanged = true;
+    }
+
+    /// <summary>
+    /// Setup source gain in Amplitude
+    /// </summary>
+    /// <param name="gainAmplitude">Gain in Amplitude</param>
+    public void SetGainAmplitude(float gainAmplitude)
+    {
+        sourceGainAmplitude = gainAmplitude;
+        sourceGainDB = Mag2DB(gainAmplitude);
         sourceGainChanged = true;
     }
 
@@ -174,7 +183,7 @@ public class PXR_Audio_Spatializer_AudioSource : MonoBehaviour
         enableDoppler = on;
         enableDopplerChanged = true;
     }
-    
+
     /// <summary>
     /// Setup min attenuation range
     /// </summary>
@@ -185,7 +194,7 @@ public class PXR_Audio_Spatializer_AudioSource : MonoBehaviour
         minAttenuationDistance = min;
         attenuationDistanceChanged = true;
     }
-    
+
     /// <summary>
     /// Setup max attenuation range
     /// </summary>
@@ -196,7 +205,7 @@ public class PXR_Audio_Spatializer_AudioSource : MonoBehaviour
         maxAttenuationDistance = max;
         attenuationDistanceChanged = true;
     }
-    
+
     void Update()
     {
         if (isActive && sourceId >= 0 && context != null && context.Initialized)
@@ -216,7 +225,7 @@ public class PXR_Audio_Spatializer_AudioSource : MonoBehaviour
 
             if (sourceGainChanged)
             {
-                PXR_Audio.Spatializer.Result ret = Context.SetSourceGain(sourceId, DB2Mag(sourceGainDB));
+                PXR_Audio.Spatializer.Result ret = Context.SetSourceGain(sourceId, sourceGainAmplitude);
                 if (ret == PXR_Audio.Spatializer.Result.Success)
                     sourceGainChanged = false;
             }
@@ -245,15 +254,16 @@ public class PXR_Audio_Spatializer_AudioSource : MonoBehaviour
         }
 
     }
-    
-    private void OnDestroy()
-    {
-        DestroySourceInternal();
-    }
-    
+
     private void OnDisable()
     {
         isActive = false;
+        isAudioDSPInProgress = false;
+    }
+
+    private void OnDestroy()
+    {
+        DestroyInternal();
     }
 
 #if UNITY_EDITOR
@@ -267,7 +277,7 @@ public class PXR_Audio_Spatializer_AudioSource : MonoBehaviour
         }
     }
 #endif
-    private void DestroySourceInternal()
+    private void DestroyInternal()
     {
         isActive = false;
         if (context != null && context.Initialized)
@@ -284,8 +294,9 @@ public class PXR_Audio_Spatializer_AudioSource : MonoBehaviour
         }
 
         isAudioDSPInProgress = false;
+        sourceId = -1;
     }
-    
+
     private void OnAudioFilterRead(float[] data, int channels)
     {
         if (!isActive || sourceId < 0 || context == null || !context.Initialized)
@@ -299,7 +310,7 @@ public class PXR_Audio_Spatializer_AudioSource : MonoBehaviour
         isAudioDSPInProgress = true;
         int numFrames = data.Length / channels;
         float oneOverChannelsF = 1.0f / ((float) channels);
-        
+
         //  force to mono
         if (channels > 1)
         {
@@ -314,7 +325,7 @@ public class PXR_Audio_Spatializer_AudioSource : MonoBehaviour
             }
         }
         Context.SubmitSourceBuffer(sourceId, data, (uint) numFrames);
-        
+
         //  Mute Original signal
         for (int i = 0; i < data.Length; ++i)
             data[i] = 0.0f;
@@ -324,6 +335,11 @@ public class PXR_Audio_Spatializer_AudioSource : MonoBehaviour
     private float DB2Mag(float db)
     {
         return Mathf.Pow(10.0f, db / 20.0f);
+    }
+
+    private float Mag2DB(float mag)
+    {
+        return 20 * Mathf.Log10(mag);
     }
 
     void OnDrawGizmos()
@@ -341,11 +357,11 @@ public class PXR_Audio_Spatializer_AudioSource : MonoBehaviour
         c.a = colorSolidAlpha;
         Gizmos.color = c;
         Gizmos.DrawSphere(transform.position, sourceSize);
-        
+
         //  Attenuation distance (min && max)
         if (sourceAttenuationMode == SourceAttenuationMode.InverseSquare)
         {
-            //  min 
+            //  min
             c.r = 1.0f;
             c.g = 0.35f;
             c.b = 0.0f;
@@ -355,7 +371,7 @@ public class PXR_Audio_Spatializer_AudioSource : MonoBehaviour
             c.a = colorSolidAlpha;
             Gizmos.color = c;
             Gizmos.DrawSphere(transform.position, minAttenuationDistance);
-            
+
             //  max
             c.r = 0.0f;
             c.g = 1.0f;
