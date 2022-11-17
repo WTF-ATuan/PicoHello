@@ -2,6 +2,7 @@ using HelloPico2.InputDevice.Scripts;
 using Project;
 using UnityEngine;
 using Unity.XR.PXR;
+using HandType = HelloPico2.InputDevice.Scripts.HandType;
 
 public class usePicoHaptic : MonoBehaviour
 {
