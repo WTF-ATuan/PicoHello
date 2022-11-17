@@ -2,6 +2,7 @@
 using HelloPico2.InputDevice.Scripts;
 using Unity.XR.PXR;
 using UnityEngine;
+using HandType = HelloPico2.InputDevice.Scripts.HandType;
 
 namespace HelloPico2.InteractableObjects{
 	public class InteractCollidedHaptic : MonoBehaviour, IInteractCollide{

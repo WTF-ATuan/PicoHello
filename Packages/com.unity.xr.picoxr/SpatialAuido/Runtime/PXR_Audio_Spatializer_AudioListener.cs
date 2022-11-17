@@ -1,6 +1,7 @@
 //  Copyright © 2015-2022 Pico Technology Co., Ltd. All Rights Reserved.
 
 using System.Collections;
+using PXR_Audio.Spatializer;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioListener))]
@@ -14,7 +15,7 @@ public class PXR_Audio_Spatializer_AudioListener : MonoBehaviour
         get
         {
             if (context == null)
-                context = FindObjectOfType<PXR_Audio_Spatializer_Context>();
+                context = PXR_Audio_Spatializer_Context.Instance;
             return context;
         }
     }
@@ -33,23 +34,18 @@ public class PXR_Audio_Spatializer_AudioListener : MonoBehaviour
         }
     }
 
-    IEnumerator Start()
+    internal void RegisterInternal()
     {
-        //  Wait for context to be initialized
-        yield return new WaitUntil(() =>
-        {
-            return Context != null && Context.Initialized;
-        });
-
         //  Initialize listener pose
         UpdatePose();
-
         isActive = true;
     }
 
     private void OnEnable()
     {
-        isActive = true;
+        //  Wait for context to be initialized
+        if (Context != null && Context.Initialized)
+            RegisterInternal();
     }
 
     void Update()
@@ -60,15 +56,10 @@ public class PXR_Audio_Spatializer_AudioListener : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
-    {
-        isActive = false;
-        isAudioDSPInProgress = false;
-    }
-
     private void OnDisable()
     {
         isActive = false;
+        isAudioDSPInProgress = false;
     }
 
     void UpdatePose()
@@ -87,7 +78,7 @@ public class PXR_Audio_Spatializer_AudioListener : MonoBehaviour
 
     private void OnAudioFilterRead(float[] data, int channels)
     {
-        if (!isActive || context == null || !context.Initialized)
+        if (!isActive || context == null || !context.Initialized || Context.spatializerApiImpl==SpatializerApiImpl.wwise)
             return;
 
         isAudioDSPInProgress = true;

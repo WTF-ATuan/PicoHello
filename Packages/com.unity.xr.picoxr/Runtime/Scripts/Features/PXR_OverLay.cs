@@ -1,4 +1,14 @@
-﻿// Copyright © 2015-2021 Pico Technology Co., Ltd. All Rights Reserved.
+﻿/*******************************************************************************
+Copyright © 2015-2022 PICO Technology Co., Ltd.All rights reserved.  
+
+NOTICE：All information contained herein is, and remains the property of 
+PICO Technology Co., Ltd. The intellectual and technical concepts 
+contained hererin are proprietary to PICO Technology Co., Ltd. and may be 
+covered by patents, patents in process, and are protected by trade secret or 
+copyright law. Dissemination of this information or reproduction of this 
+material is strictly forbidden unless prior written permission is obtained from
+PICO Technology Co., Ltd. 
+*******************************************************************************/
 
 using System;
 using System.Collections;
@@ -15,25 +25,26 @@ namespace Unity.XR.PXR
         private const string TAG = "[PXR_CompositeLayers]";
         public static List<PXR_OverLay> Instances = new List<PXR_OverLay>();
 
-        private static int layerID = 0;
-        public int layerIndex;
+        private static int overlayID = 0;
+        public int overlayIndex;
         public int layerDepth;
         public int imageIndex = 0;
         public OverlayType overlayType = OverlayType.Overlay;
         public OverlayShape overlayShape = OverlayShape.Quad;
-        public Transform layerTransform;
+        public TextureType textureType = TextureType.ExternalSurface;
+        public Transform overlayTransform;
         public Camera xrRig;
 
         public Texture[] layerTextures = new Texture[2] { null, null };
         public bool isDynamic = false;
-        public int[] layerTextureIds = new int[2];
+        public int[] overlayTextureIds = new int[2];
         public Matrix4x4[] mvMatrixs = new Matrix4x4[2];
         public Vector3[] modelScales = new Vector3[2];
         public Quaternion[] modelRotations = new Quaternion[2];
         public Vector3[] modelTranslations = new Vector3[2];
         public Quaternion[] cameraRotations = new Quaternion[2];
         public Vector3[] cameraTranslations = new Vector3[2];
-        public Camera[] layerEyeCamera = new Camera[2];
+        public Camera[] overlayEyeCamera = new Camera[2];
 
         public bool overrideColorScaleAndOffset = false;
         public Vector4 colorScale = Vector4.one;
@@ -43,21 +54,52 @@ namespace Unity.XR.PXR
         private Vector4 overlayLayerColorOffsetDefault = Vector4.zero;
 
         public bool isExternalAndroidSurface = false;
+        public bool isExternalAndroidSurfaceDRM = false;
+        public Surface3DType externalAndroidSurface3DType = Surface3DType.Single;
         public IntPtr externalAndroidSurfaceObject = IntPtr.Zero;
         public delegate void ExternalAndroidSurfaceObjectCreated();
         public ExternalAndroidSurfaceObjectCreated externalAndroidSurfaceObjectCreated = null;
+
+        // 360 
+        public float radius = 0; // >0
+        public float centralHorizontalAngle = 0;
+        public float upperVerticalAngle = 0;
+        public float lowerVerticalAngle = 0;
+
+        // ImageRect
+        public bool useImageRect = false;
+        public TextureRect textureRect = TextureRect.StereoScopic;
+        public DestinationRect destinationRect = DestinationRect.Default;
+        public Rect srcRectLeft = new Rect(0, 0, 1, 1);
+        public Rect srcRectRight = new Rect(0, 0, 1, 1);
+        public Rect dstRectLeft = new Rect(0, 0, 1, 1);
+        public Rect dstRectRight = new Rect(0, 0, 1, 1);
+
+        public PxrRecti imageRectLeft;
+        public PxrRecti imageRectRight;
+
+
+        // LayerBlend
+        public bool useLayerBlend = false;
+        public PxrBlendFactor srcColor = PxrBlendFactor.PxrBlendFactorOne;
+        public PxrBlendFactor dstColor = PxrBlendFactor.PxrBlendFactorOne;
+        public PxrBlendFactor srcAlpha = PxrBlendFactor.PxrBlendFactorOne;
+        public PxrBlendFactor dstAlpha = PxrBlendFactor.PxrBlendFactorOne;
 
         private bool toCreateSwapChain = false;
         private bool toCopyRT = false;
         private bool copiedRT = false;
         private int eyeCount = 2;
         private UInt32 imageCounts = 0;
-        private PxrLayerParam layerParam = new PxrLayerParam();
-        private struct LayerTexture
+        private PxrLayerParam overlayParam = new PxrLayerParam();
+        private struct NativeTexture
         {
-            public Texture[] swapChain;
+            public Texture[] textures;
         };
-        private LayerTexture[] layerTexturesInfo;
+        private NativeTexture[] nativeTextures;
+
+        private static Material cubeM;
+
 
         public int CompareTo(PXR_OverLay other)
         {
@@ -68,16 +110,19 @@ namespace Unity.XR.PXR
         {
             xrRig = Camera.main;
             Instances.Add(this);
-            //layerIndex = Instances.IndexOf(this) + 1; // 0 is for Eye Buffer
-
-            layerEyeCamera[0] = xrRig;
-            layerEyeCamera[1] = xrRig;
-
-            layerTransform = GetComponent<Transform>();
-#if UNITY_ANDROID && !UNITY_EDITOR
-            if (layerTransform != null)
+            if (null == xrRig.gameObject.GetComponent<PXR_OverlayManager>())
             {
-                MeshRenderer render = layerTransform.GetComponent<MeshRenderer>();
+                xrRig.gameObject.AddComponent<PXR_OverlayManager>();
+            }
+
+            overlayEyeCamera[0] = xrRig;
+            overlayEyeCamera[1] = xrRig;
+
+            overlayTransform = GetComponent<Transform>();
+#if UNITY_ANDROID && !UNITY_EDITOR
+            if (overlayTransform != null)
+            {
+                MeshRenderer render = overlayTransform.GetComponent<MeshRenderer>();
                 if (render != null)
                 {
                     render.enabled = false;
@@ -88,63 +133,114 @@ namespace Unity.XR.PXR
             InitializeBuffer();
         }
 
-        private void OnDestroy()
+        private void Start()
         {
-            DestroyLayerTextures();
-            Instances.Remove(this);
-            PXR_Plugin.Render.UPxr_DestroyLayerByRender(layerIndex);
+            if (PXR_Manager.Instance == null)
+            {
+                return;
+            }
+
+            Camera[] cam = PXR_Manager.Instance.GetEyeCamera();
+            if (cam[0] != null && cam[0].enabled)
+            {
+                RefreshCamera(cam[0], cam[0]);
+            }
+            else if (cam[1] != null && cam[2] != null)
+            {
+                RefreshCamera(cam[1], cam[2]);
+            }
         }
 
-        public void RefreshCamera(Camera cam)
+        private void OnDestroy()
         {
-            xrRig = cam;
-            layerEyeCamera[0] = xrRig;
-            layerEyeCamera[1] = xrRig;
+            PXR_Plugin.Render.UPxr_DestroyLayerByRender(overlayIndex);
+            ClearTexture();
+            Instances.Remove(this);
+        }
+
+        public void DestroyLayer()
+        {
+            PXR_Plugin.Render.UPxr_DestroyLayerByRender(overlayIndex);
+            ClearTexture();
+        }
+
+        public void RefreshCamera(Camera leftCamera,Camera rightCamera)
+        {
+            overlayEyeCamera[0] = leftCamera;
+            overlayEyeCamera[1] = rightCamera;
         }
 
         private void InitializeBuffer()
         {
-            layerID++;
-            layerIndex = layerID;
-            if (overlayShape == 0)
+            overlayID++;
+            overlayIndex = overlayID;
+            if (0 == overlayShape)
             {
                 overlayShape = OverlayShape.Quad;
             }
 
-            layerParam.layerId = layerIndex;
-            layerParam.layerShape = overlayShape;
-            layerParam.layerType = overlayType;
-            layerParam.format = (UInt64)RenderTextureFormat.Default;
+            overlayParam.layerId = overlayIndex;
+            overlayParam.layerShape = overlayShape;
+            overlayParam.layerType = overlayType;
+            overlayParam.format = (UInt64)RenderTextureFormat.Default;
 
-            if (layerTextures[0] == null && layerTextures[1] != null)
+            if (null == layerTextures[0] && null != layerTextures[1])
             {
                 layerTextures[0] = layerTextures[1];
             }
 
             if (layerTextures[1] != null)
             {
-                layerParam.width = (uint)layerTextures[1].width;
-                layerParam.height = (uint)layerTextures[1].height;
+                overlayParam.width = (uint)layerTextures[1].width;
+                overlayParam.height = (uint)layerTextures[1].height;
             }
             else
             {
-                layerParam.width = (uint)PXR_Plugin.System.UPxr_GetConfigInt(ConfigType.RenderTextureWidth);
-                layerParam.height = (uint)PXR_Plugin.System.UPxr_GetConfigInt(ConfigType.RenderTextureHeight);
+                overlayParam.width = (uint)PXR_Plugin.System.UPxr_GetConfigInt(ConfigType.RenderTextureWidth);
+                overlayParam.height = (uint)PXR_Plugin.System.UPxr_GetConfigInt(ConfigType.RenderTextureHeight);
             }
 
-            layerParam.sampleCount = 1;
-            layerParam.faceCount = 1;
-            layerParam.arraySize = 1;
-            layerParam.mipmapCount = 1;
+            overlayParam.sampleCount = 1;
+
+            if (OverlayShape.Cubemap == overlayShape)
+            {
+                overlayParam.faceCount = 6;
+                if (cubeM == null)
+                    cubeM = new Material(Shader.Find("PXR_SDK/PXR_CubemapBlit"));
+            }
+            else
+            {
+                overlayParam.faceCount = 1;
+            }
+
+            overlayParam.arraySize = 1;
+            overlayParam.mipmapCount = 1;
 
             if (isExternalAndroidSurface)
             {
-                layerParam.width = 1024;
-                layerParam.height = 1024;
-                layerParam.layerFlags = (UInt32)PxrLayerCreateFlags.PxrLayerFlagAndroidSurface;
-                layerParam.layerLayout = LayerLayout.Mono;
-                IntPtr layerParamPtr = Marshal.AllocHGlobal(Marshal.SizeOf(layerParam));
-                Marshal.StructureToPtr(layerParam, layerParamPtr, false);
+                overlayParam.width = 1024;
+                overlayParam.height = 1024;
+                if (isExternalAndroidSurfaceDRM)
+                {
+                    overlayParam.layerFlags = (UInt32)(PxrLayerCreateFlags.PxrLayerFlagAndroidSurface | PxrLayerCreateFlags.PxrLayerFlagProtectedContent);
+                }
+                else
+                {
+                    overlayParam.layerFlags = (UInt32)PxrLayerCreateFlags.PxrLayerFlagAndroidSurface;
+                }
+
+                if (Surface3DType.LeftRight == externalAndroidSurface3DType)
+                {
+                    overlayParam.layerFlags |= (UInt32)PxrLayerCreateFlags.PxrLayerFlag3DLeftRightSurface;
+                }
+                else if (Surface3DType.TopBottom == externalAndroidSurface3DType)
+                {
+                    overlayParam.layerFlags |= (UInt32)PxrLayerCreateFlags.PxrLayerFlag3DTopBottomSurface;
+                }
+
+                overlayParam.layerLayout = LayerLayout.Mono;
+                IntPtr layerParamPtr = Marshal.AllocHGlobal(Marshal.SizeOf(overlayParam));
+                Marshal.StructureToPtr(overlayParam, layerParamPtr, false);
                 PXR_Plugin.Render.UPxr_CreateLayer(layerParamPtr);
                 Marshal.FreeHGlobal(layerParamPtr);
             }
@@ -152,114 +248,117 @@ namespace Unity.XR.PXR
             {
                 if (isDynamic)
                 {
-                    layerParam.layerFlags = 0;
+                    overlayParam.layerFlags = 0;
                 }
                 else
                 {
-                    layerParam.layerFlags = (UInt32)PxrLayerCreateFlags.PxrLayerFlagStaticImage;
+                    overlayParam.layerFlags = (UInt32)PxrLayerCreateFlags.PxrLayerFlagStaticImage;
                 }
 
-                if ((layerTextures[0] != null && layerTextures[1] != null && layerTextures[0] == layerTextures[1]) || layerTextures[1] == null)
+                if ((layerTextures[0] != null && layerTextures[1] != null && layerTextures[0] == layerTextures[1]) || null == layerTextures[1])
                 {
                     eyeCount = 1;
-                    layerParam.layerLayout = LayerLayout.Mono;
+                    overlayParam.layerLayout = LayerLayout.Mono;
                 }
                 else
                 {
                     eyeCount = 2;
-                    layerParam.layerLayout = LayerLayout.Stereo;
+                    overlayParam.layerLayout = LayerLayout.Stereo;
                 }
 
-                PXR_Plugin.Render.UPxr_CreateLayerParam(layerParam);
+                PXR_Plugin.Render.UPxr_CreateLayerParam(overlayParam);
                 toCreateSwapChain = true;
-                CreateLayerTexture();
+                CreateTexture();
             }
         }
 
         public void CreateExternalSurface(PXR_OverLay overlayInstance)
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
-        if (overlayInstance.externalAndroidSurfaceObject == IntPtr.Zero)
-        {
-            PXR_Plugin.Render.UPxr_GetLayerAndroidSurface(overlayInstance.layerIndex, 0, ref overlayInstance.externalAndroidSurfaceObject);
-            PLog.i(TAG, string.Format("CreateExternalSurface: Overlay Type:{0}, LayerDepth:{1}, SurfaceObject:{2}", overlayInstance.overlayType, overlayInstance.layerIndex, overlayInstance.externalAndroidSurfaceObject));
-
-            if (overlayInstance.externalAndroidSurfaceObject != IntPtr.Zero)
+            if (IntPtr.Zero != overlayInstance.externalAndroidSurfaceObject)
             {
-                if (overlayInstance.externalAndroidSurfaceObjectCreated != null)
-                {
-                    overlayInstance.externalAndroidSurfaceObjectCreated();
-                }
+                return;
             }
-        }
+
+            PXR_Plugin.Render.UPxr_GetLayerAndroidSurface(overlayInstance.overlayIndex, 0, ref overlayInstance.externalAndroidSurfaceObject);
+            PLog.i(TAG, string.Format("CreateExternalSurface: Overlay Type:{0}, LayerDepth:{1}, SurfaceObject:{2}", overlayInstance.overlayType, overlayInstance.overlayIndex, overlayInstance.externalAndroidSurfaceObject));
+            
+            if (IntPtr.Zero == overlayInstance.externalAndroidSurfaceObject || null == overlayInstance.externalAndroidSurfaceObjectCreated)
+            {
+                return;
+            }
+            
+            overlayInstance.externalAndroidSurfaceObjectCreated();
 #endif
         }
 
         public void UpdateCoords()
         {
-            if (layerTransform == null || !layerTransform.gameObject.activeSelf)
-            {
-                return;
-            }
-
-            if (layerEyeCamera[0] == null || layerEyeCamera[1] == null)
+            if (null == overlayTransform || !overlayTransform.gameObject.activeSelf || null == overlayEyeCamera[0] || null == overlayEyeCamera[1])
             {
                 return;
             }
 
             for (int i = 0; i < mvMatrixs.Length; i++)
             {
-                mvMatrixs[i] = layerEyeCamera[i].worldToCameraMatrix * layerTransform.localToWorldMatrix;
-
-                modelScales[i] = layerTransform.localScale;
-                modelRotations[i] = layerTransform.rotation;
-                modelTranslations[i] = layerTransform.position;
-                cameraRotations[i] = layerEyeCamera[i].transform.rotation;
-                cameraTranslations[i] = layerEyeCamera[i].transform.position;
+                mvMatrixs[i] = overlayEyeCamera[i].worldToCameraMatrix * overlayTransform.localToWorldMatrix;
+                modelScales[i] = overlayTransform.localScale;
+                modelRotations[i] = overlayTransform.rotation;
+                modelTranslations[i] = overlayTransform.position;
+                cameraRotations[i] = overlayEyeCamera[i].transform.rotation;
+                cameraTranslations[i] = overlayEyeCamera[i].transform.position;
             }
         }
 
-        public bool CreateLayerTexture()
+        public bool CreateTexture()
         {
             if (!toCreateSwapChain)
             {
                 return false;
             }
 
-            if (layerTexturesInfo == null)
-                layerTexturesInfo = new LayerTexture[eyeCount];
+            if (null == nativeTextures)
+                nativeTextures = new NativeTexture[eyeCount];
+
             for (int i = 0; i < eyeCount; i++)
             {
-                int ret = PXR_Plugin.Render.UPxr_GetLayerImageCount(layerIndex, (EyeType)i, ref imageCounts);
+                int ret = PXR_Plugin.Render.UPxr_GetLayerImageCount(overlayIndex, (EyeType)i, ref imageCounts);
                 if (ret != 0 || imageCounts < 1)
                 {
                     return false;
                 }
 
-                if (layerTexturesInfo[i].swapChain == null)
+                if (null == nativeTextures[i].textures)
                 {
-                    layerTexturesInfo[i].swapChain = new Texture[imageCounts];
+                    nativeTextures[i].textures = new Texture[imageCounts];
                 }
 
                 for (int j = 0; j < imageCounts; j++)
                 {
                     IntPtr ptr = IntPtr.Zero;
-                    PXR_Plugin.Render.UPxr_GetLayerImagePtr(layerIndex, (EyeType)i, j, ref ptr);
+                    PXR_Plugin.Render.UPxr_GetLayerImagePtr(overlayIndex, (EyeType)i, j, ref ptr);
 
-                    bool useMipmaps = (layerParam.mipmapCount > 1);
-                    if (ptr == IntPtr.Zero)
+                    if (IntPtr.Zero == ptr)
                     {
                         return false;
                     }
 
-                    Texture sc = Texture2D.CreateExternalTexture((int)layerParam.width, (int)layerParam.height, TextureFormat.RGBA32, useMipmaps, true, ptr);
+                    Texture texture;
+                    if (OverlayShape.Cubemap == overlayShape)
+                    {
+                        texture = Cubemap.CreateExternalTexture((int)overlayParam.width, TextureFormat.RGBA32, false, ptr);
+                    }
+                    else
+                    {
+                        texture = Texture2D.CreateExternalTexture((int)overlayParam.width, (int)overlayParam.height, TextureFormat.RGBA32, false, true, ptr);
+                    }
 
-                    if (sc == null)
+                    if (null == texture)
                     {
                         return false;
                     }
 
-                    layerTexturesInfo[i].swapChain[j] = sc;
+                    nativeTextures[i].textures[j] = texture;
                 }
             }
 
@@ -282,61 +381,57 @@ namespace Unity.XR.PXR
                 return copiedRT;
             }
 
-            RenderTextureFormat rtFormat = RenderTextureFormat.ARGB32;
-
-            for (int eyeId = 0; eyeId < eyeCount; ++eyeId)
+            for (int i = 0; i < eyeCount; i++)
             {
-                Texture dstT = layerTexturesInfo[eyeId].swapChain[imageIndex];
+                Texture nativeTexture = nativeTextures[i].textures[imageIndex];
 
-                if (dstT == null)
+                if (null == nativeTexture)
                     continue;
 
-                for (int mip = 0; mip < (int)layerParam.mipmapCount; ++mip)
+                RenderTexture texture = layerTextures[i] as RenderTexture;
+
+                if (OverlayShape.Cubemap == overlayShape && null == layerTextures[i] as Cubemap)
                 {
-                    bool isLinear = (QualitySettings.activeColorSpace == ColorSpace.Linear);
-                    var rt = layerTextures[eyeId] as RenderTexture;
-                    bool bypassBlit = !isLinear && rt != null && rt.format == rtFormat;
-                    RenderTexture tempDstRT = null;
+                    return false;
+                }
 
-                    if (!bypassBlit)
+                for (int f = 0; f < (int)overlayParam.faceCount; f++)
+                {
+                    if (QualitySettings.activeColorSpace == ColorSpace.Gamma && texture != null && texture.format == RenderTextureFormat.ARGB32)
                     {
-                        int width = (int)layerParam.width >> mip;
-                        if (width < 1) width = 1;
-                        int height = (int)layerParam.height >> mip;
-                        if (height < 1) height = 1;
-
-                        RenderTextureDescriptor descriptor = new RenderTextureDescriptor(width, height, rtFormat, 0);
-                        descriptor.msaaSamples = (int)layerParam.sampleCount;
-                        descriptor.useMipMap = true;
-                        descriptor.autoGenerateMips = false;
-                        descriptor.sRGB = false;
-
-                        tempDstRT = RenderTexture.GetTemporary(descriptor);
-
-                        if (!tempDstRT.IsCreated())
-                        {
-                            tempDstRT.Create();
-                        }
-                        tempDstRT.DiscardContents();
-                    }
-
-                    if (bypassBlit)
-                    {
-                        Graphics.CopyTexture(layerTextures[eyeId], 0, mip, dstT, 0, mip);
+                        Graphics.CopyTexture(layerTextures[i], f, 0, nativeTexture, f, 0);
                     }
                     else
                     {
-                        Graphics.Blit(layerTextures[eyeId], tempDstRT);
-                        Graphics.CopyTexture(tempDstRT, 0, 0, dstT, 0, mip);
-                    }
+                        RenderTextureDescriptor rtDes = new RenderTextureDescriptor((int)overlayParam.width, (int)overlayParam.height, RenderTextureFormat.ARGB32, 0);
+                        rtDes.msaaSamples = (int)overlayParam.sampleCount;
+                        rtDes.useMipMap = true;
+                        rtDes.autoGenerateMips = false;
+                        rtDes.sRGB = false;
 
-                    if (tempDstRT != null)
-                    {
-                        RenderTexture.ReleaseTemporary(tempDstRT);
+                        RenderTexture renderTexture = RenderTexture.GetTemporary(rtDes);
+
+                        if (!renderTexture.IsCreated())
+                        {
+                            renderTexture.Create();
+                        }
+                        renderTexture.DiscardContents();
+
+                        if (OverlayShape.Cubemap == overlayShape)
+                        {
+                            cubeM.SetInt("_d", f);
+                            Graphics.Blit(layerTextures[i], renderTexture, cubeM);
+                        }
+                        else
+                        {
+                            Graphics.Blit(layerTextures[i], renderTexture);
+                        }
+                        Graphics.CopyTexture(renderTexture, 0, 0, nativeTexture, f, 0);
+                        RenderTexture.ReleaseTemporary(renderTexture);
                     }
                 }
+                copiedRT = true;
             }
-            copiedRT = true;
 
             return copiedRT;
         }
@@ -350,8 +445,8 @@ namespace Unity.XR.PXR
             }
 
             toCopyRT = false;
-            PXR_Plugin.Render.UPxr_DestroyLayerByRender(layerIndex);
-            DestroyLayerTextures();
+            PXR_Plugin.Render.UPxr_DestroyLayerByRender(overlayIndex);
+            ClearTexture();
             for (int i = 0; i < layerTextures.Length; i++)
             {
                 layerTextures[i] = texture;
@@ -361,23 +456,25 @@ namespace Unity.XR.PXR
             InitializeBuffer();
         }
 
-        private void DestroyLayerTextures()
+        private void ClearTexture()
         {
-            if (isExternalAndroidSurface)
+            if (isExternalAndroidSurface || null == nativeTextures)
             {
                 return;
             }
 
-            for (int eyeId = 0; layerTexturesInfo != null && eyeId < eyeCount; ++eyeId)
+            for (int i = 0; i < eyeCount; i++)
             {
-                if (layerTexturesInfo[eyeId].swapChain != null)
+                if (null == nativeTextures[i].textures)
                 {
-                    for (int stage = 0; stage < imageCounts; ++stage)
-                        DestroyImmediate(layerTexturesInfo[eyeId].swapChain[stage]);
+                    continue;
                 }
+
+                for (int j = 0; j < imageCounts; j++)
+                    DestroyImmediate(nativeTextures[i].textures[j]);
             }
 
-            layerTexturesInfo = null;
+            nativeTextures = null;
         }
 
         public void SetLayerColorScaleAndOffset(Vector4 scale, Vector4 offset)
@@ -404,11 +501,32 @@ namespace Unity.XR.PXR
             return colorOffset;
         }
 
+        public PxrRecti getPxrRectiLeft(bool left)
+        {
+            if (left)
+            {
+                imageRectLeft.x = (int)(overlayParam.width * srcRectLeft.x);
+                imageRectLeft.y = (int)(overlayParam.height * srcRectLeft.y);
+                imageRectLeft.width = (int)(overlayParam.width * Mathf.Min(srcRectLeft.width, 1 - srcRectLeft.x));
+                imageRectLeft.height = (int)(overlayParam.height * Mathf.Min(srcRectLeft.height, 1 - srcRectLeft.y));
+                return imageRectLeft;
+            }
+            else
+            {
+                imageRectRight.x = (int)(overlayParam.width * srcRectRight.x);
+                imageRectRight.y = (int)(overlayParam.height * srcRectRight.y);
+                imageRectRight.width = (int)(overlayParam.width * Mathf.Min(srcRectRight.width, 1 - srcRectRight.x));
+                imageRectRight.height = (int)(overlayParam.height * Mathf.Min(srcRectRight.height, 1 - srcRectRight.y));
+                return imageRectRight;
+            }
+        }
+
         public enum OverlayShape
         {
             Quad = 1,
             Cylinder = 2,
-            Equirect = 3
+            Equirect = 4,
+            Cubemap = 5
         }
 
         public enum OverlayType
@@ -417,12 +535,39 @@ namespace Unity.XR.PXR
             Underlay = 1
         }
 
+        public enum TextureType
+        {
+            ExternalSurface,
+            DynamicTexture,
+            StaticTexture
+        }
+
         public enum LayerLayout
         {
             Stereo = 0,
             DoubleWide = 1,
             Array = 2,
             Mono = 3
+        }
+
+        public enum Surface3DType
+        {
+            Single = 0,
+            LeftRight,
+            TopBottom
+        }
+
+        public enum TextureRect
+        {
+            MonoScopic,
+            StereoScopic,
+            Custom
+        }
+
+        public enum DestinationRect
+        {
+            Default,
+            Custom
         }
     }
 }

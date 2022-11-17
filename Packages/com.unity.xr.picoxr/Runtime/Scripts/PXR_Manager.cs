@@ -1,4 +1,14 @@
-﻿// Copyright © 2015-2021 Pico Technology Co., Ltd. All Rights Reserved.
+﻿/*******************************************************************************
+Copyright © 2015-2022 PICO Technology Co., Ltd.All rights reserved.  
+
+NOTICE：All information contained herein is, and remains the property of 
+PICO Technology Co., Ltd. The intellectual and technical concepts 
+contained hererin are proprietary to PICO Technology Co., Ltd. and may be 
+covered by patents, patents in process, and are protected by trade secret or 
+copyright law. Dissemination of this information or reproduction of this 
+material is strictly forbidden unless prior written permission is obtained from
+PICO Technology Co., Ltd. 
+*******************************************************************************/
 
 using System;
 using System.Collections;
@@ -12,6 +22,7 @@ namespace Unity.XR.PXR
     {
         private const string TAG = "[PXR_Manager]";
         private static PXR_Manager instance = null;
+        private static bool bindVerifyServiceSuccess = false;
         public static PXR_Manager Instance
         {
             get
@@ -32,10 +43,10 @@ namespace Unity.XR.PXR
         private int currentBoundaryState;
         private float refreshRate = -1.0f;
         
-        private Camera eyeCamera;
-        private int eyeCameraOriginCullingMask;
-        private CameraClearFlags eyeCameraOriginClearFlag;
-        private Color eyeCameraOriginBackgroundColor;
+        private Camera[] eyeCamera;
+        private int[] eyeCameraOriginCullingMask = new int[3];
+        private CameraClearFlags[] eyeCameraOriginClearFlag = new CameraClearFlags[3];
+        private Color[] eyeCameraOriginBackgroundColor = new Color[3];
 
         [HideInInspector]
         public bool showFps;
@@ -61,32 +72,39 @@ namespace Unity.XR.PXR
 
         [HideInInspector]
         public bool useRecommendedAntiAliasingLevel = true;
-        
+
         void Awake()
         {
-            PXR_Plugin.PlatformSetting.UPxr_BindVerifyService(gameObject.name);
-            eyeCamera = Camera.main;
-            Camera.main.depthTextureMode = DepthTextureMode.Depth;
-#if UNITY_ANDROID && !UNITY_EDITOR
-            SetFrameRate();
-#endif
-            if (foveationLevel != FoveationLevel.None)
-            {
-                PXR_Plugin.Render.UPxr_SetFoveationLevel(foveationLevel);
-            }
-            
-            if (eyeTracking)
-            {
-                PXR_Plugin.System.UPxr_InitEyeTracking();
-            }
-            
             //version log
             Debug.Log("PXRLog XR Platform----SDK Version:" + PXR_Plugin.System.UPxr_GetSDKVersion());
 
             //log level
             int logLevel = PXR_Plugin.System.UPxr_GetConfigInt(ConfigType.UnityLogLevel);
             Debug.Log("PXRLog XR Platform----SDK logLevel:" + logLevel);
-            PLog.logPriority = (PLog.LogPriority)logLevel;
+            PLog.logLevel = (PLog.LogLevel)logLevel;
+            if (!bindVerifyServiceSuccess)
+            {
+                PXR_Plugin.PlatformSetting.UPxr_BindVerifyService(gameObject.name);
+            }
+            eyeCamera = new Camera[3];
+            Camera[] cam = gameObject.GetComponentsInChildren<Camera>();
+            for (int i = 0; i < cam.Length; i++) {
+                if (cam[i].stereoTargetEye == StereoTargetEyeMask.Both) {
+                    eyeCamera[0] = cam[i];
+                }else if (cam[i].stereoTargetEye == StereoTargetEyeMask.Left)
+                {
+                    eyeCamera[1] = cam[i];
+                }
+                else if(cam[i].stereoTargetEye == StereoTargetEyeMask.Right)
+                {
+                    eyeCamera[2] = cam[i];
+                }
+            }
+#if UNITY_ANDROID && !UNITY_EDITOR
+            SetFrameRate();
+#endif
+            PXR_Plugin.Render.UPxr_SetFoveationLevel(foveationLevel);
+            PXR_Plugin.System.UPxr_EnableEyeTracking(eyeTracking);
 
             int recommendedAntiAliasingLevel = 0;
             recommendedAntiAliasingLevel = PXR_Plugin.System.UPxr_GetConfigInt(ConfigType.AntiAliasingLevelRecommended);
@@ -107,7 +125,13 @@ namespace Unity.XR.PXR
 
                 foreach (var layer in PXR_OverLay.Instances)
                 {
-                    layer.RefreshCamera(eyeCamera);
+                    if (eyeCamera[0] != null && eyeCamera[0].enabled) {
+                        layer.RefreshCamera(eyeCamera[0],eyeCamera[0]);
+                    }
+                    else if (eyeCamera[1] != null && eyeCamera[1].enabled)
+                    {
+                        layer.RefreshCamera(eyeCamera[1], eyeCamera[2]);
+                    }
                 }
             }
         }
@@ -179,73 +203,83 @@ namespace Unity.XR.PXR
         
         void Update()
         {
+            currentBoundaryState = PXR_Plugin.Boundary.UPxr_GetSeeThroughState();
             // boundary
-            if (eyeCamera != null && eyeCamera.enabled)
+            for (int i = 0; i < 3; i++)
             {
-                currentBoundaryState = PXR_Plugin.Boundary.UPxr_GetSeeThroughState();
-
-                if (currentBoundaryState != lastBoundaryState)
+                if (eyeCamera[i] != null && eyeCamera[i].enabled)
                 {
-                    if (currentBoundaryState == 2) // close camera render
+                    if (currentBoundaryState != lastBoundaryState)
                     {
-                        // record
-                        eyeCameraOriginCullingMask = eyeCamera.cullingMask;
-                        eyeCameraOriginClearFlag = eyeCamera.clearFlags;
-                        eyeCameraOriginBackgroundColor = eyeCamera.backgroundColor;
+                        if (currentBoundaryState == 2) // close camera render
+                        {
+                            // record
+                            eyeCameraOriginCullingMask[i] = eyeCamera[i].cullingMask;
+                            eyeCameraOriginClearFlag[i] = eyeCamera[i].clearFlags;
+                            eyeCameraOriginBackgroundColor[i] = eyeCamera[i].backgroundColor;
 
-                        // close render
-                        eyeCamera.cullingMask = 0;
-                        eyeCamera.clearFlags = CameraClearFlags.SolidColor;
-                        eyeCamera.backgroundColor = Color.black;
-                    }
-                    else if (currentBoundaryState == 1) // open camera render
-                    {
-                        if (lastBoundaryState == 2)
+                            // close render
+                            eyeCamera[i].cullingMask = 0;
+                            eyeCamera[i].clearFlags = CameraClearFlags.SolidColor;
+                            eyeCamera[i].backgroundColor = Color.black;
+                        }
+                        else if (currentBoundaryState == 1) // open camera render
                         {
-                            if (eyeCamera.cullingMask == 0)
+                            if (lastBoundaryState == 2)
                             {
-                                eyeCamera.cullingMask = eyeCameraOriginCullingMask;
+                                if (eyeCamera[i].cullingMask == 0)
+                                {
+                                    eyeCamera[i].cullingMask = eyeCameraOriginCullingMask[i];
+                                }
+                                if (eyeCamera[i].clearFlags == CameraClearFlags.SolidColor)
+                                {
+                                    eyeCamera[i].clearFlags = eyeCameraOriginClearFlag[i];
+                                }
+                                if (eyeCamera[i].backgroundColor == Color.black)
+                                {
+                                    eyeCamera[i].backgroundColor = eyeCameraOriginBackgroundColor[i];
+                                }
                             }
-                            if (eyeCamera.clearFlags == CameraClearFlags.SolidColor)
+                        }
+                        else // open camera render(recover)
+                        {
+                            if ((lastBoundaryState == 2 || lastBoundaryState == 1))
                             {
-                                eyeCamera.clearFlags = eyeCameraOriginClearFlag;
-                            }
-                            if (eyeCamera.backgroundColor == Color.black)
-                            {
-                                eyeCamera.backgroundColor = eyeCameraOriginBackgroundColor;
+                                if (eyeCamera[i].cullingMask == 0)
+                                {
+                                    eyeCamera[i].cullingMask = eyeCameraOriginCullingMask[i];
+                                }
+                                if (eyeCamera[i].clearFlags == CameraClearFlags.SolidColor)
+                                {
+                                    eyeCamera[i].clearFlags = eyeCameraOriginClearFlag[i];
+                                }
+                                if (eyeCamera[i].backgroundColor == Color.black)
+                                {
+                                    eyeCamera[i].backgroundColor = eyeCameraOriginBackgroundColor[i];
+                                }
                             }
                         }
                     }
-                    else // open camera render(recover)
-                    {
-                        if ((lastBoundaryState == 2 || lastBoundaryState == 1))
-                        {
-                            if (eyeCamera.cullingMask == 0)
-                            {
-                                eyeCamera.cullingMask = eyeCameraOriginCullingMask;
-                            }
-                            if (eyeCamera.clearFlags == CameraClearFlags.SolidColor)
-                            {
-                                eyeCamera.clearFlags = eyeCameraOriginClearFlag;
-                            }
-                            if (eyeCamera.backgroundColor == Color.black)
-                            {
-                                eyeCamera.backgroundColor = eyeCameraOriginBackgroundColor;
-                            }
-                        }
-                    }
-                    lastBoundaryState = currentBoundaryState;
                 }
             }
-
+            lastBoundaryState = currentBoundaryState;
             if (Math.Abs(refreshRate - PXR_Plugin.System.UPxr_RefreshRateChanged()) > 0.1f)
             {
                 refreshRate = PXR_Plugin.System.UPxr_RefreshRateChanged();
                 if (DisplayRefreshRateChanged != null)
                     DisplayRefreshRateChanged(refreshRate);
             }
-
+            //recenter callback
+            if (PXR_Plugin.System.UPxr_GetHomeKey())
+            {
+                if (PXR_Plugin.System.RecenterSuccess != null)
+                {
+                    PXR_Plugin.System.RecenterSuccess();
+                }
+                PXR_Plugin.System.UPxr_InitHomeKey();
+            }
         }
+
         void OnDisable()
         {
             StopAllCoroutines();
@@ -268,6 +302,27 @@ namespace Unity.XR.PXR
                 }
             }
             PLog.i(TAG, string.Format("Customize FPS : {0}", Application.targetFrameRate));
+        }
+        
+        //bind verify service success call back
+        void BindVerifyServiceCallback()
+        {
+            bindVerifyServiceSuccess = true;
+        }
+
+        private void verifyAPPCallback(string callback)
+        {
+            Debug.Log("PXRLog verifyAPPCallback callback = " + callback);
+            appCheckResult = Convert.ToInt32(callback);
+            if (EntitlementCheckResultEvent != null)
+            {
+                EntitlementCheckResultEvent(appCheckResult);
+            }
+        }
+
+        public Camera[] GetEyeCamera()
+        {
+            return eyeCamera;
         }
     }
 }
