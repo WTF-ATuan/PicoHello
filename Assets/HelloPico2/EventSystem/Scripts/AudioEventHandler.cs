@@ -1,4 +1,5 @@
-﻿using Project;
+﻿using System;
+using Project;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -21,12 +22,20 @@ namespace HelloPico2{
 			var usingMultiple = obj.UsingMultipleAudioClips;
 			if(usingMultiple){
 				var audioData = dataOverview.FindEventData<MultiAudioData>(audioID);
+				if(audioData == null){
+					throw new Exception($"not found {audioID} in List please check {dataOverview}");
+				}
+
 				var audioClip = audioData.GetAudio();
 				_audioSource.transform.position = position;
 				_audioSource.PlayOneShot(audioClip);
 			}
 			else{
 				var audioData = dataOverview.FindEventData<AudioData>(audioID);
+				if(audioData == null){
+					throw new Exception($"not found {audioID} in List please check {dataOverview}");
+				}
+
 				var audioClip = audioData.clip;
 				_audioSource.transform.position = position;
 				_audioSource.PlayOneShot(audioClip);
