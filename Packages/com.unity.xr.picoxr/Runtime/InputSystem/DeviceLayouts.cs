@@ -1,4 +1,14 @@
-﻿// Copyright © 2015-2021 Pico Technology Co., Ltd. All Rights Reserved.
+﻿/*******************************************************************************
+Copyright © 2015-2022 PICO Technology Co., Ltd.All rights reserved.  
+
+NOTICE：All information contained herein is, and remains the property of 
+PICO Technology Co., Ltd. The intellectual and technical concepts 
+contained hererin are proprietary to PICO Technology Co., Ltd. and may be 
+covered by patents, patents in process, and are protected by trade secret or 
+copyright law. Dissemination of this information or reproduction of this 
+material is strictly forbidden unless prior written permission is obtained from
+PICO Technology Co., Ltd. 
+*******************************************************************************/
 
 #if UNITY_INPUT_SYSTEM
 using UnityEngine.Scripting;
@@ -10,10 +20,10 @@ using UnityEngine.InputSystem.Layouts;
 namespace Unity.XR.PXR.Input
 {
     /// <summary>
-    /// A Pico Headset
+    /// A PICO Headset
     /// </summary>
     [Preserve]
-    [InputControlLayout(displayName = "PicoXR HMD")]
+    [InputControlLayout(displayName = "PICO HMD")]
     public class PXR_HMD : XRHMD
     {
         [Preserve]
@@ -134,10 +144,10 @@ namespace Unity.XR.PXR.Input
     }
 
     /// <summary>
-    /// A Pico Controller
+    /// A PICO Controller
     /// </summary>
     [Preserve]
-    [InputControlLayout(displayName = "PicoXR Controller", commonUsages = new[] { "LeftHand", "RightHand" })]
+    [InputControlLayout(displayName = "PICO Controller", commonUsages = new[] { "LeftHand", "RightHand" })]
     public class PXR_Controller : XRControllerWithRumble
     {
         [Preserve]

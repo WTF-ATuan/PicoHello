@@ -9,200 +9,274 @@ using UnityEngine;
 [RequireComponent(typeof(PXR_Audio_Spatializer_SceneMaterial))]
 public partial class PXR_Audio_Spatializer_SceneGeometry : MonoBehaviour
 {
+    [SerializeField] private bool includeChildren = false;
+    [SerializeField] private bool visualizeMeshInEditor = false;
+    [SerializeField] private Mesh bakedStaticMesh;
+
+    #region EDITOR-ONLY SerializedFields
+
+#if UNITY_EDITOR
+    [SerializeField] private LayerMask meshBakingLayerMask = ~0;
+    [SerializeField, HideInInspector] private string currentBakedStaticMeshAssetPath = null;
+#endif
+
+    #endregion
+
+    public bool isStaticMeshBaked => bakedStaticMesh != null;
+
     private int geometryId = -1;
+
     public int GeometryId
     {
         get => geometryId;
     }
 
+    private int staticGeometryID = -1;
+
+    public int StaticGeometryId => staticGeometryID;
+
+    private PXR_Audio_Spatializer_Context context;
+
+    public PXR_Audio_Spatializer_Context Context
+    {
+        get
+        {
+            if (context == null)
+            {
+                context = FindObjectOfType<PXR_Audio_Spatializer_Context>();
+            }
+
+            return context;
+        }
+    }
+
     private PXR_Audio_Spatializer_SceneMaterial material;
+
     public PXR_Audio_Spatializer_SceneMaterial Material
     {
         get
         {
             if (material == null)
+            {
                 material = GetComponent<PXR_Audio_Spatializer_SceneMaterial>();
+            }
+
             return material;
         }
     }
 
-    [SerializeField]
-    private bool includeChildren = false;
-
-    [SerializeField] private bool ignoreStatic = false;
-    [SerializeField] private bool visualizeMeshInEditor = false;
-
-    private PXR_Audio_Spatializer_Context context;
-    private PXR_Audio_Spatializer_Context Context
+    private void GetAllMeshFilter(Transform transform, bool includeChildren, List<MeshFilter> meshFilterList,
+        bool isStatic, LayerMask layerMask)
     {
-        get
-        {
-            if (context == null)
-                context = FindObjectOfType<PXR_Audio_Spatializer_Context>();
-            return context;
-        }
-    }
-    
-    /// <summary>
-    /// Submit this geometry and it's material into spatializer engine context
-    /// </summary>
-    /// <param name="ctx">The native address of initialized spatializer context</param>
-    /// <returns>Result of mesh submission</returns>
-    public PXR_Audio.Spatializer.Result SubmitToContext(IntPtr ctx /***/)
-    {
-        //  Fetch vertices and indices buffer from mesh filters (optionally in children's meshes as well)
-        List<MeshFilter> meshList = new List<MeshFilter>();
-        TraverseMeshHierarchy(this.gameObject, includeChildren, meshList, ignoreStatic);
-
-        
-        int verticesCount = 0;
-        int indicesCount = 0;
-        foreach (MeshFilter meshFilter in meshList)
-            AccumulateFlattenedMeshSize(meshFilter.sharedMesh, ref verticesCount, ref indicesCount);
-        float[] vertices = new float[verticesCount * 3];
-        int[] indices = new int[indicesCount];
-        FlattenMeshList(meshList, vertices, indices);
-
-        var ret = PXR_Audio.Spatializer.Api.SubmitMeshAndMaterialFactor(ctx, vertices, verticesCount, indices,
-            indicesCount / 3, Material.absorption, Material.scattering, Material.transmission, ref geometryId);
-        if (ret != Result.Success)
-        {
-            Debug.LogError("Failed to submit audio mesh: " + gameObject.name + ", Error code is: " + ret);
-        }
-
-        return ret;
-    }
-
-    private static void TraverseMeshHierarchy(GameObject obj, bool includeChildren, List<MeshFilter> meshList, bool ignoreStatic)
-    {
-        if (!obj.activeInHierarchy)
-            return;
-
-        MeshFilter[] meshes                 = obj.GetComponents<MeshFilter>();
-        
-        // Gather the meshes.
-        foreach (MeshFilter meshFilter in meshes)
-        {
-            Mesh mesh = meshFilter.sharedMesh;
-            if (mesh == null)
-                continue;
-            
-            if (ignoreStatic && !mesh.isReadable)
-            {
-                Debug.LogWarning("Mesh: " + meshFilter.gameObject.name + " not readable, cannot be static.", meshFilter.gameObject);
-                continue;
-            }
-            
-            meshList.Add(meshFilter);
-        }
-
-        // Traverse to the child objects.
         if (includeChildren)
         {
-            foreach (Transform child in obj.transform)
+            int childCount = transform.childCount;
+            for (int i = 0; i < childCount; i++)
             {
-                // skip children which have their own component
-                if (child.GetComponent<PXR_Audio_Spatializer_SceneGeometry>() == null) 
-                    TraverseMeshHierarchy(child.gameObject, includeChildren, meshList, ignoreStatic);
-            }
-        }
-    }
-
-    private static void FlattenMeshList(List<MeshFilter> meshList,  float[] vertices, int[] indices)
-    {
-        int verticesIdx = 0;
-        List<int> tempIndices = new List<int>();
-        int vertexOffset = 0;
-        int indexOffset = 0;
-        
-        foreach (MeshFilter meshFilter in meshList)
-        {
-            Matrix4x4 meshFilterToWorldMatrix = meshFilter.gameObject.transform.localToWorldMatrix;
-
-            //  Add vertices of this mesh
-            foreach (Vector3 vertex in meshFilter.sharedMesh.vertices)
-            {
-                Vector3 vertexWorldSpace = meshFilterToWorldMatrix.MultiplyPoint3x4(vertex);
-                vertices[verticesIdx++] = vertexWorldSpace.x;
-                vertices[verticesIdx++] = vertexWorldSpace.y;
-                vertices[verticesIdx++] = -vertexWorldSpace.z;
-            }
-
-            //  Add indices of all submeshes
-            int subMeshCount = meshFilter.sharedMesh.subMeshCount;
-            for (int subMeshIdx = 0; subMeshIdx < subMeshCount; ++subMeshIdx)
-            {
-                MeshTopology subMeshTopology = meshFilter.sharedMesh.GetTopology(subMeshIdx);
-                tempIndices.Clear();
-                meshFilter.sharedMesh.GetIndices(tempIndices, subMeshIdx);
-
-                if (subMeshTopology != MeshTopology.Triangles && subMeshTopology != MeshTopology.Quads)
-                    continue;
-
-                int subMeshIndexCount = tempIndices.Count;
-
-                if (subMeshTopology == MeshTopology.Triangles)
+                var childTransform = transform.GetChild(i);
+                if (childTransform.GetComponent<PXR_Audio_Spatializer_SceneGeometry>() == null)
                 {
-                    // Copy and adjust the indices.
-                    for (int j = 0; j < subMeshIndexCount; j += 3)
-                    {
-                        indices[indexOffset + j + 2] = tempIndices[j    ] + vertexOffset;
-                        indices[indexOffset + j + 1] = tempIndices[j + 1] + vertexOffset;
-                        indices[indexOffset + j    ] = tempIndices[j + 2] + vertexOffset;
-                    }
-
-                    indexOffset += subMeshIndexCount;
-                }
-                else  // subMeshTopology == MeshTopology.Quads
-                {
-                    // Copy and adjust the indices.
-                    for (int j = 0, k = 0; j < subMeshIndexCount; j += 4, k += 6)
-                    {
-                        indices[indexOffset + k + 2] = tempIndices[j    ] + vertexOffset;
-                        indices[indexOffset + k + 1] = tempIndices[j + 1] + vertexOffset;
-                        indices[indexOffset + k    ] = tempIndices[j + 2] + vertexOffset;
-                        indices[indexOffset + k + 5] = tempIndices[j + 2] + vertexOffset;
-                        indices[indexOffset + k + 4] = tempIndices[j + 3] + vertexOffset;
-                        indices[indexOffset + k + 3] = tempIndices[j    ] + vertexOffset;
-                    }
-                    indexOffset += subMeshIndexCount / 2 * 3;
+                    GetAllMeshFilter(childTransform.transform, includeChildren, meshFilterList, isStatic, layerMask);
                 }
             }
-
-            vertexOffset = verticesIdx / 3;
         }
-    }
-    
-    private static void AccumulateFlattenedMeshSize
-        (Mesh mesh, ref int totalVertexCount, ref int totalIndexCount)
-    {
-        totalVertexCount += mesh.vertexCount;
 
-        for (int i = 0; i < mesh.subMeshCount; i++)
+        //  Gather this mesh only when
+        //  1. Its isStatic flag is equal to our requirement
+        //  2. Its layer belongs to layerMask set 
+        if (transform.gameObject.isStatic == isStatic && ((1 << transform.gameObject.layer) & layerMask) != 0)
         {
-            MeshTopology topology = mesh.GetTopology(i);
-            if (topology == MeshTopology.Triangles || topology == MeshTopology.Quads)
+            var meshFilterArray = transform.GetComponents<MeshFilter>();
+            //  cases we don't add to mesh filter list
+            //   1. meshFilter.shardmesh == null
+            //   2. meshFilter.sharedmesh.isReadable == false
+            if (meshFilterArray != null)
             {
-                uint meshIndexCount = mesh.GetIndexCount(i);
-                totalIndexCount += (int)meshIndexCount;
-
-                //  We'd like to de-compose quads to 2 triangles,
-                //  so we'd need 2 more spaces for the second triangle
-                if (topology == MeshTopology.Quads)
-                    totalIndexCount += 2;
+                for (int i = 0; i < meshFilterArray.Length; i++)
+                {
+                    var meshFilter = meshFilterArray[i];
+                    if (meshFilter != null && meshFilter.sharedMesh != null &&
+                        (isStatic || meshFilter.sharedMesh.isReadable))
+                    {
+                        meshFilterList.Add(meshFilter);
+                    }
+                }
             }
         }
     }
 
-    void OnDrawGizmos()
+    private static Mesh CombineMeshes(List<MeshFilter> meshFilterList)
+    {
+        CombineInstance[] combines = new CombineInstance[meshFilterList.Count];
+        for (int i = 0; i < meshFilterList.Count; i++)
+        {
+            combines[i].mesh = meshFilterList[i].sharedMesh;
+            combines[i].transform =
+                Matrix4x4.Scale(new Vector3(1, 1, -1)) * meshFilterList[i].transform.localToWorldMatrix;
+        }
+
+        Mesh combinedMesh = new Mesh
+        {
+            name = "combined meshes",
+            indexFormat = UnityEngine.Rendering.IndexFormat.UInt32
+        };
+        combinedMesh.CombineMeshes(combines, true, true);
+
+        return combinedMesh;
+    }
+
+    private static float[] FlattenVerticesBuffer(Vector3[] verticesBuffer)
+    {
+        float[] vertices = new float[verticesBuffer.Length * 3];
+        int index = 0;
+        foreach (Vector3 vertex in verticesBuffer)
+        {
+            vertices[index++] = vertex.x;
+            vertices[index++] = vertex.y;
+            vertices[index++] = vertex.z;
+        }
+
+        return vertices;
+    }
+
+    /// <summary>
+    /// Submit non-static mesh of this geometry and its material into spatializer engine context
+    /// </summary>
+    /// <returns>Result of static mesh submission</returns>
+    public PXR_Audio.Spatializer.Result SubmitMeshToContext()
+    {
+        // find all meshes
+        var meshFilterList = new List<MeshFilter>();
+        GetAllMeshFilter(transform, includeChildren, meshFilterList, false, ~0);
+
+        //  Combine all meshes
+        Mesh combinedMesh = CombineMeshes(meshFilterList);
+
+        //  flatten vertices buffer into a float array
+        float[] vertices = FlattenVerticesBuffer(combinedMesh.vertices);
+
+        //  Submit all meshes
+        PXR_Audio.Spatializer.Result result = PXR_Audio_Spatializer_Context.Instance.SubmitMeshAndMaterialFactor(
+            vertices, vertices.Length / 3,
+            combinedMesh.triangles, combinedMesh.triangles.Length / 3,
+            Material.absorption, Material.scattering, Material.transmission,
+            ref geometryId);
+
+        return result;
+    }
+
+    /// <summary>
+    /// Submit static mesh of this geometry and its material into spatializer engine context
+    /// </summary>
+    /// <returns>Result of static mesh submission</returns>
+    public PXR_Audio.Spatializer.Result SubmitStaticMeshToContext()
+    {
+        PXR_Audio.Spatializer.Result result = Result.Success;
+        if (bakedStaticMesh != null)
+        {
+            float[] tempVertices = FlattenVerticesBuffer(bakedStaticMesh.vertices);
+
+            result = PXR_Audio_Spatializer_Context.Instance.SubmitMeshAndMaterialFactor(tempVertices,
+                bakedStaticMesh.vertices.Length, bakedStaticMesh.triangles,
+                bakedStaticMesh.triangles.Length / 3, Material.absorption, Material.scattering, Material.transmission,
+                ref staticGeometryID);
+
+            if (result != Result.Success)
+                Debug.LogError("Failed to submit static audio mesh: " + gameObject.name + ", Error code is: " + result);
+            else
+                Debug.LogFormat("Submitted static geometry #{0}, gameObject name is {1}", staticGeometryID.ToString(),
+                    name);
+        }
+
+        return result;
+    }
+
+
+#if UNITY_EDITOR
+    public int BakeStaticMesh(LayerMask layerMask)
+    {
+        List<MeshFilter> meshList = new List<MeshFilter>();
+        GetAllMeshFilter(transform, includeChildren, meshList, true, meshBakingLayerMask);
+
+        SerializedObject serializedObject = new SerializedObject(this);
+        if (meshList.Count == 0)
+        {
+            bakedStaticMesh = null;
+        }
+        else
+        {
+            bakedStaticMesh = CombineMeshes(meshList);
+            bakedStaticMesh.name = "baked mesh for ygg";
+        }
+
+        serializedObject.FindProperty("bakedStaticMesh").objectReferenceValue = bakedStaticMesh;
+
+        if (bakedStaticMesh != null)
+        {
+            System.IO.Directory.CreateDirectory("Assets/Resources/PxrAudioSpatializerBakedSceneMeshes/");
+            if (!string.IsNullOrEmpty(currentBakedStaticMeshAssetPath))
+            {
+                AssetDatabase.DeleteAsset(currentBakedStaticMeshAssetPath);
+            }
+
+            currentBakedStaticMeshAssetPath = "Assets/Resources/PxrAudioSpatializerBakedSceneMeshes/" + name + "_" +
+                                              GetInstanceID() + "_" +
+                                              System.DateTime.UtcNow.ToBinary() + ".yggmesh";
+            serializedObject.FindProperty("currentBakedStaticMeshAssetPath").stringValue =
+                currentBakedStaticMeshAssetPath;
+            AssetDatabase.CreateAsset(bakedStaticMesh, currentBakedStaticMeshAssetPath);
+            AssetDatabase.SaveAssets();
+        }
+
+        serializedObject.ApplyModifiedProperties();
+        return meshList.Count;
+    }
+
+    public void ClearBakeStaticMesh()
+    {
+        SerializedObject serializedObject = new SerializedObject(this);
+        bakedStaticMesh = null;
+        serializedObject.FindProperty("bakedStaticMesh").objectReferenceValue = null;
+        if (!string.IsNullOrEmpty(currentBakedStaticMeshAssetPath))
+        {
+            AssetDatabase.DeleteAsset(currentBakedStaticMeshAssetPath);
+            currentBakedStaticMeshAssetPath = null;
+            serializedObject.FindProperty("currentBakedStaticMeshAssetPath").stringValue =
+                currentBakedStaticMeshAssetPath;
+        } 
+        serializedObject.ApplyModifiedProperties();
+    }
+#endif
+
+    public void OnDrawGizmos()
     {
         if (visualizeMeshInEditor)
         {
-            List<MeshFilter> meshList = new List<MeshFilter>();
-            TraverseMeshHierarchy(this.gameObject, includeChildren, meshList, ignoreStatic);
-            foreach (var mf in meshList)
+            //  Visualize non-static meshes
+            // find all MeshFilter
+            var meshFilterList = new List<MeshFilter>();
+            GetAllMeshFilter(transform, includeChildren, meshFilterList, false, ~0);
+
+            for (int i = 0; i < meshFilterList.Count; i++)
             {
-                Gizmos.DrawWireMesh(mf.sharedMesh, mf.transform.position, mf.transform.rotation, mf.transform.lossyScale);
+                var mesh = meshFilterList[i].sharedMesh;
+                var transform = meshFilterList[i].transform;
+                Gizmos.DrawWireMesh(mesh,
+                    transform.position, transform.rotation, transform.localScale);
+            }
+
+            //  Visualize baked static meshes
+            if (isStaticMeshBaked)
+            {
+                Color colorBackUp = Gizmos.color;
+                Color c;
+                c.r = 0.0f;
+                c.g = 0.7f;
+                c.b = 0.0f;
+                c.a = 1.0f;
+                Gizmos.color = c;
+                Gizmos.DrawWireMesh(bakedStaticMesh, Vector3.zero, Quaternion.identity, new Vector3(1, 1, -1));
+                Gizmos.color = colorBackUp;
             }
         }
     }

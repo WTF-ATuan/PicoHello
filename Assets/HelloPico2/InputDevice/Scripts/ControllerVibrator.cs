@@ -16,6 +16,8 @@ namespace HelloPico2.InputDevice.Scripts{
 		private EnergyBallBehavior _energyBallBehavior;
 		private XRController xrController;
 
+		private int _soundID;
+
 		private int HandIndex{
 			get{
 				return handType switch{
@@ -154,7 +156,16 @@ namespace HelloPico2.InputDevice.Scripts{
 		}
 
 		private void VibratePhoenix(AudioClip clip){
-			PXR_Input.StartVibrateBySharem(clip, HandIndex, 0);
+			switch(HandIndex){
+				case 1:
+					PXR_Input.StartVibrateBySharem(clip, PXR_Input.VibrateController.Left, PXR_Input.ChannelFlip.No,
+						ref _soundID);
+					break;
+				case 2:
+					PXR_Input.StartVibrateBySharem(clip, PXR_Input.VibrateController.Right, PXR_Input.ChannelFlip.No,
+						ref _soundID);
+					break;
+			}
 		}
 
 		private void VibrateNeo3(float amplitude, float time = 0.2f){
