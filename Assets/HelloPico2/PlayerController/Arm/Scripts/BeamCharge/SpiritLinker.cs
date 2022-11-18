@@ -1,3 +1,4 @@
+using DitzelGames.FastIK;
 using Dreamteck.Splines.Primitives;
 using Sirenix.OdinInspector;
 using System.Collections;
@@ -19,6 +20,8 @@ namespace HelloPico2.PlayerController.BeamCharge
 
         [ReadOnly][SerializeField] private List<LineRenderer> lineRenderers = new List<LineRenderer>();
         [ReadOnly][SerializeField] private List<int> activeIndex;
+
+        private bool active = true;
         private Coroutine waveProcess;
 
         private void OnEnable()
@@ -34,10 +37,21 @@ namespace HelloPico2.PlayerController.BeamCharge
         }
         private void Update()
         {
+            if (!active) return;
+
             for (int i = 0; i < _Spirits.Count; i++)
             {
                 DrawLine(i);
             }
+        }
+        public void TurnOffLines() {
+            active = false;
+
+            for (int i = 0; i < lineRenderers.Count; i++)
+            {
+                lineRenderers[i].gameObject.SetActive(false);
+            }
+            OnDisable();
         }
         private void GetSpirits() {
             _Spirits = new List<GameObject>(GameObject.FindGameObjectsWithTag("Spirit"));            
