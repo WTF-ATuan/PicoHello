@@ -33,6 +33,8 @@ namespace HelloPico2.PlayerController.BeamCharge
         public AnimationCurve _PeriodEase;
         public float _TurnOffDelaySeconds = 1f;
         [SerializeField] private PunchData _MergingPunchData;
+        public UltEvent _WhenStartMerge;
+        public UltEvent _WhenMerge;
 
         [Header("Charging")]
         public float _DelayToCharge = 2;
@@ -46,6 +48,7 @@ namespace HelloPico2.PlayerController.BeamCharge
         [SerializeField] private Vector2 _PunchChargingBallPeriod = new Vector2( 0.3f, 0.1f);
         [SerializeField] private PunchData _ChargingPunchData;
         public UltEvent _WhenActivateChargingBall;
+        public UltEvent _WhenCharging;
 
         [Header("Shooting")]
         [SerializeField] private float _ShootingDuration = 5f;
@@ -170,15 +173,24 @@ namespace HelloPico2.PlayerController.BeamCharge
                 ResetEnergyScale();
                 return false; 
             }
+            
+            if (CurrentStayTime == 0)
+            {
+                FeedbackPopEnergys();
+                _WhenStartMerge?.Invoke();
+                print("Start Merge");
+            }
 
             CurrentStayTime += Time.deltaTime;
 
             CurrentPeriod = Mathf.Lerp(_PunchEnergyPeriod.x, _PunchEnergyPeriod.y, _PeriodEase.Evaluate(CurrentStayTime / _StartCombineDuration));
+
             
-            if (CurrentStayTime == 0)
-                FeedbackPopEnergys();
             if (CurrentStayTime % CurrentPeriod <= .01f)
-                FeedbackPopEnergys();
+            { 
+                FeedbackPopEnergys(); 
+                _WhenMerge?.Invoke(); 
+            }
 
             if (CurrentStayTime >= _StartCombineDuration) return true;
             else return false;
