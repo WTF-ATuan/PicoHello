@@ -35,6 +35,7 @@ namespace HelloPico2.PlayerController.BeamCharge
         [SerializeField] private PunchData _MergingPunchData;
 
         [Header("Charging")]
+        public float _DelayToCharge = 2;
         public float _StartChargingWaitTime = 8;
         public float _StartChargingDistance = 10;
         [SerializeField] private bool _InvertStartEndScale = false;
@@ -195,7 +196,6 @@ namespace HelloPico2.PlayerController.BeamCharge
                 DoVibration(HandType.Left, _BallMergingPopHapticName);
                 DoVibration(HandType.Right, _BallMergingPopHapticName);
                 AudioPlayerHelper.PlayAudio(_BallMergingPopAudioName, transform.position);
-                print("punch");
             }
         }
         #endregion
@@ -226,6 +226,8 @@ namespace HelloPico2.PlayerController.BeamCharge
 
             _BeamChargeController.transform.DOScale(_StartChargingScale, _StartChargingDuration);
 
+            yield return new WaitForSeconds(_DelayToCharge);
+
             while (currentDuration < _RequireChargingDuration) {
 
                 waitDuration += Time.deltaTime;
@@ -240,7 +242,6 @@ namespace HelloPico2.PlayerController.BeamCharge
                     {
                         _BeamChargeController.transform.DOPunchScale(_ChargingPunchData.PunchScale, _ChargingPunchData.PunchDuration, _ChargingPunchData.Vibrato);
 
-                        //TODO: Play Charging sound and haptic
                         DoVibration(HandType.Left, _ChargingHapticName);
                         DoVibration(HandType.Right, _ChargingHapticName);
                         AudioPlayerHelper.PlayAudio(_ChargingAudioName, transform.position);
