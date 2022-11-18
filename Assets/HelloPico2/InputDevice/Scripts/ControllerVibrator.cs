@@ -14,6 +14,7 @@ namespace HelloPico2.InputDevice.Scripts{
 		private XRRayInteractor _interactor;
 		private ArmData _armData;
 		private EnergyBallBehavior _energyBallBehavior;
+		private XRController xrController;
 
 		private int _soundID;
 
@@ -61,8 +62,27 @@ namespace HelloPico2.InputDevice.Scripts{
 					throw new ArgumentOutOfRangeException();
 			}
 		}
-
-		public void VibrateWithSetting(string settingName){
+		public PhoenixVibrateData FindSettings(string settingName) {
+            return vibrateData.FindSetting(settingName);
+        }
+        public void DynamicVibrateWithSetting(PhoenixVibrateData setting, float step)
+        {
+            switch (VRType)
+            {
+                case VRType.Phoenix:
+                    VibratePhoenix(setting.phoenixClip);
+                    break;
+                case VRType.Neo3:
+                    VibrateNeo3(step * setting.amplitude);
+                    break;
+                case VRType.Oculus:
+                    VibrateXR(step * setting.amplitude);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+        public void VibrateWithSetting(string settingName){
 			var setting = vibrateData.FindSetting(settingName);
 			switch(VRType){
 				case VRType.Phoenix:
@@ -160,7 +180,7 @@ namespace HelloPico2.InputDevice.Scripts{
 		}
 
 		private void VibrateXR(float amplitude, float time = 0.2f){
-			var xrController = GetComponent<XRController>();
+			if(xrController == null) xrController = GetComponent<XRController>();
 			xrController.SendHapticImpulse(amplitude, time);
 		}
 	}
