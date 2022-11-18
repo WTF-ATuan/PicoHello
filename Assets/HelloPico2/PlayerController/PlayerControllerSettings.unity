@@ -832,7 +832,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &121493407
 Transform:
   m_ObjectHideFlags: 0
@@ -2664,83 +2664,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6125873223933741166, guid: dd7b1e52d5a4eed4ab9233a4e355eaff, type: 3}
   m_PrefabInstance: {fileID: 1286080367}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &272962916 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2719141965300486497, guid: 2f00753726b91e243a7d970989c0fb48, type: 3}
-  m_PrefabInstance: {fileID: 2719141963310692559}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &272962917 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2719141965300486527, guid: 2f00753726b91e243a7d970989c0fb48, type: 3}
-  m_PrefabInstance: {fileID: 2719141963310692559}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 272962916}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2965a3253ee7f242b72bf728b213723, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &272962918
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 272962916}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fc5b4546babedb488c2e6cd54b69a3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _PlayerTwoHandBehavior: {fileID: 272962917}
-  _SphereCastRadius: 2
-  _CastDistance: 100
-  _CastLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  _Period: 0.01
---- !u!114 &272962919
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 272962916}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bca7c063e5324c243bb4252a6576c859, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  WhenEnable:
-    _PersistentCalls:
-    - _Target: {fileID: 272962918}
-      _MethodName: EndLaserShootSequence
-      _PersistentArguments: []
-  WhenEnableDelay:
-    _PersistentCalls: []
-  m_DelayTime: 1
-  invokeByOrder: 0
---- !u!114 &272962920
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 272962916}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bca7c063e5324c243bb4252a6576c859, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  WhenEnable:
-    _PersistentCalls:
-    - _Target: {fileID: 272962918}
-      _MethodName: StartLaserShootSequence
-      _PersistentArguments: []
-  WhenEnableDelay:
-    _PersistentCalls: []
-  m_DelayTime: 1
-  invokeByOrder: 0
 --- !u!1001 &273501814
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34974,7 +34897,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1538528890
 Transform:
   m_ObjectHideFlags: 0
@@ -51565,22 +51488,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1538528890}
     m_Modifications:
-    - target: {fileID: 272962918, guid: 2f00753726b91e243a7d970989c0fb48, type: 3}
-      propertyPath: _PlayerTwoHandBehavior
-      value: 
-      objectReference: {fileID: 272962917}
-    - target: {fileID: 970348383, guid: 2f00753726b91e243a7d970989c0fb48, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 970348386, guid: 2f00753726b91e243a7d970989c0fb48, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1218512815888316759, guid: 2f00753726b91e243a7d970989c0fb48, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2719141965300486496, guid: 2f00753726b91e243a7d970989c0fb48, type: 3}
       propertyPath: m_RootOrder
       value: 11
@@ -51630,56 +51537,8 @@ PrefabInstance:
       value: Ch4_Gameplay
       objectReference: {fileID: 0}
     - target: {fileID: 2719141965300486527, guid: 2f00753726b91e243a7d970989c0fb48, type: 3}
-      propertyPath: _ChargingAudioName
-      value: ChargingBallCharging
-      objectReference: {fileID: 0}
-    - target: {fileID: 2719141965300486527, guid: 2f00753726b91e243a7d970989c0fb48, type: 3}
-      propertyPath: _GainBallAudioName
-      value: GainBall
-      objectReference: {fileID: 0}
-    - target: {fileID: 2719141965300486527, guid: 2f00753726b91e243a7d970989c0fb48, type: 3}
-      propertyPath: _ShootingAudioName
-      value: ChargingBallStartShooting
-      objectReference: {fileID: 0}
-    - target: {fileID: 2719141965300486527, guid: 2f00753726b91e243a7d970989c0fb48, type: 3}
-      propertyPath: _EndShootingAudioName
-      value: ChargingBallEndShooting
-      objectReference: {fileID: 0}
-    - target: {fileID: 2719141965300486527, guid: 2f00753726b91e243a7d970989c0fb48, type: 3}
-      propertyPath: _BallMergingPopAudioName
-      value: BallMerging
-      objectReference: {fileID: 0}
-    - target: {fileID: 2719141965300486527, guid: 2f00753726b91e243a7d970989c0fb48, type: 3}
-      propertyPath: _BallStopMergingAudioName
-      value: BallStopMerging
-      objectReference: {fileID: 0}
-    - target: {fileID: 2719141965300486527, guid: 2f00753726b91e243a7d970989c0fb48, type: 3}
-      propertyPath: _GainChargingBallAudioName
-      value: GainChargingBall
-      objectReference: {fileID: 0}
-    - target: {fileID: 2719141965300486527, guid: 2f00753726b91e243a7d970989c0fb48, type: 3}
-      propertyPath: _WhenEndShooting._PersistentCalls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2719141965300486527, guid: 2f00753726b91e243a7d970989c0fb48, type: 3}
-      propertyPath: _WhenStartShooting._PersistentCalls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2719141965300486527, guid: 2f00753726b91e243a7d970989c0fb48, type: 3}
-      propertyPath: _WhenEndShooting._PersistentCalls.Array.data[0]._Target
-      value: 
-      objectReference: {fileID: 272962918}
-    - target: {fileID: 2719141965300486527, guid: 2f00753726b91e243a7d970989c0fb48, type: 3}
-      propertyPath: _WhenStartShooting._PersistentCalls.Array.data[0]._Target
-      value: 
-      objectReference: {fileID: 272962918}
-    - target: {fileID: 2719141965300486527, guid: 2f00753726b91e243a7d970989c0fb48, type: 3}
-      propertyPath: _WhenEndShooting._PersistentCalls.Array.data[0]._MethodName
-      value: EndLaserShootSequence
-      objectReference: {fileID: 0}
-    - target: {fileID: 2719141965300486527, guid: 2f00753726b91e243a7d970989c0fb48, type: 3}
-      propertyPath: _WhenStartShooting._PersistentCalls.Array.data[0]._MethodName
-      value: StartLaserShootSequence
+      propertyPath: _StartCombineDuration
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f00753726b91e243a7d970989c0fb48, type: 3}
