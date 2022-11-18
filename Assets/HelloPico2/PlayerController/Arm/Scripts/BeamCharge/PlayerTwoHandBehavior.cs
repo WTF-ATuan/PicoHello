@@ -1,8 +1,10 @@
 using DG.Tweening;
+using HelloPico2.InputDevice;
 using HelloPico2.InputDevice.Scripts;
 using HelloPico2.PlayerController.Arm;
 using Sirenix.OdinInspector;
 using System.Collections;
+using UltEvents;
 using UnityEngine;
 
 namespace HelloPico2.PlayerController.BeamCharge
@@ -42,17 +44,29 @@ namespace HelloPico2.PlayerController.BeamCharge
         [SerializeField] private float _RequireChargingDuration = 3f;
         [SerializeField] private Vector2 _PunchChargingBallPeriod = new Vector2( 0.3f, 0.1f);
         [SerializeField] private PunchData _ChargingPunchData;
+        public UltEvent _WhenActivateChargingBall;
 
         [Header("Shooting")]
         [SerializeField] private float _ShootingDuration = 5f;
+        public UltEvent _WhenStartShooting;
+
+        [Header("End Shooting")]
+        [SerializeField] private float _EndShootingHapticDuration;
+        [SerializeField] private AnimationCurve _EndShootingHapticEase;
+        public UltEvent _WhenEndShooting;
 
         [FoldoutGroup("Haptic")] [SerializeField] private string _GainBallHapticName;
         [FoldoutGroup("Haptic")] [SerializeField] private string _BallMergingPopHapticName;
         [FoldoutGroup("Haptic")] [SerializeField] private string _GainChargingBallHapticName;
+        [FoldoutGroup("Haptic")] [SerializeField] private string _ChargingHapticName;
+        [FoldoutGroup("Haptic")] [SerializeField] private string _ShootingHapticName;
         [FoldoutGroup("Audio")] [SerializeField] private string _GainBallAudioName;
         [FoldoutGroup("Audio")] [SerializeField] private string _BallMergingPopAudioName;
         [FoldoutGroup("Audio")] [SerializeField] private string _BallStopMergingAudioName;
         [FoldoutGroup("Audio")] [SerializeField] private string _GainChargingBallAudioName;
+        [FoldoutGroup("Audio")] [SerializeField] private string _ChargingAudioName;
+        [FoldoutGroup("Audio")] [SerializeField] private string _ShootingAudioName;
+        [FoldoutGroup("Audio")] [SerializeField] private string _EndShootingAudioName;
 
         private int _GainEnergyCount = 2;
         private int currentEnergyCount;
@@ -128,6 +142,8 @@ namespace HelloPico2.PlayerController.BeamCharge
             yield return new WaitUntil(() => CheckStayTiming(CheckStartCombineDistance()));
             
             _BeamChargeController.gameObject.SetActive(true);
+
+            _WhenActivateChargingBall?.Invoke();
             
             StartCoroutine(TurnOffDelayer());
             ChargingBall();
@@ -148,9 +164,9 @@ namespace HelloPico2.PlayerController.BeamCharge
         private bool CheckStartCombineDistance() => EnergyDistance() < _StartCombineDistance;
         private bool CheckStayTiming(bool distanceResult) {
             if (!distanceResult) {
+                if(CurrentStayTime != 0) AudioPlayerHelper.PlayAudio(_BallStopMergingAudioName, transform.position);
                 CurrentStayTime = 0;
                 ResetEnergyScale();
-                AudioPlayerHelper.PlayAudio(_BallStopMergingAudioName, transform.position);
                 return false; 
             }
 
@@ -179,6 +195,7 @@ namespace HelloPico2.PlayerController.BeamCharge
                 DoVibration(HandType.Left, _BallMergingPopHapticName);
                 DoVibration(HandType.Right, _BallMergingPopHapticName);
                 AudioPlayerHelper.PlayAudio(_BallMergingPopAudioName, transform.position);
+                print("punch");
             }
         }
         #endregion
@@ -224,6 +241,9 @@ namespace HelloPico2.PlayerController.BeamCharge
                         _BeamChargeController.transform.DOPunchScale(_ChargingPunchData.PunchScale, _ChargingPunchData.PunchDuration, _ChargingPunchData.Vibrato);
 
                         //TODO: Play Charging sound and haptic
+                        DoVibration(HandType.Left, _ChargingHapticName);
+                        DoVibration(HandType.Right, _ChargingHapticName);
+                        AudioPlayerHelper.PlayAudio(_ChargingAudioName, transform.position);
                     }
                     else
                     {
@@ -253,23 +273,41 @@ namespace HelloPico2.PlayerController.BeamCharge
 
             ShootingProcess = StartCoroutine(Shooting());
         }
-        private IEnumerator Shooting() {
-            yield return new WaitForSeconds(_ShootingDuration);
+        private IEnumerator Shooting()
+        {
+            DoDynamicVibration(HandType.Left, _ShootingHapticName, 1, 1, 0.1f, _ShootingDuration, _EndShootingHapticEase);
+            DoDynamicVibration(HandType.Right, _ShootingHapticName, 1, 1, 0.1f, _ShootingDuration, _EndShootingHapticEase);
+            AudioPlayerHelper.PlayAudio(_ShootingAudioName, transform.position);
+            _WhenStartShooting?.Invoke();
+            yield return new WaitForSeconds(_ShootingDuration); 
+            DoDynamicVibration(HandType.Left, _ShootingHapticName, 1, 0, 0, _EndShootingHapticDuration, _EndShootingHapticEase);
+            DoDynamicVibration(HandType.Right, _ShootingHapticName, 1, 0, 0, _EndShootingHapticDuration, _EndShootingHapticEase);
+            AudioPlayerHelper.PlayAudio(_EndShootingAudioName, transform.position);
+            _WhenEndShooting?.Invoke();
             EndShooting();
         }
 
         private void EndShooting() { 
             _BeamChargeController.controller = Player_BeamCharge_Controller.Controller.End;            
         }
-
-        private void DoVibration(HandType hand, string vibrationName) {
-            ControllerVibrator controllerVibrator = _ControllerVibratorL;
+        private ControllerVibrator GetHandVibrator(HandType hand) {
             if (hand == HandType.Left)
-                controllerVibrator = _ControllerVibratorL;
-            else if(hand == HandType.Right)
-                controllerVibrator = _ControllerVibratorR;
-            
-            controllerVibrator.VibrateWithSetting(vibrationName);
+                return _ControllerVibratorL;
+            else 
+                return _ControllerVibratorR;
+        }
+        private void DoVibration(HandType hand, string vibrationName) {
+            GetHandVibrator(hand).VibrateWithSetting(vibrationName);
+        }        
+        private void DoDynamicVibration(HandType hand, string vibrationName, float from, float to, float period, float duration, AnimationCurve ease) {
+            var controllerVibrator = GetHandVibrator(hand);
+            var setting = controllerVibrator.FindSettings(vibrationName);
+
+            float step = from;
+
+            DOTween.To(() => step, x => step = x, to, duration).SetEase(ease).OnUpdate(() => {
+                if (step % period <= 0.1f || period == 0) controllerVibrator.DynamicVibrateWithSetting(setting, step);
+            });
         }
     }
 }
