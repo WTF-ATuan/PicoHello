@@ -3,14 +3,15 @@ Shader "Unlit/VertexColor"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        [Enum(Order,4,AlwaysOnTop,8)] _ZTest("ZTest", Float) = 4
     }
     SubShader
     {
         Tags { "RenderType"="Transparent" }
-        LOD 100
 		
 		Zwrite Off
 		Blend SrcAlpha OneMinusSrcAlpha
+        ZTest[_ZTest]
         Pass
         {
             CGPROGRAM
