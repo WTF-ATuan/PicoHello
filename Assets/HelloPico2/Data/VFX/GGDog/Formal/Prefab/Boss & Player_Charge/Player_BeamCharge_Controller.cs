@@ -8,6 +8,7 @@ public class Player_BeamCharge_Controller : MonoBehaviour
     public GameObject Loop;
     public GameObject Shot;
     public GameObject Loop_InShot;
+    public GameObject End;
 
     public enum Controller
     {
@@ -48,6 +49,7 @@ public class Player_BeamCharge_Controller : MonoBehaviour
                 now_switch = 0;
                 if (pre_switch != now_switch)
                 {
+                    End.gameObject.SetActive(false);
                     gameObject.SetActive(false);
                     gameObject.SetActive(true);
                     Shot.gameObject.SetActive(false);
@@ -86,7 +88,7 @@ public class Player_BeamCharge_Controller : MonoBehaviour
 
                     //單獨關掉泡泡延遲太久的
                     PS_Shot[1].gameObject.SetActive(false);
-
+                    End.gameObject.SetActive(true);
                     pre_switch = now_switch;
                 }
                 break;
