@@ -53,7 +53,7 @@ namespace HelloPico2.PlayerController.BeamCharge
             {
                 if (hitInfos[i].collider == null) continue;
                 if (hitInfos[i].collider.TryGetComponent<IInteractCollide>(out var interactCollide)) {
-                    interactCollide.OnCollide(InteractType.EnergyBall, hitInfos[i].collider);
+                    interactCollide.OnCollide(InteractType.Energy, hitInfos[i].collider);
                 }                
             }
         }

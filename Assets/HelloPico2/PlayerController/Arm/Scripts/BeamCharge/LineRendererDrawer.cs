@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LineRendererDrawer : MonoBehaviour
@@ -72,7 +73,7 @@ public class LineRendererDrawer : MonoBehaviour
             Pos = Pos + curve;
             points.Add(Pos);
         }
-
+                
         _LineRenderer.SetPositions(points.ToArray());
     }
 }

@@ -15,7 +15,7 @@ namespace HelloPico2.InteractableObjects.Scripts{
 		private ParticleSystem _currentEffect;
 		private ColdDownTimer _timer;
 
-		public Action<InteractType> _OnHitEvent;
+		public Action<InteractType, Vector3> _OnHitEvent;
 
 		public Action<InteractType, Collider> ColliderEvent{ get; }
 
@@ -71,7 +71,7 @@ namespace HelloPico2.InteractableObjects.Scripts{
 			EventBus.Post(audioEventRequested);
 			_timer.Reset();
 
-			_OnHitEvent?.Invoke(InteractType.EnergyBall);
+			_OnHitEvent?.Invoke(InteractType.EnergyBall, collisionPoint);
 		}
 
 		[Button]
@@ -83,7 +83,7 @@ namespace HelloPico2.InteractableObjects.Scripts{
 
 		public void OnCollide(InteractType type, Collider selfCollider){
 			if(!_timer.CanInvoke()) return;
-			_OnHitEvent?.Invoke(type);
+			_OnHitEvent?.Invoke(type, selfCollider.transform.position);
 		}
 
 		[Serializable]
