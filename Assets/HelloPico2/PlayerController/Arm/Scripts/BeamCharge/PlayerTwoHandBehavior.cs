@@ -4,6 +4,7 @@ using HelloPico2.InputDevice.Scripts;
 using HelloPico2.PlayerController.Arm;
 using Sirenix.OdinInspector;
 using System.Collections;
+using System.Linq;
 using UltEvents;
 using UnityEngine;
 
@@ -24,8 +25,15 @@ namespace HelloPico2.PlayerController.BeamCharge
         public GameObject[] _PickableEnergyObjects;
         public LineRendererDrawer _LineRendererDrawer;
         public Player_BeamCharge_Controller _BeamChargeController;
+        public Transform[] _CarryTheseVFXs;
         [ReadOnly][SerializeField] private ControllerVibrator _ControllerVibratorL, _ControllerVibratorR;
-        
+
+        [Header("Grabbing")]
+        [SerializeField] private bool _UseAutoGrab = true;
+        [ShowIf("_UseAutoGrab")][SerializeField] private float _AutoGrabDelayDuration = 2;
+        [ShowIf("_UseAutoGrab")][SerializeField] private float _AutoGrabDuration = 2;
+        [ShowIf("_UseAutoGrab")][SerializeField] private AnimationCurve _AutoGrabEase;
+
         [Header("Merging")]
         public float _StartCombineDistance = 10;
         public float _StartCombineDuration = 3;
@@ -34,6 +42,7 @@ namespace HelloPico2.PlayerController.BeamCharge
         public float _TurnOffDelaySeconds = 1f;
         [SerializeField] private PunchData _MergingPunchData;
         public UltEvent _WhenStartMerge;
+        public UltEvent _WhenStopMerge;
         public UltEvent _WhenMerge;
 
         [Header("Charging")]
@@ -77,6 +86,7 @@ namespace HelloPico2.PlayerController.BeamCharge
         private float CurrentStayTime;
         private float CurrentPeriod;
         private Vector3 originalEnergyballScale;
+        private Vector3 centerOfEnergy = Vector3.zero;
         private Coroutine CheckDistanceProcess;
         private Coroutine ChargingBallPositioningProcess;
         private Coroutine ChargingBallProcess;
@@ -111,6 +121,9 @@ namespace HelloPico2.PlayerController.BeamCharge
             {
                 energy.OnPlayerGetEnergy += StoreEnergyOnHand;
             }
+
+            if (_UseAutoGrab)
+                AutoGrabSequencer();
         }
         private void OnDisable()
         {
@@ -119,7 +132,44 @@ namespace HelloPico2.PlayerController.BeamCharge
                 energy.OnPlayerGetEnergy -= StoreEnergyOnHand;
             }
         }
+        private void Update()
+        {
+            centerOfEnergy = GetTwoHandsCenter();
+
+            for (int i = 0; i < _CarryTheseVFXs.Length; i++)
+            {
+                _CarryTheseVFXs[i].transform.position = centerOfEnergy;
+            }
+        }
+        private Vector3 GetTwoHandsCenter() {
+            return (_PickableEnergys[0]._Energy.position + _PickableEnergys[1]._Energy.position) / 2;
+        }
         #region Pick Energy
+        private void AutoGrabSequencer() {
+            Sequence seq = DOTween.Sequence();
+            seq.AppendInterval(_AutoGrabDelayDuration);
+            TweenCallback autograbCallback = () => { AutoGrabEnergy(); };
+            seq.AppendCallback(autograbCallback);
+            seq.Play(); 
+        }
+        public void AutoGrabEnergy() {
+            foreach (var energy in _PickableEnergys)
+            {
+                Transform targetHand;
+                Vector3  targetHandPos = Vector3.zero;
+
+                if (energy._HandType == HandType.Left)
+                    targetHand = _PlayersHands[0].transform;
+                else
+                    targetHand = _PlayersHands[1].transform;
+
+                targetHandPos = targetHand.position;
+
+                energy.transform.DOMove(targetHandPos, _AutoGrabDuration).SetEase(_AutoGrabEase).OnUpdate(() => {
+                    targetHandPos = targetHand.position;    
+                });
+            }
+        }
         private void StoreEnergyOnHand(PickableEnergy energy, InteractCollider handCol)
         {
             currentEnergyCount++;
@@ -168,7 +218,11 @@ namespace HelloPico2.PlayerController.BeamCharge
         private bool CheckStartCombineDistance() => EnergyDistance() < _StartCombineDistance;
         private bool CheckStayTiming(bool distanceResult) {
             if (!distanceResult) {
-                if(CurrentStayTime != 0) AudioPlayerHelper.PlayAudio(_BallStopMergingAudioName, transform.position);
+                if (CurrentStayTime != 0)
+                { 
+                    AudioPlayerHelper.PlayAudio(_BallStopMergingAudioName, transform.position); 
+                    _WhenStopMerge?.Invoke();                    
+                }
                 CurrentStayTime = 0;
                 ResetEnergyScale();
                 return false; 
@@ -178,7 +232,6 @@ namespace HelloPico2.PlayerController.BeamCharge
             {
                 FeedbackPopEnergys();
                 _WhenStartMerge?.Invoke();
-                print("Start Merge");
             }
 
             CurrentStayTime += Time.deltaTime;
@@ -227,8 +280,8 @@ namespace HelloPico2.PlayerController.BeamCharge
         {
             while (true)
             {
-                _BeamChargeController.transform.position = (_PickableEnergys[0]._Energy.position + _PickableEnergys[1]._Energy.position) / 2;
-
+                _BeamChargeController.transform.position = //(_PickableEnergys[0]._Energy.position + _PickableEnergys[1]._Energy.position) / 2;
+                GetTwoHandsCenter();
                 yield return null;
             }
         }
