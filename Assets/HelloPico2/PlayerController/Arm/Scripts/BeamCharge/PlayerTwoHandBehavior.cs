@@ -2,6 +2,7 @@ using DG.Tweening;
 using HelloPico2.InputDevice;
 using HelloPico2.InputDevice.Scripts;
 using HelloPico2.PlayerController.Arm;
+using HelloPico2.PlayerController.Player;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Linq;
@@ -20,7 +21,9 @@ namespace HelloPico2.PlayerController.BeamCharge
         }
         [Header("Reference Settings")]
         public string _PlayersHandTag = "Interactable";
+        public string _PlayerTag = "Player";
         [ReadOnly] public GameObject[] _PlayersHands;
+        [ReadOnly] public PlayerData _PlayerData;
         public PickableEnergy[] _PickableEnergys;
         public GameObject[] _PickableEnergyObjects;
         public LineRendererDrawer _LineRendererDrawer;
@@ -95,6 +98,7 @@ namespace HelloPico2.PlayerController.BeamCharge
         private void Awake()
         {
             _PlayersHands = GameObject.FindGameObjectsWithTag(_PlayersHandTag);
+            if (GameObject.FindGameObjectWithTag(_PlayerTag).TryGetComponent<PlayerData>(out var playerData)) _PlayerData = playerData;
             _LineRendererDrawer.gameObject.SetActive(false);
             originalEnergyballScale = _PickableEnergys[0]._Energy.transform.localScale;
 
@@ -124,6 +128,10 @@ namespace HelloPico2.PlayerController.BeamCharge
 
             if (_UseAutoGrab)
                 AutoGrabSequencer();
+
+            _WhenActivateChargingBall += () => _PlayerData.lHandShaker.StartShake();
+            _WhenActivateChargingBall += () => _PlayerData.rHandShaker.StartShake();
+            _WhenActivateChargingBall += () => _PlayerData.cameraShakeEvent.OnEnable();
         }
         private void OnDisable()
         {
@@ -131,6 +139,10 @@ namespace HelloPico2.PlayerController.BeamCharge
             {
                 energy.OnPlayerGetEnergy -= StoreEnergyOnHand;
             }
+
+            _WhenActivateChargingBall -= () => _PlayerData.lHandShaker.StartShake();
+            _WhenActivateChargingBall -= () => _PlayerData.rHandShaker.StartShake();
+            _WhenActivateChargingBall -= () => _PlayerData.cameraShakeEvent.OnEnable();
         }
         private void Update()
         {
