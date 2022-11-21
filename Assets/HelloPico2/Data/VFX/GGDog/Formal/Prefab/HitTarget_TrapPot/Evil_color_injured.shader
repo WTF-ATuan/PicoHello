@@ -295,7 +295,8 @@ Shader "GGDog/Evil_color_injured"
 
                 half crack = (WaterTex(i.uv + _Time.y*_MainTex_ST.zw,_CrackTiling*_ReflectTilling/2,0));
 
-                col.rgb = lerp(_CrackColor.rgb+col.rgb,col.rgb,smoothstep(0,_CrackWidth*saturate(_Crack+0.75),crack-(_Crack-0.15)));
+                //col.rgb = lerp(_CrackColor.rgb+col.rgb,col.rgb,smoothstep(0,_CrackWidth*saturate(_Crack+0.75),crack-(_Crack-0.15))); Original before JK Edit
+                col.rgb = lerp(_CrackColor.rgb + col.rgb, col.rgb, smoothstep(-0.5, _CrackWidth * saturate(_Crack + 0.64), crack - (_Crack - 0.15)));
 
                 clip(crack-(_Crack));
 
