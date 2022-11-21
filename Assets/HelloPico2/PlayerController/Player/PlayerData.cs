@@ -10,10 +10,16 @@ namespace HelloPico2.PlayerController.Player
         [SerializeField] private ArmLogic _ArmLogic_L;
         [SerializeField] private ArmLogic _ArmLogic_R;
         [SerializeField] private TriggerBase _DamageDetectionTrigger;
+        [SerializeField] private EnableEvent _CameraShakeEvent;
+        [SerializeField] private FollowerShaker _LHandShaker;
+        [SerializeField] private FollowerShaker _RHandShaker;
         public UltEvents.UltEvent _OnReceiveDamage;
 
         public ArmLogic armLogic_L { get { return _ArmLogic_L; } }
         public ArmLogic armLogic_R { get { return _ArmLogic_R; } }
         public TriggerBase damageDetectionTrigger { get { return _DamageDetectionTrigger; } }
+        public EnableEvent cameraShakeEvent{get{ return _CameraShakeEvent; }}
+        public FollowerShaker lHandShaker{get{ return _LHandShaker; }}
+        public FollowerShaker rHandShaker { get { return _RHandShaker; } }
     }
 }
