@@ -280,8 +280,7 @@ namespace HelloPico2.PlayerController.BeamCharge
         {
             while (true)
             {
-                _BeamChargeController.transform.position = //(_PickableEnergys[0]._Energy.position + _PickableEnergys[1]._Energy.position) / 2;
-                GetTwoHandsCenter();
+                _BeamChargeController.transform.position = GetTwoHandsCenter();
                 yield return null;
             }
         }

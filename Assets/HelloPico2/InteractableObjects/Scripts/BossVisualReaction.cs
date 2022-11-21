@@ -10,18 +10,33 @@ namespace HelloPico2.InteractableObjects.Scripts
     {
         [SerializeField] private int _TriggerHitReactionHitCount = 5;
         [SerializeField] private string _HitAudioClipName;
-        int currentHitCount;
+        [SerializeField] private ParticleSystem _EnergyHitVFX;
+        [SerializeField] private float _EnergyHitVFXCD = 0.5F;
+        
+        int currentHitCount;        
+        Game.Project.ColdDownTimer coolDownTimer;
+        Coroutine HitVFXProcess;
 
         public UltEvent _HitReactionEvent;
         public UltEvent _HitReactionEventWithoutCD;
-        public void OnHit(InteractType type) {
+        private void OnEnable()
+        {
+            coolDownTimer = new ColdDownTimer(_EnergyHitVFXCD);
+        }
+        public void OnHit(InteractType type, Vector3 collisionPoint) {
             _HitReactionEventWithoutCD?.Invoke();
 
             UpdateHitCount(type);
 
-            if (currentHitCount < _TriggerHitReactionHitCount) return;
+            if (coolDownTimer.CanInvoke())
+            { 
+                PlayHitVFX(type); 
+                coolDownTimer.Reset();
+            }
 
-            if(_HitAudioClipName != null)
+            if (currentHitCount < _TriggerHitReactionHitCount) return;            
+
+            if (_HitAudioClipName != null)
                 AudioPlayerHelper.PlayAudio(_HitAudioClipName, transform.position);
 
             _HitReactionEvent?.Invoke();
@@ -54,6 +69,40 @@ namespace HelloPico2.InteractableObjects.Scripts
             }
             else
                 currentHitCount = 0;
-        }        
+        }
+        private void PlayHitVFX(InteractType type) {
+            switch (type)
+            {
+                case InteractType.Beam:
+                    break;
+                case InteractType.Whip:
+                    break;
+                case InteractType.EnergyBall:
+                    break;
+                case InteractType.Shield:
+                    break;
+                case InteractType.Energy:
+                    if (_EnergyHitVFX != null)
+                    {
+                        _EnergyHitVFX.Play();
+
+                        if(HitVFXProcess != null)
+                            StopCoroutine(HitVFXProcess);
+
+                        HitVFXProcess = StartCoroutine(HitVFXSwitcher(_EnergyHitVFX));
+                    }
+                    break;
+                case InteractType.Eye:
+                    break;
+                case InteractType.Bomb:
+                    break;
+                default:
+                    break;
+            }
+        }
+        private IEnumerator HitVFXSwitcher(ParticleSystem VFX) {
+            yield return new WaitForSeconds(_EnergyHitVFXCD);
+            VFX.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        }
     }
 }
