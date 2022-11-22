@@ -1,7 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using HelloPico2.PlayerController.Arm;
+using HelloPico2.InteractableObjects;
 
 namespace HelloPico2.PlayerController.Player
 {
@@ -11,6 +11,7 @@ namespace HelloPico2.PlayerController.Player
         [SerializeField] private ArmLogic _ArmLogic_R;
         [SerializeField] private TriggerBase _DamageDetectionTrigger;
         [SerializeField] private EnableEvent _CameraShakeEvent;
+        [SerializeField] private ObjectShaker _CameraShakeSettings;
         [SerializeField] private FollowerShaker _LHandShaker;
         [SerializeField] private FollowerShaker _RHandShaker;
         public UltEvents.UltEvent _OnReceiveDamage;
@@ -19,6 +20,7 @@ namespace HelloPico2.PlayerController.Player
         public ArmLogic armLogic_R { get { return _ArmLogic_R; } }
         public TriggerBase damageDetectionTrigger { get { return _DamageDetectionTrigger; } }
         public EnableEvent cameraShakeEvent{get{ return _CameraShakeEvent; }}
+        public ObjectShaker cameraShakeSettings { get{ return _CameraShakeSettings; }}
         public FollowerShaker lHandShaker{get{ return _LHandShaker; }}
         public FollowerShaker rHandShaker { get { return _RHandShaker; } }
     }

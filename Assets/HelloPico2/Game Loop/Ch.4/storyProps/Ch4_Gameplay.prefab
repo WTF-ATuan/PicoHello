@@ -554,7 +554,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -5419,7 +5419,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -10305,7 +10305,6 @@ MonoBehaviour:
   _PlayersHandTag: InteractCollider
   _PlayerTag: Player
   _PlayersHands: []
-  _PlayerData: {fileID: 0}
   _PickableEnergys:
   - {fileID: 2586645039367131843}
   - {fileID: 3820550201300191148}
@@ -10320,7 +10319,7 @@ MonoBehaviour:
   _ControllerVibratorR: {fileID: 0}
   _UseAutoGrab: 1
   _AutoGrabDelayDuration: 2
-  _AutoGrabDuration: 1
+  _AutoGrabDuration: 0.3
   _AutoGrabEase:
     serializedVersion: 2
     m_Curve:
@@ -10373,6 +10372,9 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _TurnOffDelaySeconds: 1
+  _UseAutoMerge: 1
+  _StartAutoMergeDelayDuration: 3
+  _MoveToMergeCenterDuration: 2
   _MergingPunchData:
     PunchScale: {x: 0.03, y: 0.03, z: 0.03}
     PunchDuration: 0.15
@@ -10421,7 +10423,7 @@ MonoBehaviour:
   _StartChargingScale: {x: 0.02, y: 0.02, z: 0.02}
   _EndChargingScale: {x: 0.003, y: 0.003, z: 0.003}
   _StartChargingDuration: 0.5
-  _RequireChargingDuration: 3
+  _RequireChargingDuration: 2
   _PunchChargingBallPeriod: {x: 0.1, y: 0.1}
   _ChargingPunchData:
     PunchScale: {x: 0.01, y: 0.01, z: 0.01}
@@ -10479,6 +10481,8 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
+  _WhenShooting:
+    _PersistentCalls: []
   _EndShootingHapticDuration: 2
   _EndShootingHapticEase:
     serializedVersion: 2
@@ -10512,6 +10516,10 @@ MonoBehaviour:
     - _Target: {fileID: 272962918}
       _MethodName: TurnOffLines
       _PersistentArguments: []
+  _HandShakingStrength: 0.04
+  _HandShakingDuration: 0.2
+  _CameraShakingStrength: 0.02
+  _CameraShakingDuration: 0.05
   _GainBallHapticName: Touch
   _BallMergingPopHapticName: BeamChargeShooting
   _GainChargingBallHapticName: Touch
@@ -10856,6 +10864,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2719141965300486496}
     m_Modifications:
+    - target: {fileID: 414210303, guid: 052d3edccb1862540b4b1ecdc918139f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2922501523130385392, guid: 052d3edccb1862540b4b1ecdc918139f, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -11006,7 +11018,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9066861874893602002, guid: 052d3edccb1862540b4b1ecdc918139f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9066861874984574503, guid: 052d3edccb1862540b4b1ecdc918139f, type: 3}
       propertyPath: m_IsActive
