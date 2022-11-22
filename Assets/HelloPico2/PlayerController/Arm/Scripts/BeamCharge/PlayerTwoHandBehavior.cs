@@ -197,7 +197,10 @@ namespace HelloPico2.PlayerController.BeamCharge
                 targetHandPos = targetHand.position;
 
                 energy.transform.DOMove(targetHandPos, _AutoGrabDuration).SetEase(_AutoGrabEase).OnUpdate(() => {
-                    targetHandPos = targetHand.position;    
+                    targetHandPos = targetHand.position;
+                }).OnComplete(() => {
+                    if(targetHand.TryGetComponent<InteractCollider>(out var handCol))
+                        StoreEnergyOnHand(energy, handCol);
                 });
             }
         }
