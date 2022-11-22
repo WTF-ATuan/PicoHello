@@ -44,8 +44,7 @@ namespace HelloPico2.LevelTool
 
             _LineRenderer.positionCount = _Percision;
             
-            _From.SetParent(transform);
-
+            //_From.SetParent(transform);
 
             if (_UseController == ArmControllerInputMeshNameData.Controller.Seperate)
                 FindSeperateInputMesh();
