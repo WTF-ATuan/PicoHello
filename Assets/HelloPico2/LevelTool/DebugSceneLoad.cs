@@ -2,21 +2,26 @@
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
-#if UNITY_EDITOR
-#endif
+using UnityEngine.SceneManagement;
 
 namespace HelloPico2.LevelTool{
 	public class DebugSceneLoad : MonoBehaviour{
 		[SerializeReference] [OdinSerialize] [InlineButton("GetScene")]
-		public Dictionary<int, string> sceneFinder;
+		public Dictionary<int, string> sceneFinder = new Dictionary<int, string>();
 
 		private SceneController _sceneController;
 
 		private void Start(){
 			_sceneController = FindObjectOfType<SceneController>();
 		}
-		#if UNITY_EDITOR
-		private void GetScene(){ }
-		#endif
+
+		private void GetScene(){
+			sceneFinder.Clear();
+			var sceneCount = SceneManager.sceneCountInBuildSettings;
+			for(var index = 0; index < sceneCount; index++){
+				sceneFinder.Add(index,
+					System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(index)));
+			}
+		}
 	}
 }
