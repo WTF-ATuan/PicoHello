@@ -40,7 +40,7 @@ Shader "Unlit/VertexColor"
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = v.uv;
+                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				o.color = v.color;
                 return o;
             }
