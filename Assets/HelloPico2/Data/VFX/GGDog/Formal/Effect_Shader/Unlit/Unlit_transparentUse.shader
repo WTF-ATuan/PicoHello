@@ -8,6 +8,7 @@ Shader "GGDog/Unlit_transparentUse"
 		[Enum(Off,0,On,2)] _Cull ("Cull Mode", Float) = 0
 
         _X_Speed("X_Speed",Float) = 0
+		[HDR]_FarFogColor ("Far Fog Color", Color) = (.5,.5,.5,0)
     }
     SubShader
     {
@@ -28,37 +29,45 @@ Shader "GGDog/Unlit_transparentUse"
 
             struct appdata
             {
-                float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
+                half4 vertex : POSITION;
+                half2 uv : TEXCOORD0;
             };
 
             struct v2f
             {
-                float2 uv : TEXCOORD0;
-                float4 vertex : SV_POSITION;
+                half3 uv : TEXCOORD0;
+                half4 vertex : SV_POSITION;
             };
 
             sampler2D _MainTex;
-            float4 _MainTex_ST;
-
+            half4 _MainTex_ST;
+            
             v2f vert (appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.uv.xy = TRANSFORM_TEX(v.uv, _MainTex);
+
+				o.uv.z = length(mul(UNITY_MATRIX_MV,v.vertex).xyz);
+				o.uv.z =  saturate(smoothstep(35,70,o.uv.z));
+
                 return o;
             }
-            float4 _Color;
+            half4 _Color;
             
-            float _AlphaClip;
+            half _AlphaClip;
             
-            float _X_Speed;
+            half _X_Speed;
+            
+			half4 _FarFogColor;
 
-            fixed4 frag (v2f i) : SV_Target
+            half4 frag (v2f i) : SV_Target
             {
-                fixed4 col = tex2D(_MainTex, i.uv + float2(_X_Speed,0)*_Time.y)*_Color;
+                half4 col = tex2D(_MainTex, i.uv.xy + float2(_X_Speed,0)*_Time.y)*_Color;
 
                 clip(col.a-_AlphaClip*1.01);
+                
+				col.rgb =lerp(col.rgb,_FarFogColor.rgb,i.uv.z*_FarFogColor.a);
 
                 return col;
             }

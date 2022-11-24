@@ -83,26 +83,30 @@ Shader "Unlit/cell_liquid"
 		        fixed3 worldLightDir = normalize(_WorldSpaceLightPos0.xyz);
 		        fixed3 worldViewDir = normalize(_WorldSpaceCameraPos.xyz - worldPos);
                 
-		        float3 halfDir1 = normalize( worldLightDir + worldViewDir-1); 
+		        float3 halfDir1 = normalize( worldLightDir + worldViewDir-half3(1.5,0.5,1)); 
 		        float NdotL = max(0 , dot(halfDir1 , worldNormal));	
 
-		        float NdotL2 = dot(worldNormal, worldLightDir); 
+		        float NdotL2 = dot(worldNormal, worldLightDir - half3(0.25,0,-0.05)); 
 
-		        fixed Back = 1-step(NdotL,0.85)*1.5 + (1-worldPos.y)*0.15;
+		        fixed Back = 1-step(NdotL,0.9)*1.5 + (1-worldPos.y)*0.15;
                 
 		        float3 halfDir = normalize( worldLightDir + worldViewDir+0.5); 
 		        float NdotH = max(0 , dot(halfDir , worldNormal));	
 		        fixed s = step(NdotH,0)*0.5 ;
                 
-		        fixed diffuse2 = 1-step(NdotL2,0.85);
+		        fixed diffuse2 = 1-step(NdotL2,0.75);
 
-		        fixed diffuse3 = diffuse2*(1-smoothstep(0.85,1,NdotL2));
+		        fixed diffuse3 = (1-smoothstep(0.65,0.9,NdotL2));
 		        
 		        fixed specular = 1-step(NdotH,0.995)  ;
                 
               //  diffuse2 -= 1-smoothstep(0.5,1,NdotL2);
+              
+              fixed f = lerp(-Back*0.25-s+0.25,0.55 + (worldPos.y)*0.025,diffuse2)+diffuse3*(1.05-diffuse3)*0.35;
 
-                return saturate((diffuse2*0.3)-Back*0.25-s+diffuse3*0.1+0.25 )*_Color +specular*_Color2;
+                return f*_Color +specular*_Color2;
+
+               // return saturate((diffuse2*0.35)-Back*0.25-s+diffuse3*0.1+0.25 )*_Color +specular*_Color2;
             }
             ENDCG
         }

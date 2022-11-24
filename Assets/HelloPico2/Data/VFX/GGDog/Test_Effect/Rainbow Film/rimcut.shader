@@ -7,12 +7,10 @@ Shader "Unlit/rimcut"
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
-        LOD 100
-
         Pass
         {
-            Cull Front
+            Tags { "Queue"="Geometry-1" }
+            ZWrite Off
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -41,7 +39,7 @@ Shader "Unlit/rimcut"
             v2f vert (appdata v)
             {
                 v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex + v.normal*0.25);
+                o.vertex = UnityObjectToClipPos(v.vertex + v.normal*0.75);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 		        o.worldNormal = mul(v.normal, unity_WorldToObject);
 		        o.worldPos = mul(unity_ObjectToWorld , v.vertex);
@@ -61,14 +59,14 @@ Shader "Unlit/rimcut"
                 
 		        float3 halfDir = normalize( worldLightDir + worldViewDir); 
 		        float NdotH = max(0 , dot(halfDir , worldNormal));	
-		        fixed s = step(1-NdotH,0.95) ;
+		        fixed s = step(NdotH,0.95) ;
                 
-		        fixed r = step(1-dot(worldNormal,worldViewDir),1.5) ;
+		        fixed r = step(dot(worldNormal,worldViewDir),0.5) ;
 
-                fixed c =smoothstep(0.5,0.8,-dot(worldNormal,worldViewDir));
+                fixed c =smoothstep(0.5,0.8,dot(worldNormal,worldViewDir));
                 
-		        float NdotL = dot(-worldNormal , worldLightDir); 
-		        fixed diffuse = smoothstep(0.5,1.25,1-NdotL) ;
+		        float NdotL = dot(worldNormal , worldLightDir); 
+		        fixed diffuse = smoothstep(0,1,NdotL-col*0.5);
 
                 clip(1-r-1);
                 
@@ -77,9 +75,9 @@ Shader "Unlit/rimcut"
             }
             ENDCG
         }
-        
         Pass
         {
+            Tags { "Queue"="Geometry" }
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -111,7 +109,7 @@ Shader "Unlit/rimcut"
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 		        o.worldNormal = mul(v.normal, unity_WorldToObject);
-		        o.worldPos = mul(unity_ObjectToWorld , v.vertex);
+		        o.worldPos = mul(unity_ObjectToWorld , v.vertex );
                 return o;
             }
 
@@ -127,11 +125,16 @@ Shader "Unlit/rimcut"
 		        fixed3 worldViewDir = normalize(_WorldSpaceCameraPos.xyz - worldPos);
                 
 		        float NdotL = dot(worldNormal , worldLightDir); 
-		        fixed diffuse = smoothstep(0,0.25,saturate(NdotL-col*0.5)) ;
+		        fixed diffuse = smoothstep(0,1,saturate(NdotL-col*0.5)) ;
+
+                
+		        float NdotV = dot(worldNormal , worldViewDir); 
+		        fixed rim = smoothstep(0.25,1,1-saturate(NdotV-col*0.5)) /3;
 
                 return diffuse;
             }
             ENDCG
         }
+        
     }
 }
