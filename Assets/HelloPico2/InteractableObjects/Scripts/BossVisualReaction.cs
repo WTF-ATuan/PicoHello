@@ -10,7 +10,7 @@ namespace HelloPico2.InteractableObjects.Scripts
     {
         [SerializeField] private int _TriggerHitReactionHitCount = 5;
         [SerializeField] private string _HitAudioClipName;
-        [SerializeField] private ParticleSystem _EnergyHitVFX;
+        [SerializeField] private ParticleSystem[] _EnergyHitVFX;
         [SerializeField] private float _EnergyHitVFXCD = 0.5F;
         
         int currentHitCount;        
@@ -82,9 +82,10 @@ namespace HelloPico2.InteractableObjects.Scripts
                 case InteractType.Shield:
                     break;
                 case InteractType.Energy:
-                    if (_EnergyHitVFX != null)
+                    if (_EnergyHitVFX.Length != 0)
                     {
-                        _EnergyHitVFX.Play();
+                        for (int i = 0; i < _EnergyHitVFX.Length; i++)
+                            _EnergyHitVFX[i].Play();
 
                         if(HitVFXProcess != null)
                             StopCoroutine(HitVFXProcess);
@@ -100,9 +101,10 @@ namespace HelloPico2.InteractableObjects.Scripts
                     break;
             }
         }
-        private IEnumerator HitVFXSwitcher(ParticleSystem VFX) {
+        private IEnumerator HitVFXSwitcher(ParticleSystem[] VFX) {
             yield return new WaitForSeconds(_EnergyHitVFXCD);
-            VFX.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            for (int i = 0; i < VFX.Length; i++)
+                VFX[i].Stop(true, ParticleSystemStopBehavior.StopEmitting);
         }
     }
 }

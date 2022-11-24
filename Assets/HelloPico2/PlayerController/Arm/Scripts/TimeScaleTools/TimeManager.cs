@@ -82,6 +82,7 @@ public class TimeManager : MonoBehaviour
         playerInput.actions["1"].performed += (InputAction.CallbackContext callback) => { SetTo(1); };
         playerInput.actions["2"].performed += (InputAction.CallbackContext callback) => { SetTo(2); };
         playerInput.actions["3"].performed += (InputAction.CallbackContext callback) => { SetTo(3); };
+        playerInput.actions["9"].performed += (InputAction.CallbackContext callback) => { SetTo(9); };
     }
     private void OnDisable()
     {
@@ -91,6 +92,7 @@ public class TimeManager : MonoBehaviour
         playerInput.actions["1"].performed -= (InputAction.CallbackContext callback) => { SetTo(1); };
         playerInput.actions["2"].performed -= (InputAction.CallbackContext callback) => { SetTo(2); };
         playerInput.actions["3"].performed -= (InputAction.CallbackContext callback) => { SetTo(3); };
+        playerInput.actions["9"].performed -= (InputAction.CallbackContext callback) => { SetTo(9); };
     }
     public void StartTimeEvent(string name) {
         var check = false;

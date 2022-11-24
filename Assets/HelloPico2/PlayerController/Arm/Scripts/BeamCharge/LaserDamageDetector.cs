@@ -38,7 +38,6 @@ namespace HelloPico2.PlayerController.BeamCharge
 
             if (Physics.SphereCastNonAlloc(ray, _SphereCastRadius, hitInfos, _CastDistance, _CastLayer) != 0)
             {
-                print("Found Target");
                 DealDamage(); 
             }
         }
