@@ -159,6 +159,8 @@ namespace HelloPico2.PlayerController.BeamCharge
         {
             centerOfEnergy = GetTwoHandsCenter();
 
+            if (_CarryTheseVFXs.Length == 0) return;
+
             for (int i = 0; i < _CarryTheseVFXs.Length; i++)
             {
                 _CarryTheseVFXs[i].transform.position = centerOfEnergy;
@@ -184,6 +186,7 @@ namespace HelloPico2.PlayerController.BeamCharge
             seq.Play(); 
         }
         public void AutoGrabEnergy() {
+            print("Auto Grab Energy");
             foreach (var energy in _PickableEnergys)
             {
                 Transform targetHand;
@@ -199,16 +202,18 @@ namespace HelloPico2.PlayerController.BeamCharge
                 energy.transform.DOMove(targetHandPos, _AutoGrabDuration).SetEase(_AutoGrabEase).OnUpdate(() => {
                     targetHandPos = targetHand.position;
                 }).OnComplete(() => {
-                    if(targetHand.TryGetComponent<InteractCollider>(out var handCol))
+                    print("Check Store Energy");
+                    if (targetHand.TryGetComponent<InteractCollider>(out var handCol))
                         StoreEnergyOnHand(energy, handCol);
                 });
             }
         }
         private void StoreEnergyOnHand(PickableEnergy energy, InteractCollider handCol)
         {
+            print("Store Energy");
             currentEnergyCount++;
 
-            if (currentEnergyCount == _GainEnergyCount)
+            if (currentEnergyCount >= _GainEnergyCount)
                 StartMerging();
             
             DoVibration(handCol._HandType, _GainBallHapticName);
@@ -217,6 +222,7 @@ namespace HelloPico2.PlayerController.BeamCharge
         #endregion
         #region Merging Energy
         private void StartMerging() {
+            print("Start Merging");
             _LineRendererDrawer._From = _PickableEnergys[0]._Energy;
             _LineRendererDrawer._To = _PickableEnergys[1]._Energy;
             _LineRendererDrawer.gameObject.SetActive(true);
@@ -238,7 +244,7 @@ namespace HelloPico2.PlayerController.BeamCharge
             
             while (timer < _StartAutoMergeDelayDuration)
             {
-                timer += Time.deltaTime;
+                timer += Time.fixedDeltaTime;
                 yield return null;
             }
 
@@ -309,7 +315,7 @@ namespace HelloPico2.PlayerController.BeamCharge
                 _WhenStartMerge?.Invoke();
             }
 
-            CurrentStayTime += Time.deltaTime;
+            CurrentStayTime += Time.fixedDeltaTime;
 
             CurrentPeriod = Mathf.Lerp(_PunchEnergyPeriod.x, _PunchEnergyPeriod.y, _PeriodEase.Evaluate(CurrentStayTime / _StartCombineDuration));
 
@@ -367,13 +373,15 @@ namespace HelloPico2.PlayerController.BeamCharge
 
             yield return new WaitForSeconds(_DelayToCharge);
 
+            print("Start Charging");
+
             while (currentDuration < _RequireChargingDuration) {
 
-                waitDuration += Time.deltaTime;
+                waitDuration += Time.fixedDeltaTime;
 
                 if (EnergyDistance() < _StartChargingDistance || waitDuration >= _StartChargingWaitTime)
                 {
-                    currentDuration += Time.deltaTime;
+                    currentDuration += Time.fixedDeltaTime;
 
                     CurrentPeriod = Mathf.Lerp(_PunchChargingBallPeriod.x, _PunchChargingBallPeriod.y, currentDuration / _RequireChargingDuration);
 
@@ -402,6 +410,7 @@ namespace HelloPico2.PlayerController.BeamCharge
             else
                 _BeamChargeController.transform.localScale = _StartChargingScale;
 
+            print("Finished Charging");
             StartShooting();
         }
         #endregion

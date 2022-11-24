@@ -13,17 +13,19 @@ namespace HelloPico2.InteractableObjects.Scripts{
 		[Required] public string defaultAudioName;
 		public List<HitEffect> effectSettings = new List<HitEffect>();
 		private ParticleSystem _currentEffect;
+		private BossVisualReaction _BossVisualReaction;
 		private ColdDownTimer _timer;
 
 		public Action<InteractType, Vector3> _OnHitEvent;
-
 		public Action<InteractType, Collider> ColliderEvent{ get; }
 
 		private void OnEnable(){
 			ChangeEffect(defaultEffect);
 			_timer = new ColdDownTimer(0.5f);
 
-			_OnHitEvent += GetComponentInParent<BossVisualReaction>().OnHit;
+			_BossVisualReaction = GetComponentInParent<BossVisualReaction>();
+            if (_BossVisualReaction != null)
+                _OnHitEvent += GetComponentInParent<BossVisualReaction>().OnHit;
 		}
 
 		private void OnDisable(){
@@ -32,8 +34,9 @@ namespace HelloPico2.InteractableObjects.Scripts{
 				effect.isTrigger = false;
 			}
 
-			_OnHitEvent -= GetComponentInParent<BossVisualReaction>().OnHit;
+			ResetOnHitEvent();
 		}
+		private void ResetOnHitEvent() => _OnHitEvent = null;
 
 		private void LateUpdate(){
 			elapsedTime += Time.fixedDeltaTime;
