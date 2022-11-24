@@ -24,7 +24,7 @@ public class SceneController : MonoBehaviour{
 	}
 
 	public void SingleLoadScene(string sceneName){
-		SceneManager.LoadScene(sceneName , LoadSceneMode.Single);
+		SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
 	}
 
 	public void ActiveToMainScene(string sceneName){
@@ -51,6 +51,7 @@ public class SceneController : MonoBehaviour{
 		var containsKey = SceneLoadingList.ContainsKey(sceneName);
 		if(!containsKey) throw new Exception($"{sceneName} scene is not Loading");
 		var asyncOperation = SceneLoadingList[sceneName];
+		RemoveBackgroundScene(sceneName);
 		if(asyncOperation.progress < 0.9f){
 			Debug.Log($"{sceneName} loading progress = {asyncOperation.progress}");
 		}
@@ -59,6 +60,17 @@ public class SceneController : MonoBehaviour{
 			if(asyncOperation.isDone){
 				SceneFullyLoaded(sceneName);
 			}
+		}
+	}
+
+	private void RemoveBackgroundScene(string withoutSceneName){
+		var index = SceneLoadingList.Keys.ToList().IndexOf(withoutSceneName);
+		if(index <= 0) return;
+		for(var i = 0; i < SceneLoadingList.Count; i++){
+			if(i >= index) break;
+			var selectSceneName = SceneLoadingList.Keys.ToArray()[i];
+			//沒辦法 Cancel 這個async Operation 也沒有辦法排序他
+			var selectScene = SceneLoadingList[selectSceneName];
 		}
 	}
 
