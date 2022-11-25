@@ -128,9 +128,16 @@ namespace HelloPico2.InteractableObjects{
 		private void ModifyThickness(float percent){
 			var localScale = transform.localScale;
 			thickness = percent;
-			localScale.x = Mathf.Lerp(5, 10, thickness);
-			localScale.y = Mathf.Lerp(5, 10, thickness);
-			transform.localScale = localScale;
+			if(_dynamicBone.m_BlendWeight < 0.2){
+				localScale.x = Mathf.Lerp(10, 20, thickness);
+				localScale.y = Mathf.Lerp(2.5f, 5f, thickness);
+				transform.localScale = localScale;
+			}
+			else{
+				localScale.x = Mathf.Lerp(5, 10, thickness);
+				localScale.y = Mathf.Lerp(5, 10, thickness);
+				transform.localScale = localScale;
+			}
 		}
 
 		private void Start(){
@@ -232,12 +239,14 @@ namespace HelloPico2.InteractableObjects{
 			PostLengthUpdatedEvent(2);
 		}
 
+		[Button]
 		public void ModifyBlendWeight(float amount){
 			var currentBlendWeight = _dynamicBone.m_BlendWeight;
 			var nextBlendWeight = Mathf.Clamp01(currentBlendWeight + amount);
 			_dynamicBone.m_BlendWeight = nextBlendWeight;
 			_dynamicBone.UpdateRoot();
 			_dynamicBone.UpdateParameters();
+			ModifyThickness(thickness);
 		}
 	}
 }
