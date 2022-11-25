@@ -16,7 +16,10 @@ namespace HelloPico2.InputDevice.Scripts{
 		private EnergyBallBehavior _energyBallBehavior;
 		private XRController xrController;
 
-		private int _soundID;
+		private int _sourceIDL;
+		private int _sourceIDR;
+
+		private float _vibrateAmp = 1;
 
 		private int HandIndex{
 			get{
@@ -160,13 +163,22 @@ namespace HelloPico2.InputDevice.Scripts{
 			switch(HandIndex){
 				case 1:
 					PXR_Input.StartVibrateBySharem(clip, PXR_Input.VibrateController.Left, PXR_Input.ChannelFlip.No,
-						ref _soundID);
+						ref _sourceIDL);
+					PXR_Input.UpdateVibrateParams(_sourceIDL, PXR_Input.VibrateController.Left,
+						PXR_Input.ChannelFlip.No, _vibrateAmp);
 					break;
 				case 2:
 					PXR_Input.StartVibrateBySharem(clip, PXR_Input.VibrateController.Right, PXR_Input.ChannelFlip.No,
-						ref _soundID);
+						ref _sourceIDR);
+					PXR_Input.UpdateVibrateParams(_sourceIDR, PXR_Input.VibrateController.Right,
+						PXR_Input.ChannelFlip.No, _vibrateAmp);
 					break;
 			}
+		}
+
+		public void ModifyVibrateAmp(int level){
+			var levelAmp = 0.5f * level;
+			_vibrateAmp = Mathf.Clamp(levelAmp, 0.5f, 2f);
 		}
 
 		private AudioClip GetLevelClip(AudioClip clip, int level){
