@@ -6,7 +6,7 @@ using Unity.XR.PXR;
 
 public class seethrough : MonoBehaviour
 {
-
+    /*
     public void EnableSeeThroughManual()
     {
         PXR_Boundary.EnableSeeThroughManual(true);
@@ -16,4 +16,5 @@ public class seethrough : MonoBehaviour
     {
         PXR_Boundary.EnableSeeThroughManual(false);
     }
+    */
 }

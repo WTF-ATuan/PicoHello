@@ -84,11 +84,11 @@ Shader "GGDog/CameraEffect_MR"
             float4 frag (v2f i) : SV_Target
             {
 
-                float D = WaterTex(i.uv+float2(0,0.5)+WaterTex(i.uv+float2(0,0.5),8,-1)*0.05,17,0.5);
+                float D = WaterTex(i.vertex.xy*0.00075+float2(0,0.5)+WaterTex(i.vertex.xy*0.00075+float2(0,0.5),8,-1)*0.05,17,0.5);
 
                 D =smoothstep(_smoothstepmin,_smoothstepmax,D);
 
-                return float4(0,0,0,D*_Alpha + smoothstep(0.5,0.85,1-i.uv.y));
+                return float4(0,0,0, saturate( D*_Alpha + smoothstep(0.5,0.85,1-i.uv.y) - smoothstep(0.85,1,i.uv.y) ) );
             }
             ENDCG
         }
