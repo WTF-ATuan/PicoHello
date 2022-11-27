@@ -80,7 +80,7 @@ Shader "GGDog/ModelShader/thatTree"
 				float Rim = 1-saturate(smoothstep(0,1.5,dot(worldNormal,worldViewDir) ));
 
                 
-                fixed Flake = tex2D(_FlakeTex, i.uv).r;
+                fixed Flake = tex2D(_FlakeTex, i.uv - _MainTex_ST.zw).r;
                 
                 float d = (i.worldPos.x-_WorldPos.x)*(i.worldPos.x-_WorldPos.x)
                 +(i.worldPos.y-_WorldPos.y)*(i.worldPos.y-_WorldPos.y)
