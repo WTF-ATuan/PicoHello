@@ -5,6 +5,7 @@ Shader "GGDog/Arm_Uber_Toon"
 
 	Properties
 	{
+
         _h("Uplevel",Range(0,1)) = 0
         _injured("Injured",Range(0,1)) = 0
 		_Layer("Layer",Range(0,30)) = 1
@@ -116,7 +117,7 @@ Shader "GGDog/Arm_Uber_Toon"
 			half _LightSmooth;
 			half _LightRange;
 			half _injured;
-			
+
 			half4 frag (v2f i) : SV_Target
 			{
 				half4 col = tex2D(_MainTex,i.uv.xy);
@@ -141,7 +142,9 @@ Shader "GGDog/Arm_Uber_Toon"
 				Unity_GradientNoise_float((i.vertexUV.xy+i.vertexUV.yz)*0.5 + D_noise*0.01,40,D);
 				D-=_injured;
 				
-				return saturate(col *(smoothstep(0,0.5,saturate(D+smoothstep(-10,0.5,1-_injured)))+0.25) );
+				col = saturate(col *(smoothstep(0,0.5,saturate(D+smoothstep(-10,0.5,1-_injured)))+0.25));
+
+				return col;
 				
 			}
 			ENDCG

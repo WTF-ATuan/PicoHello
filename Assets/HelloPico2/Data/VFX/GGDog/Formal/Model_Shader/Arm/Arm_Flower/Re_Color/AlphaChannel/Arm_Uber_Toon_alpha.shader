@@ -1,4 +1,4 @@
-Shader "GGDog/Arm_Uber_Toon"
+Shader "GGDog/Arm_Uber_Toon_Alpha"
 {
 	//不透明體Blend: One Zero
 	//半透明體Blend: SrcAlpha OneMinusSrcAlpha
@@ -9,7 +9,6 @@ Shader "GGDog/Arm_Uber_Toon"
         _h("Uplevel",Range(0,1)) = 0
         _injured("Injured",Range(0,1)) = 0
 		_Layer("Layer",Range(0,30)) = 1
-		
 		_MainTex ("Base (RGB)", 2D) = "white" {}
 		[HDR]_Color ("Main Color", Color) = (1.35,1.08,0.97,1)
 		
@@ -35,9 +34,8 @@ Shader "GGDog/Arm_Uber_Toon"
             Comp always
             Pass replace
         }
-
+		
 		Blend SrcAlpha OneMinusSrcAlpha
-
 		Pass
 		{	
 			CGPROGRAM
@@ -58,7 +56,7 @@ Shader "GGDog/Arm_Uber_Toon"
 				half4 uv : TEXCOORD0;
 				half4 vertex : SV_POSITION;
                 half3 normal_VS : TEXCOORD1;
-				half3 vertexUV : TEXCOORD2;
+				half4 vertexUV : TEXCOORD2;
 			};
 			
 			half2 unity_gradientNoise_dir(half2 p)
@@ -90,6 +88,7 @@ Shader "GGDog/Arm_Uber_Toon"
             sampler2D _MainTex;
             half4 _MainTex_ST;
 			half3 _LightDir;
+
 			v2f vert (appdata v)
 			{
 				v2f o;
@@ -136,23 +135,18 @@ Shader "GGDog/Arm_Uber_Toon"
 				col = lerp(col*_ShadowColor,col*_Color,N_VS_Dot_L/2);
 
 				col += Rim*N_VS_Dot_L*_EdgeRimColor*col.a  +  _EdgeRimColor*saturate(0.75-N_VS_Dot_L)*Rim_Ambient *_AmbientFade*col.a;
-
+				
 				
 				half D_noise;
-				Unity_GradientNoise_float(i.vertexUV.xy*half2(0.25,1)+_Time.y*0.1,50,D_noise);
+				Unity_GradientNoise_float(i.vertexUV.xy+_Time.y*0.1,50,D_noise);
 
 				half D;
-				Unity_GradientNoise_float((i.vertexUV.xy*half2(0.25,1)+i.vertexUV.yz)*0.5 + D_noise*0.01,55,D);
-
-				_injured+=0.01;
-				_injured*=1.5;
-
-				D-=_injured - smoothstep(-0.15,0,i.vertexUV.z)/_injured;
-				clip(D+0.05);
+				Unity_GradientNoise_float((i.vertexUV.xy+i.vertexUV.yz)*0.5 + D_noise*0.01,40,D);
+				D-=_injured;
 				
-				col = saturate(col *smoothstep(0,0.25,saturate(D+smoothstep(0.75,1,1-_injured)*0.5)));
-				
-				return half4(col.rgb,_Alpha);
+				col = saturate(col *(smoothstep(0,0.5,saturate(D+smoothstep(-10,0.5,1-_injured)))+0.25));
+
+				return half4(col.rgb , _Alpha) ;
 				
 			}
 			ENDCG

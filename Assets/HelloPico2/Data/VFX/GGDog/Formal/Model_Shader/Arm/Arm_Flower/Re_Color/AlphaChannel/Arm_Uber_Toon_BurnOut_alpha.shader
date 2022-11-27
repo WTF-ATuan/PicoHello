@@ -1,4 +1,4 @@
-Shader "GGDog/Arm_Uber_Toon"
+Shader "GGDog/Arm_Uber_Toon_Alpha"
 {
 	//不透明體Blend: One Zero
 	//半透明體Blend: SrcAlpha OneMinusSrcAlpha
