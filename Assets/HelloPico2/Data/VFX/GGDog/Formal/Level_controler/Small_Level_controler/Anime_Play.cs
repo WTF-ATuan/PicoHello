@@ -49,11 +49,11 @@ public class Anime_Play : MonoBehaviour
     //現實畫面: On
     public void On_SeeThroughManual()
     {
-        PXR_Boundary.EnableSeeThroughManual(true);
+      //  PXR_Boundary.EnableSeeThroughManual(true);
     }
     //現實畫面: Off
     public void Off_SeeThroughManual()
     {
-        PXR_Boundary.EnableSeeThroughManual(false);
+      //  PXR_Boundary.EnableSeeThroughManual(false);
     }
 }
