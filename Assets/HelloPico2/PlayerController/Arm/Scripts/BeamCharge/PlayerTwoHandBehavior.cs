@@ -5,6 +5,7 @@ using HelloPico2.PlayerController.Arm;
 using HelloPico2.PlayerController.Player;
 using Sirenix.OdinInspector;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UltEvents;
 using UnityEngine;
@@ -92,6 +93,8 @@ namespace HelloPico2.PlayerController.BeamCharge
         [FoldoutGroup("Audio")] [SerializeField] private string _EndShootingAudioName;
         
         private PlayerData _PlayerData;
+        private List<Vector3> energyObjectsOriginalPos = new List<Vector3>();
+        private Vector3 beamControllerOriginalScale;
         private int _GainEnergyCount = 2;
         private int currentEnergyCount;
         private float CurrentStayTime;
@@ -110,6 +113,9 @@ namespace HelloPico2.PlayerController.BeamCharge
             if (GameObject.FindGameObjectWithTag(_PlayerTag).TryGetComponent<PlayerData>(out var playerData)) _PlayerData = playerData;
             _LineRendererDrawer.gameObject.SetActive(false);
             originalEnergyballScale = _PickableEnergys[0]._Energy.transform.localScale;
+            beamControllerOriginalScale = _BeamChargeController.transform.localScale;            
+            foreach (var energy in _PickableEnergyObjects)
+                energyObjectsOriginalPos.Add(energy.transform.position);
 
             GetVibratorRef();
         }
@@ -130,6 +136,8 @@ namespace HelloPico2.PlayerController.BeamCharge
         }
         private void OnEnable()
         {
+            ResetToBeggingState();
+
             foreach (var energy in _PickableEnergys)
             {
                 energy.OnPlayerGetEnergy += StoreEnergyOnHand;
@@ -165,6 +173,19 @@ namespace HelloPico2.PlayerController.BeamCharge
             {
                 _CarryTheseVFXs[i].transform.position = centerOfEnergy;
             }
+        }
+        private void ResetToBeggingState()
+        {
+            for (int i = 0; i < _PickableEnergyObjects.Length; i++)
+            {
+                _PickableEnergyObjects[i].transform.position = energyObjectsOriginalPos[i];
+                _PickableEnergyObjects[i].gameObject.SetActive(true);
+                print(_PickableEnergyObjects[i].gameObject.name + " " + _PickableEnergyObjects[i].gameObject.activeSelf);                
+            }
+
+            _BeamChargeController.controller = Player_BeamCharge_Controller.Controller.Start;
+            _BeamChargeController.gameObject.SetActive(false);
+            _BeamChargeController.transform.localScale = beamControllerOriginalScale;
         }
         private Vector3 GetTwoHandsCenter() {
             return (_PickableEnergys[0]._Energy.position + _PickableEnergys[1]._Energy.position) / 2;
