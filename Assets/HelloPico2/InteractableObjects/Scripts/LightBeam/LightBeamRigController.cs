@@ -132,7 +132,7 @@ namespace HelloPico2.InteractableObjects{
 			if(_dynamicBone.m_BlendWeight < 0.2){
 				localScale.x = Mathf.Lerp(2.5f, 5f, thickness);
 				localScale.y = Mathf.Lerp(10, 20, thickness);
-				localScale.z = 7f;
+				localScale.z = 6f;
 				rigRoot.localScale = localScale;
 				_capsuleCollider.radius = 0.08f;
 			}
