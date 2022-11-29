@@ -176,9 +176,8 @@ namespace HelloPico2.InputDevice.Scripts{
 			}
 		}
 
-		public void ModifyVibrateAmp(int level){
-			var levelAmp = 0.5f * level;
-			_vibrateAmp = Mathf.Clamp(levelAmp, 0.5f, 2f);
+		public void ModifyVibrateAmp(int amount){
+			_vibrateAmp = Mathf.Clamp(amount, 0.5f, 2f);
 		}
 
 		private AudioClip GetLevelClip(AudioClip clip, int level){
