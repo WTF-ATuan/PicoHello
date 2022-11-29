@@ -10,18 +10,18 @@ FBXHeaderExtension:  {
         Version: 1000
         Year: 2022
         Month: 11
-        Day: 25
-        Hour: 1
-        Minute: 15
+        Day: 29
+        Hour: 21
+        Minute: 33
         Second: 42
-        Millisecond: 830
+        Millisecond: 513
     }
     Creator: "FBX SDK/FBX Plugins version 2009.2"
     OtherFlags:  {
         FlagPLE: 0
     }
 }
-CreationTime: "2022-11-25 01:15:42:830"
+CreationTime: "2022-11-29 21:33:42:513"
 Creator: "FBX SDK/FBX Plugins build 20080623"
 
 ; Document Description
@@ -42,7 +42,7 @@ References:  {
 
 Definitions:  {
     Version: 100
-    Count: 12
+    Count: 17
     ObjectType: "Model" {
         Count: 6
     }
@@ -59,6 +59,15 @@ Definitions:  {
         Count: 1
     }
     ObjectType: "GlobalSettings" {
+        Count: 1
+    }
+    ObjectType: "Pose" {
+        Count: 1
+    }
+    ObjectType: "SubDeformer" {
+        Count: 3
+    }
+    ObjectType: "Deformer" {
         Count: 1
     }
     ObjectType: "Object" {
@@ -302,8 +311,8 @@ Objects:  {
             Property: "Show", "bool", "",1
             Property: "NegativePercentShapeSupport", "bool", "",1
             Property: "DefaultAttributeIndex", "int", "",0
-            Property: "Lcl Translation", "Lcl Translation", "A+",0.072322486413093,0.0577982819878768,-0.349612851600105
-            Property: "Lcl Rotation", "Lcl Rotation", "A+",-1.43307035100654,-0.0765277011512146,0.785372488984989
+            Property: "Lcl Translation", "Lcl Translation", "A+",0.155009495022335,0.196101825553219,0.138049067880914
+            Property: "Lcl Rotation", "Lcl Rotation", "A+",-0.376492610869463,-0.0850627335029121,-2.61613080767944
             Property: "Lcl Scaling", "Lcl Scaling", "A+",1,1,1
             Property: "Visibility", "Visibility", "A+",1
             Property: "liw", "Bool", "A+U",0
@@ -385,8 +394,8 @@ Objects:  {
             Property: "Show", "bool", "",1
             Property: "NegativePercentShapeSupport", "bool", "",1
             Property: "DefaultAttributeIndex", "int", "",0
-            Property: "Lcl Translation", "Lcl Translation", "A+",0.218007046970427,0.499997434721887,1.11253555008412
-            Property: "Lcl Rotation", "Lcl Rotation", "A+",-0.452624819204613,0.0684975248656243,-1.31643825048901
+            Property: "Lcl Translation", "Lcl Translation", "A+",0.167133922752851,0.894188780330857,1.13724822041781
+            Property: "Lcl Rotation", "Lcl Rotation", "A+",-0.173645990583371,0.0657238336625385,0.80731602070204
             Property: "Lcl Scaling", "Lcl Scaling", "A+",1,1,1
             Property: "Visibility", "Visibility", "A+",1
             Property: "liw", "Bool", "A+U",0
@@ -468,8 +477,8 @@ Objects:  {
             Property: "Show", "bool", "",1
             Property: "NegativePercentShapeSupport", "bool", "",1
             Property: "DefaultAttributeIndex", "int", "",0
-            Property: "Lcl Translation", "Lcl Translation", "A+",0.168084273892598,0.348894023553571,0.0225572939218589
-            Property: "Lcl Rotation", "Lcl Rotation", "A+",0.0633862820157059,-0.0755659671857144,0.741086801258647
+            Property: "Lcl Translation", "Lcl Translation", "A+",0.133500211109277,0.220608517735704,0.154823512230568
+            Property: "Lcl Rotation", "Lcl Rotation", "A+",0.341686037664416,-0.0473439886160507,1.15159619885451
             Property: "Lcl Scaling", "Lcl Scaling", "A+",1,1,1
             Property: "Visibility", "Visibility", "A+",1
             Property: "liw", "Bool", "A+U",0
@@ -3366,19 +3375,50 @@ Objects:  {
             Comment: ""
         }
         Properties60:  {
-            Property: "DocumentUrl", "KString", "", "C:\JKART\Pico\maya\scenes\Prop_HandBreak_Anim"
-            Property: "SrcDocumentUrl", "KString", "", "C:\JKART\Pico\maya\scenes\Prop_HandBreak_Anim"
+            Property: "DocumentUrl", "KString", "", "E:\JKART\JKART2022\Pico\maya\scenes\Prop_HandBreak_Anim.fbx"
+            Property: "SrcDocumentUrl", "KString", "", "E:\JKART\JKART2022\Pico\maya\scenes\Prop_HandBreak_Anim.fbx"
             Property: "Original", "Compound", ""
             Property: "Original|ApplicationVendor", "KString", "", "Autodesk"
             Property: "Original|ApplicationName", "KString", "", "Maya"
             Property: "Original|ApplicationVersion", "KString", "", "2009.2"
-            Property: "Original|DateTime_GMT", "DateTime", "", "25/11/2022 09:15:42.830"
-            Property: "Original|FileName", "KString", "", "C:/JKART/Pico/maya/scenes/Prop_HandBreak_Anim"
+            Property: "Original|DateTime_GMT", "DateTime", "", "29/11/2022 13:33:42.513"
+            Property: "Original|FileName", "KString", "", "E:/JKART/JKART2022/Pico/maya/scenes/Prop_HandBreak_Anim.fbx"
             Property: "LastSaved", "Compound", ""
             Property: "LastSaved|ApplicationVendor", "KString", "", "Autodesk"
             Property: "LastSaved|ApplicationName", "KString", "", "Maya"
             Property: "LastSaved|ApplicationVersion", "KString", "", "2009.2"
-            Property: "LastSaved|DateTime_GMT", "DateTime", "", "25/11/2022 09:15:42.830"
+            Property: "LastSaved|DateTime_GMT", "DateTime", "", "29/11/2022 13:33:42.513"
+        }
+    }
+    Pose: "Pose::HandBreakRigRef_skinCluster2", "BindPose" {
+        Type: "BindPose"
+        Version: 100
+        Properties60:  {
+        }
+        NbPoseNodes: 6
+        PoseNode:  {
+            Node: "Model::HandBreakRigRef_HandBreakMesh"
+            Matrix: 1,0,0,0,0,1,0,0,0,0,1,0,-7.53797912597656,-30.2353172302246,5.02238464355469,1
+        }
+        PoseNode:  {
+            Node: "Model::HandBreakRigRef_HBA"
+            Matrix: 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
+        }
+        PoseNode:  {
+            Node: "Model::HandBreakRigRef_HBRoot"
+            Matrix: 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
+        }
+        PoseNode:  {
+            Node: "Model::HandBreakRigRef_HandBreakList"
+            Matrix: 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
+        }
+        PoseNode:  {
+            Node: "Model::HandBreakRigRef_HBB"
+            Matrix: 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
+        }
+        PoseNode:  {
+            Node: "Model::HandBreakRigRef_HBC"
+            Matrix: 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
         }
     }
     Material: "Material::HandBreakRigRef_HandBreakMat", "" {
@@ -3404,6 +3444,99 @@ Objects:  {
             Property: "Opacity", "double", "",1
         }
     }
+    Deformer: "Deformer::Skin_HandBreakRigRef_HandBreakMesh", "Skin" {
+        Version: 100
+        Properties60:  {
+        }
+        Link_DeformAcuracy: 50
+    }
+    Deformer: "SubDeformer::Cluster_HandBreakRigRef_HBA", "Cluster" {
+        Version: 100
+        Properties60:  {
+            Property: "SrcModel", "object", ""
+            Property: "SrcModelReference", "object", ""
+        }
+        UserData: "", ""
+        Indexes: 1,2,4,6,12,13,14,15,17,18,19,20,30,31,32,33,34,35,36,37,38,39,40,41,43,44,46,48,60,61,84,85,86,87,88,89,90,91,92,93
+        ,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123
+        ,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152
+        ,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181
+        ,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210
+        ,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,238,239,240
+        ,241,242,243,244,245,246,247,248,249,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,274
+        ,275,276,277,278,279,280,281,282,283,284,285,288,289,290,291,292,293,294,295,296,297,298,299,300,301,302,303,304,305
+        ,306,307,308,309,310,311,312,313,314,315,322,323,324,325,326,327,328,329,330,331,332,333,340,341,342,343,355,356,357
+        ,358,359,360,367,368,369,370,371,372,373,374,375,376,377,378,379,380,381,382,383,384,385,386,387,388,389,390,391,392
+        ,393,394,395,508,509,510,511,512,513,514,515,516,553,554,555,556,557,558,559,560,561,568,569,570,571,572,573,574,575
+        ,576,577,578,579,580,581,582,583,584,585,586,587,588,589,590,591,592,593,594,595,596,597,598,599,600,601,602,603,604
+        ,605,606,607,608,609,610,611,612,613,614,615,616,617,618,619,620,621,622,623,624,625,626,627,628,629,630,631,632,633
+        ,634,635,636,655,656,657,658,659,660
+        Weights: 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+        ,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+        ,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+        ,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+        ,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0.5,0.5,0.5,0.5,0.5
+        ,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5
+        ,0.5,0.5,0.5,0.5,1,1,1,1,1,1,1,1,1,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5
+        ,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5
+        ,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,1,1,1,1,1,1,0.5,0.5,0.5,0.5,0.5,0.5
+        Transform: 1,0,0,0,0,1,0,0,0,0,1,0,-7.53797912597656,-30.2353172302246,5.02238464355469,1
+        TransformLink: 1,-0,0,0,0,1,-0,0,0,0,1,0,0,-0,0,1
+    }
+    Deformer: "SubDeformer::Cluster_HandBreakRigRef_HBB", "Cluster" {
+        Version: 100
+        Properties60:  {
+            Property: "SrcModel", "object", ""
+            Property: "SrcModelReference", "object", ""
+        }
+        UserData: "", ""
+        Indexes: 0,3,5,7,8,9,10,11,16,21,22,23,24,25,26,27,28,29,42,45,47,49,50,51,52,53,54,55,56,57,58,59,62,63,64,65,66,67,68,69
+        ,70,71,72,73,74,75,76,77,78,79,80,81,82,83,237,250,316,317,318,319,320,321,344,345,346,347,348,349,350,351,352,353
+        ,354,361,362,363,364,365,366,367,368,369,370,371,372,373,374,375,376,377,378,379,380,381,382,383,384,385,386,387,388
+        ,389,390,391,392,393,394,395,396,397,398,399,400,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415,416,417
+        ,418,419,420,421,422,423,424,425,426,427,428,429,430,431,432,433,434,435,436,437,438,439,440,441,442,443,444,445,446
+        ,447,448,449,450,451,452,453,454,455,456,457,458,459,460,461,462,463,464,465,466,467,468,469,470,471,472,473,474,475
+        ,476,477,478,479,480,481,482,483,484,485,486,487,488,489,490,491,492,493,494,495,496,497,498,499,500,501,502,503,504
+        ,505,506,507,517,518,519,520,521,522,523,524,525,526,527,528,529,530,531,532,533,534,535,536,537,538,539,540,541,542
+        ,543,544,545,546,547,548,549,550,551,552,562,563,564,565,566,567,568,569,570,571,572,573,574,575,576,577,578,579,580
+        ,581,582,583,584,585,586,587,588,589,590,591,592,593,594,595,596,597,598,599,600,601,602,603,604,605,606,607,608,609
+        ,610,611,612,613,614,615,616,617,618,619,620,621,622,623,624,637,638,639,640,641,642,643,644,645,646,647,648,649,650
+        ,651,652,653,654
+        Weights: 0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+        ,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5
+        ,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5
+        ,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+        ,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0.5
+        ,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5
+        ,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,1,1,1,1,1,1,0.5,0.5,0.5,0.5
+        ,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5
+        ,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5
+        ,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5
+        Transform: 1,0,0,0,0,1,0,0,0,0,1,0,-7.53797912597656,-30.2353172302246,5.02238464355469,1
+        TransformLink: 1,-0,0,0,0,1,-0,0,0,0,1,0,0,-0,0,1
+    }
+    Deformer: "SubDeformer::Cluster_HandBreakRigRef_HBC", "Cluster" {
+        Version: 100
+        Properties60:  {
+            Property: "SrcModel", "object", ""
+            Property: "SrcModelReference", "object", ""
+        }
+        UserData: "", ""
+        Indexes: 0,3,5,7,8,9,10,11,16,21,22,23,24,25,26,27,28,29,270,271,272,273,286,287,334,335,336,337,338,339,349,350,351,352,353
+        ,354,361,362,363,364,365,366,396,397,398,399,400,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415,416,417
+        ,492,493,494,495,496,497,498,499,500,501,502,503,504,505,506,507,508,509,510,511,512,513,514,515,516,517,518,519,520
+        ,521,522,523,524,525,526,527,528,529,530,531,532,533,534,535,536,537,538,539,540,541,542,543,544,545,546,547,548,549
+        ,550,551,552,625,626,627,628,629,630,637,638,639,640,641,642,643,644,645,646,647,648,649,650,651,652,653,654,655,656
+        ,657,658,659,660
+        Weights: 0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,1,1,1,1,1,1,1,1,1,1,1,1,0.5,0.5,0.5,0.5,0.5
+        ,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5
+        ,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5
+        ,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5
+        ,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5
+        ,0.5,0.5,0.5,0.5
+        Transform: 1,0,0,0,0,1,0,0,0,0,1,0,-7.53797912597656,-30.2353172302246,5.02238464355469,1
+        TransformLink: 1,-0,0,0,0,1,-0,0,0,0,1,0,0,-0,0,1
+    }
     Video: "Video::HandBreakRigRef_file15", "Clip" {
         Type: "Clip"
         Properties60:  {
@@ -3411,7 +3544,7 @@ Objects:  {
             Property: "LastFrame", "int", "",0
             Property: "Width", "int", "",0
             Property: "Height", "int", "",0
-            Property: "Path", "KString", "", "R:/JKART_BackUp/JKART2022/Pico/maya/Source Images/ColorAtlasBTex.png"
+            Property: "Path", "KString", "", "E:/JKART/JKART2022/Pico/maya/scenes/ColorAtlasBTex.png"
             Property: "StartFrame", "int", "",0
             Property: "StopFrame", "int", "",0
             Property: "PlaySpeed", "double", "",0
@@ -3422,8 +3555,8 @@ Objects:  {
             Property: "AccessMode", "enum", "",0
         }
         UseMipMap: 0
-        Filename: "R:/JKART_BackUp/JKART2022/Pico/maya/Source Images/ColorAtlasBTex.png"
-        RelativeFilename: "R:\JKART_BackUp\JKART2022\Pico\maya\Source Images\ColorAtlasBTex.png"
+        Filename: "E:/JKART/JKART2022/Pico/maya/scenes/ColorAtlasBTex.png"
+        RelativeFilename: "ColorAtlasBTex.png"
     }
     Texture: "Texture::HandBreakRigRef_file15", "" {
         Type: "TextureVideoClip"
@@ -3447,8 +3580,8 @@ Objects:  {
             Property: "UVSet", "KString", "", "default"
         }
         Media: "Video::HandBreakRigRef_file15"
-        FileName: "R:/JKART_BackUp/JKART2022/Pico/maya/Source Images/ColorAtlasBTex.png"
-        RelativeFilename: "R:\JKART_BackUp\JKART2022\Pico\maya\Source Images\ColorAtlasBTex.png"
+        FileName: "E:/JKART/JKART2022/Pico/maya/scenes/ColorAtlasBTex.png"
+        RelativeFilename: "ColorAtlasBTex.png"
         ModelUVTranslation: 0,0
         ModelUVScaling: 1,1
         Texture_Alpha_Source: "None"
@@ -3482,9 +3615,16 @@ Connections:  {
     Connect: "OO", "Model::HandBreakRigRef_HBA", "Model::HandBreakRigRef_HBRoot"
     Connect: "OO", "Model::HandBreakRigRef_HBB", "Model::HandBreakRigRef_HBRoot"
     Connect: "OO", "Model::HandBreakRigRef_HBC", "Model::HandBreakRigRef_HBRoot"
+    Connect: "OO", "Deformer::Skin_HandBreakRigRef_HandBreakMesh", "Model::HandBreakRigRef_HandBreakMesh"
     Connect: "OO", "Video::HandBreakRigRef_file15", "Texture::HandBreakRigRef_file15"
     Connect: "OO", "Material::HandBreakRigRef_HandBreakMat", "Model::HandBreakRigRef_HandBreakMesh"
     Connect: "OO", "Texture::HandBreakRigRef_file15", "Model::HandBreakRigRef_HandBreakMesh"
+    Connect: "OO", "Model::HandBreakRigRef_HBA", "SubDeformer::Cluster_HandBreakRigRef_HBA"
+    Connect: "OO", "SubDeformer::Cluster_HandBreakRigRef_HBA", "Deformer::Skin_HandBreakRigRef_HandBreakMesh"
+    Connect: "OO", "SubDeformer::Cluster_HandBreakRigRef_HBB", "Deformer::Skin_HandBreakRigRef_HandBreakMesh"
+    Connect: "OO", "SubDeformer::Cluster_HandBreakRigRef_HBC", "Deformer::Skin_HandBreakRigRef_HandBreakMesh"
+    Connect: "OO", "Model::HandBreakRigRef_HBB", "SubDeformer::Cluster_HandBreakRigRef_HBB"
+    Connect: "OO", "Model::HandBreakRigRef_HBC", "SubDeformer::Cluster_HandBreakRigRef_HBC"
 }
 ;Takes and animation section
 ;----------------------------------------------------
@@ -3506,27 +3646,27 @@ Takes:  {
                         Default: 0
                         KeyVer: 4005
                         KeyCount: 4
-                        Key: 0,0,U,s,0,0.0426276512444019,n,24632617600,0.157723262906075,U,s,0.0426276512444019
-                                        ,-0.10753858089447,n,55423389600,0.0511531867086887,U,s,-0.10753858089447,0,n,92372316000
-                                        ,0,U,s,0,0,n
+                        Key: 0,0,U,s,0.491917222738266,0.0649636387825012,n,24632617600,0.157723262906075,U,s,0.0649636387825012
+                                        ,-0.32341331243515,n,55423389600,0.0511531867086887,U,s,-0.32341331243515,0.491107225418091
+                                        ,n,92372316000,0,U,s,0.491106927394867,0,n
                         Color: 1,1,1
                     }
                     Channel: "Y" {
                         Default: 0
                         KeyVer: 4005
                         KeyCount: 4
-                        Key: 0,0,U,s,0,0.0233453847467899,n,24632617600,0.198538228869438,U,s,0.0233453847467899
-                                        ,-0.135366976261139,n,55423389600,0.028014462441206,U,s,-0.135366976261139,0,n,92372316000
-                                        ,0,U,s,0,0,n
+                        Key: 0,0,U,s,0.72516667842865,0.0554005317389965,n,24632617600,0.198538228869438,U,s,0.0554005317389965
+                                        ,-0.415551215410233,n,55423389600,0.028014462441206,U,s,-0.415551215410233,0.723540544509888
+                                        ,n,92372316000,0,U,s,0.723540604114532,0,n
                         Color: 1,1,1
                     }
                     Channel: "Z" {
                         Default: 0
                         KeyVer: 4005
                         KeyCount: 4
-                        Key: 0,0,U,s,0.669193387031555,-0.336490035057068,n,24632617600,0.119370430707932,U,s,-0.336490035057068
-                                        ,-0.0813889279961586,n,55423389600,-0.403788059949875,U,s,-0.0813889279961586,1.03961515426636
-                                        ,n,92372316000,0,U,s,1.03961539268494,0,n
+                        Key: 0,0,U,s,1.14816284179688,-0.606778144836426,n,24632617600,0.119370430707932,U,s,-0.606778144836426
+                                        ,-0.644298851490021,n,55423389600,-0.403788059949875,U,s,-0.644298851490021,1.16929578781128
+                                        ,n,92372316000,0,U,s,1.16929602622986,0,n
                         Color: 1,1,1
                     }
                     LayerType: 1
@@ -3536,26 +3676,27 @@ Takes:  {
                         Default: 0
                         KeyVer: 4005
                         KeyCount: 4
-                        Key: 0,0,U,s,0,-1.26208257675171,n,24632617600,-0.47264090180397,U,s,-1.26208257675171
-                                        ,0,n,55423389600,-1.51449918746948,U,s,0,0,n,92372316000,0,U,s,0,0,n
+                        Key: 0,0,U,s,1.35369384288788,-3.01043343544006,n,24632617600,-0.47264090180397,U,s,-3.01043343544006
+                                        ,0.765651881694794,n,55423389600,-1.51449918746948,U,s,0.765651881694794,1.3429194688797
+                                        ,n,92372316000,0,U,s,1.34291803836823,0,n
                         Color: 1,1,1
                     }
                     Channel: "Y" {
                         Default: 0
                         KeyVer: 4005
                         KeyCount: 4
-                        Key: 0,0,U,s,0,-0.0562655292451382,n,24632617600,-0.091444693505764,U,s,-0.0562655292451382
-                                        ,0.0623486526310444,n,55423389600,-0.0675186440348625,U,s,0.0623486526310444,0,n,92372316000
-                                        ,0,U,s,0,0,n
+                        Key: 0,0,U,s,-0.125483185052872,-0.191149160265923,n,24632617600,-0.091444693505764,U,s
+                                        ,-0.191149160265923,0.236121565103531,n,55423389600,-0.0675186440348625,U,s,0.236121565103531
+                                        ,-0.125250965356827,n,92372316000,0,U,s,-0.125250905752182,0,n
                         Color: 1,1,1
                     }
                     Channel: "Z" {
                         Default: 0
                         KeyVer: 4005
                         KeyCount: 4
-                        Key: 0,0,U,s,-6.58520364761353,0,n,24632617600,-2.62656617164612,U,s,0,1.79084050655365
-                                        ,n,55423389600,1.3519572019577,U,s,1.79084050655365,-4.54199028015137,n,92372316000
-                                        ,0,U,s,-4.63475370407104,0,n
+                        Key: 0,0,U,s,-8.25728511810303,0.100169748067856,n,24632617600,-2.62656617164612,U,s,0.100169748067856
+                                        ,6.71417188644409,n,55423389600,1.3519572019577,U,s,6.71417188644409,-7.98189067840576
+                                        ,n,92372316000,0,U,s,-8.07467555999756,0,n
                         Color: 1,1,1
                     }
                     LayerType: 2
@@ -3597,7 +3738,7 @@ Takes:  {
                 LayerType: 1
             }
             Channel: "liw" {
-                Default: 1
+                Default: 108
                 Color: 1,1,1
             }
         }
