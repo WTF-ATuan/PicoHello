@@ -96,8 +96,8 @@ namespace HelloPico2.InteractableObjects{
 
 		public LightBeamLengthUpdated GetUpdateState(){
 			var lengthUpdated = new LightBeamLengthUpdated();
-			var totalOffset = _rigs.Aggregate(Vector3.zero, (current, rig) => current + rig.localPosition);
-			var singleOffset = _rigs.First().localPosition;
+			var totalOffset = _rigs.Aggregate(Vector3.zero, (current, rig) => current + rig.localPosition) * 10f;
+			var singleOffset = _rigs.First().localPosition * 10f;
 			lengthUpdated.TotalLength = totalOffset.magnitude;
 			lengthUpdated.SingleLength = singleOffset.magnitude;
 			lengthUpdated.TotalOffset = totalOffset;
@@ -132,7 +132,7 @@ namespace HelloPico2.InteractableObjects{
 			if(_dynamicBone.m_BlendWeight < 0.2){
 				localScale.x = Mathf.Lerp(2.5f, 5f, thickness);
 				localScale.y = Mathf.Lerp(10, 20, thickness);
-				localScale.z = 6f;
+				transform.localScale = new Vector3(1, 1, 0.6f);
 				rigRoot.localScale = localScale;
 				_capsuleCollider.radius = 0.08f;
 			}
@@ -140,9 +140,9 @@ namespace HelloPico2.InteractableObjects{
 			else{
 				localScale.x = Mathf.Lerp(5, 10, thickness);
 				localScale.y = Mathf.Lerp(5, 10, thickness);
-				localScale.z = 10f;
-				rigRoot.localScale = localScale;
+				transform.localScale = Vector3.one;
 				_capsuleCollider.radius = 0.04f;
+				rigRoot.localScale = localScale;
 			}
 		}
 
