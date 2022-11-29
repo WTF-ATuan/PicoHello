@@ -126,17 +126,23 @@ namespace HelloPico2.InteractableObjects{
 		}
 
 		private void ModifyThickness(float percent){
-			var localScale = transform.localScale;
+			var localScale = rigRoot.localScale;
 			thickness = percent;
+			//To Sword
 			if(_dynamicBone.m_BlendWeight < 0.2){
-				localScale.x = Mathf.Lerp(10, 20, thickness);
-				localScale.y = Mathf.Lerp(2.5f, 5f, thickness);
-				transform.localScale = localScale;
+				localScale.x = Mathf.Lerp(2.5f, 5f, thickness);
+				localScale.y = Mathf.Lerp(10, 20, thickness);
+				localScale.z = 7f;
+				rigRoot.localScale = localScale;
+				_capsuleCollider.radius = 0.08f;
 			}
+			//To whip
 			else{
 				localScale.x = Mathf.Lerp(5, 10, thickness);
 				localScale.y = Mathf.Lerp(5, 10, thickness);
-				transform.localScale = localScale;
+				localScale.z = 10f;
+				rigRoot.localScale = localScale;
+				_capsuleCollider.radius = 0.04f;
 			}
 		}
 
