@@ -11,7 +11,7 @@ Shader "GGDog/Col"
         Blend One One
 
         Cull Front
-
+        ZWrite Off
         Pass
         {
             CGPROGRAM
