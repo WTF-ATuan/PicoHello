@@ -23,7 +23,8 @@ namespace HelloPico2.PlayerController.BeamCharge
         [Header("Reference Settings")]
         [ReadOnly][SerializeField] private string _PlayersHandTag = "InteractCollider";
         [ReadOnly][SerializeField] private string _PlayerTag = "Player";
-        [ReadOnly][SerializeField] private GameObject[] _PlayersHands;
+        //[ReadOnly]
+        [SerializeField] private GameObject[] _PlayersHands;
         public PickableEnergy[] _PickableEnergys;
         public GameObject[] _PickableEnergyObjects;
         public LineRendererDrawer _LineRendererDrawer;
@@ -75,6 +76,8 @@ namespace HelloPico2.PlayerController.BeamCharge
         [SerializeField] private AnimationCurve _EndShootingHapticEase;
         public UltEvent _WhenEndShooting;
 
+        public bool _ForceShoot = false;
+
         [FoldoutGroup("HandMeshShaking")] [SerializeField] private float _HandShakingStrength = 0.05f;
         [FoldoutGroup("HandMeshShaking")] [SerializeField] private float _HandShakingDuration = 0.1f;
         [FoldoutGroup("CameraShaking")][SerializeField] private float _CameraShakingStrength = 0.05f;
@@ -109,7 +112,8 @@ namespace HelloPico2.PlayerController.BeamCharge
 
         private void Awake()
         {
-            _PlayersHands = GameObject.FindGameObjectsWithTag(_PlayersHandTag);
+            if(!_ForceShoot) 
+                _PlayersHands = GameObject.FindGameObjectsWithTag(_PlayersHandTag);
             if (GameObject.FindGameObjectWithTag(_PlayerTag).TryGetComponent<PlayerData>(out var playerData)) _PlayerData = playerData;
             _LineRendererDrawer.gameObject.SetActive(false);
             originalEnergyballScale = _PickableEnergys[0]._Energy.transform.localScale;
@@ -200,11 +204,35 @@ namespace HelloPico2.PlayerController.BeamCharge
         }
         #region Pick Energy
         private void AutoGrabSequencer() {
+            if (_ForceShoot) { 
+                StartCoroutine(HardFixSequencer());
+                return;
+            }
+            
             Sequence seq = DOTween.Sequence();
             seq.AppendInterval(_AutoGrabDelayDuration);
-            TweenCallback autograbCallback = () => { AutoGrabEnergy(); };
+            TweenCallback autograbCallback = () => { 
+                AutoGrabEnergy();                              
+            };
             seq.AppendCallback(autograbCallback);
-            seq.Play(); 
+            seq.Play();            
+        }
+        private IEnumerator HardFixSequencer() {
+            yield return new WaitForSeconds(_AutoGrabDelayDuration);
+            AutoGrabEnergy();
+            yield return new WaitForSeconds(_AutoGrabDuration); 
+            StartMerging();
+            yield return new WaitForSeconds(_StartCombineDuration);
+            StartCoroutine(TurnOffDelayer());
+            _BeamChargeController.gameObject.SetActive(true);
+            ChargingBall();
+            yield return new WaitForSeconds(_DelayToCharge + _RequireChargingDuration);
+            ChargingBallPositioningProcess = StartCoroutine(ChargingBallPositioning());
+            StartShooting();
+            _WhenStartShooting?.Invoke();
+            yield return new WaitForSeconds(_ShootingDuration * 1.5f);
+            EndShooting();
+            _WhenEndShooting?.Invoke();
         }
         public void AutoGrabEnergy() {
             print("Auto Grab Energy");
@@ -220,13 +248,18 @@ namespace HelloPico2.PlayerController.BeamCharge
 
                 targetHandPos = targetHand.position;
 
+                Sequence seq = DOTween.Sequence();
+                seq.Append(
                 energy.transform.DOMove(targetHandPos, _AutoGrabDuration).SetEase(_AutoGrabEase).OnUpdate(() => {
                     targetHandPos = targetHand.position;
-                }).OnComplete(() => {
+                }));
+                seq.AppendInterval(_AutoGrabDelayDuration);
+                TweenCallback storeEnergyCallback = () => {
                     print("Check Store Energy");
                     if (targetHand.TryGetComponent<InteractCollider>(out var handCol))
-                        StoreEnergyOnHand(energy, handCol);
-                });
+                        StoreEnergyOnHand(energy, handCol);                       
+                };
+                seq.AppendCallback(storeEnergyCallback);
             }
         }
         private void StoreEnergyOnHand(PickableEnergy energy, InteractCollider handCol)
@@ -265,7 +298,7 @@ namespace HelloPico2.PlayerController.BeamCharge
             
             while (timer < _StartAutoMergeDelayDuration)
             {
-                timer += Time.fixedDeltaTime;
+                timer += Time.deltaTime;
                 yield return null;
             }
 
@@ -336,7 +369,7 @@ namespace HelloPico2.PlayerController.BeamCharge
                 _WhenStartMerge?.Invoke();
             }
 
-            CurrentStayTime += Time.fixedDeltaTime;
+            CurrentStayTime += Time.deltaTime;
 
             CurrentPeriod = Mathf.Lerp(_PunchEnergyPeriod.x, _PunchEnergyPeriod.y, _PeriodEase.Evaluate(CurrentStayTime / _StartCombineDuration));
 
@@ -398,11 +431,11 @@ namespace HelloPico2.PlayerController.BeamCharge
 
             while (currentDuration < _RequireChargingDuration) {
 
-                waitDuration += Time.fixedDeltaTime;
+                waitDuration += Time.deltaTime;
 
                 if (EnergyDistance() < _StartChargingDistance || waitDuration >= _StartChargingWaitTime)
                 {
-                    currentDuration += Time.fixedDeltaTime;
+                    currentDuration += Time.deltaTime;
 
                     CurrentPeriod = Mathf.Lerp(_PunchChargingBallPeriod.x, _PunchChargingBallPeriod.y, currentDuration / _RequireChargingDuration);
 
@@ -476,7 +509,7 @@ namespace HelloPico2.PlayerController.BeamCharge
                 return _ControllerVibratorR;
         }
         private void DoVibration(HandType hand, string vibrationName) {
-            GetHandVibrator(hand).VibrateWithSetting(vibrationName);
+            //GetHandVibrator(hand).VibrateWithSetting(vibrationName);
         }        
         private void DoDynamicVibration(HandType hand, string vibrationName, float from, float to, float period, float duration, AnimationCurve ease) {
             var controllerVibrator = GetHandVibrator(hand);
