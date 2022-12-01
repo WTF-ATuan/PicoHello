@@ -50318,7 +50318,6 @@ GameObject:
   - component: {fileID: 2895763588323363849}
   - component: {fileID: 5319067410710772467}
   - component: {fileID: 1890580620942608495}
-  - component: {fileID: 8940868045107468936}
   - component: {fileID: 188102411796025941}
   - component: {fileID: 8547044456681430314}
   - component: {fileID: 3663667594254749054}
@@ -50434,102 +50433,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!82 &8940868045107468936
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3688217008751111644}
-  m_Enabled: 0
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: bbb7f787365e7e947b61bb075cee5805, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1.31
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!114 &188102411796025941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50575,7 +50478,7 @@ MonoBehaviour:
   - HitJellyFlower3
   _DamageAmount: 0
   _HitCDDuration: 0.05
-  _InteractType: 4
+  _InteractType: 0
   _ShieldReflectableItem: 1
   WhenCollide:
     m_PersistentCalls:
@@ -50615,9 +50518,6 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
-    - _Target: {fileID: 8547044456681430314}
-      _MethodName: StartScaling
-      _PersistentArguments: []
     - _Target: {fileID: 1435750679634700414}
       _MethodName: RaiseToValue
       _PersistentArguments:
@@ -50653,22 +50553,16 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
-    - _Target: {fileID: 4650061738323164739}
-      _MethodName: OnEnable
-      _PersistentArguments: []
   beamHitCount: 1
-  ballHitCount: 1
-  _DestroyDelayDuration: 5
+  ballHitCount: 3
+  _DestroyDelayDuration: 2
   _HitEffectID: BulletDestroyVFX
   _UseDestroySFX: 0
   _NormalAudioIndex: 
   _DestroyAudioIndex: 
   _DestroyAfterHit: 1
   WhenCollideWithEnergyBall:
-    _PersistentCalls:
-    - _Target: {fileID: 8547044456681430314}
-      _MethodName: StartScaling
-      _PersistentArguments: []
+    _PersistentCalls: []
 --- !u!114 &8547044456681430314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50686,37 +50580,37 @@ MonoBehaviour:
   _ScalingObject: {fileID: 3688217008751111644}
   _From: {x: 1, y: 1, z: 1}
   _To: {x: 1.2, y: 1.2, z: 1.2}
-  _Duration: 0.15
+  _Duration: 0.3
   _Loop: 1
   _EaseCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.0033569336
-      value: 0.0032653809
-      inSlope: 1.9589398
-      outSlope: 1.9589398
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.07863959
+      outWeight: 0
     - serializedVersion: 3
-      time: 0.8022633
-      value: 1.2671825
-      inSlope: 0.3043813
-      outSlope: 0.039665073
-      tangentMode: 1
+      time: 0.8695872
+      value: 1.0294749
+      inSlope: 0.012766968
+      outSlope: 0.012766968
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0.08509548
-      outWeight: 0.38005066
+      inWeight: 0.33333334
+      outWeight: 0.40589014
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: -3.347196
-      outSlope: -3.347196
+      inSlope: -0.36223176
+      outSlope: -0.36223176
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.2370393
+      inWeight: 0.3723096
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -66164,7 +66058,7 @@ MonoBehaviour:
         _Object: {fileID: 0}
   WhenEnableDelay:
     _PersistentCalls: []
-  m_DelayTime: 1
+  m_DelayTime: 0.5
   invokeByOrder: 0
 --- !u!1 &4873580535065218153
 GameObject:
