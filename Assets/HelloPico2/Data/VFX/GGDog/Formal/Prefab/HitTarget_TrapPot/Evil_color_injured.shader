@@ -46,42 +46,42 @@ Shader "GGDog/Evil_color_injured"
 
             struct appdata
             {
-                half4 vertex : POSITION;
-                half2 uv : TEXCOORD0;
-                half3 normal : NORMAL;
+                float4 vertex : POSITION;
+                float2 uv : TEXCOORD0;
+                float3 normal : NORMAL;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
             {
-                half2 uv : TEXCOORD0;
-                half4 vertex : SV_POSITION;
-				half3 worldPos : TEXCOORD1;
-                half3 worldNormal : TEXCOORD2;
-                half3 normal : NORMAL;
+                float2 uv : TEXCOORD0;
+                float4 vertex : SV_POSITION;
+				float3 worldPos : TEXCOORD1;
+                float3 worldNormal : TEXCOORD2;
+                float3 normal : NORMAL;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
             
-            half2 Rotate_UV(half2 uv , half sin , half cos)
+            float2 Rotate_UV(float2 uv , float sin , float cos)
             {
-                return half2(uv.x*cos - uv.y*sin ,uv.x*sin + uv.y*cos);
+                return float2(uv.x*cos - uv.y*sin ,uv.x*sin + uv.y*cos);
             }
-            half WaterTex(half2 uv,half Tilling,half FlowSpeed)
+            float WaterTex(float2 uv,float Tilling,float FlowSpeed)
             {
                 uv.xy*=Tilling/50;
-                half Time = _Time.y*FlowSpeed;
+                float Time = _Time.y*FlowSpeed;
 
                 uv.xy = Rotate_UV(uv,0.34,0.14);
-                half2 UV = frac(uv.xy*0.75+Time* half2(-1,-0.25));
-				half D = smoothstep(-10.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+                float2 UV = frac(uv.xy*0.75+Time* float2(-1,-0.25));
+				float D = smoothstep(-10.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
                 
                 uv.xy = Rotate_UV(uv,0.94,0.44);
-                UV = frac(uv.xy*1.2+Time*0.33* half2(-0.24,0.33));
-				half D2 = smoothstep(-18.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+                UV = frac(uv.xy*1.2+Time*0.33* float2(-0.24,0.33));
+				float D2 = smoothstep(-18.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
                 
                 uv.xy = Rotate_UV(uv,0.64,0.74);
-                UV = frac(uv.xy*1+Time*1.34* half2(0.54,-0.33));
-				half D3 = smoothstep(-15.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+                UV = frac(uv.xy*1+Time*1.34* float2(0.54,-0.33));
+				float D3 = smoothstep(-15.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
 
                 D = 1-max(max(D,D2),D3);
                 
@@ -90,7 +90,7 @@ Shader "GGDog/Evil_color_injured"
             
 
             sampler2D _MainTex;
-            half4 _MainTex_ST;
+            float4 _MainTex_ST;
 
             v2f vert (appdata v)
             {
@@ -103,7 +103,7 @@ Shader "GGDog/Evil_color_injured"
                 
 				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 
-				o.worldNormal = mul(v.normal,(half3x3)unity_WorldToObject);
+				o.worldNormal = mul(v.normal,(float3x3)unity_WorldToObject);
 
                 o.normal = v.normal;
 
@@ -111,37 +111,37 @@ Shader "GGDog/Evil_color_injured"
 
                 return o;
             }
-            half _AlphaClip;
+            float _AlphaClip;
             
-            half4 _Color;
-            half3 _LightColor;
-            half3 _ShadowColor;
-            half _Reflect;
-            half _ReflectTilling;
-            half3 _ReflectColor;
+            float4 _Color;
+            float3 _LightColor;
+            float3 _ShadowColor;
+            float _Reflect;
+            float _ReflectTilling;
+            float3 _ReflectColor;
             
-		    half4 _FarColor;
-		    half _FarDistance;
+		    float4 _FarColor;
+		    float _FarDistance;
             
-		    half _Alpha;
+		    float _Alpha;
             
-		    half4 _NearColor;
-		    half _NearDistance;
+		    float4 _NearColor;
+		    float _NearDistance;
 
-		    half _Crack;
-		    half _CrackTiling;
-		    half4 _CrackColor;
-		    half _CrackWidth;
+		    float _Crack;
+		    float _CrackTiling;
+		    float4 _CrackColor;
+		    float _CrackWidth;
             
-            half4 frag (v2f i) : SV_Target
+            float4 frag (v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
 
-                half4 col = tex2D(_MainTex, i.uv + _Time.y*_MainTex_ST.zw);
+                float4 col = tex2D(_MainTex, i.uv + _Time.y*_MainTex_ST.zw);
 
-                half3 normalDir = normalize(i.worldNormal);
+                float3 normalDir = normalize(i.worldNormal);
 
-                half3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
+                float3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
 
                 col.rgb =  lerp( _ShadowColor * col, _LightColor * col, (max(dot(normalDir,lightDir),0+0.25))) ;
 
@@ -150,13 +150,13 @@ Shader "GGDog/Evil_color_injured"
                 clip(col.a-_AlphaClip);
                 
                 //¶ZÂ÷Ãú
-				col = lerp(col,half4(_FarColor.rgb,col.a), smoothstep(0,_FarDistance,i.worldPos.z));
+				col = lerp(col,float4(_FarColor.rgb,col.a), smoothstep(0,_FarDistance,i.worldPos.z));
                 //·¥ªñ¶ZÂ÷³æ¦â
-				col = lerp(col,half4(_NearColor.rgb,col.a),1- smoothstep(0,_NearDistance,i.worldPos.z));
+				col = lerp(col,float4(_NearColor.rgb,col.a),1- smoothstep(0,_NearDistance,i.worldPos.z));
                 
-                col = half4(col.rgb,col.a*_Alpha)*_Color;
+                col = float4(col.rgb,col.a*_Alpha)*_Color;
 
-                half crack = (WaterTex(i.uv + _Time.y*_MainTex_ST.zw,_CrackTiling*_ReflectTilling/2,0));
+                float crack = (WaterTex(i.uv + _Time.y*_MainTex_ST.zw,_CrackTiling*_ReflectTilling/2,0));
 
                 col.rgb = lerp(_CrackColor.rgb+col.rgb,col.rgb,smoothstep(0,_CrackWidth*saturate(_Crack+0.75),crack-(_Crack-0.15)));
 
@@ -179,42 +179,42 @@ Shader "GGDog/Evil_color_injured"
 
             struct appdata
             {
-                half4 vertex : POSITION;
-                half2 uv : TEXCOORD0;
-                half3 normal : NORMAL;
+                float4 vertex : POSITION;
+                float2 uv : TEXCOORD0;
+                float3 normal : NORMAL;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
             {
-                half2 uv : TEXCOORD0;
-                half4 vertex : SV_POSITION;
-				half3 worldPos : TEXCOORD1;
-                half3 worldNormal : TEXCOORD2;
-                half3 normal : NORMAL;
+                float2 uv : TEXCOORD0;
+                float4 vertex : SV_POSITION;
+				float3 worldPos : TEXCOORD1;
+                float3 worldNormal : TEXCOORD2;
+                float3 normal : NORMAL;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
             
-            half2 Rotate_UV(half2 uv , half sin , half cos)
+            float2 Rotate_UV(float2 uv , float sin , float cos)
             {
-                return half2(uv.x*cos - uv.y*sin ,uv.x*sin + uv.y*cos);
+                return float2(uv.x*cos - uv.y*sin ,uv.x*sin + uv.y*cos);
             }
-            half WaterTex(half2 uv,half Tilling,half FlowSpeed)
+            float WaterTex(float2 uv,float Tilling,float FlowSpeed)
             {
                 uv.xy*=Tilling/50;
-                half Time = _Time.y*FlowSpeed;
+                float Time = _Time.y*FlowSpeed;
 
                 uv.xy = Rotate_UV(uv,0.34,0.14);
-                half2 UV = frac(uv.xy*0.75+Time* half2(-1,-0.25));
-				half D = smoothstep(-10.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+                float2 UV = frac(uv.xy*0.75+Time* float2(-1,-0.25));
+				float D = smoothstep(-10.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
                 
                 uv.xy = Rotate_UV(uv,0.94,0.44);
-                UV = frac(uv.xy*1.2+Time*0.33* half2(-0.24,0.33));
-				half D2 = smoothstep(-18.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+                UV = frac(uv.xy*1.2+Time*0.33* float2(-0.24,0.33));
+				float D2 = smoothstep(-18.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
                 
                 uv.xy = Rotate_UV(uv,0.64,0.74);
-                UV = frac(uv.xy*1+Time*1.34* half2(0.54,-0.33));
-				half D3 = smoothstep(-15.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
+                UV = frac(uv.xy*1+Time*1.34* float2(0.54,-0.33));
+				float D3 = smoothstep(-15.4,4.2,1-38.7*((UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5))-1);
 
                 D = 1-max(max(D,D2),D3);
                 //D = smoothstep(-3.5,3.5,D+D2+D3);
@@ -224,7 +224,7 @@ Shader "GGDog/Evil_color_injured"
 
 
             sampler2D _MainTex;
-            half4 _MainTex_ST;
+            float4 _MainTex_ST;
 
             v2f vert (appdata v)
             {
@@ -238,7 +238,7 @@ Shader "GGDog/Evil_color_injured"
                 
 				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 
-				o.worldNormal = mul(v.normal,(half3x3)unity_WorldToObject);
+				o.worldNormal = mul(v.normal,(float3x3)unity_WorldToObject);
 
                 o.normal = v.normal;
                 
@@ -247,38 +247,38 @@ Shader "GGDog/Evil_color_injured"
                 return o;
             }
             
-            half _AlphaClip;
+            float _AlphaClip;
             
-            half4 _Color;
-            half3 _LightColor;
-            half3 _ShadowColor;
-            half _Reflect;
-            half _ReflectTilling;
-            half3 _ReflectColor;
+            float4 _Color;
+            float3 _LightColor;
+            float3 _ShadowColor;
+            float _Reflect;
+            float _ReflectTilling;
+            float3 _ReflectColor;
             
-		    half4 _FarColor;
-		    half _FarDistance;
+		    float4 _FarColor;
+		    float _FarDistance;
 
-		    half _Alpha;
+		    float _Alpha;
             
-		    half4 _NearColor;
-		    half _NearDistance;
+		    float4 _NearColor;
+		    float _NearDistance;
             
-		    half _Crack;
-		    half _CrackTiling;
-		    half4 _CrackColor;
-		    half _CrackWidth;
+		    float _Crack;
+		    float _CrackTiling;
+		    float4 _CrackColor;
+		    float _CrackWidth;
             
             
-            half4 frag (v2f i) : SV_Target
+            float4 frag (v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID (i);
 
-                half4 col = tex2D(_MainTex, i.uv + _Time.y*_MainTex_ST.zw);
+                float4 col = tex2D(_MainTex, i.uv + _Time.y*_MainTex_ST.zw);
 
-                half3 normalDir = normalize(i.worldNormal);
+                float3 normalDir = normalize(i.worldNormal);
 
-                half3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
+                float3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
 
                 col.rgb =  lerp( _ShadowColor * col, _LightColor * col, (max(dot(normalDir,lightDir),0+0.25))) ;
                 
@@ -287,13 +287,13 @@ Shader "GGDog/Evil_color_injured"
                 clip(col.a-_AlphaClip);
                 
                 //¶ZÂ÷Ãú
-				col = lerp(col,half4(_FarColor.rgb,col.a), smoothstep(0,_FarDistance,i.worldPos.z));
+				col = lerp(col,float4(_FarColor.rgb,col.a), smoothstep(0,_FarDistance,i.worldPos.z));
                 //·¥ªñ¶ZÂ÷³æ¦â
-				col = lerp(col,half4(_NearColor.rgb,col.a),1- smoothstep(0,_NearDistance,i.worldPos.z));
+				col = lerp(col,float4(_NearColor.rgb,col.a),1- smoothstep(0,_NearDistance,i.worldPos.z));
                 
-                col = half4(col.rgb,col.a*_Alpha)*_Color;
+                col = float4(col.rgb,col.a*_Alpha)*_Color;
 
-                half crack = (WaterTex(i.uv + _Time.y*_MainTex_ST.zw,_CrackTiling*_ReflectTilling/2,0));
+                float crack = (WaterTex(i.uv + _Time.y*_MainTex_ST.zw,_CrackTiling*_ReflectTilling/2,0));
 
                 //col.rgb = lerp(_CrackColor.rgb+col.rgb,col.rgb,smoothstep(0,_CrackWidth*saturate(_Crack+0.75),crack-(_Crack-0.15))); Original before JK Edit
                 col.rgb = lerp(_CrackColor.rgb + col.rgb, col.rgb, smoothstep(-0.5, _CrackWidth * saturate(_Crack + 0.64), crack - (_Crack - 0.15)));
