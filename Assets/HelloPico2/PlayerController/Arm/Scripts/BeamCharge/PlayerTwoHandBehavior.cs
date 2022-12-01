@@ -4,16 +4,19 @@ using HelloPico2.InputDevice.Scripts;
 using HelloPico2.PlayerController.Arm;
 using HelloPico2.PlayerController.Player;
 using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UltEvents;
 using UnityEngine;
+using UnityEngine.InputSystem.Interactions;
 
 namespace HelloPico2.PlayerController.BeamCharge
 {
     public class PlayerTwoHandBehavior : MonoBehaviour
     {
+        #region Variables
         [System.Serializable]
         public struct PunchData {
             public Vector3 PunchScale;
@@ -41,7 +44,7 @@ namespace HelloPico2.PlayerController.BeamCharge
         [Header("Merging")]
         public float _StartCombineDistance = 10;
         public float _StartCombineDuration = 3;
-        public Vector2 _PunchEnergyPeriod = new Vector2( 0.3f, 0.1f);
+        public Vector2 _PunchEnergyPeriod = new Vector2(0.3f, 0.1f);
         public AnimationCurve _PeriodEase;
         public float _TurnOffDelaySeconds = 1f;
         [SerializeField] private bool _UseAutoMerge;
@@ -61,7 +64,7 @@ namespace HelloPico2.PlayerController.BeamCharge
         [SerializeField] private Vector3 _EndChargingScale = new Vector3(.3f, .3f, .3f);
         [SerializeField] private float _StartChargingDuration = .5f;
         [SerializeField] private float _RequireChargingDuration = 3f;
-        [SerializeField] private Vector2 _PunchChargingBallPeriod = new Vector2( 0.3f, 0.1f);
+        [SerializeField] private Vector2 _PunchChargingBallPeriod = new Vector2(0.3f, 0.1f);
         [SerializeField] private PunchData _ChargingPunchData;
         public UltEvent _WhenActivateChargingBall;
         public UltEvent _WhenCharging;
@@ -76,26 +79,30 @@ namespace HelloPico2.PlayerController.BeamCharge
         [SerializeField] private AnimationCurve _EndShootingHapticEase;
         public UltEvent _WhenEndShooting;
 
+        [Header("Debug")]
         public bool _ForceShoot = false;
+        public bool _TextDebug = false;
+        public TMPro.TextMeshProUGUI _Text;
 
-        [FoldoutGroup("HandMeshShaking")] [SerializeField] private float _HandShakingStrength = 0.05f;
-        [FoldoutGroup("HandMeshShaking")] [SerializeField] private float _HandShakingDuration = 0.1f;
+        [FoldoutGroup("HandMeshShaking")][SerializeField] private float _HandShakingStrength = 0.05f;
+        [FoldoutGroup("HandMeshShaking")][SerializeField] private float _HandShakingDuration = 0.1f;
         [FoldoutGroup("CameraShaking")][SerializeField] private float _CameraShakingStrength = 0.05f;
         [FoldoutGroup("CameraShaking")][SerializeField] private float _CameraShakingDuration = 0.1f;
-        [FoldoutGroup("Haptic")] [SerializeField] private string _GainBallHapticName;
-        [FoldoutGroup("Haptic")] [SerializeField] private string _BallMergingPopHapticName;
-        [FoldoutGroup("Haptic")] [SerializeField] private string _GainChargingBallHapticName;
-        [FoldoutGroup("Haptic")] [SerializeField] private string _ChargingHapticName;
-        [FoldoutGroup("Haptic")] [SerializeField] private string _ShootingHapticName;
-        [FoldoutGroup("Audio")] [SerializeField] private string _GainBallAudioName;
-        [FoldoutGroup("Audio")] [SerializeField] private string _BallMergingPopAudioName;
-        [FoldoutGroup("Audio")] [SerializeField] private string _BallStopMergingAudioName;
-        [FoldoutGroup("Audio")] [SerializeField] private string _GainChargingBallAudioName;
-        [FoldoutGroup("Audio")] [SerializeField] private string _ChargingAudioName;
-        [FoldoutGroup("Audio")] [SerializeField] private string _ShootingAudioName;
-        [FoldoutGroup("Audio")] [SerializeField] private string _EndShootingAudioName;
-        
+        [FoldoutGroup("Haptic")][SerializeField] private string _GainBallHapticName;
+        [FoldoutGroup("Haptic")][SerializeField] private string _BallMergingPopHapticName;
+        [FoldoutGroup("Haptic")][SerializeField] private string _GainChargingBallHapticName;
+        [FoldoutGroup("Haptic")][SerializeField] private string _ChargingHapticName;
+        [FoldoutGroup("Haptic")][SerializeField] private string _ShootingHapticName;
+        [FoldoutGroup("Audio")][SerializeField] private string _GainBallAudioName;
+        [FoldoutGroup("Audio")][SerializeField] private string _BallMergingPopAudioName;
+        [FoldoutGroup("Audio")][SerializeField] private string _BallStopMergingAudioName;
+        [FoldoutGroup("Audio")][SerializeField] private string _GainChargingBallAudioName;
+        [FoldoutGroup("Audio")][SerializeField] private string _ChargingAudioName;
+        [FoldoutGroup("Audio")][SerializeField] private string _ShootingAudioName;
+        [FoldoutGroup("Audio")][SerializeField] private string _EndShootingAudioName;
+
         private PlayerData _PlayerData;
+        private bool storedL,storedR;
         private List<Vector3> energyObjectsOriginalPos = new List<Vector3>();
         private Vector3 beamControllerOriginalScale;
         private int _GainEnergyCount = 2;
@@ -106,18 +113,36 @@ namespace HelloPico2.PlayerController.BeamCharge
         private Vector3 centerOfEnergy = Vector3.zero;
         private Coroutine CheckDistanceProcess;
         private Coroutine CheckAutoMergeProcess;
-        private Coroutine ChargingBallPositioningProcess;
         private Coroutine ChargingBallProcess;
         private Coroutine ShootingProcess;
 
+        private Action updateCallback;
+
+        private int currentLine = 0;
+        #endregion
+        private void DebugText(string text) {
+            if (!_TextDebug) return;
+
+            if (currentLine > 10)
+            {
+                _Text.text = "";
+                currentLine = 0;
+            }
+
+            _Text.text += "\n" + text;
+            currentLine++;
+        }
         private void Awake()
         {
-            if(!_ForceShoot) 
+            if (!_ForceShoot)
+            {
                 _PlayersHands = GameObject.FindGameObjectsWithTag(_PlayersHandTag);
+                DebugText("_PlayersHands " + _PlayersHands.Length.ToString());
+            }
             if (GameObject.FindGameObjectWithTag(_PlayerTag).TryGetComponent<PlayerData>(out var playerData)) _PlayerData = playerData;
             _LineRendererDrawer.gameObject.SetActive(false);
             originalEnergyballScale = _PickableEnergys[0]._Energy.transform.localScale;
-            beamControllerOriginalScale = _BeamChargeController.transform.localScale;            
+            beamControllerOriginalScale = _BeamChargeController.transform.localScale;
             foreach (var energy in _PickableEnergyObjects)
                 energyObjectsOriginalPos.Add(energy.transform.position);
 
@@ -166,7 +191,7 @@ namespace HelloPico2.PlayerController.BeamCharge
             _WhenStopMerge -= () => { ShakeHandMesh(); };
             _WhenShooting -= () => { ShakeHandMesh(); DoCameraShake(); };
             _WhenActivateChargingBall -= () => { ShakeHandMesh(); DoCameraShake(); };
-        }        
+        }
         private void Update()
         {
             centerOfEnergy = GetTwoHandsCenter();
@@ -177,6 +202,8 @@ namespace HelloPico2.PlayerController.BeamCharge
             {
                 _CarryTheseVFXs[i].transform.position = centerOfEnergy;
             }
+
+            updateCallback?.Invoke();
         }
         private void ResetToBeggingState()
         {
@@ -184,18 +211,19 @@ namespace HelloPico2.PlayerController.BeamCharge
             {
                 _PickableEnergyObjects[i].transform.position = energyObjectsOriginalPos[i];
                 _PickableEnergyObjects[i].gameObject.SetActive(true);
-                print(_PickableEnergyObjects[i].gameObject.name + " " + _PickableEnergyObjects[i].gameObject.activeSelf);                
             }
 
             _BeamChargeController.controller = Player_BeamCharge_Controller.Controller.Start;
             _BeamChargeController.gameObject.SetActive(false);
             _BeamChargeController.transform.localScale = beamControllerOriginalScale;
+            storedL = false;
+            storedR = false;
         }
         private Vector3 GetTwoHandsCenter() {
             return (_PickableEnergys[0]._Energy.position + _PickableEnergys[1]._Energy.position) / 2;
         }
         private void ShakeHandMesh() {
-            _PlayerData.lHandShaker.StartShake(_HandShakingStrength, _HandShakingDuration); 
+            _PlayerData.lHandShaker.StartShake(_HandShakingStrength, _HandShakingDuration);
             _PlayerData.rHandShaker.StartShake(_HandShakingStrength, _HandShakingDuration);
         }
         private void DoCameraShake() {
@@ -203,43 +231,20 @@ namespace HelloPico2.PlayerController.BeamCharge
             _PlayerData.cameraShakeSettings.StartShaking(_CameraShakingDuration, _CameraShakingStrength, 10);
         }
         #region Pick Energy
-        private void AutoGrabSequencer() {
-            if (_ForceShoot) { 
-                StartCoroutine(HardFixSequencer());
-                return;
-            }
-            
+        private void AutoGrabSequencer() {            
             Sequence seq = DOTween.Sequence();
             seq.AppendInterval(_AutoGrabDelayDuration);
-            TweenCallback autograbCallback = () => { 
-                AutoGrabEnergy();                              
+            TweenCallback autograbCallback = () => {
+                AutoGrabEnergy();
             };
             seq.AppendCallback(autograbCallback);
-            seq.Play();            
-        }
-        private IEnumerator HardFixSequencer() {
-            yield return new WaitForSeconds(_AutoGrabDelayDuration);
-            AutoGrabEnergy();
-            yield return new WaitForSeconds(_AutoGrabDuration); 
-            StartMerging();
-            yield return new WaitForSeconds(_StartCombineDuration);
-            StartCoroutine(TurnOffDelayer());
-            _BeamChargeController.gameObject.SetActive(true);
-            ChargingBall();
-            yield return new WaitForSeconds(_DelayToCharge + _RequireChargingDuration);
-            ChargingBallPositioningProcess = StartCoroutine(ChargingBallPositioning());
-            StartShooting();
-            _WhenStartShooting?.Invoke();
-            yield return new WaitForSeconds(_ShootingDuration * 1.5f);
-            EndShooting();
-            _WhenEndShooting?.Invoke();
-        }
+            seq.Play();
+        }        
         public void AutoGrabEnergy() {
-            print("Auto Grab Energy");
             foreach (var energy in _PickableEnergys)
             {
                 Transform targetHand;
-                Vector3  targetHandPos = Vector3.zero;
+                Vector3 targetHandPos = Vector3.zero;
 
                 if (energy._HandType == HandType.Left)
                     targetHand = _PlayersHands[0].transform;
@@ -256,20 +261,34 @@ namespace HelloPico2.PlayerController.BeamCharge
                 seq.AppendInterval(_AutoGrabDelayDuration);
                 TweenCallback storeEnergyCallback = () => {
                     print("Check Store Energy");
+                    DebugText("Check Store Energy");
                     if (targetHand.TryGetComponent<InteractCollider>(out var handCol))
-                        StoreEnergyOnHand(energy, handCol);                       
+                    { 
+                        StoreEnergyOnHand(energy, handCol);
+                    }
                 };
                 seq.AppendCallback(storeEnergyCallback);
             }
         }
         private void StoreEnergyOnHand(PickableEnergy energy, InteractCollider handCol)
         {
+            if (energy._HandType == HandType.Left)
+            {
+                if (!storedL) storedL = true;
+                else return;
+            }
+            if (energy._HandType == HandType.Right)
+            { 
+                if (!storedR) storedR = true; 
+                else return;
+            }
             print("Store Energy");
+            DebugText("Store Energy " + handCol.gameObject.name);
             currentEnergyCount++;
 
             if (currentEnergyCount >= _GainEnergyCount)
                 StartMerging();
-            
+
             DoVibration(handCol._HandType, _GainBallHapticName);
             AudioPlayerHelper.PlayAudio(_GainBallAudioName, transform.position);
         }
@@ -277,6 +296,7 @@ namespace HelloPico2.PlayerController.BeamCharge
         #region Merging Energy
         private void StartMerging() {
             print("Start Merging");
+            //DebugText("Start Merging");
             _LineRendererDrawer._From = _PickableEnergys[0]._Energy;
             _LineRendererDrawer._To = _PickableEnergys[1]._Energy;
             _LineRendererDrawer.gameObject.SetActive(true);
@@ -295,7 +315,7 @@ namespace HelloPico2.PlayerController.BeamCharge
         }
         private IEnumerator CheckAutoMerge() {
             float timer = 0;
-            
+
             while (timer < _StartAutoMergeDelayDuration)
             {
                 timer += Time.deltaTime;
@@ -324,21 +344,27 @@ namespace HelloPico2.PlayerController.BeamCharge
                 yield return null;
             }
         }
-        private IEnumerator CheckMerging() {
+        private IEnumerator CheckMerging()
+        {
+            //DebugText("Check Merging");
             yield return new WaitUntil(() => CheckStayTiming(CheckStartCombineDistance()));
-            
+            //DebugText("Finished Check Merging");
+
             if (CheckAutoMergeProcess != null)
                 StopCoroutine(CheckAutoMergeProcess);
 
             _BeamChargeController.gameObject.SetActive(true);
 
-            _WhenActivateChargingBall?.Invoke();
-            
-            StartCoroutine(TurnOffDelayer());
+            _WhenActivateChargingBall?.InvokeSafe();
+
             ChargingBall();
-        }
-        private IEnumerator TurnOffDelayer() {
+
             yield return new WaitForSeconds(_TurnOffDelaySeconds);
+
+            TurnOffEnergies();
+        }
+        private void TurnOffEnergies() {
+            //DebugText("Turn off energy");
             foreach (var item in _PickableEnergys)
             {
                 item._Energy.gameObject.SetActive(false);
@@ -350,36 +376,38 @@ namespace HelloPico2.PlayerController.BeamCharge
             _LineRendererDrawer.gameObject.SetActive(false);
         }
         private float EnergyDistance() => Vector3.Distance(_PickableEnergys[0]._Energy.position, _PickableEnergys[1]._Energy.position);
-        private bool CheckStartCombineDistance() => EnergyDistance() < _StartCombineDistance;
+        private bool CheckStartCombineDistance() {
+            //DebugText("Energy Distance " + EnergyDistance());
+            return EnergyDistance() < _StartCombineDistance; }
         private bool CheckStayTiming(bool distanceResult) {
             if (!distanceResult) {
                 if (CurrentStayTime != 0)
                 { 
                     AudioPlayerHelper.PlayAudio(_BallStopMergingAudioName, transform.position); 
-                    _WhenStopMerge?.Invoke();                    
+                    _WhenStopMerge?.InvokeSafe();                    
                 }
                 CurrentStayTime = 0;
                 ResetEnergyScale();
+                //DebugText("CheckStayTiming false");
                 return false; 
             }
             
             if (CurrentStayTime == 0)
             {
                 FeedbackPopEnergys();
-                _WhenStartMerge?.Invoke();
+                _WhenStartMerge?.InvokeSafe();
             }
 
             CurrentStayTime += Time.deltaTime;
 
             CurrentPeriod = Mathf.Lerp(_PunchEnergyPeriod.x, _PunchEnergyPeriod.y, _PeriodEase.Evaluate(CurrentStayTime / _StartCombineDuration));
-
             
             if (CurrentStayTime % CurrentPeriod <= .01f)
             { 
                 FeedbackPopEnergys(); 
-                _WhenMerge?.Invoke(); 
+                _WhenMerge?.InvokeSafe(); 
             }
-
+            //DebugText("CurrentStayTime " + CurrentStayTime);
             if (CurrentStayTime >= _StartCombineDuration) return true;
             else return false;
         }
@@ -400,24 +428,22 @@ namespace HelloPico2.PlayerController.BeamCharge
         }
         #endregion
         #region ChargingBall
-        private void ChargingBall() {
+        private void ChargingBall()
+        {
+            //DebugText("ChargingBall");
             if (ChargingBallProcess != null)
                 StopCoroutine(ChargingBallProcess);
 
-            ChargingBallPositioningProcess = StartCoroutine(ChargingBallPositioning());
+            updateCallback += () => { ChargingBallPositioning(); };
             ChargingBallProcess = StartCoroutine(ChargingBallControlling());
 
             DoVibration(HandType.Left, _GainChargingBallHapticName);
             DoVibration(HandType.Right, _GainChargingBallHapticName);
             AudioPlayerHelper.PlayAudio(_GainChargingBallAudioName, transform.position);
         }
-        private IEnumerator ChargingBallPositioning()
+        private void ChargingBallPositioning()
         {
-            while (true)
-            {
-                _BeamChargeController.transform.position = GetTwoHandsCenter();
-                yield return null;
-            }
+            _BeamChargeController.transform.position = GetTwoHandsCenter();
         }
         private IEnumerator ChargingBallControlling() {
             float waitDuration = 0;            
@@ -428,6 +454,8 @@ namespace HelloPico2.PlayerController.BeamCharge
             yield return new WaitForSeconds(_DelayToCharge);
 
             print("Start Charging");
+
+            //DebugText("Start Charging");
 
             while (currentDuration < _RequireChargingDuration) {
 
@@ -465,9 +493,11 @@ namespace HelloPico2.PlayerController.BeamCharge
                 _BeamChargeController.transform.localScale = _StartChargingScale;
 
             print("Finished Charging");
+            //DebugText("Finished Charging");
             StartShooting();
         }
         #endregion
+        #region Shooting
         private void StartShooting() {
             _BeamChargeController.controller = Player_BeamCharge_Controller.Controller.Shot;
 
@@ -478,27 +508,28 @@ namespace HelloPico2.PlayerController.BeamCharge
         }
         private IEnumerator Shooting()
         {
+            //DebugText("Start Shooting");
             DoDynamicVibration(HandType.Left, _ShootingHapticName, 1, 1, 0.1f, _ShootingDuration, _EndShootingHapticEase);
             DoDynamicVibration(HandType.Right, _ShootingHapticName, 1, 1, 0.1f, _ShootingDuration, _EndShootingHapticEase);
             AudioPlayerHelper.PlayAudio(_ShootingAudioName, transform.position);
-            _WhenStartShooting?.Invoke();
+            _WhenStartShooting?.InvokeSafe();
             var feedbackProcess = StartCoroutine(ShootingFeedback());
             yield return new WaitForSeconds(_ShootingDuration);
             StopCoroutine(feedbackProcess);
             DoDynamicVibration(HandType.Left, _ShootingHapticName, 1, 0, 0, _EndShootingHapticDuration, _EndShootingHapticEase);
             DoDynamicVibration(HandType.Right, _ShootingHapticName, 1, 0, 0, _EndShootingHapticDuration, _EndShootingHapticEase);
             AudioPlayerHelper.PlayAudio(_EndShootingAudioName, transform.position);
-            _WhenEndShooting?.Invoke();
-            EndShooting();
+            _WhenEndShooting?.InvokeSafe();
+            EndShooting(); 
+            //DebugText("End Shooting");
         }
         private IEnumerator ShootingFeedback() {
             while (true)
             {
-                _WhenShooting?.Invoke();
+                _WhenShooting?.InvokeSafe();
                 yield return new WaitForSeconds(.1f);
             }
         }
-
         private void EndShooting() { 
             _BeamChargeController.controller = Player_BeamCharge_Controller.Controller.End;            
         }
@@ -508,8 +539,9 @@ namespace HelloPico2.PlayerController.BeamCharge
             else 
                 return _ControllerVibratorR;
         }
+        #endregion
         private void DoVibration(HandType hand, string vibrationName) {
-            //GetHandVibrator(hand).VibrateWithSetting(vibrationName);
+            GetHandVibrator(hand).VibrateWithSetting(vibrationName);
         }        
         private void DoDynamicVibration(HandType hand, string vibrationName, float from, float to, float period, float duration, AnimationCurve ease) {
             var controllerVibrator = GetHandVibrator(hand);
