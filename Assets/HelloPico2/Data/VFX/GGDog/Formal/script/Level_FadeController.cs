@@ -67,6 +67,16 @@ public class Level_FadeController : MonoBehaviour
     }
     #endregion
 
+    //材質更換
+    public TheMaterial The_Material;
+    #region
+    [System.Serializable]
+    public struct TheMaterial
+    {
+        public Material[] The_Material;
+    }
+    #endregion
+
     private void OnEnable()
     {
         Now_Level = The_Level.The_Level[0];
@@ -118,6 +128,8 @@ public class Level_FadeController : MonoBehaviour
                 now_level = 0;
                 if (pre_level != now_level)
                 {
+                    The_Material.The_Material[0] = The_Material.The_Material[1]; //飛碟的材質.Intro
+
                     Level_Spawner_Switch(Level_1, false, 50);  //穿越加速，並關閉Emission
                     CloudPassThrough_Level_Switch(The_Level.The_Level[0]);
                     CloudPassThrough.enabled = true;
@@ -135,6 +147,9 @@ public class Level_FadeController : MonoBehaviour
                 now_level = 1;
                 if (pre_level != now_level)
                 {
+
+                    The_Material.The_Material[0] = The_Material.The_Material[2]; //飛碟的材質.Lv1
+
                     Level_Spawner_Switch(Level_0, false, 50);  //穿越加速，並關閉Emission
                     CloudPassThrough_Level_Switch(The_Level.The_Level[1]);
                     CloudPassThrough.enabled = true;
