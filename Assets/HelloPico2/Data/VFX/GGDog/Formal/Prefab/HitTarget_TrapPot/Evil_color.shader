@@ -137,7 +137,7 @@ Shader "GGDog/Evil_color"
 
                 float3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
 
-                col.rgb =  lerp( _ShadowColor * col, _LightColor * col, (max(dot(normalDir,lightDir),0+0.25))) ;
+                col.rgb =  lerp( _ShadowColor * 1, _LightColor * 1, col.r*smoothstep(0.5,0.5,max(dot(normalDir,lightDir),0+0.25))) ;
 
                 col.rgb += WaterTex(i.worldPos.xy,_ReflectTilling,1.25)*_Reflect*_ReflectColor;
 
@@ -259,8 +259,8 @@ Shader "GGDog/Evil_color"
                 float3 normalDir = normalize(i.worldNormal);
 
                 float3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
-
-                col.rgb =  lerp( _ShadowColor * col, _LightColor * col, (max(dot(normalDir,lightDir),0+0.25))) ;
+                
+                col.rgb =  lerp( _ShadowColor * 1, _LightColor * 1, col.r*smoothstep(0.5,0.5,max(dot(normalDir,lightDir),0+0.25))) ;
                 
                 col.rgb += WaterTex(i.worldPos.xy,_ReflectTilling,1.25)*_Reflect*_ReflectColor;
 
