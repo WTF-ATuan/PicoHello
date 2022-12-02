@@ -113,6 +113,7 @@ public class targetScript : MonoBehaviour
 
         countTimer += Time.deltaTime;
 
+        
         if (isAudio && isGetItem &&  isAudioDelay ==0)
         {
             aduioObj.SetActive(true);
@@ -138,6 +139,13 @@ public class targetScript : MonoBehaviour
                 
                 StartCoroutine(WaitTimeScaleCollider());                
             }
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (isMenuAnim)
+        {
+            menuAnimator.SetTrigger("NotGit");
         }
     }
     IEnumerator WaitTimeScaleCollider()
