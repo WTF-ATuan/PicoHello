@@ -150,7 +150,7 @@ Shader "GGDog/Uber_ToonShader_supportHitColor"
 
 				//col.rgb = lerp(col.rgb,_Color.rgb,_Color.a);
 				
-                col.rgb = lerp(col.rgb,(half3(1,0,0)*0.25+col.rgb),_Color.a);
+                col.rgb = lerp(col.rgb,(half3(1,0.75,0.75)*col.rgb)*1,_Color.a);
 
                 col.rgb +=half3(1,0.5,0.5)* (saturate(smoothstep(0,1,i.uv.z))) * _Color.a;
 

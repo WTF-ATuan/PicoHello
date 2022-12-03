@@ -83,9 +83,9 @@ Shader "GGDog/HitTarget"
 
                 col+=Rim3*_WarningRimColor*_WarningRimColor.a;
                 
-                col = lerp(col,(half4(1,0,0,1)*0.25+col),_Color.a);
+                col.rgb = lerp(col.rgb,(half3(1,0.75,0.75)*col.rgb)*1,_Color.a);
 
-                col +=half4(1,0.5,0.5,1)* (1-saturate(smoothstep(0,1,i.worldPos.y))) * _Color.a;
+                col.rgb +=half3(1,0.5,0.5)* (1-saturate(smoothstep(0,1,i.worldPos.y))) * _Color.a;
 
 
                 //¶ZÂ÷Ãú
