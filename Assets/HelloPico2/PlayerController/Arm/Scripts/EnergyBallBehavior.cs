@@ -124,6 +124,21 @@ namespace HelloPico2.PlayerController.Arm
         public bool isCurrentWeaponEnergyBall() {
             return currentWeaponBehavior == energyBehavior;
         }
+        public void ChargeEnergyDirectlyWithoutVisualFeedback(float energy)
+        {
+            // Charge Energy
+            armLogic.data.Energy = energy;
+
+            armLogic.OnEnergyChanged?.Invoke(armLogic.data);
+
+            // Charge Energy ball
+            GenerateChargingEnergyBall();
+
+            if (energy != 0)
+                currentEnergyBall.SetActive(true);
+            else
+                currentEnergyBall.transform.localScale = Vector3.zero;
+        }
         public void ChargeEnergyDirectly(float energy)
         {
             // Charge Energy

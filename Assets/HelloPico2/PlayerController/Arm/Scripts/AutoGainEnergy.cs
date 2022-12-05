@@ -63,7 +63,7 @@ namespace HelloPico2.PlayerController.Arm.Scripts{
 				return;
 			}
 
-			_energyBehavior.ChargeEnergyDirectly(energy);
+			_energyBehavior.ChargeEnergyDirectlyWithoutVisualFeedback(energy);
 		}
 
 		public void Active(bool isActive){
