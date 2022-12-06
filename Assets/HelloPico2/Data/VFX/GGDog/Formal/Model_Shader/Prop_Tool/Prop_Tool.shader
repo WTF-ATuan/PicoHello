@@ -126,7 +126,7 @@ Shader "Unlit/Prop_Tool"
 
 				float Rim = 1-saturate(smoothstep(0,2,dot(worldNormal,worldViewDir) ));
 
-                Rim += WaterTex( i.worldPos,30,-1);
+                Rim += WaterTex( i.worldPos,20,-1);
 
                 return float4(col.rgb+Rim*_RimColor.rgb,col.r+Rim*_RimColor.r);
             }
