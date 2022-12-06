@@ -17,23 +17,35 @@ namespace HelloPico2.PlayerController.Arm.Scripts{
 		private ColdDownTimer _onInputTimer;
 		private ColdDownTimer _normalTimer;
 
-		private bool _isInvoking = false;
+		private bool _isGaining = false;
 
 		private void Start(){
 			_armData = GetComponent<ArmData>();
 			_energyBehavior = GetComponent<EnergyBallBehavior>();
 			EventBus.Subscribe<DeviceInputDetected>(OnInputDetected);
 			_onInputTimer = new ColdDownTimer(curve.Evaluate(0));
-			_normalTimer = new ColdDownTimer(0.4f);
+			_normalTimer = new ColdDownTimer(0.25f);
 		}
 
 		private void Update(){
-			if(!active || !notGripGain) return;
-			if(_isInvoking) return;
-			if(!_normalTimer.CanInvoke()) return;
-			_normalTimer.ModifyDuring(0.4f);
-			_normalTimer.Reset();
-			CalculateEnergy();
+			if(NotGripCondition()) return;
+			var energyPercent = _armData.Energy / _armData.MaxEnergy;
+			if(energyPercent >= 0.7f) return;
+			if(energyPercent < 0.5f){
+				_normalTimer.ModifyDuring(0.6f);
+				_normalTimer.Reset();
+				CalculateEnergy(0.4f);
+			}
+			else{
+				_normalTimer.ModifyDuring(0.25f);
+				_normalTimer.Reset();
+				CalculateEnergy(0.5f);
+			}
+		}
+
+		private bool NotGripCondition(){
+			return !active || !notGripGain || _isGaining || !_normalTimer.CanInvoke() ||
+				   !_energyBehavior.isCurrentWeaponEnergyBall();
 		}
 
 
@@ -42,12 +54,12 @@ namespace HelloPico2.PlayerController.Arm.Scripts{
 				return;
 			}
 
-			_isInvoking = true;
+			_isGaining = true;
 			var invokeDuring = curve.Evaluate(_armData.currentGripFunctionTimer);
 			_onInputTimer.ModifyDuring(invokeDuring);
 			_onInputTimer.Reset();
-			CalculateEnergy();
-			_isInvoking = false;
+			CalculateEnergy(0.02f);
+			_isGaining = false;
 		}
 
 		private bool Condition(DeviceInputDetected obj){
@@ -55,9 +67,8 @@ namespace HelloPico2.PlayerController.Arm.Scripts{
 				   !_energyBehavior.isCurrentWeaponEnergyBall() || !active;
 		}
 
-		private void CalculateEnergy(){
-			const float gainPercent = 0.02f;
-			var energy = Mathf.Lerp(0, _armData.MaxEnergy, gainPercent);
+		private void CalculateEnergy(float amount){
+			var energy = Mathf.Lerp(0, _armData.MaxEnergy, amount);
 			energy += _armData.Energy;
 			if(_armData.Energy > _armData.MaxEnergy){
 				return;
