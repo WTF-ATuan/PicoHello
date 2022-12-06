@@ -9,8 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: BaseProptMat
   m_Shader: {fileID: 4800000, guid: 5dba19e6b1a8c80468839e241ae3596b, type: 3}
-  m_ShaderKeywords: _ALPHAPREMULTIPLY_ON _EMISSION _GLOSSYREFLECTIONS_OFF _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
-    _SPECULARHIGHLIGHTS_OFF
+  m_ShaderKeywords: _ALPHAPREMULTIPLY_ON _EMISSION _GLOSSYREFLECTIONS_OFF _PROJECTION_OBJECTNORMAL
+    _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A _SPECULARHIGHLIGHTS_OFF
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -62,8 +62,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _AlphaClip: 0.5
-    - _AmbientFade: 0.2
-    - _BloomFade: 0.5
+    - _AmbientFade: 1
+    - _BloomFade: 0.63
     - _BumpScale: 1
     - _Cull: 2
     - _Cutoff: 0.5
@@ -73,12 +73,12 @@ Material:
     - _GlossMapScale: 0.541
     - _Glossiness: 0.5
     - _GlossyReflections: 0
-    - _LightRange: 0.15
-    - _LightSmooth: 0.1
+    - _LightRange: 0.63
+    - _LightSmooth: 0.29
     - _Metallic: 0
     - _Mode: 3
     - _OcclusionStrength: 1
-    - _PROJECTION: 0
+    - _PROJECTION: 1
     - _Parallax: 0.02
     - _SelfShadowOffSet: -0.128
     - _SelfShadowSmooth: 0.69
@@ -90,12 +90,12 @@ Material:
     - _ZTest: 4
     - _ZWrite: 0
     m_Colors:
-    - _Color: {r: 0.8584906, g: 0.8232138, b: 0.77264154, a: 1}
-    - _EdgeRimColor: {r: 0.67, g: 0.36, b: 0.2, a: 1}
+    - _Color: {r: 0.58944464, g: 0.6382002, b: 0.6981132, a: 1}
+    - _EdgeRimColor: {r: 0.20754719, g: 0.10420692, b: 0.07342471, a: 1}
     - _EmissionColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _FarFogColor: {r: 0.5, g: 0.5, b: 0.5, a: 0}
+    - _FarFogColor: {r: 1, g: 0.35931054, b: 0.1745283, a: 0}
     - _LightDir: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _SelfShadowColor: {r: 0.37677962, g: 0.28040227, b: 0.5566038, a: 0.61960787}
-    - _ShadowColor: {r: 0.35400495, g: 0.3594569, b: 0.41509432, a: 1}
+    - _SelfShadowColor: {r: 0.1792453, g: 0.06766764, b: 0.05833927, a: 0.72156864}
+    - _ShadowColor: {r: 0.23584908, g: 0.08467216, b: 0.065637246, a: 1}
     - _SpecularColor: {r: 0.08373086, g: 0.10555185, b: 0.3018868, a: 1}
   m_BuildTextureStacks: []

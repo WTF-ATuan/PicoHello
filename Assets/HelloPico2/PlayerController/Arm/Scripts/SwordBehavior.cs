@@ -17,6 +17,7 @@ namespace HelloPico2.PlayerController.Arm
         [FoldoutGroup("Stretching")][SerializeField] private float _TurnOnDuration = 0.01f;
         [FoldoutGroup("Stretching")][SerializeField] private float _TurnOffDuration = 0.01f;
         [FoldoutGroup("Stretching")][SerializeField] private float _SwitchTypeSpeed = 0.01f;
+        [FoldoutGroup("Stretching")][Range(0,1)][SerializeField] private float needUpdateThreshould = 0.01f;
 
         [FoldoutGroup("Interaction")][SerializeField] private int _SpentEnergyWhenCollide = 30;
 
@@ -44,6 +45,7 @@ namespace HelloPico2.PlayerController.Arm
         [MaxValue(1)][MinValue(0)] private float _colorValue;
 
         public bool _TriggerControlBlendWeight = false;
+        bool needUpdate = true;
 
         private ArmLogic armLogic { get; set; }
         InteractableSettings.InteractableType currentInteractableType;
@@ -54,6 +56,7 @@ namespace HelloPico2.PlayerController.Arm
         public override void Activate(ArmLogic Logic, ArmData data, GameObject lightBeam, Vector3 fromScale)
         {
             armLogic = Logic;
+            needUpdate = true;
 
             // Initiate LightBeam
             if (lightBeamRigController == null)
@@ -234,19 +237,21 @@ namespace HelloPico2.PlayerController.Arm
                 }
             }
         }
-        private void UpdateSwordLength(ArmData data) => UpdateSwordLength(data, 0);        
+        private void UpdateSwordLength(ArmData data) => UpdateSwordLength(data, 0);
         private void UpdateSwordLength(ArmData data, float duration = 0) {
             float energyPercentage = data.Energy / data.MaxEnergy;
             float dir = (energyPercentage > lightBeamRigController.GetUpdateState().TotalLength) ? _ModifyLengthStep : -_ModifyLengthStep;
-            
-            //print(energyPercentage +"?: "+ lightBeamRigController.GetUpdateState().TotalLength + " : \n" + dir);
-                        
+
+            if (energyPercentage > needUpdateThreshould && !needUpdate) return;            
+
             lightBeamRigController.SetLengthLimit(data.Energy / data.MaxEnergy);
 
             if(stretchProcess != null) StopCoroutine(stretchProcess);
 
             stretchProcess = StartCoroutine(StretchSword(dir, duration));
-        }
+
+            needUpdate = false;
+        }        
         private void UpdateSwordPosition(ArmData data)
         {
             lightBeamRigController.transform.localPosition = _DefaultOffset +

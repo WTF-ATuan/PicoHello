@@ -12,7 +12,11 @@ public class EmissionRaiseSteps : EmissionRaise
     public float[] m_ValueTargets;
     [FoldoutGroup("Steps Setting"), Indent, PropertyOrder(9)]
     public int m_Index;
-
+    private void Awake()
+    {
+        if (m_CanInterupt)
+            ColOrigin = m_ColTargets[0];
+    }
     public void RaiseToColor(int Index)
     {
         if (!m_UsingGroupRenderer)

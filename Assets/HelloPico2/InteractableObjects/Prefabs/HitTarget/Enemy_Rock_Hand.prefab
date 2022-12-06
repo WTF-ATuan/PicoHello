@@ -197,7 +197,7 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
-  m_DelayTime: 0.7
+  m_DelayTime: 1.2
   invokeByOrder: 0
 --- !u!1 &3658351012746281248
 GameObject:
@@ -598,6 +598,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6930825315232734508, guid: c9f27e90f73fd14499de5951ea1d21f7, type: 3}
   m_PrefabInstance: {fileID: 3232846170547829581}
   m_PrefabAsset: {fileID: 0}
+--- !u!137 &8372635698373256482 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -2815607695351554449, guid: c9f27e90f73fd14499de5951ea1d21f7, type: 3}
+  m_PrefabInstance: {fileID: 3232846170547829581}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4705066505839309048
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -607,11 +612,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1543496503, guid: c337838047efab647be27a194ebec853, type: 3}
       propertyPath: ballHitCount
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1543496503, guid: c337838047efab647be27a194ebec853, type: 3}
       propertyPath: beamHitCount
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1543496503, guid: c337838047efab647be27a194ebec853, type: 3}
+      propertyPath: _InteractType
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1543496503, guid: c337838047efab647be27a194ebec853, type: 3}
       propertyPath: _DestroyDelayDuration
@@ -661,6 +670,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1576516207443032058, guid: c337838047efab647be27a194ebec853, type: 3}
+      propertyPath: m_TargetRenderer.Array.data[0]
+      value: 
+      objectReference: {fileID: 8372635698373256482}
     - target: {fileID: 1597512158798876507, guid: c337838047efab647be27a194ebec853, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -683,7 +696,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4041576183395541305, guid: c337838047efab647be27a194ebec853, type: 3}
       propertyPath: _ScaleRange.y
-      value: 0.7
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 4249352257740031492, guid: c337838047efab647be27a194ebec853, type: 3}
       propertyPath: m_RootOrder
@@ -760,30 +773,6 @@ PrefabInstance:
     - target: {fileID: 7151776870984711081, guid: c337838047efab647be27a194ebec853, type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8359091592777641032, guid: c337838047efab647be27a194ebec853, type: 3}
-      propertyPath: _To.x
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 8359091592777641032, guid: c337838047efab647be27a194ebec853, type: 3}
-      propertyPath: _To.y
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 8359091592777641032, guid: c337838047efab647be27a194ebec853, type: 3}
-      propertyPath: _To.z
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 8359091592777641032, guid: c337838047efab647be27a194ebec853, type: 3}
-      propertyPath: _From.x
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 8359091592777641032, guid: c337838047efab647be27a194ebec853, type: 3}
-      propertyPath: _From.y
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 8359091592777641032, guid: c337838047efab647be27a194ebec853, type: 3}
-      propertyPath: _From.z
-      value: 0.7
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 563512183, guid: c337838047efab647be27a194ebec853, type: 3}
