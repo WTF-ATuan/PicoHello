@@ -51,7 +51,7 @@ public class EmissionRaise : MonoBehaviour
     public bool Flipflop { get; set; }
     public bool TriggerOnce { get; set; }
     public Renderer[] TargetRenderer { get { return m_TargetRenderer; } set { m_TargetRenderer = value; } }
-
+    
     public void OnEnable()
     {
         if(m_Loop)
@@ -117,7 +117,12 @@ public class EmissionRaise : MonoBehaviour
         m_ColTarget = col;
 
         if (!m_CanInterupt && Process != null) return;
-        if (m_CanInterupt) StopCoroutine(Process);
+        if (m_CanInterupt && Process != null)
+        {
+            // TODO : Interupt not working
+            StopCoroutine(Process);
+            SetColor(targets, ColOrigin);
+        }
 
         if (m_FlipFlop)
         {
