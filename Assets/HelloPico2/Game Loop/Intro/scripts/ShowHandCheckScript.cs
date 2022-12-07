@@ -14,23 +14,43 @@ public class ShowHandCheckScript : MonoBehaviour
     Animator guideAnimator;
     public string triggetName;
 
-    private void Start()
+    public void Start()
     {
         Timer = 0;
-        if (isTouchCheck)
+
+        if (isTouchCheck && getGuide != null)
         {
             guideAnimator = getGuide.GetComponent<Animator>();
+            
         }
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (isTouchCheck ==true && isHiFive == false)
-        {
-            guideAnimator.SetTrigger(triggetName);
-            showHandCheck.SetActive(true);
-        }
+
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (isTouchCheck == true && other.name == "GetHand")
+        {
+            /*
+            if (isTouchCheck ==true && isHiFive == false && other.name == "GetHand")
+            {
+                if (guideAnimator)
+                {
+                    guideAnimator.SetTrigger(triggetName);
+                }
+
+                showHandCheck.SetActive(true);
+            }*/
+            StartCoroutine(WaitShow());
+        }
+    }
+    IEnumerator WaitShow()
+    {
+        yield return new WaitForSeconds(touchTime);
+        if (getGuide) guideAnimator.SetTrigger(triggetName);
+        showHandCheck.SetActive(true);
+        
+    }
+    /*
     private void OnTriggerStay(Collider other)
     {
         if (isHiFive && other.name == "GetHand")
@@ -44,7 +64,8 @@ public class ShowHandCheckScript : MonoBehaviour
         }
         if (isTouchCheck == true && isHiFive == true && Timer>touchTime)
         {
-            guideAnimator.SetTrigger(triggetName);
+            if (guideAnimator)  guideAnimator.SetTrigger(triggetName);
+            
             showHandCheck.SetActive(true);
             Timer = 0;
         }
@@ -58,4 +79,5 @@ public class ShowHandCheckScript : MonoBehaviour
             showHandCheck.GetComponent<ShackingDetector>().enabled = false;
         }
     }
+    */
 }
