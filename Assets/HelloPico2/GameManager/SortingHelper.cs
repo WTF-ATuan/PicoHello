@@ -50,7 +50,7 @@ namespace HelloPico2.Helper
             {
                 dir = (sortTransform[i].position - distCheckTransform.position).normalized;
                 currentAngle = Vector3.Angle(dir, distCheckTransform.forward);
-                print(sortTransform[i].name + " " + currentAngle);
+                //print(sortTransform[i].name + " " + currentAngle);
                 if (closetAngle > currentAngle)
                 { 
                     closetAngle = currentAngle;

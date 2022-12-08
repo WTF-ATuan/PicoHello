@@ -22,6 +22,7 @@ namespace HelloPico2.InteractableObjects{
 			OnShieldInteract += DestroyBullet;
 			OnWhipInteract += x => OnInteract(x, InteractType.Whip);
 			OnBeamInteract += x => OnInteract(x, InteractType.Beam);
+            OnEnergyInteract += x => OnInteract(x, InteractType.Energy);
 		}
 
 		private void OnDisable(){
@@ -29,6 +30,7 @@ namespace HelloPico2.InteractableObjects{
 			OnShieldInteract -= DestroyBullet;
 			OnWhipInteract -= x => OnInteract(x, InteractType.Whip);
 			OnBeamInteract -= x => OnInteract(x, InteractType.Beam);
+            OnEnergyInteract -= x => OnInteract(x, InteractType.Energy);
 		}
 
 		private void OnInteract(Collider selfCollider, InteractType type){
