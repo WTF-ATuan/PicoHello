@@ -15,61 +15,64 @@ namespace HelloPico2.PlayerController.Arm.Scripts{
 
 
 		private ColdDownTimer _onInputTimer;
-		private ColdDownTimer _normalTimer;
+		private ColdDownTimer _notInputTimer;
 
-		private bool _isGaining = false;
 
 		private void Start(){
 			_armData = GetComponent<ArmData>();
 			_energyBehavior = GetComponent<EnergyBallBehavior>();
 			EventBus.Subscribe<DeviceInputDetected>(OnInputDetected);
 			_onInputTimer = new ColdDownTimer(curve.Evaluate(0));
-			_normalTimer = new ColdDownTimer(0.25f);
+			_notInputTimer = new ColdDownTimer(0.25f);
 		}
-
-		private void Update(){
-			if(NotGripCondition()) return;
-			var energyPercent = _armData.Energy / _armData.MaxEnergy;
-			if(energyPercent >= 0.7f) return;
-			if(energyPercent < 0.5f){
-				_normalTimer.ModifyDuring(0.6f);
-				_normalTimer.Reset();
-				CalculateEnergy(0.4f);
-			}
-			else{
-				_normalTimer.ModifyDuring(0.25f);
-				_normalTimer.Reset();
-				CalculateEnergy(0.5f);
-			}
-		}
-
-		private bool NotGripCondition(){
-			return !active || !notGripGain || _isGaining || !_normalTimer.CanInvoke() ||
-				   !_energyBehavior.isCurrentWeaponEnergyBall();
-		}
-
 
 		private void OnInputDetected(DeviceInputDetected obj){
-			if(Condition(obj)){
+			if(!BasicCondition(obj))
 				return;
+			if(obj.IsGrip && _onInputTimer.CanInvoke()){
+				GripGainEnergy();
 			}
 
-			_isGaining = true;
+			if(!obj.IsGrip && _notInputTimer.CanInvoke() && notGripGain){
+				var energyPercent = _armData.Energy / _armData.MaxEnergy;
+				if(energyPercent >= 0.75f) return;
+				if(energyPercent < 0.35f){
+					_notInputTimer.ModifyDuring(0.2f);
+					_notInputTimer.Reset();
+					GainEnergyDirectly(10f);
+				}
+				else{
+					_notInputTimer.ModifyDuring(0.4f);
+					_notInputTimer.Reset();
+					GainEnergyDirectly(15f);
+				}
+			}
+		}
+
+		private void GripGainEnergy(){
 			var invokeDuring = curve.Evaluate(_armData.currentGripFunctionTimer);
 			_onInputTimer.ModifyDuring(invokeDuring);
 			_onInputTimer.Reset();
-			CalculateEnergy(0.02f);
-			_isGaining = false;
+			GainEnergyByPercent(0.02f);
 		}
 
-		private bool Condition(DeviceInputDetected obj){
-			return !obj.Selector.HandType.Equals(_armData.HandType) || !obj.IsGrip || !_onInputTimer.CanInvoke() ||
-				   !_energyBehavior.isCurrentWeaponEnergyBall() || !active;
+		private bool BasicCondition(DeviceInputDetected obj){
+			return obj.Selector.HandType.Equals(_armData.HandType) && _energyBehavior.isCurrentWeaponEnergyBall() &&
+				   active;
 		}
 
-		private void CalculateEnergy(float amount){
+		private void GainEnergyByPercent(float amount){
 			var energy = Mathf.Lerp(0, _armData.MaxEnergy, amount);
 			energy += _armData.Energy;
+			if(_armData.Energy > _armData.MaxEnergy){
+				return;
+			}
+
+			_energyBehavior.ChargeEnergyDirectly(energy);
+		}
+
+		private void GainEnergyDirectly(float amount){
+			var energy = amount + _armData.Energy;
 			if(_armData.Energy > _armData.MaxEnergy){
 				return;
 			}
