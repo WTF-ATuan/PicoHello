@@ -49,5 +49,7 @@ namespace HelloPico2.LevelTool{
 		PrimaryButton,
 		SecondaryButton,
 		MenuButton,
+		JoyStickUp,
+		JoyStickDown,
 	}
 }
