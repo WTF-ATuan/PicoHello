@@ -47,7 +47,7 @@ Shader "GGDog/Effect/BeamLight"
 				//¤¤¤ß¶ZÂ÷³õ
 				half D = smoothstep(-25.8,33.6,1-80.1*((0.4*i.uv.x-0.5+0.5)*(0.4*i.uv.x-0.5+0.5)+(i.uv.y-0.5)*(i.uv.y-0.5))-1);
                 D =D*D;
-                D = smoothstep(0,0.05,saturate(D*1))*2;
+                D = smoothstep(0,0.025,saturate(D*1))*2;
 
 
                 half a = smoothstep(0.25,1,i.uv.x) * smoothstep(0,0.25,1-i.uv.x);
