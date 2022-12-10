@@ -49,7 +49,7 @@ Shader "Unlit/Col_circle"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed4 col = tex2D(_MainTex, i.uv +_Time.y*half2(0.1,1.5));
+                fixed4 col = tex2D(_MainTex, i.uv +_Time.y*_MainTex_ST.zw);
                 
                 clip(col.r-0.5);
 
