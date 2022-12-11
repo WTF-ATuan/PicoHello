@@ -23,7 +23,7 @@ public class targetScript : MonoBehaviour
     public bool isHandTouch;
     float baseValue;
     public bool isAudio;
-    public int isAudioDelay;
+    public float isAudioDelay;
     public GameObject aduioObj;
     public bool isEffect;
     public GameObject EffectObj;
@@ -106,6 +106,7 @@ public class targetScript : MonoBehaviour
         if (isMenuAnim)
         {
             menuAnimator.SetTrigger("isGet");
+            menuAnimator.SetBool("notHold",false);
         }
     }
     private void OnTriggerStay(Collider other)
@@ -145,7 +146,11 @@ public class targetScript : MonoBehaviour
     {
         if (isMenuAnim)
         {
-            menuAnimator.SetTrigger("NotGit");
+            menuAnimator.SetBool("notHold", true);
+            if (touchEffect)
+            {
+                touchEffectObj.SetActive(false);
+            }
         }
     }
     IEnumerator WaitTimeScaleCollider()
