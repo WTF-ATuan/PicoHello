@@ -40,6 +40,15 @@ public class Level_FadeController : MonoBehaviour
     public Material PassageWay_Env_Base;
     public Material PassageWay_Env_Lv1;
     public GameObject PassageWay;
+    public Material CameraBackColorMask;
+
+    public Color CameraBackColorMask_intro;
+    public Color CameraBackColorMask_Lv1;
+    public Color CameraBackColorMask_Lv2;
+    public Color CameraBackColorMask_Lv3;
+    public Color CameraBackColorMask_Lv4;
+    public Color CameraBackColorMask_Lv5;
+
     //關卡
     public TheLevel The_Level;
     #region
@@ -82,6 +91,7 @@ public class Level_FadeController : MonoBehaviour
         Now_Level = The_Level.The_Level[0];
         The_Material.The_Material[0] = The_Material.The_Material[1]; //飛碟的材質.Intro
 
+        CameraBackColorMask.SetColor(ShaderIDs.Color, CameraBackColorMask_intro);
     }
 
 
@@ -130,6 +140,7 @@ public class Level_FadeController : MonoBehaviour
                 now_level = 0;
                 if (pre_level != now_level)
                 {
+                    CameraBackColorMask.SetColor(ShaderIDs.Color, CameraBackColorMask_intro);
                     Level_Spawner_Switch(Level_1, false, 50);  //穿越加速，並關閉Emission
                     CloudPassThrough_Level_Switch(The_Level.The_Level[0]);
                     CloudPassThrough.enabled = true;
@@ -147,7 +158,6 @@ public class Level_FadeController : MonoBehaviour
                 now_level = 1;
                 if (pre_level != now_level)
                 {
-
                     The_Material.The_Material[0] = The_Material.The_Material[2]; //飛碟的材質.Lv1
 
                     Level_Spawner_Switch(Level_0, false, 50);  //穿越加速，並關閉Emission
@@ -157,6 +167,8 @@ public class Level_FadeController : MonoBehaviour
                     //材質初始化還原
                     LevelMaterial_Reset_Env_Cloud_Sky_(Level_1);
                     Mat2Mat_Env(PassageWay_Env_Base, PassageWay_Env_Lv1, 1);
+
+                    CameraBackColorMask.SetColor(ShaderIDs.Color, Color.Lerp(CameraBackColorMask.GetColor(ShaderIDs.Color), CameraBackColorMask_Lv1, 1));
 
                     pre_level = now_level;
                 }
@@ -188,6 +200,8 @@ public class Level_FadeController : MonoBehaviour
                 //巨大螺貝通道的材質漸變
                 Mat2Mat_Env(PassageWay_Env_Base, Level_2.Env, Level_1.M2M_speed);
 
+                CameraBackColorMask.SetColor(ShaderIDs.Color, Color.Lerp(CameraBackColorMask.GetColor(ShaderIDs.Color), CameraBackColorMask_Lv2, Level_1.M2M_speed));
+
                 break;
 
 
@@ -205,6 +219,8 @@ public class Level_FadeController : MonoBehaviour
                     CloudPassThrough.enabled = true;
                     pre_level = now_level;
                 }
+
+                CameraBackColorMask.SetColor(ShaderIDs.Color, Color.Lerp(CameraBackColorMask.GetColor(ShaderIDs.Color), CameraBackColorMask_Lv3, 0.007f));
 
                 break;
 
@@ -237,6 +253,8 @@ public class Level_FadeController : MonoBehaviour
                     pre_level = now_level;
                 }
 
+                CameraBackColorMask.SetColor(ShaderIDs.Color, Color.Lerp(CameraBackColorMask.GetColor(ShaderIDs.Color), CameraBackColorMask_Lv4, 0.007f));
+
                 break;
 
 
@@ -258,6 +276,8 @@ public class Level_FadeController : MonoBehaviour
                     CloudPassThrough.enabled = true;
                     pre_level = now_level;
                 }
+
+                CameraBackColorMask.SetColor(ShaderIDs.Color, Color.Lerp(CameraBackColorMask.GetColor(ShaderIDs.Color), CameraBackColorMask_Lv5, 0.007f));
 
                 break;
 
