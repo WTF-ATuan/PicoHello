@@ -38,7 +38,9 @@ public class EmissionRaiseSteps : EmissionRaise
     }
     public void RaiseToColor(int Index, bool loop, bool flipflop, float duration)
     {
-        StartCoroutine(ChangeDuration(loop,flipflop, duration));
+        if(gameObject.activeSelf){
+            StartCoroutine(ChangeDuration(loop,flipflop, duration));
+        }
 
         if (!m_UsingGroupRenderer)
             Raise(m_TargetRenderer, m_ColTargets[Index]);
@@ -47,7 +49,9 @@ public class EmissionRaiseSteps : EmissionRaise
     }
     public void RaiseToColor(int Index, bool loop, bool flipflop, float duration, int matID)
     {
-        StartCoroutine(ChangeDuration(loop, flipflop, duration));
+        if(gameObject.activeSelf){
+            StartCoroutine(ChangeDuration(loop, flipflop, duration));
+        }
 
         if (!m_UsingGroupRenderer)
             Raise(m_TargetRenderer, m_ColTargets[Index], matID);
