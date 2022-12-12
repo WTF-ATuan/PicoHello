@@ -15,7 +15,10 @@ public class EmissionRaiseSteps : EmissionRaise
     private void Awake()
     {
         if (m_CanInterupt)
-            ColOrigin = m_ColTargets[0];
+        { 
+            if(m_ColTargets.Length != 0)
+                ColOrigin = m_ColTargets[0]; 
+        }
     }
     public void RaiseToColor(int Index)
     {
@@ -35,7 +38,9 @@ public class EmissionRaiseSteps : EmissionRaise
     }
     public void RaiseToColor(int Index, bool loop, bool flipflop, float duration)
     {
-        StartCoroutine(ChangeDuration(loop,flipflop, duration));
+        if(gameObject.activeSelf){
+            StartCoroutine(ChangeDuration(loop,flipflop, duration));
+        }
 
         if (!m_UsingGroupRenderer)
             Raise(m_TargetRenderer, m_ColTargets[Index]);
@@ -44,7 +49,9 @@ public class EmissionRaiseSteps : EmissionRaise
     }
     public void RaiseToColor(int Index, bool loop, bool flipflop, float duration, int matID)
     {
-        StartCoroutine(ChangeDuration(loop, flipflop, duration));
+        if(gameObject.activeSelf){
+            StartCoroutine(ChangeDuration(loop, flipflop, duration));
+        }
 
         if (!m_UsingGroupRenderer)
             Raise(m_TargetRenderer, m_ColTargets[Index], matID);
