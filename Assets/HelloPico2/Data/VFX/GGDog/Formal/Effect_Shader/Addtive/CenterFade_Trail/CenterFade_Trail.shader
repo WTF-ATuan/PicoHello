@@ -2,6 +2,7 @@ Shader "Unlit/CenterFade_Trail"
 {
     Properties
     {
+		_Alpha("Alpha",Range(0,1))=1
         _MainTex ("Texture", 2D) = "white" {}
 		_Fade_min("Fade_min",Range(0,10))=2
 		_Fade_max("Fade_max",Range(0,10))=5
@@ -41,6 +42,7 @@ Shader "Unlit/CenterFade_Trail"
 			uniform	fixed4 CenterFadeTrail_GlobalPos;
             half _Fade_min;
             half _Fade_max;
+            half _Alpha;
             
             v2f vert (appdata v)
             {
@@ -55,10 +57,10 @@ Shader "Unlit/CenterFade_Trail"
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            half4 frag (v2f i) : SV_Target
             {
-                fixed4 col = tex2D(_MainTex, i.uv.xy)*i.uv.z;
-                return col*i.color;
+                half4 col = tex2D(_MainTex, i.uv.xy)*i.uv.z;
+                return col*i.color * half4(1,1,1,_Alpha);
             }
             ENDCG
         }
