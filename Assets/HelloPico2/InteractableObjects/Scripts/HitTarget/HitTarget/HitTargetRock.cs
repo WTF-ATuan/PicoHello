@@ -9,6 +9,7 @@ namespace HelloPico2.InteractableObjects{
 		[BoxGroup("Hit Count")] public int beamHitCount = 1;
 		[BoxGroup("Hit Count")] public int ballHitCount = 3;
 		[SerializeField] private float _DestroyDelayDuration = 3;
+		[SerializeField] private bool _GenerateHitVFX = true;
 		[SerializeField] private string _HitEffectID = "";
 		[SerializeField] private bool _UseDestroySFX = false;
 		[ShowIf("_UseDestroySFX")][SerializeField] private int[] _NormalAudioIndex;
@@ -59,13 +60,9 @@ namespace HelloPico2.InteractableObjects{
 		private void BulletReact(Collider selfCollider){
 			WhenCollideWithEnergyBall?.Invoke();
 
-			Project.EventBus.Post<VFXEventRequested, ParticleSystem>(new VFXEventRequested(
-				_HitEffectID,
-				false,
-				_DestroyDelayDuration,
-				transform.position));
+			GenerateHitVFX();
 
-			if (_UseDestroySFX)
+            if (_UseDestroySFX)
 				PlayAudio(_NormalAudioIndex);
 			else
 				PlayRandomAudio();
@@ -76,13 +73,9 @@ namespace HelloPico2.InteractableObjects{
 
 			WhenCollideUlt?.Invoke();
 
-			Project.EventBus.Post<VFXEventRequested, ParticleSystem>(new VFXEventRequested(
-				_HitEffectID,
-				false,
-				_DestroyDelayDuration,
-				transform.position));
+			GenerateHitVFX();
 
-			if (_UseDestroySFX)
+            if (_UseDestroySFX)
 				PlayAudio(_DestroyAudioIndex);
 			else
 				PlayRandomAudio();
@@ -96,7 +89,15 @@ namespace HelloPico2.InteractableObjects{
 			if(_DestroyAfterHit)
 				Destroy(gameObject, _DestroyDelayDuration);
 		}
+		private void GenerateHitVFX() {
+			if (!_GenerateHitVFX) return;
 
+            Project.EventBus.Post<VFXEventRequested, ParticleSystem>(new VFXEventRequested(
+                _HitEffectID,
+                false,
+                _DestroyDelayDuration,
+                transform.position));
+        }
 		protected override void PushBackFeedback(Collider hitCol){
 			base.PushBackFeedback(hitCol);
 
