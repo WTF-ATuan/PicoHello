@@ -59,6 +59,8 @@ namespace HelloPico2.PlayerController.Arm
         [FoldoutGroup("Transition")][SerializeField] private Ease _TrasitionEaseCurve;
 
         [FoldoutGroup("Debug")] public bool _OnlyShootProjectileOnEnergyBallState = true;
+        [FoldoutGroup("Debug")] public bool _DisableShooting = false;
+        [FoldoutGroup("Debug")] public bool _DisableWeapon = false;
         
         [FoldoutGroup("Transition")][ReadOnly][SerializeField] private bool _HasTransformProcess;
         private SwordBehavior _SwordBehavior;
@@ -198,18 +200,28 @@ namespace HelloPico2.PlayerController.Arm
             //if(_GrabReleaseType == GrabReleaseType.OnGripTouchRelease)            
             //    armLogic.OnGripTouch += ShootChargedProjectile;
 
-            armLogic.OnPrimaryButtonClick += ShootChargedProjectile;
-            armLogic.OnSecondaryButtonClick += ShootChargedProjectile;
+            if (!_DisableShooting)
+            {
+                armLogic.OnPrimaryButtonClick += ShootChargedProjectile;
+                armLogic.OnSecondaryButtonClick += ShootChargedProjectile;
+            }
 
             armLogic.OnPrimaryButtonClickOnce += InvalidBombShoot;
             armLogic.OnSecondaryButtonClickOnce += InvalidBombShoot;
 
-            armLogic.OnPrimaryAxisInput += UpdateShape;
-            armLogic.OnPrimaryAxisClick += ConfirmShape;
-            armLogic.OnPrimaryAxisTouchUp += ExitShapeControlling;
+            if (!_DisableWeapon)
+            {
+                armLogic.OnPrimaryAxisInput += UpdateShape;
+                armLogic.OnPrimaryAxisClick += ConfirmShape;
+                armLogic.OnPrimaryAxisTouchUp += ExitShapeControlling;
+            }
 
             armLogic.OnUpdateInput += GetCurrentDeviceInput;
-            armLogic.OnTriggerDown += ShootEnergyProjectile;
+
+            if (!_DisableShooting)
+            {
+                armLogic.OnTriggerDown += ShootEnergyProjectile;
+            }
 
             armLogic.OnTriggerDownOnce += InvalidShoot;
 
@@ -230,19 +242,29 @@ namespace HelloPico2.PlayerController.Arm
             //    armLogic.OnGripUp -= ShootChargedProjectile;
             //if (_GrabReleaseType == GrabReleaseType.OnGripTouchRelease)
             //    armLogic.OnGripTouch -= ShootChargedProjectile;
-            
-            armLogic.OnPrimaryButtonClick -= ShootChargedProjectile;
-            armLogic.OnSecondaryButtonClick -= ShootChargedProjectile;
+
+            if (!_DisableShooting)
+            {
+                armLogic.OnPrimaryButtonClick -= ShootChargedProjectile;
+                armLogic.OnSecondaryButtonClick -= ShootChargedProjectile;
+            }
 
             armLogic.OnPrimaryButtonClickOnce -= InvalidBombShoot;
             armLogic.OnSecondaryButtonClickOnce -= InvalidBombShoot;
-
-            armLogic.OnPrimaryAxisInput -= UpdateShape;
-            armLogic.OnPrimaryAxisClick -= ConfirmShape;
-            armLogic.OnPrimaryAxisTouchUp -= ExitShapeControlling;
+            
+            if (!_DisableWeapon)
+            {
+                armLogic.OnPrimaryAxisInput -= UpdateShape;
+                armLogic.OnPrimaryAxisClick -= ConfirmShape;
+                armLogic.OnPrimaryAxisTouchUp -= ExitShapeControlling;
+            }
 
             armLogic.OnUpdateInput -= GetCurrentDeviceInput;
-            armLogic.OnTriggerDown -= ShootEnergyProjectile;
+
+            if (!_DisableShooting)
+            {
+                armLogic.OnTriggerDown -= ShootEnergyProjectile;
+            }
 
             armLogic.OnTriggerDownOnce -= InvalidShoot;
 

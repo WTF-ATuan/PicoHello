@@ -10,6 +10,7 @@ using DG.Tweening;
 using HelloPico2.InteractableObjects;
 using HelloPico2.InputDevice.Scripts;
 using HelloPico2.PlayerController.Player;
+using System;
 
 namespace HelloPico2.PlayerController.Arm
 {
@@ -28,7 +29,10 @@ namespace HelloPico2.PlayerController.Arm
 
 		public XRController _controller;
         private XRRayInteractor rayInteractor;
+        [SerializeField] private bool _EnableAxisInputSFX = false;
         [SerializeField] private bool _EnableGrip = true;
+        private int UpDown = 0;
+        private int CurrentUpDown = 0;
         public bool enableGrip { get { return _EnableGrip; }set { _EnableGrip = value; } }
         public Interactor controllerInteractor { get; set; }
 
@@ -129,11 +133,28 @@ namespace HelloPico2.PlayerController.Arm
             EventBus.Subscribe<GainArmorUpgradeData>(ArmorUpgrade); 
 
             OnEnergyChanged += BroadCastEnergyAmount;
+            if (_EnableAxisInputSFX) OnPrimaryAxisInput += PlayAxisInputSFX;
         }
         private void OnDisable()
 		{
             OnEnergyChanged -= BroadCastEnergyAmount;
+            if (_EnableAxisInputSFX) OnPrimaryAxisInput -= PlayAxisInputSFX;
+        }      
+        
+        private void PlayAxisInputSFX(Vector2 inputData)
+        {
+            CurrentUpDown = Mathf.RoundToInt(inputData.y);
+            
+            if (CurrentUpDown == UpDown) return;
+                        
+            UpDown = CurrentUpDown;
+
+            if (UpDown > 0)
+                AudioPlayerHelper.PlayAudio(data.toWhipClipName, transform.position);
+            else if (UpDown < 0)
+                AudioPlayerHelper.PlayAudio(data.toShieldClipName, transform.position);
         }
+
         private void Update()
 		{
             if(disableTimer.CanInvoke())
@@ -330,7 +351,7 @@ namespace HelloPico2.PlayerController.Arm
                 _data.ArmorController.ActiveArm(data.armorType, data.armorPart);
             else
                 _data.ArmorController.AutoActiveWithOrder(data.armorType);
-        }        
+        }
     }
 
     public class ArmGizmoDrawer
