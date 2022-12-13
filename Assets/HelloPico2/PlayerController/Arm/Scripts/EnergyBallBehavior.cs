@@ -42,6 +42,7 @@ namespace HelloPico2.PlayerController.Arm
         [FoldoutGroup("Projectile")][SerializeField] private float _ChargeShootSpeed;
         [FoldoutGroup("Projectile")][SerializeField] private float _ChargedShootCoolDown;
         [FoldoutGroup("Projectile")][SerializeField] private float _ShootCoolDown;
+        [FoldoutGroup("Projectile")][SerializeField] private float _RapidShootCoolDownDuration;
         [FoldoutGroup("Projectile")][SerializeField] private float _CostEnergy;
         [FoldoutGroup("Projectile")][SerializeField] private float _FullEnergyBallCostEnergy;
         [FoldoutGroup("Projectile")][SerializeField] private float _ShootingActionCDDurationAfterFullEnergyBall = 1;
@@ -94,6 +95,7 @@ namespace HelloPico2.PlayerController.Arm
         public bool hasTransformProcess { get { return _HasTransformProcess; } }
         public Coroutine ShootCoolDownProcess { get; set; }
         public Coroutine BombShootCoolDownProcess { get; set; }
+        public ColdDownTimer RapidShootCoolDownProcess { get; set; }
         public bool OverWriteProjectileLifeTime { get; set; }
         public float ModifiedProjectileLifeTime { get; set; }
 
@@ -178,6 +180,7 @@ namespace HelloPico2.PlayerController.Arm
             BombEmptySoundCD = new Game.Project.ColdDownTimer(armLogic.data.ShootEmptyBombCoolDownDuration);
 
             shootingCDAfterFullChargedShoot = new ColdDownTimer(_ShootingActionCDDurationAfterFullEnergyBall);
+            RapidShootCoolDownProcess = new ColdDownTimer(_RapidShootCoolDownDuration);
         }
         private void Update()
         {
@@ -210,6 +213,9 @@ namespace HelloPico2.PlayerController.Arm
 
             armLogic.OnTriggerDownOnce += InvalidShoot;
 
+            armLogic.OnTriggerDownOnce += StartRapidShoot;
+            armLogic.OnTriggerUpOnce += StopRapidShoot;
+
             currentShape = currentEnergyBall;
 
             GenerateChargingEnergyBall();
@@ -239,6 +245,9 @@ namespace HelloPico2.PlayerController.Arm
             armLogic.OnTriggerDown -= ShootEnergyProjectile;
 
             armLogic.OnTriggerDownOnce -= InvalidShoot;
+
+            armLogic.OnTriggerDownOnce -= StartRapidShoot;
+            armLogic.OnTriggerUpOnce -= StopRapidShoot;
         }
         private void CheckEnableGrip(ArmData data) {
             armLogic.data.Controller.selectUsage = (data.Energy < data.MaxEnergy)? InputHelpers.Button.Grip : InputHelpers.Button.None;
@@ -414,6 +423,7 @@ namespace HelloPico2.PlayerController.Arm
                 return;
             }
             if (ShootCoolDownProcess != null) return;
+            if (!RapidShootCoolDownProcess.CanInvoke()) return;
             if (_OnlyShootProjectileOnEnergyBallState && currentShape != currentEnergyBall) return;
             if (_HasTransformProcess) return;
             if (armLogic.CheckFullEnergy()) { ShootFulEnergyProjectile(data); return; }
@@ -431,6 +441,15 @@ namespace HelloPico2.PlayerController.Arm
             UpdateScale(data);
 
             data.WhenShootProjectile?.Invoke();
+        }
+        private void StartRapidShoot(ArmData data)
+        {
+            if(RapidShootCoolDownProcess.CanInvoke())
+                RapidShootCoolDownProcess.Reset();
+        }
+        private void StopRapidShoot(ArmData data)
+        {
+            CoolDownEnded();
         }
         private void InvalidShoot(ArmData data) {
             if (data.Energy <= 0)
@@ -662,7 +681,9 @@ namespace HelloPico2.PlayerController.Arm
         }
         private IEnumerator CoolDown (float duration) {
             yield return new WaitForSeconds(duration);
-
+            CoolDownEnded();
+        }
+        private void CoolDownEnded() {
             if (ShootCoolDownProcess != null)
                 StopCoroutine(ShootCoolDownProcess);
 
