@@ -33,6 +33,8 @@ public class targetScript : MonoBehaviour
     public bool isGetItem;
     public bool isMenuAnim;
     public Animator menuAnimator;
+    [SerializeField] private GameObject rootOfGuide;
+    
     private void Start()
     {
         countTimer = 0;
@@ -68,8 +70,7 @@ public class targetScript : MonoBehaviour
 
     public void AddItemHeld(){
         menuCheck.targetItemHeld = checkHeld;
-        var childRoot = gameObject.GetNamedChild("targetObjLocal");
-        var childrenList = childRoot.GetComponentsInChildren<Transform>(false).ToList();
+        var childrenList = rootOfGuide.GetComponentsInChildren<Transform>(false).ToList();
         childrenList.RemoveAt(0);
         var child = childrenList.First();
         var childrenName = child.name;
