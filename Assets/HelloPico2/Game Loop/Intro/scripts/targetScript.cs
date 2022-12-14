@@ -69,14 +69,19 @@ public class targetScript : MonoBehaviour
     }
 
     public void AddItemHeld(){
-        menuCheck.targetItemHeld = checkHeld;
-        var childrenList = rootOfGuide.GetComponentsInChildren<Transform>(false).ToList();
-        childrenList.RemoveAt(0);
-        var child = childrenList.First();
-        var childrenName = child.name;
-        if(menuCheck.ContainTarget(childrenName)){
-            menuCheck.targetItemName = childrenName;
+    if(menuCheck != null)
+        {
+            menuCheck.targetItemHeld = checkHeld;
+            var childrenList = rootOfGuide.GetComponentsInChildren<Transform>(false).ToList();
+            childrenList.RemoveAt(0);
+            var child = childrenList.First();
+            var childrenName = child.name;
+            if (menuCheck.ContainTarget(childrenName))
+            {
+                menuCheck.targetItemName = childrenName;
+            }
         }
+        
     }
     public void ShowAnim()
     {
