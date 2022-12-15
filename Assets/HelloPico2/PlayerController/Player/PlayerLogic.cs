@@ -4,6 +4,7 @@ using UnityEngine;
 using Project;
 using System;
 using HelloPico2.InteractableObjects;
+using Game.Project;
 
 namespace HelloPico2.PlayerController.Player
 {
@@ -20,7 +21,11 @@ namespace HelloPico2.PlayerController.Player
                 return _PlayerData;
             }
         }
-
+        private ColdDownTimer _InvincibleTimer;
+        private void Start()
+        {
+            _InvincibleTimer = new ColdDownTimer(_PlayerData.invincibleDuration);            
+        }
         private void OnEnable()
         {
             playerData.damageDetectionTrigger.TriggerEnter += ReceiveDamage;
@@ -47,6 +52,9 @@ namespace HelloPico2.PlayerController.Player
         }
         private void ReceiveDamage(Collider other)
         {
+            //print(_InvincibleTimer.CanInvoke());
+            //if (!_InvincibleTimer.CanInvoke()) return;
+
             playerData._OnReceiveDamage?.Invoke();
 
             var collide = other.GetComponent<IInteractCollide>();
@@ -61,6 +69,12 @@ namespace HelloPico2.PlayerController.Player
 
             playerData.armLogic_L.OnEnergyChanged?.Invoke(playerData.armLogic_L.data);
             playerData.armLogic_R.OnEnergyChanged?.Invoke(playerData.armLogic_R.data);
+            
+            //StartInvincible();
+        }
+        private void StartInvincible()
+        {
+            _InvincibleTimer.Reset();
         }
     }
 }

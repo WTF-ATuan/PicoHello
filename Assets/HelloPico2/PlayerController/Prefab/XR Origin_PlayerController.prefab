@@ -81950,7 +81950,7 @@ MonoBehaviour:
       - _Type: 5
         _Int: 0
         _String: 
-        _X: 0.5
+        _X: 2
         _Y: 0
         _Z: 0
         _W: 0
@@ -81985,7 +81985,7 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
-  m_DelayTime: 0.5
+  m_DelayTime: 2
   invokeByOrder: 0
 --- !u!1 &1698776206
 GameObject:
@@ -105451,7 +105451,7 @@ MonoBehaviour:
   _ArmorController: {fileID: 1920843447}
   _ShootEmptyEnergyCoolDownDuration: 1
   _ShootEmptyBombCoolDownDuration: 2
-  _DisableInputCoolDownDuration: 1
+  _DisableInputCoolDownDuration: 2
   _GainEnergyBallClipName:
   - GainEnergyBall1
   - GainEnergyBall2
@@ -131433,7 +131433,7 @@ MonoBehaviour:
   _ArmorController: {fileID: 1399431539}
   _ShootEmptyEnergyCoolDownDuration: 1
   _ShootEmptyBombCoolDownDuration: 2
-  _DisableInputCoolDownDuration: 1
+  _DisableInputCoolDownDuration: 2
   _GainEnergyBallClipName:
   - GainEnergyBall1
   - GainEnergyBall2
@@ -137335,6 +137335,7 @@ MonoBehaviour:
   _CameraShakeSettings: {fileID: 859997828}
   _LHandShaker: {fileID: 465591200}
   _RHandShaker: {fileID: 1862338349}
+  _InvincibleDuration: 4
   _OnReceiveDamage:
     _PersistentCalls:
     - _Target: {fileID: 9175511369255000084}
@@ -137419,6 +137420,9 @@ MonoBehaviour:
     - _Target: {fileID: 832486942}
       _MethodName: PlayDamageAudio
       _PersistentArguments: []
+    - _Target: {fileID: 832486942}
+      _MethodName: PlayDamageFeedbacks
+      _PersistentArguments: []
 --- !u!114 &4939205610602506870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137445,8 +137449,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _DamageVignetteImage: {fileID: 1260711026}
   _ToAlpha: 1
-  _StayDuration: 0.2
-  _Duration: 1
+  _StayDuration: 0.1
+  _Duration: 0.2
   _DamageAudioClipName: ReceiveDamage
 --- !u!114 &1900513168
 MonoBehaviour:
