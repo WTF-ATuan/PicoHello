@@ -81,6 +81,68 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &357337139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6752270225363961893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcb3b64e911e1034b9b64fff4871882d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _RunOnEnable: 1
+  _MoveObject: {fileID: 6268783435267199647}
+  _From: {x: 0, y: -1, z: 0}
+  _To: {x: 0, y: 1, z: 0}
+  _Duration: 2
+  _EaseCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _UseLoop: 1
+  _LoopAmount: 2
+  _LoopType: 1
+  WhenStart:
+    m_PersistentCalls:
+      m_Calls: []
+  WhenFinished:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 357337139}
+        m_TargetAssemblyTypeName: HelloPico2.InteractableObjects.ObjectMover, Assembly-CSharp
+        m_MethodName: StartMoving
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &5869747426239788404
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -158,6 +220,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df4b17cf7cf14464a8b89a4351f6609f, type: 3}
+--- !u!1 &6752270225363961893 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: df4b17cf7cf14464a8b89a4351f6609f, type: 3}
+  m_PrefabInstance: {fileID: 5869747426239788404}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6268783435267199647 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: df4b17cf7cf14464a8b89a4351f6609f, type: 3}
+  m_PrefabInstance: {fileID: 5869747426239788404}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5869747426417336793
 PrefabInstance:
   m_ObjectHideFlags: 0
