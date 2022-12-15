@@ -24,6 +24,7 @@ Shader "Unlit/Col_circle"
             struct appdata
             {
                 float4 vertex : POSITION;
+                float3 normal : NORMAL;
                 float2 uv : TEXCOORD0;
                 float4 color : COLOR;
             };
@@ -41,7 +42,10 @@ Shader "Unlit/Col_circle"
             v2f vert (appdata v)
             {
                 v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
+
+                float tex = tex2Dlod (_MainTex, float4(v.uv.xy*_MainTex_ST.xy+_Time.y*_MainTex_ST.zw,0,0)).r;
+
+                o.vertex = UnityObjectToClipPos(v.vertex*(1+tex));
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 o.color = v.color;
                 return o;
