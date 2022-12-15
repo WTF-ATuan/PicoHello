@@ -3,6 +3,7 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UltEvents;
 using UnityEngine;
 
 namespace HelloPico2.PlayerController.BeamCharge
@@ -16,6 +17,8 @@ namespace HelloPico2.PlayerController.BeamCharge
 
         [Header("Deal Damage Settings")]
         [SerializeField] private float _Period;
+
+        public UltEvent WhenDealDamage;
 
         private Ray ray;
         [ReadOnly][SerializeField] private RaycastHit[] hitInfos = new RaycastHit[20];
@@ -38,6 +41,7 @@ namespace HelloPico2.PlayerController.BeamCharge
 
             if (Physics.SphereCastNonAlloc(ray, _SphereCastRadius, hitInfos, _CastDistance, _CastLayer) != 0)
             {
+                WhenDealDamage?.InvokeSafe();
                 DealDamage(); 
             }
         }

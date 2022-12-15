@@ -26,6 +26,9 @@ namespace HelloPico2.LevelTool
             StopCoroutine(process);
             process = null;
         }
+        public void StartRandomizePosition() {
+            process = StartCoroutine(RandomPositioning());
+        }
         private IEnumerator RandomPositioning() {            
             while (true)
             {

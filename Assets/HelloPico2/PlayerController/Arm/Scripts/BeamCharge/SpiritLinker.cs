@@ -34,6 +34,9 @@ namespace HelloPico2.PlayerController.BeamCharge
         private void OnDisable()
         {
             StopCoroutine(waveProcess);
+
+            foreach (var line in lineRenderers)
+                Destroy(line.gameObject);
         }
         private void Update()
         {
