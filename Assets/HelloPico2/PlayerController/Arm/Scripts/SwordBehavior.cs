@@ -4,6 +4,7 @@ using HelloPico2.InteractableObjects;
 using HelloPico2.InputDevice.Scripts;
 using Sirenix.OdinInspector;
 using HelloPico2.Interface;
+using DG.Tweening;
 
 namespace HelloPico2.PlayerController.Arm
 {
@@ -286,7 +287,6 @@ namespace HelloPico2.PlayerController.Arm
         {
             // Clear all length calculation
             if (stretchProcess != null) StopCoroutine(stretchProcess);
-
             stretchProcess = StartCoroutine(TurnOffSword(_TurnOffDuration));
             yield return stretchProcess;
             obj.SetActive(false);
@@ -296,9 +296,12 @@ namespace HelloPico2.PlayerController.Arm
         {
             var unitDuration = duration * _ModifyLengthStep / lightBeamRigController.GetUpdateState().TotalLength;
 
-            while (lightBeamRigController.GetUpdateState().TotalLength != 0)
+            while (lightBeamRigController.GetUpdateState().TotalLength <= 0.1f)
             {
-                lightBeamRigController.ModifyControlRigLength(-_ModifyLengthStep);
+                if(lightBeamRigController.GetUpdateState().TotalLength - _ModifyLengthStep >= 0)
+                    lightBeamRigController.ModifyControlRigLength(-_ModifyLengthStep);
+                else
+                    lightBeamRigController.ModifyControlRigLength(-lightBeamRigController.GetUpdateState().TotalLength);
 
                 yield return new WaitForSeconds(unitDuration);
             }
