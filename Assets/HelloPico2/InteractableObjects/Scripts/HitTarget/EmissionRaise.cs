@@ -77,7 +77,7 @@ public class EmissionRaise : MonoBehaviour
 
     public void Raise(Renderer[] targets)
     {
-        if (true)
+        if (gameObject.activeSelf)
         {
             switch (m_CurrentType)
             {
@@ -126,11 +126,13 @@ public class EmissionRaise : MonoBehaviour
 
         if (m_FlipFlop)
         {
-            Process = StartCoroutine(RaiseColor(targets, matID));
+            if(gameObject.activeSelf)
+                Process = StartCoroutine(RaiseColor(targets, matID));
         }
         else
         {
-            Process = StartCoroutine(RaiseColorWithoutFlipflop(targets, matID));
+            if(gameObject.activeSelf)
+                Process = StartCoroutine(RaiseColorWithoutFlipflop(targets, matID));
         }
     }
     public void Raise(Renderer[] targets, float value, int matID = -1)
@@ -141,11 +143,13 @@ public class EmissionRaise : MonoBehaviour
 
         if (m_FlipFlop)
         {
-            Process = StartCoroutine(RaiseValue(targets, matID));
+            if(gameObject.activeSelf)
+                Process = StartCoroutine(RaiseValue(targets, matID));
         }
         else
         {
-            Process = StartCoroutine(RaiseValueWithoutFlipflop(targets, matID));
+            if(gameObject.activeSelf)
+                Process = StartCoroutine(RaiseValueWithoutFlipflop(targets, matID));
         }
     }
     private IEnumerator RaiseColor(Renderer[] targets, int matID = -1) {        
