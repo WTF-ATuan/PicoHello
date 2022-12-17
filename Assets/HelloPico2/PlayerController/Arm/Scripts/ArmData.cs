@@ -5,7 +5,6 @@ using UnityEngine.XR.Interaction.Toolkit;
 using Sirenix.OdinInspector;
 using HelloPico2.InteractableObjects;
 using HelloPico2.InputDevice.Scripts;
-using Sirenix.OdinInspector.Editor.Validation;
 
 namespace HelloPico2.PlayerController.Arm
 {

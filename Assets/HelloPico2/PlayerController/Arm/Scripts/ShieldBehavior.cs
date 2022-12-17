@@ -3,6 +3,7 @@ using HelloPico2.InputDevice.Scripts;
 using HelloPico2.InteractableObjects;
 using Sirenix.OdinInspector;
 using System.Collections;
+using UltEvents;
 using UnityEngine;
 
 namespace HelloPico2.PlayerController.Arm{
@@ -11,7 +12,7 @@ namespace HelloPico2.PlayerController.Arm{
 		[FoldoutGroup("Shield Scale")][SerializeField] private Vector2 _ScaleRange;
 		[FoldoutGroup("Shield Scale")][SerializeField] private float _ScalingSpeed;
 		[FoldoutGroup("Shield Scale")][SerializeField] private float _ScalingDuration;
-		[FoldoutGroup("Interaction")][SerializeField] private int _SpentEnergyWhenCollide = 30;
+		[FoldoutGroup("Interaction")][SerializeField] private int _SpentEnergyWhenCollide = 30;		
 		[FoldoutGroup("Special Skill")][SerializeField] private float _AbsorbCoolDownDuration = .5f;
 		[FoldoutGroup("Special Skill")][SerializeField] private float _AbsorbInterpolateDuration = 0.1f;
 		[FoldoutGroup("Special Skill")][SerializeField] private float range;
@@ -30,7 +31,9 @@ namespace HelloPico2.PlayerController.Arm{
 		ArmLogic armLogic{ get; set; }		
 		Game.Project.ColdDownTimer absorbCooldown { get; set; }
 		public UnityEngine.Events.UnityAction<InteractableSettings.InteractableType> WhenCollide;
-		Coroutine absorbProcess { get; set; }
+		public UltEvent WhenShieldBreak;
+
+        Coroutine absorbProcess { get; set; }
         private void Start()
         {
 			absorbCooldown = new Game.Project.ColdDownTimer(_AbsorbCoolDownDuration);
@@ -129,7 +132,9 @@ namespace HelloPico2.PlayerController.Arm{
             AudioPlayerHelper.PlayAudio(_ShieldCollideClipName, transform.position);
 
             WhenCollide?.Invoke(InteractableSettings.InteractableType.Shield);
-		}
+
+            if (!armLogic.CheckHasEnergy()) WhenShieldBreak?.InvokeSafe();
+        }
 		private IEnumerator Absorb(DeviceInputDetected inputDetected) {
 			absorbCooldown.Reset();
 
