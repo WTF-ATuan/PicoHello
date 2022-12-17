@@ -41,6 +41,7 @@ public class Level_FadeController : MonoBehaviour
     public Material PassageWay_Env_Lv1;
     public GameObject PassageWay;
     public Material CameraBackColorMask;
+    public GameObject CameraBackColorMask_Obj;
 
     public Color CameraBackColorMask_intro;
     public Color CameraBackColorMask_Lv1;
@@ -251,6 +252,7 @@ public class Level_FadeController : MonoBehaviour
                     CloudPassThrough_Level_Switch(The_Level.The_Level[5]);
                     CloudPassThrough.enabled = true;
                     pre_level = now_level;
+                    CameraBackColorMask_Obj.SetActive(false);
                 }
 
                 CameraBackColorMask.SetColor(ShaderIDs.Color, Color.Lerp(CameraBackColorMask.GetColor(ShaderIDs.Color), CameraBackColorMask_Lv4, 0.007f));
