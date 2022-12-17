@@ -52,7 +52,7 @@ namespace HelloPico2.PlayerController.Player
         }
         private void ReceiveDamage(Collider other)
         {
-            //print(_InvincibleTimer.CanInvoke());
+            if (CheckHasShield()) return;
             if (!_InvincibleTimer.CanInvoke()) return;
 
             playerData._OnReceiveDamage?.Invoke();
@@ -75,6 +75,9 @@ namespace HelloPico2.PlayerController.Player
         private void StartInvincible()
         {
             _InvincibleTimer.Reset();
+        }
+        private bool CheckHasShield() {
+            return _PlayerData.energyBall_L.isCurrentWeaponShield() || _PlayerData.energyBall_R.isCurrentWeaponShield();
         }
     }
 }

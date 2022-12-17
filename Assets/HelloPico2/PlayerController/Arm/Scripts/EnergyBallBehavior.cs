@@ -128,6 +128,10 @@ namespace HelloPico2.PlayerController.Arm
         public bool isCurrentWeaponEnergyBall() {
             return currentWeaponBehavior == energyBehavior;
         }
+        public bool isCurrentWeaponShield()
+        {
+            return currentWeaponBehavior == shieldBehavior;
+        }
         public void ChargeEnergyDirectlyWithoutVisualFeedback(float energy)
         {
             // Charge Energy
