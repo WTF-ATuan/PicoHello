@@ -53,7 +53,7 @@ namespace HelloPico2.PlayerController.Player
         private void ReceiveDamage(Collider other)
         {
             //print(_InvincibleTimer.CanInvoke());
-            //if (!_InvincibleTimer.CanInvoke()) return;
+            if (!_InvincibleTimer.CanInvoke()) return;
 
             playerData._OnReceiveDamage?.Invoke();
 
@@ -70,7 +70,7 @@ namespace HelloPico2.PlayerController.Player
             playerData.armLogic_L.OnEnergyChanged?.Invoke(playerData.armLogic_L.data);
             playerData.armLogic_R.OnEnergyChanged?.Invoke(playerData.armLogic_R.data);
             
-            //StartInvincible();
+            StartInvincible();
         }
         private void StartInvincible()
         {

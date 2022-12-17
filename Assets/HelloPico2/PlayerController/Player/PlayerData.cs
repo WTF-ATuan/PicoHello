@@ -2,6 +2,7 @@
 using UnityEngine;
 using HelloPico2.PlayerController.Arm;
 using HelloPico2.InteractableObjects;
+using Sirenix.OdinInspector.Editor.Validation;
 
 namespace HelloPico2.PlayerController.Player
 {
@@ -24,6 +25,6 @@ namespace HelloPico2.PlayerController.Player
         public ObjectShaker cameraShakeSettings { get{ return _CameraShakeSettings; }}
         public FollowerShaker lHandShaker{get{ return _LHandShaker; }}
         public FollowerShaker rHandShaker { get { return _RHandShaker; } }
-        public float invincibleDuration { get { return _InvincibleDuration; } }
+        public float invincibleDuration { get { return _InvincibleDuration; } private set { _InvincibleDuration = value; } }
     }
 }

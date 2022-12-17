@@ -5,6 +5,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 using Sirenix.OdinInspector;
 using HelloPico2.InteractableObjects;
 using HelloPico2.InputDevice.Scripts;
+using Sirenix.OdinInspector.Editor.Validation;
 
 namespace HelloPico2.PlayerController.Arm
 {
@@ -71,7 +72,7 @@ namespace HelloPico2.PlayerController.Arm
         public InteractableSettings InteractableSettings { get { return _InteractableSettings; } }
         public Transform SummonPoint { get { return _SummonPoint; } }
         public ArmorController ArmorController { get { return _ArmorController; } }
-        public float DisableInputCoolDownDuration { get { return _DisableInputCoolDownDuration; } }
+        public float DisableInputCoolDownDuration { get { return _DisableInputCoolDownDuration; } private set { _DisableInputCoolDownDuration = value; } }
         public string[] GainEnergyBallClipName { get { return _GainEnergyBallClipName; } }
         public float ShootEmptyEnergyCoolDownDuration { get { return _ShootEmptyEnergyCoolDownDuration; } }
         public float ShootEmptyBombCoolDownDuration { get { return _ShootEmptyBombCoolDownDuration; } }
