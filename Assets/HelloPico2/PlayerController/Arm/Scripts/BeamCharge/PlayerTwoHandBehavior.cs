@@ -1,6 +1,7 @@
 using DG.Tweening;
 using HelloPico2.InputDevice;
 using HelloPico2.InputDevice.Scripts;
+using HelloPico2.InteractableObjects.Scripts;
 using HelloPico2.PlayerController.Arm;
 using HelloPico2.PlayerController.Player;
 using Sirenix.OdinInspector;
@@ -26,6 +27,7 @@ namespace HelloPico2.PlayerController.BeamCharge
         [Header("Reference Settings")]
         [ReadOnly][SerializeField] private string _PlayersHandTag = "InteractCollider";
         [ReadOnly][SerializeField] private string _PlayerTag = "Player";
+        [ReadOnly][SerializeField] private Transform _BossCenter;
         //[ReadOnly]
         [SerializeField] private GameObject[] _PlayersHands;
         public PickableEnergy[] _PickableEnergys;
@@ -165,6 +167,7 @@ namespace HelloPico2.PlayerController.BeamCharge
         }
         private void OnEnable()
         {
+            _BossCenter = GameObject.FindObjectOfType<BossVisualReaction>().BossCenter;
             ResetToBeggingState();
 
             foreach (var energy in _PickableEnergys)
@@ -435,6 +438,7 @@ namespace HelloPico2.PlayerController.BeamCharge
                 StopCoroutine(ChargingBallProcess);
 
             updateCallback += () => { ChargingBallPositioning(); };
+            updateCallback += () => { BeamAimingBoss(); };
             ChargingBallProcess = StartCoroutine(ChargingBallControlling());
 
             DoVibration(HandType.Left, _GainChargingBallHapticName);
@@ -444,6 +448,9 @@ namespace HelloPico2.PlayerController.BeamCharge
         private void ChargingBallPositioning()
         {
             _BeamChargeController.transform.position = GetTwoHandsCenter();
+        }
+        private void BeamAimingBoss() {
+            _BeamChargeController.transform.LookAt(_BossCenter);
         }
         private IEnumerator ChargingBallControlling() {
             float waitDuration = 0;            
@@ -531,7 +538,10 @@ namespace HelloPico2.PlayerController.BeamCharge
             }
         }
         private void EndShooting() { 
-            _BeamChargeController.controller = Player_BeamCharge_Controller.Controller.End;            
+            _BeamChargeController.controller = Player_BeamCharge_Controller.Controller.End; 
+            
+            updateCallback -= () => { ChargingBallPositioning(); };
+            updateCallback -= () => { BeamAimingBoss(); };
         }
         private ControllerVibrator GetHandVibrator(HandType hand) {
             if (hand == HandType.Left)

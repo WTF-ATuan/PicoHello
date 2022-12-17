@@ -14,6 +14,8 @@ namespace HelloPico2.InteractableObjects.Scripts
         [SerializeField] private ParticleSystem _CrackVFX;
         [SerializeField] private ParticleSystem[] _EnergyHitVFX;
         [SerializeField] private float _EnergyHitVFXCD = 0.5F;
+        [SerializeField] private Transform _BossCenter;
+        public Transform BossCenter { get { return _BossCenter; } }
         
         int currentHitCount;        
         Game.Project.ColdDownTimer coolDownTimer;
