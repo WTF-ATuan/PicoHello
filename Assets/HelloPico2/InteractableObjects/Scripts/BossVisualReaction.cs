@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Game.Project;
@@ -10,6 +11,7 @@ namespace HelloPico2.InteractableObjects.Scripts
     {
         [SerializeField] private int _TriggerHitReactionHitCount = 5;
         [SerializeField] private string _HitAudioClipName;
+        [SerializeField] private ParticleSystem _CrackVFX;
         [SerializeField] private ParticleSystem[] _EnergyHitVFX;
         [SerializeField] private float _EnergyHitVFXCD = 0.5F;
         
@@ -25,7 +27,7 @@ namespace HelloPico2.InteractableObjects.Scripts
         }
         public void OnHit(InteractType type, Vector3 collisionPoint) {
             _HitReactionEventWithoutCD?.Invoke();
-
+            PlayCrackVFX(collisionPoint);
             UpdateHitCount(type);
 
             if (coolDownTimer.CanInvoke())
@@ -41,6 +43,14 @@ namespace HelloPico2.InteractableObjects.Scripts
 
             _HitReactionEvent?.Invoke();
         }
+
+        private void PlayCrackVFX(Vector3 collisionPoint)
+        {
+            _CrackVFX.Stop();
+            _CrackVFX.transform.position = collisionPoint;
+            _CrackVFX.Play(true);
+        }
+
         private void UpdateHitCount(InteractType type) {
             if (currentHitCount < _TriggerHitReactionHitCount)
             {
