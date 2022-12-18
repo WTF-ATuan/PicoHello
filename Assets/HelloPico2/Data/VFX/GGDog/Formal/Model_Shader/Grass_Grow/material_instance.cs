@@ -5,13 +5,9 @@ using UnityEngine;
 public class material_instance : MonoBehaviour
 {
     Material _m;
-    void Start()
+    void Awake()
     {
         _m = GetComponent<MeshRenderer>().material;
     }
 
-    void Update()
-    {
-        
-    }
 }
