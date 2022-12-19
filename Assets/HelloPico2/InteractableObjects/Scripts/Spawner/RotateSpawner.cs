@@ -54,7 +54,6 @@ namespace HelloPico2.InteractableObjects{
 
 		private void OnDisable(){
 			cloneList.RemoveAll(x => x == null);
-			cloneList.ForEach(x => x.transform.SetParent(null));
 			cloneList.Clear();
 		}
 
@@ -70,7 +69,7 @@ namespace HelloPico2.InteractableObjects{
 			var spawnIndex = cloneList.Count;
 			if(spawnIndex >= spawnCount) return;
 			var spawnPoint = spawnPointList[spawnIndex];
-			var spawnObject = Instantiate(spawnPrefab, spawnPoint.position, spawnPoint.rotation, spawnPoint);
+			var spawnObject = Instantiate(spawnPrefab, spawnPoint.position, spawnPoint.rotation);
 			OnSpawn?.Invoke(spawnObject);
 			cloneList.Add(spawnObject);
 		}
