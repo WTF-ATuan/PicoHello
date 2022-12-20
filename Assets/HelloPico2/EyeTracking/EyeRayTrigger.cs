@@ -11,12 +11,11 @@ namespace HelloPico2.EyeTracking{
 		[SerializeField] private float rayCastMaxDistance = 100;
 		[SerializeField] private Transform signObject;
 		[SerializeField] private LayerMask detectedLayer;
-		[SerializeField] private bool eyeTracking = true;
 
 		public UltEvent<Vector3> eyeHitEvent;
 
 		private void Update(){
-			if(eyeTracking && CheckEyeDevice()){
+			if(CheckEyeDevice()){
 				TrackEye();
 			}
 			else{
