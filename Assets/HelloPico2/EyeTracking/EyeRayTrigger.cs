@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System.Collections.Generic;
+using DG.Tweening;
 using HelloPico2.InteractableObjects;
 using UltEvents;
 using Unity.XR.PXR;
@@ -15,7 +16,7 @@ namespace HelloPico2.EyeTracking{
 		public UltEvent<Vector3> eyeHitEvent;
 
 		private void Update(){
-			if(eyeTracking){
+			if(eyeTracking && CheckEyeDevice()){
 				TrackEye();
 			}
 			else{
@@ -52,6 +53,13 @@ namespace HelloPico2.EyeTracking{
 			if(!Physics.Raycast(ray, out var hit, rayCastMaxDistance, detectedLayer)) return;
 			signObject.position = hit.point;
 			Trigger(hit.collider, hit.point);
+		}
+
+		private bool CheckEyeDevice(){
+			var devices = new List<UnityEngine.XR.InputDevice>();
+			InputDevices.GetDevicesWithCharacteristics(
+				InputDeviceCharacteristics.EyeTracking | InputDeviceCharacteristics.HeadMounted, devices);
+			return devices.Count != 0 && devices[0].isValid;
 		}
 
 		private void Trigger(Collider hitTarget, Vector3 position){
