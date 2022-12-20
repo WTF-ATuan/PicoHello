@@ -15,7 +15,7 @@ namespace HelloPico2.LevelTool{
 		}
 
 		[Button]
-		private void OpenSelectItem(){
+		public void OpenSelectItem(){
 			var targetItemName = itemSo.targetItemName;
 			var foundObject = selectedObjects.Find(x => targetItemName.Contains(x.name));
 			if(foundObject) foundObject.SetActive(true);
