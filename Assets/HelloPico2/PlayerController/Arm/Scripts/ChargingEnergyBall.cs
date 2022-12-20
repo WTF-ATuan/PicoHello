@@ -13,11 +13,14 @@ namespace HelloPico2.PlayerController.Arm
         public float _PunchDuration = 0.3f;
         public int _Vibrato = 5;
         public GameObject _Mesh;
+        public GameObject _BadgeVFX;
+        public float _BadgeTurnOnDelayDuration = 0.1f;
         public Follower _Follower;
         public UltEvents.UltEvent _WhenChargeEnergy;
         public UltEvents.UltEvent _WhenFullyCharged;
         public UltEvents.UltEvent _WhenExitFullyCharged;
-
+        public UltEvents.UltEvent _WhenSwitchToSwordOrShield;
+        public UltEvents.UltEvent _WhenSwitchToEnergyball;
         private Sequence punchSeq;
 
         private Renderer _MeshRenderer;
@@ -105,8 +108,13 @@ namespace HelloPico2.PlayerController.Arm
             if (isCharged)
             {
                 //print("Notify Activate");
-                _WhenFullyCharged?.Invoke();
+                _WhenFullyCharged?.Invoke();                    
             }
+
+            _WhenSwitchToEnergyball?.InvokeSafe();
+
+            if (_BadgeVFX == null) return;
+            SwitchBadge(true);
         }
 
         public void OnNotifyDeactivate()
@@ -115,8 +123,16 @@ namespace HelloPico2.PlayerController.Arm
             if (isCharged)
             {
                 //print("Notify Deactivate");
-                _WhenExitFullyCharged?.Invoke();
+                _WhenExitFullyCharged?.Invoke();                
             }
+
+            _WhenSwitchToSwordOrShield?.InvokeSafe();
+
+            if (_BadgeVFX == null) return;
+            SwitchBadge(false);
+        }
+        private void SwitchBadge(bool value) { 
+            _BadgeVFX.SetActive(value);
         }
         private void OnDestroy()
         {
