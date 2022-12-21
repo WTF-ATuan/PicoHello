@@ -35,7 +35,7 @@ namespace HelloPico2.InteractableObjects{
 		}
 
 		private void OnInteract(Collider selfCollider, InteractType type){
-			print(selfCollider.name);
+			//print(selfCollider.name);
 			var isBeam = type == InteractType.Beam || type == InteractType.Whip || type == InteractType.Energy;
 			if(isBeam){
 				beamHitCount -= 1;
