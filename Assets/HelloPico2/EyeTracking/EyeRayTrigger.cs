@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using DG.Tweening;
 using HelloPico2.InteractableObjects;
+using Sirenix.OdinInspector;
 using UltEvents;
 using Unity.XR.PXR;
 using UnityEngine;
@@ -8,7 +9,10 @@ using UnityEngine.XR;
 
 namespace HelloPico2.EyeTracking{
 	public class EyeRayTrigger : MonoBehaviour{
+		[SerializeField] private enum eyeTrackingType { HitTrigger, Laser};
+		[SerializeField] private eyeTrackingType currentType = eyeTrackingType.HitTrigger;
 		[SerializeField] private float rayCastMaxDistance = 100;
+		[ShowIf("currentType", eyeTrackingType.Laser)][SerializeField] private float laserMaxDistance = 10;
 		[SerializeField] private Transform signObject;
 		[SerializeField] private LayerMask detectedLayer;
 
@@ -16,11 +20,30 @@ namespace HelloPico2.EyeTracking{
 
 		private void Update(){
 			if(CheckEyeDevice()){
-				TrackEye();
+                switch (currentType)
+                {
+                    case eyeTrackingType.HitTrigger:
+                        TrackEye();
+                        break;
+                    case eyeTrackingType.Laser:
+                        break;
+                    default:
+                        break;
+                }
 			}
 			else{
-				TrackHead();
-			}
+				switch (currentType)
+				{
+					case eyeTrackingType.HitTrigger:
+                        TrackHead();
+                        break;
+					case eyeTrackingType.Laser:
+                        HeadRaycasting();
+                        break;
+					default:
+						break;
+				}
+            }
 
 			InputDevices.GetDeviceAtXRNode(XRNode.LeftHand)
 					.TryGetFeatureValue(CommonUsages.menuButton, out var isLMenuButton);
@@ -39,8 +62,24 @@ namespace HelloPico2.EyeTracking{
 			signObject.position = hit.point;
 			Trigger(hit.collider, hit.point);
 		}
-
-		private void TrackEye(){
+        private void HeadRaycasting()
+        {
+            if (!Camera.main) return;
+            var cameraTransform = Camera.main.transform;
+            var originPoint = cameraTransform.position;
+            var direction = cameraTransform.forward;
+            var ray = new Ray(originPoint, direction);
+			if (!Physics.Raycast(ray, out var hit, rayCastMaxDistance, detectedLayer)) 
+			{
+                signObject.position = ray.origin + ray.direction * laserMaxDistance;
+            }
+			else
+			{
+				signObject.position = hit.point;
+                NotifyInteractable(hit.collider, hit.point);
+			}
+        }
+        private void TrackEye(){
 			if(!Camera.main) return;
 			var cameraTransform = Camera.main.transform;
 			var matrix4X4 = Matrix4x4.TRS(cameraTransform.position, cameraTransform.rotation, Vector3.one);
@@ -66,8 +105,14 @@ namespace HelloPico2.EyeTracking{
 			collide?.OnCollide(InteractType.Eye, hitTarget);
 			eyeHitEvent.Invoke(position);
 		}
+        private void NotifyInteractable(Collider hitTarget, Vector3 position)
+        {
+            var collide = hitTarget.GetComponent<IInteractCollide>();
+            collide?.OnCollide(InteractType.Energy, hitTarget);
+            eyeHitEvent.Invoke(position);
+        }
 
-		public void CalibrationEyeTracker(){
+        public void CalibrationEyeTracker(){
 			OpenPackage("com.tobii.usercalibration.pico");
 			OpenPackage("com.tobii.usercalibration.neo3");
 		}
