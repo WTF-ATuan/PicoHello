@@ -16,6 +16,7 @@ Shader "GGDog/UI"
         Blend SrcAlpha OneMinusSrcAlpha
 
         ZTest Always
+        ZTest Off
         
         Pass
         {

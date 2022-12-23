@@ -3,6 +3,7 @@ Shader "Unlit/VertexColor"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+		[HDR]_Color("Color",Color) = (1,1,1,1)
 		[Enum(UnityEngine.Rendering.BlendMode)] _SourceBlend ("Source Blend Mode", Float) = 5
 		[Enum(UnityEngine.Rendering.BlendMode)] _DestBlend ("Dest Blend Mode", Float) = 10
         [Enum(Order,4,AlwaysOnTop,8)] _ZTest("ZTest", Float) = 4
@@ -37,7 +38,8 @@ Shader "Unlit/VertexColor"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
-
+            float4 _Color;
+            
             v2f vert (appdata v)
             {
                 v2f o;
@@ -49,7 +51,7 @@ Shader "Unlit/VertexColor"
 
             float4 frag (v2f i) : SV_Target
             {
-                float4 col = tex2D(_MainTex, i.uv)*i.color;
+                float4 col = tex2D(_MainTex, i.uv)*i.color*_Color;
                 return col;
             }
             ENDCG
