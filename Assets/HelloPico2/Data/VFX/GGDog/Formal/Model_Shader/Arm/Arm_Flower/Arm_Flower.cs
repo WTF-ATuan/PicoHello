@@ -31,7 +31,6 @@ public class Arm_Flower : MonoBehaviour
         var em = ps.emission;
         em.rateOverTime = 20+_h * 70;
 
-
         float i = _injured * (1 - _injured) * 4;
 
         ParticleSystem ps_injured = injured_PS_PointGlow;

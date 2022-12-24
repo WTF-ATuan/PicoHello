@@ -143,10 +143,11 @@ Shader "GGDog/Arm_Uber_Toon"
 
 				half D;
 				Unity_GradientNoise_float((i.vertexUV.xy*half2(0.25,1)+i.vertexUV.yz)*0.5 + D_noise*0.01,55,D);
+				
 
-				_injured+=0.01;
+				//_injured+=0.01;
 				_injured*=1.5;
-
+				
 				D-=_injured - smoothstep(-0.15,0,i.vertexUV.z)/_injured;
 				clip(D+0.05);
 				
