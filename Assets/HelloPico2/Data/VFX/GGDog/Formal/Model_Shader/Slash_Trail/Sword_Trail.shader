@@ -2,7 +2,9 @@ Shader "GGDog/Sword_Trail"
 {
     Properties
     {
+		[HDR]_Color ("Color", Color) = (1,1,1,1)
         _MainTex ("Texture", 2D) = "white" {}
+        _ReversUVy ("ReversUVy", Range(0,1)) = 0
     }
     SubShader
     {
@@ -76,16 +78,27 @@ Shader "GGDog/Sword_Trail"
                 return o;
             }
 
+            float _ReversUVy;
+            float4 _Color;
+            
             fixed4 frag (v2f i) : SV_Target
             {
+                
+                i.uv.y = -i.uv.y*(2*_ReversUVy-1) + 1*_ReversUVy;
 
                 fixed4 col = tex2D(_MainTex, i.uv);
 
-                float a =  WaterTex(i.uv *float2(10,200), 1 ,10 );
+                float a =  WaterTex(i.uv *float2(5,150), 1 ,10 );
 
-                clip((a*i.uv.y)*i.color.a-0.2);
+                a = smoothstep(0.25,0.75,a);
 
-                return fixed4(1,1,1,(1-(a*i.uv.y))*i.color.a);
+                float slash = smoothstep(0.25,1,i.uv.y);
+
+              //  clip((a*i.uv.y)*i.color.a-0.2);
+
+                return fixed4(_Color.rgb,(a*i.uv.y+slash)*i.color.a);
+                
+
             }
             ENDCG
         }

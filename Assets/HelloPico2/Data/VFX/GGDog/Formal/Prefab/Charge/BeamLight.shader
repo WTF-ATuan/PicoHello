@@ -2,12 +2,15 @@ Shader "GGDog/Effect/BeamLight"
 {
     Properties
     {
+		[Enum(UnityEngine.Rendering.BlendMode)] _SourceBlend ("Source Blend Mode", Float) = 5
+		[Enum(UnityEngine.Rendering.BlendMode)] _DestBlend ("Dest Blend Mode", Float) = 1
     }
     SubShader
     {
         Tags { "Queue"="Transparent" }
         ZWrite Off
-        Blend SrcAlpha One
+		Blend [_SourceBlend] [_DestBlend]
+
         ZTest Always
 
         Pass
