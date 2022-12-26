@@ -22,19 +22,34 @@ public class ReverseRotation : MonoBehaviour
 
     void Update()
     {
-        Vector3 go_angle = go.transform.rotation.eulerAngles;
+       // Vector3 go_angle = go.transform.rotation.eulerAngles;
 
-        currentRot = go.transform.rotation.eulerAngles ;
+        currentRot = Camera.main.transform.rotation.eulerAngles ;
         deltaRot = currentRot - lastRot;
         lastRot = currentRot;
 
 
-    //    transform.Rotate(-deltaRot* Value, Space.Self);
+        //    transform.Rotate(-deltaRot* Value, Space.Self);
 
-        
-        transform.rotation = Quaternion.RotateTowards(
-            transform.rotation, Quaternion.Euler( -go_angle),Value);
 
+        transform.position = Vector3.Lerp(transform.position, Camera.main.transform.position, Value);
+
+
+        transform.rotation =
+
+        Quaternion.Lerp(
+
+            transform.rotation,
+
+            Quaternion.RotateTowards
+            (
+            transform.rotation, 
+            Quaternion.Euler(transform.rotation.eulerAngles - deltaRot),
+            Value),
+
+            Value
+
+         );
         
 
         /*
@@ -52,12 +67,4 @@ public class ReverseRotation : MonoBehaviour
         }*/
     }
 
-    //¦V¶q§¨¨¤¡A0~360«×
-    float angle_360(Vector3 v)
-    {
-        if (v.z > 0)
-            return Vector3.Angle(v,v);
-        else
-            return 360 - Vector3.Angle(v, v);
-    }
 }
