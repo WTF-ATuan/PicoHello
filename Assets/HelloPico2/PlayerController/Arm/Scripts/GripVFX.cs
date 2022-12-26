@@ -12,10 +12,12 @@ namespace HelloPico2.PlayerController {
         public UltEvents.UltEvent WhenGripDown;
         private Arm.ArmLogic armLogic;
         private bool up;
-
-        private void OnEnable()
+        private void Awake()
         {
             SetUpArm();
+        }
+        private void OnEnable()
+        {
             armLogic.OnGripUp += GripUp;
             armLogic.OnGripDown += GripDown;
         }
@@ -43,6 +45,7 @@ namespace HelloPico2.PlayerController {
 
         private void GripDown(ArmData data)
         {
+            print("GripDown");
             if (up)
                 WhenGripDown?.Invoke();
 

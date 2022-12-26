@@ -20,6 +20,16 @@ public class EmissionRaiseSteps : EmissionRaise
                 ColOrigin = m_ColTargets[0]; 
         }
     }
+    public void AssignValue(EmissionRaiseSteps emissionControl) {
+        m_ControlColorName = emissionControl.m_ControlColorName;
+        m_ControlValueName = emissionControl.m_ControlValueName;
+        m_Duration = emissionControl.m_Duration;
+        m_Movement = emissionControl.m_Movement;
+        m_Loop = emissionControl.m_Loop;
+        m_FlipFlop = emissionControl.m_FlipFlop;
+        m_ColTargets = emissionControl.m_ColTargets;
+        m_ValueTarget = emissionControl.m_ValueTarget;
+    }
     public void RaiseToColor(int Index)
     {
         if (!m_UsingGroupRenderer)

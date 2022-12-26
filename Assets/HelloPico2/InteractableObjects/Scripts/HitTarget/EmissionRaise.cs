@@ -54,6 +54,7 @@ public class EmissionRaise : MonoBehaviour
     
     public void OnEnable()
     {
+        if (m_TargetRenderer == null) return;
         if(m_Loop)
             Raise(m_TargetRenderer);
     }

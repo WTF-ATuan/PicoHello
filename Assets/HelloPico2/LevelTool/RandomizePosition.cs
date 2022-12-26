@@ -32,9 +32,12 @@ namespace HelloPico2.LevelTool
         private IEnumerator RandomPositioning() {            
             while (true)
             {
-                transform.position = OriginalPosition + GetRandomPosition();
+                SetRandomPosition();
                 yield return new WaitForSeconds(1/ _UpdatePositionFrq);
             }
+        }
+        public void SetRandomPosition() {
+            transform.position = OriginalPosition + GetRandomPosition();
         }
         private Vector3 GetRandomPosition()
         {

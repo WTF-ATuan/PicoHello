@@ -18,7 +18,7 @@ namespace HelloPico2.InteractableObjects
 
         [FoldoutGroup("Audio Settings")][SerializeField] private string[] _CollideClipName;
         [SerializeField] private int _DamageAmount = 0;
-        [SerializeField] private float _HitCDDuration = .05f;
+        [SerializeField] protected float _HitCDDuration = .05f;
         [SerializeField] private InteractType _InteractType = InteractType.Energy;
         [SerializeField] public bool _ShieldReflectableItem = true;
 
