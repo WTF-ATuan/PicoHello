@@ -5625,6 +5625,8 @@ GameObject:
   - component: {fileID: 1723817990}
   - component: {fileID: 1723817989}
   - component: {fileID: 1723817988}
+  - component: {fileID: 1723817995}
+  - component: {fileID: 1723817994}
   m_Layer: 16
   m_Name: Rock SpawnerFastTypeA
   m_TagString: Untagged
@@ -5804,6 +5806,87 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1723817986}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1723817994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1723817986}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9430fccc00d42304386a28337c834844, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CurrentType: 0
+  m_ControlColorName: _Color
+  m_ControlValueName: _RimStrength
+  m_ColTarget: {r: 0, g: 0, b: 0, a: 0}
+  m_ValueTarget: 0
+  m_UsingGroupRenderer: 0
+  m_GroupIndex: 0
+  m_GroupRenderer: []
+  m_TargetRenderer: []
+  m_Duration: 0.3
+  m_Movement:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_CanInterupt: 0
+  m_UseLoopControl: 0
+  m_Loop: 0
+  m_TriggerOnce: 0
+  m_FlipFlop: 0
+  WhenTriggerOnce:
+    m_PersistentCalls:
+      m_Calls: []
+  WhenFinishedTransition:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ColTargets:
+  - {r: 2.585797, g: 1.4545108, b: 1.40064, a: 1}
+  - {r: 5.2164755, g: 2.0210428, b: 1.9117973, a: 1}
+  m_ValueTargets: []
+  m_Index: 0
+--- !u!114 &1723817995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1723817986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc15b3e5fdf4f914b9c9b74944281517, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _AttackSignVFX: {fileID: 3122839632196393718, guid: b753d6baa820a654e87e194f574df957, type: 3}
+  _VFXScale: 1
+  _EnableDelayDuration: 0.5
+  _EmissionControl: {fileID: 1723817994}
+  _EmissionDelayDuration: 2
+  _Flipflop: 0
+  _Duration: 0.3
 --- !u!1 &1743973528
 GameObject:
   m_ObjectHideFlags: 0
