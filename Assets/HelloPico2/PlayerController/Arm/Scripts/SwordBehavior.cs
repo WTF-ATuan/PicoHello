@@ -130,8 +130,8 @@ namespace HelloPico2.PlayerController.Arm
             if (TurnOffProcess != null) { StopCoroutine(TurnOffProcess); }
             if (stretchProcess != null) { StopCoroutine(stretchProcess); }
             
-            TurnOffProcess = StartCoroutine(TurnOffSwordSequence(obj));            
-
+            TurnOffProcess = StartCoroutine(TurnOffSwordSequence(obj));
+            print("Deactivate");
             base.Deactivate(obj);
         }
         private void OnDisable()

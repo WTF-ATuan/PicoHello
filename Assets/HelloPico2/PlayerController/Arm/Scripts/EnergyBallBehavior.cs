@@ -172,9 +172,26 @@ namespace HelloPico2.PlayerController.Arm
         }
         public void SetShootSpeed(float speed) { 
             _ShootSpeed = speed;
-        }        
-        #endregion
+        }
+        public void ChangeToEnergyball()
+        {
+            if (energyBehavior == null)
+                energyBehavior = GetComponent<EnergyBallBehavior>();
 
+            if (currentShape == currentEnergyBall) return;
+
+            if (_HasTransformProcess) return;
+
+            var fromScale = (currentShape) ? currentShape.transform.localScale : Vector3.zero;
+            if (!armLogic.CheckHasEnergy()) currentEnergyBall.transform.localScale = Vector3.zero;
+                
+            ActivateWeapon(currentEnergyBall);
+
+            energyBehavior.Activate(armLogic, armLogic.data, currentEnergyBall, fromScale);
+
+            currentWeaponBehavior = energyBehavior;
+        }
+        #endregion
         private void Start()
         {
             Project.EventBus.Subscribe<GainEnergyEventData>(ChargeEnergy);
@@ -586,22 +603,7 @@ namespace HelloPico2.PlayerController.Arm
                 }
             }
         }
-        public void ChangeToEnergyball()
-        {
-            if (energyBehavior == null)
-                energyBehavior = GetComponent<EnergyBallBehavior>();
-
-            if (currentShape == currentEnergyBall) return;
-
-            var fromScale = (currentShape) ? currentShape.transform.localScale : Vector3.zero;
-            if (!armLogic.CheckHasEnergy()) currentEnergyBall.transform.localScale = Vector3.zero;
-
-            ActivateWeapon(currentEnergyBall);
-
-            energyBehavior.Activate(armLogic, armLogic.data, currentEnergyBall, fromScale);
-
-            currentWeaponBehavior = energyBehavior;
-        }
+        
         private void UpdateScale(ArmData data) {
             var targetScale = Vector3.one * Mathf.Lerp(_ScaleRange.x, _ScaleRange.y, data.Energy / data.MaxEnergy) ;
             if (data.Energy == 0) targetScale = Vector3.zero;
