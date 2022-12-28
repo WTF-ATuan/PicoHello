@@ -38,7 +38,7 @@ namespace HelloPico2.InteractableObjects
         }
         private void OnEnable(){
             if(spiritTimeline == null){
-                throw new Exception("Missing spiritTimeline reference.");  return; }
+                Debug.Log("Missing spiritTimeline reference.");}
 
             OnEnergyBallInteract += BulletReact;
             OnWhipInteract += WhipReact;
@@ -56,7 +56,7 @@ namespace HelloPico2.InteractableObjects
         {
             WhenCollideWithEnergyBall?.Invoke();
 
-            var playableDuration = spiritTimeline.ActivateTimeline(_BulletReactTimelineName);
+            var playableDuration = (spiritTimeline != null)? spiritTimeline.ActivateTimeline(_BulletReactTimelineName) : hitCDDuration;
 
             EventBus.Post<VFXEventRequested, ParticleSystem>(new VFXEventRequested(
                 _BulletReactHitEffectID,
@@ -75,7 +75,7 @@ namespace HelloPico2.InteractableObjects
         {
             WhenCollideWithWhip?.Invoke();
 
-            var playableDuration = spiritTimeline.ActivateTimeline(_WhipReactTimelineName);
+            var playableDuration = (spiritTimeline != null) ? spiritTimeline.ActivateTimeline(_BulletReactTimelineName) : hitCDDuration;
 
             EventBus.Post<VFXEventRequested, ParticleSystem>(new VFXEventRequested(
                 _WhipReactHitEffectID,
@@ -92,9 +92,9 @@ namespace HelloPico2.InteractableObjects
         }
         private void BeamReact(Collider selfCollider)
         {
-            WhenCollideWithBeam?.Invoke(); 
+            WhenCollideWithBeam?.Invoke();
 
-            var playableDuration = spiritTimeline.ActivateTimeline(_BeamReactTimelineName);
+            var playableDuration = (spiritTimeline != null) ? spiritTimeline.ActivateTimeline(_BulletReactTimelineName) : hitCDDuration;
 
             EventBus.Post<VFXEventRequested, ParticleSystem>(new VFXEventRequested(
                 _BeamReactHitEffectID,
