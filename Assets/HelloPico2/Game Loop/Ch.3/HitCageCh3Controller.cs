@@ -8,11 +8,13 @@ public class HitCageCh3Controller : MonoBehaviour
     public GameObject[] getTriggetList;
     public Animator TragetCage;
     public bool isShow;
-    public float randomTime;
+    public float[] randomTime;
     public float maxTime;
     public UltEvents.UltEvent WhenReleaseCage;
     float timeCount;
     float nextActiveTime;
+    int maxRandomSize;
+    int defaultRandCount = 0;
     int randomRangeValue;
     int randomRangeTriggetValue;
     int triggetListLength;
@@ -25,13 +27,14 @@ public class HitCageCh3Controller : MonoBehaviour
             setTriggetObj.GetComponent<SphereCollider>().enabled = false;
             setTriggetObj.SetActive(false);
         }
-        nextActiveTime = randomTime;
-        
+        nextActiveTime = randomTime[0];
+        maxRandomSize = randomTime.Length;
     }
 
     // Update is called once per frame
-        void Update()
+    void Update()
     {
+        
         if (isShow && timeCount < maxTime)
         {
             SetRandomActive();
@@ -42,7 +45,12 @@ public class HitCageCh3Controller : MonoBehaviour
             if (timeCount > nextActiveTime)
             {
                 SetRandomActiveHide();
-                nextActiveTime += randomTime;
+                if(defaultRandCount+1 < maxRandomSize)
+                {
+                    defaultRandCount += 1;
+                    nextActiveTime += randomTime[defaultRandCount];
+                }
+                
             }
         }
         if(timeCount > maxTime)
