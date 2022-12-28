@@ -30,7 +30,11 @@ namespace HelloPico2.InteractableObjects{
 
 		[SerializeField] private AnimationCurve lengthChangedCurve;
 
-		public LightBeamLengthUpdated currentLengthUpdated{ get; private set; }
+        [FoldoutGroup("RaycastCollider")][SerializeField] private bool _useRaycastCollider = false;
+        [FoldoutGroup("RaycastCollider")][Range(1, 8)][SerializeField] private int _percision = 10;
+        [FoldoutGroup("RaycastCollider")][SerializeField] private LayerMask _layer;
+
+        public LightBeamLengthUpdated currentLengthUpdated{ get; private set; }
 
 		public delegate void OnCollisionDel(InteractType interactType, Collider other);
 
@@ -149,6 +153,11 @@ namespace HelloPico2.InteractableObjects{
 		private void Start(){
 			Init();
 		}
+		private void Update()
+		{
+			if (_useRaycastCollider)
+				RaycastColliderEnter();
+        }
 
 		/// <summary>
 		///     OverwriteCurrentUpdatedState
@@ -210,7 +219,55 @@ namespace HelloPico2.InteractableObjects{
 					OnCollision?.Invoke(InteractType.Beam, _capsuleCollider);
 				}
 		}
+        public List<IInteractCollide> colliders = new List<IInteractCollide>();
+		private void RaycastColliderEnter() {
+			colliders.Clear();
 
+            Vector3 POS = _rigs[0].position;
+            for (int i = 0; i < _rigs.Count - 2; i++)
+            {
+                if (i != 0 && i % _percision == 0)
+                {
+					var result = SingleSphereRaycast(POS, _rigs[i].position);
+					if(result.hitAmount != 0) AddHitInfo(colliders, result.hitInfos);
+                    POS = _rigs[i].position;
+                }
+            }
+
+			colliders.ForEach(c => c?.OnCollide(InteractType.Beam, _capsuleCollider)); 
+			
+			foreach (var item in colliders)
+                if (item != null)
+                {
+					print("Hit " + item);
+                    OnCollision?.Invoke(InteractType.Beam, _capsuleCollider);
+                }
+        }
+		private (int hitAmount, RaycastHit[] hitInfos) SingleRaycast(Vector3 from, Vector3 to) {
+			Ray ray = new Ray(from, (to - from));
+			RaycastHit[] hitInfos = new RaycastHit[3];
+			int hitAmount = Physics.RaycastNonAlloc(ray, hitInfos, Vector3.Distance(from, to), _layer);
+			            
+			return (hitAmount, hitInfos);
+		}
+		public float _radius = 1;
+        private (int hitAmount, RaycastHit[] hitInfos) SingleSphereRaycast(Vector3 from, Vector3 to)
+        {
+            Ray ray = new Ray(from, (to - from));
+            RaycastHit[] hitInfos = new RaycastHit[3];
+            int hitAmount = Physics.SphereCastNonAlloc(ray, _radius, hitInfos, Vector3.Distance(from, to), _layer);
+
+            return (hitAmount, hitInfos);
+        }
+        private void AddHitInfo(List<IInteractCollide> cols, RaycastHit[] hitInfos) {
+			for (int i = 0; i < hitInfos.Length; i++)
+			{
+				if (hitInfos[i].collider == null) continue;
+
+                var interactables = hitInfos[i].collider.GetComponents<IInteractCollide>();
+                if(interactables.Length != 0) interactables.ForEach(c => cols.Add(c));
+			}
+		}
 		private bool IsLengthLessThanZero(Vector3 addOffset){
 			var lengthUpdated = GetUpdateState();
 			var localAddOffset = rigRoot.InverseTransformVector(addOffset);
@@ -253,6 +310,23 @@ namespace HelloPico2.InteractableObjects{
 			_dynamicBone.UpdateRoot();
 			_dynamicBone.UpdateParameters();
 			ModifyThickness(thickness);
-		}
+        }
+        private void OnDrawGizmos()
+		{
+			Gizmos.color = Color.red;
+			Vector3 POS = _rigs[0].position;
+
+            for (int i = 0; i < _rigs.Count - 2; i++)
+            {
+                if(i == 0) Gizmos.DrawWireSphere(POS, _radius);
+
+                if (i != 0 && i % _percision == 0)
+                {
+                    Gizmos.DrawLine(POS, _rigs[i].position);
+                    Gizmos.DrawWireSphere(_rigs[i].position, _radius);
+                    POS = _rigs[i].position;
+                }
+            }
+        }
 	}
 }
