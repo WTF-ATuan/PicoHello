@@ -11,6 +11,7 @@ namespace HelloPico2.InteractableObjects
         public string _BulletReactTimelineName;
         public string _WhipReactTimelineName;
         public string _BeamReactTimelineName;
+        [SerializeField] private int _LifePoint = 3;
         [SerializeField] private float _DestroyDelayDuration = 3;
         [SerializeField] private string _BulletReactHitEffectID = "";
         [SerializeField] private string _WhipReactHitEffectID = "";
@@ -18,7 +19,8 @@ namespace HelloPico2.InteractableObjects
         public UltEvent WhenCollideWithEnergyBall;
         public UltEvent WhenCollideWithWhip;
         public UltEvent WhenCollideWithBeam;
-        
+
+        private int currentLifePoint;// { get; set; }
         private SpiritTimeline _SpiritTimeline;
         private SpiritTimeline spiritTimeline { 
             get { 
@@ -31,6 +33,7 @@ namespace HelloPico2.InteractableObjects
         Coroutine process;
         private void Awake()
         {
+            currentLifePoint = _LifePoint;
             col = GetComponent<Collider>();
 
             if (spiritTimeline == null)
@@ -53,61 +56,45 @@ namespace HelloPico2.InteractableObjects
             OnBeamInteract -= BeamReact;
         }
         private void BulletReact(Collider selfCollider)
-        {
+        {          
             WhenCollideWithEnergyBall?.Invoke();
-
-            var playableDuration = (spiritTimeline != null)? spiritTimeline.ActivateTimeline(_BulletReactTimelineName) : hitCDDuration;
-
-            EventBus.Post<VFXEventRequested, ParticleSystem>(new VFXEventRequested(
-                _BulletReactHitEffectID,
-                false,
-                _DestroyDelayDuration,
-                transform.position));
-
-            PlayRandomAudio();
-
-            if (process != null)
-                StopCoroutine(process);
-
-            process = StartCoroutine(ColliderControl(playableDuration));
+            GeneralReaction(_BulletReactHitEffectID, _BulletReactTimelineName);
         }
         private void WhipReact(Collider selfCollider)
         {
             WhenCollideWithWhip?.Invoke();
-
-            var playableDuration = (spiritTimeline != null) ? spiritTimeline.ActivateTimeline(_BulletReactTimelineName) : hitCDDuration;
-
-            EventBus.Post<VFXEventRequested, ParticleSystem>(new VFXEventRequested(
-                _WhipReactHitEffectID,
-                false,
-                _DestroyDelayDuration,
-                transform.position));
-
-            PlayRandomAudio();
-
-            if (process != null)
-                StopCoroutine(process);
-
-            process = StartCoroutine(ColliderControl(playableDuration));
+            GeneralReaction(_WhipReactHitEffectID, _BulletReactTimelineName);
         }
         private void BeamReact(Collider selfCollider)
         {
             WhenCollideWithBeam?.Invoke();
-
-            var playableDuration = (spiritTimeline != null) ? spiritTimeline.ActivateTimeline(_BulletReactTimelineName) : hitCDDuration;
-
+            GeneralReaction(_BeamReactHitEffectID, _BulletReactTimelineName);
+        }
+        private void GeneralReaction(string VFX_ID, string timelineName) {
             EventBus.Post<VFXEventRequested, ParticleSystem>(new VFXEventRequested(
-                _BeamReactHitEffectID,
-                false,
-                _DestroyDelayDuration,
-                transform.position));
+                    VFX_ID,
+                    false,
+                    _DestroyDelayDuration,
+                    transform.position));
 
             PlayRandomAudio();
-
+                      
             if (process != null)
                 StopCoroutine(process);
 
+            UpdateLifePoint(-1);
+            if (currentLifePoint > 0) { process = StartCoroutine(ColliderControl(0)); return; }
+            else currentLifePoint = _LifePoint;
+
+            var playableDuration = (spiritTimeline != null) ? spiritTimeline.ActivateTimeline(timelineName) : 0;
+
             process = StartCoroutine(ColliderControl(playableDuration));
+
+            print("Play spirit timeline");
+        }
+        private void UpdateLifePoint(int point) { 
+            currentLifePoint += point;
+            currentLifePoint = Mathf.Clamp(currentLifePoint, 0, _LifePoint); 
         }
         private IEnumerator ColliderControl(float playableDuration) {
             col.enabled = false;

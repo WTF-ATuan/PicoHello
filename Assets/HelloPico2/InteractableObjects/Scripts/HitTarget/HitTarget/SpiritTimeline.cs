@@ -47,8 +47,9 @@ namespace HelloPico2.InteractableObjects
         }
         private IEnumerator TrackTimeline(UnityEngine.Playables.PlayableDirector timeline) {
             Debug.Log(timeline.duration);
+            Debug.Log(timeline.time);
             yield return new WaitUntil(() => (timeline.time - timeline.duration) >= -0.1f);
-
+            timeline.Stop();
             timeline.gameObject.SetActive(false);
         }
     }
