@@ -22,6 +22,7 @@ namespace HelloPico2.InteractableObjects
         [SerializeField] private InteractType _InteractType = InteractType.Energy;
         [SerializeField] public bool _ShieldReflectableItem = true;
 
+        public bool usePushBackFeedback { get { return _UsephPushBackFeedback; } set { _UsephPushBackFeedback = value; } }
         public int damageAmount { get { return _DamageAmount; } }
         public InteractType interactType { get { return _InteractType; } }
 
