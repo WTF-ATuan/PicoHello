@@ -13,10 +13,11 @@ public class WeaponItem : MonoBehaviour, IWeaponFeedbacks
         public UltEvents.UltEvent WhenSwitchToWeapon; 
     }
     public List<WeaponForm> Weapons = new List<WeaponForm>();
-    public InteractableSettings.InteractableType _EnableFeedback;
+    public InteractableSettings.InteractableType previousType = InteractableSettings.InteractableType.Whip;
+    
     protected virtual void OnEnable()
     {
-        //OnSwithWeapon(_EnableFeedback);
+        OnSwithWeapon(previousType);
     }
     public virtual void OnSwithWeapon(InteractableSettings.InteractableType interactableType)
     {
@@ -25,8 +26,8 @@ public class WeaponItem : MonoBehaviour, IWeaponFeedbacks
             if (interactableType == Weapons[i].WeaponType)
             { 
                 Weapons[i].WhenSwitchToWeapon?.Invoke();
-                print(Weapons[i].WeaponType);
             }
         }
+        previousType = interactableType;
     }
 }

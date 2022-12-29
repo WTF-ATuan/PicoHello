@@ -189,7 +189,7 @@ namespace HelloPico2.PlayerController.Arm
             AudioPlayerHelper.PlayMultipleAudio(data.toSwordClipName, transform.position);
         }
         private void ActivateWhip(ArmData data)
-        {
+        {            
             lightBeamRigController.ModifyBlendWeight(_SwitchTypeSpeed);
 
             _colorValue += _SwitchTypeSpeed;
