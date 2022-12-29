@@ -24,7 +24,7 @@ namespace HelloPico2.LevelTool{
 		}
 
 		private void OnInputDetected(DeviceInputDetected obj){
-			if(!gameObject.activeSelf) return;
+			if(!gameObject) return;
 			var selectorSpeed = obj.Selector.Speed;
 			if(selectorSpeed > shackingSpeed){
 				detectedTime += Time.fixedDeltaTime;
