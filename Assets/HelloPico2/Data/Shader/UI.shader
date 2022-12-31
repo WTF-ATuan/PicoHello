@@ -5,6 +5,8 @@ Shader "GGDog/UI"
         _MainTex("Texture", 2D) = "white" {}
 
         _AlphaClip("AlphaClip", Range(0,1)) = 0
+
+        _Alpha("Alpha", Range(0,1)) = 1
     }
         SubShader
     {
@@ -53,12 +55,15 @@ Shader "GGDog/UI"
             }
             
             float _AlphaClip;
+
+            
+            float _Alpha;
             fixed4 frag(v2f i) : SV_Target
             {
                 fixed4 col = tex2D(_MainTex, i.uv);
 
                 clip(col.a-_AlphaClip);
-                return col * i.color;
+                return fixed4(col.rgb * i.color.rgb, col.a * _Alpha);
             }
             ENDCG
         }
