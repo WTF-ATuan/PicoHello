@@ -18808,6 +18808,7 @@ MonoBehaviour:
   rayObj: {fileID: 1349410015}
   _targetScript: {fileID: 413694166}
   isCh3HitCage: 0
+  isCloseDoor: 0
   onGrab:
     m_PersistentCalls:
       m_Calls: []
@@ -19264,6 +19265,7 @@ MonoBehaviour:
   rayObj: {fileID: 146148017}
   _targetScript: {fileID: 421445821}
   isCh3HitCage: 0
+  isCloseDoor: 0
   onGrab:
     m_PersistentCalls:
       m_Calls: []
@@ -21446,6 +21448,7 @@ MonoBehaviour:
   rayObj: {fileID: 597297240}
   _targetScript: {fileID: 0}
   isCh3HitCage: 0
+  isCloseDoor: 0
   onGrab:
     m_PersistentCalls:
       m_Calls:
@@ -28186,6 +28189,7 @@ MonoBehaviour:
   rayObj: {fileID: 1830695517}
   _targetScript: {fileID: 752155780}
   isCh3HitCage: 0
+  isCloseDoor: 0
   onGrab:
     m_PersistentCalls:
       m_Calls: []
@@ -54666,6 +54670,7 @@ MonoBehaviour:
   rayObj: {fileID: 1705888976}
   _targetScript: {fileID: 1005634115}
   isCh3HitCage: 0
+  isCloseDoor: 0
   onGrab:
     m_PersistentCalls:
       m_Calls: []
@@ -66153,6 +66158,8 @@ PlayableDirector:
     value: {fileID: 452631707}
   - key: {fileID: -2796206840320629262, guid: 8ae6ecb97b89eea45b4d0b30b60ea6a7, type: 2}
     value: {fileID: 1967230347}
+  - key: {fileID: -212596794519290975, guid: 8ae6ecb97b89eea45b4d0b30b60ea6a7, type: 2}
+    value: {fileID: 2070167676}
   m_ExposedReferences:
     m_References:
     - 28f55f921654729438d12a69d3197ee0: {fileID: 0}
@@ -67046,6 +67053,7 @@ MonoBehaviour:
   rayObj: {fileID: 1067969197}
   _targetScript: {fileID: 1255979048}
   isCh3HitCage: 0
+  isCloseDoor: 0
   onGrab:
     m_PersistentCalls:
       m_Calls: []
@@ -78884,7 +78892,6 @@ Transform:
   - {fileID: 21011304}
   - {fileID: 1921719194}
   - {fileID: 2070167675}
-  - {fileID: 1633981488}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -100889,7 +100896,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1959656197}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.08715578, z: 0, w: 0.9961947}
   m_LocalPosition: {x: 0, y: 0.05, z: 0.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -100898,7 +100905,7 @@ Transform:
   - {fileID: 1967230344}
   m_Father: {fileID: 592886319}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 10, z: 0}
 --- !u!114 &1959656199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100916,7 +100923,7 @@ MonoBehaviour:
   m_FollowZAxis: 0
   m_FollowYAxis: 1
   m_FollowRot: 0
-  m_FollowYRot: 1
+  m_FollowYRot: 0
   m_AdditionalOffset: {x: 0, y: 0, z: 0}
   m_HaveOffset: 0
   m_AlwaysSync: 1
@@ -100979,8 +100986,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1967230343}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 0.35, y: 0.2, z: 0}
-  m_LocalScale: {x: 0.054, y: 0.054, z: 0.054}
+  m_LocalPosition: {x: 0.6, y: -0.5, z: 0}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children:
   - {fileID: 69255442}
   - {fileID: 1812434843}
@@ -102295,6 +102302,7 @@ Transform:
   - {fileID: 528676669}
   - {fileID: 1065148513}
   - {fileID: 452631708}
+  - {fileID: 1633981488}
   m_Father: {fileID: 1627428451}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -102327,11 +102335,11 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1627428451}
+    m_TransformParent: {fileID: 2070167675}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 6ab6007b9e24acd4992e6c15176e6e4e, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6ab6007b9e24acd4992e6c15176e6e4e, type: 3}
       propertyPath: m_LocalScale.x
@@ -102363,7 +102371,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6ab6007b9e24acd4992e6c15176e6e4e, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6ab6007b9e24acd4992e6c15176e6e4e, type: 3}
       propertyPath: m_LocalRotation.y

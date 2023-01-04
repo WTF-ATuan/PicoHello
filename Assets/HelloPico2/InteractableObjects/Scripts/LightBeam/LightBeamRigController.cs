@@ -239,7 +239,7 @@ namespace HelloPico2.InteractableObjects{
 			foreach (var item in colliders)
                 if (item != null)
                 {
-					print("Hit " + item);
+					//print("Hit " + item);
                     OnCollision?.Invoke(InteractType.Beam, _capsuleCollider);
                 }
         }
@@ -265,7 +265,15 @@ namespace HelloPico2.InteractableObjects{
 				if (hitInfos[i].collider == null) continue;
 
                 var interactables = hitInfos[i].collider.GetComponents<IInteractCollide>();
-                if(interactables.Length != 0) interactables.ForEach(c => cols.Add(c));
+				if (interactables.Length != 0)
+				{
+					// Remove repeat items
+					for (int j = 0; j < interactables.Length; j++)
+					{
+						if (!cols.Contains(interactables[j]))
+							cols.Add(interactables[j]);
+					}
+				}
 			}
 		}
 		private bool IsLengthLessThanZero(Vector3 addOffset){
