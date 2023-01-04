@@ -20,7 +20,7 @@ public class MenuItemGetScript : MonoBehaviour
     float timer;
     public targetScript _targetScript;
     public bool isCh3HitCage;
-    bool isCh3Count;
+    public bool isCloseDoor;
 
     [SerializeField] private UnityEvent onGrab;
     [SerializeField] private UnityEvent onTouch;
@@ -46,17 +46,31 @@ public class MenuItemGetScript : MonoBehaviour
     {
         if(findPlayer) gameObject.transform.LookAt(findPlayer.transform.position);
  
-        if (isNotTouch && roundAnimator.speed <1 && !isCh3HitCage)
+        if (isNotTouch  && !isCh3HitCage &&!isCloseDoor)
         {
-            roundAnimator.speed += 0.2f ;
-            filledImage.fillAmount -= Time.deltaTime;
-            if (roundAnimator.speed == 1)
+            if( roundAnimator.speed < 1)
+            {
+                roundAnimator.speed += 0.2f;
+                filledImage.fillAmount -= Time.deltaTime;
+                if (roundAnimator.speed == 1)
+                {
+                    isNotTouch = false;
+                    timer = coldTime;
+                    filledImage.fillAmount = 0;
+                }
+            }
+        }
+        if(isNotTouch && isCloseDoor)
+        {
+            filledImage.fillAmount -= Time.deltaTime*2.5f;
+            if (filledImage.fillAmount < 0.1f)
             {
                 isNotTouch = false;
                 timer = coldTime;
                 filledImage.fillAmount = 0;
             }
         }
+        
     }
 
     IEnumerator WaitCount()
@@ -71,6 +85,7 @@ public class MenuItemGetScript : MonoBehaviour
             rayObj.SetActive(true);
             StartCoroutine(WaitCount());
         }
+
     }
 
     private void OnTriggerStay(Collider other)
@@ -80,7 +95,7 @@ public class MenuItemGetScript : MonoBehaviour
             _isTouch = true;
         }
         
-        if (other.CompareTag("Player") &&  !isCh3HitCage && roundObj)
+        if (other.CompareTag("Player") &&  !isCh3HitCage && roundObj && !isCloseDoor)
         {
             if(roundAnimator.speed > 0)
             {
@@ -111,6 +126,13 @@ public class MenuItemGetScript : MonoBehaviour
             rayObjAnimator.SetBool("isGet", false);
             isNotTouch = true;
             _isTouch = false;
+
+        }
+        if (isCloseDoor)
+        {
+            isNotTouch = true;
+            _isTouch = false;
+    
         }
     }
 }
