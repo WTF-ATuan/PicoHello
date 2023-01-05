@@ -53,7 +53,7 @@ namespace HelloPico2.PlayerController.Arm
         public UnityEngine.Events.UnityAction<InteractableSettings.InteractableType> WhenCollide;
         Coroutine TurnOffProcess;
         Coroutine stretchProcess;
-        IWeaponFeedbacks weaponFeedbacks;
+        private IWeaponFeedbacks[] weaponFeedbacks;
         public override void Activate(ArmLogic Logic, ArmData data, GameObject lightBeam, Vector3 fromScale)
         {
             armLogic = Logic;
@@ -102,7 +102,7 @@ namespace HelloPico2.PlayerController.Arm
 
             _WhenCaculateLength?.Invoke();
 
-            lightBeamRigController.TryGetComponent<IWeaponFeedbacks>(out weaponFeedbacks);
+            weaponFeedbacks = lightBeamRigController.GetComponents<IWeaponFeedbacks>();
 
             base.Activate(Logic, data, lightBeam, fromScale);
         }
@@ -175,7 +175,8 @@ namespace HelloPico2.PlayerController.Arm
                 _WhenActivateSword?.Invoke();
 
                 // Weapon Mesh Feedback
-                weaponFeedbacks.OnSwithWeapon(InteractableSettings.InteractableType.Sword);
+                foreach (var feedback in weaponFeedbacks)                
+                    feedback.OnSwithWeapon(InteractableSettings.InteractableType.Sword);                
             }
 
             _State = State.sword;
@@ -203,7 +204,8 @@ namespace HelloPico2.PlayerController.Arm
                 _WhenActivateWhip?.Invoke();
 
                 // Weapon Mesh Feedback
-                weaponFeedbacks.OnSwithWeapon(InteractableSettings.InteractableType.Whip);
+                foreach (var feedback in weaponFeedbacks)
+                    feedback.OnSwithWeapon(InteractableSettings.InteractableType.Whip);
             }
 
             _State = State.whip;
