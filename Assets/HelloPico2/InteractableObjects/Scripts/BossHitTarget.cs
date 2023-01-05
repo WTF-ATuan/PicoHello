@@ -86,7 +86,9 @@ namespace HelloPico2.InteractableObjects.Scripts{
 
 		public void OnCollide(InteractType type, Collider selfCollider){
 			if(!_timer.CanInvoke()) return;
-			_OnHitEvent?.Invoke(type, selfCollider.transform.position);
+            var collisionPoint = selfCollider.ClosestPoint(transform.position);
+            ReceiveDamage(collisionPoint);
+            //_OnHitEvent?.Invoke(type, selfCollider.transform.position);
 		}
 
 		[Serializable]

@@ -33,8 +33,12 @@ namespace HelloPico2.InteractableObjects{
         [FoldoutGroup("RaycastCollider")][SerializeField] private bool _useRaycastCollider = false;
         [FoldoutGroup("RaycastCollider")][Range(1, 8)][SerializeField] private int _percision = 10;
         [FoldoutGroup("RaycastCollider")][SerializeField] private LayerMask _layer;
+        [FoldoutGroup("RaycastCollider")][SerializeField] private float _checkRaycastCDDuration = 0.1f;
+        [FoldoutGroup("RaycastCollider")][SerializeField] private float _radius = 0.15f;
 
+        public List<IInteractCollide> colliders = new List<IInteractCollide>();
         public LightBeamLengthUpdated currentLengthUpdated{ get; private set; }
+		private Game.Project.ColdDownTimer checkRaycastCDTimer { get; set; }
 
 		public delegate void OnCollisionDel(InteractType interactType, Collider other);
 
@@ -127,7 +131,8 @@ namespace HelloPico2.InteractableObjects{
 			_capsuleCollider = GetComponent<CapsuleCollider>();
 			_rigs = rigRoot.GetComponentsInChildren<Transform>().ToList();
 			_rigs.RemoveAt(0);
-		}
+            checkRaycastCDTimer = new Game.Project.ColdDownTimer(_checkRaycastCDDuration);
+        }
 
 		private void ModifyThickness(float percent){
 			var localScale = rigRoot.localScale;
@@ -156,7 +161,12 @@ namespace HelloPico2.InteractableObjects{
 		private void Update()
 		{
 			if (_useRaycastCollider)
+			{
+				if (!checkRaycastCDTimer.CanInvoke()) return;
+				
 				RaycastColliderEnter();
+				checkRaycastCDTimer.Reset();
+			}
         }
 
 		/// <summary>
@@ -219,7 +229,6 @@ namespace HelloPico2.InteractableObjects{
 					OnCollision?.Invoke(InteractType.Beam, _capsuleCollider);
 				}
 		}
-        public List<IInteractCollide> colliders = new List<IInteractCollide>();
 		private void RaycastColliderEnter() {
 			colliders.Clear();
 
@@ -250,7 +259,6 @@ namespace HelloPico2.InteractableObjects{
 			            
 			return (hitAmount, hitInfos);
 		}
-		public float _radius = 1;
         private (int hitAmount, RaycastHit[] hitInfos) SingleSphereRaycast(Vector3 from, Vector3 to)
         {
             Ray ray = new Ray(from, (to - from));
