@@ -25,6 +25,7 @@ namespace HelloPico2.LevelTool{
 		}
 
 		private void OnInputDetected(DeviceInputDetected obj){
+			if(!enabled) return;
 			if(questEvents.Count < 1){
 				return;
 			}
@@ -58,6 +59,10 @@ namespace HelloPico2.LevelTool{
 		[Button]
 		private void RestartQuest(){
 			questEvents.ForEach(x => x.Restart());
+		}
+
+		public void DebugPrint(){
+			Debug.Log($"{gameObject.name +"  InstanceID ="+ gameObject.GetInstanceID()} invoke Event" , gameObject);
 		}
 	}
 
