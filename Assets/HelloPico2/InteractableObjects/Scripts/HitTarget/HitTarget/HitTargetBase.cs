@@ -36,11 +36,22 @@ namespace HelloPico2.InteractableObjects
         public UnityEvent WhenCollide;
         public UltEvents.UltEvent WhenCollideUlt;
         protected Game.Project.ColdDownTimer _timer;
+        protected Collider collider;
         protected float hitCDDuration { get { return _HitCDDuration; } }
 
         protected virtual void Start()
         {
             _timer = new Game.Project.ColdDownTimer(_HitCDDuration);
+            //TryGetComponent<Collider>(out collider);
+            //ResetColliderSequencer();
+        }
+        private void ResetColliderSequencer() {
+            if (collider == null) return;
+            Sequence seq = DOTween.Sequence();
+            seq.AppendCallback(() => { collider.enabled = false; });
+            seq.AppendInterval(_HitCDDuration);
+            seq.AppendCallback(() => { collider.enabled = true; });
+            seq.Play();            
         }
         public void SetUpMoveBehavior(Vector3 dir, float speed, bool useGravity, float gravity) {
             var mover = gameObject.AddComponent<HelloPico2.LevelTool.MoveLevelObject>();
@@ -56,6 +67,7 @@ namespace HelloPico2.InteractableObjects
             CheckInteractType(type, selfCollider);
             NotifyTracker(type);
             _timer.Reset();
+            ResetColliderSequencer();
         }
 
         public Action<InteractType, Collider> ColliderEvent{ get; }

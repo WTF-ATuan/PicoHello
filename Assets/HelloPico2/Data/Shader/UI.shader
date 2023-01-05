@@ -58,9 +58,9 @@ Shader "GGDog/UI"
 
             
             float _Alpha;
-            fixed4 frag(v2f i) : SV_Target
+            float4 frag(v2f i) : SV_Target
             {
-                fixed4 col = tex2D(_MainTex, i.uv);
+                float4 col = tex2D(_MainTex, i.uv);
 
                 clip(col.a-_AlphaClip);
                 return fixed4(col.rgb * i.color.rgb, col.a * _Alpha);
