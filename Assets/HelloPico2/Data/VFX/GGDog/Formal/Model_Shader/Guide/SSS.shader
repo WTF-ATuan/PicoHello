@@ -47,6 +47,7 @@ Shader "GGDog/Guide_Toon"
                 half4 uv : TEXCOORD0;
                 half4 vertex : SV_POSITION;
                 half3 normal_VS : TEXCOORD1;
+				half CameraDistance : TEXCOORD2;
             };
             
             v2f vert (appdata v)
@@ -67,6 +68,9 @@ Shader "GGDog/Guide_Toon"
                 //Toon光影用的normal
                 half4 normal_OS = half4(v.normal.xyz,0);
                 o.normal_VS = mul(UNITY_MATRIX_MV,normal_OS);
+
+
+                o.CameraDistance = distance(_WorldSpaceCameraPos, unity_ObjectToWorld._m03_m13_m23);
 
                 return o;
             }
@@ -90,6 +94,9 @@ Shader "GGDog/Guide_Toon"
 			half _ShadowRange;
 			half _ShadowFadeUV;
             
+		    uniform half4 _Guide_FarColor;
+		    uniform half _Guide_Far;
+
             half4 frag (v2f i) : SV_Target
             {
 			
@@ -133,6 +140,9 @@ Shader "GGDog/Guide_Toon"
                 shadowcol = lerp(shadowcol,FinalColor,smoothstep(_ShadowFadeUV,1,FadeUV));
 
 				FinalColor = lerp( shadowcol +smoothstep(-0.5,1.5,i.uv.z)/3.5,FinalColor,N_VS_Dot_L_shadow)  ;
+
+                FinalColor = lerp(FinalColor,_Guide_FarColor,i.CameraDistance*_Guide_FarColor.a/_Guide_Far);
+                
 
                 return saturate(FinalColor);
                 

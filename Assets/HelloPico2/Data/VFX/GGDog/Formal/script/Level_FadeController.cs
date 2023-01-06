@@ -123,7 +123,7 @@ public class Level_FadeController : MonoBehaviour
     }
 
     int pre_level = 0;
-    int now_level = 0;
+    public static int now_level = 0;
 
     _Level pre_Level;
     _Level now_Level;
