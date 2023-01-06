@@ -154,6 +154,8 @@ Shader "GGDog/Arm_Uber_Toon"
 
 				col = saturate(col *smoothstep(0,0.25,saturate(D+smoothstep(0.75,1,1-_injured)*0.5)));
 				
+				col = saturate(col);
+
 				return half4(col.rgb,_Alpha);
 				
 			}
