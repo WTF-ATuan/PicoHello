@@ -63,6 +63,8 @@ namespace HelloPico2.LevelTool
         //[MinMaxSlider(0f, 360f,true)]
         public Vector2[] _WaveStartHorizonRot;
 
+        [SerializeField] private string _SpawnedAudioClipsName;
+
         [ReadOnly][SerializeField] private float totalDuration;
         [ReadOnly][SerializeField] private int currentWave;
 
@@ -144,6 +146,8 @@ namespace HelloPico2.LevelTool
                 SetUpFloating(clone.transform, currentWave);
             if (_ItemShowingType == ItemShowingType.PopOut)
                 SetUpExplosionItem(clone.transform, currentWave);
+
+            AudioPlayerHelper.PlayMultipleAudio(_SpawnedAudioClipsName, clone.transform.position);
 
             UpdateWave();
         }
@@ -270,6 +274,7 @@ namespace HelloPico2.LevelTool
         }
         private void SetUpExplosionItem(Transform obj, int wave)
         {
+            obj.SetParent(_PopOutCenter);
             obj.localScale *= _ScaleMultiplier;
             
             Sequence seq = DOTween.Sequence();

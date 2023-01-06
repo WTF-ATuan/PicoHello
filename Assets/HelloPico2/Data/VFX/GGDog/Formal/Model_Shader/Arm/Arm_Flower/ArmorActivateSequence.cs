@@ -34,6 +34,7 @@ namespace HelloPico2.PlayerController.Arm
 
         [Header("Audio Settings")]
         [SerializeField] private string _ShowArmorClipName = "ShowArmor";
+        [SerializeField] private string _EquipArmorClipName = "EquipNewArmor";
 
         [System.Serializable]
         public struct ArmorPair {
@@ -175,7 +176,7 @@ namespace HelloPico2.PlayerController.Arm
             _AnimationEffect.gameObject.SetActive(true);
 
             _AnimationEffect.RaiseToColor(0);
-            AudioPlayerHelper.PlayAudio(_ShowArmorClipName, transform.position);
+            AudioPlayerHelper.PlayMultipleAudio(_ShowArmorClipName, transform.position);
         }
         private void StopGlowingAnimationEffect()
         {
@@ -190,6 +191,7 @@ namespace HelloPico2.PlayerController.Arm
             _AnimationEffect.gameObject.SetActive(true);
 
             _AnimationEffect.RaiseToColor(1);
+            AudioPlayerHelper.PlayMultipleAudio(_EquipArmorClipName, transform.position);
         }
         private void PlayBubbleVFX() {
             var vfxShape = _BubbleVFX.shape;

@@ -32,6 +32,8 @@ namespace HelloPico2.Singleton
         public ParticleSystem[] _ArmorParticles;
         public HelloPico2.LevelTool.SkinnedMeshEffectPlacement[] _ParticlesTarget;
         public Transform[] _ArmorPosition;
+        public string _ArmorParticlesAudioClipsName;
+
         bool leftRight = false;
 
         public delegate void NotifyMember();
@@ -163,7 +165,9 @@ namespace HelloPico2.Singleton
                 _ArmorParticles[i].transform.position = VFXPos.position;
 
                 _ArmorParticles[i].Play();
+
             }
+                AudioPlayerHelper.PlayMultipleAudio(_ArmorParticlesAudioClipsName, _ArmorParticles[0].transform.position);
         }
     }
 }
