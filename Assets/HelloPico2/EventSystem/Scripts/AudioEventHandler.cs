@@ -26,9 +26,16 @@ namespace HelloPico2{
 					throw new Exception($"not found {audioID} in List please check {dataOverview}");
 				}
 
-				var audioClip = audioData.GetAudio();
-				_audioSource.transform.position = position;
-				_audioSource.PlayOneShot(audioClip);
+				if(obj.ClipsIndex > -1){
+					var audio = audioData.GetAudio(obj.ClipsIndex);
+					_audioSource.transform.position = position;
+					_audioSource.PlayOneShot(audio);
+				}
+				else{
+					var audioClip = audioData.GetAudio();
+					_audioSource.transform.position = position;
+					_audioSource.PlayOneShot(audioClip);
+				}
 			}
 			else{
 				var audioData = dataOverview.FindEventData<AudioData>(audioID);
