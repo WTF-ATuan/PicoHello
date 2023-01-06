@@ -4852,21 +4852,6 @@ MonoBehaviour:
         _Object: {fileID: 0}
   m_DelayTime: 1.5
   invokeByOrder: 0
---- !u!114 &6874040433027421797
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3118447434758085342}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 250b8ec3179db9b4698c5c7a5be47efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotateX: 0
-  rotateY: 0
-  rotateZ: 90
 --- !u!1 &3072825083834871566
 GameObject:
   m_ObjectHideFlags: 0
@@ -5018,6 +5003,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e8513c55f5e47441a07998167285ec9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6874040433027421797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3118447434758085342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 250b8ec3179db9b4698c5c7a5be47efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateX: 0
+  rotateY: 0
+  rotateZ: 90
 --- !u!1 &3395003339762252560
 GameObject:
   m_ObjectHideFlags: 0
@@ -5320,6 +5320,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e8513c55f5e47441a07998167285ec9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &4062842613693281740
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3842774010583211203}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 65c879c8d89064f4eb0e41d87f30355a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6917093624467842460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3842774010583211203}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bca7c063e5324c243bb4252a6576c859, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WhenEnable:
+    _PersistentCalls: []
+  WhenEnableDelay:
+    _PersistentCalls:
+    - _Target: {fileID: 3842774010583211203}
+      _MethodName: SetActive
+      _PersistentArguments:
+      - _Type: 1
+        _Int: 0
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  m_DelayTime: 1.5
+  invokeByOrder: 0
 --- !u!1 &3919498949193191937
 GameObject:
   m_ObjectHideFlags: 0
@@ -10276,54 +10324,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e8513c55f5e47441a07998167285ec9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &4062842613693281740
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3842774010583211203}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 65c879c8d89064f4eb0e41d87f30355a, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &6917093624467842460
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3842774010583211203}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bca7c063e5324c243bb4252a6576c859, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  WhenEnable:
-    _PersistentCalls: []
-  WhenEnableDelay:
-    _PersistentCalls:
-    - _Target: {fileID: 3842774010583211203}
-      _MethodName: SetActive
-      _PersistentArguments:
-      - _Type: 1
-        _Int: 0
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
-  m_DelayTime: 1.5
-  invokeByOrder: 0
 --- !u!1 &4633628675774044253
 GameObject:
   m_ObjectHideFlags: 0
@@ -12180,6 +12180,30 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1543496503, guid: c337838047efab647be27a194ebec853, type: 3}
+      propertyPath: _CollideClipName.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1543496503, guid: c337838047efab647be27a194ebec853, type: 3}
+      propertyPath: _CollideClipName.Array.data[0]
+      value: HitRock_Big_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1543496503, guid: c337838047efab647be27a194ebec853, type: 3}
+      propertyPath: _CollideClipName.Array.data[1]
+      value: HitRock_Big_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1543496503, guid: c337838047efab647be27a194ebec853, type: 3}
+      propertyPath: _CollideClipName.Array.data[2]
+      value: HitRock_Big_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1543496503, guid: c337838047efab647be27a194ebec853, type: 3}
+      propertyPath: _CollideClipName.Array.data[3]
+      value: HitRock_Big_4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1543496503, guid: c337838047efab647be27a194ebec853, type: 3}
+      propertyPath: _CollideClipName.Array.data[4]
+      value: HitRock_Big_5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1543496503, guid: c337838047efab647be27a194ebec853, type: 3}
       propertyPath: WhenCollideUlt._PersistentCalls.Array.size
       value: 8
       objectReference: {fileID: 0}
@@ -12639,6 +12663,14 @@ PrefabInstance:
       propertyPath: _EaseCurve.m_Curve.Array.data[1].tangentMode
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9117570671541840874, guid: c337838047efab647be27a194ebec853, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9117570671541840874, guid: c337838047efab647be27a194ebec853, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 431d57a4887099e4da58d7edd2a0c36b, type: 3}
     m_RemovedComponents:
     - {fileID: 563512183, guid: c337838047efab647be27a194ebec853, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c337838047efab647be27a194ebec853, type: 3}
