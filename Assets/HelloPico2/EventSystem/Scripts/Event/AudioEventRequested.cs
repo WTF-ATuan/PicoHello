@@ -7,6 +7,8 @@ namespace HelloPico2{
 
 		public bool UsingMultipleAudioClips = false;
 
+		public int ClipsIndex = -1;
+
 		public AudioEventRequested(string audioID, Vector3 playPosition){
 			AudioID = audioID;
 			PlayPosition = playPosition;

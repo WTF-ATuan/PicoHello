@@ -31,6 +31,14 @@ namespace HelloPico2{
 			}
 		}
 
+		public AudioClip GetAudio(int index){
+			if(index > audioClips.Count - 1){
+				index = audioClips.Count - 1;
+			}
+
+			return audioClips[index];
+		}
+
 		private int GetNextIndex(){
 			var audioClipsCount = audioClips.Count;
 			_index += 1;
