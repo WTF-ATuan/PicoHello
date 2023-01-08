@@ -29,6 +29,7 @@ public class Guide_Global_FarColor : MonoBehaviour
     void Update()
     {
         Shader.SetGlobalFloat("_Guide_Far", _Guide_Far);
+        Level_switch();
     }
 
     void Level_switch()

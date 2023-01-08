@@ -46,7 +46,7 @@ Shader "GGDog/Grass_use"
                 o.uv.xy = TRANSFORM_TEX(v.uv, _MainTex);
 
 				o.uv.z = length(mul(UNITY_MATRIX_MV,v.vertex).xyz);
-				o.uv.z =  saturate(smoothstep(35,70,o.uv.z));
+				o.uv.z =  saturate(smoothstep(35,50,o.uv.z));
 
                 return o;
             }

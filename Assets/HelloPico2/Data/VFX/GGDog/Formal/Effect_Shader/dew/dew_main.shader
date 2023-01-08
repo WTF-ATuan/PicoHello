@@ -2,6 +2,8 @@
 {
 	Properties
 	{
+        _Scale("Scale",Range(0,1)) = 0.65
+
         _OutGlowAlpha("OutGlowAlpha",Range(0,1)) = 1
 
         _RenderTex("Render Tex", 2D) = "white" {}
@@ -123,7 +125,7 @@
 			}
 
 
-
+			half _Scale;
 			v2f vert (appdata v)
 			{
 				v2f o;
@@ -158,7 +160,7 @@
 
 				float noise = (Noise1*0.35+Noise2*0.25);
 
-				o.vertex = UnityObjectToClipPos(v.vertex /1.15 + v.normal * noise*noise);
+				o.vertex = UnityObjectToClipPos( (v.vertex /1.15 + v.normal * noise*noise) * _Scale);
 				
 				return o;
 			}

@@ -2,6 +2,8 @@ Shader "GGDog/Guide_Toon"
 {
     Properties
     {
+        _GradientUVAdd("GradientUV Add",Range(0,1)) = 0
+
         _DespairColor("Despair Color",Range(0,1)) = 0
 
         _FadeColor1("FadeUV Color1 (Script Random)",Color) = (0.9,0.82,0.48,1)
@@ -51,6 +53,7 @@ Shader "GGDog/Guide_Toon"
                 half4 uv : TEXCOORD0;
                 half4 vertex : SV_POSITION;
                 half3 normal_VS : TEXCOORD1;
+				half CameraDistance : TEXCOORD2;
             };
             
             v2f vert (appdata v)
@@ -71,6 +74,8 @@ Shader "GGDog/Guide_Toon"
                 //Toon光影用的normal
                 half4 normal_OS = half4(v.normal.xyz,0);
                 o.normal_VS = mul(UNITY_MATRIX_MV,normal_OS);
+                
+                o.CameraDistance = distance(_WorldSpaceCameraPos, unity_ObjectToWorld._m03_m13_m23);
 
                 return o;
             }
@@ -94,6 +99,11 @@ Shader "GGDog/Guide_Toon"
 			half _ShadowRange;
 			half _ShadowFadeUV;
             
+		    uniform half4 _Guide_FarColor;
+		    uniform half _Guide_Far;
+            
+			half _GradientUVAdd;
+            
             half4 frag (v2f i) : SV_Target
             {
 			
@@ -106,7 +116,8 @@ Shader "GGDog/Guide_Toon"
                 half FadeUV = saturate(frac(2*i.uv.y)+0.1);
 
                 FadeUV = lerp(FadeUV,1.5,floor(frac(8*i.uv.x)*2)/2);
-
+                
+                FadeUV = saturate( FadeUV + _GradientUVAdd );
                 
 
 
@@ -137,7 +148,9 @@ Shader "GGDog/Guide_Toon"
                 shadowcol = lerp(shadowcol,FinalColor,smoothstep(_ShadowFadeUV,1,FadeUV));
 
 				FinalColor = lerp( shadowcol +smoothstep(-0.5,1.5,i.uv.z)/3.5,FinalColor,N_VS_Dot_L_shadow)  ;
-
+                
+                FinalColor = lerp(FinalColor,_Guide_FarColor,smoothstep(0,1,i.CameraDistance*_Guide_FarColor.a/_Guide_Far));
+                
                 return saturate(FinalColor);
                 
 

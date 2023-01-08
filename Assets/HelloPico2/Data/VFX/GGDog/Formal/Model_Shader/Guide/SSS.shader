@@ -2,6 +2,8 @@ Shader "GGDog/Guide_Toon"
 {
     Properties
     {
+        _GradientUVAdd("GradientUV Add",Range(0,1)) = 0
+
         _DespairColor("Despair Color",Range(0,1)) = 0
 
         _FadeColor1("FadeUV Color1 (Script Random)",Color) = (0.9,0.82,0.48,1)
@@ -96,7 +98,9 @@ Shader "GGDog/Guide_Toon"
             
 		    uniform half4 _Guide_FarColor;
 		    uniform half _Guide_Far;
-
+            
+			half _GradientUVAdd;
+            
             half4 frag (v2f i) : SV_Target
             {
 			
@@ -109,7 +113,8 @@ Shader "GGDog/Guide_Toon"
                 half FadeUV = saturate(frac(2*i.uv.y)+0.1);
 
                 FadeUV = lerp(FadeUV,1.5,floor(frac(8*i.uv.x)*2)/2);
-
+                
+                FadeUV = saturate( FadeUV + _GradientUVAdd );
                 
 
 
@@ -141,7 +146,7 @@ Shader "GGDog/Guide_Toon"
 
 				FinalColor = lerp( shadowcol +smoothstep(-0.5,1.5,i.uv.z)/3.5,FinalColor,N_VS_Dot_L_shadow)  ;
 
-                FinalColor = lerp(FinalColor,_Guide_FarColor,i.CameraDistance*_Guide_FarColor.a/_Guide_Far);
+                FinalColor = lerp(FinalColor,_Guide_FarColor,smoothstep(0,1,i.CameraDistance*_Guide_FarColor.a/_Guide_Far));
                 
 
                 return saturate(FinalColor);
