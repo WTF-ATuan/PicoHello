@@ -2,6 +2,7 @@ using HelloPico2.InputDevice.Scripts;
 using HelloPico2.Interface;
 using Project;
 using Sirenix.OdinInspector;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace HelloPico2.InteractableObjects
@@ -9,10 +10,14 @@ namespace HelloPico2.InteractableObjects
     public class LightBeamSound : MonoBehaviour, IWeaponFeedbacks
     {
         [SerializeField] private HandType _HandType = HandType.Left;
-        [SerializeField] private float _SpeedLimit;
+        [System.Serializable]
+        public struct WaveSFXData {
+            public float SpeedLimit;
+            public string WhipWaveClipName;
+            public string SwordWaveClipName;
+        }
+        [SerializeField] private List<WaveSFXData> _WaveSFXDatas = new List<WaveSFXData>();
         [SerializeField] private float _SFXCDDuration = 1f;
-        [FoldoutGroup("SFX Settings")][SerializeField] private string _WhipClipName;
-        [FoldoutGroup("SFX Settings")][SerializeField] private string _SwordClipName;
 
         private InteractableSettings.InteractableType currentInteractableType = InteractableSettings.InteractableType.Whip;
         private Game.Project.ColdDownTimer SFXCDTimer;
@@ -39,18 +44,19 @@ namespace HelloPico2.InteractableObjects
         }
         private void CheckSpeedEvent(float speedOfSelector)
         {
-            if (speedOfSelector > _SpeedLimit)
+            for (int i = 0; i < _WaveSFXDatas.Count - 1; i++)
             {
-                CheckPlaySFX();
-            }            
+                if(speedOfSelector > _WaveSFXDatas[i].SpeedLimit && speedOfSelector <= _WaveSFXDatas[i+1].SpeedLimit)
+                    CheckPlaySFX(_WaveSFXDatas[i]);
+            }       
         }
-        private void CheckPlaySFX() {
+        private void CheckPlaySFX(WaveSFXData data) {
             if (!SFXCDTimer.CanInvoke()) return;
 
             if(currentInteractableType == InteractableSettings.InteractableType.Whip)
-                AudioPlayerHelper.PlayAudio(_WhipClipName, transform.position);
+                AudioPlayerHelper.PlayMultipleAudio(data.WhipWaveClipName, transform.position);
             if(currentInteractableType == InteractableSettings.InteractableType.Sword)
-                AudioPlayerHelper.PlayAudio(_SwordClipName, transform.position);
+                AudioPlayerHelper.PlayMultipleAudio(data.SwordWaveClipName, transform.position);
 
             SFXCDTimer.Reset();
         }

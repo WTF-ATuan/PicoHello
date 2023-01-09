@@ -147,7 +147,7 @@ namespace HelloPico2.LevelTool
             if (_ItemShowingType == ItemShowingType.PopOut)
                 SetUpExplosionItem(clone.transform, currentWave);
 
-            AudioPlayerHelper.PlayMultipleAudio(_SpawnedAudioClipsName, clone.transform.position);
+            AudioPlayerHelper.PlayMultipleAudio(_SpawnedAudioClipsName, currentWave, clone.transform.position);
 
             UpdateWave();
         }

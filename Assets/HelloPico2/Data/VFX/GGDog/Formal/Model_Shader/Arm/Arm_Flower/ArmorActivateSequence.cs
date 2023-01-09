@@ -48,6 +48,9 @@ namespace HelloPico2.PlayerController.Arm
         Coroutine process;
         public Material[] originalMat;
 
+        private int totalWave = 5;
+        private int currentWave = 0;
+
         private Sequence seq;
         private Sequence seq1;
 
@@ -153,13 +156,16 @@ namespace HelloPico2.PlayerController.Arm
 
                 GainArmorEvent GainArmroevent = new GainArmorEvent();
                 Project.EventBus.Post(GainArmroevent);
+
+                if (currentWave + 1 < totalWave) currentWave++;
+                else currentWave = 0;
             };
             seq1.AppendCallback(Seq1CompleteCallback);
             seq1.Append(_Armor.materials[0].DOColor(_FromColor, _FadeColorName, _FadeInDuration).From(_ToColor));
 
             _Armor.gameObject.SetActive(true);
             seq.Play();
-            seq1.Play();
+            seq1.Play();            
         }
         private void TurnOffAnimationEffect() {
             _AnimationEffect.gameObject.SetActive(false);
@@ -176,7 +182,7 @@ namespace HelloPico2.PlayerController.Arm
             _AnimationEffect.gameObject.SetActive(true);
 
             _AnimationEffect.RaiseToColor(0);
-            AudioPlayerHelper.PlayMultipleAudio(_ShowArmorClipName, transform.position);
+            AudioPlayerHelper.PlayMultipleAudio(_ShowArmorClipName, currentWave, transform.position);
         }
         private void StopGlowingAnimationEffect()
         {
@@ -191,7 +197,7 @@ namespace HelloPico2.PlayerController.Arm
             _AnimationEffect.gameObject.SetActive(true);
 
             _AnimationEffect.RaiseToColor(1);
-            AudioPlayerHelper.PlayMultipleAudio(_EquipArmorClipName, transform.position);
+            AudioPlayerHelper.PlayMultipleAudio(_EquipArmorClipName, currentWave, transform.position);
         }
         private void PlayBubbleVFX() {
             var vfxShape = _BubbleVFX.shape;
