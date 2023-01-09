@@ -28,16 +28,19 @@ namespace HelloPico2.Singleton
 
         [Header("Audio Settings")]
         [SerializeField] private string _ArmorPopClipName = "ArmorPop";
+        [SerializeField] private string _ArmorParticlesAudioClipsName;
 
         public ParticleSystem[] _ArmorParticles;
         public HelloPico2.LevelTool.SkinnedMeshEffectPlacement[] _ParticlesTarget;
         public Transform[] _ArmorPosition;
-        public string _ArmorParticlesAudioClipsName;
 
         bool leftRight = false;
 
         public delegate void NotifyMember();
         public NotifyMember WhenStartArmorUpgradeSequence;
+
+        private int totalWave = 5;
+        private int currentWave = 0;
 
         public static ArmorUpgradeSequence _Instance;
         public static ArmorUpgradeSequence Instance
@@ -149,6 +152,9 @@ namespace HelloPico2.Singleton
             seq.AppendCallback(SpawnVFX);
 
             seq.Play();
+
+            if (currentWave + 1 < totalWave) currentWave++;
+            else currentWave = 0;
         }        
         private float GetDuration(Vector3 from, Vector3 to)
         {
@@ -166,8 +172,8 @@ namespace HelloPico2.Singleton
 
                 _ArmorParticles[i].Play();
 
+                AudioPlayerHelper.PlayMultipleAudio(_ArmorParticlesAudioClipsName, currentWave, _ArmorParticles[0].transform.position);
             }
-                AudioPlayerHelper.PlayMultipleAudio(_ArmorParticlesAudioClipsName, _ArmorParticles[0].transform.position);
         }
     }
 }

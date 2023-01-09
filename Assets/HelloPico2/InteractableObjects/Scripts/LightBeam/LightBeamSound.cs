@@ -2,6 +2,7 @@ using HelloPico2.InputDevice.Scripts;
 using HelloPico2.Interface;
 using Project;
 using Sirenix.OdinInspector;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace HelloPico2.InteractableObjects
@@ -9,6 +10,11 @@ namespace HelloPico2.InteractableObjects
     public class LightBeamSound : MonoBehaviour, IWeaponFeedbacks
     {
         [SerializeField] private HandType _HandType = HandType.Left;
+        [System.Serializable]
+        public struct WaveSFXData {
+            public float SpeedLimit;
+        }
+        [SerializeField] private List<WaveSFXData> _WaveSFXDatas = new List<WaveSFXData>();
         [SerializeField] private float _SpeedLimit;
         [SerializeField] private float _SFXCDDuration = 1f;
         [FoldoutGroup("SFX Settings")][SerializeField] private string _WhipClipName;
@@ -39,10 +45,16 @@ namespace HelloPico2.InteractableObjects
         }
         private void CheckSpeedEvent(float speedOfSelector)
         {
-            if (speedOfSelector > _SpeedLimit)
+            for (int i = 0; i < _WaveSFXDatas.Count - 1; i++)
             {
-                CheckPlaySFX();
-            }            
+                if(speedOfSelector > _WaveSFXDatas[i].SpeedLimit && speedOfSelector <= _WaveSFXDatas[i-1].SpeedLimit)
+                    CheckPlaySFX();
+            }
+
+            //if (speedOfSelector > _SpeedLimit)
+            //{
+            //    CheckPlaySFX();
+            //}            
         }
         private void CheckPlaySFX() {
             if (!SFXCDTimer.CanInvoke()) return;
