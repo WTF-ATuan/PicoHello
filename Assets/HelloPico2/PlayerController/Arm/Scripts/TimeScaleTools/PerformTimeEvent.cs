@@ -14,10 +14,12 @@ public class PerformTimeEvent : MonoBehaviour
     }
 
     public void DoTimeEvent() {
+        if (TimeManager.Instance == null) return;
         TimeManager.Instance.StartTimeEvent(m_TimeEventName);
     }
     public void DoTimeEvent(string eventName)
     {
+        if (TimeManager.Instance == null) return;
         TimeManager.Instance.StartTimeEvent(eventName);
     }
 }
