@@ -39,6 +39,7 @@ namespace HelloPico2.PlayerController.Arm
         private bool triggerValue { get; set; }
         private bool primaryButtonValue { get; set; }
         private bool secondaryButtonValue { get; set; }
+        public bool gripActivation;// { get; set; }
         private Game.Project.ColdDownTimer disableTimer { get; set; }
 
         #region Delegate
@@ -81,7 +82,9 @@ namespace HelloPico2.PlayerController.Arm
             data.WhenShootChargedProjectile.AddListener(() =>
             EventBus.Post(new AudioEventRequested(data.ShootBombClipName, _controller.transform.position)));
 
-            disableTimer = new Game.Project.ColdDownTimer(data.DisableInputCoolDownDuration);            
+            disableTimer = new Game.Project.ColdDownTimer(data.DisableInputCoolDownDuration);
+
+            StartCoroutine(GripActivation());
         }
         List<string> GainEnergyClipNames = new List<string>();
         List<string> ShootEnergyBallClipNames = new List<string>();
@@ -288,7 +291,8 @@ namespace HelloPico2.PlayerController.Arm
             #region Updat Object events   
             if (gripValue > data._GripDeadRange)
             {
-                interactable.OnSelect(obj);
+                if (gripActivation)
+                    interactable.OnSelect(obj);
             }
             else
             {
@@ -351,6 +355,15 @@ namespace HelloPico2.PlayerController.Arm
                 _data.ArmorController.ActiveArm(data.armorType, data.armorPart);
             else
                 _data.ArmorController.AutoActiveWithOrder(data.armorType);
+        }
+        private IEnumerator GripActivation() {
+            while (true)
+            {
+                gripActivation = true;
+                yield return new WaitForSeconds(5);
+                gripActivation = false;
+                yield return new WaitForSeconds(.5f);
+            }
         }
     }
 
