@@ -48,6 +48,7 @@ namespace HelloPico2.InteractableObjects.Scripts
 
         private void PlayCrackVFX(Vector3 collisionPoint)
         {
+            if (_CrackVFX == null) return;
             _CrackVFX.Stop();
             _CrackVFX.transform.position = collisionPoint;
             _CrackVFX.Play(true);
