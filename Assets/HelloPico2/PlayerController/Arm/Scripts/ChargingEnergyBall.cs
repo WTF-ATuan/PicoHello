@@ -78,7 +78,7 @@ namespace HelloPico2.PlayerController.Arm
             PunchScale();
 
             // TOFIX: Process will always have value 
-            if (process == null)
+            if (process == null && gameObject.activeSelf)
             {
                 process = StartCoroutine(Delayer());
             }
