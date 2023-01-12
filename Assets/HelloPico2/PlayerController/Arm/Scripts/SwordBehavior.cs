@@ -303,7 +303,8 @@ namespace HelloPico2.PlayerController.Arm
                 if(lightBeamRigController.GetUpdateState().TotalLength - _ModifyLengthStep >= 0)
                     lightBeamRigController.ModifyControlRigLength(-_ModifyLengthStep);
                 else
-                    lightBeamRigController.ModifyControlRigLength(-lightBeamRigController.GetUpdateState().TotalLength);
+                    // lightBeamRigController.ModifyControlRigLength(-lightBeamRigController.GetUpdateState().TotalLength);
+                    lightBeamRigController.SetRigTotalLength(0);
 
                 yield return new WaitForSeconds(unitDuration);
             }
