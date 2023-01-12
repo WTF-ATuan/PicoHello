@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using HelloPico2.Singleton;
+using HelloPico2.LevelTool;
 
 namespace HelloPico2.PlayerController.Arm
 {
@@ -147,8 +148,7 @@ namespace HelloPico2.PlayerController.Arm
 
                 // VFX
                 var clone = Instantiate(_RoundingVFX, transform);
-                print("Placement");
-                _EffectPlacement.SetPosition(_Armor, clone.transform);
+                clone.GetComponent<SkinnedMeshEffectPlacement>().SetPosition(_Armor, clone.transform);
                 clone.Play();
                 Destroy(clone, 5);
 
