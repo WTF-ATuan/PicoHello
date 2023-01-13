@@ -88,6 +88,7 @@ namespace HelloPico2.PlayerController.Arm
         public LockOnType ChangeLockOnType { get { return _LockOnType; } set { _LockOnType = value; } }
         public float CheckSphererRadius { get { return _CheckSphererRadius; } set { _CheckSphererRadius = value; } }
         public float CheckEndSphererRadius { get { return _CheckEndSphererRadius; } set { _CheckEndSphererRadius = value; } }
+        public float SpeedBufferDuration { get { return _SpeedBufferDuration; } set { _SpeedBufferDuration = value; } }
         public float AnglePercision { get { return _AnglePercision; } set { _AnglePercision = value; } }
         public float RaycastPercision { get { return _RaycastPercision; }set { _RaycastPercision = value; } }
         public float Distance { get { return _Distance; } set { _Distance = value; } }
