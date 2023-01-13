@@ -16,9 +16,9 @@ namespace HelloPico2.InputDevice.Scripts{
 		private ArmData _armData;
 		private EnergyBallBehavior _energyBallBehavior;
 		private XRController _xrController;
-		
 
-		private readonly Dictionary<AudioClip, int> _vibrateSoundCache = new Dictionary<AudioClip, int>();
+
+		private readonly Dictionary<string, int> _vibrateSoundCache = new Dictionary<string, int>();
 
 		private int HandIndex{
 			get{
@@ -51,7 +51,7 @@ namespace HelloPico2.InputDevice.Scripts{
 				var soundID = 0;
 				PXR_Input.SaveVibrateByCache(data.phoenixClip, controllerType, PXR_Input.ChannelFlip.No,
 					PXR_Input.CacheConfig.CacheNoVibrate, ref soundID);
-				_vibrateSoundCache.Add(data.phoenixClip, soundID);
+				_vibrateSoundCache.Add(data.vibrateName, soundID);
 			}
 		}
 
@@ -62,8 +62,7 @@ namespace HelloPico2.InputDevice.Scripts{
 			var lerpValue = (current - min) / (max - min);
 			switch(VRType){
 				case VRType.Phoenix:
-					var gainClip = vibrateData.FindClip("Gain_Energy");
-					VibratePhoenix(gainClip);
+					VibratePhoenix(vibrateData.FindSetting("Gain_Energy").vibrateName);
 					break;
 				case VRType.Neo3:
 					var settings = vibrateData.FindSetting("Gain_Energy");
@@ -85,7 +84,7 @@ namespace HelloPico2.InputDevice.Scripts{
 		public void DynamicVibrateWithSetting(PhoenixVibrateData setting, float step){
 			switch(VRType){
 				case VRType.Phoenix:
-					VibratePhoenix(setting.phoenixClip);
+					VibratePhoenix(setting.vibrateName);
 					break;
 				case VRType.Neo3:
 					VibrateNeo3(step * setting.amplitude);
@@ -102,7 +101,7 @@ namespace HelloPico2.InputDevice.Scripts{
 			var setting = vibrateData.FindSetting(settingName);
 			switch(VRType){
 				case VRType.Phoenix:
-					VibratePhoenix(setting.phoenixClip);
+					VibratePhoenix(setting.vibrateName);
 					break;
 				case VRType.Neo3:
 					VibrateNeo3(setting.amplitude, setting.time);
@@ -123,16 +122,16 @@ namespace HelloPico2.InputDevice.Scripts{
 						 interactableType == InteractableSettings.InteractableType.Sword;
 			switch(VRType){
 				case VRType.Phoenix:
-					AudioClip hitClip = null;
+					PhoenixVibrateData hitSetting = null;
 					if(isShield){
-						hitClip = vibrateData.FindClip("Hit_Shield");
+						hitSetting = vibrateData.FindSetting("Hit_Shield");
 					}
 
 					if(isWhip){
-						hitClip = vibrateData.FindClip("Hit_Whip");
+						hitSetting = vibrateData.FindSetting("Hit_Whip");
 					}
 
-					VibratePhoenix(hitClip);
+					if(hitSetting != null) VibratePhoenix(hitSetting.vibrateName);
 					break;
 				case VRType.Neo3:
 					if(isWhip){
@@ -162,20 +161,17 @@ namespace HelloPico2.InputDevice.Scripts{
 					throw new ArgumentOutOfRangeException();
 			}
 		}
-		public void PhoenixVibrateTest(AudioClip clip){
-			VibratePhoenix(clip);
-		}
 
 		public void SetControllerAmp(float amp){
 			PXR_Input.SetControllerAmp(amp);
 		}
 
-		private void VibratePhoenix(AudioClip clip){
-			if(!_vibrateSoundCache.ContainsKey(clip)){
-				throw new Exception($"{clip.name} is not in cache");
+		private void VibratePhoenix(string settingID){
+			if(!_vibrateSoundCache.ContainsKey(settingID)){
+				throw new Exception($"{settingID} is not in cache");
 			}
 
-			var soundID = _vibrateSoundCache[clip];
+			var soundID = _vibrateSoundCache[settingID];
 			PXR_Input.StartVibrateByCache(soundID);
 		}
 
