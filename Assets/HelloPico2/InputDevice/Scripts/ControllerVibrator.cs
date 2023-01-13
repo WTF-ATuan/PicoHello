@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using HelloPico2.InteractableObjects;
 using HelloPico2.PlayerController.Arm;
 using Sirenix.OdinInspector;
@@ -14,12 +15,10 @@ namespace HelloPico2.InputDevice.Scripts{
 		private XRRayInteractor _interactor;
 		private ArmData _armData;
 		private EnergyBallBehavior _energyBallBehavior;
-		private XRController xrController;
+		private XRController _xrController;
+		
 
-		private int _sourceIDL;
-		private int _sourceIDR;
-
-		private float _vibrateAmp = 1;
+		private readonly Dictionary<AudioClip, int> _vibrateSoundCache = new Dictionary<AudioClip, int>();
 
 		private int HandIndex{
 			get{
@@ -40,6 +39,19 @@ namespace HelloPico2.InputDevice.Scripts{
 			if(_energyBallBehavior){
 				_energyBallBehavior.swordBehavior.WhenCollide += HitVibrate;
 				_energyBallBehavior.shieldBehavior.WhenCollide += HitVibrate;
+			}
+
+			SetDataCache();
+		}
+
+		private void SetDataCache(){
+			var dataList = vibrateData.phoenixVibrateDataList;
+			var controllerType = HandIndex == 1 ? PXR_Input.VibrateController.Left : PXR_Input.VibrateController.Right;
+			foreach(var data in dataList){
+				var soundID = 0;
+				PXR_Input.SaveVibrateByCache(data.phoenixClip, controllerType, PXR_Input.ChannelFlip.No,
+					PXR_Input.CacheConfig.CacheNoVibrate, ref soundID);
+				_vibrateSoundCache.Add(data.phoenixClip, soundID);
 			}
 		}
 
@@ -150,7 +162,6 @@ namespace HelloPico2.InputDevice.Scripts{
 					throw new ArgumentOutOfRangeException();
 			}
 		}
-
 		public void PhoenixVibrateTest(AudioClip clip){
 			VibratePhoenix(clip);
 		}
@@ -160,29 +171,12 @@ namespace HelloPico2.InputDevice.Scripts{
 		}
 
 		private void VibratePhoenix(AudioClip clip){
-			switch(HandIndex){
-				case 1:
-					PXR_Input.StartVibrateBySharem(clip, PXR_Input.VibrateController.Left, PXR_Input.ChannelFlip.No,
-						ref _sourceIDL);
-					PXR_Input.UpdateVibrateParams(_sourceIDL, PXR_Input.VibrateController.Left,
-						PXR_Input.ChannelFlip.No, _vibrateAmp);
-					break;
-				case 2:
-					PXR_Input.StartVibrateBySharem(clip, PXR_Input.VibrateController.Right, PXR_Input.ChannelFlip.No,
-						ref _sourceIDR);
-					PXR_Input.UpdateVibrateParams(_sourceIDR, PXR_Input.VibrateController.Right,
-						PXR_Input.ChannelFlip.No, _vibrateAmp);
-					break;
+			if(!_vibrateSoundCache.ContainsKey(clip)){
+				throw new Exception($"{clip.name} is not in cache");
 			}
-		}
 
-		public void ModifyVibrateAmp(int amount){
-			_vibrateAmp = Mathf.Clamp(amount, 0.5f, 2f);
-		}
-
-		private AudioClip GetLevelClip(AudioClip clip, int level){
-			//1=4 2=3 3=2 4=1 -> 5 - level
-			return AudioClip.Create(clip.name, clip.samples, clip.channels, clip.frequency / 5 - level, false);
+			var soundID = _vibrateSoundCache[clip];
+			PXR_Input.StartVibrateByCache(soundID);
 		}
 
 		private void VibrateNeo3(float amplitude, float time = 0.2f){
@@ -197,8 +191,8 @@ namespace HelloPico2.InputDevice.Scripts{
 		}
 
 		private void VibrateXR(float amplitude, float time = 0.2f){
-			if(xrController == null) xrController = GetComponent<XRController>();
-			xrController.SendHapticImpulse(amplitude, time);
+			if(_xrController == null) _xrController = GetComponent<XRController>();
+			_xrController.SendHapticImpulse(amplitude, time);
 		}
 	}
 
