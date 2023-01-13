@@ -9,6 +9,7 @@ namespace HelloPico2.PlayerController.Arm
     {
         [SerializeField] protected InteractType _InteractType = InteractType.EnergyBall;
         [SerializeField] protected float _Lifetime = 10;
+        [SerializeField] protected float _MaxTravelDistance = 100;
         [SerializeField] protected float _CollideDestryDelayTime = 3;
         [SerializeField] protected bool _ActivateHoming = false;
         [ShowIf("_ActivateHoming")][SerializeField] protected float _homingSensativeness;
@@ -29,6 +30,7 @@ namespace HelloPico2.PlayerController.Arm
         bool _AssignedTarget;
         Transform _target;
 
+        Vector3 originalPos;
         Vector3 originalDir;
         Vector3 dir;
         Vector3 velocity;
@@ -40,9 +42,10 @@ namespace HelloPico2.PlayerController.Arm
             _speed = speed;
             _duration = duration;
             _easingCurve = easingCurve;
-            _Lifetime = (lifeTime == -1)? _Lifetime: lifeTime;
+            _Lifetime = (lifeTime == -1) ? _Lifetime : lifeTime;
             _ActivateHoming = homing;
             _deviceInput = deviceInput;
+            originalPos = transform.position;
             originalDir = transform.forward;
             Destroy(gameObject, _Lifetime);
             WhenShoot?.Invoke();
@@ -50,6 +53,8 @@ namespace HelloPico2.PlayerController.Arm
         private void Update()
         {
             _step += Time.fixedDeltaTime;
+
+            if(CheckReachTravelDistance()) Destroy(gameObject);
 
             if (!finishedVelocityBuffer)
             {
@@ -67,8 +72,8 @@ namespace HelloPico2.PlayerController.Arm
             else
             {
                 if (_ActivateHoming)
-                {          
-                            
+                {
+
                     if (_target == null) return;
                     if (Vector3.Distance(transform.position, _target.position) < 1) { return; }
 
@@ -79,12 +84,12 @@ namespace HelloPico2.PlayerController.Arm
                         // Prevent shooting back
                         if (Vector3.Angle(originalDir, targetDir) > 150) { Destroy(gameObject); }
 
-                        if (Vector3.Distance(transform.position, _target.position) > _DistanceLimit && 
+                        if (Vector3.Distance(transform.position, _target.position) > _DistanceLimit &&
                             Vector3.Angle(originalDir, targetDir) > _AngleLimit) return;
 
                         var step = Mathf.Clamp(_step / (1 / _homingSensativeness), 0, 1);
 
-                        dir = Vector3.Lerp(originalDir, targetDir, step);                        
+                        dir = Vector3.Lerp(originalDir, targetDir, step);
 
                         transform.forward = dir;
                         _rigidbody.velocity = dir * _speed;
@@ -92,6 +97,7 @@ namespace HelloPico2.PlayerController.Arm
                 }
             }
         }
+        protected virtual bool CheckReachTravelDistance() {return Vector3.Distance(originalPos, transform.position) >= _MaxTravelDistance;}
         protected virtual void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent<IInteractCollide>(out var interact)) {
@@ -106,6 +112,8 @@ namespace HelloPico2.PlayerController.Arm
         private void OnDrawGizmosSelected()
         {
             #if UNITY_EDITOR
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(transform.position, transform.position + transform.forward * _MaxTravelDistance);
             if (_ActivateHoming)
             {
                 GUI.color = Color.green;
