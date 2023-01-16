@@ -9,6 +9,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 namespace HelloPico2.InputDevice.Scripts{
 	public class ControllerVibrator : MonoBehaviour{
 		public HandType handType;
+		public bool autoSetType = false;
 		[Required] [InlineEditor] public VibrateData vibrateData;
 		private VRType VRType => vibrateData.vrType;
 		private XRRayInteractor _interactor;
@@ -40,6 +41,21 @@ namespace HelloPico2.InputDevice.Scripts{
 			if(_energyBallBehavior){
 				_energyBallBehavior.swordBehavior.WhenCollide += HitVibrate;
 				_energyBallBehavior.shieldBehavior.WhenCollide += HitVibrate;
+			}
+
+			if(autoSetType){
+				AutoSetVibrateType();
+			}
+		}
+
+		private void AutoSetVibrateType(){
+			var controllerDevice = PXR_Input.GetControllerDeviceType();
+			if(controllerDevice == PXR_Input.ControllerDevice.Neo3){
+				vibrateData.vrType = VRType.Neo3;
+			}
+
+			if(controllerDevice == PXR_Input.ControllerDevice.PICO_4){
+				vibrateData.vrType = VRType.Phoenix;
 			}
 		}
 
