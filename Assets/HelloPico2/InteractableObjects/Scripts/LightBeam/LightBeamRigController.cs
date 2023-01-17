@@ -113,7 +113,19 @@ namespace HelloPico2.InteractableObjects{
 
 		public LightBeamLengthUpdated GetUpdateState(){
 			var lengthUpdated = new LightBeamLengthUpdated();
-			var totalOffset = _rigs.Aggregate(Vector3.zero, (current, rig) => current + rig.localPosition) * 10f;
+			var result = Vector3.zero;
+			for(var index = 0; index < _rigs.Count; index++){
+				try{
+					var rig = _rigs[index];
+					result += rig.localPosition;
+				}
+				catch(ArgumentNullException exception){
+					Debug.LogWarning("catch Exception of argument null");
+					break;
+				}
+			}
+
+			var totalOffset = result * 10f;
 			var singleOffset = _rigs.First().localPosition * 10f;
 			lengthUpdated.TotalLength = totalOffset.magnitude;
 			lengthUpdated.SingleLength = singleOffset.magnitude;
@@ -199,6 +211,7 @@ namespace HelloPico2.InteractableObjects{
 
 			currentLengthUpdated = lengthUpdated;
 		}
+
 		[Button]
 		public void ResetBeam(){
 			PostLengthUpdatedEvent(0);
