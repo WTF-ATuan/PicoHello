@@ -64,21 +64,13 @@ namespace HelloPico2.InputDevice.Scripts{
 			var min = _armData.GrabDetectionRadiusMin;
 			var current = _interactor.sphereCastRadius;
 			var lerpValue = (current - min) / (max - min);
-			switch(VRType){
-				case VRType.Phoenix:
-					var gainClip = vibrateData.FindClip("Gain_Energy");
-					VibratePhoenix(gainClip);
-					break;
-				case VRType.Neo3:
-					var settings = vibrateData.FindSetting("Gain_Energy");
-					VibrateNeo3(lerpValue * settings.amplitude);
-					break;
-				case VRType.Oculus:
-					settings = vibrateData.FindSetting("Gain_Energy");
-					VibrateXR(lerpValue * settings.amplitude);
-					break;
-				default:
-					throw new ArgumentOutOfRangeException();
+			if(VRType == VRType.Phoenix || VRType == VRType.Neo3){
+				var settings = vibrateData.FindSetting("Gain_Energy");
+				VibrateNeo3(lerpValue * settings.amplitude);
+			}
+			else{
+				var settings = vibrateData.FindSetting("Gain_Energy");
+				VibrateXR(lerpValue * settings.amplitude);
 			}
 		}
 
