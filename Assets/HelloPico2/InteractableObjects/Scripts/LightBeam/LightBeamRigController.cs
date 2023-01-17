@@ -212,12 +212,6 @@ namespace HelloPico2.InteractableObjects{
 			currentLengthUpdated = lengthUpdated;
 		}
 
-		[Button]
-		public void ResetBeam(){
-			PostLengthUpdatedEvent(0);
-			PostLengthUpdatedEvent(2);
-		}
-
 		private void SetDynamicBoneActive(bool enable){
 			if(!enable){
 				_dynamicBone.m_Root = null;
