@@ -11,8 +11,10 @@ public class Follower : MonoBehaviour{
 	[SerializeField] private bool m_FollowYAxis = false;
 	[SerializeField] private bool m_FollowRot = false;
 	[SerializeField] private bool m_FollowYRot = false;
+    [ShowIf("m_UseLerp")][SerializeField] private bool m_FollowYRotLerp = false;
+    [ShowIf("m_UseLerp")] private float m_FollowYRotDuration = .05f;
 
-	public Vector3 m_AdditionalOffset;
+    public Vector3 m_AdditionalOffset;
 	public bool m_HaveOffset = true;
 	public bool m_AlwaysSync = false;
 	public bool m_Dismont = false;
@@ -56,7 +58,7 @@ public class Follower : MonoBehaviour{
 		FollowingParentPosition();
 		SyncState();
 	}
-
+	float step;
 	private void FollowingParentPosition(){
 		if(m_AlwaysSync || m_Target.position != PosPre){
 			var moveXfer = transform.position;
@@ -79,7 +81,10 @@ public class Follower : MonoBehaviour{
 						Quaternion.LookRotation(Vector3.ProjectOnPlane(m_Target.forward, Vector3.up).normalized,
 							Vector3.up);
 
-			if(!m_UseLerp)
+			if (m_FollowYRotLerp) 
+                transform.DORotate(new Vector3(transform.eulerAngles.x, m_Target.eulerAngles.y, transform.eulerAngles.z), m_FollowYRotDuration).SetEase(m_EasingCureve); 			
+
+            if (!m_UseLerp)
 				transform.position = moveXfer + m_AdditionalOffset;
 			else
 				transform.DOMove(moveXfer + m_AdditionalOffset, m_Duration).SetEase(m_EasingCureve);

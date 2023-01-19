@@ -17,6 +17,7 @@ namespace HelloPico2.PlayerController.Player
         [SerializeField] private FollowerShaker _LHandShaker;
         [SerializeField] private FollowerShaker _RHandShaker;
         [SerializeField] private float _InvincibleDuration;
+        [SerializeField] private float _HitRadius;
         public UltEvents.UltEvent _OnReceiveDamage;
 
         public ArmLogic armLogic_L { get { return _ArmLogic_L; } }
@@ -29,6 +30,7 @@ namespace HelloPico2.PlayerController.Player
         public FollowerShaker lHandShaker{get{ return _LHandShaker; }}
         public FollowerShaker rHandShaker { get { return _RHandShaker; } }
         public float invincibleDuration { get { return _InvincibleDuration; } private set { _InvincibleDuration = value; } }
+        public float hitRadius { get { return _HitRadius; } private set { _HitRadius = value; } }
 
         private void Awake()
         {
@@ -38,6 +40,11 @@ namespace HelloPico2.PlayerController.Player
             var energyballs = GetComponentsInChildren<EnergyBallBehavior>();
             _EnergyBall_L = energyballs[0];
             _EnergyBall_R = energyballs[1];
+        }
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(transform.position, _HitRadius);
         }
     }
 }

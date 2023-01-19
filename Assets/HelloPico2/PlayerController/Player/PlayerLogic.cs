@@ -54,6 +54,7 @@ namespace HelloPico2.PlayerController.Player
         {
             if (CheckHasShield()) return;
             if (!_InvincibleTimer.CanInvoke()) return;
+            if (!CheckInsideHitRadius(other)) return;
 
             playerData._OnReceiveDamage?.Invoke();
 
@@ -71,6 +72,12 @@ namespace HelloPico2.PlayerController.Player
             playerData.armLogic_R.OnEnergyChanged?.Invoke(playerData.armLogic_R.data);
             
             StartInvincible();
+        }
+        private bool CheckInsideHitRadius(Collider other) {
+            var playerPos = playerData.damageDetectionTrigger.transform.position;
+            var targetFlattenPos = other.transform.position;
+            targetFlattenPos.y = playerPos.y;
+            return Vector3.Distance(playerPos, targetFlattenPos) < playerData.hitRadius;
         }
         private void StartInvincible()
         {
