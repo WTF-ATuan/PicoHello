@@ -12,7 +12,7 @@ public class Follower : MonoBehaviour{
 	[SerializeField] private bool m_FollowRot = false;
 	[SerializeField] private bool m_FollowYRot = false;
     [ShowIf("m_UseLerp")][SerializeField] private bool m_FollowYRotLerp = false;
-    [ShowIf("m_UseLerp")] private float m_FollowYRotDuration = .05f;
+    [ShowIf("m_UseLerp")][SerializeField] private float m_FollowYRotDuration = .05f;
 
     public Vector3 m_AdditionalOffset;
 	public bool m_HaveOffset = true;
