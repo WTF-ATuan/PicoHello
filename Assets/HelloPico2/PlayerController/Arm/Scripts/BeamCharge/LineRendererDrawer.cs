@@ -9,6 +9,7 @@ public class LineRendererDrawer : MonoBehaviour
     public LineRenderer _LineRenderer;
     public Transform _From;
     public Transform _To;
+    public Transform _FromDot;
     private int positionCount= 2;
     List<Vector3> points = new List<Vector3>();
 
@@ -75,5 +76,6 @@ public class LineRendererDrawer : MonoBehaviour
         }
                 
         _LineRenderer.SetPositions(points.ToArray());
+        _FromDot.position = points[0];
     }
 }
