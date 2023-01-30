@@ -10,7 +10,7 @@ public class MoveObject : MonoBehaviour {
     {
         if (!isNotRandomSpeed)
         { 
-            speed = Random.Range(1, speed);
+            speed = Random.Range(speed / 2, speed);
         }
         
     }
