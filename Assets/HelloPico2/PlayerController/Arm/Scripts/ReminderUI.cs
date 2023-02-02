@@ -35,6 +35,7 @@ namespace HelloPico2.LevelTool
 
             swordSeq = DOTween.Sequence();
             shieldSeq = DOTween.Sequence();
+            ChangeOpacity(1, 0, 0);
         }
         private void ChangeOpacity(float from, float to, float duration) => ChangeOpacity(from, to, duration, duration);
         private void ChangeOpacity(float from, float to, float swordDuration, float shieldDuration)
