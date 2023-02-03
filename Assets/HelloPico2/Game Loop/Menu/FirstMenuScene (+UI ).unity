@@ -261,17 +261,6 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
-    - _Target: {fileID: 1967230343}
-      _MethodName: SetActive
-      _PersistentArguments:
-      - _Type: 1
-        _Int: 1
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
   WhenEnableDelay:
     _PersistentCalls: []
   m_DelayTime: 1
@@ -840,6 +829,66 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 69255441}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &73340907
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 73340908}
+  - component: {fileID: 73340909}
+  m_Layer: 0
+  m_Name: EventHandTouchTip
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &73340908
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 73340907}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2070167675}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &73340909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 73340907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bca7c063e5324c243bb4252a6576c859, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WhenEnable:
+    _PersistentCalls:
+    - _Target: {fileID: 1967230343}
+      _MethodName: SetActive
+      _PersistentArguments:
+      - _Type: 1
+        _Int: 1
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  WhenEnableDelay:
+    _PersistentCalls: []
+  m_DelayTime: 1
+  invokeByOrder: 0
 --- !u!1 &79515000
 GameObject:
   m_ObjectHideFlags: 0
@@ -66336,9 +66385,12 @@ PlayableDirector:
     value: {fileID: 2070167676}
   - key: {fileID: 1282973501713934397, guid: 8ae6ecb97b89eea45b4d0b30b60ea6a7, type: 2}
     value: {fileID: 14691097}
+  - key: {fileID: 813742654110632436, guid: 8ae6ecb97b89eea45b4d0b30b60ea6a7, type: 2}
+    value: {fileID: 73340907}
   m_ExposedReferences:
     m_References:
     - 28f55f921654729438d12a69d3197ee0: {fileID: 0}
+    - 0acbf848d37dc054693687a078cd236e: {fileID: 1967230343}
     - b17dba3e8aac19b40919171b4052bd33: {fileID: 1967230343}
     - 0fc12750a459d3043a792c63171fb4ab: {fileID: 1967230343}
     - 2fc499160ae6fbb45a2a71c80cd93867: {fileID: 1967230343}
@@ -66353,6 +66405,7 @@ PlayableDirector:
     - 153c9944cfb1d8e46b72109a7edfdc87: {fileID: 1967230343}
     - cbb96faacd01e124698adf72cefc7268: {fileID: 1967230343}
     - 2dfe4a5cc00092341a4cddfec79781f4: {fileID: 1967230343}
+    - 88fd40c93ac37aa4fb9e4ccad1f31c18: {fileID: 73340907}
     - f164c1d84b5f3584ba0e09afabc5f26c: {fileID: 0}
     - fd1f0c82afebeb94590580b1873271b2: {fileID: 1967230343}
     - 1a8d1bf27daf00f4bae5e723648cfed6: {fileID: 1967230343}
@@ -68164,7 +68217,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -4541366320882049381, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4541366320882049381, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -107937,6 +107990,7 @@ Transform:
   - {fileID: 1065148513}
   - {fileID: 452631708}
   - {fileID: 14691098}
+  - {fileID: 73340908}
   - {fileID: 1633981488}
   m_Father: {fileID: 1627428451}
   m_RootOrder: 2
@@ -107974,7 +108028,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 6ab6007b9e24acd4992e6c15176e6e4e, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6ab6007b9e24acd4992e6c15176e6e4e, type: 3}
       propertyPath: m_LocalScale.x
@@ -113519,7 +113573,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2144976678}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
