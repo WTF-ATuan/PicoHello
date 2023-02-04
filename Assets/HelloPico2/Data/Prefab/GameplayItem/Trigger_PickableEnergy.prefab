@@ -28898,6 +28898,7 @@ GameObject:
   - component: {fileID: 3977337781149460084}
   - component: {fileID: 1205002208659542002}
   - component: {fileID: 3365473641813139218}
+  - component: {fileID: 3960936141798698694}
   m_Layer: 0
   m_Name: Trigger_PickableEnergy
   m_TagString: Untagged
@@ -29032,6 +29033,7 @@ MonoBehaviour:
   m_DelayTime: 1
   _HandType: 0
   _Follower: {fileID: 3365473641813139218}
+  _FollowMainCam: {fileID: 0}
   _Energy: {fileID: 1648539423935299474}
   _EnergyZOffset: -0.85
   _EnergyMovingDuration: 0.3
@@ -29054,8 +29056,47 @@ MonoBehaviour:
   m_FollowYAxis: 1
   m_FollowRot: 1
   m_FollowYRot: 0
+  m_FollowYRotLerp: 0
+  m_FollowYRotDuration: 0.05
   m_AdditionalOffset: {x: 0, y: 0, z: 0}
   m_HaveOffset: 0
+  m_AlwaysSync: 0
+  m_Dismont: 0
+  m_UseLerp: 0
+  m_Duration: 0.05
+  m_EasingCureve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_Sync: 0
+  m_Activation: 0
+  m_Rotation: 0
+  m_AdditionalRotOffset: {x: 0, y: 0, z: 0}
+  m_Scale: 0
+--- !u!114 &3960936141798698694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1648539424811012587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fc7ec9ab22e7654f82931a4df5718e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Target: {fileID: 0}
+  m_FollowXAxis: 1
+  m_FollowZAxis: 1
+  m_FollowYAxis: 1
+  m_FollowRot: 0
+  m_FollowYRot: 0
+  m_FollowYRotLerp: 0
+  m_FollowYRotDuration: 0.05
+  m_AdditionalOffset: {x: 0, y: -1.5, z: 0.05}
+  m_HaveOffset: 1
   m_AlwaysSync: 0
   m_Dismont: 0
   m_UseLerp: 0

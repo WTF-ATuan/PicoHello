@@ -11,12 +11,23 @@ namespace HelloPico2.PlayerController.BeamCharge
         public enum State { ReadyToBePick, Picked, Charging}
         public HandType _HandType;
         public Follower _Follower;
+        public Follower _FollowMainCam;
         public Transform _Energy;
         public float _EnergyZOffset = -0.85f;
         public float _EnergyMovingDuration = 0.3f;
         public delegate void PickableEnergyDel(PickableEnergy energy, InteractCollider handCol);
         public PickableEnergyDel OnPlayerGetEnergy;        
         [ReadOnly][SerializeField] private State _CurrentState = State.ReadyToBePick;
+
+        private void Awake()
+        {
+            _FollowMainCam.enabled = false;
+        }
+        private void Start()
+        {
+            _FollowMainCam.Target = HelloPico2.Singleton.GameManagerHelloPico.Instance._MainCamera.transform;
+            _FollowMainCam.enabled = true;
+        }
 
         public override void OnTriggerEnter(Collider other)
         {
@@ -34,6 +45,8 @@ namespace HelloPico2.PlayerController.BeamCharge
             OnPlayerGetEnergy(this, interactCollider);
             
             _CurrentState = State.Picked;
+
+            _FollowMainCam.enabled = false;
         }
     }
 }
