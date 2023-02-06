@@ -63,6 +63,7 @@ namespace HelloPico2.LevelTool
             shieldSeq.Play();
         }
         public void ShowReminder() {
+            if (!gameObject.activeSelf) return;
             if (_ReminderState == State.ShowUI) return;
             _ReminderState = State.ShowUI;
             _ShowReminder.OnEnable();
@@ -71,14 +72,16 @@ namespace HelloPico2.LevelTool
         }
         public void HideReminder()
         {
+            if (!gameObject.activeSelf) return;
             if (_ReminderState == State.HideUI) return;
             _ReminderState = State.HideUI;
             _HideReminder.OnEnable();
 
             ChangeOpacity(1, 0, .3f);
         }
-        public void UseSword() { 
-            if(_ReminderState == State.HideUI) return;
+        public void UseSword() {
+            if (!gameObject.activeSelf) return;
+            if (_ReminderState == State.HideUI) return;
             _ReminderState= State.HideUI;
             _UseSword.OnEnable();
 
@@ -86,6 +89,7 @@ namespace HelloPico2.LevelTool
         }
         public void UseShield()
         {
+            if (!gameObject.activeSelf) return;
             if (_ReminderState == State.HideUI) return;
             _ReminderState = State.HideUI;
             _UseShield.OnEnable();
