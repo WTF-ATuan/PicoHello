@@ -161,7 +161,7 @@ namespace HelloPico2.InteractableObjects{
 			_dynamicBone.m_Damping = 0.2f;
 			_dynamicBone.m_Inert = 0.4f;
 			_dynamicBone.m_Radius = 0.4f;
-			SetRigTotalLength(1f);
+			SetRigTotalLength(10f);
 		}
 
 		private void ModifyThickness(float percent){
