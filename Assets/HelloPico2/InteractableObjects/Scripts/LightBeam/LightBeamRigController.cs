@@ -114,14 +114,13 @@ namespace HelloPico2.InteractableObjects{
 		public LightBeamLengthUpdated GetUpdateState(){
 			var lengthUpdated = new LightBeamLengthUpdated();
 			var result = Vector3.zero;
-			for(var index = 0; index < _rigs.Count; index++){
+			foreach(var rig in _rigs){
 				try{
-					var rig = _rigs[index];
 					result += rig.localPosition;
 				}
-				catch(ArgumentNullException exception){
+				catch(Exception exception){
 					Debug.LogWarning("catch Exception of argument null");
-					break;
+					return currentLengthUpdated;
 				}
 			}
 
@@ -153,6 +152,16 @@ namespace HelloPico2.InteractableObjects{
 			_rigs = rigRoot.GetComponentsInChildren<Transform>().ToList();
 			_rigs.RemoveAt(0);
 			checkRaycastCDTimer = new Game.Project.ColdDownTimer(_checkRaycastCDDuration);
+		}
+		[Button]
+		public void ResetBeam(){
+			Destroy(GetComponent<DynamicBone>());
+			_dynamicBone = gameObject.AddComponent<DynamicBone>();
+			_dynamicBone.m_Root = rigRoot;
+			_dynamicBone.m_Damping = 0.2f;
+			_dynamicBone.m_Inert = 0.4f;
+			_dynamicBone.m_Radius = 0.4f;
+			SetRigTotalLength(1f);
 		}
 
 		private void ModifyThickness(float percent){
