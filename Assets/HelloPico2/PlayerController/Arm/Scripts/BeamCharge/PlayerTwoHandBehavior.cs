@@ -5,6 +5,7 @@ using HelloPico2.InteractableObjects.Scripts;
 using HelloPico2.PlayerController.Arm;
 using HelloPico2.PlayerController.Player;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -239,6 +240,7 @@ namespace HelloPico2.PlayerController.BeamCharge
             seq.AppendInterval(_AutoGrabDelayDuration);
             TweenCallback autograbCallback = () => {
                 AutoGrabEnergy();
+                _PickableEnergys.ForEach((x) => x.DisableEnergyFollower());
             };
             seq.AppendCallback(autograbCallback);
             seq.Play();

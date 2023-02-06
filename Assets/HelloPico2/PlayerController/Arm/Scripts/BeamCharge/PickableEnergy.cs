@@ -38,6 +38,9 @@ namespace HelloPico2.PlayerController.BeamCharge
             if (other.TryGetComponent<InteractCollider>(out var interactCollider))
                 FollowingHand(interactCollider);
         }
+        public void DisableEnergyFollower() { 
+            _FollowMainCam.enabled = false;
+        }
         private void FollowingHand(InteractCollider interactCollider) {
             if (interactCollider._HandType != _HandType) return;
             _Energy.DOLocalMoveZ(_EnergyZOffset, _EnergyMovingDuration).SetEase(Ease.InOutCubic);
