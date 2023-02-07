@@ -84,6 +84,10 @@ namespace HelloPico2.PlayerController.Arm
 
                 armLogic.OnTriggerUpOnce += PlayWhipSound;
                 armLogic.OnTriggerDownOnce += PlaySwordSound;
+                
+                //Handle Reset
+                armLogic.OnPrimaryButtonClickOnce += x=> lightBeamRigController.ResetBeam();
+                armLogic.OnSecondaryButtonClickOnce += x=> lightBeamRigController.ResetBeam();
             }
 
             AudioPlayerHelper.PlayAudio(data.toWhipClipName, transform.position);
