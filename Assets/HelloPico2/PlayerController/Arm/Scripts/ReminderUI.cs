@@ -3,6 +3,7 @@ using Sirenix.OdinInspector;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
+using HelloPico2.InputDevice.Scripts;
 
 namespace HelloPico2.LevelTool
 {
@@ -23,6 +24,8 @@ namespace HelloPico2.LevelTool
 
         [SerializeField] private float _IconFadeInDuration = 0.5f;
         [SerializeField] private float _IconFadeOutDuration = 0.1f;
+
+        [SerializeField] private HandType _HandType = HandType.Left;
 
         private Material upArrowMat;
         private Material downArrowMat;
@@ -46,33 +49,33 @@ namespace HelloPico2.LevelTool
         private void ChangeOpacity(float from, float to, float duration) => ChangeOpacity(from, to, duration, duration);
         private void ChangeOpacity(float from, float to, float swordDuration, float shieldDuration)
         {
-            if(Sword != null) DOTween.Pause(Sword);
+            DOTween.Pause("Sword" + _HandType);
 
             float value1 = 0;
-            Sword = DOTween.To(() => value1, x => value1 = x, to, swordDuration).From(from).OnUpdate(() =>
+            DOTween.To(() => value1, x => value1 = x, to, swordDuration).From(from).OnUpdate(() =>
             {
                 if (_UpArrow != null) upArrowMat.SetFloat("_Opacity", value1);
                 whipMat.SetFloat("_Opacity", value1);
-            });
+            }).SetId("Sword" + _HandType);
 
-            if (Shield != null) DOTween.Pause(Shield);
+            DOTween.Pause("Shield" + _HandType);
             float value2 = 0;
 
-            Shield = DOTween.To(() => value2, x => value2 = x, to, shieldDuration).From(from).OnUpdate(() =>
+            DOTween.To(() => value2, x => value2 = x, to, shieldDuration).From(from).OnUpdate(() =>
             {
                 if (_DownArrow != null) downArrowMat.SetFloat("_Opacity", value2);
                 shieldMat.SetFloat("_Opacity", value2);
-            });
+            }).SetId("Shield" + _HandType);
 
             if (_DuoArrow == null) return;
 
-            if(DuoArrow != null) DOTween.Pause(DuoArrow);
+            DOTween.Pause("DuoArrow" + _HandType);
             float value3 = 0;
             float duration = (swordDuration > shieldDuration) ? shieldDuration : swordDuration;
-            DuoArrow = DOTween.To(() => value3, x => value3 = x, to, duration).From(from).OnUpdate(() =>
+            DOTween.To(() => value3, x => value3 = x, to, duration).From(from).OnUpdate(() =>
             {
                 duoArrowMat.SetFloat("_Opacity", value3);
-            });
+            }).SetId("DuoArrow" + _HandType);
         }
         public void ShowReminder() {
             if (!gameObject.activeSelf) return;
