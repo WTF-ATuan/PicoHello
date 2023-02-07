@@ -153,8 +153,10 @@ namespace HelloPico2.InteractableObjects{
 			_rigs.RemoveAt(0);
 			checkRaycastCDTimer = new Game.Project.ColdDownTimer(_checkRaycastCDDuration);
 		}
+
 		[Button]
 		public void ResetBeam(){
+			if(!_dynamicBone || _rigs.IsNullOrEmpty()) return;
 			Destroy(GetComponent<DynamicBone>());
 			_dynamicBone = gameObject.AddComponent<DynamicBone>();
 			_dynamicBone.m_Root = rigRoot;
