@@ -158,7 +158,7 @@ namespace HelloPico2.InputDevice.Scripts{
 			VibratePhoenix(clip);
 		}
 		public void Neo3VibrateTest(float amp){
-			VibrateNeo3(amp , 0.3f);
+			VibrateNeo3(amp , 300f);
 		}
 
 		public void SetControllerAmp(float amp){
@@ -181,10 +181,10 @@ namespace HelloPico2.InputDevice.Scripts{
 		private void VibrateNeo3(float amplitude, float time = 0.2f){
 			switch(HandIndex){
 				case 1:
-					PXR_Input.SetControllerVibration(amplitude, (int)time * 100 , PXR_Input.Controller.LeftController);
+					PXR_Input.SetControllerVibration(amplitude, (int)time * 1000 , PXR_Input.Controller.LeftController);
 					break;
 				case 2:
-					PXR_Input.SetControllerVibration(amplitude, (int)time * 100 , PXR_Input.Controller.RightController);
+					PXR_Input.SetControllerVibration(amplitude, (int)time * 1000 , PXR_Input.Controller.RightController);
 					break;
 			}
 		}
