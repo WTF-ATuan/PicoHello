@@ -158,7 +158,7 @@ namespace HelloPico2.InputDevice.Scripts{
 			VibratePhoenix(clip);
 		}
 		public void Neo3VibrateTest(float amp){
-			VibrateNeo3(amp , 1000);
+			VibrateNeo3(amp , 0.3f);
 		}
 
 		public void SetControllerAmp(float amp){
