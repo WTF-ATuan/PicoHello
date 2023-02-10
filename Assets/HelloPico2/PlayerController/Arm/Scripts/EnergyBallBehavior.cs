@@ -118,6 +118,7 @@ namespace HelloPico2.PlayerController.Arm
         private bool isShapeConfirmed = false;
         Game.Project.ColdDownTimer EnergyBallEmptySoundCD;
         Game.Project.ColdDownTimer BombEmptySoundCD;
+        Game.Project.ColdDownTimer ProjectileSoundDecider;
         public List<IGainEnergyFeedback> GainEnergyFeedback = new List<IGainEnergyFeedback>();
         public List<IShootingFeedback> ShootingFeedback = new List<IShootingFeedback>();
         public List<IFullEnergyFeedback> FullEnergyFeedback = new List<IFullEnergyFeedback>();
@@ -202,6 +203,7 @@ namespace HelloPico2.PlayerController.Arm
 
             EnergyBallEmptySoundCD = new Game.Project.ColdDownTimer(armLogic.data.ShootEmptyEnergyCoolDownDuration);
             BombEmptySoundCD = new Game.Project.ColdDownTimer(armLogic.data.ShootEmptyBombCoolDownDuration);
+            ProjectileSoundDecider = new Game.Project.ColdDownTimer(armLogic.data.RapidProjectileSoundInterval);
 
             shootingCDAfterFullChargedShoot = new ColdDownTimer(_ShootingActionCDDurationAfterFullEnergyBall);
             RapidShootCoolDownProcess = new ColdDownTimer(_RapidShootCoolDownDuration);
@@ -451,7 +453,9 @@ namespace HelloPico2.PlayerController.Arm
 
             UpdateScale(data);
 
-            data.WhenShootProjectile?.Invoke();
+            data.WhenShootProjectile?.Invoke(!ProjectileSoundDecider.CanInvoke());
+
+            ProjectileSoundDecider.Reset();
         }
         private void ShootEnergyProjectile(ArmData data)
         {
@@ -484,7 +488,9 @@ namespace HelloPico2.PlayerController.Arm
 
             UpdateScale(data);
 
-            data.WhenShootProjectile?.Invoke();
+            data.WhenShootProjectile?.Invoke(!ProjectileSoundDecider.CanInvoke());
+
+            ProjectileSoundDecider.Reset(); 
         }
         private void StartRapidShoot(ArmData data)
         {

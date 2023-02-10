@@ -76,8 +76,8 @@ namespace HelloPico2.PlayerController.Arm
             data.WhenGainEnergy.AddListener(() =>
             CheckFullEnergyBehavior());
 
-            data.WhenShootProjectile.AddListener(() =>
-            EnergyBallSound());            
+            data.WhenShootProjectile.AddListener((isRapid) =>
+            EnergyBallSound(isRapid));            
 
             data.WhenShootChargedProjectile.AddListener(() =>
             EventBus.Post(new AudioEventRequested(data.ShootBombClipName, _controller.transform.position)));
@@ -87,7 +87,8 @@ namespace HelloPico2.PlayerController.Arm
             StartCoroutine(GripActivation());
         }
         List<string> GainEnergyClipNames = new List<string>();
-        List<string> ShootEnergyBallClipNames = new List<string>();
+        List<string> TempClipNames = new List<string>();
+        bool TempIsRapid;
         private void GainEnergySound()
         {
             if (GainEnergyClipNames.Count == 0)
@@ -97,13 +98,25 @@ namespace HelloPico2.PlayerController.Arm
 
             GainEnergyClipNames.Remove(pick);
         }
-        private void EnergyBallSound() {
-            if (ShootEnergyBallClipNames.Count == 0)
-                ShootEnergyBallClipNames = new List<string>(data.ShootEnergyBallClipName);
+        private void EnergyBallSound(bool isRapid) {
+            if (TempIsRapid != isRapid)
+            {
+                TempIsRapid = isRapid;
+                TempClipNames.Clear();
+            }
 
-            var pick = AudioPlayerHelper.PlayRandomAudio(ShootEnergyBallClipNames.ToArray(), _controller.transform.position);
+            if (isRapid)
+                PlayRandomSound(data.ShootRapidEnergyBallClipName);
+            else
+                PlayRandomSound(data.ShootEnergyBallClipName);
+        }
+        private void PlayRandomSound(string[] ClipNames) {
+            if (TempClipNames.Count == 0)
+                TempClipNames = new List<string>(ClipNames);
 
-            ShootEnergyBallClipNames.Remove(pick);
+            var pick = AudioPlayerHelper.PlayRandomAudio(TempClipNames.ToArray(), _controller.transform.position);
+
+            TempClipNames.Remove(pick);
         }
         private void CheckFullEnergyBehavior() {
             if (!CheckFullEnergy()) return;
