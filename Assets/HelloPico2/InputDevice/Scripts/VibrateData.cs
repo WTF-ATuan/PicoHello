@@ -11,6 +11,7 @@ namespace HelloPico2.InputDevice{
 		order = 0)]
 	public class VibrateData : ScriptableObject{
 		public VRType vrType = VRType.Phoenix;
+		public bool autoSetType = false;
 
 		public List<PhoenixVibrateData> phoenixVibrateDataList;
 
