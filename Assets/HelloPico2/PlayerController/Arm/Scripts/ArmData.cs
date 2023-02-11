@@ -34,7 +34,9 @@ namespace HelloPico2.PlayerController.Arm
         [SerializeField] private float _ShootEmptyBombCoolDownDuration = 2;
         [SerializeField] private float _DisableInputCoolDownDuration = 1;
         [FoldoutGroup("Audio Settings")][SerializeField] private string[] _GainEnergyBallClipName;
+        [FoldoutGroup("Audio Settings")][SerializeField] private float _RapidProjectileSoundInterval = 0.3f;
         [FoldoutGroup("Audio Settings")][SerializeField] private string[] _ShootEnergyBallClipName;
+        [FoldoutGroup("Audio Settings")][SerializeField] private string[] _ShootRapidEnergyBallClipName;
         [FoldoutGroup("Audio Settings")][SerializeField] private string _ToWhipClipName;
         [FoldoutGroup("Audio Settings")][SerializeField] private string _ToSwordClipName;
         [FoldoutGroup("Audio Settings")][SerializeField] private string _ToShieldClipName;
@@ -51,7 +53,7 @@ namespace HelloPico2.PlayerController.Arm
         [FoldoutGroup("Events Settings")] public UnityEngine.Events.UnityEvent WhenGainBomb;
         [FoldoutGroup("Events Settings")] public UnityEngine.Events.UnityEvent WhenTouchTriggerOrGrip;
         [FoldoutGroup("Events Settings")] public UnityEngine.Events.UnityEvent WhenNotTouchTriggerAndGrip;
-        [FoldoutGroup("Events Settings")] public UnityEngine.Events.UnityEvent WhenShootProjectile;
+        [FoldoutGroup("Events Settings")] public UnityEngine.Events.UnityEvent<bool> WhenShootProjectile;
         [FoldoutGroup("Events Settings")] public UnityEngine.Events.UnityEvent WhenShootChargedProjectile;
         [FoldoutGroup("Events Settings")] public UltEvents.UltEvent WhenNoEnergyShoot;
         [FoldoutGroup("Events Settings")] public UltEvents.UltEvent WhenNoBombShoot;
@@ -75,7 +77,9 @@ namespace HelloPico2.PlayerController.Arm
         public string[] GainEnergyBallClipName { get { return _GainEnergyBallClipName; } }
         public float ShootEmptyEnergyCoolDownDuration { get { return _ShootEmptyEnergyCoolDownDuration; } }
         public float ShootEmptyBombCoolDownDuration { get { return _ShootEmptyBombCoolDownDuration; } }
+        public float RapidProjectileSoundInterval { get { return _RapidProjectileSoundInterval; } }
         public string[] ShootEnergyBallClipName { get { return _ShootEnergyBallClipName; } }
+        public string[] ShootRapidEnergyBallClipName { get { return _ShootRapidEnergyBallClipName; } }
         public string toWhipClipName { get{ return _ToWhipClipName; }}
         public string toSwordClipName { get{ return _ToSwordClipName; }}
         public string toShieldClipName { get{ return _ToShieldClipName; }}

@@ -76,6 +76,6 @@ public class LineRendererDrawer : MonoBehaviour
         }
                 
         _LineRenderer.SetPositions(points.ToArray());
-        _FromDot.position = points[0];
+        if(_FromDot != null) _FromDot.position = points[0];
     }
 }

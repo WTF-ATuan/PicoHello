@@ -26,6 +26,8 @@ namespace HelloPico2.LevelTool
         public AnimationCurve _Curve;
         public AnimationCurve _ToOffsetCurve;
         public ParticleSystem _DotIndicator;
+        public bool _UseFromDotIndicator = false;
+        [ShowIf("_UseFromDotIndicator")] public ParticleSystem _FromDotIndicator;
         public bool _EnableFindInputMeshDebber = false;
         ArmData armData;
         [ReadOnly][SerializeField] private Transform to;
@@ -107,6 +109,7 @@ namespace HelloPico2.LevelTool
             }
 
             _DotIndicator.transform.position = to.position;
+            if(_UseFromDotIndicator) _FromDotIndicator.transform.position = from;
             _LineRenderer.SetPositions(points.ToArray());
         }
     }

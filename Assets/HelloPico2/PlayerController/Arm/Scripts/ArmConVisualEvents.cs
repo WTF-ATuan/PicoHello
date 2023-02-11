@@ -24,6 +24,9 @@ namespace HelloPico2.PlayerController.Arm
         public UltEvents.UltEvent WhenJoyStickNotTouch;
         public UltEvents.UltEvent WhenJoyStickStay;
         public UltEvents.UltEvent WhenJoyStickMove;
+        public UltEvents.UltEvent WhenJoyStickForward;
+        public UltEvents.UltEvent WhenJoyStickBackward;
+        public UltEvents.UltEvent WhenJoyStickIdle;
         public UltEvents.UltEvent WhenPrimaryButtonTouch;
         public UltEvents.UltEvent WhenPrimaryButtonNotTouch;
         public UltEvents.UltEvent WhenSecondaryButtonTouch;
@@ -110,6 +113,20 @@ namespace HelloPico2.PlayerController.Arm
             {
                 WhenJoyStickStay?.Invoke();
             }
+            
+            if (primary2DAxisValue.y > DeadValue)
+            {
+                WhenJoyStickForward?.Invoke();
+            }
+            if (Mathf.Abs(primary2DAxisValue.y) <= DeadValue && padAxisTouch)
+            {
+                WhenJoyStickIdle?.Invoke();
+            }
+            if (primary2DAxisValue.y < -DeadValue)
+            {
+                WhenJoyStickBackward?.Invoke();
+            }
         }
+        public float DeadValue = 0.3f;
     }
 }
