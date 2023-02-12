@@ -76,7 +76,8 @@ Shader "Unlit/AmbRim"
 
                 fixed Dir = saturate(dot(worldNormal,_LightDir));
 
-                return col+rim*Dir*_Rim*_RimColor*saturate(1-worldPos.y/50) + saturate(1-worldPos.y/10)*_RimColor*_Rim;
+
+                return col+rim*Dir*_Rim*_RimColor*saturate(1-worldPos.y/50)+rim/5 + saturate(1-worldPos.y/10)*_RimColor*_Rim;
             }
             ENDCG
         }
