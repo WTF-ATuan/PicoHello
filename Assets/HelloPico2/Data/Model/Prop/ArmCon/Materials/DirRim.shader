@@ -10,12 +10,17 @@ Shader "Unlit/DirRim"
         _LightSmoothMin("Rim Light Edge min",Range(0,1)) = 0.8
 
         _LightDir("Light Dir",Vector) = (-1.5,1.5,-2,0)
+
+		[Enum(UnityEngine.Rendering.BlendMode)] _SourceBlend ("Source Blend Mode", Float) = 1
+		[Enum(UnityEngine.Rendering.BlendMode)] _DestBlend ("Dest Blend Mode", Float) = 0
     }
     SubShader
     {
         Tags { "RenderType"="Opaque" }
         LOD 100
-
+        
+		Blend [_SourceBlend] [_DestBlend]
+		
         Pass
         {
             CGPROGRAM
@@ -71,7 +76,7 @@ Shader "Unlit/DirRim"
 
                 fixed Dir = saturate(dot(worldNormal,_LightDir));
 
-                return col+rim*Dir*_Rim;
+                return fixed4(col.rgb,col.r)+rim*Dir*_Rim;
             }
             ENDCG
         }
