@@ -252,6 +252,8 @@ namespace HelloPico2.PlayerController.Arm
             armLogic.OnTriggerDownOnce += StartRapidShoot;
             armLogic.OnTriggerUpOnce += StopRapidShoot;
 
+            swordBehavior.ResetCallback += () => { ChangeToEnergyball(); };
+
             currentShape = currentEnergyBall;
 
             GenerateChargingEnergyBall();
@@ -294,6 +296,8 @@ namespace HelloPico2.PlayerController.Arm
 
             armLogic.OnTriggerDownOnce -= StartRapidShoot;
             armLogic.OnTriggerUpOnce -= StopRapidShoot;
+
+            swordBehavior.ResetCallback -= () => { ChangeToEnergyball(); };
         }
         private void CheckEnableGrip(ArmData data) {
             armLogic.data.Controller.selectUsage = (data.Energy < data.MaxEnergy)? InputHelpers.Button.Grip : InputHelpers.Button.None;
