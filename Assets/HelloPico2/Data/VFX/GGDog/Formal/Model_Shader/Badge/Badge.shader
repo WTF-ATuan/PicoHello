@@ -20,7 +20,6 @@ Shader "GGDog/Badge"
             struct appdata
             {
                 half4 vertex : POSITION;
-				half3 normal : NORMAL;
 				half4 color : COLOR;
             };
 
@@ -33,7 +32,7 @@ Shader "GGDog/Badge"
             v2f vert (appdata v)
             {
                 v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex - v.normal*0.0035);
+                o.vertex = UnityObjectToClipPos(v.vertex);
                 o.color = v.color;
 
                 return o;
