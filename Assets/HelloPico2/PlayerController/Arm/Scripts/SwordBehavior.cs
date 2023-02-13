@@ -5,6 +5,8 @@ using HelloPico2.InputDevice.Scripts;
 using Sirenix.OdinInspector;
 using HelloPico2.Interface;
 using DG.Tweening;
+using Game.Project;
+using System;
 
 namespace HelloPico2.PlayerController.Arm
 {
@@ -40,7 +42,7 @@ namespace HelloPico2.PlayerController.Arm
 
         public enum State { sword, whip}
         [FoldoutGroup("Debug")][ReadOnly][SerializeField] private State _State = State.whip;
-        private LightBeamRigController lightBeamRigController;
+        public LightBeamRigController lightBeamRigController;
         private float timer;
         private SkinnedMeshRenderer _beamMesh;
         [MaxValue(1)][MinValue(0)] private float _colorValue;
@@ -54,6 +56,13 @@ namespace HelloPico2.PlayerController.Arm
         Coroutine TurnOffProcess;
         Coroutine stretchProcess;
         private IWeaponFeedbacks[] weaponFeedbacks;
+        public Action ResetCallback;
+        private ColdDownTimer _HardResetTimer;
+        public float _HardResetTimerDuration = 3f;
+        private void Start()
+        {
+            _HardResetTimer = new ColdDownTimer(_HardResetTimerDuration);
+        }
         public override void Activate(ArmLogic Logic, ArmData data, GameObject lightBeam, Vector3 fromScale)
         {
             armLogic = Logic;
@@ -65,6 +74,7 @@ namespace HelloPico2.PlayerController.Arm
                 lightBeamRigController = lightBeam.GetComponentInChildren<LightBeamRigController>();
                 _beamMesh = lightBeamRigController.GetComponentInChildren<SkinnedMeshRenderer>();
                 lightBeamRigController.Init();
+                lightBeamRigController.ResetCallback += () => { ResetCallback.Invoke(); };
             }
 
             if (lightBeamRigController) lightBeamRigController.OnCollision += OnBeamCollide;
@@ -279,7 +289,9 @@ namespace HelloPico2.PlayerController.Arm
 
             if (GetLengthLimitPercentage() == 0)
             {
-                while (lightBeamRigController.GetUpdateState().TotalLength != 0)
+                _HardResetTimer.Reset();
+
+                while (lightBeamRigController.GetUpdateState().TotalLength <= 0.01f || _HardResetTimer.CanInvoke())
                 {
                     lightBeamRigController.ModifyControlRigLength(-_ModifyLengthStep);
 
@@ -301,8 +313,9 @@ namespace HelloPico2.PlayerController.Arm
         private IEnumerator TurnOffSword(float duration)
         {
             var unitDuration = duration * _ModifyLengthStep / lightBeamRigController.GetUpdateState().TotalLength;
+            _HardResetTimer.Reset();
 
-            while (lightBeamRigController.GetUpdateState().TotalLength <= 0.1f)
+            while (lightBeamRigController.GetUpdateState().TotalLength <= 0.1f || _HardResetTimer.CanInvoke())
             {
                 if(lightBeamRigController.GetUpdateState().TotalLength - _ModifyLengthStep >= 0)
                     lightBeamRigController.ModifyControlRigLength(-_ModifyLengthStep);
