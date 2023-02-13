@@ -47,7 +47,7 @@ Shader "Unlit/Cloud"
             fixed4 frag (v2f i) : SV_Target
             {
 
-                fixed4 col = tex2D(_MainTex, i.uv + float2(0,-0.01)*_Time.y);
+                fixed4 col = tex2D(_MainTex, i.uv + float2(-0.01,0)*_Time.y);
 
                 return fixed4(col.rgb,col.a*_Alpha);
             }
