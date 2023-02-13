@@ -53,6 +53,8 @@ namespace HelloPico2.InteractableObjects{
 
 		public OnCollisionDel OnCollision;
 
+		public Action ResetCallback;
+
 		public void SetLengthLimit(float percentage){
 			if(percentage > 1){
 				throw new Exception($"inputValue is greater than 1 {percentage}");
@@ -153,7 +155,6 @@ namespace HelloPico2.InteractableObjects{
 			_rigs.RemoveAt(0);
 			checkRaycastCDTimer = new Game.Project.ColdDownTimer(_checkRaycastCDDuration);
 		}
-
 		[Button]
 		public void ResetBeam(){
 			if(!_dynamicBone || _rigs.IsNullOrEmpty()) return;
@@ -165,6 +166,7 @@ namespace HelloPico2.InteractableObjects{
 			_dynamicBone.m_Inert = 0.4f;
 			_dynamicBone.m_Radius = 0.4f;
 			SetRigTotalLength(10f);
+			ResetCallback?.Invoke();
 		}
 
 		private void ModifyThickness(float percent){
