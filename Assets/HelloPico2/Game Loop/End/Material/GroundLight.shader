@@ -2,7 +2,7 @@ Shader "Unlit/GroundLight"
 {
     Properties
     {
-
+		[HDR]_Color ("Color", Color) =(1,1,1,1)
     }
     SubShader
     {
@@ -40,11 +40,11 @@ Shader "Unlit/GroundLight"
                 o.uv = v.uv;
                 return o;
             }
-
+            float4 _Color;
             fixed4 frag (v2f i) : SV_Target
             {
 
-                return (1-i.uv.y);
+                return (1-i.uv.y)*_Color;
             }
             ENDCG
         }

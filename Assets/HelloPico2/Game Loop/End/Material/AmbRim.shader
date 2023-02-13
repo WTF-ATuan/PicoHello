@@ -4,6 +4,8 @@ Shader "Unlit/AmbRim"
     {
         _MainTex ("Texture", 2D) = "white" {}
 		[HDR]_RimColor ("Rim Color", Color) =(1,1,1,1)
+        
+        _Rim1("Rim1",Range(0,1)) = 0.2
 
         _Rim("Rim",Range(0,1)) = 0.5
 
@@ -58,7 +60,8 @@ Shader "Unlit/AmbRim"
             fixed _LightSmoothMin;
             
 			fixed3 _LightDir;
-
+            
+			fixed _Rim1;
 			fixed _Rim;
 
             fixed4 _RimColor;
@@ -77,7 +80,7 @@ Shader "Unlit/AmbRim"
                 fixed Dir = saturate(dot(worldNormal,_LightDir));
 
 
-                return col+rim*Dir*_Rim*_RimColor*saturate(1-worldPos.y/50)+rim/5 + saturate(1-worldPos.y/10)*_RimColor*_Rim;
+                return col+rim*Dir*_Rim*_RimColor*saturate(1-worldPos.y/50)+_Rim1*rim + saturate(1-worldPos.y/10)*_RimColor*_Rim;
             }
             ENDCG
         }
