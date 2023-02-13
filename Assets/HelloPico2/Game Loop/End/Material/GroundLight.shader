@@ -12,6 +12,8 @@ Shader "Unlit/GroundLight"
 
         Blend SrcAlpha One
 
+        Cull Off
+
         Pass
         {
             CGPROGRAM
@@ -24,12 +26,14 @@ Shader "Unlit/GroundLight"
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
+                float4 color : COLOR;
             };
 
             struct v2f
             {
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
+                float4 color : COLOR;
             };
 
 
@@ -38,13 +42,14 @@ Shader "Unlit/GroundLight"
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
+                o.color = v.color;
                 return o;
             }
             float4 _Color;
             fixed4 frag (v2f i) : SV_Target
             {
 
-                return (1-i.uv.y)*_Color;
+                return i.color.a*_Color;
             }
             ENDCG
         }

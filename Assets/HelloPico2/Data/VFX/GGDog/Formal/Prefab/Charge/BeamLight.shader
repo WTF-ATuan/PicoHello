@@ -4,6 +4,7 @@ Shader "GGDog/Effect/BeamLight"
     {
 		[Enum(UnityEngine.Rendering.BlendMode)] _SourceBlend ("Source Blend Mode", Float) = 5
 		[Enum(UnityEngine.Rendering.BlendMode)] _DestBlend ("Dest Blend Mode", Float) = 1
+        [Enum(Order,4,AlwaysOnTop,8)] _ZTest("ZTest", Float) = 8
     }
     SubShader
     {
@@ -11,7 +12,7 @@ Shader "GGDog/Effect/BeamLight"
         ZWrite Off
 		Blend [_SourceBlend] [_DestBlend]
 
-        ZTest Always
+		ZTest [_ZTest]
 
         Pass
         {
