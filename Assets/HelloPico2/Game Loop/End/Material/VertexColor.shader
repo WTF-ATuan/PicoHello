@@ -9,6 +9,8 @@ Shader "Unlit/VertexColor"
         Tags { "RenderType"="Opaque" }
 
         Blend SrcAlpha OneMinusSrcAlpha
+        
+        ZWrite Off
 
         Pass
         {
