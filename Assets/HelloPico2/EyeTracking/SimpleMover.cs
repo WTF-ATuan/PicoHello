@@ -12,7 +12,6 @@ namespace HelloPico2.EyeTracking{
 		[ShowIf("useOffset")] public Vector3 offset = Vector3.one;
 
 
-		[Button]
 		public void Move(Vector3 targetPosition){
 			if(ignoreZ){
 				targetPosition.z = controlObject.position.z;
@@ -25,6 +24,10 @@ namespace HelloPico2.EyeTracking{
 				controlObject.DOMove(targetPosition, during)
 						.SetEase(movingCurve);
 			}
+		}
+		[Button]
+		private void Test(Transform target){
+			Move(target.position);
 		}
 	}
 }
