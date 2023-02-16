@@ -21,6 +21,11 @@ namespace HelloPico2.LevelTool
         [SerializeField] private bool _CanInterupt;
         public UltEvent WhenFinished;
         Coroutine process;
+
+        private void Start(){
+            ChangeLanguage(Application.systemLanguage == SystemLanguage.ChineseSimplified ? Language.CN : Language.EN);
+        }
+
         public void ChangeLanguage(Language language) => _UseLanguage = language;
         public void PlayTextureSequence() {
             if (process != null) {
