@@ -11,35 +11,72 @@ namespace HelloPico2.EyeTracking{
 		public bool useOffset;
 		[ShowIf("useOffset")] public Vector3 offset = Vector3.one;
 
+		public bool debug;
+		private Vector3 _previousTargetPoint;
+		private List<Vector3> _currentSlerpPoints;
+		private int _pointIndex = 0;
 
 		public void Move(Vector3 targetPosition){
 			if(useOffset) targetPosition += offset;
+
 			var position = controlObject.position;
-			var distance = Vector3.Distance(targetPosition, position);
-			if(distance > 3){
-				var yOffset = new Vector3(0, Mathf.Sin(Time.time * 1.5f) * 0.1f, 0);
-				controlObject.position = Vector3.Lerp(position + yOffset, targetPosition + yOffset,
-					Time.fixedDeltaTime);
-			}else
-			{
-				var yOffset = new Vector3(0, Mathf.Sin(Time.time * 3f) * 0.01f, 0);
-				controlObject.position = Vector3.Lerp(position + yOffset, targetPosition + yOffset,
-					Time.fixedDeltaTime);
+			var center = (position + targetPosition) * 0.5f;
+			var distance = Vector3.Distance(position, targetPosition);
+			if((targetPosition - _previousTargetPoint).magnitude > 0.1f){
+				_currentSlerpPoints =
+						EvaluateSlerpPoints(position, targetPosition, center, (int)Mathf.Clamp(distance * 10, 10, 50));
+				_currentSlerpPoints.RemoveAt(0);
 			}
 
+			var closestPoint = GetClosestPoint(position, Mathf.Infinity);
+			controlObject.DOMove(closestPoint, during).SetEase(movingCurve);
+			if((position - closestPoint).magnitude < 1f){
+				if(_currentSlerpPoints.Count > 1){
+					_currentSlerpPoints.Remove(closestPoint);
+				}
+			}
 
+			_previousTargetPoint = targetPosition;
+		}
+
+		private Vector3 GetClosestPoint(Vector3 position, float closestDistanceSqr){
+			var closePoint = Vector3.zero;
+			foreach(var points in _currentSlerpPoints){
+				var directionToTarget = points - position;
+				var dSqrToTarget = directionToTarget.sqrMagnitude;
+				if(!(dSqrToTarget < closestDistanceSqr)) continue;
+				closestDistanceSqr = dSqrToTarget;
+				closePoint = points;
+			}
+
+			return closePoint;
 		}
 
 
-		private IEnumerable<Vector3> EvaluateSlerpPoints(Vector3 start, Vector3 end, float centerOffset){
-			var centerPivot = (start + end) * 0.5f;
-			centerPivot -= new Vector3(0, -centerOffset);
-			var startRelativeCenter = start - centerPivot;
-			var endRelativeCenter = end - centerPivot;
-			var f = 1f / 10;
-			for(var i = 0; i < 1 + f; i++){
-				yield return Vector3.Slerp(startRelativeCenter, endRelativeCenter, i) + centerPivot;
+		private List<Vector3> EvaluateSlerpPoints(Vector3 start, Vector3 end, Vector3 center, int count = 10){
+			var startRelativeCenter = start - center;
+			var endRelativeCenter = end - center;
+
+			var f = 1f / count;
+			var points = new List<Vector3>();
+			for(var i = 0f; i < 1 + f; i += f){
+				points.Add(Vector3.Slerp(startRelativeCenter, endRelativeCenter, i) + center);
 			}
+
+			return points;
+		}
+
+		private void OnDrawGizmos(){
+			if(!Application.isPlaying || !debug) return;
+			var center = (controlObject.position + _previousTargetPoint) * 0.5f;
+			var slerpPoints = EvaluateSlerpPoints(controlObject.position, _previousTargetPoint,
+				center);
+			foreach(var point in slerpPoints){
+				Gizmos.DrawSphere(point, 0.1f);
+			}
+
+			Gizmos.color = Color.red;
+			Gizmos.DrawSphere(controlObject.position, 0.2f);
 		}
 	}
 }
