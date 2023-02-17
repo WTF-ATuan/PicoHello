@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UltEvents;
 using UnityEngine;
-using UnityEngine.InputSystem.iOS;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
+//using UnityEngine.InputSystem.iOS;
+//using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 namespace HelloPico2.LevelTool
 {
