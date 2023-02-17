@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UltEvents;
 using UnityEngine;
 using UnityEngine.InputSystem.iOS;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 namespace HelloPico2.LevelTool
 {
@@ -24,13 +25,13 @@ namespace HelloPico2.LevelTool
 
         public UltEvent WhenFinished;
 
-        //[ReadOnly][SerializeField] private float _totalPlayTime;
+        [ReadOnly][SerializeField] private float _totalPlayTime;
         [ReadOnly][SerializeField] private Texture _currentTexture;
         Coroutine process;
         public void OnValidate()
         {
-            //var textures = _LogoImageSequence.Find(x => x.language == _UseLanguage).textureSequence;
-            //_totalPlayTime = (1f / (float)_FPS) * textures.Length;
+            var textures = _LogoImageSequence.Find(x => x.language == _UseLanguage).textureSequence;
+            _totalPlayTime = (1f / (float)_FPS) * textures.Length;
         }
         private void Start(){
             ChangeLanguage(Application.systemLanguage == SystemLanguage.ChineseSimplified ? Language.CN : Language.EN);
@@ -64,7 +65,7 @@ namespace HelloPico2.LevelTool
             }
 
             WhenFinished?.InvokeSafe();
-            //print("Stop Playing " + (Time.time - start));
+            print("Stop Playing " + (Time.time - start));
         }
     }
 }
