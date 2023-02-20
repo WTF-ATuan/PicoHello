@@ -157,7 +157,7 @@ namespace HelloPico2.InteractableObjects{
 		}
 		[Button]
 		public void ResetBeam(){
-			if(!_dynamicBone || _rigs.IsNullOrEmpty()) return;
+			if(!_dynamicBone || _rigs.IsNullOrEmpty()) Init();
 			Debug.Log($"Reset Beam");
 			Destroy(GetComponent<DynamicBone>());
 			_dynamicBone = gameObject.AddComponent<DynamicBone>();
