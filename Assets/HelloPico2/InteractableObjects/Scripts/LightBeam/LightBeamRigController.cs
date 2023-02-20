@@ -166,7 +166,7 @@ namespace HelloPico2.InteractableObjects{
 			_dynamicBone.m_Inert = 0.4f;
 			_dynamicBone.m_Radius = 0.4f;
 			SetRigTotalLength(10f);
-			ResetCallback?.Invoke();
+			//ResetCallback?.Invoke();
 		}
 
 		private void ModifyThickness(float percent){
