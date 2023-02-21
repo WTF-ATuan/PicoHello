@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using Sirenix.OdinInspector;
+using HelloPico2.LevelTool;
+using System;
 
 namespace HelloPico2.InteractableObjects{
-	public class HitTargetRock : HitTargetBase{
+	public class HitTargetRock : HitTargetBase, IDestroyChecker{
 		[BoxGroup("Hit Count")] public int beamHitCount = 1;
 		[BoxGroup("Hit Count")] public int ballHitCount = 3;
 		[SerializeField] private float _DestroyDelayDuration = 3;
@@ -18,7 +20,9 @@ namespace HelloPico2.InteractableObjects{
 
 		public UltEvents.UltEvent WhenCollideWithEnergyBall;
 
-		private void OnEnable(){
+        public Action<GameObject> OnDestroy { get; set; }
+
+        private void OnEnable(){
 			OnEnergyBallInteract += x => OnInteract(x, InteractType.EnergyBall);
 			OnShieldInteract += DestroyBullet;
 			OnWhipInteract += x => OnInteract(x, InteractType.Whip);
@@ -41,19 +45,23 @@ namespace HelloPico2.InteractableObjects{
 				beamHitCount -= 1;
 				if(beamHitCount < 1){
 					DestroyBullet(selfCollider);
+					OnDestroy?.Invoke(gameObject);
 				}
 				else{
 					BulletReact(selfCollider);
-				}
+                    OnDestroy?.Invoke(gameObject);
+                }
 			}
 			else{
 				ballHitCount -= 1;
 				if(ballHitCount < 1){
 					DestroyBullet(selfCollider);
-				}
+                    OnDestroy?.Invoke(gameObject);
+                }
 				else{
 					BulletReact(selfCollider);
-				}
+                    OnDestroy?.Invoke(gameObject);
+                }
 			}
 		}
 

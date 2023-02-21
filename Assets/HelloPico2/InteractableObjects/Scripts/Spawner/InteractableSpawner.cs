@@ -1,6 +1,4 @@
-
-
-using System;
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,6 +28,12 @@ namespace HelloPico2.InteractableObjects
         public bool _UseMovingModule = false;
         public Vector3 _MoveDirection;
         public float _MoveSpeed;
+        
+        [Header("Rotating")]
+        public bool _UseRotatingModule = false;
+        [MinMaxSlider(0, 360, true)] public Vector2 _RotateXRange;
+        [MinMaxSlider(0, 360, true)] public Vector2 _RotateYRange;
+        [MinMaxSlider(0, 360, true)] public Vector2 _RotateZRange;
 
         [Header("Gizmos Settings")]
         public Color _DrawColor;
@@ -42,7 +46,9 @@ namespace HelloPico2.InteractableObjects
                 var pos = _SpawnPosition.position + _SpawnPosition.transform.right * i * _SpawnOffset;
                 var clone = SpawnObject(pos);
                 clone.transform.eulerAngles = _SpawnRotation;
+                //RotateObj(clone);
                 _Clonelist.Add(clone);
+                Destroy(clone, _LifeTime);
             }
 
             if (_UseTimedRefill)
@@ -58,6 +64,7 @@ namespace HelloPico2.InteractableObjects
                         var pos = _SpawnPosition.position + _SpawnPosition.transform.right * i * _SpawnOffset;
                         var clone = SpawnObject(pos);
                         clone.transform.eulerAngles = _SpawnRotation;
+                        //RotateObj(clone);
                         _Clonelist[i] = clone;
                     }
                 }
@@ -109,6 +116,13 @@ namespace HelloPico2.InteractableObjects
             if (_UseMovingModule) AddMovingModule(clone, interactable);
 
             return clone;
+        }
+        private void RotateObj(GameObject clone) {
+            if (_UseRotatingModule) clone.transform.localEulerAngles = new Vector3(
+                    Random.Range(_RotateXRange.x, _RotateXRange.y),
+                    Random.Range(_RotateYRange.x, _RotateYRange.y),
+                    Random.Range(_RotateZRange.x, _RotateZRange.y)
+                    );
         }
         private void AddMovingModule(GameObject clone, InteractableBase interactable) {
             var moveObject = clone.AddComponent<MoveObject>();

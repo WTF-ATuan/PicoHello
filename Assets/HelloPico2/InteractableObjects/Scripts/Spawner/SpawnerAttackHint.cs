@@ -1,5 +1,6 @@
 using System;
 using DG.Tweening;
+using HelloPico2.LevelTool;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -39,6 +40,9 @@ namespace HelloPico2.InteractableObjects
 
             if (clone.TryGetComponent<EnableEvent>(out var enableEvent))
                 enableEvent.m_DelayTime = _EnableDelayDuration;
+
+            if (obj.TryGetComponent<IDestroyChecker>(out var iDestroyChecker))            
+                iDestroyChecker.OnDestroy += (HitTargetObj) => { clone.SetActive(false); };            
 
             clone.SetActive(true);
         }

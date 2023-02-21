@@ -1,18 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IDestroyChecker : MonoBehaviour
+namespace HelloPico2.LevelTool
 {
-    // Start is called before the first frame update
-    void Start()
+    public interface IDestroyChecker
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public Action<GameObject> OnDestroy { get; set; }        
     }
 }
