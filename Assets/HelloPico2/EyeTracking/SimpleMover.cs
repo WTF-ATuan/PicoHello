@@ -10,6 +10,10 @@ namespace HelloPico2.EyeTracking{
 		[SerializeField] private AnimationCurve movingCurve = AnimationCurve.Linear(0, 0, 1, 1);
 		public bool useOffset;
 		[ShowIf("useOffset")] public Vector3 offset = Vector3.one;
+		public bool rotate = false;
+		[ShowIf("rotate")] public float wavyNess = 0.3f;
+		[ShowIf("rotate")] public float bufferDistance = 30f;
+		
 
 		public bool debug;
 		private Vector3 _previousTargetPoint;
@@ -21,6 +25,10 @@ namespace HelloPico2.EyeTracking{
 			if(useOffset) targetPosition += offset;
 			controlObject.DOMove(targetPosition, during)
 					.SetEase(movingCurve);
+			if(!rotate) return;
+			targetPosition.y -= wavyNess * targetPosition.y; 
+			var dir = targetPosition - controlObject.position;
+			controlObject.up = Vector3.Lerp(Vector3.up, dir, dir.magnitude / bufferDistance); 
 		}
 
 		private void CurveMovement(Vector3 targetPosition){
