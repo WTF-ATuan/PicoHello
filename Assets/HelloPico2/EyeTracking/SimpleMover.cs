@@ -16,9 +16,14 @@ namespace HelloPico2.EyeTracking{
 		private List<Vector3> _currentSlerpPoints;
 		private int _pointIndex = 0;
 
+
 		public void Move(Vector3 targetPosition){
 			if(useOffset) targetPosition += offset;
+			controlObject.DOMove(targetPosition, during)
+					.SetEase(movingCurve);
+		}
 
+		private void CurveMovement(Vector3 targetPosition){
 			var position = controlObject.position;
 			var center = (position + targetPosition) * 0.5f;
 			var distance = Vector3.Distance(position, targetPosition);
@@ -51,7 +56,6 @@ namespace HelloPico2.EyeTracking{
 
 			return closePoint;
 		}
-
 
 		private List<Vector3> EvaluateSlerpPoints(Vector3 start, Vector3 end, Vector3 center, int count = 10){
 			var startRelativeCenter = start - center;
