@@ -230,8 +230,12 @@ namespace HelloPico2.PlayerController.Arm
                 armLogic.OnSecondaryButtonClick += ShootChargedProjectile;
             }
 
-            armLogic.OnPrimaryButtonClickOnce += InvalidBombShoot;
-            armLogic.OnSecondaryButtonClickOnce += InvalidBombShoot;
+            armLogic.OnPrimaryButtonClickWhenNoAxisInput += PrimaryButtonUpdateShape;
+            armLogic.OnSecondaryButtonClickWhenNoAxisInput += SecondaryButtonUpdateShape;
+            armLogic.OnPrimarySecondaryButtonUpWhenNoAxisInput += PrimarySecondaryButtonUpUpdateShape;
+
+            //armLogic.OnPrimaryButtonClickOnce += InvalidBombShoot;
+            //armLogic.OnSecondaryButtonClickOnce += InvalidBombShoot;
 
             if (!_DisableWeapon)
             {
@@ -276,9 +280,13 @@ namespace HelloPico2.PlayerController.Arm
                 armLogic.OnPrimaryButtonClick -= ShootChargedProjectile;
                 armLogic.OnSecondaryButtonClick -= ShootChargedProjectile;
             }
+                        
+            armLogic.OnPrimaryButtonClickWhenNoAxisInput -= PrimaryButtonUpdateShape;
+            armLogic.OnSecondaryButtonClickWhenNoAxisInput -= SecondaryButtonUpdateShape;
+            armLogic.OnPrimarySecondaryButtonUpWhenNoAxisInput -= PrimarySecondaryButtonUpUpdateShape;
 
-            armLogic.OnPrimaryButtonClickOnce -= InvalidBombShoot;
-            armLogic.OnSecondaryButtonClickOnce -= InvalidBombShoot;
+            //armLogic.OnPrimaryButtonClickOnce -= InvalidBombShoot;
+            //armLogic.OnSecondaryButtonClickOnce -= InvalidBombShoot;
 
             if (!_DisableWeapon)
             {
@@ -303,11 +311,11 @@ namespace HelloPico2.PlayerController.Arm
 
             armLogic.OnDisableInput -= () => { SwitchCurrentWeapon(false); };
         }
-        private void SwitchCurrentWeapon(bool value){
+        private void SwitchCurrentWeapon(bool value) {
             currentShape.SetActive(value);
         }
         private void CheckEnableGrip(ArmData data) {
-            armLogic.data.Controller.selectUsage = (data.Energy < data.MaxEnergy)? InputHelpers.Button.Grip : InputHelpers.Button.None;
+            armLogic.data.Controller.selectUsage = (data.Energy < data.MaxEnergy) ? InputHelpers.Button.Grip : InputHelpers.Button.None;
         }
         private void ChargeEnergy(GainEnergyEventData eventData)
         {
@@ -353,7 +361,7 @@ namespace HelloPico2.PlayerController.Arm
                 FullEnergyFeedback.ForEach(x => x.ExitFullEnergyNotify(armLogic.data.HandType));
             }
         }
-             
+
         private void ChargeBomb(GainBombEventData eventData)
         {
             if (eventData.InputReceiver.Selector.HandType != armLogic.data.HandType) return;
@@ -376,15 +384,15 @@ namespace HelloPico2.PlayerController.Arm
             });
         }
         private Transform CheckTarget() {
-            Ray ray = new Ray();   
+            Ray ray = new Ray();
             ray.origin = currentEnergyBall.transform.position + (currentEnergyBall.transform.forward * _SpawnOffset);
             ray.direction = armLogic.data.Controller.transform.forward;
             if (_LockOnType == LockOnType.SphereCast)
             {
                 RaycastHit[] hitInfos = new RaycastHit[3];
 
-                if (Physics.SphereCastNonAlloc(ray, _CheckSphererRadius, hitInfos, _Distance, _LayerMask) > 0)                
-                    return hitInfos[0].transform;                
+                if (Physics.SphereCastNonAlloc(ray, _CheckSphererRadius, hitInfos, _Distance, _LayerMask) > 0)
+                    return hitInfos[0].transform;
             }
             if (_LockOnType == LockOnType.Cone)
             {
@@ -399,7 +407,7 @@ namespace HelloPico2.PlayerController.Arm
                 for (int i = 0; i < percision; i++)
                 {
                     var currentRadius = _CheckSphererRadius - radiusDecrement * i;
-                    var currentEndRadius = _CheckEndSphererRadius - endRradiusDecrement * i;                    
+                    var currentEndRadius = _CheckEndSphererRadius - endRradiusDecrement * i;
 
                     for (int j = 0; j < loops; j++)
                     {
@@ -421,7 +429,7 @@ namespace HelloPico2.PlayerController.Arm
                     return SortingHelper.FindAimingClosest(availableTarget.ToArray(), armLogic.data.Controller.transform);
             }
             return null;
-        }        
+        }
         private void GetCurrentDeviceInput(DeviceInputDetected obj) {
             currentDeviceInputDetected = obj;
         }
@@ -434,7 +442,7 @@ namespace HelloPico2.PlayerController.Arm
                     BombEmptySoundCD.Reset();
                     data.WhenNoBombShoot?.Invoke();
                 }
-                return; 
+                return;
             }
             if (BombShootCoolDownProcess != null) return;
             if (_HasTransformProcess) return;
@@ -451,8 +459,8 @@ namespace HelloPico2.PlayerController.Arm
         {
             data.Energy -= _FullEnergyBallCostEnergy;
 
-            armLogic.OnEnergyChanged?.Invoke(data); 
-            
+            armLogic.OnEnergyChanged?.Invoke(data);
+
             GenerateProjectile(true, _ChargedEnergyProjectile, _ChargeShootSpeed);
 
             // Feedbacks
@@ -501,11 +509,11 @@ namespace HelloPico2.PlayerController.Arm
 
             data.WhenShootProjectile?.Invoke(!ProjectileSoundDecider.CanInvoke());
 
-            ProjectileSoundDecider.Reset(); 
+            ProjectileSoundDecider.Reset();
         }
         private void StartRapidShoot(ArmData data)
         {
-            if(RapidShootCoolDownProcess.CanInvoke())
+            if (RapidShootCoolDownProcess.CanInvoke())
                 RapidShootCoolDownProcess.Reset();
         }
         private void StopRapidShoot(ArmData data)
@@ -535,7 +543,7 @@ namespace HelloPico2.PlayerController.Arm
             clone.transform.position = currentEnergyBall.transform.position + (currentEnergyBall.transform.forward * _SpawnOffset);
             clone.transform.forward = armLogic.data.Controller.transform.forward;
             if (overwriteScale) clone.transform.localScale *= scale;
-            
+
             if (homing) {
                 _TestTarget = null;
                 var target = CheckTarget();
@@ -543,7 +551,7 @@ namespace HelloPico2.PlayerController.Arm
                     _TestTarget = target;
                 }
             }
-            if(!OverWriteProjectileLifeTime)            
+            if (!OverWriteProjectileLifeTime)
                 clone.GetComponent<ProjectileController>().ProjectileSetUp(speed, _SpeedBufferDuration, _SpeedBufferEasingCurve, currentDeviceInputDetected, _TestTarget, homing);
             else
                 clone.GetComponent<ProjectileController>().ProjectileSetUp(speed, _SpeedBufferDuration, _SpeedBufferEasingCurve, currentDeviceInputDetected, _TestTarget, homing, ModifiedProjectileLifeTime);
@@ -573,14 +581,14 @@ namespace HelloPico2.PlayerController.Arm
                 if (!armLogic.CheckHasEnergy())
                     currentEnergyBall.SetActive(false);
 
-                if (currentEnergyBall.TryGetComponent<IGainEnergyFeedback>(out var gainEnergyFeedback)){
+                if (currentEnergyBall.TryGetComponent<IGainEnergyFeedback>(out var gainEnergyFeedback)) {
                     GainEnergyFeedback.Add(gainEnergyFeedback);
                 }
-                if (currentEnergyBall.TryGetComponent<IShootingFeedback>(out var shootingFeedback)) { 
-                    ShootingFeedback.Add(shootingFeedback);                
+                if (currentEnergyBall.TryGetComponent<IShootingFeedback>(out var shootingFeedback)) {
+                    ShootingFeedback.Add(shootingFeedback);
                 }
                 if (currentEnergyBall.TryGetComponent<IFullEnergyFeedback>(out var fullEnergyFeedback)) {
-                    FullEnergyFeedback.Add(fullEnergyFeedback);                
+                    FullEnergyFeedback.Add(fullEnergyFeedback);
                 }
             }
         }
@@ -621,17 +629,17 @@ namespace HelloPico2.PlayerController.Arm
                 }
             }
         }
-        
+
         private void UpdateScale(ArmData data) {
-            var targetScale = Vector3.one * Mathf.Lerp(_ScaleRange.x, _ScaleRange.y, data.Energy / data.MaxEnergy) ;
+            var targetScale = Vector3.one * Mathf.Lerp(_ScaleRange.x, _ScaleRange.y, data.Energy / data.MaxEnergy);
             if (data.Energy == 0) targetScale = Vector3.zero;
-            currentEnergyBall.transform.DOScale(targetScale, 1/_ScalingSpeed);
+            currentEnergyBall.transform.DOScale(targetScale, 1 / _ScalingSpeed);
             var ratio = (targetScale.x - _ScaleRange.x) / (_ScaleRange.y - _ScaleRange.x);
             currentEnergyBall.transform.DOLocalMove(
                 _DefaultOffset +
                 new Vector3(0, 0,
                 _OffsetRange.x + ((_OffsetRange.y - _OffsetRange.x) * ratio)),
-                1/_ScalingSpeed);
+                1 / _ScalingSpeed);
         }
         private void ConfirmShape(ArmData data) {
             isShapeConfirmed = true;
@@ -639,6 +647,9 @@ namespace HelloPico2.PlayerController.Arm
         private void ExitShapeControlling(ArmData data) {
             isShapeConfirmed = false;
         }
+        private void PrimarySecondaryButtonUpUpdateShape(ArmData data) => UpdateShape(new Vector2(0, 0)); 
+        private void PrimaryButtonUpdateShape(ArmData data) => UpdateShape(new Vector2(0, -1));         
+        private void SecondaryButtonUpdateShape(ArmData data) => UpdateShape(new Vector2(0, 1));         
         private void UpdateShape(Vector2 axis) {
             //if (isShapeConfirmed) return;
             
@@ -685,8 +696,7 @@ namespace HelloPico2.PlayerController.Arm
 
                 shieldBehavior.Activate(armLogic, armLogic.data, _Shield, fromScale);
                 currentWeaponBehavior = shieldBehavior;
-            }
-            
+            }            
         }
         private void ActivateWeapon(GameObject weapon) {            
             if (currentShape)
