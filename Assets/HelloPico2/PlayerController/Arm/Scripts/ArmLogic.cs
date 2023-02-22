@@ -63,6 +63,8 @@ namespace HelloPico2.PlayerController.Arm
 		public ValueAction OnSecondaryButtonClickOnce;
 		public AxisAction OnPrimaryAxisInput;
         public InputAction OnUpdateInput;
+        public Action OnEnableInput;
+        public Action OnDisableInput;
         #endregion
 
 		private void Start()
@@ -337,9 +339,11 @@ namespace HelloPico2.PlayerController.Arm
         {
             disableTimer.ModifyDuring(data.DisableInputCoolDownDuration);
             disableTimer.Reset();
+            OnEnableInput?.Invoke();
         }
         public void DisableInput() {
             disableTimer.Reset();
+            OnDisableInput?.Invoke();
         }
         public void SpentEnergy(float amount) {
             if (data.Energy - amount > 0)

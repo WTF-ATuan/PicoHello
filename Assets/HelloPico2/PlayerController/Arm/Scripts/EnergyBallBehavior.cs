@@ -17,19 +17,19 @@ namespace HelloPico2.PlayerController.Arm
     public class EnergyBallBehavior : WeaponBehavior
     {
         #region Variables
-        public enum GrabReleaseType { OnGripUp, OnGripTouchRelease}
+        public enum GrabReleaseType { OnGripUp, OnGripTouchRelease }
         [SerializeField] private GrabReleaseType _GrabReleaseType = GrabReleaseType.OnGripUp;
         [FoldoutGroup("Charging Energyball Position")][SerializeField] private Transform _Pivot;
         [FoldoutGroup("Charging Energyball Position")][SerializeField] private GameObject _ChargingEnergyBall;
         [FoldoutGroup("Charging Energyball Position")][SerializeField] private Vector2 _ScaleRange;
         [FoldoutGroup("Charging Energyball Position")][SerializeField] private float _ScalingSpeed;
 
-        public enum LockOnType { SphereCast, Cone}
+        public enum LockOnType { SphereCast, Cone }
         [FoldoutGroup("Lock On Target")][SerializeField] private LockOnType _LockOnType;
         [FoldoutGroup("Lock On Target")][Min(0)][SerializeField] private float _CheckSphererRadius;
         [FoldoutGroup("Lock On Target")][ShowIf("_LockOnType", LockOnType.Cone)][Min(0)][SerializeField] private float _CheckEndSphererRadius;
-        [FoldoutGroup("Lock On Target")][ShowIf("_LockOnType", LockOnType.Cone)][Range(10,30)][SerializeField] private float _AnglePercision = 10;
-        [FoldoutGroup("Lock On Target")][ShowIf("_LockOnType", LockOnType.Cone)][Range(1,10)][SerializeField] private float _RaycastPercision = 10;
+        [FoldoutGroup("Lock On Target")][ShowIf("_LockOnType", LockOnType.Cone)][Range(10, 30)][SerializeField] private float _AnglePercision = 10;
+        [FoldoutGroup("Lock On Target")][ShowIf("_LockOnType", LockOnType.Cone)][Range(1, 10)][SerializeField] private float _RaycastPercision = 10;
         [FoldoutGroup("Lock On Target")][SerializeField] private float _Distance;
         [FoldoutGroup("Lock On Target")][SerializeField] private LayerMask _LayerMask;
 
@@ -48,12 +48,12 @@ namespace HelloPico2.PlayerController.Arm
         [FoldoutGroup("Projectile")][SerializeField] private float _ShootingActionCDDurationAfterFullEnergyBall = 1;
         [FoldoutGroup("Projectile")][Tooltip("Projectile Initial Speed Buffer")][Min(0.05f)][SerializeField] private float _SpeedBufferDuration;
         [FoldoutGroup("Projectile")][SerializeField] private AnimationCurve _SpeedBufferEasingCurve;
-                
+
         [FoldoutGroup("Weapon Object")][SerializeField] private GameObject _Sword;
         [FoldoutGroup("Weapon Object")][SerializeField] private GameObject _Whip;
         [FoldoutGroup("Weapon Object")][SerializeField] private GameObject _Shield;
-        
-                
+
+
         [FoldoutGroup("Transition")][SerializeField] private float _TransitionDuration = .5f;
         [FoldoutGroup("Transition")][SerializeField] private Vector3 _SwordFromScale;
         [FoldoutGroup("Transition")][SerializeField] private Ease _TrasitionEaseCurve;
@@ -61,19 +61,19 @@ namespace HelloPico2.PlayerController.Arm
         [FoldoutGroup("Debug")] public bool _OnlyShootProjectileOnEnergyBallState = true;
         [FoldoutGroup("Debug")] public bool _DisableShooting = false;
         [FoldoutGroup("Debug")] public bool _DisableWeapon = false;
-        
+
         [FoldoutGroup("Transition")][ReadOnly][SerializeField] private bool _HasTransformProcess;
         private SwordBehavior _SwordBehavior;
         private ShieldBehavior _ShieldBehavior;
         private EnergyBallBehavior energyBehavior;
         private bool _Charged;
 
-        public SwordBehavior swordBehavior { get { 
-                if(_SwordBehavior == null)
+        public SwordBehavior swordBehavior { get {
+                if (_SwordBehavior == null)
                     _SwordBehavior = GetComponent<SwordBehavior>();
 
                 return _SwordBehavior;
-            } 
+            }
         }
         public ShieldBehavior shieldBehavior
         {
@@ -90,7 +90,7 @@ namespace HelloPico2.PlayerController.Arm
         public float CheckEndSphererRadius { get { return _CheckEndSphererRadius; } set { _CheckEndSphererRadius = value; } }
         public float SpeedBufferDuration { get { return _SpeedBufferDuration; } set { _SpeedBufferDuration = value; } }
         public float AnglePercision { get { return _AnglePercision; } set { _AnglePercision = value; } }
-        public float RaycastPercision { get { return _RaycastPercision; }set { _RaycastPercision = value; } }
+        public float RaycastPercision { get { return _RaycastPercision; } set { _RaycastPercision = value; } }
         public float Distance { get { return _Distance; } set { _Distance = value; } }
         public LayerMask LayerMask { get { return _LayerMask; } set { _LayerMask = value; } }
 
@@ -103,13 +103,13 @@ namespace HelloPico2.PlayerController.Arm
         public float ModifiedProjectileLifeTime { get; set; }
 
         private ArmLogic _ArmLogic;
-        ArmLogic armLogic { 
-            get { 
-                if (_ArmLogic == null) 
-                    _ArmLogic = GetComponent<ArmLogic>(); 
+        ArmLogic armLogic {
+            get {
+                if (_ArmLogic == null)
+                    _ArmLogic = GetComponent<ArmLogic>();
 
                 return _ArmLogic;
-            } 
+            }
         }
 
         private GameObject currentEnergyBall;
@@ -166,13 +166,13 @@ namespace HelloPico2.PlayerController.Arm
 
             if (energy != 0)
                 currentEnergyBall.SetActive(true);
-            else            
-                currentEnergyBall.transform.localScale = Vector3.zero;             
+            else
+                currentEnergyBall.transform.localScale = Vector3.zero;
         }
         public void SetShootCoolDown(float duration) {
             _ShootCoolDown = duration;
         }
-        public void SetShootSpeed(float speed) { 
+        public void SetShootSpeed(float speed) {
             _ShootSpeed = speed;
         }
         public void ChangeToEnergyball()
@@ -186,7 +186,7 @@ namespace HelloPico2.PlayerController.Arm
 
             var fromScale = (currentShape) ? currentShape.transform.localScale : Vector3.zero;
             if (!armLogic.CheckHasEnergy()) currentEnergyBall.transform.localScale = Vector3.zero;
-                
+
             ActivateWeapon(currentEnergyBall);
 
             energyBehavior.Activate(armLogic, armLogic.data, currentEnergyBall, fromScale);
@@ -254,6 +254,8 @@ namespace HelloPico2.PlayerController.Arm
 
             swordBehavior.ResetCallback += () => { ChangeToEnergyball(); };
 
+            armLogic.OnDisableInput += () => { SwitchCurrentWeapon(false); };
+
             currentShape = currentEnergyBall;
 
             GenerateChargingEnergyBall();
@@ -277,7 +279,7 @@ namespace HelloPico2.PlayerController.Arm
 
             armLogic.OnPrimaryButtonClickOnce -= InvalidBombShoot;
             armLogic.OnSecondaryButtonClickOnce -= InvalidBombShoot;
-            
+
             if (!_DisableWeapon)
             {
                 armLogic.OnPrimaryAxisInput -= UpdateShape;
@@ -298,6 +300,11 @@ namespace HelloPico2.PlayerController.Arm
             armLogic.OnTriggerUpOnce -= StopRapidShoot;
 
             swordBehavior.ResetCallback -= () => { ChangeToEnergyball(); };
+
+            armLogic.OnDisableInput -= () => { SwitchCurrentWeapon(false); };
+        }
+        private void SwitchCurrentWeapon(bool value){
+            currentShape.SetActive(value);
         }
         private void CheckEnableGrip(ArmData data) {
             armLogic.data.Controller.selectUsage = (data.Energy < data.MaxEnergy)? InputHelpers.Button.Grip : InputHelpers.Button.None;
