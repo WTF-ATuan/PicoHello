@@ -58,11 +58,16 @@ namespace HelloPico2.PlayerController.Arm
 		public ValueAction OnPrimaryAxisTouchUp;
 		public ValueAction OnPrimaryAxisClick;
 		public ValueAction OnPrimaryButtonClick;
+		public ValueAction OnPrimaryButtonClickWhenNoAxisInput;
 		public ValueAction OnPrimaryButtonClickOnce;
 		public ValueAction OnSecondaryButtonClick;
+		public ValueAction OnSecondaryButtonClickWhenNoAxisInput;
 		public ValueAction OnSecondaryButtonClickOnce;
+		public ValueAction OnPrimarySecondaryButtonUpWhenNoAxisInput;
 		public AxisAction OnPrimaryAxisInput;
         public InputAction OnUpdateInput;
+        public Action OnEnableInput;
+        public Action OnDisableInput;
         #endregion
 
 		private void Start()
@@ -279,7 +284,17 @@ namespace HelloPico2.PlayerController.Arm
                 if(secondaryButton) OnSecondaryButtonClickOnce?.Invoke(data);
             }
 
-            OnPrimaryAxisInput?.Invoke(padAxis);
+            if (!padAxisTouch && padAxis.magnitude < 0.1f)
+            {
+                if (primaryButton)                
+                    OnPrimaryButtonClickWhenNoAxisInput?.Invoke(data);                
+                if (secondaryButton)                
+                    OnSecondaryButtonClickWhenNoAxisInput?.Invoke(data);                
+                if(!primaryButton && !secondaryButton)
+                    OnPrimarySecondaryButtonUpWhenNoAxisInput?.Invoke(data);
+            }
+            else
+                OnPrimaryAxisInput?.Invoke(padAxis);
         }
         private void OnDeviceInputDetected(DeviceInputDetected obj)
         {
@@ -337,9 +352,11 @@ namespace HelloPico2.PlayerController.Arm
         {
             disableTimer.ModifyDuring(data.DisableInputCoolDownDuration);
             disableTimer.Reset();
+            OnEnableInput?.Invoke();
         }
         public void DisableInput() {
             disableTimer.Reset();
+            OnDisableInput?.Invoke();
         }
         public void SpentEnergy(float amount) {
             if (data.Energy - amount > 0)
