@@ -62,6 +62,9 @@ namespace HelloPico2.InteractableObjects{
                 }
 			}
 		}
+		public void DestroyEvent() { 
+            OnDestroy?.Invoke(gameObject);
+        }
 
 		private void BulletReact(Collider selfCollider){
 			WhenCollideWithEnergyBall?.Invoke();
