@@ -18,6 +18,7 @@ namespace HelloPico2.PlayerController.BeamCharge
         public delegate void PickableEnergyDel(PickableEnergy energy, InteractCollider handCol);
         public PickableEnergyDel OnPlayerGetEnergy;        
         [ReadOnly][SerializeField] private State _CurrentState = State.ReadyToBePick;
+        private bool _AutoGrab = false;
 
         private void Awake()
         {
@@ -31,7 +32,8 @@ namespace HelloPico2.PlayerController.BeamCharge
 
         public override void OnTriggerEnter(Collider other)
         {
-            if(_CurrentState != State.ReadyToBePick) return;
+            //if (_AutoGrab) return;
+            if (_CurrentState != State.ReadyToBePick) return;
 
             base.OnTriggerEnter(other);
 
@@ -41,7 +43,11 @@ namespace HelloPico2.PlayerController.BeamCharge
         public void DisableEnergyFollower() { 
             _FollowMainCam.enabled = false;
         }
-        private void FollowingHand(InteractCollider interactCollider) {
+        public void UseAutoGrab() {
+            _AutoGrab = true;
+        }
+        public void FollowingHand(InteractCollider interactCollider) {
+            //print(transform.name + " " + _HandType + " " + interactCollider.name + " " + interactCollider._HandType);
             if (interactCollider._HandType != _HandType) return;
             _Energy.DOLocalMoveZ(_EnergyZOffset, _EnergyMovingDuration).SetEase(Ease.InOutCubic);
             _Follower.Target = interactCollider.transform;

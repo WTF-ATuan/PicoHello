@@ -30,7 +30,7 @@ namespace HelloPico2.PlayerController.BeamCharge
         [ReadOnly][SerializeField] private string _PlayerTag = "Player";
         [ReadOnly][SerializeField] private Transform _BossCenter;
         //[ReadOnly]
-        [SerializeField] private GameObject[] _PlayersHands;
+        [SerializeField] private InteractCollider[] _PlayersHands;
         public PickableEnergy[] _PickableEnergys;
         public GameObject[] _PickableEnergyObjects;
         public LineRendererDrawer _LineRendererDrawer;
@@ -137,12 +137,8 @@ namespace HelloPico2.PlayerController.BeamCharge
         }
         private void Awake()
         {
-            if (!_ForceShoot)
-            {
-                _PlayersHands = GameObject.FindGameObjectsWithTag(_PlayersHandTag);
-                DebugText("_PlayersHands " + _PlayersHands.Length.ToString());
-            }
-            if (GameObject.FindGameObjectWithTag(_PlayerTag).TryGetComponent<PlayerData>(out var playerData)) _PlayerData = playerData;
+            if (!_ForceShoot) GetInteractColliderRef();
+
             _LineRendererDrawer.gameObject.SetActive(false);
             originalEnergyballScale = _PickableEnergys[0]._Energy.transform.localScale;
             beamControllerOriginalScale = _BeamChargeController.transform.localScale;
@@ -150,6 +146,28 @@ namespace HelloPico2.PlayerController.BeamCharge
                 energyObjectsOriginalPos.Add(energy.transform.position);
 
             GetVibratorRef();
+        }        
+        private void Start()
+        {
+            var playerData = GameObject.FindObjectOfType<PlayerData>();
+            if (playerData != null) _PlayerData = playerData;
+        }
+        private void GetInteractColliderRef() {
+            var hands = GameObject.FindObjectsOfType<InteractCollider>();
+
+            if (hands.Length > 2) Debug.Log("interact collider has " + hands.Length);
+
+            List<InteractCollider> interactColList = new List<InteractCollider>(hands);
+
+            for (int i = 0; i < hands.Length; i++)
+            {
+                if (hands[i]._HandType == HandType.Left) interactColList[0] = hands[i];
+                else interactColList[1] = hands[i];
+            }
+
+            _PlayersHands = interactColList.ToArray();
+
+            DebugText("_PlayersHands " + _PlayersHands.Length.ToString());
         }
         private void GetVibratorRef() {
             ControllerVibrator vibrator = null;
@@ -240,7 +258,10 @@ namespace HelloPico2.PlayerController.BeamCharge
             seq.AppendInterval(_AutoGrabDelayDuration);
             TweenCallback autograbCallback = () => {
                 AutoGrabEnergy();
-                _PickableEnergys.ForEach((x) => x.DisableEnergyFollower());
+                _PickableEnergys.ForEach((x) => { 
+                    x.DisableEnergyFollower(); 
+                    //x.UseAutoGrab(); 
+                });
             };
             seq.AppendCallback(autograbCallback);
             seq.Play();
@@ -268,7 +289,8 @@ namespace HelloPico2.PlayerController.BeamCharge
                     print("Check Store Energy");
                     DebugText("Check Store Energy");
                     if (targetHand.TryGetComponent<InteractCollider>(out var handCol))
-                    { 
+                    {
+                        //energy.FollowingHand(handCol);
                         StoreEnergyOnHand(energy, handCol);
                     }
                 };

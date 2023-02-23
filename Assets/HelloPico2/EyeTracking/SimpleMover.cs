@@ -13,22 +13,43 @@ namespace HelloPico2.EyeTracking{
 		public bool rotate = false;
 		[ShowIf("rotate")] public float wavyNess = 0.3f;
 		[ShowIf("rotate")] public float bufferDistance = 30f;
-		
+
 
 		public bool debug;
 		private Vector3 _previousTargetPoint;
 		private List<Vector3> _currentSlerpPoints;
-		private int _pointIndex = 0;
-
+		private Vector3 _previousPoint;
 
 		public void Move(Vector3 targetPosition){
 			if(useOffset) targetPosition += offset;
+			var magnitude = (_previousPoint - targetPosition).magnitude;
+			if(magnitude > 1f){
+				DistanceMovement(targetPosition);
+			}
+			else{
+				SmoothMovement(targetPosition);
+			}
+		}
+
+		private void SmoothMovement(Vector3 targetPosition){
+			controlObject.DOMove(targetPosition, during)
+					.SetEase(movingCurve);
+			_previousPoint = targetPosition;
+			if(!rotate) return;
+			targetPosition.y -= wavyNess * targetPosition.y;
+			var dir = targetPosition - controlObject.position;
+			controlObject.up = Vector3.Lerp(Vector3.up, dir, dir.magnitude / bufferDistance);
+		}
+
+		private void DistanceMovement(Vector3 targetPosition){
+			var magnitude = (_previousPoint - targetPosition).magnitude;
+			targetPosition = Vector3.Lerp(_previousPoint, targetPosition, Time.fixedDeltaTime * magnitude);
 			controlObject.DOMove(targetPosition, during)
 					.SetEase(movingCurve);
 			if(!rotate) return;
-			targetPosition.y -= wavyNess * targetPosition.y; 
+			targetPosition.y -= wavyNess * targetPosition.y;
 			var dir = targetPosition - controlObject.position;
-			controlObject.up = Vector3.Lerp(Vector3.up, dir, dir.magnitude / bufferDistance); 
+			controlObject.up = Vector3.Lerp(Vector3.up, dir, dir.magnitude / (bufferDistance * magnitude));
 		}
 
 		private void CurveMovement(Vector3 targetPosition){

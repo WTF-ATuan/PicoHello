@@ -261,7 +261,7 @@ Transform:
   m_LocalScale: {x: 15, y: 7, z: 0.3}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &89722520 stripped
 Transform:
@@ -781,7 +781,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 6d113e8ab848fab49afd6305a4be5bee, type: 2}
     - target: {fileID: -4216859302048453862, guid: dd7b1e52d5a4eed4ab9233a4e355eaff, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: dd7b1e52d5a4eed4ab9233a4e355eaff, type: 3}
       propertyPath: m_LocalScale.x
@@ -1404,6 +1404,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6914729736658964744, guid: dd7b1e52d5a4eed4ab9233a4e355eaff, type: 3}
   m_PrefabInstance: {fileID: 6374197379561443233}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &866361794 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2242233576389767988, guid: 58bb8d89ac3261f43b6b347ee96a4c81, type: 3}
+  m_PrefabInstance: {fileID: 1497879850}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f1add5be2449f2a233fe459f9da2cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &940634834
 GameObject:
   m_ObjectHideFlags: 0
@@ -2908,6 +2919,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2242233576569064897, guid: 58bb8d89ac3261f43b6b347ee96a4c81, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2242233576569064897, guid: 58bb8d89ac3261f43b6b347ee96a4c81, type: 3}
       propertyPath: signObject
       value: 
       objectReference: {fileID: 1969009212}
@@ -3013,7 +3028,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2242233576746443944, guid: 58bb8d89ac3261f43b6b347ee96a4c81, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2242233576746443944, guid: 58bb8d89ac3261f43b6b347ee96a4c81, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3148,69 +3163,40 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2242233576746443951, guid: 58bb8d89ac3261f43b6b347ee96a4c81, type: 3}
   m_PrefabInstance: {fileID: 1497879850}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1586961829
+--- !u!1 &1516163503 stripped
 GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 2242233576569064903, guid: 58bb8d89ac3261f43b6b347ee96a4c81, type: 3}
+  m_PrefabInstance: {fileID: 1497879850}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1586961831}
-  - component: {fileID: 1586961830}
-  m_Layer: 0
-  m_Name: EyeTracker (Main Component)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1586961830
+--- !u!114 &1516163505
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1586961829}
+  m_GameObject: {fileID: 1516163503}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a147fe5722a54cd4a23e0b9bdc775583, type: 3}
+  m_Script: {fileID: 11500000, guid: 2fafd5f07ae2452985a443b59a839a3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentType: 0
-  rayCastMaxDistance: 100
-  laserMaxDistance: 10
-  signObject: {fileID: 1969009212}
-  detectedLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  eyeHitEvent:
-    _PersistentCalls:
-    - _Target: {fileID: 28000752}
-      _MethodName: Move
-      _PersistentArguments:
-      - _Type: 14
-        _Int: 0
-        _String: 
-        _X: 7
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
---- !u!4 &1586961831
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1586961829}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  invokeTarget:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 866361794}
+        m_TargetAssemblyTypeName: HelloPico2.EyeTracking.SimpleMover, Assembly-CSharp
+        m_MethodName: Move
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  pointBetween: 30
+  during: 0.3
 --- !u!1 &1611391574
 GameObject:
   m_ObjectHideFlags: 0
@@ -3243,7 +3229,7 @@ Transform:
   - {fileID: 1701471294}
   - {fileID: 1790777152}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1665950252 stripped
 Transform:
@@ -3373,7 +3359,7 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
-    - _Target: {fileID: 1586961829}
+    - _Target: {fileID: 0}
       _MethodName: SetActive
       _PersistentArguments:
       - _Type: 1
@@ -3521,7 +3507,7 @@ Transform:
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2017003735 stripped
 Transform:
@@ -9307,7 +9293,7 @@ Transform:
   m_Children:
   - {fileID: 6374197379616625409}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6374197379466069543
 GameObject:
