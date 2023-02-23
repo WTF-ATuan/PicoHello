@@ -226,8 +226,8 @@ namespace HelloPico2.PlayerController.Arm
 
             if (!_DisableShooting)
             {
-                armLogic.OnPrimaryButtonClick += ShootChargedProjectile;
-                armLogic.OnSecondaryButtonClick += ShootChargedProjectile;
+                //armLogic.OnPrimaryButtonClick += ShootChargedProjectile;
+                //armLogic.OnSecondaryButtonClick += ShootChargedProjectile;
             }
 
             armLogic.OnPrimaryButtonClickWhenNoAxisInput += PrimaryButtonUpdateShape;
@@ -277,8 +277,8 @@ namespace HelloPico2.PlayerController.Arm
 
             if (!_DisableShooting)
             {
-                armLogic.OnPrimaryButtonClick -= ShootChargedProjectile;
-                armLogic.OnSecondaryButtonClick -= ShootChargedProjectile;
+                //armLogic.OnPrimaryButtonClick -= ShootChargedProjectile;
+                //armLogic.OnSecondaryButtonClick -= ShootChargedProjectile;
             }
                         
             armLogic.OnPrimaryButtonClickWhenNoAxisInput -= PrimaryButtonUpdateShape;

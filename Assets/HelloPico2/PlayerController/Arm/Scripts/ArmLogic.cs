@@ -286,10 +286,11 @@ namespace HelloPico2.PlayerController.Arm
 
             if (!padAxisTouch && padAxis.magnitude < 0.1f)
             {
-                if (primaryButton)                
-                    OnPrimaryButtonClickWhenNoAxisInput?.Invoke(data);                
                 if (secondaryButton)                
-                    OnSecondaryButtonClickWhenNoAxisInput?.Invoke(data);                
+                    OnSecondaryButtonClickWhenNoAxisInput?.Invoke(data);
+                else if (primaryButton)                
+                    OnPrimaryButtonClickWhenNoAxisInput?.Invoke(data);                
+
                 if(!primaryButton && !secondaryButton)
                     OnPrimarySecondaryButtonUpWhenNoAxisInput?.Invoke(data);
             }
