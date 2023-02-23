@@ -49,7 +49,6 @@ namespace HelloPico2.InteractableObjects{
 				}
 				else{
 					BulletReact(selfCollider);
-                    OnDestroy?.Invoke(gameObject);
                 }
 			}
 			else{
@@ -60,7 +59,6 @@ namespace HelloPico2.InteractableObjects{
                 }
 				else{
 					BulletReact(selfCollider);
-                    OnDestroy?.Invoke(gameObject);
                 }
 			}
 		}
