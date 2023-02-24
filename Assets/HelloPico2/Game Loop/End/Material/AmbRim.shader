@@ -13,6 +13,11 @@ Shader "Unlit/AmbRim"
         _LightSmoothMin("Rim Light Edge min",Range(0,1)) = 0.8
 
         _LightDir("Light Dir",Vector) = (-1.5,1.5,-2,0)
+
+        _BackLightDir("BackLight Dir",Vector) = (-1.5,1.5,-2,0)
+
+       // _BackLightLerp("BackLightLerp",Range(0,1)) = 0
+
     }
     SubShader
     {
@@ -60,7 +65,10 @@ Shader "Unlit/AmbRim"
             fixed _LightSmoothMin;
             
 			fixed3 _LightDir;
+			fixed3 _BackLightDir;
             
+		    uniform half _BackLightLerp;
+
 			fixed _Rim1;
 			fixed _Rim;
 
@@ -80,7 +88,18 @@ Shader "Unlit/AmbRim"
                 fixed Dir = saturate(dot(worldNormal,_LightDir));
 
 
-                return col+rim*Dir*_Rim*_RimColor*saturate(1-worldPos.y/50)+_Rim1*rim + saturate(1-worldPos.y/10)*_RimColor*_Rim;
+
+                fixed4 Finalcol = col+rim*Dir*_Rim*_RimColor*saturate(1-worldPos.y/50)+_Rim1*rim + saturate(1-worldPos.y/10)*_RimColor*_Rim;
+
+                
+                fixed Dir2 = saturate(dot(worldNormal,_BackLightDir));
+
+                
+                fixed4 BackLightcol = lerp( 0 , 1 , step(Dir2,0.5) );
+
+                Finalcol = lerp(Finalcol,BackLightcol,_BackLightLerp);
+
+                return Finalcol;
             }
             ENDCG
         }

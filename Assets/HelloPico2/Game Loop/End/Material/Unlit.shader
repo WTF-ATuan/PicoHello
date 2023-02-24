@@ -7,7 +7,7 @@ Shader "Unlit/Unlit"
     SubShader
     {
         Tags { "RenderType"="Opaque" }
-
+        ZWrite Off
         Pass
         {
             CGPROGRAM
