@@ -24,6 +24,11 @@ Shader "GGDog/Guide_Toon"
         
         _LightDir("Light Dir",Vector) = (-1.5,1.5,-2,0)
         _ShadowDir("Shadow Dir",Vector) = (-2,2,-1,0)
+        
+        
+        _MainColor2("Main Color2",Color) = (1,0.69,0.439,1)
+        _ShadowColor2("Shadow Color2",Color) = (1,0.176,0.192,1)
+        _hitColorChange("hit Color Change",Range(0,1)) = 0
 
     }
     SubShader
@@ -101,6 +106,10 @@ Shader "GGDog/Guide_Toon"
             
 			half _GradientUVAdd;
             
+			half4 _MainColor2;
+			half4 _ShadowColor2;
+			half _hitColorChange;
+            
             half4 frag (v2f i) : SV_Target
             {
 			
@@ -132,6 +141,9 @@ Shader "GGDog/Guide_Toon"
 				N_VS_Dot_L += smoothstep(-3.0,1.0,dot(i.normal_VS.xyz,_LightDir))*_BloomFade*0.75;
                 
                 //_ShadowColor = lerp(_FadeColor1,_ShadowColor,0.5);
+
+                _MainColor = lerp(_MainColor,_MainColor2,_hitColorChange);
+                _ShadowColor = lerp(_ShadowColor,_ShadowColor2,_hitColorChange);
 
 				FinalColor = lerp(FinalColor*_MainColor*1.25,FinalColor*1.5+i.uv.z*_FadeColor2,N_VS_Dot_L/2)  ;
 
