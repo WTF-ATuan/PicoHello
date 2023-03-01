@@ -1,8 +1,10 @@
 using System;
+using Sirenix.OdinInspector;
 using System.Collections;
 using Project;
 using UltEvents;
 using UnityEngine;
+using Sirenix.Utilities;
 
 namespace HelloPico2.InteractableObjects
 {    
@@ -19,8 +21,17 @@ namespace HelloPico2.InteractableObjects
         public UltEvent WhenCollideWithEnergyBall;
         public UltEvent WhenCollideWithWhip;
         public UltEvent WhenCollideWithBeam;
+        [FoldoutGroup("Evil Spirit Settings")][SerializeField] private RandomGuideScript _RandomGuideScript;
+        [FoldoutGroup("Evil Spirit Settings")][SerializeField] private int _EvilSpiritSummonCounter = 3;
+        [FoldoutGroup("Evil Spirit Settings")][SerializeField] private GameObject _EvilSpirit;
+        [FoldoutGroup("Evil Spirit Settings")][SerializeField] private float _CounterResetTime = 99;
+        [FoldoutGroup("Evil Spirit Settings")][SerializeField] private string _SummonEvilTimelineName = "";
+        [FoldoutGroup("Evil Spirit Settings")][SerializeField] private string _SummonEvilEffectID = "";
+        [FoldoutGroup("Evil Spirit Settings")][SerializeField] private string _SummonEvilSoundID = "";
 
         private int currentLifePoint;// { get; set; }
+        private bool EvilSummoned;// { get; set; }
+        [SerializeField]private int currentEvilCounter;// { get; set; }
         private SpiritTimeline _SpiritTimeline;
         private SpiritTimeline spiritTimeline { 
             get { 
@@ -71,6 +82,13 @@ namespace HelloPico2.InteractableObjects
             GeneralReaction(_BeamReactHitEffectID, _BulletReactTimelineName);
         }
         private void GeneralReaction(string VFX_ID, string timelineName) {
+            if (!EvilSummoned) { 
+                if (UpdateEvilCounter()) {
+                    VFX_ID = _SummonEvilEffectID;
+                    timelineName = _SummonEvilTimelineName;
+                } 
+            }
+
             EventBus.Post<VFXEventRequested, ParticleSystem>(new VFXEventRequested(
                     VFX_ID,
                     false,
@@ -82,7 +100,8 @@ namespace HelloPico2.InteractableObjects
             if (process != null)
                 StopCoroutine(process);
 
-            UpdateLifePoint(-1);
+            UpdateLifePoint(-1);            
+
             if (currentLifePoint > 0) { process = StartCoroutine(ColliderControl(0)); return; }
             else currentLifePoint = _LifePoint;
 
@@ -94,7 +113,31 @@ namespace HelloPico2.InteractableObjects
         }
         private void UpdateLifePoint(int point) { 
             currentLifePoint += point;
-            currentLifePoint = Mathf.Clamp(currentLifePoint, 0, _LifePoint); 
+            currentLifePoint = Mathf.Clamp(currentLifePoint, 0, _LifePoint);
+        }
+        [Button]
+        private bool UpdateEvilCounter()
+        {
+            if (EvilSummoned) return false;
+            
+            currentEvilCounter++;
+            currentEvilCounter = Mathf.Clamp(currentEvilCounter, 0, _EvilSpiritSummonCounter);
+
+            if (currentEvilCounter < _EvilSpiritSummonCounter)            
+                return false;            
+            else
+            {
+                SummonEvil();
+                return true;
+            }
+        }
+        private void SummonEvil() {
+            print("Summon"); 
+            EvilSummoned = true;
+            _RandomGuideScript.GuideList.ForEach((x) => x.SetActive(false));
+            _EvilSpirit.SetActive(true);
+
+            EventBus.Post(new AudioEventRequested(_SummonEvilSoundID, transform.position));
         }
         private IEnumerator ColliderControl(float playableDuration) {
             col.enabled = false;
