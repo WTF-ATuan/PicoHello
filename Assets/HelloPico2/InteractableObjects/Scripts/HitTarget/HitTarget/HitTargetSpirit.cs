@@ -156,9 +156,6 @@ namespace HelloPico2.InteractableObjects
             EvilSummoned = true;
 
             GlowEvilSpiritSeq();
-
-
-            EventBus.Post(new AudioEventRequested(_SummonEvilSoundID, transform.position));
         }
         private void GlowEvilSpiritSeq() {
             Sequence seq = DOTween.Sequence();
@@ -174,6 +171,8 @@ namespace HelloPico2.InteractableObjects
                         false,
                         _DestroyDelayDuration,
                         transform.position));
+
+                EventBus.Post(new AudioEventRequested(_SummonEvilSoundID, transform.position));
 
                 _EvilSpirit.SetActive(true);
                 _TeasingColorControl.m_ControlValueName = "_GradientUVAdd";
