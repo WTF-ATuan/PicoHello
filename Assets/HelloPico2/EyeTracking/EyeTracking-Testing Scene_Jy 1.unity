@@ -181,12 +181,37 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  maxTargetDistance: 10
   useOffset: 0
   offset: {x: 1, y: 1, z: 1}
   rotate: 0
   wavyNess: 0.3
   bufferDistance: 0
-  debug: 0
+  targeting: 0
+  targetingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!65 &28000753
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2827,6 +2852,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2242233576389767988, guid: 58bb8d89ac3261f43b6b347ee96a4c81, type: 3}
+      propertyPath: targetingCurve.m_Curve.Array.data[1].time
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2242233576389767988, guid: 58bb8d89ac3261f43b6b347ee96a4c81, type: 3}
       propertyPath: movingCurve.m_Curve.Array.data[0].outSlope
       value: 2
       objectReference: {fileID: 0}
@@ -2843,12 +2872,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2242233576389767988, guid: 58bb8d89ac3261f43b6b347ee96a4c81, type: 3}
+      propertyPath: targetingCurve.m_Curve.Array.data[1].inSlope
+      value: 0.43052357
+      objectReference: {fileID: 0}
+    - target: {fileID: 2242233576389767988, guid: 58bb8d89ac3261f43b6b347ee96a4c81, type: 3}
       propertyPath: movingCurve.m_Curve.Array.data[0].tangentMode
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2242233576389767988, guid: 58bb8d89ac3261f43b6b347ee96a4c81, type: 3}
       propertyPath: movingCurve.m_Curve.Array.data[1].tangentMode
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2242233576389767988, guid: 58bb8d89ac3261f43b6b347ee96a4c81, type: 3}
+      propertyPath: targetingCurve.m_Curve.Array.data[1].inWeight
+      value: 0.069525525
+      objectReference: {fileID: 0}
+    - target: {fileID: 2242233576389767988, guid: 58bb8d89ac3261f43b6b347ee96a4c81, type: 3}
+      propertyPath: targetingCurve.m_Curve.Array.data[1].outSlope
+      value: 0.43052357
       objectReference: {fileID: 0}
     - target: {fileID: 2242233576443622730, guid: 58bb8d89ac3261f43b6b347ee96a4c81, type: 3}
       propertyPath: m_Layer
@@ -2920,7 +2961,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2242233576569064897, guid: 58bb8d89ac3261f43b6b347ee96a4c81, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2242233576569064897, guid: 58bb8d89ac3261f43b6b347ee96a4c81, type: 3}
       propertyPath: signObject
@@ -3175,7 +3216,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1516163503}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2fafd5f07ae2452985a443b59a839a3d, type: 3}
   m_Name: 
