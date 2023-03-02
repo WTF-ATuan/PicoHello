@@ -90,7 +90,7 @@ Shader "Unlit/AmbRim"
 
 
                 fixed4 Finalcol = col+rim*Dir*_Rim*_RimColor*saturate(1-worldPos.y/50)+_Rim1*rim + saturate(1-worldPos.y/10)*_RimColor*_Rim;
-
+                
                 
                 fixed Dir2 = saturate(dot(worldNormal,_BackLightDir));
 
