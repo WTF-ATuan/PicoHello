@@ -25,6 +25,8 @@ Shader "GGDog/Only_Mask"
 		[Enum(UnityEngine.Rendering.BlendMode)] _SourceBlend ("Source Blend Mode", Float) = 1
 		[Enum(UnityEngine.Rendering.BlendMode)] _DestBlend ("Dest Blend Mode", Float) = 0
 		[Enum(Off,0,On,2)] _Cull ("Cull Mode", Float) = 0
+
+        _BackLightDir("BackLight Dir",Vector) = (2,2,2,0)
 	}
 	SubShader
 	{
@@ -65,7 +67,10 @@ Shader "GGDog/Only_Mask"
             sampler2D _MainTex;
             half4 _MainTex_ST;
 			half3 _LightDir;
+			half3 _BackLightDir;
 			
+		    uniform half _BackLightLerp;
+
             half2 Rotate_UV(half2 uv , half sin , half cos)
             {
                 return float2(uv.x*cos - uv.y*sin ,uv.x*sin + uv.y*cos);
@@ -149,8 +154,15 @@ Shader "GGDog/Only_Mask"
 
 				
                 col.rgb += smoothstep(-0.05,0.75,WaterTex(i.worldPos.xy,_ReflectTilling,1.25) )*_Reflect*_ReflectColor ;
+				
 
-				return saturate(col);
+                fixed Dir2 = saturate(dot(i.normal_VS.xyz,_BackLightDir));
+
+                fixed4 BackLightcol = lerp( 0 , 1 , step(Dir2,0.5) );
+
+                col = lerp(saturate(col),BackLightcol,_BackLightLerp);
+
+				return col;
 				
 			}
 			ENDCG

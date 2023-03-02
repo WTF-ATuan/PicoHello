@@ -8,6 +8,7 @@ namespace HelloPico2.EyeTracking{
 		[SerializeField] private Transform controlObject;
 		[SerializeField] private float during;
 		[SerializeField] private AnimationCurve movingCurve = AnimationCurve.Linear(0, 0, 1, 1);
+		[SerializeField] private float maxTargetDistance = 10;
 		public bool useOffset;
 		[ShowIf("useOffset")] public Vector3 offset = Vector3.one;
 		public bool rotate = false;
@@ -18,38 +19,20 @@ namespace HelloPico2.EyeTracking{
 		public bool debug;
 		private Vector3 _previousTargetPoint;
 		private List<Vector3> _currentSlerpPoints;
-		private Vector3 _previousPoint;
 
 		public void Move(Vector3 targetPosition){
 			if(useOffset) targetPosition += offset;
-			var magnitude = (_previousPoint - targetPosition).magnitude;
-			if(magnitude > 1f){
-				DistanceMovement(targetPosition);
-			}
-			else{
-				SmoothMovement(targetPosition);
-			}
+			SmoothMovement(targetPosition);
 		}
 
 		private void SmoothMovement(Vector3 targetPosition){
+			targetPosition = Vector3.ClampMagnitude(targetPosition, maxTargetDistance);
 			controlObject.DOMove(targetPosition, during)
 					.SetEase(movingCurve);
-			_previousPoint = targetPosition;
 			if(!rotate) return;
 			targetPosition.y -= wavyNess * targetPosition.y;
 			var dir = targetPosition - controlObject.position;
 			controlObject.up = Vector3.Lerp(Vector3.up, dir, dir.magnitude / bufferDistance);
-		}
-
-		private void DistanceMovement(Vector3 targetPosition){
-			var magnitude = (_previousPoint - targetPosition).magnitude;
-			targetPosition = Vector3.Lerp(_previousPoint, targetPosition, Time.fixedDeltaTime * magnitude);
-			controlObject.DOMove(targetPosition, during)
-					.SetEase(movingCurve);
-			if(!rotate) return;
-			targetPosition.y -= wavyNess * targetPosition.y;
-			var dir = targetPosition - controlObject.position;
-			controlObject.up = Vector3.Lerp(Vector3.up, dir, dir.magnitude / (bufferDistance * magnitude));
 		}
 
 		private void CurveMovement(Vector3 targetPosition){
