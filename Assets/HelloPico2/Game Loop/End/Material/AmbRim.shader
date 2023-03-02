@@ -43,7 +43,7 @@ Shader "Unlit/AmbRim"
             {
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
-		        float3 worldNormal : TEXCOORD1;
+		        float4 worldNormal : TEXCOORD1;
 		        float3 worldPos : TEXCOORD2;
             };
 
@@ -55,9 +55,10 @@ Shader "Unlit/AmbRim"
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-		        o.worldNormal = mul(v.normal, unity_WorldToObject);
+		        o.worldNormal.xyz= mul(v.normal, unity_WorldToObject);
 		        o.worldPos = mul(unity_ObjectToWorld , v.vertex);
-
+                
+		        o.worldNormal.w = length(mul(UNITY_MATRIX_MV,v.vertex).xyz);
                 return o;
             }
             
@@ -80,19 +81,21 @@ Shader "Unlit/AmbRim"
                 fixed4 col = tex2D(_MainTex, i.uv);
                 
 		        fixed3 worldPos = (i.worldPos);
-		        float3 worldNormal = normalize(i.worldNormal);
+		        float3 worldNormal = normalize(i.worldNormal.xyz);
 		        fixed3 worldViewDir = normalize(_WorldSpaceCameraPos.xyz - worldPos);
                 
-		        fixed rim = smoothstep(_LightSmoothMin,_LightSmoothMax,1-dot(worldNormal,worldViewDir)) ;
+		        fixed rim = smoothstep(_LightSmoothMin,_LightSmoothMax,1-dot(worldNormal.xyz,worldViewDir)) ;
 
-                fixed Dir = saturate(dot(worldNormal,_LightDir));
+                fixed Dir = saturate(dot(worldNormal.xyz,_LightDir));
 
+
+                rim *= 1-smoothstep(0.25,0.75,saturate(i.worldNormal.w/100));
 
 
                 fixed4 Finalcol = col+rim*Dir*_Rim*_RimColor*saturate(1-worldPos.y/50)+_Rim1*rim + saturate(1-worldPos.y/10)*_RimColor*_Rim;
                 
                 
-                fixed Dir2 = saturate(dot(worldNormal,_BackLightDir));
+                fixed Dir2 = saturate(dot(worldNormal.xyz,_BackLightDir));
 
                 
                 fixed4 BackLightcol = lerp( 0 , 1 , step(Dir2,0.5) );
