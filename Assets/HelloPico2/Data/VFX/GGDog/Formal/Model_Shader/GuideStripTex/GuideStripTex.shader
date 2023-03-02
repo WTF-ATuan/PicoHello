@@ -28,6 +28,7 @@ Shader "Unlit/NewUnlitShader"
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
+                float4 color : COLOR;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -35,6 +36,7 @@ Shader "Unlit/NewUnlitShader"
             {
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
+                float4 color : COLOR;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -50,7 +52,7 @@ Shader "Unlit/NewUnlitShader"
 				
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-
+                o.color = v.color;
                 return o;
             }
             float4 _Color;
@@ -66,6 +68,8 @@ Shader "Unlit/NewUnlitShader"
                 float glow = tex2D(_GlowTex, i.uv+_Time.y*_UVSpeed*float2(0,-1)).r;
 
                 col = lerp(_Color.a*_Color*float4(1,1,1,glow)+col,col,col.a);
+
+                col.a *= i.color.a;
 
                 return col;
             }
