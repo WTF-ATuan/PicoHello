@@ -24,6 +24,10 @@ Shader "GGDog/Uber_ToonShader_GPU_Instance"
 		[Enum(UnityEngine.Rendering.BlendMode)] _DestBlend ("Dest Blend Mode", Float) = 0
 		[Enum(Off,0,On,2)] _Cull ("Cull Mode", Float) = 0
         [Enum(Order,4,AlwaysOnTop,8)] _ZTest("ZTest", Float) = 4
+		
+
+        _BackLightDir("BackLight Dir",Vector) = (2,2,2,0)
+        //_BackLightLerp("BackLightLerp",Range(0,1)) = 0
 	}
 
 	SubShader
@@ -65,7 +69,9 @@ Shader "GGDog/Uber_ToonShader_GPU_Instance"
             sampler2D _MainTex;
             half4 _MainTex_ST;
 			half3 _LightDir;
-
+			half3 _BackLightDir;
+			
+		    uniform half _BackLightLerp;
 			v2f vert (appdata v)
 			{
 				v2f o;
@@ -85,7 +91,6 @@ Shader "GGDog/Uber_ToonShader_GPU_Instance"
                 half3 viewDir = normalize(_WorldSpaceCameraPos.xyz - mul(unity_ObjectToWorld, v.vertex).xyz);
 				o.uv.z = 1-dot(worldNormal, viewDir);
 				
-
 				return o;
 			}
 			
@@ -98,6 +103,7 @@ Shader "GGDog/Uber_ToonShader_GPU_Instance"
 			half _LightSmooth;
 			half _LightRange;
 			
+
 			half4 frag (v2f i) : SV_Target
 			{
                 UNITY_SETUP_INSTANCE_ID(i);
@@ -109,7 +115,7 @@ Shader "GGDog/Uber_ToonShader_GPU_Instance"
 				half Rim_Ambient = smoothstep(0,1,i.uv.z);
 
                 i.normal_VS = float4(normalize(i.normal_VS.xyz),1);
-
+				
                 half N_VS_Dot_L = smoothstep(0,_LightSmooth,dot(i.normal_VS.xyz,_LightDir)-_LightRange);
 
 				N_VS_Dot_L += smoothstep(0,1,dot(i.normal_VS.xyz,_LightDir)-0)*_BloomFade;
@@ -118,8 +124,15 @@ Shader "GGDog/Uber_ToonShader_GPU_Instance"
 
 				col += Rim*N_VS_Dot_L*_EdgeRimColor*col.a  +  _EdgeRimColor*saturate(0.75-N_VS_Dot_L)*Rim_Ambient *_AmbientFade*col.a;
 
+				
+                fixed Dir2 = saturate(dot(i.normal_VS.xyz,_BackLightDir));
 
-				return saturate(col);
+                fixed4 BackLightcol = lerp( 0 , 1 , step(Dir2,0.5) );
+
+                col = lerp(saturate(col),BackLightcol,_BackLightLerp);
+
+
+				return col;
 				
 			}
 			ENDCG

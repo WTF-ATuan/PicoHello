@@ -31,6 +31,10 @@ Shader "GGDog/Uber_ToonShader"
 		[Enum(UnityEngine.Rendering.BlendMode)] _DestBlend ("Dest Blend Mode", Float) = 0
 		[Enum(Off,0,On,2)] _Cull ("Cull Mode", Float) = 0
         [Enum(Order,4,AlwaysOnTop,8)] _ZTest("ZTest", Float) = 4
+
+		
+        _BackLightDir("BackLight Dir",Vector) = (2,2,2,0)
+        //_BackLightLerp("BackLightLerp",Range(0,1)) = 0
 	}
 
 	SubShader
@@ -70,6 +74,9 @@ Shader "GGDog/Uber_ToonShader"
             sampler2D _MainTex;
             half4 _MainTex_ST;
 			half3 _LightDir;
+			half3 _BackLightDir;
+			
+		    uniform half _BackLightLerp;
 
 			v2f vert (appdata v)
 			{
@@ -145,6 +152,15 @@ Shader "GGDog/Uber_ToonShader"
 
 
 				col.rgb =lerp(col.rgb,_FarFogColor.rgb,i.normal_VS.w*_FarFogColor.a);
+
+
+                fixed Dir2 = saturate(dot(i.normal_VS.xyz,_BackLightDir));
+
+                fixed4 BackLightcol = lerp( 0 , 1 , step(Dir2,0.5) );
+
+                col = lerp(saturate(col),BackLightcol,_BackLightLerp);
+
+
 				return col;
 				
 			}
