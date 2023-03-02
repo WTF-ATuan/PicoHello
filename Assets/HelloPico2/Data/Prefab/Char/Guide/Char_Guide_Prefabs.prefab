@@ -11741,8 +11741,9 @@ MonoBehaviour:
   _TeasingColorControl: {fileID: 257107094445763616}
   _EvilSpiritTeasingCounter: 3
   _EvilSpiritSummonCounter: 8
-  _GlowCurrentSpiritDuration: 1.2
-  _GlowEvilSpiritDuration: 0.5
+  _GlowCurrentSpiritDuration: 1
+  _TransformDuration: 0.6
+  _GlowEvilSpiritDuration: 1
   _EvilSpirit: {fileID: 5503022775459669577}
   _CounterResetTime: 99
   _SummonEvilTimelineName: Guide_Shock_GamePlay
@@ -12646,7 +12647,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_CurrentType: 1
-  m_ControlColorName: _EmissionColor
+  m_ControlColorName: _SelfShadowColor
   m_ControlValueName: _hitColorChange
   m_ColTarget: {r: 0, g: 0, b: 0, a: 0}
   m_ValueTarget: 0
@@ -12690,9 +12691,13 @@ MonoBehaviour:
   WhenFinishedTransition:
     m_PersistentCalls:
       m_Calls: []
-  m_ColTargets: []
+  m_ColTargets:
+  - {r: 0.11, g: 0.07241666, b: 0.0649, a: 0.5294118}
+  - {r: 5.992157, g: 4.894118, b: 1.5058824, a: 0.16078432}
   m_ValueTargets:
   - 0
+  - 1
+  - -1
   - 1
   m_Index: 0
 --- !u!114 &627891667309914017
@@ -13096,7 +13101,7 @@ MonoBehaviour:
   FadeOutDistance: 0
   DistanceFrom: {fileID: 0}
   AutoHelperOffset: 1
-  HelperOffset: {x: 0.000001693982, y: -0.013666215, z: 0.0061139967}
+  HelperOffset: {x: 0.0000016928406, y: -0.013666207, z: 0.0061139795}
   _editor_Title: ' Bones Stimulator'
   _editor_DrawSetup: 1
   _editor_DrawTweaking: 1
@@ -13326,7 +13331,8 @@ MonoBehaviour:
   _EvilSpiritTeasingCounter: 3
   _EvilSpiritSummonCounter: 8
   _GlowCurrentSpiritDuration: 1
-  _GlowEvilSpiritDuration: 0.5
+  _TransformDuration: 0.6
+  _GlowEvilSpiritDuration: 1
   _EvilSpirit: {fileID: 5503022775459669577}
   _CounterResetTime: 99
   _SummonEvilTimelineName: Guide_Shock_GamePlay
@@ -42719,6 +42725,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7704452365620951799, guid: dd7b1e52d5a4eed4ab9233a4e355eaff, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0771b9c1a10c19c46ab94d05b7dec453, type: 2}
     - target: {fileID: -7558899126016977242, guid: dd7b1e52d5a4eed4ab9233a4e355eaff, type: 3}
       propertyPath: m_RootOrder
       value: 47

@@ -28,6 +28,7 @@ namespace HelloPico2.InteractableObjects
         [FoldoutGroup("Evil Spirit Settings")][SerializeField] private int _EvilSpiritTeasingCounter = 3;
         [FoldoutGroup("Evil Spirit Settings")][SerializeField] private int _EvilSpiritSummonCounter = 8;
         [FoldoutGroup("Evil Spirit Settings")][SerializeField] private float _GlowCurrentSpiritDuration = 1.2f;
+        [FoldoutGroup("Evil Spirit Settings")][SerializeField] private float _TransformDuration = .5f;
         [FoldoutGroup("Evil Spirit Settings")][SerializeField] private float _GlowEvilSpiritDuration = .5f;
         [FoldoutGroup("Evil Spirit Settings")][SerializeField] private GameObject _EvilSpirit;
         [FoldoutGroup("Evil Spirit Settings")][SerializeField] private float _CounterResetTime = 99;
@@ -162,7 +163,7 @@ namespace HelloPico2.InteractableObjects
 
             TweenCallback glowCurrent = () => { 
                 _TeasingColorControl.m_ControlValueName = "_GradientUVAdd";
-                _TeasingColorControl.RaiseToValue(1, false, true, _GlowCurrentSpiritDuration);
+                _TeasingColorControl.RaiseToValue(1, false, true, _GlowCurrentSpiritDuration * 0.6f);
             };
             TweenCallback glowEvil = () => {
 
@@ -175,19 +176,26 @@ namespace HelloPico2.InteractableObjects
                 EventBus.Post(new AudioEventRequested(_SummonEvilSoundID, transform.position));
 
                 _EvilSpirit.SetActive(true);
-                _TeasingColorControl.m_ControlValueName = "_GradientUVAdd";
+                _TeasingColorControl.m_ControlValueName = "_SelfShadowOffSet";
                 _TeasingColorControl.TargetRenderer = _EvilSpirit.GetComponents<Renderer>();
-                _TeasingColorControl.RaiseToValue(1, false, true, _GlowEvilSpiritDuration);
+                _TeasingColorControl.SetColor(1);
+                _TeasingColorControl.SetValue(2);
             };
             TweenCallback switchSpirit = () => {
                 _RandomGuideScript.GuideList.ForEach((x) => x.SetActive(false));
+                _TeasingColorControl.RaiseToValue(3,false,false, _GlowEvilSpiritDuration * 0.6f);
+            }; 
+            TweenCallback endTransformSeq = () => {
+                _TeasingColorControl.RaiseToColor(0, false, false, 1);
             };
 
             seq.AppendCallback(glowCurrent);
             seq.AppendInterval(_GlowCurrentSpiritDuration);
             seq.AppendCallback(glowEvil);
-            seq.AppendInterval(_GlowEvilSpiritDuration);
+            seq.AppendInterval(_TransformDuration);
             seq.AppendCallback(switchSpirit);
+            seq.AppendInterval(_GlowEvilSpiritDuration);
+            seq.AppendCallback(endTransformSeq);
 
             seq.Play();
         }
