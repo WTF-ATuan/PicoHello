@@ -91,12 +91,7 @@ namespace HelloPico2.InteractableObjects
             GeneralReaction(_BeamReactHitEffectID, _BulletReactTimelineName);
         }
         private void GeneralReaction(string VFX_ID, string timelineName) {
-            if (!EvilSummoned) { 
-                if (UpdateEvilCounter()) {
-                    //VFX_ID = _SummonEvilEffectID;
-                    timelineName = _SummonEvilTimelineName;
-                } 
-            }
+            
 
             EventBus.Post<VFXEventRequested, ParticleSystem>(new VFXEventRequested(
                     VFX_ID,
@@ -113,6 +108,14 @@ namespace HelloPico2.InteractableObjects
 
             if (currentLifePoint > 0) { process = StartCoroutine(ColliderControl(0)); return; }
             else currentLifePoint = _LifePoint;
+
+            if (!EvilSummoned)
+            {
+                if (UpdateEvilCounter())
+                {
+                    timelineName = _SummonEvilTimelineName;
+                }
+            }
 
             var playableDuration = (spiritTimeline != null) ? spiritTimeline.ActivateTimeline(timelineName) : 0;
 
