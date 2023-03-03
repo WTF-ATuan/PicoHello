@@ -26,7 +26,7 @@ Shader "GGDog/Guide_Toon"
         _ShadowDir("Shadow Dir",Vector) = (-2,2,-1,0)
         
         
-        _MainColor2("Main Color2",Color) = (1,0.69,0.439,1)
+        _MainColor2("Main Color2",Color) = (1,0.55,0.439,1)
         _ShadowColor2("Shadow Color2",Color) = (1,0.176,0.192,1)
         _hitColorChange("hit Color Change",Range(0,1)) = 0
 
