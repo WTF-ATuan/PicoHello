@@ -144,7 +144,9 @@ namespace HelloPico2.PlayerController.Arm
             if (TurnOffProcess != null) { StopCoroutine(TurnOffProcess); }
             if (stretchProcess != null) { StopCoroutine(stretchProcess); }
             
-            TurnOffProcess = StartCoroutine(TurnOffSwordSequence(obj));
+            //TurnOffProcess = StartCoroutine(TurnOffSwordSequence(obj));
+            TurnOffSwordDirectly(obj);            
+
             print("Deactivate");
             base.Deactivate(obj);
         }
@@ -300,6 +302,12 @@ namespace HelloPico2.PlayerController.Arm
             }
 
             lightBeamRigController.SetRigTotalLength(GetlightBeamData().MaxLengthLimit * GetLengthLimitPercentage());
+        }
+        private void TurnOffSwordDirectly(GameObject obj)
+        {
+            lightBeamRigController.SetRigTotalLength(0);
+            obj.SetActive(false);
+            _FinishedDeactivate?.Invoke();
         }
         private IEnumerator TurnOffSwordSequence(GameObject obj)
         {
