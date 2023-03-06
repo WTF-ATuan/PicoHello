@@ -34,6 +34,7 @@ namespace HelloPico2.InteractableObjects
         [FoldoutGroup("Evil Spirit Settings")][SerializeField] private float _CounterResetTime = 99;
         [FoldoutGroup("Evil Spirit Settings")][SerializeField] private string _SummonEvilTimelineName = "";
         [FoldoutGroup("Evil Spirit Settings")][SerializeField] private string _SummonEvilEffectID = "";
+        [FoldoutGroup("Evil Spirit Settings")][SerializeField] private string _TeasingEvilSoundID = "";
         [FoldoutGroup("Evil Spirit Settings")][SerializeField] private string _SummonEvilSoundID = "";
 
         private int currentLifePoint;// { get; set; }
@@ -143,8 +144,11 @@ namespace HelloPico2.InteractableObjects
                     if (guide.activeSelf == true) {
                         _TeasingColorControl.TargetRenderer = guide.GetComponents<Renderer>();
                         _TeasingColorControl.RaiseToValue(1);
+
                     } 
                 });
+                
+                EventBus.Post(new AudioEventRequested(_TeasingEvilSoundID, transform.position));
             }
                 
             if (currentEvilCounter < _EvilSpiritSummonCounter)            
@@ -156,7 +160,7 @@ namespace HelloPico2.InteractableObjects
             }
         }
         private void SummonEvil() {
-            print("Summon"); 
+            //print("Summon"); 
             EvilSummoned = true;
 
             GlowEvilSpiritSeq();
