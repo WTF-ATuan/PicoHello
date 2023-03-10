@@ -38,6 +38,9 @@ namespace HelloPico2.PlayerController.Arm
 
         private Vector2 primary2DAxisValueCurrent;
 
+        public float DeadValue = 0.3f;
+        private int invert;
+
         private void Update()
         {
             _controller.inputDevice.TryGetFeatureValue(CommonUsages.triggerButton, out var isTrigger);
@@ -55,7 +58,7 @@ namespace HelloPico2.PlayerController.Arm
 
             if (TryGetComponent<AnimatorValueChanger>(out var valueChanger))
             {
-                int invert = (_InvertX) ? -1 : 1;
+                invert = (_InvertX) ? -1 : 1;
                 valueChanger.animator.SetFloat(_PrimaryAxisXName, primary2DAxisValue.x * invert);
                 valueChanger.animator.SetFloat(_PrimaryAxisYName, primary2DAxisValue.y);
             }
@@ -127,6 +130,5 @@ namespace HelloPico2.PlayerController.Arm
                 WhenJoyStickBackward?.Invoke();
             }
         }
-        public float DeadValue = 0.3f;
     }
 }

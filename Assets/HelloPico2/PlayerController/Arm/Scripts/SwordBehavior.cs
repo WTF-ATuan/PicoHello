@@ -257,6 +257,7 @@ namespace HelloPico2.PlayerController.Arm
             }
         }
         private void UpdateSwordLength(ArmData data) => UpdateSwordLength(data, 0);
+        public bool _fix = false;
         private void UpdateSwordLength(ArmData data, float duration = 0) {
             float energyPercentage = data.Energy / data.MaxEnergy;
             float dir = (energyPercentage > lightBeamRigController.GetUpdateState().TotalLength) ? _ModifyLengthStep : -_ModifyLengthStep;
@@ -267,7 +268,10 @@ namespace HelloPico2.PlayerController.Arm
 
             if(stretchProcess != null) StopCoroutine(stretchProcess);
 
-            stretchProcess = StartCoroutine(StretchSword(dir, duration));
+            // Directly stretch the sword to prevent sword bug
+            // stretchProcess = StartCoroutine(StretchSword(dir, duration));
+            var maxLength = GetlightBeamData().MaxLengthLimit;
+            lightBeamRigController.SetRigTotalLength(Mathf.Clamp(maxLength * GetLengthLimitPercentage(), 0, maxLength));            
 
             needUpdate = false;
         }        
@@ -276,33 +280,34 @@ namespace HelloPico2.PlayerController.Arm
             lightBeamRigController.transform.localPosition = _DefaultOffset +
             new Vector3(0, 0, _OffsetRange.x);
         }
-        private IEnumerator StretchSword(float dir, float duration) {
-            float totalLengthPercentage = GetlightBeamData().MaxLengthLimit * GetLengthLimitPercentage();
-            float unitDuration = duration * _ModifyLengthStep / totalLengthPercentage;
+        //private IEnumerator StretchSword(float dir, float duration) {
+        //    float totalLengthPercentage = GetlightBeamData().MaxLengthLimit * GetLengthLimitPercentage();
+        //    float unitDuration = duration * _ModifyLengthStep / totalLengthPercentage;
 
-            if ( totalLengthPercentage == 0) unitDuration = 0;
+        //    if ( totalLengthPercentage == 0) unitDuration = 0;
 
-            while (Mathf.Abs(lightBeamRigController.GetUpdateState().TotalLength - GetLengthLimitPercentage()) > _ModifyLengthStep)
-            {
-                lightBeamRigController.ModifyControlRigLength(dir);
+        //    while (Mathf.Abs(lightBeamRigController.GetUpdateState().TotalLength - GetLengthLimitPercentage()) > _ModifyLengthStep)
+        //    {
+        //        lightBeamRigController.ModifyControlRigLength(dir);
 
-                yield return new WaitForSeconds(unitDuration);
-            }
+        //        yield return new WaitForSeconds(unitDuration);
+        //    }
 
-            if (GetLengthLimitPercentage() == 0)
-            {
-                _HardResetTimer.Reset();
+        //    if (GetLengthLimitPercentage() == 0)
+        //    {
+        //        _HardResetTimer.Reset();
 
-                while (lightBeamRigController.GetUpdateState().TotalLength <= 0.01f || _HardResetTimer.CanInvoke())
-                {
-                    lightBeamRigController.ModifyControlRigLength(-_ModifyLengthStep);
+        //        while (lightBeamRigController.GetUpdateState().TotalLength <= 0.01f || _HardResetTimer.CanInvoke())
+        //        {
+        //            lightBeamRigController.ModifyControlRigLength(-_ModifyLengthStep);
 
-                    yield return new WaitForSeconds(unitDuration);
-                }
-            }
+        //            yield return new WaitForSeconds(unitDuration);
+        //        }
+        //    }
 
-            lightBeamRigController.SetRigTotalLength(GetlightBeamData().MaxLengthLimit * GetLengthLimitPercentage());
-        }
+        //    var maxLength = GetlightBeamData().MaxLengthLimit;
+        //    lightBeamRigController.SetRigTotalLength(Mathf.Clamp(maxLength * GetLengthLimitPercentage(), 0, maxLength));
+        //}
         private void TurnOffSwordDirectly(GameObject obj)
         {
             lightBeamRigController.SetRigTotalLength(0);
