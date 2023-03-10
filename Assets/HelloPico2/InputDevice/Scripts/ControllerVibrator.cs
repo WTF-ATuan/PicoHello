@@ -161,10 +161,6 @@ namespace HelloPico2.InputDevice.Scripts{
 			VibrateNeo3(amp , 300f);
 		}
 
-		public void SetControllerAmp(float amp){
-			PXR_Input.SetControllerAmp(amp);
-		}
-
 		private void VibratePhoenix(AudioClip clip){
 			switch(HandIndex){
 				case 1:
