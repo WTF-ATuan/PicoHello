@@ -102,8 +102,6 @@ namespace HelloPico2.InteractableObjects
             _ArmorTransformation._Armor.SetParent(pivot.transform);
             _ArmorTransformation._Armor.localScale = armorScale;
 
-            print(_ArmorTransformation._Armor.localScale);
-
             var glowScale = _ArmorTransformation._Glow.transform.localScale;
             _ArmorTransformation._Glow.transform.SetParent(pivot.transform);
             _ArmorTransformation._Glow.transform.localScale = glowScale;

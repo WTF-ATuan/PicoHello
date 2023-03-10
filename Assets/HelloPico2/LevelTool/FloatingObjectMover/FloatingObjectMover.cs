@@ -160,7 +160,6 @@ namespace HelloPico2.LevelTool
 
             Destroy(currentFloatingObject.gameObject);
             currentFloatingObject = clone.transform;
-            print("Destroy currentfloatingObject");
         }
         private GameObject CreateObject(InteractableArmorUpgrade item) {
             var clone = Instantiate(item).gameObject;
@@ -237,7 +236,6 @@ namespace HelloPico2.LevelTool
             endSeq.Append(depthPivot.transform.DOLocalMoveZ(_EndDepthValue, _DepthDuration).SetEase(Ease.InOutCubic));
                         
             TweenCallback StopHorizontalCallback = () => {
-                print("Stop Horizontal " + timer);
                 tiltSeq.Kill();
                 verticalSeq.Kill();
 
@@ -259,10 +257,6 @@ namespace HelloPico2.LevelTool
                         obj.SetParent(_Container); 
                         Destroy(depthPivot.gameObject); 
                     });
-                    print("Start lerping " + timer);
-                    print("horizontalDuration1 " + horizontalDuration1);
-                    print("endDuration " + endDuration);
-
                     //AutoGrabSeq(obj);
                 });
             };
@@ -301,16 +295,12 @@ namespace HelloPico2.LevelTool
 
             TweenCallback StartAutoGrab = () =>
             {
-                print("start auto grab " + timer);
                 var interactablePower = obj.GetComponentInChildren<InteractableArmorUpgrade>();
                 
                 if (interactablePower)
                 {
                     interactablePower?.OnAutoSelect();
-
-                    print("auto grab " + timer);
                 }
-                print(obj.name);
                 timer = 0;
             };
             autoGrabSeq.AppendCallback(StartAutoGrab);

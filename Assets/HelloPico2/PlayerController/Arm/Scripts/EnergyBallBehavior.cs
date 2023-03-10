@@ -483,7 +483,7 @@ namespace HelloPico2.PlayerController.Arm
             {
                 if (EnergyBallEmptySoundCD.CanInvoke())
                 {
-                    AudioPlayerHelper.PlayAudio(data.ShootWhenNoEnergyClipName, transform.position);
+                    //AudioPlayerHelper.PlayAudio(data.ShootWhenNoEnergyClipName, transform.position);
                     data.WhenNoEnergyShoot?.Invoke();
                     EnergyBallEmptySoundCD.Reset();
                 }
@@ -601,6 +601,8 @@ namespace HelloPico2.PlayerController.Arm
                 GenerateChargingEnergyBall();
             }
             else {
+                _HasTransformProcess = true;
+
                 Destroy(currentEnergyBall);
                 currentEnergyBall = Instantiate(_ChargingEnergyBall, _Pivot);
 
@@ -627,6 +629,8 @@ namespace HelloPico2.PlayerController.Arm
                     FullEnergyFeedback.Clear();
                     FullEnergyFeedback.Add(fullEnergyFeedback);
                 }
+
+                _HasTransformProcess = false;
             }
         }
 
