@@ -13,8 +13,10 @@ namespace HelloPico2.InputDevice.Scripts{
 		private XRBaseInteractor _interactor;
 		private Transform _selectableTransform;
 		private Vector3 _previousPosition = Vector3.zero;
+		private DeviceInputDetected _currentInputEvent;
 
 		private void Start(){
+			_currentInputEvent = new DeviceInputDetected();
 			_controller = GetComponent<XRController>();
 			_interactor = GetComponent<XRBaseInteractor>();
 			_interactor.selectEntered.AddListener(x => { _selectableTransform = x.interactableObject.transform; });
@@ -66,32 +68,41 @@ namespace HelloPico2.InputDevice.Scripts{
 			interactionManager.SelectEnter(_interactor, selectable);
 		}
 
+		private bool _isTrigger;
+		private float _triggerValue;
+		private bool _isGrip;
+		private float _gripValue;
+		private bool _isPrimary;
+		private bool _isSecondary;
+		private Vector2 _touchPadAxis;
+		private bool _isPadTouch;
+		private bool _isPadClick;
+		private bool _isMenu;
+
 		private void DetectInput(){
 			var inputDevice = _controller.inputDevice;
-			inputDevice.TryGetFeatureValue(CommonUsages.triggerButton, out var isTrigger);
-			inputDevice.TryGetFeatureValue(CommonUsages.trigger, out var triggerValue);
-			inputDevice.TryGetFeatureValue(CommonUsages.gripButton, out var isGrip);
-			inputDevice.TryGetFeatureValue(CommonUsages.grip, out var gripValue);
-			inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out var touchPadAxis);
-			inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxisTouch, out var isPadTouch);
-			inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxisClick, out var isPadClick);
-			inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out var isPrimary);
-			inputDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out var isSecondary);
-			inputDevice.TryGetFeatureValue(CommonUsages.menuButton, out var isMenu);
-			var inputDetected = new DeviceInputDetected{
-				IsTrigger = isTrigger,
-				TriggerValue = triggerValue,
-				IsGrip = isGrip,
-				GripValue = gripValue,
-				IsPrimary = isPrimary,
-				IsSecondary = isSecondary,
-				TouchPadAxis = touchPadAxis,
-				IsPadTouch = isPadTouch,
-				IsPadClick = isPadClick,
-				IsMenu = isMenu,
-				Selector = this,
-			};
-			EventBus.Post(inputDetected);
+			inputDevice.TryGetFeatureValue(CommonUsages.triggerButton, out _isTrigger);
+			inputDevice.TryGetFeatureValue(CommonUsages.trigger, out _triggerValue);
+			inputDevice.TryGetFeatureValue(CommonUsages.gripButton, out _isGrip);
+			inputDevice.TryGetFeatureValue(CommonUsages.grip, out _gripValue);
+			inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out _touchPadAxis);
+			inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxisTouch, out _isPadTouch);
+			inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxisClick, out _isPadClick);
+			inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out _isPrimary);
+			inputDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out _isSecondary);
+			inputDevice.TryGetFeatureValue(CommonUsages.menuButton, out _isMenu);
+			_currentInputEvent.IsTrigger = _isTrigger;
+			_currentInputEvent.TriggerValue = _triggerValue;
+			_currentInputEvent.IsGrip = _isGrip;
+			_currentInputEvent.GripValue = _gripValue;
+			_currentInputEvent.IsPrimary = _isPrimary;
+			_currentInputEvent.IsSecondary = _isSecondary;
+			_currentInputEvent.TouchPadAxis = _touchPadAxis;
+			_currentInputEvent.IsPadTouch = _isPadTouch;
+			_currentInputEvent.IsPadClick = _isPadClick;
+			_currentInputEvent.IsMenu = _isMenu;
+			_currentInputEvent.Selector = this;
+			EventBus.Post(_currentInputEvent);
 		}
 
 		public void SetHaptic(float strength, int time){
