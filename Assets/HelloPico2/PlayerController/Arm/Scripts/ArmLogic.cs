@@ -70,6 +70,20 @@ namespace HelloPico2.PlayerController.Arm
         public Action OnDisableInput;
         #endregion
 
+        List<string> GainEnergyClipNames = new List<string>();
+        List<string> TempClipNames = new List<string>();
+        bool TempIsRapid;
+
+        private bool isTrigger;
+        private bool secondaryButton;
+        private bool primaryButton;
+        private Vector2 padAxis;
+        private bool padAxisClick;
+        private bool padAxisTouch;
+        private float isGripTouch;
+        private bool isGrip;
+        private float isTriggerTouch;
+
 		private void Start()
 		{
             SetUpXR();
@@ -91,9 +105,6 @@ namespace HelloPico2.PlayerController.Arm
 
             StartCoroutine(GripActivation());
         }
-        List<string> GainEnergyClipNames = new List<string>();
-        List<string> TempClipNames = new List<string>();
-        bool TempIsRapid;
         private void GainEnergySound()
         {
             if (GainEnergyClipNames.Count == 0)
@@ -182,16 +193,16 @@ namespace HelloPico2.PlayerController.Arm
                 CheckInput();
         }
         private void CheckInput() {            
-            _controller.inputDevice.TryGetFeatureValue(CommonUsages.triggerButton, out var isTrigger);            
-            _controller.inputDevice.TryGetFeatureValue(CommonUsages.trigger, out var isTriggerTouch);            
-            _controller.inputDevice.TryGetFeatureValue(CommonUsages.gripButton, out var isGrip);
-            _controller.inputDevice.TryGetFeatureValue(CommonUsages.grip, out var isGripTouch);            
-            _controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxisTouch, out var padAxisTouch);
-            _controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxisClick, out var padAxisClick);
-            _controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out var padAxis);
+            _controller.inputDevice.TryGetFeatureValue(CommonUsages.triggerButton, out isTrigger);            
+            _controller.inputDevice.TryGetFeatureValue(CommonUsages.trigger, out isTriggerTouch);            
+            _controller.inputDevice.TryGetFeatureValue(CommonUsages.gripButton, out isGrip);
+            _controller.inputDevice.TryGetFeatureValue(CommonUsages.grip, out isGripTouch);            
+            _controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxisTouch, out padAxisTouch);
+            _controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxisClick, out padAxisClick);
+            _controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out padAxis);
 
-            _controller.inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out var primaryButton);            
-            _controller.inputDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out var secondaryButton);
+            _controller.inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out primaryButton);            
+            _controller.inputDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out secondaryButton);
 
             if (isTrigger)
             {

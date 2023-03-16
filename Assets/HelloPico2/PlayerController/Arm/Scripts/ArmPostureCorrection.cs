@@ -28,17 +28,21 @@ public class ArmPostureCorrection : MonoBehaviour
     private float shoulderWristDist;
     private Vector3 armDir;
 
+    public Vector3 Pivotpos { get; private set; }
+    public float WristRoationCheckerAngleZ { get; private set; }
+
     [ReadOnly]public bool WithinRange;
     [ReadOnly]public float Dist;
 
     int dir = 1;
     Vector3 currentWristRight;
+    public bool _InvertDir = false;
+    public float _PlayerYAngle = 0;
+
     private void Awake()
     {
         currentWristRight = m_WristRoationChecker.right;
     }
-    public bool _InvertDir = false;
-    public float _PlayerYAngle = 0;
     private void Update()
     {
         if (m_HintBendDirection == HintBendDirection.Right)
@@ -64,9 +68,9 @@ public class ArmPostureCorrection : MonoBehaviour
         shoulderWristDist = Vector3.Distance(m_ShoulderJoint.position, m_WristJoint.position);
         armDir = (m_WristJoint.position - m_ShoulderJoint.position).normalized;
 
-        var Pivotpos = m_ShoulderJoint.position + armDir * shoulderWristDist / 2;        
+        Pivotpos = m_ShoulderJoint.position + armDir * shoulderWristDist / 2;        
                 
-        float WristRoationCheckerAngleZ = m_WristRoationChecker.localEulerAngles.z;
+        WristRoationCheckerAngleZ = m_WristRoationChecker.localEulerAngles.z;
 
         if (WristRoationCheckerAngleZ > 180) WristRoationCheckerAngleZ -= 360;
         if (WristRoationCheckerAngleZ < -180) WristRoationCheckerAngleZ += 360;
