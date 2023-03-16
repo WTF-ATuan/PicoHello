@@ -44,6 +44,10 @@ public class Follower : MonoBehaviour{
 	}
 	public Vector3 offset{ get; set; }
 	public Vector3 PosPre{ get; set; }
+	
+	float step;
+    private Vector3 moveXfer;
+    private Quaternion followRotationOffset;
 
 	public void OnEnable(){
 		if(m_HaveOffset && m_Target)
@@ -58,10 +62,10 @@ public class Follower : MonoBehaviour{
 		FollowingParentPosition();
 		SyncState();
 	}
-	float step;
-	private void FollowingParentPosition(){
+
+    private void FollowingParentPosition(){
 		if(m_AlwaysSync || m_Target.position != PosPre){
-			var moveXfer = transform.position;
+			moveXfer = transform.position;
 
 			if(m_FollowXAxis)
 				moveXfer.x = m_Target.position.x + offset.x;
@@ -98,7 +102,7 @@ public class Follower : MonoBehaviour{
 
 		if(m_Activation) MeshRenderer.enabled = m_Target.gameObject.activeSelf;
 		if(m_Rotation){
-			var followRotationOffset = m_Target.rotation * Quaternion.Euler(m_AdditionalRotOffset);
+			followRotationOffset = m_Target.rotation * Quaternion.Euler(m_AdditionalRotOffset);
 			transform.rotation = followRotationOffset;
 		}
 

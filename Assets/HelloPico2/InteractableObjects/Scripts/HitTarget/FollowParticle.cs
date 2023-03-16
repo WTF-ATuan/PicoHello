@@ -39,8 +39,11 @@ namespace HelloPico2.InteractableObjects{
 			}
 		}
 
-		private void OnEnable(){
-			if(SpawnFollowerWhenBirth){
+		private void OnEnable()
+        {
+            m_Particles = new ParticleSystem.Particle[m_FollowThis.main.maxParticles];
+
+            if (SpawnFollowerWhenBirth){
 				List<GameObject> cloneList = new List<GameObject>();
 
 				var obj = m_Follower[0];
@@ -60,7 +63,6 @@ namespace HelloPico2.InteractableObjects{
 		public void FixedUpdate(){
 			if(!Activate) return;
 
-			m_Particles = new ParticleSystem.Particle[m_FollowThis.main.maxParticles];
 			int particlesAliveAmount = m_FollowThis.GetParticles(m_Particles);
 
 			for(int i = 0; i < particlesAliveAmount; i++){

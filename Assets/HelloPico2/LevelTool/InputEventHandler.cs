@@ -17,16 +17,18 @@ namespace HelloPico2.LevelTool{
 		}
 
 		private bool _isInvoke;
+        private List<bool> triggerList = new List<bool>();
+        private List<bool> containList = new List<bool>();
 
-		private void HandleInput(DeviceInputDetected obj){
-			var triggerList = new List<bool>{
+        private void HandleInput(DeviceInputDetected obj){
+			triggerList = new List<bool>{
 				obj.IsTrigger,
 				obj.IsGrip,
 				obj.IsPrimary,
 				obj.IsSecondary,
 				obj.IsMenu
 			};
-			var containList = new List<bool>{
+			containList = new List<bool>{
 				enableUsages.Contains(InputUsages.TriggerButton),
 				enableUsages.Contains(InputUsages.GripButton),
 				enableUsages.Contains(InputUsages.PrimaryButton),

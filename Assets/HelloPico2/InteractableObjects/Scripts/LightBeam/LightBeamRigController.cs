@@ -54,8 +54,9 @@ namespace HelloPico2.InteractableObjects{
 		public OnCollisionDel OnCollision;
 
 		public Action ResetCallback;
+        private Vector3 POS;
 
-		public void SetLengthLimit(float percentage){
+        public void SetLengthLimit(float percentage){
 			if(percentage > 1){
 				throw new Exception($"inputValue is greater than 1 {percentage}");
 			}
@@ -267,7 +268,7 @@ namespace HelloPico2.InteractableObjects{
 		private void RaycastColliderEnter(){
 			colliders.Clear();
 
-			Vector3 POS = _rigs[0].position;
+			POS = _rigs[0].position;
 			for(int i = 0; i < _rigs.Count - 2; i++){
 				if(i != 0 && i % _percision == 0){
 					var result = SingleSphereRaycast(POS, _rigs[i].position);

@@ -83,8 +83,9 @@ namespace HelloPico2.PlayerController.Arm
         private float isGripTouch;
         private bool isGrip;
         private float isTriggerTouch;
+        private InteractableBase interactable;
 
-		private void Start()
+        private void Start()
 		{
             SetUpXR();
             
@@ -317,19 +318,19 @@ namespace HelloPico2.PlayerController.Arm
 
 			if (obj.Selector.SelectableObject == null) return;
 
-			var interactable = obj.Selector.SelectableObject.GetComponent<InteractableBase>();
-			var isTrigger = obj.IsTrigger;			
-			var isTriggerTouch = obj.TriggerValue;			
-            var isGrip = obj.IsGrip;
-            var gripValue = obj.GripValue;
-            var isGripTouch = obj.GripValue;
-            var padAxisTouch = obj.IsPadTouch;
-            var padAxisClick = obj.IsPadClick;
-            var isPrimary = obj.IsPrimary;
-            var padAxis = obj.TouchPadAxis;
+			interactable = obj.Selector.SelectableObject.GetComponent<InteractableBase>();
+			//var isTrigger = obj.IsTrigger;			
+			//var isTriggerTouch = obj.TriggerValue;			
+   //         var isGrip = obj.IsGrip;
+   //         var gripValue = obj.GripValue;
+   //         var isGripTouch = obj.GripValue;
+   //         var padAxisTouch = obj.IsPadTouch;
+   //         var padAxisClick = obj.IsPadClick;
+   //         var isPrimary = obj.IsPrimary;
+   //         var padAxis = obj.TouchPadAxis;
 
             #region Updat Object events   
-            if (gripValue > data._GripDeadRange)
+            if (obj.GripValue > data._GripDeadRange)
             {
                 if (gripActivation)
                     interactable.OnSelect(obj);
@@ -339,12 +340,12 @@ namespace HelloPico2.PlayerController.Arm
                 interactable.OnDrop();
             }
 
-            if (isPrimary)
+            if (obj.IsPrimary)
 			{
 				interactable.OnXOrAButton();
 			}
 
-			if (padAxis.magnitude > .1f)
+			if (obj.TouchPadAxis.magnitude > .1f)
 			{
 				interactable.OnTouchPad(padAxis);
 			}

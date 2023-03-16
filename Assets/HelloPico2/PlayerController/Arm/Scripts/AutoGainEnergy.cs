@@ -16,9 +16,9 @@ namespace HelloPico2.PlayerController.Arm.Scripts{
 
 		private ColdDownTimer _onInputTimer;
 		private ColdDownTimer _notInputTimer;
+        private float energyPercent;
 
-
-		private void Start(){
+        private void Start(){
 			_armData = GetComponent<ArmData>();
 			_energyBehavior = GetComponent<EnergyBallBehavior>();
 			EventBus.Subscribe<DeviceInputDetected>(OnInputDetected);
@@ -34,7 +34,7 @@ namespace HelloPico2.PlayerController.Arm.Scripts{
 			}
 
 			if(!obj.IsGrip && _notInputTimer.CanInvoke() && notGripGain){
-				var energyPercent = _armData.Energy / _armData.MaxEnergy;
+				energyPercent = _armData.Energy / _armData.MaxEnergy;
 				if(energyPercent >= 0.75f) return;
 				if(energyPercent < 0.35f){
 					_notInputTimer.ModifyDuring(0.2f);

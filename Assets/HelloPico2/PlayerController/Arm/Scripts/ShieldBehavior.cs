@@ -32,12 +32,14 @@ namespace HelloPico2.PlayerController.Arm{
 		Game.Project.ColdDownTimer absorbCooldown { get; set; }
 		public UnityEngine.Events.UnityAction<InteractableSettings.InteractableType> WhenCollide;
 		public UltEvent WhenShieldBreak;
+        private RaycastHit[] raycastHits;
 
         Coroutine absorbProcess { get; set; }
         private void Start()
         {
 			absorbCooldown = new Game.Project.ColdDownTimer(_AbsorbCoolDownDuration);
-		}
+            raycastHits = new RaycastHit[10];
+        }
         public override void Activate(ArmLogic Logic, ArmData data, GameObject shieldObj, Vector3 fromScale){
 			armLogic = Logic;
 			shield = shieldObj;
@@ -139,7 +141,7 @@ namespace HelloPico2.PlayerController.Arm{
 			absorbCooldown.Reset();
 
 			// ReSharper disable once Unity.PreferNonAllocApi
-			var raycastHits = Physics.SphereCastAll(shield.transform.position, range, shield.transform.forward);
+			raycastHits = Physics.SphereCastAll(shield.transform.position, range, shield.transform.forward);
 			foreach (var hit in raycastHits)
 			{
 				if (hit.collider == null || !hit.collider.transform.TryGetComponent<InteractablePower>(out var interactablePower)) continue;
