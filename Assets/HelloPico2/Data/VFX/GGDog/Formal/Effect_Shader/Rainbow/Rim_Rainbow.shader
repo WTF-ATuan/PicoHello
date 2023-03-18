@@ -38,10 +38,13 @@ Shader "Unlit/Rim"
 				float4 color : COLOR;
 			};
 
+            CBUFFER_START(UnityPerMaterial) 
 			float4 _RimColor;
             float _Width;
             float _OffSet;
             float _Gray;
+            CBUFFER_END
+
 			v2f vert (appdata v)
 			{
 				v2f o;

@@ -81,6 +81,7 @@ Shader "GGDog/Guide_Toon"
 
                 return o;
             }
+            CBUFFER_START(UnityPerMaterial) 
 			half4 _MainColor;
 			half4 _ShadowColor;
 			
@@ -101,15 +102,16 @@ Shader "GGDog/Guide_Toon"
 			half _ShadowRange;
 			half _ShadowFadeUV;
             
-		    uniform half4 _Guide_FarColor;
-		    uniform half _Guide_Far;
-            
 			half _GradientUVAdd;
             
 			half4 _MainColor2;
 			half4 _ShadowColor2;
 			half _hitColorChange;
-            
+            CBUFFER_END
+                        
+		    uniform half4 _Guide_FarColor;
+		    uniform half _Guide_Far;
+
             half4 frag (v2f i) : SV_Target
             {
 			

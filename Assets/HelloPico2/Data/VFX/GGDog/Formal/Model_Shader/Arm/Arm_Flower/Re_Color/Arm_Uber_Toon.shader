@@ -84,9 +84,20 @@ Shader "GGDog/Arm_Uber_Toon"
 				Out = unity_gradientNoise(UV * Scale) + 0.5;
 			}
 
+            CBUFFER_START(UnityPerMaterial) 
             sampler2D _MainTex;
             half4 _MainTex_ST;
 			half3 _LightDir;
+
+			half4 _Color;
+			half4 _ShadowColor;
+			half4 _EdgeRimColor;
+			half _BloomFade;
+			half _AmbientFade;
+			half _LightSmooth;
+			half _LightRange;
+			half _injured;
+            CBUFFER_END
 
 			v2f vert (appdata v)
 			{
@@ -109,14 +120,7 @@ Shader "GGDog/Arm_Uber_Toon"
 				return o;
 			}
 			
-			half4 _Color;
-			half4 _ShadowColor;
-			half4 _EdgeRimColor;
-			half _BloomFade;
-			half _AmbientFade;
-			half _LightSmooth;
-			half _LightRange;
-			half _injured;
+
 
 			half4 frag (v2f i) : SV_Target
 			{
