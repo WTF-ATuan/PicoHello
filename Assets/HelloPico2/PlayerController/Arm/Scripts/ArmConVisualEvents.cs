@@ -57,6 +57,7 @@ namespace HelloPico2.PlayerController.Arm{
 			_controller.inputDevice.TryGetFeatureValue(CommonUsages.triggerButton, out _isTrigger);
 			_controller.inputDevice.TryGetFeatureValue(CommonUsages.gripButton, out _isGrip);
 			_controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out _primary2DAxisValue);
+			_controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxisTouch, out _padAxisTouch);
 			_controller.inputDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out _secondaryButtonValue);
 			_controller.inputDevice.TryGetFeatureValue(CommonUsages.secondaryTouch, out _secondaryTouchValue);
 			_controller.inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out _primaryButtonValue);
