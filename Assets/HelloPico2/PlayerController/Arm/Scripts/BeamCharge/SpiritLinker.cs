@@ -33,7 +33,7 @@ namespace HelloPico2.PlayerController.BeamCharge
         }
         private void OnDisable()
         {
-            if (waveProcess == null)
+            if (waveProcess != null)
                 StopCoroutine(waveProcess);
 
             foreach (var line in lineRenderers)
