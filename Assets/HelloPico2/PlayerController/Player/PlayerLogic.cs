@@ -22,6 +22,11 @@ namespace HelloPico2.PlayerController.Player
             }
         }
         private ColdDownTimer _InvincibleTimer;
+
+        private IInteractCollide collide;
+        private ReceiveDamageData eventDate;
+        private HitTargetBase hitTarget;
+
         private void Start()
         {
             _InvincibleTimer = new ColdDownTimer(_PlayerData.invincibleDuration);            
@@ -37,11 +42,11 @@ namespace HelloPico2.PlayerController.Player
 
         private void ReceiveFeedbacksDamage(Collider other)
         {
-            var collide = other.GetComponent<IInteractCollide>();
+            collide = other.GetComponent<IInteractCollide>();
             collide?.OnCollide(InteractType.Eye, null);
 
-            ReceiveDamageData eventDate = new ReceiveDamageData();
-            var hitTarget = other.GetComponentInChildren<HitTargetBase>();
+            eventDate = new ReceiveDamageData();
+            hitTarget = other.GetComponentInChildren<HitTargetBase>();
             eventDate.DamageAmount = hitTarget.damageAmount;
             eventDate.InteractType = hitTarget.interactType;
 
@@ -58,11 +63,11 @@ namespace HelloPico2.PlayerController.Player
 
             playerData._OnReceiveDamage?.Invoke();
 
-            var collide = other.GetComponent<IInteractCollide>();
+            collide = other.GetComponent<IInteractCollide>();
             collide?.OnCollide(InteractType.Eye, null);
 
-            ReceiveDamageData eventDate = new ReceiveDamageData();
-            var hitTarget = other.GetComponentInChildren<HitTargetBase>();
+            eventDate = new ReceiveDamageData();
+            hitTarget = other.GetComponentInChildren<HitTargetBase>();
             eventDate.DamageAmount = hitTarget.damageAmount;
             eventDate.InteractType = hitTarget.interactType;
 
