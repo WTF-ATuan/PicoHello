@@ -33,7 +33,8 @@ namespace HelloPico2.PlayerController.BeamCharge
         }
         private void OnDisable()
         {
-            StopCoroutine(waveProcess);
+            if (waveProcess == null)
+                StopCoroutine(waveProcess);
 
             foreach (var line in lineRenderers)
                 Destroy(line.gameObject);
@@ -48,6 +49,8 @@ namespace HelloPico2.PlayerController.BeamCharge
             }
         }
         public void TurnOffLines() {
+            if (!this.enabled) return;
+
             active = false;
 
             for (int i = 0; i < lineRenderers.Count; i++)

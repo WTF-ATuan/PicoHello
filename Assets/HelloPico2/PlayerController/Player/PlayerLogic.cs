@@ -26,6 +26,8 @@ namespace HelloPico2.PlayerController.Player
         private IInteractCollide collide;
         private ReceiveDamageData eventDate;
         private HitTargetBase hitTarget;
+        private Vector3 playerPos;
+        private Vector3 targetFlattenPos;
 
         private void Start()
         {
@@ -79,8 +81,8 @@ namespace HelloPico2.PlayerController.Player
             StartInvincible();
         }
         private bool CheckInsideHitRadius(Collider other) {
-            var playerPos = playerData.damageDetectionTrigger.transform.position;
-            var targetFlattenPos = other.transform.position;
+            playerPos = playerData.damageDetectionTrigger.transform.position;
+            targetFlattenPos = other.transform.position;
             targetFlattenPos.y = playerPos.y;
             return Vector3.Distance(playerPos, targetFlattenPos) < playerData.hitRadius;
         }
