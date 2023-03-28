@@ -67726,6 +67726,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1193346178}
   - component: {fileID: 1193346177}
+  - component: {fileID: 1193346179}
   m_Layer: 0
   m_Name: story_Event_End_TL
   m_TagString: Untagged
@@ -67786,6 +67787,10 @@ PlayableDirector:
     value: {fileID: 0}
   - key: {fileID: 1555408813990955750, guid: 3f60df0f79d09d241a3b44a0cbcfe717, type: 2}
     value: {fileID: 1119277722}
+  - key: {fileID: -3970983207012853816, guid: 3f60df0f79d09d241a3b44a0cbcfe717, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 5659191332982185273, guid: 3f60df0f79d09d241a3b44a0cbcfe717, type: 2}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &1193346178
@@ -67804,6 +67809,35 @@ Transform:
   m_Father: {fileID: 1840958166}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1193346179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1193346176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bca7c063e5324c243bb4252a6576c859, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WhenEnable:
+    _PersistentCalls: []
+  WhenEnableDelay:
+    _PersistentCalls:
+    - _Target: {fileID: 505118357}
+      _MethodName: SetActive
+      _PersistentArguments:
+      - _Type: 1
+        _Int: 1
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  m_DelayTime: 36
+  invokeByOrder: 0
 --- !u!1001 &1197314254
 PrefabInstance:
   m_ObjectHideFlags: 0
