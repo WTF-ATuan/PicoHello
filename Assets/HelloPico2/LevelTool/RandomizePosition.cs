@@ -23,7 +23,9 @@ namespace HelloPico2.LevelTool
         }
         private void OnDisable()
         {
-            StopCoroutine(process);
+            if(process != null)
+                StopCoroutine(process);
+
             process = null;
         }
         public void StartRandomizePosition() {
