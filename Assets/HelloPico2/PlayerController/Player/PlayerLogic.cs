@@ -22,13 +22,6 @@ namespace HelloPico2.PlayerController.Player
             }
         }
         private ColdDownTimer _InvincibleTimer;
-
-        private IInteractCollide collide;
-        private ReceiveDamageData eventDate;
-        private HitTargetBase hitTarget;
-        private Vector3 playerPos;
-        private Vector3 targetFlattenPos;
-
         private void Start()
         {
             _InvincibleTimer = new ColdDownTimer(_PlayerData.invincibleDuration);            
@@ -44,11 +37,11 @@ namespace HelloPico2.PlayerController.Player
 
         private void ReceiveFeedbacksDamage(Collider other)
         {
-            collide = other.GetComponent<IInteractCollide>();
+            var collide = other.GetComponent<IInteractCollide>();
             collide?.OnCollide(InteractType.Eye, null);
 
-            eventDate = new ReceiveDamageData();
-            hitTarget = other.GetComponentInChildren<HitTargetBase>();
+            ReceiveDamageData eventDate = new ReceiveDamageData();
+            var hitTarget = other.GetComponentInChildren<HitTargetBase>();
             eventDate.DamageAmount = hitTarget.damageAmount;
             eventDate.InteractType = hitTarget.interactType;
 
@@ -65,11 +58,11 @@ namespace HelloPico2.PlayerController.Player
 
             playerData._OnReceiveDamage?.Invoke();
 
-            collide = other.GetComponent<IInteractCollide>();
+            var collide = other.GetComponent<IInteractCollide>();
             collide?.OnCollide(InteractType.Eye, null);
 
-            eventDate = new ReceiveDamageData();
-            hitTarget = other.GetComponentInChildren<HitTargetBase>();
+            ReceiveDamageData eventDate = new ReceiveDamageData();
+            var hitTarget = other.GetComponentInChildren<HitTargetBase>();
             eventDate.DamageAmount = hitTarget.damageAmount;
             eventDate.InteractType = hitTarget.interactType;
 
@@ -81,8 +74,8 @@ namespace HelloPico2.PlayerController.Player
             StartInvincible();
         }
         private bool CheckInsideHitRadius(Collider other) {
-            playerPos = playerData.damageDetectionTrigger.transform.position;
-            targetFlattenPos = other.transform.position;
+            var playerPos = playerData.damageDetectionTrigger.transform.position;
+            var targetFlattenPos = other.transform.position;
             targetFlattenPos.y = playerPos.y;
             return Vector3.Distance(playerPos, targetFlattenPos) < playerData.hitRadius;
         }

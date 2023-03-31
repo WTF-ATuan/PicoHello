@@ -21,14 +21,10 @@ namespace HelloPico2.PlayerController.BeamCharge
         public UltEvent WhenDealDamage;
 
         private Ray ray;
-        private IInteractCollide interactCollide;
         [ReadOnly][SerializeField] private RaycastHit[] hitInfos = new RaycastHit[20];
 
         private Coroutine LaserShootProcess;
-        private void Start()
-        {
-            ray = new Ray();
-        }
+
         public void StartLaserShootSequence() {
             if (LaserShootProcess == null)
                 LaserShootProcess = StartCoroutine(DoLaserShoot());
@@ -39,6 +35,7 @@ namespace HelloPico2.PlayerController.BeamCharge
                 StopCoroutine(LaserShootProcess);
         }
         public void LaserShoot() {
+            ray = new Ray();
             ray.origin = _PlayerTwoHandBehavior._BeamChargeController.transform.position;
             ray.direction = _PlayerTwoHandBehavior._BeamChargeController.transform.forward;
 
@@ -58,7 +55,7 @@ namespace HelloPico2.PlayerController.BeamCharge
             for (int i = 0; i < hitInfos.Length; i++)
             {
                 if (hitInfos[i].collider == null) continue;
-                if (hitInfos[i].collider.TryGetComponent<IInteractCollide>(out interactCollide)) {
+                if (hitInfos[i].collider.TryGetComponent<IInteractCollide>(out var interactCollide)) {
                     interactCollide.OnCollide(InteractType.Energy, hitInfos[i].collider);
                 }                
             }
