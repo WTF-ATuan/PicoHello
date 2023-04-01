@@ -4,6 +4,9 @@ using UnityEngine;
 [RequireComponent(typeof(ObjectPool_Spawner))]
 [RequireComponent(typeof(ObjectPool))]
 
+
+
+[ExecuteInEditMode]
 public class ObjectPool_Spawner_Range : MonoBehaviour
 {
 
