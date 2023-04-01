@@ -13,8 +13,23 @@ public class VR_Controller_Input : MonoBehaviour
 
     public GameObject[] Bullet;
 
-    float fireRate=0.5f;
+    [Range(0, 1)]
+    [Tooltip("射擊容錯率")]
+    public float FaultValue = 0.02f;
+
+
+    [Tooltip("發射間隔")]
+    public float fireRate =0.35f;
     float nextFire;
+
+
+    private void Awake()
+    {
+        //容錯判定的門檻dot值
+        Bullet[0].GetComponent<Bullet_Moving>().FaultValue = 1-FaultValue;
+        Bullet[2].GetComponent<Bullet_Moving>().FaultValue = 1-FaultValue;
+        Bullet[1].GetComponent<Bullet_Moving>().FaultValue = 1-FaultValue;
+    }
 
 
     void Update()
