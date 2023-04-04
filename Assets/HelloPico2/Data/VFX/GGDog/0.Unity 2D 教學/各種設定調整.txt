@@ -1,0 +1,1431 @@
+
+更多教學
+https://jerrard-liu.blogspot.tw/p/unity.html
+
+
+Unity Shader 教學
+http://www.clonefactor.com/wordpress/program/unity3d/1513/
+
+卯貓都能學會的 Unity3D Shader 入門指南
+https://onevcat.com/2013/07/shader-tutorial-1/
+
+http://blog.csdn.net/poem_qianmo/article/details/40723789
+http://www.tk4479.net/puppet_master/article/details/52423905
+
+
+[System.Serializable]版面
+https://www.xuanyusong.com/archives/4371
+
+
+
+
+-------------------------------目錄--------------------------------------
+
+if()return;用法
+
+開關物件
+
+判斷平台
+
+兩指觸控
+
+實體化物件
+
+數值剪裁
+
+Vector函數
+
+滑順函數
+
+角度
+
+每幀速度差
+
+取得材質
+
+按鈕、滑鼠
+
+效能節省
+
+父子物件關係
+
+遊戲暫停
+
+產生物件
+
+找尋物件
+
+呼叫碰撞目標物的腳本(Script)屬性
+
+更改sprite屬性指定圖片
+
+動畫
+
+音效
+
+碰撞、刪除物件
+
+按鍵屬性
+
+取得數值正負號
+
+數值限制範圍
+
+陣列物件
+
+變數與屬性
+
+字串轉數字
+
+條件的語法
+
+隨機的語法
+
+圖片縮放
+
+修改 Rect Transform 的值
+
+碰撞偵測
+
+按鈕開關
+
+動畫狀態機啟動/關閉
+
+旋轉、前行
+
+推力平移物件
+
+尋找沒有開啟的物件方法
+
+限制兩物體之間的距離
+
+射線
+
+存檔功能(PlayerPrefs)
+
+StartCoroutine與IEnumerator簡單執行序
+
+遊戲版面GUI按鈕
+
+用腳本更改Shader屬性
+
+UI版面滑動
+
+Unity介面單位定格操作: 移動、旋轉、縮放
+
+用陣列實現的List
+
+-----------------------------------------------------------------------------
+
+
+
+
+
+
+---------------------------- if() return;用法 ------------------------------
+
+
+bool a = false;
+
+  //此條件成立後就return掉，不往下繼續執行了
+
+   if(a)
+
+      return;
+
+
+如果a為true，在if之後的所有程式碼全都不執行，也就是return掉
+
+如果a為false，則執行if之後的所有程式碼
+
+-----------------------------------------------------------------------------
+
+
+
+
+
+
+
+-----------------------------開關物件-------------------------------------
+
+gameObject.SetActive(!gameObject.activeSelf);
+
+-----------------------------------------------------------------------------
+
+
+
+
+
+
+-----------------------------數值自動頓開-------------------------------------
+
+value.ToString ("N0");    //1234567會變成1,234,567
+
+
+-----------------------------------------------------------------------------
+
+
+
+
+-------------------------------判斷平台-------------------------------------
+
+    //當前平台為Windows系統
+    if (Application.platform == RuntimePlatform.WindowsEditor)
+    {
+            
+    }
+
+    #if !UNITY_EDITOR && (UNITY_IOS || UNITY_ANDROID)
+
+      MobileInput ();  //只執行行動裝置輸入相關操作
+
+    #else
+
+      DeskopInput();   //只執行電腦輸入相關操作
+
+    #endif
+
+-----------------------------------------------------------------------------
+
+
+
+
+
+-------------------------------兩指觸控--------------------------------------
+
+void Start ()
+{
+    Input.multiTouchEnabled = true; //允許多點觸碰
+}
+
+
+if(input.touchcount >=2) //兩指以上才允許觸控
+{
+  
+}
+
+-----------------------------------------------------------------------------
+
+
+
+
+
+-------------------------------實體化物件--------------------------------------
+
+GameObject GO = GameObject.Instantiate(go) as GameObject; //實體化物件
+
+
+-------------------------------------------------------------------------------
+
+
+
+
+
+-------------------------------數值剪裁-----------------------------------------
+
+
+//小於最小值min時為0，大於時保持原值，超出時為1
+
+Value * (Value > minValue ? max : min);               //只針對正數
+
+Value * (Mathf.Abs (Value) > minValue ? max : min);   //包含負值範圍
+
+--------------------------------------------------------------------------------
+
+
+
+-------------------------------Vector函數---------------------------------------
+
+Vector2.magnitude   //取得Vector2的長度
+
+Vector3.ClampMagnitude(vector,1);  //將向量正規化為單位1長
+
+--------------------------------------------------------------------------------
+
+
+
+
+-------------------------------滑順函數-----------------------------------------
+
+//float值滑順
+
+Mathf.Lerp
+
+//Vector3值滑順
+
+Vector3.Lerp
+
+--------------------------------------------------------------------------------
+
+
+
+
+
+-------------------------------角度---------------------------------------------
+
+transform.rotation.eulerAngles => 直接取得該物件的歐拉角度
+
+Quaternion angle = Quaternion.Euler(0, col.transform.parent.eulerAngles.y - gameObject.transform.eulerAngles.y, 0);
+gameObject.transform.rotation = angle;//依照偵測斜面角度產生對應角度的偵測點
+
+
+Quaternion rotation = Quaternion.Euler(0, angle, 0);  
+
+ Mathf.Cos( eulerAngle * Mathf.Deg2Rad );   //歐拉角*Mathf.Deg2Rad = 度度量角度(0~360度)
+
+
+//計算兩物件的夾角
+
+float TwoObjAngel(Vector2 my, Vector2 target)
+{
+   float angle = -1 * Mathf.Atan2(target.x - my.x, target.y - my.y) * Mathf.Rad2Deg;
+
+   return angle;
+}
+
+
+//向量夾角，0~360度
+float angle_360(Vector3 from_, Vector3 to_)
+{
+  Vector3 v3 = Vector3.Cross(from_, to_);
+  if (v3.z > 0)
+      return Vector3.Angle(from_, to_);
+  else
+      return 360 - Vector3.Angle(from_, to_);
+}
+
+
+//用兩個外積計算旋轉到該目標方向的旋轉幅度
+
+void TurnTo(Vector3 _vectorFinal)
+{
+        float rotate = Vector3.Cross(transform.up, _vectorFinal).z*5f;
+
+        transform.Rotate(0,0,rotate,Space.World);
+}
+
+
+//向某個向量保持定向對準
+
+float angle = Vector3.Angle(Vector3.up, Contact_normal); //求出兩向量之間的夾角  
+Vector3 normal = Vector3.Cross(Vector3.up, Contact_normal);//叉乘求出法線向量  
+angle *= Mathf.Sign(Vector3.Dot(normal, Vector3.forward));  //求法線向量與物體上方向向量點乘，結果為1或-1，修正旋轉方向  
+
+transform.rotation = Quaternion.Euler(0, 0, angle); //角度瞄準目標
+
+-----------------------------------------------------------------------------
+
+
+
+
+
+-----------------------------每幀速度差-------------------------------------
+
+
+Vector3 currentDir;
+Vector3 deltaDir;
+Vector3 lastDir = new Vector3(0, 0, 0);
+
+void Update()
+{
+   currentDir = transform.position;
+   deltaDir = currentDir - lastDir;
+   lastDir = currentDir;
+}
+
+----------------------------------------------------------------------------
+
+
+
+
+-----------------------------取得材質、傳參數給Shader-----------------------
+
+
+_m = GetComponent<MeshRenderer>().sharedMaterial;
+
+
+
+//傳參數給Shader
+
+_m.SetVector("_SpeedDir", speed);
+
+
+
+----------------------------------------------------------------------------
+
+
+
+
+
+-------------------------------按鈕、滑鼠------------------------------------
+
+//添加按鈕事件
+void Start ()
+      {
+          ButtonPre.onClick.AddListener(delegate{SwitchButtonHandler(0);});
+          ButtonNext.onClick.AddListener(delegate{SwitchButtonHandler(1);});
+      }
+  
+      void SwitchButtonHandler(int idx_)
+      {
+      }
+
+//自動點擊按鈕
+Button.onClick.Invoke();
+
+//連點兩下
+if (Input.touchCount == 1)
+{
+   if (Input.touches[0].phase == TouchPhase.Began)
+   {
+      if (Time.time - timelost < 0.15f) //0.15秒之內按下有效
+      {
+           /* 要做的事 */
+      }
+      timelost = Time.time;
+   }
+}
+
+允許最多手指數量觸屏
+input.touchCount==1
+
+按下瞬間
+Input.GetTouch(0).phase==TouchPhase.Began
+
+滑動持續
+Input.GetTouch(0).phase==TouchPhase.Moved
+
+放開瞬間
+Input.GetTouch(0).phase==TouchPhase.Ended
+
+-----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+---------------------------效能節省-----------------------------------------
+
+GameObject.Instantiate 創建物件最耗效能
+
+SetActive 相對節省效能一點
+
+移動物件則最節省效能
+
+
+
+儘量不要使用foreach，而是使用for
+
+obj.tag == "abc" 改成 obj.CompareTag("abc")
+
+不要實例化（Instantiate）和（Destroy）對象，事先建好對象池，以實現空間的重複利用。
+
+場景切換時，可以主動進行垃圾回收（調用System.GC.Collect()），從而及時去除遊戲中已經不必要地內存佔用。
+
+
+
+不透明貼圖的壓縮格式設為 ETC 4bit，因為安卓手機的GPU有很多種，但都至少兼容這個格式
+
+降低FPS: ProjectSetting-> Quality 的 VSync Count 垂直同步改為 Don't Sync，垂直同步關閉後自然使遊戲更順暢，但也容易出現畫面不連續的情形
+
+減少物理計算次數: ProjectSetting->Time 的 Fixed timestep
+
+待機時，調整遊戲FPS為1可以節省電量
+
+素材圖的大小不要高於1024
+
+採用TexturePacking，需要合併的紋理應該要物件與鏡頭相近的，較遠的物件反而會降低運行效率
+
+勾選Static，Mesh就會被合併
+
+角色Material數量2~3個、骨架數量<30，面數300~1500
+
+生成Mipmap
+
+光源Important個數越少越好，一般指的就是方向光源
+
+畫面中的最大粒子數盡可能小於200個粒子，每個粒子發射器盡可能小於50個粒子
+
+盡可能讓粒子的體積小，盡可能不要啟用粒子的碰撞功能
+
+音樂BGM使用.ogg或mp3壓縮格式，小於五秒的短促音效則使用.wav或.aif未壓縮的就行了
+
+鏡頭剪裁平面盡可能照最低需求調整，不必要的物體加入渲染只會降低效能
+
+盡可能減少使用MeshCollider，若非得使用則盡可能減少Mesh面數來替代
+
+Drawcall建議IOS裝置不超過100
+
+
+檢測物件若在屏幕之外時自動關閉，在內時開啟
+void OnBecameInvisible() { enabled = false; }
+void OnBecameVisible() { enabled = true; }
+
+-----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+<<C#腳本>>
+
+
+
+---------------------------父子物件關係----------------------------------
+
+
+//*自己是父物件底下第幾個子物件
+
+transform.GetSiblingIndex();
+
+
+
+取得父物件
+
+gameObject.transform.parent.gameObject;
+
+
+取得子物件
+
+gameObject.transform.GetChild(int index).gameObject;
+
+int index : 數字，放入索引值，代表取第幾個子物件，第一個索引值為0。
+
+
+XX物件變成子物件
+
+XX.transform.parent = gameObject.transform;
+
+
+XX物件變成父物件
+
+gameObject.transform.parent =XX.transform;
+
+
+子物件脫離父物件
+
+gameOject.transform.parent = null;
+
+
+XXX物件是否為AAA底下的子物件
+
+XXX.transform.IsChildOf(AAA.transform)
+
+-----------------------------------------------------------------------------
+
+
+
+
+
+---------------------------遊戲暫停------------------------------------------
+
+Time.timeScale = 0f; //暫停
+
+Time.timeScale = 1f; //正常運行
+
+Time.timeScale = 0.5f; //畫面緩速
+
+
+Time.time        //從遊戲開始到目前的時間
+
+Time.deltaTime   //兩Frame間隔的時間差
+
+
+
+go1.transform.Rotate(Vector3.up, 30 * Time.deltaTime);         //暫停後就不進行動作
+go2.transform.Rotate(Vector3.up, 30 * Time.unscaledDeltaTime); //不受暫停影響繼續前進
+
+particleSystem.Simulate( Time.unscaledDeltaTime, true, false ); //粒子系統不受暫停影響
+
+參考資源: http://www.xuanyusong.com/archives/2956
+
+-----------------------------------------------------------------------------
+
+
+
+
+---------------------------產生物件------------------------------------------
+
+public GameObject xxx;
+
+Instantiate(this.xxx);
+
+Instantiate(xxx, transform.position, transform.rotation); //產生時設定位置與旋轉角度
+
+-----------------------------------------------------------------------------
+
+
+
+---------------------------找尋物件------------------------------------------
+
+Resources.Load("XXX"); //直接載入該物件，必須放在Resources資料夾底下，"XXX"為路徑+檔名
+
+GameObject.Find("name"); //用名字尋找GameObject子物件
+
+GameObject.FindWithTag("Tag"); //用Tag尋找物件(第一個物件)
+
+GameObject.FindGameObjectWithTag("Tag"); //用Tag尋找所有物件(單個物件)
+
+GameObject.FindGameObjectsWithTag("Tag"); //用Tag尋找所有物件(多個物件)
+
+Resources.FindObjectsOfTypeAll(typeof(colliderTest)) //尋找Objects，找到所有具有相同類或腳本名稱的物體
+
+-----------------------------------------------------------------------------
+
+
+
+
+---------------------------呼叫碰撞目標物的腳本(Script)屬性------------------
+
+
+void OnTriggerEnter2D(Collider2D col) //名為col的觸發事件
+{
+   if (col.CompareTag("enemy")) //如果碰撞的標籤是enemy，也就是兩者相撞
+   {
+        var script = col.gameObject.GetComponent<enemy>();  //取得敵人屬性(enemy是腳本名稱)
+
+        script.Hp -= Bullet_injure;    //呼叫敵人腳本裡的Hp變數扣其血量
+   }
+}
+
+
+-----------------------------------------------------------------------------
+
+
+
+
+
+---------------------------更改sprite屬性指定圖片-----------------------------
+
+public Sprite BBB;  //注意，指定的圖片都是Sprite型別
+
+public Image AAA;
+
+AAA.sprite = BBB;   //把AAA的圖片替換成BBB
+
+
+-----------------------------------------------------------------------------
+
+
+
+
+-------------------------------動畫------------------------------------------
+
+
+public Animation animation;
+//宣告動畫
+
+
+animation = GameObject.GetComponent<Animation>(); //先取得該物件的動畫屬性
+animation.Play("xxx"); //播放動畫名稱xxx
+
+GameObject.GetComponent.<Animation>().Play("指定動畫");
+
+
+//倒著撥放
+
+Animator.Play("xxx");
+Animator.SetFloat("xxxSpeed", -1);
+
+
+animation["xxx"].time = animation["xxx"].clip.length; //倒放起點(原本的尾)
+animation["xxx"].speed = -1;
+animation.Play("xxx");
+
+if(Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1) //當前的動畫播放完畢時
+
+-----------------------------------------------------------------------------
+
+
+
+
+
+-------------------------------音效------------------------------------------
+
+Audio source 元件附加到遊戲物件。
+
+audio.Play()        //播放音訊
+
+audio.PlayOneShot() //播放一次音訊（例如開門或關門的音效只需要播放一次，而不是重複播放）
+
+audio.Stop()        //停止音訊
+
+audio.Pause()       //暫停音訊
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+-------------------------------碰撞、刪除物件------------------------------------------
+
+Destroy (gameObject, 5);     //隔5秒後刪除物件
+
+
+//刪除碰撞內標籤 Coin 的物件
+void OnCollisionEnter2D(Collision2D other) 
+{
+   if (other.gameObject.CompareTag("Coin")) 
+   {
+	Destroy (other.gameObject);
+   }
+}
+
+
+
+//進入偵測碰撞時的事件
+void OnTriggerEnter2D(Collider2D other)
+{
+    if (other.gameObject.name == "Player") //如果other碰撞事件的物件名稱是Player
+    {
+        print("OK"); //在除錯視窗中顯示OK
+    }
+}
+
+
+//持續偵測碰撞中的事件
+void OnTriggerStay2D(Collider2D other) 
+{
+     Destroy(other.gameObject);
+}
+
+
+//離開偵測碰撞時刪除碰撞的物件
+void OnTriggerExit2D(Collider2D other) 
+{
+     Destroy(other.gameObject);
+}
+
+
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+-------------------------------按鍵屬性------------------------------------------
+
+!Input.     沒有按下
+
+GetKey      持續性執行
+
+GetKeyDown  按下去的瞬間執行
+
+GetKeyUp    放開的瞬間執行
+
+
+//翻滾
+if (Input.GetKeyDown(KeyCode.Right))
+{
+   if ((GameTimer.TotalTime - advanceTimerA) < 0.3)
+   {
+       anim.SetTrigger("Roll");
+       //playerRigidbody2D.AddForce(new Vector2(50 * xforce * horizontalDirection * GameTimer.DeltaTime, 0));
+       playerRigidbody2D.velocity = new Vector2(xforce *30* horizontalDirection * Time.deltaTime, playerRigidbody2D.velocity.y);
+   }
+   else
+   {
+       advanceTimerA = GameTimer.TotalTime;
+   }
+}
+
+---------------------------------------------------------------------------------
+
+
+
+
+---------------------------取得數值正負號------------------------------------
+
+Math.Sign(Value);
+
+-----------------------------------------------------------------------------
+
+
+
+
+
+---------------------------數值限制範圍--------------------------------------
+
+i = Mathf.Clamp(i,0,2); //限制i數值介在0~2
+
+-----------------------------------------------------------------------------
+
+
+
+
+
+-------------------------------陣列物件------------------------------------------
+
+public GameObject[] AAA;
+
+Instantiate (AAA[Random.Range(0 ,AAA.Length)],transform.position,transform.rotation);  //隨機生成陣列物件內的一個
+
+
+AAA = GameObject.FindGameObjectsWithTag("AAA");
+
+for(int i = 0; i < AAA.Length; i++)                                                    //抓取每個陣列物件
+{
+   Debug.Log ( "AAA Number " + i + " is named " + AAA[i].name );
+}
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+-------------------------------變數與屬性------------------------------------------
+
+transform.position              // 此cs檔的屬性
+
+XXX.transform.position          // XXX.cs的屬性
+
+XXX.YY                          // XXX.cs裡的共用變數YY
+
+public static int YY = 100;     // 宣告一個共用變數YY，預設值100
+
+---------------------------------------------------------------------------------
+
+
+
+
+-------------------------------字串轉數字------------------------------------------
+
+int.Parse(str);
+
+---------------------------------------------------------------------------------
+
+
+
+
+-------------------------------條件的語法----------------------------------------
+
+bool b;
+
+if(!b){ return; } //若不是在b，則任何事都不做，我們可直接視為沒有if的else式
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+-------------------------------隨機的語法----------------------------------------
+
+transform.position = Random.insideUnitSphere * 5;    //單位球內隨機位置，以中心點為(0,0,0)，半徑為5
+
+Random.seed                                          //隨機值，int型別
+
+Random.value                                         //隨機值，float型別
+
+Random.rotation                                      //隨機角度，Quaternion型別
+
+Random.insideUnitCircle                              //單位圓內跑隨機點位置，Vector3型別
+
+Random.onUnitSphere                                  //單位球表面跑隨機點位置，Vector3型別
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+-------------------------------圖片縮放------------------------------------------
+
+transform.localScale = new Vector2(0.5f, 0.5f); //圖片縮放0.5倍
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+
+-------------------------------修改 Rect Transform 的值------------------------------------------
+
+//top
+GetComponent<RectTransform>().offsetMax = new Vector2(GetComponent<RectTransform>().offsetMax.x, top);
+
+
+//bottom
+GetComponent<RectTransform>().offsetMin = new Vector2(GetComponent<RectTransform>().offsetMin.x, bottom);
+
+
+//width，height
+GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
+
+
+//pos
+GetComponent<RectTransform>().anchoredPosition3D = new Vector3(posx,posy,posz);
+GetComponent<RectTransform>().anchoredPosition = new Vector2(posx,posy);
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+
+-------------------------------碰撞偵測------------------------------------------
+
+void OnTriggerEnter2D(Collider2D other)
+{
+    if(other.CompareTag("標籤名稱"))
+
+	{
+	   other.gameobject.SetActive(false); 關閉此物件 (仍存在場上可再開啟，現處於無校化)
+	}
+}
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+-------------------------------按鈕開關------------------------------------------
+
+public Button myButton;
+
+myButton.button.interactable = false;
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+-------------------------------動畫狀態機啟動/關閉-------------------------------
+
+animator.SetBool("XXX",true); //啟動某個動畫狀態機的動作，反之就是false關閉
+
+_Animator.SetTrigger("XXX");  //跳到某個動畫狀態機的動作，該動作結束會跳到其指向的下個動作
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+-------------------------------旋轉、前行------------------------------------------
+
+transform.Rotate(new Vector3(0,0,45)*Time.deltaTime);  
+//每秒鐘以Z軸做旋轉45度，如不鎖Z軸，被東西打到會亂轉
+
+
+transform.Translate(-1 * Vector3.up * speed); //以y軸前行         
+
+
+
+Vector3.right   對X軸  (向右)
+
+Vector3.up      對Y軸  (向上)
+
+Vector3.forward 對Z軸  (向前)
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+-------------------------------推力平移物件--------------------------------------
+public float Xforce = 150;                         //宣告一個推力，預設150
+public float hirozontalDirection;                  //數值介會在 -1~1 之間，偵測左右按鍵的方向力
+
+hirozontalDirection = Input.GetAxis(Horizontal);   //水平方向(負左、正右)，讀取水平方向數值
+
+playerRigidbody2D.AddForce(new Vector2(Xforce * hirozontalDirection, 0));   //推力*水平方向,垂直推力0，AddForce(x,y)
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+
+--------------------------尋找沒有開啟的物件方法----------------------------------
+
+GameObject FindInActiveObjectByName(string name)
+{
+    Transform[] objs = Resources.FindObjectsOfTypeAll<Transform>() as Transform[];
+    for (int i = 0; i < objs.Length; i++)
+    {
+        if (objs[i].hideFlags == HideFlags.None)
+        {
+            if (objs[i].name == name)
+            {
+                return objs[i].gameObject;
+            }
+        }
+    }
+    return null;
+}
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+-------------------------------限制兩物體之間的距離--------------------------------------
+
+	//限制兩物體之間的距離
+        if (Vector3.Distance(transform.position, Parent.transform.position) > max)
+        {
+            //取得兩物體之間的單位向量再乘以最大限制長度
+            Vector3 pos = (transform.position - Parent.transform.position).normalized * max;
+            
+            //在連結物件位置加上此偏移量
+            transform.position = pos + Parent.transform.position;
+        }
+
+---------------------------------------------------------------------------------
+
+
+
+
+---------------------------------------射線--------------------------------------
+
+//單射線
+
+    RaycastHit hit; //射線碰撞
+
+    void Update ()
+    {
+
+        float distance = 10; //射線長度
+
+        //射線碰到該Tag的目標時
+        if (Physics.Raycast(gameObject.transform.position, transform.TransformDirection(Vector3.right), out hit, distance))
+        {
+            if (hit.collider.CompareTag("Target"))
+            {
+                //hit.collider.gameObject.transform.position; //取得目標物的位置
+
+                Debug.DrawRay(gameObject.transform.position, transform.TransformDirection(Vector3.right) * hit.distance, Color.green);  //顯示射線為綠色
+            }
+        }
+
+        //未碰到目標時
+        else
+        {
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.right) * distance, Color.white);  //顯示射線為白色
+        }
+
+
+//穿透性質的射線
+
+    RaycastHit2D[] hits;
+
+    void Update ()
+    {
+
+        hits = Physics2D.RaycastAll(transform.position, Vector3.down, length);
+
+ 	//未碰到目標時
+        Debug.DrawLine(transform.position, transform.position + Vector3.right * length, new Color32(255, 255, 255, 128));
+
+        foreach (var i in hits)
+        {
+            if (i.collider.CompareTag("Target"))
+            {
+                Debug.DrawLine(transform.position, i.point, Color.green);  //顯示射線為綠色
+            }
+        }
+        
+---------------------------------------------------------------------------------
+
+
+
+-------------------------------存檔功能(PlayerPrefs)-----------------------------
+
+三種存檔語法：
+
+PlayerPrefs.SetInt ("儲存名稱I", 整數變數);
+
+PlayerPrefs.SetFloat ("儲存名稱F", 浮點數變數);
+
+PlayerPrefs.SetString ("儲存名稱S", 字串變數);
+
+
+讀取資料語法：
+
+整數變數 = PlayerPrefs.GetInt ("儲存名稱I");
+
+浮點數變數 = PlayerPrefs.GetFloat ("儲存名稱F");
+
+字串變數 = PlayerPrefs.GetString ("儲存名稱S");
+
+
+
+如果需要清除資料的話：
+
+PlayerPrefs.DeleteAll();              //全部資料的清除
+
+PlayerPrefs.DeleteKey("儲存名稱I");   //針對個別變數做清除
+
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+-------------------------StartCoroutine與IEnumerator簡單執行序---------------------------------
+
+null                //相當於Update
+
+WaitForSeconds      //停滯幾秒
+
+WaitForEndOfFrame   //相當於Update，和null效果一樣
+
+WaitForFixedUpdate  //相當於FixedUpdate
+
+StartCoroutine( ABC() );      //開始計時器
+StopCoroutine( ABC() );      //停止計時器運行
+StopAllCoroutines();   //停止所有計時器運行
+
+//StartCoroutine的兩種寫法
+StartCoroutine("函式名稱",參數1,參數2,.......);
+StartCoroutine(函式名稱(參數1,參數2,.....));
+
+
+StartCoroutine( ABC() ); //跳至IEnumerator執行序
+
+
+//主要執行序
+IEnumerator ABC()
+{
+    程式碼
+
+    yield return 0;  //跳至StartCoroutine(ABC());的下一行執行，完了之後再繼續執行下方程式碼2
+
+    程式碼2
+
+    yield return new WaitForSeconds(2);  //延遲2秒
+
+    yield return StartCoroutine(DEF()); //也可以跳至其他執行序
+}
+
+//額外執行序
+IEnumerator DEF()
+{
+    程式碼
+
+    yield return 0;
+}
+
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+
+---------------------------------遊戲版面GUI按鈕---------------------------------
+
+void OnGUI () 
+	{
+
+     //--------GUI版面---------------
+        StringBuilder _str = new StringBuilder();
+        _str.Length = 0;
+        _str.Append("Memory Usage : \n");
+
+        GUI.Box(new Rect(10, 10, 160, 70), "");
+        GUI.Label(new Rect(15, 15, 150, 60), _str.ToString());
+
+
+        //--------字樣顯示: 遊戲結束、所得分數
+		GUIStyle s1 = new GUIStyle (GUI.skin.label);  //變數s1代表字體的所有屬性
+
+		Rect pos;
+		s1.fontSize = Screen.width / 30;
+		s1.fontStyle = FontStyle.Bold;
+		GUI.color = Color.red;
+		pos = new Rect (Screen.width*2/5,Screen.height/10,Screen.width/4,Screen.height/10);
+		GUI.Label (pos,"遊戲結束!",s1);
+             //----------------------------
+		GUI.color = Color.blue;
+		pos = new Rect (Screen.width*2/5,Screen.height/10,Screen.width/4,Screen.height/10);
+		GUI.Label (pos,"所得分數: " + ((control)GameObject.FindObjectOfType(typeof(control))).score, s1);
+
+
+         //--------按鈕顯示
+		GUIStyle s2 = new GUIStyle(GUI.skin.button);  //變數s2代表按鈕的所有屬性
+		s2.fontSize = Screen.width / 30;
+		s2.fontStyle = FontStyle.Bold;
+		GUI.color = Color.magenta;
+
+		pos = new Rect (Screen.width*2/5,Screen.height/2,Screen.width/4,Screen.height/10);  //按鈕位置
+
+		if (GUI.Button (pos, "繼續嗎ww", s2)) 
+		{
+			((control)GameObject.FindObjectOfType (typeof(control))).live = 5;
+			((control)GameObject.FindObjectOfType (typeof(control))).score = 0;
+			((control)GameObject.FindObjectOfType (typeof(control))).dead = false;
+			generate.instance.createObject ();
+		}
+
+		GUI.color = Color.cyan;
+		pos = new Rect (Screen.width*2/5,Screen.height/5,Screen.width/4,Screen.height/10);  //按鈕位置
+
+		if (GUI.Button (pos, "切換場景", s2))
+		{
+			SceneManager.LoadScene (1);
+		}
+
+	}
+---------------------------------------------------------------------------------
+
+
+
+
+
+---------------------------用腳本更改Shader屬性----------------------------------
+
+Shader.SetGlobalFloat("XXX", Value);
+
+uniform float XXX; //Shader設置uniform
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+////////////////////////////////////////////////////////<<屬性設定調整>>////////////////////////////////////////////////////////
+
+
+---------------------------自訂Script腳本介面屬性--------------------------------
+
+public Canvas m_UIs = null;                    //Canvas 
+
+public Text m_Category = null;                 //文字
+
+public Color m_Color = new Color(1, 1, 1, 1);  //顏色
+
+public GameObject[] m_PrefabList;              //遊戲物件[]清單
+
+
+Vector3 m_Position;                            //三維向量
+
+---------------------------------------------------------------------------------
+
+
+
+-------------------------------作用到該圖層--------------------------------------
+
+Collider Mash => 只針對該圖層種類作用
+
+---------------------------------------------------------------------------------
+
+
+
+-------------------------------版面滑動------------------------------------------
+
+先新增一張Image當滑動用版面
+
+=> Scroll Rect(script) 做滑動效果
+
+=> Mask(script) 做遮罩效果，內容物超出該Image被切撿蓋掉
+
+子物件容許顯示的部分(血條)是Mask(凹槽)的不透明部分，Mask透明部分為它的副物件(版面)
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+
+----------------------Unity介面單位定格操作: 移動、旋轉、縮放--------------------
+
+
+Center / Pivot => 物件中心 / 物件軸心(支點)
+
+
+
+Ctrl + 移動、旋轉、縮放 => 單位定格的 移動、旋轉、縮放
+
+Edit => Snap Setting => 可以調整單位定格的設定
+
+
+
+Shift + Ctrl + 移動 => 貼合移動，與模組表面Collider貼合移動
+
+Shift + Ctrl + 旋轉 => LookAt旋轉，此物件會LookAt鼠標所指到的模組表面
+
+V + 移動 => 以頂點做移動
+
+Shift + V + 鼠標 => 選取表面的一個點做為頂點
+
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------固定物體角度------------------------------------------------------
+
+gameObject.transform.rotation = Quaternion.Euler(-Parent.transform.rotation.x, -Parent.transform.rotation.y, -Parent.transform.rotation.z);
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+---------------------------- 用陣列實現的List ------------------------------
+
+
+
+這是一個以Array為基礎寫的List
+
+
+
+		//呼叫方式: 
+
+CustomList<int> myList = new CustomList<int>(10);
+myList.Add(1);
+myList.Add(2);
+myList.Add(3);
+
+Debug.Log(myList.Count); // 輸出 3
+
+myList[1] = 4;
+
+Debug.Log(myList[1]); // 輸出 4
+
+myList.Remove(3);
+
+Debug.Log(myList.Count); // 輸出 2
+
+
+
+public class CustomList<T> {
+    private T[] items;
+    private int count;
+
+    public CustomList(int capacity) {
+        items = new T[capacity * 2];
+        count = 0;
+    }
+
+    public void Add(T item) {
+        if (count == items.Length) {
+            Array.Resize(ref items, items.Length * 2);
+        }
+        items[count] = item;
+        count++;
+    }
+
+    public bool Remove(T item) {
+        int index = Array.IndexOf(items, item, 0, count);
+        if (index >= 0) {
+            Array.Copy(items, index + 1, items, index, count - index - 1);
+            count--;
+            items[count] = default(T);
+            return true;
+        }
+        return false;
+    }
+
+    public T this[int index] {
+        get {
+            if (index < 0 || index >= count) {
+                throw new ArgumentOutOfRangeException("index");
+            }
+            return items[index];
+        }
+        set {
+            if (index < 0 || index >= count) {
+                throw new ArgumentOutOfRangeException("index");
+            }
+            items[index] = value;
+        }
+    }
+
+    public int Count {
+        get {
+            return count;
+        }
+    }
+}
+
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,43 @@
+using UnityEngine;
+using System.Collections;
+
+public class FPS : MonoBehaviour
+{
+    private float m_LastUpdateShowTime = 0f;    //上一次更新FPS的時間;
+
+    private float m_UpdateShowDeltaTime = 0.01f;//更新FPS的時間間隔;
+
+    private int m_FrameUpdate = 0;//幀率;
+
+    private int m_FPS = 0;
+
+    static public int FPS_value;
+
+    void Awake()
+    {
+        QualitySettings.vSyncCount = 0;   //關閉垂直同步
+        Application.targetFrameRate = 60; //鎖定目標為60楨
+    }
+    
+    void Start()
+    {
+        Screen.fullScreen = true;
+        m_LastUpdateShowTime = Time.realtimeSinceStartup;
+    }
+    
+    void Update()
+    {
+        m_FrameUpdate++;
+        if (Time.realtimeSinceStartup - m_LastUpdateShowTime >= m_UpdateShowDeltaTime)
+        {
+            m_FPS = (int)(m_FrameUpdate / (Time.realtimeSinceStartup - m_LastUpdateShowTime)); FPS_value = m_FPS;
+            m_FrameUpdate = 0;
+            m_LastUpdateShowTime = Time.realtimeSinceStartup;
+        }
+    }
+
+    void OnGUI()
+    {
+        GUI.Label(new Rect(0, 0, 200, 200), "FPS: " + m_FPS);
+    }
+}

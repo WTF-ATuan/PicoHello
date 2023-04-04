@@ -1,0 +1,44 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Chasing : MonoBehaviour {
+
+    [Header("追蹤目標: ")]
+    public GameObject target;  //目標
+
+    [Header("移動速度: ")]
+    public float speed = 0.05f;//移動速度
+
+    [Header("擊中效果: ")]
+    public GameObject bomb;
+
+
+    // Use this for initialization
+    void Start ()
+    {
+
+    }
+	
+	// Update is called once per frame
+	void Update ()
+    {
+        //旋轉至追蹤目標
+        var rotation = Quaternion.LookRotation(target.transform.position - transform.position, transform.TransformDirection(Vector3.up));
+        transform.rotation = new Quaternion(0, 0, rotation.z, rotation.w);
+
+        //旋轉後的軸向目標前行
+        transform.Translate( Vector3.right * speed);
+    }
+
+    
+
+    void OnTriggerEnter2D(Collider2D col) //名為col的觸發事件
+    {
+        if (col.tag == "Player") //如果碰撞的標籤是Player，也就是兩者相撞
+        {
+            Instantiate(bomb, gameObject.transform.position, gameObject.transform.rotation);
+            Destroy(gameObject);
+        }
+    }
+}

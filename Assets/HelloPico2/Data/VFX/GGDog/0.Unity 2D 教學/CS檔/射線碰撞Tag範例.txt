@@ -1,0 +1,19 @@
+
+
+
+ GameObject gun;
+
+ GameObject guard;
+
+ Ray ray = new Ray(gun.transform.position, guard.transform.forward);
+
+ RaycastHit hit;
+
+ if (Physics.Raycast(ray, out hit))
+ {
+     if (hit.collider.tag.Equals("Player"))
+     {
+         // hit player
+     }
+ 
+ }

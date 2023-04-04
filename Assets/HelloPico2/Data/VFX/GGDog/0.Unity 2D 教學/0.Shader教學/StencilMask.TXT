@@ -1,0 +1,36 @@
+
+
+
+
+        Tags { "RenderType" = "Opaque" "Queue" = "Geometry+1"}
+
+        ZWrite off
+
+        Stencil 
+	{
+            Ref 10
+            Comp always
+            Pass replace
+        }
+
+
+
+
+
+
+        Tags { "RenderType"="Transparent" }
+
+        ColorMask RGBA
+		
+        ZWrite Off
+
+        Stencil 
+	{
+            Ref 0
+            Comp Less
+            Pass Keep
+        }
+
+
+
+

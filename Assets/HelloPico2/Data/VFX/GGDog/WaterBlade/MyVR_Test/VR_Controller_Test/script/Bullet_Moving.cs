@@ -63,14 +63,14 @@ public class Bullet_Moving : MonoBehaviour
     void Update()
     {
         
-        transform.Translate(Target_Dir * speed,Space.World);
+        transform.Translate(Target_Dir * speed * Time.deltaTime, Space.World);
 
         if (TargetObj)
         {
-            transform.position = Vector3.Lerp(transform.position, TargetObj.transform.position, 0.025f);
+            transform.position = Vector3.Lerp(transform.position, TargetObj.transform.position, 0.025f * Time.deltaTime);
         }
 
-        transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, 0.025f);
+        transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, 0.025f * Time.deltaTime);
 
 
         if(transform.localScale.z<0.1f)

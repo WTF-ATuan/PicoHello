@@ -1,0 +1,113 @@
+
+
+
+
+----------------------------------------------Shader分支---------------------------------
+
+		[KeywordEnum(World, Local)] _REFAXIS("Reflection Axis", Float) = 0.0
+	 ...
+ 
+            #pragma vertex vert
+            #pragma fragment frag
+			
+		#pragma shader_feature _REFAXIS_WORLD  _REFAXIS_LOCAL   //注意這裡的名稱全都要是英文大寫
+	 ...
+
+
+#if _REFAXIS_WORLD
+
+		...
+
+		
+#elif _REFAXIS_LOCAL
+
+		...
+
+#endif
+
+-------------------------------------------------------------------------------------------
+
+
+
+mul(unity_ObjectToWorld, v.vertex).xyz;  //每個頂點的WorldPos
+
+unity_ObjectToWorld._m03_m13_m23         //模型的WorldPos
+
+
+
+//頂點獲得Texture
+
+float4 tex = tex2Dlod (_MainTex, float4(v.uv.xy,0,0));
+
+
+
+
+//單色遠近距離霧
+	  o.CameraDistance = distance(_WorldSpaceCameraPos, unity_ObjectToWorld._m03_m13_m23)/_Far;
+
+
+//實體遠近距離霧
+	  o.CameraDistance = length(mul(UNITY_MATRIX_MV,v.vertex).xyz)/_Far;
+
+
+
+
+
+            //取得scale
+
+            length(unity_ObjectToWorld._m00_m10_m20);
+
+粒子系統無法抓到scale，它mesh生成方式是獨立的，要用Custom Vertex Streams傳輸值
+
+
+
+
+
+            //隨機-胡椒鹽雜訊圖
+
+            float random (float2 uv)
+            {
+               return frac(sin(dot(uv,float2(12.9898,78.233)))*43758.5453123);
+            }
+
+
+
+            //色調分層  
+
+            void Unity_Posterize_float(half In, half Steps, out half Out)
+            {
+                Out = floor(In*Steps)/Steps;
+            }
+
+
+
+            //RGB > HSV
+
+            void Unity_ColorspaceConversion_RGB_RGB_float(float3 In, out float3 Out)
+            {
+                float4 K = float4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+                float4 P = lerp(float4(In.bg, K.wz), float4(In.gb, K.xy), step(In.b, In.g));
+                float4 Q = lerp(float4(P.xyw, In.r), float4(In.r, P.yzx), step(P.x, In.r));
+                float D = Q.x - min(Q.w, Q.y);
+                float  E = 1e-10;
+                Out = float3(abs(Q.z + (Q.w - Q.y)/(6.0 * D + E)), D / (Q.x + E), Q.x);
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

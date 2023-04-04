@@ -112,8 +112,6 @@ Shader "Unlit/Glass"
 				half4 refrCol = tex2D(_RenderTex, scruv + Rimscruv/200) ;
 
 
-                Rim = smoothstep(0.65,1,Rim);
-                
 				//°ª¥ú
 		        half3 halfDir = normalize( _WorldLightDir + worldViewDir+0.5); 
 		        half NdotH = max(0 , dot(halfDir , worldNormal));	
@@ -123,11 +121,19 @@ Shader "Unlit/Glass"
 
                 half Flow = (Y-0.01) *((WaterTex(i.worldPos.xz,10,1)-0.5));
 
-                half4 Liquid = smoothstep(0,0.001,1-normalize(Y + Flow ));
+                half Liquid = smoothstep(0,0.001,1-normalize(Y + Flow ));
 
                 _LiquidColor = lerp(_LiquidColor2,_LiquidColor,smoothstep(-0.025,0,Y));
 
-                half4 FinalColor = _LiquidColor*Liquid  + (Rim+specular)*_GlassColor;
+               // _LiquidColor += 1 - smoothstep(-0.25,-0.05,Y);
+
+                half K = (1 - smoothstep(-0.25,-0.05,i.worldPos.y-Fixed_WorldPos.y-0.12)) *saturate(1.25-Rim);
+
+                half4 f = lerp(_LiquidColor*Liquid,_GlassColor,K);
+                
+                Rim = smoothstep(0.65,1,Rim);
+                
+                half4 FinalColor = f  + (Rim+specular)*_GlassColor  ;
                 
 
                 return FinalColor;
