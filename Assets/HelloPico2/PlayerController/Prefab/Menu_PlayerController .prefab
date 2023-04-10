@@ -32635,6 +32635,7 @@ MonoBehaviour:
   _AnimationEffect: {fileID: 0}
   _EffectPlacement: {fileID: 1162920106424614854}
   _ShowArmorClipName: ShowArmor
+  _EquipArmorClipName: EquipNewArmor
   _ArmorPairs: []
   _ArmorSkipAnimationEffect: []
   originalMat: []
@@ -32844,6 +32845,12 @@ MonoBehaviour:
     _PersistentCalls: []
   WhenJoyStickMove:
     _PersistentCalls: []
+  WhenJoyStickForward:
+    _PersistentCalls: []
+  WhenJoyStickBackward:
+    _PersistentCalls: []
+  WhenJoyStickIdle:
+    _PersistentCalls: []
   WhenPrimaryButtonTouch:
     _PersistentCalls:
     - _Target: {fileID: 6100144359372337736}
@@ -33012,6 +33019,7 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
+  DeadValue: 0.3
 --- !u!114 &1162920105382997712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33840,6 +33848,12 @@ MonoBehaviour:
     _PersistentCalls: []
   WhenJoyStickMove:
     _PersistentCalls: []
+  WhenJoyStickForward:
+    _PersistentCalls: []
+  WhenJoyStickBackward:
+    _PersistentCalls: []
+  WhenJoyStickIdle:
+    _PersistentCalls: []
   WhenPrimaryButtonTouch:
     _PersistentCalls:
     - _Target: {fileID: 6100144359922703302}
@@ -34008,6 +34022,7 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
+  DeadValue: 0.3
 --- !u!114 &6100144359314725343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34040,6 +34055,7 @@ MonoBehaviour:
   _AnimationEffect: {fileID: 0}
   _EffectPlacement: {fileID: 1162920106774874398}
   _ShowArmorClipName: ShowArmor
+  _EquipArmorClipName: EquipNewArmor
   _ArmorPairs: []
   _ArmorSkipAnimationEffect: []
   originalMat: []
@@ -34494,6 +34510,12 @@ MonoBehaviour:
     _PersistentCalls: []
   WhenJoyStickMove:
     _PersistentCalls: []
+  WhenJoyStickForward:
+    _PersistentCalls: []
+  WhenJoyStickBackward:
+    _PersistentCalls: []
+  WhenJoyStickIdle:
+    _PersistentCalls: []
   WhenPrimaryButtonTouch:
     _PersistentCalls:
     - _Target: {fileID: 6100144359760262146}
@@ -34554,6 +34576,7 @@ MonoBehaviour:
     _PersistentCalls: []
   WhenSecondaryButtonUp:
     _PersistentCalls: []
+  DeadValue: 0.3
 --- !u!114 &1162920104915619164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35356,7 +35379,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1704960806268791291}
-  m_RootOrder: 13
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4807245785378374122
 GameObject:
@@ -37138,6 +37161,8 @@ MonoBehaviour:
   m_FollowYAxis: 1
   m_FollowRot: 0
   m_FollowYRot: 1
+  m_FollowYRotLerp: 0
+  m_FollowYRotDuration: 0.05
   m_AdditionalOffset: {x: 0, y: -1.19, z: 0.025}
   m_HaveOffset: 1
   m_AlwaysSync: 1
@@ -37285,6 +37310,8 @@ MonoBehaviour:
   m_FollowYAxis: 1
   m_FollowRot: 0
   m_FollowYRot: 0
+  m_FollowYRotLerp: 0
+  m_FollowYRotDuration: 0.05
   m_AdditionalOffset: {x: 0, y: 0, z: 0}
   m_HaveOffset: 0
   m_AlwaysSync: 1
@@ -37804,7 +37831,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c145002c94b4495479f2d09062c9c56f, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -38000,7 +38027,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fed45bc753f0e2f4db054c79285c62c7, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -38177,7 +38204,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d6291c40240b0ad4089b09b6a71e496e, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -39600,7 +39627,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fed45bc753f0e2f4db054c79285c62c7, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -39808,7 +39835,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d6291c40240b0ad4089b09b6a71e496e, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -40004,7 +40031,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fed45bc753f0e2f4db054c79285c62c7, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -40456,7 +40483,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c145002c94b4495479f2d09062c9c56f, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -56889,7 +56916,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fed45bc753f0e2f4db054c79285c62c7, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -57228,7 +57255,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d6291c40240b0ad4089b09b6a71e496e, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -57680,7 +57707,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c1395c3d7683ab34f8c6bbaeef4be62e, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83274,7 +83301,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c145002c94b4495479f2d09062c9c56f, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83471,7 +83498,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c1395c3d7683ab34f8c6bbaeef4be62e, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83640,7 +83667,7 @@ Transform:
   - {fileID: 5990536842877848683}
   - {fileID: 5990536842995659159}
   m_Father: {fileID: 1704960805796923089}
-  m_RootOrder: 13
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6100144360469550855
 GameObject:
@@ -84019,6 +84046,8 @@ MonoBehaviour:
   m_FollowYAxis: 1
   m_FollowRot: 0
   m_FollowYRot: 0
+  m_FollowYRotLerp: 0
+  m_FollowYRotDuration: 0.05
   m_AdditionalOffset: {x: 0, y: 0, z: 0}
   m_HaveOffset: 0
   m_AlwaysSync: 1
@@ -89971,6 +90000,7 @@ MonoBehaviour:
   _AnimationEffect: {fileID: 0}
   _EffectPlacement: {fileID: 0}
   _ShowArmorClipName: ShowArmor
+  _EquipArmorClipName: EquipNewArmor
   _ArmorPairs: []
   _ArmorSkipAnimationEffect: []
   originalMat: []
@@ -90642,7 +90672,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d6291c40240b0ad4089b09b6a71e496e, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -96075,7 +96105,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c145002c94b4495479f2d09062c9c56f, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -97811,7 +97841,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1704960805796923089}
-  m_RootOrder: 14
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1162920104741115074
 MonoBehaviour:
@@ -98832,6 +98862,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7436493520473379483, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: -7359413592467942867, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_Layer
       value: 18
@@ -99402,7 +99436,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -628522902671718179, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: -623026197603482187, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -99651,6 +99685,10 @@ PrefabInstance:
     - target: {fileID: 938126117786042601, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1103906723505692359, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
+      propertyPath: m_RootOrder
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1182248857325535641, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_Layer
@@ -100118,7 +100156,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4832250335907381867, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 4916750117954356048, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_UpdateWhenOffscreen
@@ -101495,6 +101533,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7436493520473379483, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: -7359413592467942867, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_Layer
       value: 18
@@ -102041,7 +102083,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -628522902671718179, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: -623026197603482187, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -102290,6 +102332,10 @@ PrefabInstance:
     - target: {fileID: 938126117786042601, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -2.6216418e-12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1103906723505692359, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
+      propertyPath: m_RootOrder
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1182248857325535641, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_Layer
@@ -102749,7 +102795,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4832250335907381867, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 4916750117954356048, guid: cd16f07a5dfa52245aed51b812aab515, type: 3}
       propertyPath: m_UpdateWhenOffscreen
