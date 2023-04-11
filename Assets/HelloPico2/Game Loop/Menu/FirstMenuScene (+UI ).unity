@@ -135,13 +135,14 @@ GameObject:
   - component: {fileID: 10336577}
   - component: {fileID: 10336578}
   - component: {fileID: 10336579}
+  - component: {fileID: 10336580}
   m_Layer: 0
   m_Name: BoardGrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &10336576
 Transform:
   m_ObjectHideFlags: 0
@@ -150,7 +151,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 10336575}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 878977277}
@@ -198,6 +199,61 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CNUrl: https://developer-cn.pico-interactive.com/studios/realm-of-dream/terms/
   OtherUrl: https://developer-global.pico-interactive.com/studios/realm-of-dream/terms/
+--- !u!114 &10336580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10336575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fc7ec9ab22e7654f82931a4df5718e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Target: {fileID: 473117038}
+  m_FollowXAxis: 0
+  m_FollowZAxis: 0
+  m_FollowYAxis: 1
+  m_FollowRot: 0
+  m_FollowYRot: 0
+  m_FollowYRotLerp: 0
+  m_FollowYRotDuration: 0.05
+  m_AdditionalOffset: {x: 0, y: -0.3, z: 0}
+  m_HaveOffset: 0
+  m_AlwaysSync: 1
+  m_Dismont: 0
+  m_UseLerp: 0
+  m_Duration: 0.5
+  m_EasingCureve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_Sync: 0
+  m_Activation: 0
+  m_Rotation: 0
+  m_AdditionalRotOffset: {x: 0, y: 0, z: 0}
+  m_Scale: 0
 --- !u!1001 &14162996
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -54466,7 +54522,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 878977274}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.2, z: 1.5}
+  m_LocalPosition: {x: 0, y: 0, z: 1.5}
   m_LocalScale: {x: 1.091974, y: 0.9495426, z: 0.9495426}
   m_Children:
   - {fileID: 423946879}
@@ -68781,7 +68837,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1255553199}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.1}
   m_LocalScale: {x: 0.57, y: 0.57, z: 0.57}
   m_Children: []
   m_Father: {fileID: 1476237696}
@@ -92523,7 +92579,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1730626892}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.2, z: 1.5}
+  m_LocalPosition: {x: 0, y: 0, z: 1.5}
   m_LocalScale: {x: 1.091974, y: 0.9495426, z: 0.9495426}
   m_Children:
   - {fileID: 2103701225}
@@ -92641,7 +92697,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1768189936}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -6.400031}
+  m_LocalPosition: {x: 0, y: 0, z: -0.1}
   m_LocalScale: {x: 0.44112, y: 0.44112, z: 0.22056}
   m_Children: []
   m_Father: {fileID: 1476237696}
