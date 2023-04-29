@@ -25,9 +25,8 @@
 
 		Pass
 		{	
-			Tags { "LightMode"="ForwardBase" "RenderType" = "Opaque" "Queue" = "Geometry+1"}
+			Tags {  "RenderType" = "Opaque" "Queue" = "Geometry+1"}
 			CGPROGRAM
-            #include "Lighting.cginc"
 			#pragma vertex vert
 			#pragma fragment frag
 

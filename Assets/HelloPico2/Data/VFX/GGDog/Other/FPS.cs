@@ -1,39 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class FPS : MonoBehaviour
 {
-    float updateInterval = 1;
-    float accum = 0;
-    int frames = 0;
-    float timeleft;
-    string fpsFormat;
+    [SerializeField] private float updateInterval = 1f;
+
+    private float accum = 0f;
+    private int frames = 0;
+    private float timeLeft;
+    private Text fpsText;
 
 
-
-    void Start()
+    private void Start()
     {
-        timeleft = updateInterval;
+        timeLeft = updateInterval;
+        fpsText = GetComponent<Text>();
     }
 
 
-    void Update()
+    private void Update()
     {
-        timeleft -= Time.deltaTime;
+        timeLeft -= Time.deltaTime;
         accum += Time.timeScale / Time.deltaTime;
-        ++frames;
+        frames++;
 
-        if(timeleft<=0)
+        if (timeLeft <= 0)
         {
             float fps = accum / frames;
-            fpsFormat = System.String.Format("FPS: {0:F0}", fps);
-            timeleft = updateInterval;
-            accum = .0f;
+            fpsText.text = $"FPS: {fps:F0}";
+            timeLeft = updateInterval;
+            accum = 0f;
             frames = 0;
         }
-
-        GetComponent<Text>().text = fpsFormat;
     }
 }
