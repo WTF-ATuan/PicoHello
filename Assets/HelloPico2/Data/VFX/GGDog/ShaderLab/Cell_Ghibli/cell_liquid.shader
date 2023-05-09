@@ -2,7 +2,8 @@ Shader "Unlit/cell_liquid"
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
+		_Vector ("Light Direction", Vector) = (0, 0, 0)
+
         _Color("Color",COLOR) = (1,1,1,1)
         _Color2("Color2",COLOR) = (1,1,1,1)
     }
@@ -61,6 +62,8 @@ Shader "Unlit/cell_liquid"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
+            
+			half3 _Vector;
 
             v2f vert (appdata v)
             {
@@ -69,6 +72,9 @@ Shader "Unlit/cell_liquid"
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 		        o.worldNormal = mul(v.normal, unity_WorldToObject);
 		        o.worldPos = mul(unity_ObjectToWorld , v.vertex);
+
+                _Vector = normalize(_Vector);
+
                 return o;
             }
             fixed4 _Color;
@@ -80,7 +86,9 @@ Shader "Unlit/cell_liquid"
                 
 		        fixed3 worldPos = (i.worldPos);
 		        float3 worldNormal = normalize(i.worldNormal);
-		        fixed3 worldLightDir = normalize(_WorldSpaceLightPos0.xyz);
+
+		        fixed3 worldLightDir = _Vector;
+
 		        fixed3 worldViewDir = normalize(_WorldSpaceCameraPos.xyz - worldPos);
                 
 		        float3 halfDir1 = normalize( worldLightDir + worldViewDir-half3(1.5,0.5,1)); 

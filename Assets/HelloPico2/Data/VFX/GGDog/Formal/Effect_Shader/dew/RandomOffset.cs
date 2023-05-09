@@ -5,7 +5,7 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class RandomOffset : MonoBehaviour
 {
-    void Start()
+    void OnEnable()
     {
         MaterialPropertyBlock props = new MaterialPropertyBlock();
         MeshRenderer renderer;
