@@ -162,17 +162,7 @@ Shader "GGDog/dew"
 				//Rim
 				half Rim = saturate(1-smoothstep(-0.25,1,NdotV));
 
-				//Dark
-                half DarkPart =  smoothstep( 0,0.35, (1-(2*dot(worldNormal,half3(0.1,0.5,-1) )-1)) * (2*dot(worldNormal,worldViewDir)-0.5) -0.35);
-				
-                half DarkPart2 = smoothstep( 0.5,1, 1-dot(worldNormal,worldViewDir+half3(-0.2,-0.5,0)) +0.1)/1.5;
-
-				DarkPart = lerp(DarkPart+DarkPart2,DarkPart2,DarkPart2)/2;
-				DarkPart*=Rim;
-
-
 				//高光
-				
                 worldLightDir = normalize(mul(UNITY_MATRIX_MV,float4(worldLightDir,0)));
 
                 half3 reflectDir = reflect(-worldLightDir,worldNormal);
@@ -180,7 +170,7 @@ Shader "GGDog/dew"
 
                 half Specular =  pow(max(0,dot(worldViewDir,reflectDir)),_Gloss);
 
-                half Specular_s =  smoothstep(0,55,dot(worldViewDir,reflectDir))*0.55;
+                half Specular_s =  smoothstep(0,57,dot(worldViewDir,reflectDir))*0.55;
 			
                 half Specular2 = pow(max(0,dot(worldNormal,worldLightDir) ),_Gloss*20);
 
@@ -204,7 +194,7 @@ Shader "GGDog/dew"
 				Specular = smoothstep(0,0.001,Specular) + smoothstep(0.1,0.35,Specular_Bottom)*0.55;
 
 
-				half4 FinalColor =lerp( _SpecularColor, half4(_ShadowColor.rgb/2,DarkPart) ,1-saturate(Specular));
+				half4 FinalColor =lerp( _SpecularColor, half4(_ShadowColor.rgb/2,0) ,1-saturate(Specular));
 
 				
 				//內容底背景
@@ -217,6 +207,9 @@ Shader "GGDog/dew"
 				half4 refrCol = tex2D(_RenderTex, scruv + Rimscruv/50) ;
 				
 				FinalColor = lerp(FinalColor,refrCol*_ShadowColor,1-FinalColor.a);
+
+
+				Rim = Rim*0.75+smoothstep(0.5,1,Rim)*0.5;
 
 				return FinalColor + Rim*_RimColor ;
 			}

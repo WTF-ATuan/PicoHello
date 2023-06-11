@@ -3,14 +3,14 @@ using UnityEditor;
 
 public static class HiddenMenuItem 
 {
-    const string k_menu = "GGDog Hierarachy/Show Hidden Objects";
+    const string k_menu = "Hierarachy_Hide/Show Hidden Objects";
 
     [MenuItem(k_menu)]
     static void ShowHiddenMenuItem()
     {
         EditorPrefs.SetBool(Constants.HIDDEN_FLAG, !EditorPrefs.GetBool(Constants.HIDDEN_FLAG, false));
 
-        foreach (Hidden hidden in GameObject.FindObjectsOfType<Hidden>())
+            Hidden hidden = new Hidden();
             hidden.RefreshHiddenState();
     }
 
@@ -18,6 +18,7 @@ public static class HiddenMenuItem
     static bool ShowHiddenMenuItemValidation()
     {
         Menu.SetChecked(k_menu, !EditorPrefs.GetBool(Constants.HIDDEN_FLAG, false));
+
         return true;
     }
 

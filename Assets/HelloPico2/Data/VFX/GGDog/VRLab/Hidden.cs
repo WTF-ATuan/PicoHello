@@ -14,10 +14,11 @@ public class Hidden : MonoBehaviour
 
     public void RefreshHiddenState()
     {
-#if UNITY_EDITOR
         bool hidden = UnityEditor.EditorPrefs.GetBool(Constants.HIDDEN_FLAG, false);
-        this.gameObject.hideFlags = hidden ? HideFlags.HideInHierarchy : HideFlags.None;
-#endif
+
+        //Tag³]¬°"Hide"ªº
+        foreach (GameObject h in GameObject.FindGameObjectsWithTag("Hide"))
+            h.hideFlags = hidden ? HideFlags.HideInHierarchy : HideFlags.None;
     }
 
 }

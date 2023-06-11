@@ -2,18 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MassObj : MonoBehaviour
+public class Phys_SpringObj : MonoBehaviour
 {
 
     public float stiffness = 60f; //彈力系數
     public float damping = 2f;   //阻尼係數
     public float mass = 2f;      //質量
 
-    GameObject followPos;  //從動點
+    public GameObject followPos;  //從動點
     Vector3 followPos_Velocity = Vector3.zero;//從動點速度
+
     void Start()
     {
-        followPos = new GameObject();
+        //followPos = new GameObject();
         followPos.transform.position = transform.position; //從動點歸零
     }
 
