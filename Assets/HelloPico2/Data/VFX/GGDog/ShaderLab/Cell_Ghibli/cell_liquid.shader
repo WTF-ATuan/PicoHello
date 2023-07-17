@@ -72,8 +72,13 @@ Shader "Unlit/cell_liquid"
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 		        o.worldNormal = mul(v.normal, unity_WorldToObject);
 		        o.worldPos = mul(unity_ObjectToWorld , v.vertex);
-
+                
                 _Vector = normalize(_Vector);
+                
+
+                    float4 normal_OS = float4(_Vector.xyz, 0);
+                    _Vector.xyz = mul(UNITY_MATRIX_MV, normal_OS);
+                
 
                 return o;
             }
