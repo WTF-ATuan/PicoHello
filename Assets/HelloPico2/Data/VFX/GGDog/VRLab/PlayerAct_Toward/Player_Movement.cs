@@ -21,7 +21,9 @@ public class Player_Movement : MonoBehaviour
     [Range(0, 1)]
     public float Move_Curve_Amplitude = 0.25f;
 
-    
+    [Range(0, 1)]
+    public float Update_TowardDirInr = 0.25f;
+
 
     // Get per Frame Speed
     Vector3 currentDir;
@@ -53,7 +55,6 @@ public class Player_Movement : MonoBehaviour
         // is greater than threshold => Active IEnumerator Curve_Toward()
         if (Direction_threshold < Dir.magnitude )
         {
-            Debug.Log("Direction_threshold");
 
             Curve_Toward_Controller = true;  //Active Animation Curve
 
@@ -61,22 +62,25 @@ public class Player_Movement : MonoBehaviour
             {
                 Toward_Dir = -Dir/ Dir.magnitude;
                 Toward_Dir_fixed = true;
+               // t = 0;
+
             }
             StartCoroutine(Curve_Toward());
 
-
+            
             //猛力划時，硬生生的再重頭跑一次Curve，危急逃生
             if( 0.5f < Dir.magnitude)
             {
-                t = 0;
-
+                Debug.Log("Direction_threshold: " + Dir.magnitude);
                 if (!Toward_Dir_fixed)
                 {
                     Toward_Dir = -Dir / Dir.magnitude;
                     Toward_Dir_fixed = true;
+                  //  t = 0;
+
                 }
             }
-
+            
         }
 
     }
@@ -106,7 +110,7 @@ public class Player_Movement : MonoBehaviour
 
             transform.position = transform.position + Toward_Dir * Move_Curve.Evaluate(t) * Move_Curve_Amplitude * Time.deltaTime;
 
-            if(t>0.5f)
+            if(Update_TowardDirInr < t )
             {
                 Toward_Dir_fixed = false;
             }
