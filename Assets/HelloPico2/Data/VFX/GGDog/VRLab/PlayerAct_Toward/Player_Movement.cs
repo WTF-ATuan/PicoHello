@@ -75,6 +75,16 @@ public class Player_Movement : MonoBehaviour
         // is greater than threshold => Active IEnumerator Curve_Toward()
         if (Direction_threshold < Dir.magnitude && Direction_threshold< LC_deltaDir.magnitude && Direction_threshold< RC_deltaDir.magnitude)
         {
+
+
+            /*
+            if(Vector3.Dot(Toward_Dir, -Dir / Dir.magnitude)<0)
+            {
+                Toward_Dir_fixed = true;
+            }*/
+
+
+
             if(!Toward_Dir_fixed && Vector3.Dot(-Dir / Dir.magnitude, Camera.main.transform.forward)>0.25F)
             {
                 Debug.Log(Dir);
