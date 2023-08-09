@@ -17,6 +17,10 @@ public class Global_Pos : MonoBehaviour
 
     void Update()
     {
+        //Only Material Shader
         _m.SetVector("GLOBAL_Pos", transform.position);
+
+        //Global Shader
+        Shader.SetGlobalVector("GLOBAL_Pos", transform.position);
     }
 }
