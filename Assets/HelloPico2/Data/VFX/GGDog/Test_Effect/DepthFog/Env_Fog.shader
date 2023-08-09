@@ -1,4 +1,4 @@
-Shader "Unlit/SDF_Object"
+Shader "Sophon Shader/Env_Fog"
 {
     Properties
     {
@@ -62,6 +62,13 @@ Shader "Unlit/SDF_Object"
 			uniform half GLOBAL_FarFog_Intense;
             
 			uniform fixed4 GLOBAL_Fog_Color;
+            
+			uniform fixed4 GLOBAL_DepthDark_Color;
+			uniform half GLOBAL_DepthDark_pos;
+			uniform half GLOBAL_DepthDark_Range;
+            
+			uniform half GLOBAL_FarDark_Range;
+			uniform half GLOBAL_FarDark_Intense;
             
             
        CBUFFER_START(UnityPerMaterial)
@@ -137,11 +144,24 @@ Shader "Unlit/SDF_Object"
                 
                 Height_Fog*= saturate(GLOBAL_Fog_Color.a+Far_Fog);
 
+                Height_Fog*=saturate(0.45+WaterTex(i.worldPos.yz+i.worldPos.xy,0.05,-0.5)*0.55);
+
                 Height_Fog = Far_Fog*(1-Height_Fog) + Height_Fog;
                 
                 half fog = Height_Fog * SDF_Defrost;
 
                 col = lerp(col,GLOBAL_Fog_Color,fog);
+
+
+                
+                // Far Dark
+                half Far_Dark =  smoothstep(GLOBAL_FarDark_Intense*GLOBAL_FarDark_Range,GLOBAL_FarDark_Range, length(i.worldPos-GLOBAL_Pos.xyz) );
+
+                half DepthDark =  1-smoothstep(0,GLOBAL_DepthDark_Range, i.worldPos.y - GLOBAL_DepthDark_pos);
+                
+                DepthDark = Far_Dark*DepthDark;
+                
+                col = lerp(col,GLOBAL_DepthDark_Color,DepthDark);
 
                 return col;
             }

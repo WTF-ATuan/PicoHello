@@ -6,27 +6,45 @@ using UnityEngine;
 public class Env_FogSetting : MonoBehaviour
 {
 
-    [Header(" -------- Fog Color -------- ")]
+    [Header(" ")]
+    [Header("¡X¡X¡X¡X¡X¡X¡X[ Fog Color ]¡X¡X¡X¡X¡X¡X¡X¡X")]
     public Color Fog_Color = new Color(0.85f, 0.75f, 0.9f, 1);
 
-    [Header(" --- SDF Near Camera Defrost --- ")]
+    [Header("¡X--------------------------------------¡X")]
+    [Header("¡X¡X¡X¡X[ SDF Near Camera Defrost ]¡X¡X¡X¡X")]
 
     public float DefrostRange = 25;
 
     [Range(-1,1)]
     public float DefrostRange_Intense = 0;
 
-    [Header(" -------- Height Fog -------- ")]
+    [Header("¡X--------------------------------------¡X")]
+    [Header("¡X¡X¡X¡X¡X¡X¡X[ Height Fog ]¡X¡X¡X¡X¡X¡X¡X")]
     public float HeightFog_pos = -15;
 
 	public float HeightFog_Range = 30;
 
 
-    [Header(" -------- Far Fog -------- ")]
+    [Header("¡X--------------------------------------¡X")]
+    [Header("¡X¡X¡X¡X¡X¡X¡X¡X[ Far Fog ]¡X¡X¡X¡X¡X¡X¡X¡X")]
     public float FarFog_Range = 200;
 
     [Range(0, 1)]
     public float FarFog_Intense = 0;
+
+
+    [Header("¡X--------------------------------------¡X")]
+    [Header("¡X¡X¡X¡X¡X¡X¡X¡X[ Depth Dark ]¡X¡X¡X¡X¡X¡X¡X¡X")]
+    public Color DepthDark_Color = new Color(0.2f, 0.15f, 0.25f, 1);
+
+    public float DepthDark_pos = -15;
+    public float DepthDark_Range = 30;
+
+
+    public float FarDark_Range = 200;
+
+    [Range(0, 1)]
+    public float FarDark_Intense = 0;
 
 
     void Update()
@@ -55,5 +73,21 @@ public class Env_FogSetting : MonoBehaviour
         Shader.SetGlobalColor("GLOBAL_Fog_Color", Fog_Color);
 
         Camera.main.backgroundColor = Fog_Color;
+
+
+
+
+        Shader.SetGlobalFloat("GLOBAL_DepthDark_pos", DepthDark_pos);
+
+        DepthDark_Range = Mathf.Max(DepthDark_Range, 0);
+        Shader.SetGlobalFloat("GLOBAL_DepthDark_Range", DepthDark_Range);
+
+        Shader.SetGlobalColor("GLOBAL_DepthDark_Color", DepthDark_Color);
+
+
+        FarFog_Range = Mathf.Max(FarFog_Range, 0);
+        Shader.SetGlobalFloat("GLOBAL_FarDark_Range", FarDark_Range);
+        Shader.SetGlobalFloat("GLOBAL_FarDark_Intense", FarDark_Intense);
+
     }
 }
