@@ -7,9 +7,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Env_Fog
-  m_Shader: {fileID: 4800000, guid: 75605050cde59c443ab922e6f04d48b5, type: 3}
-  m_ShaderKeywords: _DN_UV_VERTEX _SDF_VERTEX
+  m_Name: Demo
+  m_Shader: {fileID: 4800000, guid: 4e0d96ecf5233d746b7fa1df06d3b7e3, type: 3}
+  m_ShaderKeywords: _DN_UV_VERTEX _PROJECTION_VIEWNORMAL _SDF_VERTEX
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -44,9 +44,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 16da1d1a37b324c488b16e2b6de1f689, type: 3}
+        m_Texture: {fileID: 2800000, guid: 09ec768d85c4824429cc19be00b6c792, type: 3}
         m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+        m_Offset: {x: 0, y: 5.7}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -79,6 +79,8 @@ Material:
     - _AlphaClip: 0
     - _Amplitude: 2.29
     - _Blend: 0
+    - _Boundary: 1.35
+    - _BoundaryOffSet: 0.2
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -93,11 +95,16 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
+    - _FarFogRange: 10
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _LightRange: 0.18
+    - _LightSmooth: 0.43
     - _Metallic: 0
+    - _NearDefrost: 0.25
     - _OcclusionStrength: 1
+    - _PROJECTION: 0
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _Radius_Intense: 0.4
@@ -105,23 +112,34 @@ Material:
     - _Radius_min: 0
     - _ReceiveShadows: 1
     - _SDF: 1
+    - _Scale: 0.1
+    - _SelfShadowOffSet: 0.03
+    - _SelfShadowSmooth: 0.3
     - _Sharpness: 0.75
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
+    - _UnderGradOffset: 0.03
+    - _UnderGradRange: 0.85
     - _VisibleRange: 5
     - _VisibleRange_Intense: 0
+    - _WaterTexAlpha: 0.5
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1.8725011, g: 1.806257, b: 1.7400129, a: 1}
+    - _EdgeRimColor: {r: 0.7830189, g: 0.3141314, b: 0.12927197, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FogColor: {r: 0.088999644, g: 0.09256483, b: 0.1509434, a: 1}
+    - _LightDir: {r: 0.5, g: 1, b: 0.5, a: 0}
     - _MainColor: {r: 1.5229063, g: 1.0586121, b: 0.8404719, a: 1}
-    - _ShadowColor: {r: 0.13616945, g: 0.19199021, b: 0.33962262, a: 1}
+    - _ShadowColor: {r: 0.9072462, g: 1.0536059, b: 1.2250713, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    - _UnderGradColor: {r: 0, g: 0.12738559, b: 0.21698111, a: 0.87058824}
+    - _WaterTexColor: {r: 0.6541474, g: 1.3207548, b: 1.2131827, a: 0.7647059}
     - _WorldLightDir: {r: 0.5, g: 1, b: 0.5, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &5253504472391994344
