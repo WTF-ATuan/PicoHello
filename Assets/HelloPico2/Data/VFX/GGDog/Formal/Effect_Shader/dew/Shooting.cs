@@ -5,8 +5,6 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class Shooting : MonoBehaviour
 {
-    GameObject[] gos;
-
     Vector3 followPos;
 
     private void OnEnable()
